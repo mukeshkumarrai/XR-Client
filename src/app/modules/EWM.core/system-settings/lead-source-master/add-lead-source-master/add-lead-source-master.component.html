@@ -1,0 +1,123 @@
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-lead-mat-card-header">
+      <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_add' |translate}} {{'label_Lead_Source_coloum' |customTranslate}}
+      </mat-card-title>
+      <mat-card-title class="only-title" *ngIf="activestatus=='Edit'"> {{'label_edit' |translate}} {{'label_Lead_Source_coloum' |customTranslate}}
+      </mat-card-title>
+  
+      <div class="actionButton">
+        <button mat-raised-button color="warn" tabindex="13" id="btnCancel" (click)="onDismiss()"
+          class="buttonForDesktopMobile">
+          <mat-icon>close</mat-icon>
+          <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+        </button>
+        <button mat-raised-button color="primary" tabindex="14" (click)="onSave(this.addLeadSourseForm.value)"
+          type="button" id="btnSave" [disabled]="!addLeadSourseForm.valid || isResponseGet || addLeadSourseForm.controls['leadSourceName'].hasError('leadSourceNameTaken')"
+          class="buttonForDesktopMobile">
+          <mat-icon>check</mat-icon>
+          <span class="buttonTxt">{{'label_save'|translate}}</span>
+        </button>
+      </div>
+    </mat-card-header>
+  
+  
+    <mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-lead-drawer">
+    <mat-card id="industry-manage-card" class="component-card mat-elevation-z2">
+    
+    <div class="row">
+      <form novalidate class="add-lead-source" [formGroup]="addLeadSourseForm" accept-charset="utf-8" enctype='multipart/form-data'>
+        <div class="inner-add-lead">
+            <mat-form-field id="leadSourceName">
+            <mat-label>{{'label_Lead_Source_coloum'|customTranslate}}</mat-label>
+
+                <input type="hidden" formControlName="Id" id="Id">
+             <input matInput formControlName="leadSourceName" tabindex="1" id="leadSourceName"
+                 text="leadSourceName" placeholder="{{'label_Lead_Source_coloum'|customTranslate}}" (keyup)="checkdupliName($event.target.value)"
+                 required>
+            <mat-error *ngIf="addLeadSourseForm.controls['leadSourceName'].hasError('required')">
+                {{'label_Lead_Source_coloum'|customTranslate}} {{'label_Lead_Source_Validation'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addLeadSourseForm.controls['leadSourceName'].hasError('leadSourceNameTaken')">
+                {{'label_Lead_Source_coloum'|customTranslate}} {{'label_errorreqiredAlready'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addLeadSourseForm.controls['leadSourceName'].hasError('pattern')">
+                {{'label_Lead_Source_coloum'|customTranslate}} {{'label_Lead_Source_Validation'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addLeadSourseForm.controls['leadSourceName'].hasError('minlength')">
+                {{'label_Lead_Source_coloum'|customTranslate}} {{'label_errorreqiredMinlength'|translate}}
+            </mat-error>
+            <mat-error
+                *ngIf="addLeadSourseForm.controls['leadSourceName'].hasError('maxlength') && !addLeadSourseForm.controls['leadSourceName'].hasError('whitespace')">
+                {{'label_Lead_Source_coloum'|customTranslate}} {{'label_Lead_Source_Validation'|translate}}
+            </mat-error>
+            <mat-error
+                *ngIf="addLeadSourseForm.controls['leadSourceName'].hasError('whitespace') && !addLeadSourseForm.controls['leadSourceName'].hasError('required')">
+                {{'label_Lead_Source_coloum'|customTranslate}} {{'label_Lead_Source_Validation'|translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field id="Description">
+            <mat-label>{{'label_Lead_Source_Description'|translate}}</mat-label>
+                <input matInput formControlName="Description" tabindex="2" id="Description"
+                text="Description" placeholder="{{'label_Lead_Source_Description'|translate}}" (keyup)="checkDescription($event.target.value)"
+                required>
+            <mat-error *ngIf="addLeadSourseForm.controls['Description'].hasError('required')">
+                {{'label_Lead_Source_Description'|translate}} {{'label_Lead_Source_Discription_Validation'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addLeadSourseForm.controls['Description'].hasError('minlength')">
+                {{'label_Lead_Source_Description'|translate}} {{'label_errorreqiredMinlength'|translate}}
+            </mat-error>
+            <mat-error
+                *ngIf="addLeadSourseForm.controls['Description'].hasError('maxlength') && !addLeadSourseForm.controls['Description'].hasError('whitespace')">
+                {{'label_Lead_Source_Description'|translate}} {{'label_Lead_Source_Discription_Validation'|translate}}
+            </mat-error>
+            <mat-error
+                *ngIf="addLeadSourseForm.controls['Description'].hasError('whitespace') && !addLeadSourseForm.controls['Description'].hasError('required')">
+                {{'label_Lead_Source_Description'|translate}} {{'label_Lead_Source_Discription_Validation'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addLeadSourseForm.controls['Description'].hasError('pattern')">
+                {{'label_Lead_Source_Description'|translate}} {{'label_Lead_Source_Discription_Validation'|translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field id="DisplaySequence">
+            <mat-label>{{'label_displaySequence'|translate}}</mat-label>
+            <input matInput type="number" min="1" formControlName="DisplaySequence" tabindex="3"
+            id="DisplaySequence" placeholder="{{'label_displaySequence'|translate}}"
+           >
+        <mat-error *ngIf="addLeadSourseForm.controls['DisplaySequence'].hasError('maxlength')">
+            {{'label_displaySequence'|translate}} {{'label_LeadSource_DispalySequence_master8'|translate}}
+        </mat-error>
+        <mat-error *ngIf="addLeadSourseForm.controls['DisplaySequence'].hasError('codeTaken')">
+            {{'label_displaySequence'|translate}} {{'label_LeadSource_DispalySequence_master8'|translate}}
+        </mat-error>
+        <mat-error *ngIf="addLeadSourseForm.controls['DisplaySequence'].hasError('min')">
+            {{'label_displaySequence'|translate}} {{'label_Lead_Source_Display_sequence_minlength'|translate}}
+        </mat-error>
+        <mat-error *ngIf="addLeadSourseForm.controls['DisplaySequence'].hasError('max')">
+            {{'label_displaySequence'|translate}} {{'label_LeadSource_DispalySequence_master8'|translate}}
+        </mat-error>
+            
+        </mat-form-field>
+        <div class="ng-slectBox" id="Status">
+            <ng-select placeholder="{{'label_status'|translate}}" class="dropdown-body show-required" appendTo="body" [clearable]="true" tabindex="3"
+                formControlName="Status" id="group-status" required>
+                <ng-option value="" disabled>{{'label_status'|translate}}</ng-option>
+                <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">
+                    {{list?.StatusName}}
+                </ng-option>
+            </ng-select>
+            <mat-error
+                *ngIf="addLeadSourseForm.controls['Status'].hasError('required') && addLeadSourseForm.controls['Status'].touched">
+                {{'label_status'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+        </div>
+        </div>
+      </form>
+    </div>
+    
+  
+  </mat-card>
+  </mat-drawer-container>

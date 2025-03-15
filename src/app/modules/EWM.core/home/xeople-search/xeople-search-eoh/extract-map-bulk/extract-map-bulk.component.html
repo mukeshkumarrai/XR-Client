@@ -1,0 +1,53 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-dialog-content class="extract-modal">
+    <mat-horizontal-stepper linear #stepper [selectedIndex]="activeStepperIndex" (selectionChange)="onStepChange($event)">
+        <mat-step [editable]="false" [completed]="false">
+            <ng-template matStepLabel>{{'label_xeopleEOH_confirmMap'|translate}}</ng-template>
+            <mat-card class="checkbox-card" *ngFor="let data of ExtractMapKeys;let i=index">
+                <mat-checkbox color="primary" id="extract-checkbox_{{i}}" [checked]="data?.checked"
+                    [disabled]="data?.disabled" (change)="onSectionChange($event,data)">
+                    {{data?.key}}
+                </mat-checkbox>
+            </mat-card>
+        </mat-step>
+        <mat-step  [completed]="completed" [state]="state">
+            <ng-template matStepLabel>{{'label_xeopleEOH_confirmMmsg'|translate}}</ng-template>
+            <div>
+                <p>{{'label_xeopleExtractJobName'|translate}} : {{JobDetails?.JobTitle}}</p>
+                <p><span class="count">{{successCandidate}}/{{extractedCanStatus?.length}}</span> {{'label_xeopleExtractcomfirmMsg1'|translate}} <span class="candidate">{{FailedCandidate}} {{'label_xeopleExtractcomfirmMsg2'|translate}}</span></p>
+                <p><button class="clickHere" mat-button color="primary" (click)="generateFailedMembersExcel()" >{{'label_xeopleExtractClickMsg'|translate}}</button></p>
+                <div class="table-container">
+                    <table mat-table [dataSource]="extractedCanStatus">
+                        <ng-container matColumnDef="ExternalId" id="xeopleMap-ExternalId">
+                            <th mat-header-cell *matHeaderCellDef> {{'label_xeopleExtractMemberId' |translate }} </th>
+                            <td [ngStyle]="element.IsCandidateCreated?{'color': '#5844DA'}:{'color': '#F44336'}"  mat-cell *matCellDef="let element"> {{element?.ExternalId}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="FirstName">
+                            <th mat-header-cell *matHeaderCellDef> {{'label_xeopleExtractMemberName' |translate }} </th>
+                            <td [ngStyle]="element.IsCandidateCreated?{'color': '#5844DA'}:{'color': '#F44336'}"  mat-cell *matCellDef="let element"> {{element.FirstName}} {{element.LastName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="IsCandidateCreated">
+                            <th mat-header-cell *matHeaderCellDef> {{'label_xeopleExtractMemberStatus' |translate }} </th>
+                            <td [ngStyle]="element.IsCandidateCreated?{'color': '#5844DA'}:{'color': '#F44336'}"  mat-cell *matCellDef="let element"> {{element.IsCandidateCreated==false?'FAILED':'SUCCESS'}}  </td>
+                        </ng-container>
+                        <ng-container matColumnDef="StatusMessage">
+                            <th mat-header-cell *matHeaderCellDef> {{'label_xeopleExtractMemberMsg' |translate }} </th>
+                            <td [ngStyle]="element.IsCandidateCreated?{'color': '#5844DA'}:{'color': '#F44336'}"  mat-cell *matCellDef="let element"> {{element.StatusMessage}}  </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                       
+                    </table>
+                </div>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button *ngIf="activeStepperIndex==0" mat-stroked-button color="warn" id="extract_btncancel" (click)="onDismiss()">{{'label_cancel'|translate}}</button>
+    <button *ngIf="activeStepperIndex==1" mat-stroked-button color="warn" id="extract_btncancel" (click)="onDismiss()">{{'label_ok'|translate}}</button>
+    <button *ngIf="activeStepperIndex==0" mat-stroked-button color="primary" id="extract_btnsave" (click)="extractEOHMembers()">{{'label_xeopleEOH_Extract'|translate}}</button>
+</div>

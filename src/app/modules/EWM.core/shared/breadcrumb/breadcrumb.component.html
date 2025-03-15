@@ -1,0 +1,37 @@
+  <!-- Breadcum -->
+ 
+<div class="row mb-0">
+    <div class="col l12 p-0">
+        <div class="breadcum" id="maindiv">    
+            <!-- <span class="line"> | </span> -->
+
+            <a mat-button class="breadcumContent" (click)="redirect()" id="btnBackForIndustry"
+            matTooltip="{{'label_administrators' | translate}}" matTooltipClass="custom-tooltip">
+            {{'label_administrators' | translate}}</a>
+            <mat-icon fxFlex="5" class="arrowIcon">keyboard_arrow_right</mat-icon>
+
+            <a mat-button class="breadcumContent" (click)="redirect()" id="btnBackForIndustry"
+                matTooltip="{{'label_Menumaster' | translate}}" matTooltipClass="custom-tooltip">
+                {{'label_Menumaster' | translate}}</a>
+             <mat-icon fxFlex="5" *ngIf="innerlabel!=undefined" class="arrowIcon">keyboard_arrow_right</mat-icon>            
+             <a mat-button *ngIf="innerlabel!=undefined" class="breadcumContent" id="btninnerback" [routerLink]="['../']"
+             matTooltip="{{innerlabel | translate}}"
+             matTooltipClass="custom-tooltip">
+             {{innerlabel | translate}}
+            </a> 
+            <mat-icon fxFlex="5" class="arrowIcon">keyboard_arrow_right</mat-icon>  
+            <a mat-button class="breadcumContentopen" id="btnBackForSubIndustry"
+                matTooltip="{{outterlabel | customTranslate}}"
+                matTooltipClass="custom-tooltip">
+                {{outterlabel | customTranslate}}
+            </a>           
+        
+            <!-- <span class="threeDotStyle">
+                <a mat-button class="breadcumContentopen" id="btnBackForReason"
+                    matTooltip=" " matTooltipClass="custom-tooltip">
+                   three
+                </a>
+            </span>         -->
+        </div>
+    </div>
+</div>

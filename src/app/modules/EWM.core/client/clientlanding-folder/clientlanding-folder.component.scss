@@ -1,0 +1,14 @@
+// @When: 29-Jan-2024 @who:Amit Rajput @why: EWM-15832 @what: client landing folder style
+.client-landing-content{
+    .kendo-grid-appearance{
+        .k-grid{
+            height: calc(100vh - 300px);
+            @media only screen and (max-width: 580px) and (min-width: 320px){
+                height: calc(100vh - 320px);
+            }
+        }
+    }
+    .actionBoxFooter{
+        align-items: flex-end;
+    }
+}

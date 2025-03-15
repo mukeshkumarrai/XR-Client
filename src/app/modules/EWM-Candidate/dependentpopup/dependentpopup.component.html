@@ -1,0 +1,154 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Suika
+    @When: 11-August-2021
+    @Why: EWM-2376 EWM-2214
+    @What:  This component is used for dependent templates.
+-->
+<form [formGroup]="addForm" applyTabIndexes>
+    <div  class="quick-dialog-candidateAdd-dependent" >
+        <h2 mat-dialog-title>
+     <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+            
+         {{activityStatus}}   {{'label_dependent' | translate}}
+        </h2>
+        <mat-dialog-content class="col">
+            <div class="row mb-0">
+               
+                <div class="col l12 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_dependent_name' | translate}}</mat-label>
+                        <input type="text" tabindex formControlName="name" matInput placeholder="" id="dependent-name" required>
+                        <mat-error
+                        *ngIf="this.addForm.controls['name'].hasError('required')">
+                        {{ 'label_dependent_name' |translate}} {{ 'label_errorreqired' |translate}}
+                      </mat-error>
+                      <mat-error
+                      *ngIf="this.addForm.controls['name'].hasError('pattern')">
+                      {{ 'label_dependent_name' |translate}} {{ 'label_errorName' |translate}}
+                    </mat-error>
+                  
+                    <mat-error
+                    *ngIf="this.addForm.controls['name'].hasError('maxlength')">
+                    {{ 'label_dependent_name' |translate}} {{ 'label_errormaxlength50' |translate}}
+                  </mat-error>
+                    </mat-form-field>
+                </div>
+               
+                <div class="col l12 m12 s12">
+                   
+                    <div class="ng-slectBox">
+                        <ng-select placeholder="{{'label_dependent_relationship' | translate}}"  (change)="onDependentNameChanges();" id="dependent-relationship"
+                            class="dropdown-body show-required" appendTo="body" formControlName="relationship" tabindex required>
+                            <!-- <ng-option value="" disabled>{{'label_select' | translate}} {{'label_dependent_relationship' |
+                                translate}}</ng-option> -->
+                            <ng-option *ngFor="let list of relationshipList" [value]="list.Id">
+                                {{list.Name}}</ng-option>
+                        </ng-select>
+                        <mat-error *ngIf="this.addForm.controls['relationship'].hasError('required') && addForm.controls['relationship'].touched">
+                            {{ 'label_dependent_relationship' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addForm.controls['relationship'].hasError('nameTaken')">
+                            {{'label_dependent_relationship'|translate}} {{'label_errorreqiredAlready'|translate}}
+                          </mat-error>
+                    </div>
+                </div>
+
+           
+                <div class="col l12 m12 s12">                   
+                    <div class="ng-slectBox">
+                        <ng-select placeholder="{{'label_dependent_gender' | translate}}" id="dependent-degreetype"
+                            class="dropdown-body" appendTo="body" formControlName="gender" tabindex >
+                            <ng-option *ngFor="let list of genderList" [value]="list.Id">
+                                {{list.GenderName}}</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row mb-0">
+                <div class="col l12 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_bithdate' | translate}}</mat-label>
+                        <input matInput [matDatepicker]="picker2"  tabindex id="dependent-startDate" [max]="today"
+                           formControlName="birthDate"   [placeholder]="getDateFormat">
+                           <button *ngIf="addForm.value.birthDate || addForm.controls['birthDate'].hasError('matDatepickerParse')" type="button" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                           (click)="clearEndDate()" > 
+                           <mat-icon>close</mat-icon>
+                       </button>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                        <!---------@When: 20-03-2023 @who:Adarsh singh @why: EWM-10688 @Desc- Added date validation--------->
+                        <mat-error *ngIf="addForm.controls['birthDate'].hasError('required') && addForm.controls['birthDate'].touched && !addForm.controls['birthDate'].hasError('matDatepickerParse')"> {{'label_bithdate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                        <mat-error *ngIf="addForm.controls['birthDate'].hasError('invalidDate') && !addForm.controls['birthDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                        <mat-error *ngIf="addForm.controls['birthDate'].hasError('matDatepickerParse') && !addForm.controls['birthDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                        <mat-error *ngIf="addForm.controls['birthDate'].hasError('matDatepickerMax') && !addForm.controls['birthDate'].hasError('invalidDate')"> {{'label_bithdate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error>
+                        <mat-error *ngIf="addForm.controls['birthDate'].hasError('matDatepickerMin') && !addForm.controls['birthDate'].hasError('invalidDate')"> {{'label_bithdate' | translate}} {{'label_mustbeStartDate' | translate}} </mat-error>
+                        <!-- End  -->
+                    </mat-form-field>
+                </div>
+            </div>
+                                <!-- @Who: bantee ,@When: 3-mar-2023, @Why: EWM-11518 ,What: pop up on input field recent activity -->
+
+            <div class="row mb-0">
+                <div class="col l12 m12 s12">
+                    <mat-form-field class="icon-withchip" tabindex>
+                        <mat-label>{{'label_phone' | translate}}</mat-label>
+                        <mat-chip-list #phoneList aria-label="phone selection">
+                            <mat-chip *ngFor="let number of phone" [selectable]="selectable" id="phonechiplist" [disabled]="matchipDisabled" [removable]="removable"
+                                (removed)="remove(number,'phone')">
+                                {{(number?.phoneCodeName && number.phoneCodeName.toString()?.startsWith('+'))?'':'+'}}{{number?.phoneCodeName}} {{number.phone}} ({{number.Name}})
+                                <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input readonly [matChipInputFor]="phoneList"  
+                            (click)="addPhone()"
+                            matInput>
+                        </mat-chip-list>
+                        <mat-icon matPrefix class="matPrefix-icon">phone</mat-icon>
+                        <button [disabled]="isDisabledData" tabindex mat-raised-button matSuffix color="primary" type="button" class="matSuffix-icon mgBottom5" id="btnAdd-people" (click)="addPhone()">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                      
+                       
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+
+            <div class="row mb-0">
+                <div class="col l12 m12 s12" formGroupName="address">
+                    <mat-form-field class="icon-withchip">
+                        <mat-label>{{'label_dependent_address' | translate}}</mat-label>
+                        <input type="text" tabindex  formControlName="AddressLinkToMap"  matInput placeholder="{{'label_dependent_address' | translate}}" id="people-address" (click)="addAddress()" readonly >
+            
+                        <mat-icon matPrefix class="matPrefix-icon">location_on</mat-icon>
+                        <button [disabled]="isDisabledData" tabindex id="addbtn-address" mat-raised-button matSuffix color="primary" type="button" class="matSuffix-icon mgBottom5"  (click)="addAddress()">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <mat-error
+                        *ngIf="this.addForm.get('address.AddressLinkToMap').hasError('required')">
+                        {{ 'label_dependent_address' |translate}} {{ 'label_errorreqired' |translate}}
+                      </mat-error>
+                      <mat-error
+                        *ngIf="this.addForm.get('address.AddressLinkToMap').hasError('maxlength')">
+                        {{ 'label_dependent_address' |translate}} {{'label_errormaxlength250' |translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <div class=" ng-slectBox">
+                  
+                </div>
+                </div>
+            </div>
+           
+           
+           
+        </mat-dialog-content>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter" >
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel"> {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex  type="button"  [disabled]="!addForm.valid" (click)="onConfirm()" id="btnSave">{{'label_save'|translate}}</button>
+    </div>
+</form>

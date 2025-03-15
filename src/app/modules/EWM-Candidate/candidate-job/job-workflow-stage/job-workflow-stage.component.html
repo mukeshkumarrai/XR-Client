@@ -1,0 +1,1078 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+
+
+
+
+<div id= "remove-Candidate" class="removeCandidate" applyTabIndexes>
+
+    <!---------@When: 27-03-2023 @who:Amit @why: EWM-11380 Modal Header stucture change --------->
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_jobworkflow' | translate}}</h2>
+        <button mat-icon-button  id="btnCancel" (click)="onDismiss()" color="warn">
+          <mat-icon>close</mat-icon>
+      </button>
+      </div>
+
+    <div class="quick-dialog">
+     <mat-divider></mat-divider>
+     <mat-dialog-content class="col margin0">
+         <div class="row">
+         <div class="col m12 s12 l12 "> 
+                 <ngx-org-chart  *ngIf="mode=='R'" [nodes]="nodes" direction="vertical" ></ngx-org-chart>        
+         </div>
+         </div>
+        
+         <div class="" *ngIf="mode!='R'">
+             <form novalidate [formGroup]="JobWorkForm" (ngSubmit)="onSave(this.JobWorkForm.value)"
+                 accept-charset="utf-8" class="col" id="commitment-form">
+                 <div class="row col mb-0 sticky pb-0">
+                     <div class="col l12 m12 s12">
+                         <div class="row mb-0">
+                             
+                             <mat-form-field class="col l4 m4 s4 mb-0">
+                                 <mat-label>{{ "label_wrokflowName" | translate }}</mat-label>
+                                 <input type="hidden" formControlName="Id" id="Id">
+                                 <input matInput formControlName="workflowName" id="workflow-Name"
+                                     (blur)="workflowExists()" placeholder="{{ 'label_wrokflowName' | translate }}"
+                                     required tabindex />
+                                 <mat-error *ngIf="JobWorkForm.controls['workflowName'].hasError('required')">
+                                     {{'label_wrokflowName'|translate}} {{'label_errorreqired'|translate}}
+                                 </mat-error>
+                                 <mat-error *ngIf="JobWorkForm.controls['workflowName'].hasError('maxlength')">
+                                     {{'label_wrokflowName'|translate}} {{'label_errormaxlength100'|translate}}
+                                 </mat-error>
+                                 <mat-error *ngIf="JobWorkForm.controls['workflowName'].hasError('codeTaken')">
+                                     {{'label_wrokflowName'|translate}} {{'label_errorreqiredAlready'|translate}}
+                                 </mat-error>
+                                 <mat-error *ngIf="JobWorkForm.controls['workflowName'].hasError('pattern')">
+                                     {{'label_wrokflowName'|translate}} {{'label_errorspecialchar'|translate}}
+                                 </mat-error>
+                             </mat-form-field>
+ 
+                             <div class="col l4 m4 s4">
+                                 <div class="ng-slectBox mb-0">
+                                     <ng-select placeholder="{{'label_status'|translate}}*" [clearable]="true" tabindex
+                                         formControlName="Status" id="workflow-Status" required>
+                                         <ng-option value="" disabled>{{'label_selectStatus'|translate}}</ng-option>
+                                         <ng-option *ngFor="let status of statusList" [value]="status.StatusId">
+                                             {{status.StatusName}}
+                                         </ng-option>
+                                     </ng-select>
+ 
+                                     <mat-error
+                                         *ngIf="JobWorkForm.controls['Status'].hasError('required') && JobWorkForm.controls['Status'].touched">
+                                         {{ "label_status" | translate }} {{ "label_errorreqired" | translate }}
+                                     </mat-error>
+                                 </div>
+                             </div>
+                             <div class="col l4 m4 s2 right-align">
+                                 <button tabindex id="addbtn-newStage" mat-raised-button matSuffix color="primary"
+                                     [disabled]="JobWorkForm.controls['workflowName'].hasError('codeTaken') || JobWorkForm.controls['workflowName'].hasError('required')
+                                       || JobWorkForm.controls['Status'].hasError('required') || mode=='R'"
+                                     type="button" class="addNewStage buttonForDesktopMobile"
+                                     (click)="addParentStage(parentInfo().controls.length)">
+                                     <mat-icon>add</mat-icon>
+                                     <span class="buttonTxt">{{"label_addNewStage" | translate}}</span>
+                                 </button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="workflowSec">
+                     <div class="dynamictab">
+                         <div cdkDropList (cdkDropListDropped)="dropParent($event)" class="example-list">
+                             <ng-container formArrayName="Stages">
+                                 <div *ngFor="let parent of parentInfo().controls; let i = index" [formGroupName]="i"
+                                     cdkDrag id="addStage{{i+1}}" [ngClass]="userAnimationStatus?'animate__animated':''" class="deleteparent-{{i}}">
+                                     <div class="parent-placeholder" *cdkDragPlaceholder></div>
+                                     <div *cdkDragPreview class="parent-Preview">
+                                         <mat-card class="expandCollapseContent firstStep">    
+                                             <div class="childCountBox">
+                                                 <div class="childCount">
+                                                     {{'label_totalChild'|translate}}-{{parent.get('Stages').controls ? parent.get('Stages').controls.length : ''}}
+                                                 </div>
+                                                 <div class="subchildCount">
+                                                     {{'label_totalSubChild'|translate}} - 
+                                                     <ng-container *ngIf="{sample : sum} as variable">
+                                                     <ng-container *ngFor="let p of parent.get('Stages').controls;let k=index;let l=last">
+                                                       <p style="display: none;" >{{variable.sample[k+1]=(p.get('Stages').controls.length+variable.sample[k])}} </p>  
+                                                     </ng-container>
+                                                     {{variable.sample[parent.get('Stages').controls.length]}}
+                                                 </ng-container>
+ 
+                                                 </div>
+                                             </div>
+                                             <div class="row mb-0">
+                                                 <div class="col l12 m12 s12">
+                                                     <div class="row mb-0 flex-row">
+                                                         <div class="dragToggleButtonBox">
+                                                             <div class="dragToggleButton">
+                                                                 <button type="button" class="drag-handle"
+                                                                     mat-icon-button cdkDragHandle>
+                                                                     <mat-icon>drag_indicator</mat-icon>
+                                                                 </button>
+                                                             </div>
+                                                         </div>
+                                                         <div class="col l10 form-controls">
+ 
+                                                             <div class="toggleButtonBox">
+                                                                 <button mat-icon-button class="drag-handle toggleButton"
+                                                                     type="button"
+                                                                     *ngIf="parent.get('Stages').controls.length>0"
+                                                                     (click)="toggleParent(i)"
+                                                                     [ngClass]="hideChildContent[i] ? 'unfold' : 'fold'">
+                                                                     <mat-icon>keyboard_arrow_up</mat-icon>
+                                                                 </button>
+                                                             </div>
+                                                             <mat-form-field class="stageName mb-0" floatLabel="always">
+                                                                 <mat-label>{{ "label_stageName" | translate }} 
+                                                                 </mat-label>
+                                                                 <input type="hidden" formControlName="StageId"
+                                                                     id="StageId_{{i}}">
+                                                                 <input type="hidden" formControlName="InternalCode"
+                                                                     id="InternalCode_{{i}}">
+                                                                 <input type="hidden" formControlName="ParentStageId"
+                                                                     id="ParentStageId_{{i}}">
+                                                                 <input type="hidden" formControlName="IsDeleted"
+                                                                     id="IsDeleted_{{i}}">
+                                                                 <input type="hidden"
+                                                                     formControlName="WorkflowInternalCode"
+                                                                     id="WorkflowInternalCode_{{i}}">
+                                                                 <input type="hidden" formControlName="IsNew"
+                                                                     id="IsNew_{{i}}">
+                                                                 <input formControlName="StageName" tabindex
+                                                                     (blur)="stageExists($event,parent.get('InternalCode').value,parent.get('ParentStageId').value,parent)"
+                                                                     name="pStageName" matInput id="stageName_{{ i }}"
+                                                                     placeholder="{{ 'label_stageName' | translate }}" required />
+                                                                 <mat-error
+                                                                     *ngIf="parent.get('StageName').errors?.required && parent.get('StageName').touched">
+                                                                     {{ 'label_stageName' |translate}} {{
+                                                                     'label_errorreqired'
+                                                                     |translate}}
+                                                                 </mat-error>
+                                                                 <mat-error
+                                                                     *ngIf="parent.get('StageName').errors?.pattern && parent.get('StageName').touched">
+                                                                     {{ 'label_stageName' |translate}} {{
+                                                                     'label_errorspecialchar'
+                                                                     |translate}}
+                                                                 </mat-error>
+                                                                 <mat-error
+                                                                     *ngIf="parent.get('StageName').errors?.maxlength && parent.get('StageName').touched">
+                                                                     {{ 'label_stageName' |translate}} {{
+                                                                     'label_errormaxlength50'
+                                                                     |translate}}
+                                                                 </mat-error>
+                                                                 <mat-error
+                                                                     *ngIf="parent.get('StageName').errors?.unique && parent.get('StageName').touched">
+                                                                     {{ 'label_stageName' |translate}} {{
+                                                                     'label_errorunique'
+                                                                     |translate}}
+                                                                 </mat-error>
+                                                                 <mat-error
+                                                                     *ngIf="parent.get('StageName').hasError('stageTaken')">
+                                                                     {{'label_stageName'|translate}}
+                                                                     {{'label_errorreqiredAlready'|translate}}
+                                                                 </mat-error>
+                                                             </mat-form-field>
+                                                             <mat-form-field class="stageTextarea mb-0"
+                                                                 floatLabel="always">
+                                                                 <mat-label>{{ "label_stageDesc" | translate }}
+                                                                 </mat-label>
+                                                                 <textarea matInput tabindex formControlName="StageDesc"
+                                                                     class="textareaHeight" id="StageDescp_{{ i }}"
+                                                                     placeholder="{{ 'label_stageDesc' | translate }}"
+                                                                     ></textarea>
+                                                                 <mat-error
+                                                                 *ngIf="parent.get('StageDesc').errors?.maxlength && parent.get('StageDesc').touched">
+                                                                 {{ 'label_stageDesc' |translate}} {{
+                                                                 'label_errormaxlength100'
+                                                                 |translate}}
+                                                             </mat-error>
+                                                             </mat-form-field>
+                                                             <mat-form-field class="mb-0 colorCode"
+                                                             floatLabel="always">
+                                                             <mat-label>{{ "label_colorCode" |
+                                                                 translate }}</mat-label>
+                                                             <input matInput
+                                                                 [ngxMatColorPicker]="picker"
+                                                                 [for]="picker"
+                                                                 formControlName="ColorCode"
+                                                                 id="ColorCodesc_{{i}}"
+                                                                 readonly>
+                                                             <ngx-mat-color-toggle matSuffix
+                                                                 [for]="picker"
+                                                                 [style.color]="parent.get('ColorCode').value" class="">
+                                                             </ngx-mat-color-toggle>
+                                                             <ngx-mat-color-picker #picker>
+                                                             </ngx-mat-color-picker>
+                                                         </mat-form-field>
+                                                         </div>
+                                                         <div class="col l2 buttonGroup">
+                                                             <button [disabled]="mode=='R'" mat-stroked-button
+                                                                 color="primary" tabindex id="btnAdd-parent-{{i}}"
+                                                                 class="remove-row addEsitDeleteButt" type="button"
+                                                                 (click)="addChildStage(i, parent.get('Stages').controls.length)">
+                                                                 <mat-icon>add</mat-icon>
+                                                             </button>
+                                                             <button [disabled]="mode=='R'" mat-stroked-button
+                                                                 color="warn" tabindex type="button"
+                                                                 id="btnRemove-parent-{{i}}"
+                                                                 class="remove-row addEsitDeleteButt"
+                                                                 (click)="confirmDialogParentRow(i,parent.get('IsNew').value)">
+                                                                 <mat-icon>delete_outline</mat-icon>
+                                                             </button>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+ 
+                                                 <div class="col l12 m12 s12 rightBox checkboxGroupSec">
+                                                     <mat-slide-toggle color="primary" class="jobPipeline"
+                                                         formControlName="JobPipeline" id="JobPipelinep_{{ i }}"
+                                                         labelPosition="before">
+                                                         {{"label_jobPipline" | translate }}
+                                                     </mat-slide-toggle>
+                                                     <mat-slide-toggle color="primary" class="jobPipeline"
+                                                         formControlName="Active" id="Active_{{ i }}"
+                                                         labelPosition="before">
+                                                         {{"label_statusActive" |
+                                                         translate }}?
+                                                     </mat-slide-toggle>
+                                                     <mat-slide-toggle color="primary" disabled class="jobPipeline"
+                                                         formControlName="BuiltIn" id="BuiltIn_{{ i }}"
+                                                         labelPosition="before">
+                                                         {{"label_builtIn" |
+                                                         translate }}?
+                                                     </mat-slide-toggle>
+                                                     <mat-slide-toggle color="primary"  class="jobPipeline"
+                                                                             formControlName="AutomatedActions" id="AutomatedActions_{{ i }}"
+                                                                             labelPosition="before">
+                                                                             {{"label_automatedActions" |translate }}?
+                                                     </mat-slide-toggle>
+                                                 </div>
+                                             </div>
+                                         </mat-card>
+                                     </div>
+                                     <mat-card class="expandCollapseContent firstStep">
+                                         <div class="row mb-0">
+                                             <div class="col l12 m12 s12">
+                                                 <div class="row mb-0 flex-row">
+                                                     <div class="dragToggleButtonBox">
+                                                         <div class="dragToggleButton">
+                                                             <button type="button" class="drag-handle" mat-icon-button
+                                                                 cdkDragHandle>
+                                                                 <mat-icon>drag_indicator</mat-icon>
+                                                             </button>
+                                                         </div>
+                                                     </div>
+                                                     <div class="col l10 form-controls">
+ 
+                                                         <div class="toggleButtonBox">
+                                                             <button mat-icon-button class="drag-handle toggleButton"
+                                                                 type="button"
+                                                                 *ngIf="parent.get('Stages').controls.length>0"
+                                                                 (click)="toggleParent(i)"
+                                                                 [ngClass]="hideChildContent[i] ? 'unfold' : 'fold'">
+                                                                 <mat-icon>keyboard_arrow_up</mat-icon>
+                                                             </button>
+                                                         </div>
+                                                         <mat-form-field class="stageName mb-0" floatLabel="always">
+                                                             <mat-label>{{ "label_stageName" | translate }} </mat-label>
+                                                             <input type="hidden" formControlName="StageId"
+                                                                 id="StageId_{{i}}">
+                                                             <input type="hidden" formControlName="InternalCode"
+                                                                 id="InternalCodes_{{i}}">
+                                                             <input type="hidden" formControlName="ParentStageId"
+                                                                 id="ParentStageId_{{i}}">
+                                                             <input type="hidden" formControlName="IsDeleted"
+                                                                 id="IsDeleted_{{i}}">
+                                                             <input type="hidden" formControlName="WorkflowInternalCode"
+                                                                 id="WorkflowInternalCode_{{i}}">
+                                                             <input type="hidden" formControlName="IsNew"
+                                                                 id="IsNew_{{i}}">
+                                                             <input formControlName="StageName" tabindex
+                                                                 (blur)="stageExists($event,parent.get('InternalCode').value,parent.get('ParentStageId').value,parent)"
+                                                                 name="pStageName" matInput id="stageName_{{ i }}"
+                                                                 placeholder="{{ 'label_stageName' | translate }}" required />
+                                                             <mat-error
+                                                                 *ngIf="parent.get('StageName').errors?.required && parent.get('StageName').touched">
+                                                                 {{ 'label_stageName' |translate}} {{
+                                                                 'label_errorreqired'
+                                                                 |translate}}
+                                                             </mat-error>
+                                                             <mat-error
+                                                                 *ngIf="parent.get('StageName').errors?.pattern && parent.get('StageName').touched">
+                                                                 {{ 'label_stageName' |translate}} {{
+                                                                 'label_errorspecialchar'
+                                                                 |translate}}
+                                                             </mat-error>
+                                                             <mat-error
+                                                                 *ngIf="parent.get('StageName').errors?.maxlength && parent.get('StageName').touched">
+                                                                 {{ 'label_stageName' |translate}} {{
+                                                                 'label_errormaxlength50'
+                                                                 |translate}}
+                                                             </mat-error>
+                                                             <mat-error
+                                                                 *ngIf="parent.get('StageName').errors?.unique && parent.get('StageName').touched">
+                                                                 {{ 'label_stageName' |translate}} {{ 'label_errorunique'
+                                                                 |translate}}
+                                                             </mat-error>
+                                                             <mat-error
+                                                                 *ngIf="parent.get('StageName').hasError('stageTaken')">
+                                                                 {{'label_stageName'|translate}}
+                                                                 {{'label_errorreqiredAlready'|translate}}
+                                                             </mat-error>
+                                                         </mat-form-field>
+                                                         <mat-form-field class="stageTextarea mb-0" floatLabel="always">
+                                                             <mat-label>{{ "label_stageDesc" | translate }}</mat-label>
+                                                             <textarea matInput tabindex formControlName="StageDesc"
+                                                                 class="textareaHeight" id="StageDescp_{{ i }}"
+                                                                 placeholder="{{ 'label_stageDesc' | translate }}"
+                                                                 ></textarea>
+                                                             <mat-error
+                                                             *ngIf="parent.get('StageDesc').errors?.maxlength && parent.get('StageDesc').touched">
+                                                             {{ 'label_stageDesc' |translate}} {{
+                                                             'label_errormaxlength100'
+                                                             |translate}}
+                                                         </mat-error>
+                                                         </mat-form-field>
+                                                         <mat-form-field class="mb-0 colorCode"
+                                                         floatLabel="always">
+                                                         <mat-label>{{ "label_colorCode" |
+                                                             translate }}</mat-label>
+                                                         <input matInput
+                                                             [ngxMatColorPicker]="picker"
+                                                             [for]="picker"
+                                                             formControlName="ColorCode"
+                                                             id="ColorCode_{{i}}"
+                                                             readonly>
+                                                         <ngx-mat-color-toggle matSuffix
+                                                             [for]="picker"
+                                                             [style.color]="parent.get('ColorCode').value" class="colorPickerButon">
+                                                         </ngx-mat-color-toggle>
+                                                         <ngx-mat-color-picker #picker>
+                                                         </ngx-mat-color-picker>
+                                                     </mat-form-field>
+                                                     </div>
+                                                     <div class="col l2 buttonGroup">
+                                                         <button [disabled]="mode=='R'" mat-stroked-button
+                                                             color="primary" tabindex id="btnAdd-parent-{{i}}"
+                                                             class="remove-row addEsitDeleteButt" type="button"
+                                                             (click)="addChildStage(i, parent.get('Stages').controls.length)">
+                                                             <mat-icon>add</mat-icon>
+                                                         </button>
+                                                         <button [disabled]="mode=='R'" mat-stroked-button color="warn"
+                                                             tabindex type="button" id="btnRemove-parent-{{i}}"
+                                                             class="remove-row addEsitDeleteButt"
+                                                             (click)="confirmDialogParentRow(i,parent.get('IsNew').value)">
+                                                             <mat-icon>delete_outline</mat-icon>
+                                                         </button>
+                                                     </div>
+                                                 </div>
+                                             </div>
+ 
+                                             <div class="col l12 m12 s12 rightBox checkboxGroupSec">
+                                                 <mat-slide-toggle color="primary" class="jobPipeline"
+                                                     formControlName="JobPipeline" id="JobPipelinep_{{ i }}"
+                                                     labelPosition="before">
+                                                     {{"label_jobPipline" | translate }}
+                                                 </mat-slide-toggle>
+                                                 <mat-slide-toggle color="primary" class="jobPipeline"
+                                                     formControlName="Active" id="Active_{{ i }}" labelPosition="before">
+                                                     {{"label_statusActive" |
+                                                     translate }}?
+                                                 </mat-slide-toggle>
+                                                 <mat-slide-toggle color="primary" disabled class="jobPipeline"
+                                                     formControlName="BuiltIn" id="BuiltIn_{{ i }}"
+                                                     labelPosition="before">
+                                                     {{"label_builtIn" |
+                                                     translate }}?
+                                                 </mat-slide-toggle>
+                                                 <mat-slide-toggle color="primary"  class="jobPipeline"
+                                                 formControlName="AutomatedActions" id="AutomatedActions_{{ i }}"
+                                                 labelPosition="before">
+                                                 {{"label_automatedActions" |translate }}?
+                                             </mat-slide-toggle>
+                                             </div>
+ 
+                                             
+                                         </div>
+                                     </mat-card>
+                                     <div cdkDropList (cdkDropListDropped)="dropChild($event,i)"
+                                         class="childAnimation-{{i}}  animate__faster"
+                                         [ngClass]="!hideChildContent[i] ? 'animate__slideInDown' : 'animate__slideOutUp'">
+                                         <ng-container formArrayName="Stages" *ngIf="!hideChildContent[i]">
+                                             <div *ngFor="let children of parent.get('Stages').controls;let j = index"
+                                                 [formGroupName]="j" cdkDrag id="addChild{{i}}{{j+1}}" [ngClass]="userAnimationStatus?'animate__animated':''"
+                                                 class="firstChild  deleteChild-{{i}}{{j}}">
+                                                 <div class="child-placeholder" *cdkDragPlaceholder></div>
+                                                 <div *cdkDragPreview class="child-preview">
+                                                     <mat-card class="expandCollapseContent secStep">
+                                                         <div class="childCountBox">
+                                                             <div class="subchildCount">
+                                                                 {{'label_totalSubChild'|translate}} - {{children.get('Stages').controls.length}}
+                                                             </div>
+                                                         </div>
+                                                         <div class="row mb-0">
+                                                             <div class="col l12 m12 s12 ">
+                                                                 <div class="row mb-0 flex-row">
+                                                                     <div class="dragToggleButtonBox">
+                                                                         <div class="dragToggleButton">
+                                                                             <button type="button" class="drag-handle"
+                                                                                 mat-icon-button cdkDragHandle>
+                                                                                 <mat-icon>drag_indicator</mat-icon>
+                                                                             </button>
+                                                                         </div>
+                                                                     </div>
+                                                                     <div class="col l10 form-controls">
+                                                                         <div class="toggleButtonBox">
+                                                                             <button type="button" tabindex
+                                                                                 mat-icon-button
+                                                                                 class="drag-handle toggleButton"
+                                                                                 *ngIf="children.get('Stages').controls.length>0"
+                                                                                 (click)="toggleChild(i,j)"
+                                                                                 [ngClass]="hideSubChildContent[i+'.'+j] ? 'unfold' : 'fold'">
+                                                                                 <mat-icon>keyboard_arrow_up</mat-icon>
+                                                                             </button>
+                                                                         </div>
+                                                                         <mat-form-field class="stageName mb-0"
+                                                                             floatLabel="always">
+                                                                             <mat-label>{{ "label_stageName" | translate
+                                                                                 }}
+                                                                             </mat-label>
+                                                                             <input type="hidden"
+                                                                                 formControlName="StageId"
+                                                                                 id="StageId_{{i}}{{j}}">
+                                                                             <input type="hidden"
+                                                                                 formControlName="InternalCode"
+                                                                                 id="InternalCode_{{i}}{{j}}">
+ 
+                                                                             <input type="hidden"
+                                                                                 formControlName="ParentStageId"
+                                                                                 id="ParentStageId_{{i}}{{j}}">
+                                                                             <input type="hidden" formControlName="IsNew"
+                                                                                 id="IsNew_{{i}}{{j}}">
+ 
+                                                                             <input tabindex formControlName="StageName"
+                                                                                 name="pStageName" matInput
+                                                                                 id="stageNamec_{{ i }}{{j}}"
+                                                                                 (blur)="stageExists($event,children.get('InternalCode').value,children.get('ParentStageId').value,children)"
+                                                                                 placeholder="{{ 'label_stageName' | translate }}" required />
+                                                                             <mat-error
+                                                                                 *ngIf="children.get('StageName').errors?.required && children.get('StageName').touched">
+                                                                                 {{ 'label_stageName' |translate}} {{
+                                                                                 'label_errorreqired' |translate}}
+                                                                             </mat-error>
+                                                                             <mat-error
+                                                                                 *ngIf="children.get('StageName').errors?.pattern && children.get('StageName').touched">
+                                                                                 {{ 'label_stageName' |translate}} {{
+                                                                                 'label_errorspecialchar' |translate}}
+                                                                             </mat-error>
+                                                                             <mat-error
+                                                                                 *ngIf="children.get('StageName').errors?.maxlength && children.get('StageName').touched">
+                                                                                 {{ 'label_stageName' |translate}} {{
+                                                                                 'label_errormaxlength50' |translate}}
+                                                                             </mat-error>
+                                                                             <mat-error
+                                                                                 *ngIf="children.get('StageName').errors?.unique && children.get('StageName').touched">
+                                                                                 {{ 'label_stageName' |translate}} {{
+                                                                                 'label_errorunique'
+                                                                                 |translate}}
+                                                                             </mat-error>
+                                                                             <mat-error
+                                                                                 *ngIf="children.get('StageName').hasError('stageTaken')">
+                                                                                 {{'label_stageName'|translate}}
+                                                                                 {{'label_errorreqiredAlready'|translate}}
+                                                                             </mat-error>
+                                                                         </mat-form-field>
+                                                                         <mat-form-field class="stageTextarea mb-0"
+                                                                             floatLabel="always">
+                                                                             <mat-label>{{ "label_stageDesc" | translate
+                                                                                 }}
+                                                                             </mat-label>
+ 
+                                                                             <textarea matInput tabindex
+                                                                                 formControlName="StageDesc"
+                                                                                 id="StageDescc_{{i}}{{ j }}"
+                                                                                 class="textareaHeight"
+                                                                                 placeholder="{{ 'label_stageDesc' | translate }}"
+                                                                                 ></textarea>
+                                                                             <mat-error
+                                                                             *ngIf="children.get('StageDesc').errors?.maxlength && children.get('StageDesc').touched">
+                                                                             {{ 'label_stageDesc' |translate}} {{
+                                                                             'label_errormaxlength100' |translate}}
+                                                                         </mat-error>
+                                                                         </mat-form-field>
+                                                                         <mat-form-field class="mb-0 colorCode"
+                                                                         floatLabel="always">
+                                                                         <mat-label>{{ "label_colorCode" |
+                                                                             translate }}</mat-label>
+                                                                         <input matInput
+                                                                             [ngxMatColorPicker]="picker"
+                                                                             [for]="picker"
+                                                                             formControlName="ColorCode"
+                                                                             id="ColorCodesc_{{i}}{{ j }}"
+                                                                             readonly>
+                                                                         <ngx-mat-color-toggle matSuffix
+                                                                             [for]="picker"
+                                                                             [style.color]="children.get('ColorCode').value" class="colorPickerButon">
+                                                                         </ngx-mat-color-toggle>
+                                                                         <ngx-mat-color-picker #picker>
+                                                                         </ngx-mat-color-picker>
+                                                                     </mat-form-field>
+                                                                     </div> 
+                                                                     <div class="col l2 buttonGroup">
+                                                                         <button [disabled]="mode=='R'"
+                                                                             mat-stroked-button tabindex color="primary"
+                                                                             type="button" id="btnAdd-child-{{i}}{{ j }}"
+                                                                             class="remove-row addEsitDeleteButt"
+                                                                             (click)="addSubChildStage(i, j, children.get('Stages').controls.length)">
+                                                                             <mat-icon>add</mat-icon>
+                                                                         </button>
+                                                                         <button [disabled]="mode=='R'"
+                                                                             mat-stroked-button tabindex color="warn"
+                                                                             type="button"
+                                                                             id="btnRemove-child-{{i}}{{ j }}"
+                                                                             class="remove-row addEsitDeleteButt"
+                                                                             (click)="confirmDialogChildRow(i, j,children.get('IsNew').value)">
+                                                                             <mat-icon>delete_outline</mat-icon>
+                                                                         </button>
+                                                                     </div>
+                                                                 </div>
+                                                             </div>
+ 
+                                                             <div class="col l12 m12 s12 rightBox checkboxGroupSec">
+                                                                 <mat-slide-toggle color="primary" class="jobPipeline"
+                                                                     formControlName="JobPipeline"
+                                                                     id="JobPipelinec_{{ i }}{{ j }}"
+                                                                     labelPosition="before">
+                                                                     {{"label_jobPipline" | translate }}
+                                                                 </mat-slide-toggle>
+                                                                 <mat-slide-toggle color="primary" class="jobPipeline"
+                                                                     formControlName="Active" id="Activec_{{ i }}{{ j }}"
+                                                                     labelPosition="before">
+                                                                     {{"label_statusActive" | translate }}?
+                                                                 </mat-slide-toggle>
+                                                                 <mat-slide-toggle color="primary" class="jobPipeline"
+                                                                     formControlName="BuiltIn"
+                                                                     id="BuiltInc_{{ i }}{{ j }}" labelPosition="before"
+                                                                     disabled>
+                                                                     {{"label_builtIn" | translate }}?</mat-slide-toggle>
+                                                                     <mat-slide-toggle color="primary"  class="jobPipeline"
+                                                                     formControlName="AutomatedActions" id="AutomatedActions_{{ i }}{{j}}"
+                                                                     labelPosition="before">
+                                                                     {{"label_automatedActions" |translate }}?
+                                                                 </mat-slide-toggle>
+                                                             </div>
+                                                         </div>
+                                                     </mat-card>
+                                                 </div>
+                                                 <mat-card class="expandCollapseContent secStep">
+                                                     <div class="row mb-0">
+                                                         <div class="col l12 m12 s12 ">
+                                                             <div class="row mb-0 flex-row">
+                                                                 <div class="dragToggleButtonBox">
+                                                                     <div class="dragToggleButton">
+                                                                         <button type="button" class="drag-handle"
+                                                                             mat-icon-button cdkDragHandle>
+                                                                             <mat-icon>drag_indicator</mat-icon>
+                                                                         </button>
+                                                                     </div>
+                                                                 </div>
+                                                                 <div class="col l10 form-controls">
+                                                                     <div class="toggleButtonBox">
+                                                                         <button type="button" tabindex mat-icon-button
+                                                                             class="drag-handle toggleButton"
+                                                                             *ngIf="children.get('Stages').controls.length>0"
+                                                                             (click)="toggleChild(i,j)"
+                                                                             [ngClass]="hideSubChildContent[i+'.'+j] ? 'unfold' : 'fold'">
+                                                                             <mat-icon>keyboard_arrow_up</mat-icon>
+                                                                         </button>
+                                                                     </div>
+                                                                     <mat-form-field class="stageName mb-0"
+                                                                         floatLabel="always">
+                                                                         <mat-label>{{ "label_stageName" | translate }}
+                                                                         </mat-label>
+                                                                         <input type="hidden" formControlName="StageId"
+                                                                             id="StageId_{{i}}{{j}}">
+                                                                         <input type="hidden"
+                                                                             formControlName="InternalCode"
+                                                                             id="InternalCodes_{{i}}{{j}}">
+ 
+                                                                         <input type="hidden"
+                                                                             formControlName="ParentStageId"
+                                                                             id="ParentStageId_{{i}}{{j}}">
+                                                                         <input type="hidden" formControlName="IsNew"
+                                                                             id="IsNew_{{i}}{{j}}">
+ 
+                                                                         <input tabindex formControlName="StageName"
+                                                                             name="pStageName" matInput
+                                                                             id="stageNamec_{{ i }}{{j}}"
+                                                                             (blur)="stageExists($event,children.get('InternalCode').value,children.get('ParentStageId').value,children)"
+                                                                             placeholder="{{ 'label_stageName' | translate }}" required />
+                                                                         <mat-error
+                                                                             *ngIf="children.get('StageName').errors?.required && children.get('StageName').touched">
+                                                                             {{ 'label_stageName' |translate}} {{
+                                                                             'label_errorreqired' |translate}}
+                                                                         </mat-error>
+                                                                         <mat-error
+                                                                             *ngIf="children.get('StageName').errors?.pattern && children.get('StageName').touched">
+                                                                             {{ 'label_stageName' |translate}} {{
+                                                                             'label_errorspecialchar' |translate}}
+                                                                         </mat-error>
+                                                                         <mat-error
+                                                                             *ngIf="children.get('StageName').errors?.maxlength && children.get('StageName').touched">
+                                                                             {{ 'label_stageName' |translate}} {{
+                                                                             'label_errormaxlength50' |translate}}
+                                                                         </mat-error>
+                                                                         <mat-error
+                                                                             *ngIf="children.get('StageName').errors?.unique && children.get('StageName').touched">
+                                                                             {{ 'label_stageName' |translate}} {{
+                                                                             'label_errorunique'
+                                                                             |translate}}
+                                                                         </mat-error>
+                                                                         <mat-error
+                                                                             *ngIf="children.get('StageName').hasError('stageTaken')">
+                                                                             {{'label_stageName'|translate}}
+                                                                             {{'label_errorreqiredAlready'|translate}}
+                                                                         </mat-error>
+                                                                     </mat-form-field>
+                                                                     <mat-form-field class="stageTextarea mb-0"
+                                                                         floatLabel="always">
+                                                                         <mat-label>{{ "label_stageDesc" | translate }}
+                                                                         </mat-label>
+ 
+                                                                         <textarea matInput tabindex
+                                                                             formControlName="StageDesc"
+                                                                             id="StageDescc_{{i}}{{ j }}"
+                                                                             class="textareaHeight"
+                                                                             placeholder="{{ 'label_stageDesc' | translate }}"
+                                                                             ></textarea>
+                                                                         <mat-error
+                                                                         *ngIf="children.get('StageDesc').errors?.maxlength && children.get('StageDesc').touched">
+                                                                         {{ 'label_stageDesc' |translate}} {{
+                                                                         'label_errormaxlength100' |translate}}
+                                                                     </mat-error>
+                                                                     </mat-form-field>
+                                                                     <mat-form-field class="mb-0 colorCode"
+                                                                     floatLabel="always">
+                                                                     <mat-label>{{ "label_colorCode" |
+                                                                         translate }}</mat-label>
+                                                                     <input matInput
+                                                                         [ngxMatColorPicker]="picker"
+                                                                         [for]="picker"
+                                                                         formControlName="ColorCode"
+                                                                         id="ColorCodesc_{{i}}{{ j }}"
+                                                                         readonly>
+                                                                     <ngx-mat-color-toggle matSuffix
+                                                                         [for]="picker"
+                                                                         [style.color]="children.get('ColorCode').value" class="colorPickerButon">
+                                                                     </ngx-mat-color-toggle>
+                                                                     <ngx-mat-color-picker #picker>
+                                                                     </ngx-mat-color-picker>
+                                                                 </mat-form-field>
+                                                                 </div>
+                                                                 <div class="col l2 buttonGroup">
+                                                                     <button [disabled]="mode=='R'" mat-stroked-button
+                                                                         tabindex color="primary" type="button"
+                                                                         id="btnAdd-child-{{i}}{{ j }}"
+                                                                         class="remove-row addEsitDeleteButt"
+                                                                         (click)="addSubChildStage(i, j, children.get('Stages').controls.length)">
+                                                                         <mat-icon>add</mat-icon>
+                                                                     </button>
+                                                                     <button [disabled]="mode=='R'" mat-stroked-button
+                                                                         tabindex color="warn" type="button"
+                                                                         id="btnRemove-child-{{i}}{{ j }}"
+                                                                         class="remove-row addEsitDeleteButt"
+                                                                         (click)="confirmDialogChildRow(i, j,children.get('IsNew').value)">
+                                                                         <mat-icon>delete_outline</mat-icon>
+                                                                     </button>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+ 
+                                                         <div class="col l12 m12 s12 rightBox checkboxGroupSec">
+                                                             <mat-slide-toggle color="primary" class="jobPipeline"
+                                                                 formControlName="JobPipeline"
+                                                                 id="JobPipelinec_{{ i }}{{ j }}" labelPosition="before">
+                                                                 {{"label_jobPipline" | translate }}</mat-slide-toggle>
+                                                             <mat-slide-toggle color="primary" class="jobPipeline"
+                                                                 formControlName="Active" id="Activec_{{ i }}{{ j }}"
+                                                                 labelPosition="before">
+                                                                 {{"label_statusActive" | translate }}?
+                                                             </mat-slide-toggle>
+                                                             <mat-slide-toggle color="primary" class="jobPipeline"
+                                                                 formControlName="BuiltIn" id="BuiltInc_{{ i }}{{ j }}"
+                                                                 labelPosition="before" disabled>
+                                                                 {{"label_builtIn" | translate }}?</mat-slide-toggle>
+                                                                 <mat-slide-toggle color="primary"  class="jobPipeline"
+                                                                 formControlName="AutomatedActions" id="AutomatedActions_{{ i }}{{j}}"
+                                                                 labelPosition="before">
+                                                                 {{"label_automatedActions" |translate }}?
+                                                             </mat-slide-toggle>
+                                                         </div>
+                                                     </div>
+                                                 </mat-card>
+                                                 <div cdkDropList (cdkDropListDropped)="drop($event,i,j)"
+                                                     class="subChildAnimation-{{i}}{{j}} animate__animated animate__faster"
+                                                     [ngClass]="!hideSubChildContent[i+'.'+j] ? 'animate__slideInDown' : 'animate__slideOutUp'">
+                                                     <ng-container formArrayName="Stages"
+                                                         *ngIf=" !hideSubChildContent[i+'.'+j] ">
+                                                         <div *ngFor="let subchild of children.get('Stages').controls;let k = index"
+                                                             [formGroupName]="k" cdkDrag id="addSubChild{{i}}{{j}}{{k+1}}" [ngClass]="userAnimationStatus?'animate__animated':''"
+                                                             class="secondChild thirdStep  deleteSubChild-{{i}}{{j}}{{k}}">
+                                                             <div class="subchild-placeholder" *cdkDragPlaceholder></div>
+                                                             <div *cdkDragPreview class="subchild-preview">
+                                                                 <mat-card
+                                                                     class="expandCollapseContent secondChild thirdStep">
+                                                                     <div class="row mb-0">
+                                                                         <div class="col l12">
+                                                                             <div class="row mb-0 flex-row">
+                                                                                 <div class="dragToggleButtonBox">
+                                                                                     <div class="dragToggleButton">
+                                                                                         <button type="button"
+                                                                                             class="drag-handle"
+                                                                                             mat-icon-button
+                                                                                             cdkDragHandle>
+                                                                                             <mat-icon>drag_indicator
+                                                                                             </mat-icon>
+                                                                                         </button>
+                                                                                     </div>
+                                                                                 </div>
+                                                                                 <div class="col l10 pl-0">
+                                                                                     <div class="toggleButtonBox"></div>
+                                                                                     <mat-form-field
+                                                                                         class="stageName mb-0"
+                                                                                         floatLabel="always">
+                                                                                         <mat-label>{{ "label_stageName"
+                                                                                             |
+                                                                                             translate
+                                                                                             }}
+                                                                                         </mat-label>
+                                                                                         <input type="hidden"
+                                                                                             formControlName="StageId"
+                                                                                             id="StageId_{{i}}{{j}}{{k}}">
+                                                                                         <input type="hidden"
+                                                                                             formControlName="InternalCode"
+                                                                                             id="InternalCode_{{i}}{{j}}{{k}}">
+ 
+                                                                                         <input type="hidden"
+                                                                                             formControlName="ParentStageId"
+                                                                                             id="ParentStageId_{{i}}{{j}}{{k}}">
+                                                                                         <input type="hidden"
+                                                                                             formControlName="IsNew"
+                                                                                             id="IsNew_{{i}}{{j}}{{k}}">
+ 
+                                                                                         <input tabindex
+                                                                                             formControlName="StageName"
+                                                                                             name="pStageName" matInput
+                                                                                             (blur)="stageExists($event,subchild.get('InternalCode').value,subchild.get('ParentStageId').value,subchild)"
+                                                                                             id="stageNamesc_{{i}}{{ j }}{{ k }}"
+                                                                                             placeholder="{{ 'label_stageName' | translate }}" required />
+                                                                                         <mat-error
+                                                                                             *ngIf="subchild.get('StageName').errors?.required && subchild.get('StageName').touched">
+                                                                                             {{ 'label_stageName'
+                                                                                             |translate}} {{
+                                                                                             'label_errorreqired'
+                                                                                             |translate}}
+                                                                                         </mat-error>
+                                                                                         <mat-error
+                                                                                             *ngIf="subchild.get('StageName').errors?.pattern && subchild.get('StageName').touched">
+                                                                                             {{ 'label_stageName'
+                                                                                             |translate}} {{
+                                                                                             'label_errorspecialchar'
+                                                                                             |translate}}
+                                                                                         </mat-error>
+                                                                                         <mat-error
+                                                                                             *ngIf="subchild.get('StageName').errors?.maxlength && subchild.get('StageName').touched">
+                                                                                             {{ 'label_stageName'
+                                                                                             |translate}} {{
+                                                                                             'label_errormaxlength50'
+                                                                                             |translate}}
+                                                                                         </mat-error>
+                                                                                         <mat-error
+                                                                                             *ngIf="subchild.get('StageName').errors?.unique && subchild.get('StageName').touched">
+                                                                                             {{ 'label_stageName'
+                                                                                             |translate}} {{
+                                                                                             'label_errorunique'
+                                                                                             |translate}}
+                                                                                         </mat-error>
+                                                                                         <mat-error
+                                                                                             *ngIf="children.get('StageName').hasError('stageTaken')">
+                                                                                             {{'label_stageName'|translate}}
+                                                                                             {{'label_errorreqiredAlready'|translate}}
+                                                                                         </mat-error>
+                                                                                     </mat-form-field>
+                                                                                     <mat-form-field
+                                                                                         class="stageTextarea mb-0"
+                                                                                         floatLabel="always">
+                                                                                         <mat-label>{{ "label_stageDesc"
+                                                                                             |
+                                                                                             translate
+                                                                                             }}
+                                                                                         </mat-label>
+ 
+                                                                                         <textarea tabindex matInput
+                                                                                             formControlName="StageDesc"
+                                                                                             class="textareaHeight"
+                                                                                             id="StageDescsc_{{i}}{{ j }}{{ k }}"
+                                                                                             placeholder="{{ 'label_stageDesc' | translate }}"
+                                                                                             ></textarea>
+                                                                                         <mat-error
+                                                                                             *ngIf="subchild.get('StageDesc').errors?.maxlength && subchild.get('StageDesc').touched">
+                                                                                             {{ 'label_stageDesc'
+                                                                                             |translate}} {{
+                                                                                             'label_errormaxlength100'
+                                                                                             |translate}}
+                                                                                         </mat-error>
+                                                                                     </mat-form-field>
+                                                                                     <mat-form-field class="mb-0 colorCode"
+                                                                                     floatLabel="always">
+                                                                                     <mat-label>{{ "label_colorCode" |
+                                                                                         translate }}</mat-label>
+                                                                                     <input matInput
+                                                                                         [ngxMatColorPicker]="picker"
+                                                                                         [for]="picker"
+                                                                                         formControlName="ColorCode"
+                                                                                         id="ColorCodesc_{{i}}{{ j }}{{ k }}"
+                                                                                         readonly>
+                                                                                     <ngx-mat-color-toggle matSuffix
+                                                                                         [for]="picker"
+                                                                                         [style.color]="subchild.get('ColorCode').value" class="colorPickerButon">
+                                                                                     </ngx-mat-color-toggle>
+                                                                                     <ngx-mat-color-picker #picker>
+                                                                                     </ngx-mat-color-picker>
+                                                                                 </mat-form-field>
+                                                                                 </div>
+                                                                                 <div class="col l2 buttonGroup">
+                                                                                     <button [disabled]="mode=='R'"
+                                                                                         mat-stroked-button tabindex
+                                                                                         color="warn"
+                                                                                         id="btnRemove-Subchild-{{i}}{{j}}{{k}}"
+                                                                                         class="remove-row addEsitDeleteButt"
+                                                                                         type="button"
+                                                                                         (click)="confirmDialogSubChildRow(i, j, k,subchild.get('IsNew').value)">
+                                                                                         <mat-icon>delete_outline
+                                                                                         </mat-icon>
+                                                                                     </button>
+                                                                                 </div>
+                                                                             </div>
+ 
+ 
+ 
+                                                                         </div>
+ 
+                                                                         <div
+                                                                             class="col l12 m12 s12 rightBox checkboxGroupSec">
+ 
+                                                                             <mat-slide-toggle color="primary" tabindex
+                                                                                 formControlName="JobPipeline"
+                                                                                 class="jobPipeline"
+                                                                                 id="JobPipelinesc_{{i}}{{ j }}{{ k }}"
+                                                                                 labelPosition="before">
+                                                                                 {{"label_jobPipline" | translate }}
+                                                                             </mat-slide-toggle>
+                                                                             <mat-slide-toggle color="primary" tabindex
+                                                                                 class="jobPipeline"
+                                                                                 formControlName="Active"
+                                                                                 id="Activesc_{{i}}{{ j }}{{ k }}"
+                                                                                 labelPosition="before">
+                                                                                 {{"label_statusActive" | translate }}?
+                                                                             </mat-slide-toggle>
+                                                                             <mat-slide-toggle disabled color="primary"
+                                                                                 tabindex class="jobPipeline"
+                                                                                 formControlName="BuiltIn"
+                                                                                 id="BuiltInsc_{{i}}{{ j }}{{ k }}"
+                                                                                 labelPosition="before">
+                                                                                 {{"label_builtIn" | translate }}?
+                                                                             </mat-slide-toggle>
+                                                                             <mat-slide-toggle color="primary"  class="jobPipeline"
+                                                                             formControlName="AutomatedActions" id="AutomatedActions_{{ i }}{{j}}{{k}}"
+                                                                             labelPosition="before">
+                                                                             {{"label_automatedActions" |translate }}?
+                                                                         </mat-slide-toggle>
+                                                                         </div>
+                                                                     </div>
+                                                                 </mat-card>
+                                                             </div>
+                                                             <mat-card class="expandCollapseContent">
+                                                                 <div class="row mb-0">
+                                                                     <div class="col l12">
+                                                                         <div class="row mb-0 flex-row">
+                                                                             <div class="dragToggleButtonBox">
+                                                                                 <div class="dragToggleButton">
+                                                                                     <button type="button"
+                                                                                         class="drag-handle"
+                                                                                         mat-icon-button cdkDragHandle>
+                                                                                         <mat-icon>drag_indicator
+                                                                                         </mat-icon>
+                                                                                     </button>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="col l10 pl-0">
+                                                                                 <div class="toggleButtonBox"></div>
+                                                                                 <mat-form-field class="stageName mb-0"
+                                                                                     floatLabel="always">
+                                                                                     <mat-label>{{ "label_stageName" |
+                                                                                         translate
+                                                                                         }}
+                                                                                     </mat-label>
+                                                                                     <input type="hidden"
+                                                                                         formControlName="StageId"
+                                                                                         id="StageId_{{i}}{{j}}{{k}}">
+                                                                                     <input type="hidden"
+                                                                                         formControlName="InternalCode"
+                                                                                         id="InternalCodes_{{i}}{{j}}{{k}}">
+ 
+                                                                                     <input type="hidden"
+                                                                                         formControlName="ParentStageId"
+                                                                                         id="ParentStageId_{{i}}{{j}}{{k}}">
+                                                                                     <input type="hidden"
+                                                                                         formControlName="IsNew"
+                                                                                         id="IsNew_{{i}}{{j}}{{k}}">
+ 
+                                                                                     <input tabindex
+                                                                                         formControlName="StageName"
+                                                                                         name="pStageName" matInput
+                                                                                         (blur)="stageExists($event,subchild.get('InternalCode').value,subchild.get('ParentStageId').value,subchild)"
+                                                                                         id="stageNamesc_{{i}}{{ j }}{{ k }}"
+                                                                                         placeholder="{{ 'label_stageName' | translate }}" required />
+                                                                                     <mat-error
+                                                                                         *ngIf="subchild.get('StageName').errors?.required && subchild.get('StageName').touched">
+                                                                                         {{ 'label_stageName'
+                                                                                         |translate}} {{
+                                                                                         'label_errorreqired'
+                                                                                         |translate}}
+                                                                                     </mat-error>
+                                                                                     <mat-error
+                                                                                         *ngIf="subchild.get('StageName').errors?.pattern && subchild.get('StageName').touched">
+                                                                                         {{ 'label_stageName'
+                                                                                         |translate}} {{
+                                                                                         'label_errorspecialchar'
+                                                                                         |translate}}
+                                                                                     </mat-error>
+                                                                                     <mat-error
+                                                                                         *ngIf="subchild.get('StageName').errors?.maxlength && subchild.get('StageName').touched">
+                                                                                         {{ 'label_stageName'
+                                                                                         |translate}} {{
+                                                                                         'label_errormaxlength50'
+                                                                                         |translate}}
+                                                                                     </mat-error>
+                                                                                     <mat-error
+                                                                                         *ngIf="subchild.get('StageName').errors?.unique && subchild.get('StageName').touched">
+                                                                                         {{ 'label_stageName'
+                                                                                         |translate}} {{
+                                                                                         'label_errorunique' |translate}}
+                                                                                     </mat-error>
+                                                                                     <mat-error
+                                                                                         *ngIf="children.get('StageName').hasError('stageTaken')">
+                                                                                         {{'label_stageName'|translate}}
+                                                                                         {{'label_errorreqiredAlready'|translate}}
+                                                                                     </mat-error>
+                                                                                 </mat-form-field>
+                                                                                 <mat-form-field
+                                                                                     class="stageTextarea mb-0"
+                                                                                     floatLabel="always">
+                                                                                     <mat-label>{{ "label_stageDesc" |
+                                                                                         translate
+                                                                                         }}
+                                                                                     </mat-label>
+ 
+                                                                                     <textarea tabindex matInput
+                                                                                         formControlName="StageDesc"
+                                                                                         class="textareaHeight"
+                                                                                         id="StageDescsc_{{i}}{{ j }}{{ k }}"
+                                                                                         placeholder="{{ 'label_stageDesc' | translate }}"
+                                                                                         ></textarea>
+                                                                                     <mat-error
+                                                                                     *ngIf="subchild.get('StageDesc').errors?.maxlength && subchild.get('StageDesc').touched">
+                                                                                     {{ 'label_stageDesc'
+                                                                                     |translate}} {{
+                                                                                     'label_errormaxlength100'
+                                                                                     |translate}}
+                                                                                 </mat-error>
+                                                                                 </mat-form-field>
+                                                                                 <mat-form-field class="mb-0 colorCode"
+                                                                                 floatLabel="always">
+                                                                                 <mat-label>{{ "label_colorCode" |
+                                                                                     translate }}</mat-label>
+                                                                                 <input matInput
+                                                                                     [ngxMatColorPicker]="picker"
+                                                                                     [for]="picker"
+                                                                                     formControlName="ColorCode"
+                                                                                     id="ColorCodesc_{{i}}{{ j }}{{ k }}"
+                                                                                     readonly>
+                                                                                 <ngx-mat-color-toggle matSuffix
+                                                                                     [for]="picker"
+                                                                                     [style.color]="subchild.get('ColorCode').value" class="colorPickerButon">
+                                                                                 </ngx-mat-color-toggle>
+                                                                                 <ngx-mat-color-picker #picker>
+                                                                                 </ngx-mat-color-picker>
+                                                                             </mat-form-field>
+                                                                             </div>
+                                                                             <div class="col l2 buttonGroup">
+                                                                                 <button [disabled]="mode=='R'"
+                                                                                     mat-stroked-button tabindex
+                                                                                     color="warn"
+                                                                                     id="btnRemove-Subchild-{{i}}{{j}}{{k}}"
+                                                                                     class="remove-row addEsitDeleteButt"
+                                                                                     type="button"
+                                                                                     (click)="confirmDialogSubChildRow(i, j, k,subchild.get('IsNew').value)">
+                                                                                     <mat-icon>delete_outline</mat-icon>
+                                                                                 </button>
+                                                                             </div>
+                                                                         </div>
+ 
+ 
+ 
+                                                                     </div>
+ 
+                                                                     <div
+                                                                         class="col l12 m12 s12 rightBox checkboxGroupSec">
+ 
+                                                                         <mat-slide-toggle color="primary" tabindex
+                                                                             formControlName="JobPipeline"
+                                                                             class="jobPipeline"
+                                                                             id="JobPipelinesc_{{i}}{{ j }}{{ k }}"
+                                                                             labelPosition="before">
+                                                                             {{"label_jobPipline" | translate }}
+                                                                         </mat-slide-toggle>
+                                                                         <mat-slide-toggle color="primary" tabindex
+                                                                             class="jobPipeline" formControlName="Active"
+                                                                             id="Activesc_{{i}}{{ j }}{{ k }}"
+                                                                             labelPosition="before">
+                                                                             {{"label_statusActive" | translate }}?
+                                                                         </mat-slide-toggle>
+                                                                         <mat-slide-toggle disabled color="primary"
+                                                                             tabindex class="jobPipeline"
+                                                                             formControlName="BuiltIn"
+                                                                             id="BuiltInsc_{{i}}{{ j }}{{ k }}"
+                                                                             labelPosition="before">
+                                                                             {{"label_builtIn" | translate }}?
+                                                                         </mat-slide-toggle>
+                                                                         <mat-slide-toggle color="primary"  class="jobPipeline"
+                                                                             formControlName="AutomatedActions" id="AutomatedActions_{{ i }}{{j}}{{k}}"
+                                                                             labelPosition="before">
+                                                                             {{"label_automatedActions" |translate }}?
+                                                                         </mat-slide-toggle>
+                                                                     </div>
+                                                                 </div>
+                                                             </mat-card>
+                                                         </div>
+                                                     </ng-container>
+                                                 </div>
+                                             </div>
+                                         </ng-container>
+                                     </div>
+                                     <div class="sepateCard"></div>
+                                 </div>
+                             </ng-container>
+                         </div>
+                     </div>
+                 </div>
+             </form>
+         </div>
+     </mat-dialog-content>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<!-- who:maneesh,what:ewm-11774 create component for edit status when:19/09/2023 -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<form [formGroup]="quickJobForm" id= "quickJobFormId" applyTabIndexes>
+  <div class="quick-dialog">
+      <h2 mat-dialog-title>{{'label_editstatus' | translate}}</h2>
+      <mat-dialog-content class="col">
+        <div id="JobType" >
+            <div class="ng-slectBox">
+               <app-custom-dropdown [selectedIn]="selectedJobStatus" tabindex="1"
+                    (selectedOut)="onJobStatuschange($event)" [config]="dropDownJobStatusConfig">
+                </app-custom-dropdown>
+                <mat-error
+                    *ngIf="this.quickJobForm.controls['StatusId'].hasError('required') && this.quickJobForm.controls['StatusId'].touched">
+                    {{ 'label_templateStatus' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+
+            </div>
+        </div>
+        <div class="col l12 m12 s12"> 
+            <div class="ng-slectBox">
+                <app-custom-dropdown [selectedIn]="selectedReason" (selectedOut)="onManageReasonchange($event)"
+                [resetFormSubject]="resetFormselectedReason.asObservable()"
+                [config]="dropDownReasonConfig">
+                </app-custom-dropdown>
+            </div>
+        </div>
+      </mat-dialog-content>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+      <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss(false)" id="btnCancel"> {{'button_cancel'|translate}}</button>
+      <button mat-stroked-button color="primary" tabindex  type="button" [disabled]="!quickJobForm.valid" (click)="onConfirm(this.quickJobForm.value)" id="btnSave"> {{'label_save'|translate}}</button>
+  </div>
+</form>

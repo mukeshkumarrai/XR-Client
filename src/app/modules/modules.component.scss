@@ -1,0 +1,130 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: module.component.component
+    @Who: Satya Prakash Gupta
+    @When: 09-Sep-2021
+    @Why: EWM-2662 EWM-2811
+    @What: You can add module page styles to this file, and also import other style files
+*/
+.signOut {
+  padding: 7px 0px 0px;
+}
+.headerDroupDownUp {
+  position: absolute;
+  top: -14px;
+  right: 10px;
+}
+.DroupDownUp {
+  position: absolute;
+  top: -14px;
+  left: 22px;
+}
+.headerRight-menu .material-icons,
+.headerRight-menu .userAvtaar {
+  position: relative;
+  top: -1.5px;
+}
+.userAvtaar .material-icons {
+  font-size: 34px;
+  position: relative;
+  top: -0.25px;
+}
+.mainsidebar-menu {
+  display: none;
+  height: calc(100vh - 210px);
+  overflow: auto;
+  @media only screen and (max-width: 640px) and (min-width: 240px){
+    display: block;
+  }
+}
+.orgDropdown {
+  padding: 10px 10px 10px 15px;
+  background: #e6e6e6cc;
+  display: none;
+  width: 240px;
+  @media only screen and (max-width: 955px) and (min-width: 240px){
+    display: block;
+  }
+}
+.mobileMenuFooter {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  display: none;
+  @media only screen and (max-width: 708px) and (min-width: 240px){
+    display: block;
+  }
+  .mobileMainMenu {
+    min-width: 100%;
+  }
+  .mat-button {
+    min-width: 100%;
+  }
+  .mat-button:last-child {
+    border-bottom: 0px;
+  }
+}
+.showMenu {
+  display: none;
+}
+@media only screen and (max-width: 580px) and (min-width: 320px) {
+  .showMenu {
+    display: block;
+  }
+}
+.sidenav.moduleDrawer{
+  background-repeat: no-repeat;
+  background-position: center calc(100% + 0px);
+  background-size: auto;
+  background-size: 200px;
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    height: 380px;
+    width: 100%;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, white 35%, rgba(255, 255, 255, 0) 70%);
+  }
+  .xeep-img{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    max-width: 220px;
+    left: 10px;
+  }
+  // .xeep-img.default-img{
+  //   bottom: -14px;
+  // }
+  
+}
+.sidenav.moduleDrawer.drawerOpen{
+  background-position: center calc(100% + 2px);
+  background-size: 100px;
+  &::before{
+    height: 150px;
+  }
+  .xeep-img{
+    left: 0px;
+  }
+  .xeep-img.default-img{
+    bottom: 0px;
+  }
+}
+.dark-theme {
+  .sidenav.moduleDrawer{
+    &::before {
+      background: linear-gradient(180deg, rgba(66, 66, 66, 0) 0%, #424242 35%, rgba(66, 66, 66, 0) 100%);
+    }
+  }
+}
+.lastLoginTxt {
+  font-size: 75%;
+  color: #1A1A19;
+  font-weight: 400;
+  text-align: center;
+  display: block;
+  line-height: 20px;
+}

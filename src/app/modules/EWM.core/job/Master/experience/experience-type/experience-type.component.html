@@ -1,0 +1,258 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 24-May-2021
+    @Why: EWM-1602
+    @What:  This page wil be use only for the Job Experience Component HTML
+-->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading" id="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="experience-type-mat-card-header">
+  <mat-card-title>
+    <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_addNew'|translate}} {{'label_experience'|translate}}" matTooltipClass="custom-tooltip"
+      color="primary" id="btnSave" [routerLink]="['manage-experience-type']" [queryParams]="{V:viewMode}"
+      *appHasPermission="['Add']"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+      <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">add
+      </mat-icon>
+    </button>
+    <div class="sub-title" id="sub-title">
+      <span>{{'label_experience' |translate}} </span><br>
+      <app-breadcrumb [pageLabel]="pageLabel" class="bread-crumb"></app-breadcrumb>
+    </div>
+
+  </mat-card-title>
+
+  <div class="header-action-button" id="experience-type-actionButton" *ngIf="formtitle=='grid'">
+
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="btnSearch" (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" id="btnClearFilterId"
+          (click)="onFilterClear()" (click)="searchVal=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+
+    <div class="group-header-button">
+
+      <!-- @When: 19-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+      <a mat-raised-button class="header-button" *ngIf="formtitle=='grid'" id="user-invitation-btnViewAudit"
+        [routerLink]="['/client/core/system-settings/system-audit-log/',auditParameter]"
+        matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip"
+        matTooltipPosition="before">
+        <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+      </a>
+
+      <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+        matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+        <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+          {{animationVar?.BarRotateButton?.iconName}}
+        </mat-icon>
+      </button>
+
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']"
+        class="header-button" (click)="switchListMode('listMode')" id="experience-viewCardInActive"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']"
+        class="header-button" (click)="switchListMode('cardMode')" id="experience-viewCardActive"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}}
+        </span>
+      </button>
+
+    </div>
+  </div>
+
+</mat-card-header>
+
+<div class="" [ngClass]="[ viewMode === 'listMode' ? 'listMode' : 'hide']">
+  <div class="col s12 m12 l12 pl-10 pr-10">
+  <div class="joblanding-kendo  kendo-table-container candidate-list" id="kendo-table-container">
+    <ng-template #template let-anchor>
+      <span>{{ anchor.nativeElement.innerText}}</span>
+    </ng-template>
+    <div kendoTooltip class="qualification-grid" #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+      (mouseover)="showTooltip($event)">
+      <kendo-grid [kendoGridBinding]="gridView" [sortable]="true" [sort]="sort" [scrollable]="'virtual'"
+        [reorderable]="false" [resizable]="true" (sortChange)="sortChange($event)" (scrollBottom)="pageChange($event)">
+
+        <kendo-grid-column width="35" class="p-0 listActionBox">
+          <ng-template kendoGridCellTemplate let-dataItem>
+
+            <button mat-flat-button id="dataActionBtn" [matMenuTriggerFor]="beforegridMenu" class="dataActionButton">
+              <mat-icon>
+                more_vert
+              </mat-icon>
+            </button>
+
+            <mat-menu #beforegridMenu="matMenu" xPosition="after"
+              class="candidateQuickMenu candidate-data-dropdown listactionMenu">
+              <span class="material-icons headerDroupDownUp">
+                arrow_drop_up
+              </span>
+
+              <!-- <button mat-icon-button color="primary" [disabled]="!dataItem.IsSystemDefined=='0'"
+                [routerLink]="['manage-experience-type']" id="btnEdit" *appHasPermission="['Edit']"
+                [queryParams]="{id: dataItem.Id,V:viewMode}">
+                <mat-icon>edit</mat-icon>
+                {{'label_edit'|translate}}
+              </button>
+              <button mat-icon-button color="warn" id="btnDelete" [disabled]="!dataItem.IsSystemDefined=='0'"
+                (click)="DeleteExperienceInfo(dataItem.Id, viewMode)" *appHasPermission="['Delete']">
+                <mat-icon>delete</mat-icon> {{'label_delete'|translate}}
+              </button> -->
+              <button mat-menu-item id="btnEdit" [disabled]="!dataItem.IsSystemDefined=='0'"
+               [routerLink]="['manage-experience-type']" id="btnEdit" *appHasPermission="['Edit']"
+                [queryParams]="{id: dataItem.Id,V:viewMode}">
+                <mat-icon>edit</mat-icon>
+                {{'label_edit'|translate}}
+          </button>
+            <button mat-menu-item id="btnDelete" [disabled]="!dataItem.IsSystemDefined=='0'"
+             (click)="DeleteExperienceInfo(dataItem.Id, viewMode)" *appHasPermission="['Delete']">
+                <mat-icon>delete</mat-icon> {{'label_delete'|translate}}
+          </button>
+
+            </mat-menu>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="Name" title="{{'label_experience'|translate}}">
+        </kendo-grid-column>
+        <kendo-grid-column width="300" field="StatusName" title="{{'label_templateStatus' | translate}}">
+        </kendo-grid-column>
+        <!-- <kendo-grid-column field="Weightage" title="{{'label_weightage' | translate}}">
+        </kendo-grid-column> -->
+<!-- 
+        <kendo-grid-column field="LastUpdated" title="{{'label_experienceLastUpdate' | translate}}">
+        </kendo-grid-column> -->
+
+        <kendo-grid-column width="350" field="LastUpdated" title="{{'label_lastupdate' | translate}}" [headerStyle]="{'text-align': 'right'}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span class="textRight">{{dataItem.LastUpdated| date:userpreferences.timeformate:userpreferences.timezone}}</span>
+          </ng-template>
+        </kendo-grid-column>
+
+
+      </kendo-grid>
+      <div *ngIf="loadingscroll" class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt top-75">
+      </div>
+      <!-- <div *ngIf="kendoLoading" class="k-i-loading"></div> -->
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="listCardView kendo-card-view kendocardData" [ngClass]="[ viewMode === 'cardMode' ? 'cardtMode' : 'hide']" infinite-scroll
+  [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pageSize">
+
+  <div id="contentdata" class="cardContent">
+    <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView.length==0">
+      <span>{{'label_noRecordAvailable'|translate}}</span>
+    </div>
+    <div class="row">
+      <div class="col l4 m12 s12 cardWidth" *ngFor="let listDataList of gridView; let i =index"
+        [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+        <mat-card class="CarMode" id="carModeBox_{{i}}">
+          <mat-card-content class="listcardContent cardHeightWithImage kendoCard">
+
+            <div [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+              <div class="cardModeLine">
+                <span class="spacer"></span>
+
+                <span class="badge red">
+                  <strong>{{'label_templateStatus'|translate}}</strong> : {{listDataList.StatusName}}
+                </span>
+              </div>
+              <div class="row mb-5 mt-15">
+                <div class="col l6 m6 s12">
+                  <div class="col card-header">
+                    <strong>{{'label_experience'|translate}}</strong>
+                  </div>
+                  <div class="col card-data" id="cardExperience-Name" matTooltip="{{listDataList.Name}}"
+                    matTooltipClass="custom-tooltip">
+                    <span class="cardListTxt word-wrap">
+                      {{listDataList.Name}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col l6 m6 s12">
+                  <div class="col card-header">
+                    <strong>{{'label_experienceLastUpdate'|translate}}</strong>
+                  </div>
+                  <div class="col card-data" id="cardExperience-lastUpdate">
+                    <span class="cardListTxt word-wrap"
+                      matTooltip="{{listDataList.LastUpdated | date:userpreferences.timeformate:userpreferences.timezone}}"
+                      matTooltipClass="custom-tooltip">
+                      {{listDataList.LastUpdated | date:userpreferences.timeformate:userpreferences.timezone}}
+                    </span>
+                  </div>
+                </div>
+                <!-- <div class="col l6 m6 s12">
+                  <div class="col card-header">
+                    <strong>{{'label_weightage'|translate}}</strong>
+                  </div>
+                  <div class="col card-data" id="cardExperience-Name" matTooltip="{{listDataList.Weightage}}"
+                    matTooltipClass="custom-tooltip">
+                    <span class="cardListTxt word-wrap">
+                      {{listDataList.Weightage}}
+                    </span>
+                  </div>
+                </div> -->
+              </div>
+
+           
+
+              <div class="go-corner">
+                <button mat-icon-button color="primary" [disabled]="!listDataList.IsSystemDefined=='0'"
+                  [routerLink]="['manage-experience-type']" [queryParams]="{id: listDataList.Id,V:viewMode}"
+                  id="btnEdit" *appHasPermission="['Edit']"
+                  matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}">
+                  <mat-icon>edit</mat-icon>
+                </button> 
+                <button mat-icon-button color="warn" id="btnDelete" [disabled]="!listDataList.IsSystemDefined=='0'"
+                  (click)="DeleteExperienceInfo(listDataList.Id, i)" *appHasPermission="['Delete']"
+                  matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+  </div>
+
+
+
+</div>

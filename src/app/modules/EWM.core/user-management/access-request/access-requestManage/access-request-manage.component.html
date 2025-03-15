@@ -1,0 +1,148 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="access-request-manage-mat-card-header">
+    <mat-card-title class="only-title">{{'label_reviewRequest' |translate}}</mat-card-title>
+    <div class="actionButton">
+      <button mat-raised-button class="buttonForDesktopMobile" tabindex="7" (click)='onCancel()' color="warn"
+        id="btnCancelAccess">
+        <mat-icon>cancel</mat-icon>
+        <span class="buttonTxt">{{'button_cancel' |translate}}</span>
+      </button>
+      <button mat-raised-button class="buttonForDesktopMobile" tabindex="6"
+        (click)="openConfrmDialog(this.UserAccessRequestForm.value)" color="accent" id="btnGrantAccess">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_denyAccess' |translate}}</span>
+      </button>
+      <button mat-raised-button class="buttonForDesktopMobile" [disabled]="!UserAccessRequestForm.valid" tabindex="5"
+        color="primary" (click)="grantAccessDialog(this.UserAccessRequestForm.value)" type="button" id="btnDenyAccess">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_grantAccessBtn'|translate}}</span>
+      </button>
+    </div>
+  </mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="access-request-manage-drawer">
+<mat-card class="component-card mat-elevation-z2" id="component-card">
+    <!--This div is for Show Access Section once clicked on ShowAccess Link in the Grid - Added by Naresh on Jan 29-2021-->
+    <div class="showAccessSection">
+      <form novalidate [formGroup]="UserAccessRequestForm" id="accessRequest-form">
+        <div class="row mb-0">
+          <mat-card-subtitle class="col s12 m12 l12 subTitle">{{ 'label_requestDetails' |translate }}
+          </mat-card-subtitle>
+        </div>
+        <div class="row">
+          <div class="col l4 m12 s12">
+            <div class="row mb-0">
+              <div class="col l12 m12 s12">
+                <label>
+                  <strong>{{'label_requestedDate' |translate}}</strong> {{requestedDate |
+                  date:userpreferences.timeformate:userpreferences.timezone}}
+                </label>
+              </div>
+            </div>
+            <div class="row mb-0">
+              <div class="col l12 m12 s12">
+                <div class="ng-slectBox">
+                  <ng-select tabindex="1" [(ngModel)]="selected" formControlName="Organizations" [multiple]="true"
+                    (change)="getSelecteddata()" required [clearable]="true"
+                    placeholder="{{'label_organisationName' |translate}}*" id="accessRequest-organization">
+                    <ng-option *ngFor="let Organization of OrganizationData" [value]="Organization.OrganizationId">
+                      {{Organization.OrganizationName}}</ng-option>
+                  </ng-select>
+                  <mat-error
+                    *ngIf="this.UserAccessRequestForm.controls['Organizations'].hasError('required') && UserAccessRequestForm.controls['Organizations'].touched">
+                    {{ 'label_organisationName' |translate}} {{ 'label_errorreqired' |translate}}
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-0">
+              <div class="col l12 m12 s12">
+                <div class="ng-slectBox">
+                  <ng-select tabindex="2" formControlName="DefaultOrganisationName" (change)="getDefaultOrg($event)"
+                    required [clearable]="true" placeholder="{{'label_defaultOrganisation' |translate}}" id="accessRequest-name">
+                    <ng-option *ngFor="let Organization of OrgListForDefaltOrg" [value]="Organization">
+                      {{Organization.OrganizationName}}</ng-option>
+                  </ng-select>
+                  <mat-error
+                    *ngIf="this.UserAccessRequestForm.controls['DefaultOrganisationId'].hasError('required') && UserAccessRequestForm.controls['DefaultOrganisationId'].touched">
+                    {{ 'label_defaultOrganisation' |translate}} {{ 'label_errorreqired' |translate}}
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-0">
+              <div class="col l12 m12 s12">
+                <div class="ng-slectBox">
+                  <ng-select tabindex="3"  [readonly]="disabledCondition" formControlName="RoleName" id="ddlRole"  [clearable]="true"
+                    (change)="getSelectedRole($event)" placeholder="{{'label_ddlRole' |translate}}*" required>
+                    <ng-option *ngFor="let userRole of userRoles" [value]="userRole">{{userRole.Name}}</ng-option>
+                  </ng-select>
+                  <mat-error
+                    *ngIf="this.UserAccessRequestForm.controls['RoleName'].hasError('required') && UserAccessRequestForm.controls['RoleName'].touched">
+                    {{ 'label_ddlRole' |translate}} {{ 'label_errorreqired' |translate}}
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-0">
+              <div class="col l12 m12 s12">
+                <div class="ng-slectBox">
+                  <ng-select tabindex="4" formControlName="AccessLevelName" (change)="getSelectedAccessLevel($event)"
+                    id="ddlAccessLevel" required [clearable]="true" placeholder="{{'label_ddlAccessLevel' |translate}}*">
+                    <ng-option *ngFor="let accessLevel of accessLevels" [value]="accessLevel">
+                      {{accessLevel.Name}}</ng-option>
+                  </ng-select>
+                  <mat-error
+                    *ngIf="this.UserAccessRequestForm.controls['AccessLevelName'].hasError('required') && UserAccessRequestForm.controls['AccessLevelName'].touched">
+                    {{ 'label_ddlAccessLevel' |translate}} {{ 'label_errorreqired' |translate}}
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col l1 m12 s12">
+            &nbsp;
+          </div>
+          <div class="col l4 m12 s12">
+            <mat-card class="userInvitationCard">
+              <div class="userInviteHeading">
+                <img class="userPhoto"
+                  src="{{ProfileImagePath}}" />
+                <!-- <a class="userEmailLink" href="mailto:{{userInviteDetailsEmailID}}"> -->
+              <p class="userEmailLink">{{personFName}} {{personLName}}</p>
+                <!-- </a> -->
+              </div>
+              <div class="userInviteContent">
+                <!-- <p class="userInviteContentLinks">
+                  <span class="iconSpan">
+                    <mat-icon class="flipKeyCss">person</mat-icon>
+                  </span>
+                  {{personFName}} {{personLName}}
+                </p> -->
+                <p class="userInviteContentLinks">
+                  <span class="iconSpan">
+                    <mat-icon class="flipKeyCss">email</mat-icon>
+                  </span>
+                  <a class="emailLink" href="mailto:{{userInviteDetailsEmailID}}">
+                    {{userInviteDetailsEmailID}}
+                  </a>
+                </p>
+                <p class="userInviteContentLinks">
+                  <span class="iconSpan">
+                    <mat-icon class="flipKeyCss">attribution</mat-icon>
+                  </span>
+                    {{UserType}}
+                </p>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--This div is for Show Access Section once clicked on ShowAccess Link in the Grid - Added by Naresh on Jan 29-2021-->
+</mat-card>
+</mat-drawer-container>

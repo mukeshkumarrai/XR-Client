@@ -1,0 +1,341 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: subJobCategory.component.html
+  @Who: Nitin Bhati
+  @When: 21-June-2021
+  @Why: EWM-1821
+  @What: For sub subjobCategory Grid
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+
+<mat-card-header class="page-header" id="sub-job-category-mat-card-header">
+    <mat-card-title>
+        <button mat-mini-fab class="mainAddButton"
+        matTooltip="{{'label_addsubJobCategory'|translate}}" 
+        matTooltipClass="custom-tooltip" color="primary" id="btnAdd" [routerLink]="['../manage-sub-job-category', {JobCategoryId:this.JobCategoryId}]"        [queryParams]="{viewModeData:viewMode}" *appHasPermission="['Add']"
+        (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+          <mat-icon id="{{animationVar?.CreateButton?.id}}"
+          class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+      </button>
+
+      <div class="sub-title">
+      <span>{{'label_subJobCategory' |translate}}</span><br>
+      <div class="breadCrumbStyle" id="maindiv">
+        <a mat-button class="breadcumContent" (click)="redirect()" id="btnBackForIndustry"
+          matTooltip="{{'label_administrators' | translate}}" matTooltipClass="custom-tooltip">
+          {{'label_administrators' | translate}}
+        </a>
+        <mat-icon fxFlex="5" class="arrowIcon">keyboard_arrow_right</mat-icon>
+    
+        <a mat-button class="breadcumContent" (click)="redirect()" id="btnBackForIndustry"
+          matTooltip="{{'label_Menumaster' | translate}}" matTooltipClass="custom-tooltip">
+          {{'label_Menumaster' | translate}}
+        </a>
+        <mat-icon fxFlex="5" class="arrowIcon">keyboard_arrow_right</mat-icon> 
+        
+        <a mat-button class="breadcumContent" [routerLink]="['../']" id="btnBackForJobCategory"
+        matTooltip="{{'label_jobCategory' | translate}}" matTooltipClass="custom-tooltip">
+        {{'label_jobCategory' | translate}} </a>
+    <mat-icon fxFlex="5" class="arrowIcon">keyboard_arrow_right</mat-icon>
+
+    <a mat-button class="breadcumContentopen" id="btnBackForExpertise"
+        matTooltip="{{'label_subJobCategory' | translate}} For({{jobcategoryName}})"
+        matTooltipClass="custom-tooltip">
+        <span class="label_breadcum">{{'label_subJobCategoryFor' | translate}} ({{jobcategoryName}}) </span>
+    </a>
+      </div>
+    </div>
+     
+    </mat-card-title>
+
+    <div class="header-action-button" id="sub-job-category-actionButton" *ngIf="formtitle=='grid'">
+
+      <div class="header-form">
+        <mat-form-field class="searchInput" floatLabel="never">
+          <mat-label>{{'label_search'|translate}}</mat-label>
+          <input matInput id="subjobCategory-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+              [(ngModel)]="searchVal">
+          <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+          <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" id="search-clear-button" (click)="onFilterClear()" (click)="searchVal=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+      </div>
+  
+      <div class="group-header-button">
+  
+        <!-- @When: 19-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+        <a mat-raised-button class="header-button" *ngIf="formtitle=='grid'" id="user-invitation-btnViewAudit"
+          [routerLink]="['/client/core/system-settings/system-audit-log/',auditParameter]"
+          matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+          <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+        </a>
+  
+       <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+       matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+       (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+       <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+          {{animationVar?.BarRotateButton?.iconName}}
+       </mat-icon>
+      </button>
+  
+        <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+          (click)="switchListMode('listMode')" id="subjobCategory-viewModeInActive"
+          matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+          <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+            class="{{animationVar?.ListButton?.isAnimClass}}">
+            {{animationVar?.ListButton?.iconName}}
+          </span>
+        </button>
+  
+        <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+          (click)="switchListMode('cardMode')" id="subjobCategory-viewModeActive"
+          matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+          <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+            class="{{animationVar?.GridButton?.isAnimClass}}">
+            {{animationVar?.GridButton?.iconName}} 
+          </span>
+        </button>
+  
+      </div>
+  </div>
+  </mat-card-header>
+
+<mat-drawer-container class="xeople-container-listing-with-breadCrumb" autosize id="sub-job-category-drawer">
+ <mat-card id="subjobCategory-card" class="component-card mat-elevation-z2">
+  <div class="list-container">        
+    <div class="row mb-0 sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+                <!-- <button mat-raised-button color="primary" [routerLink]="['../manage-sub-job-category', {idd: jobcategoryAutoId}]" [queryParams]="{viewModeData:viewMode}" id="btnAdd"
+                    class="buttonForDesktopMobile">
+                    <mat-icon>add</mat-icon>
+                    <span class="buttonTxt">{{'label_add' |translate}}</span>
+                </button> -->
+                 <!-- Anchor Tag on ADD and EDIT Button with right click by Piyush Singh -->
+               
+            <!-- Refresh button by Piyush Singh -->
+            
+         
+            <div class="row mb-0 listHeader sticky" id="listHeader" [class.hide]="isvisible">
+
+              <div class="col col-5 listActionBox">
+                  <strong>&nbsp;</strong>
+              </div>
+
+                <div class="col col-1" (click)="onSort('JobSubCategory')">
+                    <button mat-button [disableRipple]="true" id="subjobCategory-subName"> <strong>{{'label_SubJobCategory'|translate}}</strong>
+                        <mat-icon *ngIf="sortedcolumnName === 'JobSubCategory' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                        <mat-icon *ngIf="sortedcolumnName === 'JobSubCategory' && sortDirection === 'desc'">{{descIcon}}
+                        </mat-icon>
+                    </button>
+                </div>
+               <div class="col col-2" (click)="onSort('JobCategory')">
+                    <button mat-button [disableRipple]="true" id="subjobCategory-Name"><strong>{{'label_jobCategory'|translate}}
+                        </strong>
+                        <mat-icon *ngIf="sortedcolumnName === 'JobCategory' && sortDirection === 'asc'">{{ascIcon}}
+                        </mat-icon>
+                        <mat-icon *ngIf="sortedcolumnName === 'JobCategory' && sortDirection === 'desc'">{{descIcon}}
+                        </mat-icon>
+                    </button>
+                </div>
+              <div class="col col-3" (click)="onSort('RegionName')">
+                  <button mat-button [disableRipple]="true" id="subjobCategory-RegionName"><strong>{{'label_regionName'|translate}}
+                      </strong>
+                      <mat-icon *ngIf="sortedcolumnName === 'RegionName' && sortDirection === 'asc'">{{ascIcon}}
+                      </mat-icon>
+                      <mat-icon *ngIf="sortedcolumnName === 'RegionName' && sortDirection === 'desc'">{{descIcon}}
+                      </mat-icon>
+                  </button>
+              </div>
+              <div class="col col-4" (click)="onSort('StatusName')">
+                    <button mat-button [disableRipple]="true" id="subjobCategory-status"><strong>{{'label_status'|translate}}
+                        </strong>
+                        <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'asc'">{{ascIcon}}
+                        </mat-icon>
+                        <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'desc'">{{descIcon}}
+                        </mat-icon>
+                    </button>
+              </div>
+              
+            </div>
+    </div>
+            <div class="listCardView" id="listCardView"
+            [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']" *ngIf="formtitle=='grid'"  infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pageSize"
+            (scrolled)="onScrollDown()" [scrollWindow]="false">
+            <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+                <div class="row">
+                    <div *ngIf="loadingPopup" class="list"></div>
+                    <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView.length==0">
+                        <span>{{'label_noRecordAvailable'|translate}}</span>
+                    </div>
+                    <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+                        *ngFor="let jobCategoryData of gridView;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+  
+                        <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                            <mat-card-content class="listcardContent" [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+
+                 <!-- card mode Start-->
+                 <div [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+                    <div class="cardModeLine">
+                      <span class="spacer"></span>
+                      <!-- <span class="badge red">
+                        <strong>{{'label_status'|translate}}</strong> : {{(listDataList.IsBuiltIn=='1')?'Yes':'No'}}
+                      </span> -->
+                      <span class="badge red">
+                        <strong>{{'label_status'|translate}}</strong> :
+                        {{jobCategoryData.StatusName}}
+                      </span>
+                    </div>
+                    <div class="row mb-5 mt-15">
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_SubJobCategory'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="code" matTooltip="{{ jobCategoryData.JobSubCategory }}"
+                        matTooltipClass="custom-tooltip">
+                            <span class="cardListTxt word-wrap" >
+                            {{ jobCategoryData.JobSubCategory}}
+                        </span>
+                       </div>
+                      </div>
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_jobCategory'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" matTooltip="{{ jobCategoryData.JobCategory  }}"
+                        matTooltipClass="custom-tooltip">
+                            <span class="cardListTxt word-wrap" > 
+                            {{jobCategoryData.JobCategory}}
+                           </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-5 mt-15">
+                        <div class="col l6 m6 s12">
+                          <div class="col card-header">
+                            <strong>{{'label_regionName'|translate}}</strong>
+                          </div>
+                          <div class="col card-data" id="code">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ jobCategoryData.RegionName  }}"
+                            matTooltipClass="custom-tooltip"> 
+                            {{jobCategoryData.RegionName}}</span>
+                         </div>
+                        </div>
+                        
+                      </div>
+                  
+                    <div class="go-corner">
+                       
+                        <!-- <button mat-icon-button color="primary" [routerLink]="['../manage-sub-job-category', {id: jobCategoryData.Id}]" [queryParams]="{viewModeData:viewMode}"
+                        id="btnEdit" matTooltipClass="custom-tooltip"
+                        matTooltip="{{'label_edit'|translate}}" *ngIf="jobCategoryData.IsBuiltIn=='0'">
+                        <mat-icon>edit</mat-icon>
+                    </button> -->
+                     <!-- Anchor Tag on ADD and EDIT Button with right click by Piyush Singh -->
+                     <ng-container>
+                        <button mat-icon-button color="primary" [disabled]="!jobCategoryData.IsBuiltIn=='0'" [routerLink]="['../manage-sub-job-category', {id: jobCategoryData.Id}]" [queryParams]="{viewModeData:viewMode}"
+                        id="btnEdit" matTooltipClass="custom-tooltip"
+                        matTooltip="{{'label_edit'|translate}}" *appHasPermission="['Edit']">
+                        <mat-icon>edit</mat-icon>
+                </button>
+                    <button mat-icon-button color="warn" [disabled]="!jobCategoryData.IsBuiltIn=='0'" id="btnDelete"  (click)=deleteSubJobCategoryInfo(jobCategoryData.Id,i) matTooltipClass="custom-tooltip"
+                        matTooltip="{{'label_delete'|translate}}" *appHasPermission="['Delete']"   >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                     </ng-container>
+                    
+                    </div>
+                  </div>
+                  <!-- card mode End-->
+  
+  
+            <!-- list data start-->
+                             
+            <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+
+
+                <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-5']">
+
+                    <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+
+                    <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                    <!-- <button mat-icon-button color="primary"  id="btnEditList" [routerLink]="['../manage-sub-job-category', {id: jobCategoryData.Id}]" [queryParams]="{viewModeData:viewMode}"
+                     matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}" *ngIf="jobCategoryData.IsBuiltIn=='0'">
+                     <mat-icon>edit</mat-icon>
+                   </button> -->
+                    <!-- Anchor Tag on ADD and EDIT Button with right click by Piyush Singh -->
+                    <ng-container>
+                     <button mat-menu-item  id="btnEditList" [disabled]="!jobCategoryData.IsBuiltIn=='0'" [routerLink]="['../manage-sub-job-category', {id: jobCategoryData.Id}]" [queryParams]="{viewModeData:viewMode}"
+                     *appHasPermission="['Edit']"  >
+                     <mat-icon>edit</mat-icon>
+                     {{'label_edit'|translate}}
+                    </button>
+                   <button mat-menu-item id="btnDeleteList" [disabled]="!jobCategoryData.IsBuiltIn=='0'" (click)=deleteSubJobCategoryInfo(jobCategoryData.Id,i)
+                     *appHasPermission="['Delete']"  >
+                     <mat-icon>delete</mat-icon>
+                     {{'label_delete'|translate}}
+                   </button>
+                    </ng-container>
+                    </mat-menu>
+
+                   
+                 </div>
+
+                               
+                               <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                                        <span class="cardListTxt word-wrap" matTooltip="{{ jobCategoryData.JobSubCategory }}"
+                                            matTooltipClass="custom-tooltip">
+                                            {{ jobCategoryData.JobSubCategory}}
+                                        </span>
+                                    </div>
+
+                                  
+                                    <div class="col cursor"  [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                                        <span class="cardListTxt word-wrap" matTooltip="{{ jobCategoryData.JobCategory  }}"
+                                            matTooltipClass="custom-tooltip"> 
+                                            {{jobCategoryData.JobCategory}}
+                                           </span>
+                                    </div>
+
+                                
+                                    <div class="col cursor"  [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                                        <span class="cardListTxt word-wrap" matTooltip="{{ jobCategoryData.RegionName  }}"
+                                            matTooltipClass="custom-tooltip"> 
+                                            {{jobCategoryData.RegionName}}</span>
+                                      </div>
+
+                                
+                                    <div class="col cursor"   [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-4']">
+                                        <span class="cardListTxt word-wrap" matTooltip="{{jobCategoryData.StatusName}}"
+                                            matTooltipClass="custom-tooltip">
+                                            {{jobCategoryData.StatusName}}</span>
+                                   </div>
+
+                                
+                                  
+                                </div>
+                            </mat-card-content>
+                           
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div> 
+      </div>
+  </mat-card>
+</mat-drawer-container>

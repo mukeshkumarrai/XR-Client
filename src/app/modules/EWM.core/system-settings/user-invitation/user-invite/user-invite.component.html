@@ -1,0 +1,123 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Priti Srivastava
+    @When: 2-june-2021
+    @Why: EWM-1640
+    @What:  This page wil be use only for the user invite
+  
+-->
+
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="user-invite-mat-card-header">
+      <mat-card-title class="only-title">{{'label_userInvitation' |translate}}</mat-card-title>
+      <div class="actionButton" >
+        <button mat-raised-button class="buttonForDesktopMobile" color="warn" (click)="onCancel()"
+          id="userInvitaion-btnBack">
+          <mat-icon>close</mat-icon>
+          <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+        </button>
+        <!-- who:maneesh,what:ewm-14781 fixed save btn loader,when:17/10/2023 -->
+        <button mat-raised-button class="buttonForDesktopMobile" color="primary"
+          (click)="onSave(this.UserInviteForm.value)" type="button" id="userInvitaion-btnSave"
+          [disabled]="!UserInviteForm.valid || isResponseGet">
+          <mat-icon>check</mat-icon>
+          <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_btnInviteUser'|translate}}</span>
+          <div *ngIf="isResponseGet" id="loading"></div>
+        </button>
+      </div>
+      
+    </mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="user-invite-drawer">
+  <mat-card id="userInvite" class="component-card mat-elevation-z2">
+    <div class="addEditSec" >
+        <form novalidate [formGroup]="UserInviteForm">
+          <h2 class="cardSubTitle pl-15 pr-15" id="userinvitation-cardSubTitle" >{{'label_InviteUser' |translate}}</h2>
+          <div class="row">
+            <div class="col l4 m6 s12">
+              <div class="ng-slectBox">
+                <ng-select tabindex="6" formControlName="ddlUtype" class="show-required" id="userinvitation-ddlUserType" required [clearable]="true"
+                  placeholder="{{'label_ddlUserType' |translate}}" >
+                  <!--<ng-option [value]="">{{ 'label_SelectUserType' |translate}}</ng-option>-->
+                  <ng-option *ngFor="let userType of userTypes" [value]="userType.InternalCode">
+                    {{userType.InternalName}}</ng-option>
+                </ng-select>
+                <mat-error
+                  *ngIf="this.UserInviteForm.controls['ddlUtype'].hasError('required') && UserInviteForm.controls['ddlUtype'].touched">
+                  {{ 'label_ddlUserType' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col l4 m6 s12">
+              <div class="ng-slectBox">
+                <ng-select tabindex="7" formControlName="ddlAccessLevel" class="show-required" id="userinvitation-ddlAccessLevel" required [clearable]="true"
+                  placeholder="{{'label_ddlAccessLevel' |translate}}">
+                  <!--<ng-option [value]="">{{ 'label_SelectAccessLevel' |translate}}</ng-option>-->
+                  <ng-option *ngFor="let accessLevel of accessLevels" [value]="accessLevel.Id">
+                    {{accessLevel.Name}}</ng-option>
+                </ng-select>
+                <mat-error
+                  *ngIf="this.UserInviteForm.controls['ddlAccessLevel'].hasError('required') && UserInviteForm.controls['ddlAccessLevel'].touched">
+                  {{ 'label_ddlAccessLevel' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col l4 m6 s12">
+              <div class="ng-slectBox">
+                <ng-select tabindex="8" formControlName="ddlRoles" class="show-required" id="userinvitation-ddlRole" required [clearable]="true"
+                  placeholder="{{'label_ddlRole' |translate}}" >
+                  <!--<ng-option value="">{{ 'label_SelectRole' |translate}}</ng-option>-->
+                  <ng-option *ngFor="let userRole of userRoles" [value]="userRole.RoleCode">{{userRole.Name}}
+                  </ng-option>
+                </ng-select>
+                <mat-error
+                  *ngIf="this.UserInviteForm.controls['ddlRoles'].hasError('required') && UserInviteForm.controls['ddlRoles'].touched">
+                  {{ 'label_ddlRole' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+              </div>  
+            </div>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col l11 m11 s12">
+              <mat-label>{{'label_emailAddress' |translate}} <span class="required-show">*</span></mat-label>
+              <mat-chip-list #chipList aria-label="Enter User Email" tabindex="9" formControlName="eMails">
+                <mat-chip tabindex="10" [color]="(item.invalid) ? 'warn' : ''" selected
+                  *ngFor="let item of emailList; let i=index" [selectable]="true" [removable]="removable"
+                  (removed)="removeEmail(item)" required name="User Emails" id="userInvitaion-emailAddress">
+                  {{item.value}}
+                  <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+             <!-- who:maneesh,what:ewm-11449 (click)="getUserContactInfo()" for open popup click on input field,when:17/05/2023 -->
+             <input tabindex="11" [readonly]="true" placeholder="User Email Address..." [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+             (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto" (click)="getUserContactInfo()">
+              </mat-chip-list>
+              <mat-autocomplete #auto="matAutocomplete">
+              </mat-autocomplete>
+              <mat-error *ngIf="this.UserInviteForm.controls['eMails'].hasError('required')">
+                {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+              </mat-error>
+              <mat-error *ngIf="this.UserInviteForm.controls['eMails'].hasError('incorrectEmail')">
+                {{ 'label_emailIncorrect' |translate}}
+              </mat-error>
+            </mat-form-field>
+            
+            <button id="userInvitaion-btnAdd" mat-raised-button class="matSuffix-icon mgBottom5" color="primary" type="button" (click)="getUserContactInfo()">
+              <mat-icon>add</mat-icon></button>
+          </div>
+
+          <div class="row">
+            <mat-slide-toggle class="col l4 m6 s12 maxWidth155" id="site-access" [checked]="true" (change)="setSiteAccess($event)"
+              color="primary">
+              {{'label_siteAccess' |translate}}
+            </mat-slide-toggle>
+          </div>
+        </form>
+      </div>
+  </mat-card>
+</mat-drawer-container>

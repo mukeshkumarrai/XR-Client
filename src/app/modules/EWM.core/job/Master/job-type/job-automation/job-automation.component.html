@@ -1,0 +1,142 @@
+<div *ngIf="loadingGet" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<mat-card-header class="page-header" id="job-automation-mat-card-header">
+    <mat-card-title>
+        <div class="sub-title">
+            <span>{{'Job Automation' |translate}}</span><br>
+            <app-breadcrumb [pageLabel]="pageLabel" class="bread-crumb"></app-breadcrumb>
+        </div>
+    </mat-card-title>
+    <div class="header-action-button" id="job-automation-actionButton">
+        <div class="group-header-button">
+            <a mat-raised-button class="header-button" id="user-invitation-btnViewAudit"
+                [routerLink]="['../../system-settings/system-audit-log/',auditParameter]"
+                matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}"
+                matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+            </a>
+            <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+                matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip"
+                matTooltipPosition="before"
+                (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                <mat-icon id="{{animationVar?.BarRotateButton?.id}}"
+                    class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+                    {{animationVar?.BarRotateButton?.iconName}}
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-card-header>
+<mat-drawer-container class="xeople-container-listing-with-breadCrumb job-automation-container" autosize id="job-automationr">
+    <mat-card class="component-card mat-elevation-z2 p-0 job-mat-card" id="component-card">
+        <mat-tab-group class="job-automation-tab">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    {{'label_jobAutomation_JobAction'|translate}}
+                </ng-template>
+                <div class="job-automation-sec">
+                    <p>Configure job actions to streamline possible actions corresponding to job application stages.</p>
+                    <div class="job-automation-configure" id="job-automation-configure">
+                        <div class="job-automation-configure-header" id="job-automation-configure-header">
+                            <div>{{'label_jobAutomation_JobAction'|translate}}</div>
+                            <div>{{'label_jobAutomation_JobActionPurpose'|translate}}</div>
+                            <div>{{'label_jobAutomation_JobActionCustomiseName'|translate}}</div>
+                            <div>{{'label_jobAutomation_ShowHide'|translate}}</div>
+                            <div class="map-job-workflow-stage">
+                                {{'label_jobAutomation_MapWorkflow'|translate}}
+                                <small>{{'label_jobAutomation_MapworkflowExample'|translate}}</small>
+                            </div>
+                        </div>
+                        <div class="job-automation-configure-body" id="job-automation-configure-body" cdkDropList
+                        cdkDropListOrientation="vertical"
+                        (cdkDropListDropped)="drop($event)">
+                            <div class="job-automation-configure-box" id="job-automation-configure-box" *ngFor="let data of gridView; let i = index;" [cdkDragDisabled]="data?.TabStatus===2?'true':'false'"
+                            [ngClass]="data?.TabStatus===2 ? 'selected' : 'notSelected'" (cdkDragStarted)="dragStart($event,stageData.StageDisplaySeq,can)" (cdkDragMoved)="onDragMoved($event)" cdkDrag>
+                            <div class="job-automation-box-placeholder" *cdkDragPlaceholder></div>
+                              <div class="job-automation-box-preview" *cdkDragPreview [cdkDragData]="can">
+                                <div class="move-button">
+                                    <button mat-icon-button color="primary" type="button" cdkDragHandle [cdkDragDisabled]="data?.TabStatus===2?'true':'false'" *ngIf="data?.TabStatus=='1'"><mat-icon svgIcon="drag_indicator"></mat-icon></button>
+                                    <div class="default-name">
+                                        <span>{{data.TabName}}</span>
+                                        <p *ngIf="data?.TabName=='Notes'">{{'label_default' | translate}}</p>
+                                    </div>
+                                </div>
+                                <div> {{data?.TabPurpose}}</div>
+                                    <div class="tab-name">
+                                        <ng-container *ngIf="data?.IsSelected===1">
+                                            <span class="value">{{data.TabDisplayName}}</span>
+                                            <button mat-raised-button color="primary" *ngIf="data?.TabStatus=='1'" class="btn-edit-displayname" (click)="viewTabDispalyName(data,data?.Id,i)">
+                                                <mat-icon svgIcon="edit"></mat-icon></button>
+                                        </ng-container>
+                                        <mat-form-field appearance="outline" floatLabel="never" *ngIf="data?.IsSelected===0 && i===indexId ">
+                                            <input matInput (input)="onEditCustomiseName($event.target.value,data,i)" value="{{data?.TabDisplayName}}" id="TabDisplayNameId" appAlphabetOnly>
+                                            <button mat-raised-button [disabled]="isDuplicates=='1' || isMaxlength=='1'|| emptyValue" color="primary" matSuffix (click)="OnEditClick(data,i)">
+                                                <mat-icon svgIcon="check"></mat-icon>
+                                            </button>
+                                        </mat-form-field>      
+                                         <!-- by maneesh what:ewm-17636 when:19/07/2024 -->
+                                         <mat-hint *ngIf="emptyValue && i===indexId && data?.IsSelected===0">{{'Job_atomation_NoSpecialCharecter'|translate}}</mat-hint>
+                                         <mat-hint *ngIf="isDuplicates===1 && i===indexId && data?.IsSelected===0">{{'label_jobAutomation_NameAlreadyExist'|translate}}</mat-hint>
+                                         <mat-hint *ngIf="isMaxlength===1 && i===indexId && data?.IsSelected===0">{{'label_jobAutomation_NameMaximumLimit'|translate}}</mat-hint>                                  
+                                    </div>
+                               <div><mat-slide-toggle color="primary" [disabled]="data?.TabStatus=='2'|| data?.TabName=='Notes'" [checked]="data?.IsTabShow===1?'true':'false'" (change)="updateJobActionToggle($event,data)"></mat-slide-toggle></div>
+                                <div>
+                                    <mat-chip-list>
+                                        <mat-chip [disabled]="data?.TabStatus=='2'|| data?.TabName=='Notes'" [selected]="stage?.IsSelected===1?'true':'false'" *ngFor="let stage of data.StageType; let j = index;" (click)="updateStageTypeMapping(stage,data?.Id,data?.TabName,i,j,data?.TabStatus)">
+                                            <mat-icon svgIcon="check"></mat-icon>
+                                               {{stage?.StageTypeName}}
+                                        </mat-chip>
+                                    </mat-chip-list>
+                                </div>
+                            </div>
+
+                            <div class="move-button">
+                                <button mat-icon-button color="primary" type="button" cdkDragHandle *ngIf="data?.TabStatus=='1'"><mat-icon svgIcon="drag_indicator"></mat-icon></button>
+                                <div class="default-name">
+                                    <span>{{data.TabName}}</span>
+                                    <p *ngIf="data?.TabName=='Notes'">{{'label_default' | translate}}</p>
+                                </div>
+                            </div>
+                            <div class="tab-purpose"> {{data?.TabPurpose}}</div>
+                                <div class="tab-name">
+                                    <ng-container *ngIf="data?.IsSelected===1">
+                                        <span class="value" (click)="viewTabDispalyName(data,data?.Id,i)">{{data.TabDisplayName}}</span>
+                                        <button mat-raised-button color="primary" class="btn-edit-displayname" (click)="viewTabDispalyName(data,data?.Id,i)">
+                                            <mat-icon svgIcon="edit"></mat-icon></button>
+                                    </ng-container>
+                                    <mat-form-field appearance="outline" floatLabel="never" *ngIf="data?.IsSelected===0 && i===indexId ">
+                                        <input matInput (input)="onEditCustomiseName($event.target.value,data,i)" value="{{data?.TabDisplayName}}" id="TabDisplayNameId" appAlphabetOnly>
+                                        <button mat-raised-button [disabled]="isDuplicates=='1' || isMaxlength=='1'|| emptyValue" color="primary" matSuffix (click)="OnEditClick(data,i)">
+                                            <mat-icon svgIcon="check"></mat-icon>
+                                        </button> 
+                                    </mat-form-field>  
+                                      <!-- by maneesh what:ewm-17636 when:19/07/2024 -->
+                                      <mat-hint *ngIf="emptyValue && i===indexId && data?.IsSelected===0">{{'Job_atomation_NoSpecialCharecter'|translate}}</mat-hint>
+                                      <mat-hint *ngIf="isDuplicates===1 && i===indexId && data?.IsSelected===0">{{'label_jobAutomation_NameAlreadyExist'|translate}}</mat-hint>
+                                      <mat-hint *ngIf="isMaxlength===1 && i===indexId && data?.IsSelected===0">{{'label_jobAutomation_NameMaximumLimit'|translate}}</mat-hint>                                     
+                                </div>
+                            <div><mat-slide-toggle color="primary" [disabled]="data?.TabStatus=='2'|| data?.TabName=='Notes'" [checked]="data?.IsTabShow===1?'true':'false'" (change)="updateJobActionToggle($event,data,i)"></mat-slide-toggle></div>
+                            <div>
+                                <mat-chip-list>
+                                    <mat-chip [disabled]="data?.TabStatus=='2'|| data?.TabName=='Notes'" [selected]="stage?.IsSelected===1?'true':'false'" *ngFor="let stage of data?.StageType; let j = index;" (click)="updateStageTypeMapping(stage,data?.Id,data?.TabName,i,j,data?.TabStatus,data)">
+                                        <mat-icon svgIcon="check"></mat-icon>
+                                            {{stage?.StageTypeName}}
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab disabled>
+                <ng-template mat-tab-label>
+                    Progress Reminders
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card>
+</mat-drawer-container>

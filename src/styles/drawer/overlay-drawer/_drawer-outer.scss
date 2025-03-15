@@ -1,0 +1,91 @@
+@use "../../../colors";
+.overlay-drawer-container{
+  z-index: 9999;
+  position: fixed;
+  .mat-drawer-backdrop{
+    position: fixed;
+  }
+  .overlay-drawer{
+    width: 100%;
+    background: transparent;
+    height: 100%;
+    box-shadow: none;
+    max-width: 1180px;
+    position: fixed;
+    .mat-drawer-inner-container{
+      overflow: hidden;
+      .closePanel{
+        width: 40px;
+        position: absolute;
+        height: 100%;
+        top: 0px;
+        background-color: transparent;
+        .closeDrawerIcon{
+          min-width: 40px;
+          background: colors.$white-bg;
+          padding: 0px;
+          border-radius: 4px 0px 0px 0px;    
+          border: none;
+          box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 0px 1px, rgb(209, 213, 219, 0.5) 0px 0px 0px 1px inset;
+          .mat-icon{
+            color: rgba(0, 0, 0, 0.87);
+          }
+        }
+        .sidebarSectionName{
+          transform: rotate(270deg);
+          background: colors.$primary-bg-color;
+          color: colors.$primary-txt-color;
+          padding: 2px 10px;
+          border-radius: 4px 0px 0px 0px;    
+          box-shadow: none;   
+          text-align: left;     
+          margin-inline-start: 8px;
+          &::after{
+            background: transparent;
+          }
+        }
+        .candidate-summary-btn{
+          left: -83px;
+          top: 75px;
+          width: 190px;
+        }
+        .client-detail-btn{
+          left: -68px;
+          top: 60px;
+          width: 160px;
+        }
+      }
+      .view-profile-summary{
+        height: 100%;
+        width: calc(100% - 40px);
+        margin-left: 40px;
+        background: colors.$white-bg;
+        position: relative;
+      }
+    }
+  }
+  .overlay-drawer.overlay-md-drawer{
+    max-width: 850px;
+    .mat-drawer-inner-container{
+      .closePanel{
+        .overlay-md-btn{
+          left: -59px;
+          top: 50px;
+          width: 142px;
+        }
+      }
+    }
+  }
+  .overlay-drawer.overlay-sm-drawer{
+    max-width: 750px;
+    .mat-drawer-inner-container{
+      .closePanel{
+        .overlay-sm-btn{
+          left: -68px;
+          top: 60px;
+          width: 160px;
+        }
+      }
+    }
+  }
+}

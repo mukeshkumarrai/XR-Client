@@ -1,0 +1,40 @@
+<small class="small-size">
+    <strong *ngIf="selectedValue=='1'">{{'label_joborderClient'|translate}}</strong>
+    <strong *ngIf="selectedValue=='2'">{{'label_joborderMember'|translate}}</strong>
+    <strong *ngIf="selectedValue=='3'">{{'label_joborderJob'|translate}}</strong><span class="mat-button-wrapper">
+      <img  src="../../../../assets/brand/eoh-logo.png"> </span>
+  <div class="candidate-overview">
+  <div class="radio-with-label eoh-with-label">
+    <!-- <small>{{'pushCandidateToEoh_radioLabel'| customTranslate}}</small> -->
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedValue" (change)="onSelectionChange($event)">
+      <mat-button-toggle  *ngIf="this.ClientIdEOH==''" value="1"><mat-icon *ngIf="firstValue">done</mat-icon>{{'label_ShareJobClient'|customTranslate}}</mat-button-toggle>
+      <mat-button-toggle *ngIf="this.MemberIdEOH==''" value="2"><mat-icon *ngIf="secondValue">done</mat-icon>{{'label_ShareJobAssignMember'|translate}}</mat-button-toggle>
+      <mat-button-toggle value="3"><mat-icon *ngIf="thirdValue">done</mat-icon>{{'label_ShareJobOrder'|translate}}</mat-button-toggle>
+    </mat-button-toggle-group>
+    
+</div>
+<!-- <div class="great-text"><mat-icon svgIcon="great"></mat-icon> <p>{{'label_screeningAction_EOHHeading'|translate}}</p></div> -->
+
+<div class="tab-container candidate-tab-container member-tab-container share-tab" *ngIf="secondValue">
+<mat-tab-group [selectedIndex]="selectedTabIndex" (selectedTabChange)="tabClick($event)">
+  <mat-tab label="{{ 'label_screeningAction_CandidateProfile' | customTranslate }}">
+   <small class="small-size-inner">{{'pushCandidateToEoh_popupSubTitle1'|translate}} <strong>{{candidateInfo['candidateName']}}</strong> {{'label_asMember'|translate}} {{'pushCandidateToEoh_member'|translate}}.
+    {{'label_shareJobMember'|translate}}
+   </small>
+    <app-push-candidate-to-eoh (onBackBtn)="backBtnMove($event)" (NextEmitOut)="nextTabMoveMember($event)" [IsOpenFor]="IsOpenForNormal"></app-push-candidate-to-eoh>
+  </mat-tab>
+  <mat-tab label="{{ 'label_Notes' | customTranslate }}">
+    <app-screening-notes (NextEmitOut)="nextTabMoveMember($event)" [memberStatus]="selectedMemberStatus"></app-screening-notes>
+  </mat-tab>
+  <mat-tab label="{{ 'label_EmploymentStatus' | customTranslate }}">
+    <app-employment-status (NextEmitOut)="nextTabMoveMember($event)" [stageType]="stageType" [lastActivity]="lastActivity"></app-employment-status>
+  </mat-tab>
+  <mat-tab label="{{ 'label_screeningAction_ReviewFinalSummary' | customTranslate }}">
+    <app-review-final-summary [memberStatus]="selectedMemberStatus" (onSubmitMember)="nextTabMove($event)"></app-review-final-summary>
+  </mat-tab>
+</mat-tab-group>
+</div>
+<app-share-client-eoh [ClientName]="ClientName" [hideHeader]="true" (onClientSubmit)="nextTabMove($event)" *ngIf="firstValue"></app-share-client-eoh>
+<app-job-order *ngIf="thirdValue" (onBackBtn)="backBtnMove($event)" [assignMember]= "candidateInfo['candidateName']"></app-job-order>
+
+</div>

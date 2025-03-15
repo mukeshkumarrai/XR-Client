@@ -1,0 +1,54 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 16-Sep-2021
+    @Why: EWM-2861
+    @What:  This component is used for manage access templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<form [formGroup]="addForm" id="manageAccessId" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_clientvisibilty'|translate}} {{clientName}} {{FolderName}}</h2>      
+        <button mat-icon-button  id="btnclosemap" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content class="access-mat-dialog-content">
+        <mat-radio-group class="mb-15 d-block" formControlName="AccessId" id="AccessId" tabindex>
+            <mat-radio-button *ngFor="let accessData of clientAccessModeList"
+                [checked]="accessData.Id==selectedAccessModeId" (click)="clickAccessData(accessData)"
+                color="primary" [value]=accessData.Id class="pl-0 pb-0">
+                {{accessData.Name}}</mat-radio-button>
+        </mat-radio-group>
+
+        <!-- <mat-label class="toggle-label mb-10 d-block">{{'label_share_droplist' | translate }}</mat-label>
+        <mat-slide-toggle formControlName="PermissionNameView" id="PermissionNameViewId" tabindex
+            color="primary" disabled>{{'label_PermissionView' | translate}}
+        </mat-slide-toggle>
+        <mat-slide-toggle class="ml-10" formControlName="PermissionNameEdit" id="PermissionNameEditId" tabindex
+            color="primary">{{'label_share_edit' | translate}}
+        </mat-slide-toggle> -->
+        
+        <p *ngIf="divprotected">
+            {{'label_client_protected' | translate}}               
+        </p>
+        <p  *ngIf="divprivate">
+            {{'label_client_private' | translate}}   
+        </p>
+        <p  *ngIf="divpublic">
+            {{'label_client_public' | translate}} 
+        </p>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid"
+            (click)="onSave(this.addForm.value)" id="btnSave" cdkFocusInitial> {{'label_GrantAccess'|translate}}</button>
+            <!--@when:28-oct-2021;@who:Priti Srivastava;@why: EWM-3471 @What:add if condition-->
+        <!--<button mat-stroked-button color="warn" *ngIf="divStatus" tabindex type="button" (click)="openRemoveAccessModal()"
+            id="btnRemoveAccessId">{{'label_RemoveAccess'|translate}}</button>-->
+    </div>
+</form>

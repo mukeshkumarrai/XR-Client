@@ -1,0 +1,58 @@
+<!--@When: 21-05-2024 @who:Amit @why: EWM-17154 @what: candidate screening create-->
+<div class="candidate-screen-header pb-0">
+    <div class="connected-data">
+        <p>{{'label_screeningAction_IntegrationStatus'|translate}} :
+            <ng-container *ngIf="(EOHIntegrationObj?.candExtractEnable == 1) && (IsEOHIntergrated); then connectedTemp; else notConnectedTemp"> </ng-container>
+            <ng-template #connectedTemp> <span >{{'label_EOHConnected'|translate}}</span>
+        </ng-template>
+        <ng-template #notConnectedTemp> <span class="red-bg">{{'label_emailDisconnected'|translate}}</span>
+        </ng-template>
+        </p>
+        <p *ngIf="!(EOHIntegrationObj?.candExtractEnable == 1) || (!IsEOHIntergrated)">
+            <a  class="push-candidate-icon-button" mat-button
+        id="pushEOH_redirectPush1" (click)="redirectOnMarketPlace()">
+          <div class="groups">
+              <div class="list-view-name" *ngIf="!IsEOHIntergrated">
+                  <div class="text-label">{{'label_screeningAction_clickHereIntegrate'|translate}}</div>
+              </div>
+              <div class="list-view-name" *ngIf="IsEOHIntergrated">
+                <div class="text-label">{{'label_screeningAction_clickHereSubscribe'|translate}}</div>
+            </div>
+          </div>
+      </a>
+    </p>
+    </div>
+</div>
+<div class="candidate-screening-action">
+    <app-pushcandidate-to-eoh-from-popup [candidateScreening]="candidateScreening"></app-pushcandidate-to-eoh-from-popup>
+</div>
+<!-- <div class="radio-with-label">
+    <small>{{'pushCandidateToEoh_radioLabel'|translate}}</small>
+    <mat-radio-group [(ngModel)]="selectedValue" (change)="onSelectionChange($event)">
+        <mat-radio-button value="1" color="primary">{{'pushCandidateToEoh_applicant'|translate}}
+        </mat-radio-button>
+        <mat-radio-button value="2" color="primary">{{'pushCandidateToEoh_member'|translate}}
+        </mat-radio-button>
+    </mat-radio-group>
+</div>
+<p class="orange-text mt-5 mb-15">{{'label_screeningAction_EOHHeading'|translate}}</p>
+
+<div class="tab-container candidate-tab-container pt-5">
+    <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedTabChange)="tabClick($event)">
+        <mat-tab label="{{'label_screeningAction_CandidateProfile'|translate}}"> 
+         <app-push-candidate-to-eoh (NextEmitOut)="nextTabMove($event)"></app-push-candidate-to-eoh> 
+        </mat-tab>
+        <mat-tab label="{{'label_screeningAction'|translate}}" *ngIf="!selectedMemberStatus"> 
+            <app-screening-action (NextEmitOut)="nextTabMove($event)"></app-screening-action>
+        </mat-tab>
+        <mat-tab label="{{'label_Notes'|translate}}">
+            <app-screening-notes (NextEmitOut)="nextTabMove($event)" [memberStatus]="selectedMemberStatus"></app-screening-notes>
+        </mat-tab>
+        <mat-tab label="{{'label_EmploymentStatus'|translate}}" *ngIf="selectedMemberStatus"> 
+            <app-employment-status (NextEmitOut)="nextTabMove($event)"></app-employment-status>
+        </mat-tab>
+        <mat-tab label="{{'label_screeningAction_ReviewFinalSummary'|translate}}">
+        <app-review-final-summary [memberStatus]="selectedMemberStatus"></app-review-final-summary>
+        </mat-tab>
+    </mat-tab-group>
+</div> -->

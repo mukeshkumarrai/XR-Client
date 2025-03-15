@@ -1,0 +1,84 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 26-Nov-2021
+    @Why: EWM-3700 EWM-3918
+    @What:  This component is used for Quick add contact related to.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<form id="addContactRelatedToId" applyTabIndexes>
+  <mat-dialog-content style="height: calc(65vh - 28px); overflow: hidden;">
+    <div class="sticky">
+      <div class="searchGreyBgBox">
+        <mat-form-field class="searchInput" floatLabel="never">
+          <mat-label>{{'label_search'|translate}}</mat-label>
+          <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)"
+            placeholder="{{'label_search'|translate}}" [(ngModel)]="searchVal" [ngModelOptions]="{standalone: true}">
+          <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+          <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+            (click)="searchVal=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+        </mat-form-field>
+        <div class="button-with-clear">
+          <button mat-stroked-button color="primary" class="more-filter"
+            [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" (click)="openFilterModalDialog()"
+            matTooltip="{{'label_filters'|translate}}" matTooltipClass="custom-tooltip">
+            <mat-icon fontSet="material-icons-outlined">filter_alt</mat-icon>
+          </button>
+          <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData()">
+            <span class="text-overflow filterCount">{{filterCount}}</span>
+            <button mat-icon-button color="warn">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nodata" *ngIf="this.gridListData==undefined ||this.gridListData.length==0">
+      <span>{{'label_noRecordAvailable'|translate}}</span>
+    </div>
+    <div class="candidate-job-maped-data" infinite-scroll [infiniteScrollDistance]="3"
+    [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" [scrollWindow]="false">
+      <mat-card class="candidateJobBox mat-elevation-z2" *ngFor="let data of gridListData">
+        <div class="candidate-card">
+          <div class="minHeightTxtBox">
+            <span class="txtValueStyle">{{data?.ClientName}}</span>
+            <span class="txtValueStyle">{{data?.City}}</span>
+            <span class="txtValueStyle">{{data?.StateName}}</span>
+          </div>
+          <div class="">
+            <div class="shortName">
+              <span>{{sortName(data?.ClientName)}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="addToJobBtnBox" [ngClass]="data.IsSelected==0 ?'':'boxShadowSelected'">
+          <button mat-icon-button color="primary" (click)="goToClientDetails(data.ClientId)">
+            <mat-icon>info_outline</mat-icon>
+          </button>
+          <button mat-raised-button [ngClass]="data.IsSelected==0 ?'selectBtn':'selectBtn connectedBtn'" color="primary"
+            tabindex="3" id="addContactRelatedToBtn" (click)="clickevent(data)">
+
+            <span class="buttonTxt" *ngIf="data.IsSelected==0">{{'label_addedToJob'|translate}}</span>
+            <span class="buttonTxt" *ngIf="data.IsSelected==1">{{'label_removeToJob'|translate}}</span>
+          </button>
+        </div>
+      </mat-card>
+    </div>
+    <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+      {{'button_cancel'|translate}}</button>
+
+    <button mat-stroked-button color="primary" tabindex type="button" (click)="onSave()" [disabled]="saveStatus"
+      id="btnSave"> {{'label_save'|translate}}</button>
+  </div>
+</form>

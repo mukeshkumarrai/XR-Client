@@ -1,0 +1,42 @@
+<!-- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: welcome.component.html
+    @Who: Nitin Bhati
+    @When: 20-July-2021
+    @Why: EWM-2139
+    @What: There are all HTML welcome components 
+-->
+<!-- <div class="k-i-loading login-overlay"></div> -->
+
+<mat-dialog-content class="welcomeModalStyle">
+    <span (click)="onNoClick()" class="material-icons closeIcon">
+        close
+    </span>
+    <div class="midSection">
+        <video src="/assets/welcome.mp4" width="100%" autoplay type="video/mp4"></video>
+        <div>
+            <h6 class="h6Txt">{{'label_welcomebanjour' |translate}}</h6>
+        <p class="paraTxt">{{'label_welcomeEWM' |translate}}</p>
+        <p class="paraTxt">{{'label_welcomequickly' |translate}}</p>
+        <p class="paraTxt mgTop20">
+            <button mat-raised-button tabindex="1" color="primary" type="button" id="btnSave">
+                <span class="buttonTxt">{{'label_welcomequickTour'|translate}}</span>
+            </button>
+        </p>
+        </div>        
+    </div>
+    <form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data' class="col" style="display: flex; justify-content: flex-end;">
+        <div class="custom-checkbox customCheckboxPos">
+            <label class="custom-control overflow-checkbox" (change)="changed($event)" >
+              <input type="checkbox" formControlName="QuickTourValue" tabindex="2" class="overflow-control-input" checked>
+              <span class="overflow-control-indicator"></span>
+              <span class="overflow-control-description">{{'label_welcomeRemindMe' |translate}}</span>
+            </label>
+          </div>
+        </form>
+</mat-dialog-content>
+<!-- 
+<mat-dialog-actions align="end">
+    
+</mat-dialog-actions> -->

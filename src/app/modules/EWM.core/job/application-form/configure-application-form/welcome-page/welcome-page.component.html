@@ -1,0 +1,343 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: welcome-page.component.html
+  @Who: Satya Prakash Gupta
+  @When: 13-May-2022
+  @Why:  EWM-6554 EWM-6680
+  @What: welcome page
+ -->
+<div class="welcome-page">
+    <form [formGroup]="welcomeForm">
+        <div class="configure-application-text-area">
+            <label class="textarea-lavel">
+                <span>{{'label_bannerImage' |translate}}</span>
+                <small>{{'label_welcomeDesc' |translate}}</small>
+            </label>
+            <mat-divider></mat-divider>
+            <div class="uploadImage application-form-uploadImage">
+                <span class="uploadTxt" *ngIf="!imagePreviewStatus">
+                    <input hidden matInput>
+                    <img class="uploadImgIcon" src="/assets/uploadFileIcon.png" />
+                    <button mat-button type="button" (click)="croppingImage('logo',1)">{{'label_browseFileToUpload'
+                        |translate}}</button>
+                </span>
+                <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+                <div class="previewImage" *ngIf="imagePreviewStatus">
+                    <div class="overlay-banner-text">
+                        <h4>{{headingInputValue}}</h4>
+                        <p>{{subHeadingInputValue}}</p>
+                    </div>
+                    <div class="overlay-bg" id="overlay-bg" [style.opacity]="opicityData"></div>
+                    <img src="{{logoPreviewUrl}}" *ngIf="logoPreviewUrl" />
+                    <div class="removeImage">
+                        <button type="button" mat-mini-fab (click)="croppingImage('logo',1)" color="primary"
+                            id="restorepreview">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-mini-fab color="warn" (click)="remove('logo')" id="restorepreview">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="configure-application-text-area counterTxt">
+            <label class="textarea-lavel">
+                <span [ngStyle]="this.welcomeForm.controls['Heading'].hasError('required')
+                    &&
+                    this.welcomeForm.controls['Heading'].touched &&
+                    {'color': '#f44336'}">{{'label_Heading' |translate}}</span>
+                <small>{{'label_headingBanner' |translate}}</small>
+            </label>
+            <mat-divider></mat-divider>
+            <mat-form-field>
+                <textarea matInput formControlName="Heading" (keyup)="inputCountHeadingValue($event.target.value)"
+                    (blur)="sendDataToParent();" [(ngModel)]="defaultHeading" id="welcomeForm-Heading"></textarea>
+                <mat-error *ngIf="welcomeForm.controls['Heading'].hasError('maxlength')">
+                    {{'label_Heading' |translate}} {{'label_errormaxlength150'
+                    |translate}}
+                </mat-error>
+            </mat-form-field>
+            <span class="countlabel" color="warn">
+                {{'label_balance' |translate}}: {{headingCount}}
+                {{'label_characters' |translate}}
+            </span>
+        </div>
+        <div class="configure-application-text-area counterTxt">
+            <label class="textarea-lavel">
+                <span>{{'label_Subheading'| translate}}</span>
+                <small>{{'label_subHeadingBanner' |translate}}</small>
+            </label>
+            <mat-divider></mat-divider>
+            <mat-form-field>
+                <textarea matInput formControlName="SubHeading" (keyup)="inputCountSubHeadingValue($event.target.value)"
+                    (blur)="sendDataToParent()" [(ngModel)]="defaultSubHeading" id="welcomeForm-SubHeading"></textarea>
+                <mat-error *ngIf="welcomeForm.controls['SubHeading'].hasError('maxlength')">
+                    {{'label_Subheading' |translate}}
+                    {{'label_errormaxlength250' |translate}}
+                </mat-error>
+            </mat-form-field>
+            <span class="countlabel" color="warn">
+                {{'label_balance' |translate}}: {{subHeadingCount}}
+                {{'label_characters' |translate}}
+            </span>
+        </div>
+        <div class="configure-application-text-area">
+            <label class="textarea-lavel">
+                <span>{{'label_bannerImageTransparency' |translate}}</span>
+                <small>{{'label_sliderAdjust' |translate}}</small>
+            </label>
+            <mat-divider></mat-divider>
+            <mat-slider color="primary" thumbLabel [displayWith]="formatLabel" tickInterval="1000" step="1000" min="0"
+                (change)="sendDataToParent();bannerImageTransparency()" max="100000" value="100" aria-label="Opacity"
+                formControlName="BannerTransparency" id="welcomeForm-BannerTransparency">
+            </mat-slider>
+        </div>
+
+
+<div class="configure-application-text-area counterTxt mb-15 html-editor-kendo">
+        <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+            <label  class="textarea-lavel">
+                <span>{{'label_Aboutus' |translate}}</span>
+                <small>{{'label_shortDesc' |translate}}</small>
+            </label>
+            <!-- <label *ngIf="!showMaxlengthError" class="textarea-lavel">
+                <span [ngStyle]="this.welcomeForm.controls['AboutUs'].hasError('required')
+                    &&
+                    this.welcomeForm.controls['AboutUs'].touched &&
+                    {'color': '#f44336'}">{{'label_Aboutus' |translate}} <span class="required-show">*</span></span>
+                <small>{{'label_shortDesc' |translate}} </small>
+            </label>
+            <label *ngIf="showMaxlengthError" class="textarea-lavel">
+                <span [ngStyle]="this.welcomeForm.controls['AboutUs'].hasError('required')
+                    &&
+                    this.welcomeForm.controls['AboutUs'].touched &&
+                    {'color': '#f44336'}">{{'label_Aboutus' |translate}} <span class="required-show">*</span></span>
+                <small>{{'label_shortDesc' |translate}} </small>
+            </label> -->
+            <!-- <mat-label *ngIf="!showMaxlengthError" [ngStyle]="userFrom.controls['AppIntroduction'].hasError('required') &&
+            userFrom.controls['AppIntroduction'].touched && 
+                {'color': '#f44336'}">{{'label_applicationIntroduction' |translate}} *</mat-label>
+                <mat-label *ngIf="showMaxlengthError" [ngStyle]="showMaxlengthError &&
+     {'color': '#f44336'}">{{'label_applicationIntroduction' |translate}} *</mat-label> -->
+        <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal"
+              (editorValueEmit)="getEditorFormInfo($event)"  [maxlengthValidation]="maxLengthEditorValue.asObservable()"
+              (editorImageValueEmit)="getEditorImageFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()">
+        </app-mention-editor>   
+      </div>
+    </div>
+      
+
+        <div class="configure-application-text-area label-with-radio">
+            <label class="textarea-lavel">
+                <span>{{'label_ResumeRequired'|translate}} <span class="required-show">*</span></span>
+            </label>
+            <mat-radio-group aria-label="Select an option" (change)="sendDataToParent()" color="primary"
+                formControlName="IsResume" id="welcomeForm-IsResume">
+                <mat-radio-button [value]="0" class="pt-0 pb-0 pl-0">{{'label_yesBtn'|translate}}</mat-radio-button>
+                <mat-radio-button [value]="1" class="pt-0 pb-0">{{'label_noBtn'|translate}}</mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="welcomeForm.controls['IsResume'].hasError('required') &&
+                welcomeForm.controls['IsResume'].touched">
+                {{'label_ResumeRequired'|translate}}
+                {{'label_errorreqired'|translate}}
+            </mat-error>
+        </div>
+        <div class="configure-application-text-area label-with-radio">
+            <label class="textarea-lavel">
+                <span>{{'label_CoverLetterRequired'|translate}} <span class="required-show">*</span></span>
+            </label>
+            <mat-radio-group aria-label="Select an option" (change)="sendDataToParent()" formControlName="IsCoverLetter"
+                id="welcomeForm-IsCoverLetter" color="primary">
+                <mat-radio-button [value]="0" class="pt-0 pb-0 pl-0">{{'label_yesBtn'|translate}}</mat-radio-button>
+                <mat-radio-button [value]="1" class="pt-0 pb-0">{{'label_noBtn'|translate}}</mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="welcomeForm.controls['IsCoverLetter'].hasError('required')
+                && welcomeForm.controls['IsCoverLetter'].touched">
+                {{'label_CoverLetterRequired'|translate}}
+                {{'label_errorreqired'|translate}}
+            </mat-error>
+        </div>
+        <div class="configure-application-text-area label-with-switch
+            label-with-radio">
+            <label class="textarea-lavel">
+                <span>{{'label_autoFill'|translate}}</span>
+            </label>
+            <div>
+                <div>
+                    <mat-menu #SkillsHelp="matMenu" xPosition="after" class="infoIconContentBox dropIconContentBox">
+                        <span class="material-icons headerDroupDownUp">
+                            arrow_drop_up
+                        </span>
+                        <span class="badge primary">
+                            <a [routerLink]="['./client/core/administrators/integration-interface-board']"
+                                target="_blank" id="info_resume">
+                                {{'label_autoFillDesc'|translate}} </a></span>
+                    </mat-menu>
+                </div>
+                <mat-slide-toggle color="primary" formControlName="IsAutoFill"
+                    (change)="sendDataToParent();applicationFromResume($event)" id="welcomeForm-IsAutoFill">
+                </mat-slide-toggle>
+
+                <button mat-icon-button color="primary" tabindex="2" id="skill-helpMsg" [matMenuTriggerFor]="SkillsHelp"
+                    (mouseenter)="mouseoverAnimation(animationVar?.ResumeInfoButton?.id,
+                    animationVar?.ResumeInfoButton?.animation)" (mouseleave)="mouseleaveAnimation(animationVar?.ResumeInfoButton?.id,
+                    animationVar?.ResumeInfoButton?.animation)">
+                    <mat-icon id="{{animationVar?.ResumeInfoButton?.id}}"
+                        class="{{animationVar?.ResumeInfoButton?.isAnimClass}}">info_outline</mat-icon>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="configure-application-text-area label-with-switch
+            label-with-radio">
+            <label class="textarea-lavel">
+                <span>{{'label_orgContactInfo'|translate}}</span>
+            </label>
+            <div>
+                <div>
+                    <div class="iconForword ">
+                        <button mat-icon-button color="primary" id="welcomepage-DrawerOpen" (click)="openOrgInfoModal()"
+                            class="mr-5
+                            arrow-forward" (mouseenter)="mouseoverAnimation(animationVar?.SidenavRight?.id,
+                            animationVar?.SidenavRight?.animation)" (mouseleave)="mouseleaveAnimation(animationVar?.SidenavRight?.id,
+                            animationVar?.SidenavRight?.animation)">
+                            <mat-icon class="material-icons-outlined" id="{{animationVar?.SidenavRight?.id}}"
+                                class="{{animationVar?.SidenavRight?.isAnimClass}}">
+                                arrow_forward_ios
+                            </mat-icon>
+                        </button>
+                    </div>
+
+                    <mat-menu #orgHelp="matMenu" xPosition="after" class="infoIconContentBox dropIconContentBox">
+                        <span class="material-icons headerDroupDownUp">
+                            arrow_drop_up
+                        </span>
+                        <span class="badge primary">{{'label_orgContactTooltip'|translate}}</span>
+                    </mat-menu>
+
+                </div>
+                <mat-slide-toggle color="primary" formControlName="IsOrgInfo" (change)="onChangeToggleOrg($event)"
+                    id="welcomeForm-orgContactInfo"></mat-slide-toggle>
+
+                <button mat-icon-button color="primary" tabindex="2" id="skill-helpMsg" [matMenuTriggerFor]="orgHelp"
+                    (mouseenter)="mouseoverAnimation(animationVar?.StatusInfoButton?.id,
+                    animationVar?.StatusInfoButton?.animation)" (mouseleave)="mouseleaveAnimation(animationVar?.StatusInfoButton?.id,
+                    animationVar?.StatusInfoButton?.animation)">
+                    <mat-icon id="{{animationVar?.StatusInfoButton?.id}}"
+                        class="{{animationVar?.StatusInfoButton?.isAnimClass}}">info_outline</mat-icon>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="configure-application-text-area label-with-radio
+            label-logo">
+            <label class="textarea-lavel">
+                <span>{{'label_orgLogo'|translate}}</span>
+            </label>
+            <div class="input-with-info-icon">
+                <div class="uploadImage">
+
+                    <span class="uploadTxt" *ngIf="!logoPreviewStatus">
+                        <input hidden matInput formControlName="orgLogo">
+                        <img class="uploadImgIcon" src="/assets/uploadFileIcon.png" />
+                        <button mat-button (click)="croppinglogo('1')" type="button">{{'label_browseFileToUpload'
+                            |translate}}</button>
+
+                    </span>
+
+                    <div class="k-i-loading" *ngIf="logoPreviewloading"></div>
+                    <div class="previewImage" *ngIf="logoPreviewStatus">
+                        <img src="{{previewImage}}" *ngIf="previewImage" (click)="openDialog(previewImage)" />
+
+                        <div class="removeImage">
+                            <button type="button" mat-mini-fab (click)="croppinglogo('1')" color="primary"
+                                id="restorepreview">
+
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-mini-fab color="warn" (click)="removeLogo('logo')" id="restorepreview">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="info-style">
+
+                    <button mat-icon-button color="primary" tabindex="2" id="skill-helpMsg"
+                        [matMenuTriggerFor]="orgLogoHelp" (mouseenter)="mouseoverAnimation(animationVar?.OrgInfoButton?.id,
+                        animationVar?.OrgInfoButton?.animation)" (mouseleave)="mouseleaveAnimation(animationVar?.OrgInfoButton?.id,
+                        animationVar?.OrgInfoButton?.animation)">
+                        <mat-icon id="{{animationVar?.OrgInfoButton?.id}}"
+                            class="{{animationVar?.OrgInfoButton?.isAnimClass}}">info_outline</mat-icon>
+                    </button>
+
+                    <mat-menu #orgLogoHelp="matMenu" xPosition="after" class="infoIconContentBox dropIconContentBox">
+                        <span class="material-icons headerDroupDownUp">
+                            arrow_drop_up
+                        </span>
+                        <span class="badge primary">{{'label_orgLogoTooltip'|translate}}</span>
+                    </mat-menu>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="configure-application-text-area label-with-radio
+            label-recruiter">
+            <label class="textarea-lavel">
+                <span>{{'label_recruitInfo'|translate}}</span>
+            </label>
+            <div>
+                <mat-menu #recruiterHelp="matMenu" xPosition="after" class="infoIconContentBox dropIconContentBox">
+                    <span class="material-icons headerDroupDownUp">
+                        arrow_drop_up
+                    </span>
+                    <span class="badge primary">{{'label_configure_applicationform'|translate}}</span>
+                </mat-menu>
+                <div class="ng-slectBox ng-select-with-info-icon">
+                    <ng-select placeholder="{{'label_selectrecruiter'|translate}}"
+                        class="countrySelect recruiterSelect dropdown-body" [clearable]="true"
+                        formControlName="recruiter" #select [searchable]="false" (change)="AddRecruiter($event)" id="ddl__selectRecruiter">
+                        <ng-template ng-header-tmp>
+                            <label class="customNgSelect_searchHeadingTxt">{{'label_selectrecruiter'
+                                | translate}}</label>
+                            <input class="selectSearch" tabindex
+                                placeholder="{{'label_search' |translate}} {{'label_recruiter' | translate}}"
+                                type="text" (input)="select.filter($event.target.value)" />
+                        </ng-template>
+                        <ng-option disabled="true" value="" disabled>{{'label_selectAll'| translate}}</ng-option>
+                        <ng-option *ngFor="let list of searchListUser" [value]="list?.Id" class="d-flex">
+                            <img *ngIf="list?.ProfilePicturePreview!='' || list?.ProfilePicturePreview==null"
+                                src="{{list?.ProfilePicturePreview}}" width="20px" height="20px"
+                                class="listWithImage" />
+                            <span *ngIf="list?.ProfilePicturePreview==''"
+                                class="listWithText">{{sortName(list?.FirstName,list?.LastName)}}</span>
+                            <span>{{list?.FirstName}}{{list?.LastName}} ({{list?.Email}})</span>
+                        </ng-option>
+
+                    </ng-select>
+
+
+                    <button mat-icon-button color="primary" tabindex id="skill-helpMsg" class="infoStyle"
+                        [matMenuTriggerFor]="recruiterHelp" (mouseenter)="mouseoverAnimation(animationVar?.StatusInfoButton?.id,
+            animationVar?.StatusInfoButton?.animation)" (mouseleave)="mouseleaveAnimation(animationVar?.StatusInfoButton?.id,
+            animationVar?.StatusInfoButton?.animation)">
+                        <mat-icon id="{{animationVar?.StatusInfoButton?.id}}"
+                            class="{{animationVar?.StatusInfoButton?.isAnimClass}}">info_outline</mat-icon>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</div>

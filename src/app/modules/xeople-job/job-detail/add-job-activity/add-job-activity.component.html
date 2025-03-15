@@ -1,0 +1,589 @@
+
+  <div *ngIf="loading" class="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+
+<div class="my-activity" id="my-activity">
+    <form [formGroup]="myActivityForm" id="clientNote">
+
+        <div class="assistance-activity" id="assistance-activity">
+            <!---- @When : 21-09-2022 @who: Renu @Why:1734 EWM-8251 @Waht : for scehdule assitance-------------->
+            <div class="schedule-assistance" id="schedule-assistance">
+                <div class="availability-calender" id="availability-calender">
+                    <strong>calendar time availability</strong>  <i>{{username}}</i>
+                </div>
+
+                <h3 class="mt-0">{{'label_schedulingAssistance'|translate}}</h3>
+                    <!-- @Who: bantee ,@When: 27-mar-2023, @Why: EWM-11238 ,What: add CustomValidatorService to the  date control -->
+
+                <mat-form-field class="assistance-category">
+                    <mat-label>{{'label_date' | customTranslate}} <span class="required-show">*</span></mat-label>
+                    <input matInput tabindex [matDatepicker]="slotDate"   [placeholder]="getDateFormat"  id="date-schedule"  formControlName="slotDate" >
+                    <button *ngIf="myActivityForm.value.slotDate || myActivityForm.controls['slotDate'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="clearDate()"> 
+                                <mat-icon>close</mat-icon>
+                            </button>
+                    <button tabindex="5" id="datebtn-schedule" mat-raised-button matSuffix color="primary" [disabled]="isDisabledForScreening"
+                        type="button"  (click)="openModelForScheduleAssistanceDate()" class="matSuffix-icon mgBottom5 addbtn-schedule">
+                        <mat-icon>calendar_month</mat-icon>
+                    </button>
+                    <mat-datepicker #slotDate></mat-datepicker>
+                    <mat-error *ngIf="myActivityForm.controls['slotDate'].hasError('required') && myActivityForm.controls['slotDate'].touched && !myActivityForm.controls['slotDate'].hasError('matDatepickerParse')"> {{'label_date' |translate}} {{'label_errorreqired'|translate}} </mat-error>
+                            <mat-error *ngIf="myActivityForm.controls['slotDate'].hasError('invalidDate') && !myActivityForm.controls['slotDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                            <mat-error *ngIf="myActivityForm.controls['slotDate'].hasError('matDatepickerParse')"> {{'label_invalidDate' | translate}}</mat-error>
+                    <!-- 
+                        <mat-error>
+                                    {{ 'label_schedule' |customTranslate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error> -->
+                                <!-- <mat-error *ngIf="this.addCompanyForm.controls['address'].hasError('maxlength')">
+                            {{ 'label_companyAddress' |customTranslate}} {{ 'label_errormaxlength250' |translate}}
+                        </mat-error> 
+                    -->
+                </mat-form-field>
+
+                <div class="ng-slectBox time-hour" id="time-hour">
+                
+                    <ng-select placeholder="{{ 'label_timePeriod' | translate }}" id="time-period"
+                        formControlName="timePeriod" (change)="changeTimeSlot($event);" class="dropdown-body show-required" required appendTo="body" tabindex="2"
+                        [clearable]="false">
+                        <ng-option value="15" >15 Minute(s)</ng-option>
+                        <ng-option value="30">30 Minute(s)</ng-option>
+                        <ng-option value="45">45 Minute(s)</ng-option>
+                        <ng-option value="60" selected>1 Hour(s)</ng-option>
+                    </ng-select>
+                    <mat-error *ngIf="this.myActivityForm.controls['timePeriod'].hasError('required')">
+                        {{'label_timePeriod' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+
+                    <div class="hour-rate" id="hour-rate">
+                        <mat-label class="label-format">{{'label_timeFormat' | translate}} <span class="required-show">*</span></mat-label>
+                        <mat-button-toggle-group name="fontStyle" aria-label="Font Style"  (change)="changeTimeDisplay($event);" [disabled]="isDisabledForScreening">
+                            <mat-button-toggle  value="12" checked>12<br><span class="hour">{{ 'label_hour' | translate }}</span></mat-button-toggle>
+                            <mat-button-toggle  value="24">24<br><span class="hour">{{ 'label_hour' | translate }}</span></mat-button-toggle>                   
+                        </mat-button-toggle-group>
+                    </div>
+                
+                </div>
+
+                <h4 class="mt-0">{{'label_availableTimeSlots'|translate}}</h4>  
+
+                <div class="time-slot" id="time-slot">
+                    <button mat-raised-button type="button" id="timeslots{{timeslots}}" 
+                    (click)="getTimeSlot(timeslots,i,false)" *ngFor="let timeslots of timeAvaiableSlots; let i = index" 
+                    [ngClass]="{'active': selectedItem[i]=== i && timeslots.IsAvailable===1,'active-red': selectedItem[i]=== i && timeslots.IsAvailable===0,'avaiable':timeslots.IsAvailable===0}" [disabled]="isDisabledForScreening">
+                    {{timeslots.StartTime  | utctodatetime:timeDisplayHour:'start':timezonName:timezonName | uppercase }} - 
+                    {{timeslots.EndTime  |  utctodatetime:timeDisplayHour:'end':timezonName:timezonName | uppercase}}</button >
+                </div>
+            </div>
+            <!---- @When : 21-09-2022 @who: Renu @Why:1734 EWM-8251 @Waht : for scehdule assitance-------------->
+            <div class="activity-related" id="activity-related">
+                <div class="insert-and-organizer" id="insert-and-organizer">
+                    <div class="insert-template" id="insert-template">
+                        <!-- @When: 30-03-2023 @Who:Satya Prakash Gupta @Why:  EWM-11612 @What: remove click event on Help icon(i) -->
+                        <button type="button" tabindex class="ml-0" mat-stroked-button color="primary" id="newEmail-template" (click)="openTemplateModal()">
+                            {{'label_insertTemplate' |translate}}
+                        </button>
+                        <mat-icon matTooltip="{{'label_mailBoxTemplateInFo' |translate}}" matTooltipPosition="right" matSuffix
+                        class="templateInfoIcon">info</mat-icon>
+                    </div>
+                     <!---@When: 01-03-2023 @Who:Renu @Why:  EWM-10648 EWM-10772 @What: Move Organiser field above the Invite attendee.--->
+                    <div class="organizer ng-slectBox">
+                        <!---@When: 20-03-2023 @Who:Nitin Bhati @Why: EWM-11257 EWM-11088 @What: conversion dropdown --->
+                        <ng-select tabindex [multiple]="true" class="dropdown-body show-required" #select [searchable]="false"  formControlName="OrganizerOrAssignees" appendTo="body" [clearable]="false"
+                            [closeOnSelect]="true" [(ngModel)]="selectedOrganizer"  [compareWith]="compareFn"
+                            placeholder="{{'label_organizerOrAssignees'|translate}}"
+                            id="activity-organizer" [items]="organizerOrAssigneesList" bindLabel="UserName"  required>
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <div class="multiselectChip">
+                                    <div class="multiselectChip-chip" *ngFor="let item of items | slice:0:maxMoreLength">
+                                        <span class="multiselectChip-chip-text" matTooltip="{{item.UserName}}" matTooltipClass="custom-tooltip"> {{item.UserName}}</span>
+                                        <button [disabled]="item?.disabled"   class="multiselectChip-close" mat-fab color="warn" (click)="clear(item)">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </div>
+                                    <span class="multiselectChip-morechips multiselectChip-chip" *ngIf="items.length > maxMoreLength">
+                                        <span class="multiselectChip-chip-text">
+                                            {{items.length - maxMoreLength}} {{'label_more'|translate}}...
+                                        </span>
+                                    </span>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-header-tmp>
+                                <div class="pl-15 pr-15">
+                                <mat-form-field class="no-bottom" floatLabel="never">
+                                    <input matInput class="selectSearch" autocomplete="off" placeholder="{{'label_search' |translate}} {{'label_organizerOrAssignees'|translate}}" type="text"   (input)="select.filter($event.target.value)" />
+                                </mat-form-field>
+                                </div>
+                            </ng-template>
+                        </ng-select>
+                    
+                        <mat-error *ngIf="myActivityForm.controls['OrganizerOrAssignees'].hasError('required')">
+                            {{ 'label_organizerOrAssignees' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                    </div>
+                </div>
+
+                <mat-form-field>
+                    <mat-label>{{'label_activityTitle' | translate}} </mat-label>
+                    <input type="hidden" formControlName="Id">
+                    <input matInput #titleActivity="matInput" autofocus formControlName="ActivityTitle"
+                        placeholder="{{'label_activityTitle' | translate}}" tabindex="1"
+                        id="activity-titleOfActivity" required>
+                    <mat-error
+                        *ngIf="myActivityForm.controls['ActivityTitle'].hasError('required') && myActivityForm.controls['ActivityTitle'].touched">
+                        {{'label_titleOfActivity'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                         <!-- /** @When: 27-09-2023 @Who:maneesh for increes charecter length and change validation @Why: Ewm-14198 */ -->
+                    <mat-error *ngIf="myActivityForm.controls['ActivityTitle'].hasError('maxlength')">
+                        {{'label_titleOfActivity' |translate}} {{'label_errormaxlength100' |translate}}
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="related-full related-haff">
+                    <mat-form-field>
+                        <mat-label>{{'label_activityRelatedTo' | translate}}</mat-label>
+                        <mat-chip-list #chipList aria-label="activityRelatedToIdChip selection" tabindex="2"
+                            [disabled]="action">
+                            <mat-chip id="activityRelatedToIdChip">
+                                {{Employee}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </mat-form-field>
+                
+                    <mat-form-field>
+                        <mat-label>{{'label_relatedUser' | translate}}</mat-label>
+                        <mat-chip-list #chipList aria-label="relateduserToIdChip selection" tabindex="3"
+                            [disabled]="action">
+                            <mat-chip id="relateduserToIdChip">
+                                {{Names}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+            
+                <div class="related-full">
+                    <mat-label class="full-size">{{ 'label_category' | translate}}</mat-label>
+                    <mat-button-toggle-group appearance="legacy" id="activity-Category" name="fontStyle"
+                        aria-label="Font Style" formControlName="CategoryId" tabindex="4">
+                        <mat-button-toggle *ngFor="let type of ActivityTypeList" (click)="onchangeCategory(type)" [value]="type.Id">
+                            {{type.ActivityCategory}}
+                            <mat-icon [style.background-color]="type.ColorCode" class="act-icon">
+                                {{type.Icon}}</mat-icon>
+                        </mat-button-toggle>
+                       </mat-button-toggle-group>
+                   </div>
+                <!-- <mat-form-field class="schedule-category">
+                    <mat-label>{{'label_schedule' | customTranslate}} *</mat-label>
+                    <input matInput tabindex placeholder="" id="activity-schedule" readonly>
+                    <span>{{scheduleData?.DateStart |  date:dateFormat}} {{scheduleData?.TimeStart}}
+                        {{scheduleData?.DateEnd |  date:dateFormat}} {{scheduleData?.TimeEnd}}</span>
+
+                    <button tabindex="5" id="addbtn-schedule" mat-raised-button matSuffix
+                        color="primary" type="button" class="matSuffix-icon mgBottom5"
+                        (click)="openModelForSchedule()" [disabled]="action">
+                        <mat-icon>calendar_month</mat-icon>
+                    </button>
+                    <mat-error *ngIf="myActivityForm.controls['ScheduleActivity'].hasError('required')">
+                        {{ 'label_schedule' |customTranslate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error> -->
+                    <!-- <mat-error *ngIf="this.addCompanyForm.controls['address'].hasError('maxlength')">
+                    {{ 'label_companyAddress' |customTranslate}} {{ 'label_errormaxlength250' |translate}}
+                </mat-error> -->
+                <!-- </mat-form-field> -->
+                 <!---@When: 17-03-2023 @Who:Renu @Why: EWM-11055 EWM-11093 @What: new schedule implementation--->
+<div class="ng-slectBox" id="removeCandidate-reason" tabindex>
+    <ng-select placeholder="{{'label_timeZone' |translate}}" tabindex="7" [clearable]="false"
+        formControlName="TimeZone" id="schedule-UserTimezone" (change)="getTimezone($event)"
+        [compareWith]="compareFn" required appendTo="body" class="dropdown-body show-required">
+        <ng-option *ngFor="let timezone of timezoneDetails" [value]="timezone">
+            {{timezone.Timezone}}</ng-option>
+    </ng-select>
+    <mat-error
+        *ngIf="this.myActivityForm.controls['TimeZone'].hasError('required') && myActivityForm.controls['TimeZone'].touched">
+        {{ 'label_timeZone' |translate}} {{ 'label_errorreqired' |translate}}
+    </mat-error>
+</div>
+<div class="date-and-time">
+    <div class="date">
+        <mat-form-field>
+            <mat-label>{{'label_startDate' | translate}}</mat-label>
+            <input matInput [matDatepicker]="DateStart" tabindex
+                id="schedule-DateStart" (dateChange)="addDateStart($event)" [(ngModel)]="currentStartDate"
+                formControlName="DateStart"   [placeholder]="getDateFormat"  [min]="StartDateMin" required>
+            <button *ngIf="myActivityForm.value.DateStart || myActivityForm.controls['DateStart'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button
+                aria-label="Clear" (click)="clearStartDate()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-datepicker-toggle matSuffix [for]="DateStart"></mat-datepicker-toggle>
+            <mat-datepicker #DateStart></mat-datepicker>
+              <!---------@When: 23-03-2023 @who:Adarsh singh @why: EWM-10688 @Desc- Added date validation--------->
+              <mat-error *ngIf="myActivityForm.controls['DateStart'].hasError('required') && myActivityForm.controls['DateStart'].touched && !myActivityForm.controls['DateStart'].hasError('matDatepickerParse')"> {{'label_startDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+              <mat-error *ngIf="myActivityForm.controls['DateStart'].hasError('invalidDate') && !myActivityForm.controls['DateStart'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+              <mat-error *ngIf="myActivityForm.controls['DateStart'].hasError('matDatepickerParse') && !myActivityForm.controls['DateStart'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+              <mat-error *ngIf="myActivityForm.controls['DateStart'].hasError('matDatepickerMax') && !myActivityForm.controls['DateStart'].hasError('invalidDate')"> {{'label_startDate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error>
+              <mat-error *ngIf="myActivityForm.controls['DateStart'].hasError('matDatepickerMin') && !myActivityForm.controls['DateStart'].hasError('invalidDate')"> {{'label_startDate' | translate}} {{'label_shoulNotLessThan' | translate}} </mat-error>
+              <!-- End  -->
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{'label_endDate' | translate}}</mat-label>
+            <input  matInput [matDatepicker]="DateEnd" tabindex id="schedule-DateEnd"
+                [min]="EndDateMin" (dateChange)="addDateEnd()"   [placeholder]="getDateFormat"  formControlName="DateEnd" required>
+            <button *ngIf="myActivityForm.value.DateEnd || myActivityForm.controls['DateEnd'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button
+                aria-label="Clear" (click)="clearEndDate()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-datepicker-toggle matSuffix [for]="DateEnd"></mat-datepicker-toggle>
+            <mat-datepicker #DateEnd></mat-datepicker>
+            <!---------@When: 23-03-2023 @who:Adarsh singh @why: EWM-10688 @Desc- Added date validation--------->
+            <mat-error *ngIf="myActivityForm.controls['DateEnd'].hasError('required') && myActivityForm.controls['DateEnd'].touched && !myActivityForm.controls['DateEnd'].hasError('matDatepickerParse')"> {{'label_endDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+            <mat-error *ngIf="myActivityForm.controls['DateEnd'].hasError('invalidDate') && !myActivityForm.controls['DateEnd'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+            <mat-error *ngIf="myActivityForm.controls['DateEnd'].hasError('matDatepickerParse') && !myActivityForm.controls['DateEnd'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+            <mat-error *ngIf="myActivityForm.controls['DateEnd'].hasError('matDatepickerMax') && !myActivityForm.controls['DateEnd'].hasError('invalidDate')"> {{'label_endDate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error>
+            <mat-error *ngIf="myActivityForm.controls['DateEnd'].hasError('matDatepickerMin') && !myActivityForm.controls['DateEnd'].hasError('invalidDate')"> {{'label_endDate' | translate}} {{'label_mustbeStartDate'|translate}}</mat-error>
+            <!-- End  -->
+        </mat-form-field>
+    </div>
+    <div class="time">
+        <div class="kendo-input-box">
+            <kendo-floatinglabel text="{{ 'label_startTime' | translate }}" class="show-label-required">
+                <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a" [value]="TimeStartValue" [incompleteDateValidation]="true"
+                    (valueChange)="handleChangeStartTime($event)">
+                </kendo-timepicker>                           
+            </kendo-floatinglabel>
+            <button  *ngIf="TimeStartValue!=''" id="cleartimeBtn" matSuffix mat-icon-button
+                aria-label="Clear" (click)="clearStartTime()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <p *ngIf="isStartTmeRequired" style="color:red">{{ 'label_startTime' | translate }}  {{'label_errorreqired' | translate}}</p>
+        </div>
+        <div class="kendo-input-box">
+            <kendo-floatinglabel text="{{ 'label_endTime' | translate }}" class="show-label-required">
+                <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a" [value]="TimeEndValue"
+                    (valueChange)="handleChangeEndTime($event)">
+                </kendo-timepicker>
+            </kendo-floatinglabel>
+            <button *ngIf="TimeEndValue!=''"  id="cleartimeBtn" matSuffix mat-icon-button
+            aria-label="Clear" (click)="clearEndTime()">
+            <mat-icon>close</mat-icon>
+        </button>
+            <p *ngIf="isEndTmeRequired" style="color:red">{{ 'label_endTime' | translate }} {{'label_errorreqired' | translate}}</p>
+        </div>
+    </div>
+    
+</div>
+<mat-error *ngIf="isMinTimeCondotion===true">
+    {{'label_endTimeStartTimeMsg'|translate}}
+</mat-error>
+                <div class="related-full activityLabel">
+                    <div>
+                                <!-- @Who: bantee ,@When: 29-mar-2023, @Why: EWM-11518 ,What: pop up on input field recent activity -->
+
+                        <mat-form-field *ngIf="!isAddRequiredAttendees">
+                            <mat-label>
+                                {{'label_addRequiredAttendees' | translate}} </mat-label>
+                            <mat-chip-list #requiredAttendee aria-label="requiredAttendeesList selection" tabindex="8">
+                                <mat-chip *ngFor="let attendees of requiredAttendeesList"
+                                    [selectable]="selectable" id="requiredAttendeesListChiplist"
+                                    [removable]="removable" (removed)="remove(attendees,'addRequiredAttendees')"
+                                    [disabled]="action">
+                                    {{attendees.Name}}
+                                    <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input readonly [matChipInputFor]="requiredAttendee"  placeholder="{{'label_addRequiredAttendees' | translate}}" 
+                                (click)="openModelAddRequiredAttendees('requiredAttendees')"
+                                matInput>
+                            
+                            </mat-chip-list>
+                            <button (click)="openModelAddRequiredAttendees('requiredAttendees')" placeholder="{{'label_addRequiredAttendees' | translate}}" tabindex mat-raised-button matSuffix color="primary" type="button"
+                                class="matSuffix-icon mgBottom5" id="btnAdd-requiredAttendeesList"
+                               [disabled]="action">
+                                <mat-icon>perm_contact_calendar</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        
+                        <mat-form-field *ngIf="isAddRequiredAttendees">
+                            <mat-label>
+                                {{'label_addRequiredAttendees' | translate}} </mat-label>
+                            <mat-chip-list #requiredAttendees aria-label="requiredAttendeesList selection" tabindex="8">
+                                <mat-chip *ngFor="let attendees of requiredAttendeesList"
+                                    [selectable]="selectable" id="requiredAttendeesListChiplist"
+                                    [removable]="removable" (removed)="remove(attendees,'addRequiredAttendees')"
+                                    [disabled]="action">
+                                    {{attendees.Name}}
+                                    <!-- <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon> -->
+                                    <mat-icon *ngIf="attendees.isDefaultAttendees != true" id="iconCancel" matChipRemove>cancel</mat-icon>
+
+                                </mat-chip>
+                                <input readonly [matChipInputFor]="requiredAttendees" placeholder="{{'label_addRequiredAttendees' | translate}}" 
+                                (click)="openModelAddRequiredAttendees('requiredAttendees')"
+                                matInput>
+                                <!-- <mat-chip 
+                                [disabled]="action">
+                                {{candidateData.Name}}
+                            </mat-chip> -->
+                            </mat-chip-list>
+                            <button (click)="openModelAddRequiredAttendees('requiredAttendees')" placeholder="{{'label_addRequiredAttendees' | translate}}" tabindex mat-raised-button matSuffix color="primary" type="button"
+                                class="matSuffix-icon mgBottom5" id="btnAdd-requiredAttendeesList"
+                                [disabled]="action">
+                                <mat-icon>perm_contact_calendar</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <div *ngIf="!isAddRequiredAttendees">
+                            <mat-error
+                                *ngIf="myActivityForm.controls['AddRequiredAttendees'].hasError('required') && isAttendeesReq">
+                                {{ 'label_addRequiredAttendees' |translate}} {{ 'label_errorreqired'
+                                |translate}}
+                            </mat-error>
+                        </div>
+                    </div>
+                </div>
+<!---@When: 17-03-2023 @Who:Renu @Why: EWM-11055 EWM-11095 @What: new field optional attendees.--->
+ <!-- @Who: bantee ,@When: 29-mar-2023, @Why: EWM-11518 ,What: pop up on input field recent activity -->
+
+<div class="related-full activityLabel">
+<mat-form-field>
+<mat-label> {{'label_addOptionalAttendees' | translate}}</mat-label>
+
+<mat-chip-list #optionalAttendees aria-label="requiredAttendeesList selection" tabindex="8"  >
+<mat-chip *ngFor="let attendees of optionalAttendeesList" [selectable]="selectable"
+id="requiredAttendeesListChiplist" [removable]="removable"
+(removed)="remove(attendees,'addOptionalAttendees')">
+{{attendees.Name}}
+<mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+</mat-chip>
+<input readonly [matChipInputFor]="optionalAttendees" placeholder="{{'label_addOptionalAttendees' | translate}}" 
+(click)="openModelAddRequiredAttendees('optionalAttendees')"
+matInput>
+</mat-chip-list>
+<button (click)="openModelAddRequiredAttendees('optionalAttendees')" tabindex mat-raised-button matSuffix color="primary" type="button"
+class="matSuffix-icon mgBottom5" id="btnAdd-requiredAttendeesList"
+matTooltipPosition="left"
+matTooltip="{{'label_add'|translate}} {{'label_optionalAttendees'|translate}}">
+<mat-icon>perm_contact_calendar</mat-icon>
+</button>
+</mat-form-field>
+
+</div>
+                <div class="ng-slectBox">
+                    <ng-select placeholder="{{'label_meetingPlatform'|translate}}" [clearable]="true" (change)="clickMeetingPlatformID($event)"
+                        tabindex="11" formControlName="MeetingPlatform" id="activity-meetingPlatform" (clear)="onRemoveMeetingChange()">
+                        <ng-option value="00000000-0000-0000-0000-000000000000" disabled>{{'label_selectMeetingPlatform'|translate}}</ng-option>
+                        <ng-option *ngFor="let list of meetingPlatformList" value="{{list.RegistrationCode}}">
+                            <span class="select-meeting">
+                                <img src="{{list.LogoUrl}}" width="20px" class="listWithImage"/> {{list.Name}}
+                            </span>
+                        </ng-option>
+                    </ng-select>  
+                      <!---------@When: 05-12-2022 @who:Adarsh singh @why: EWM-9729 --------->
+                     <mat-error *ngIf="isActivityTitle">{{'label_select_Job_title'|translate}}</mat-error>                                    
+                </div>
+               
+
+                <mat-form-field>
+                     <mat-label>{{'label_onlineMeetingUrl' | translate}} </mat-label>
+                   <input matInput formControlName="ActivityUrl" tabindex="10" id="activity-ActivityUrl" [readonly]="readonly">
+                    <button mat-raised-button matSuffix *ngIf="readonly==true" color="primary" id="btn_edit" type="button" (click)="onEditMeetingURlActivity()"
+                    matTooltip="{{'label_edit' |translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-raised-button matSuffix *ngIf="readonly==false" color="primary" id="btn_done" type="button" (click)="readonly=true;"
+                      matTooltip="{{'label_save' |translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip">
+                        <mat-icon>done</mat-icon>
+                      </button>
+                      <button mat-raised-button matSuffix *ngIf="readonly==false" color="warn" id="btn_cancel" type="button" (click)="readonly=true;"
+                      matTooltip="{{'label_cancel' |translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>{{'label_searchLocation' | translate}}</mat-label>
+                    <input matInput ngx-google-places-autocomplete formControlName="Location"
+                        placeholder="" tabindex="6" (onAddressChange)="fetchDataFromAddressBar($event)"
+                        id="activity-Location">
+                      <mat-error *ngIf="myActivityForm.controls['Location'].hasError('maxlength')">
+                        {{ 'label_searchLocation' |translate}} {{ 'label_errormaxlength300' |translate}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'label_access' | translate}}</mat-label>
+              <!---------@When: 30-03-2023 @who:Bantee @why: EWM-11518 --------->
+
+                    <input matInput placeholder="{{'label_access'|translate}}" (click)="openManageAccessModal('','','')"
+                        formControlName="AccessName" id="activity-accessName" required readonly>
+                    <input type="hidden" formControlName="AccessId">
+                    <button type="button" matSuffix mat-button tabindex mat-raised-button
+                        color="primary" class="" tabindex="12" (click)="openManageAccessModal('','','')"
+                        [disabled]="action">
+
+                        <mat-icon class="addContactIcon">add</mat-icon>
+                    </button>
+                    <mat-error *ngIf="myActivityForm.controls['AccessName'].hasError('required')">
+                        {{ 'label_access' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="email-sent-checkbox" id="email-sent-checkbox">
+                    <mat-checkbox labelPosition="before" id="activity_attendees" [disabled]="!isRequiredAttendees"  formControlName="IsSendEmailToAttendees" tabindex="12" color="primary">Send email to attendees</mat-checkbox>
+                    <mat-checkbox labelPosition="before" id="activity_calenderAppointment" [disabled]="!emailConnection" formControlName="IsSendCalendarInviteToAttendees"  tabindex="13" color="primary">Send calendar appointment invite to attendees</mat-checkbox>
+                </div> 
+
+                <div class="endoHTMLEditer" tabindex>
+                    <mat-label [ngStyle]="this.myActivityForm.controls['Description'].hasError('required') &&
+                        this.myActivityForm.controls['Description'].touched &&
+                            {'color': '#f44336'}">{{ 'label_description' | translate}}</mat-label>
+                    <kendo-editor #editor tabindex formControlName="Description" class="mailediter my-activity-editor"
+                        id="activity-editor" [readonly]="action" [iframe]="false">
+                        <kendo-toolbar [overflow]="false" tabindex>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorStrikethroughButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorSuperscriptButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAlignCenterButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAlignRightButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAlignJustifyButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+                            <kendo-toolbar-dropdownlist kendoEditorFontSize>
+                            </kendo-toolbar-dropdownlist>
+                            <kendo-toolbar-dropdownlist kendoEditorFontFamily>
+                            </kendo-toolbar-dropdownlist>
+                            <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+                            <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+                            </kendo-toolbar-colorpicker>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <!-- @When: 07-03-2023 @who:Amit @why: EWM-10778 @what: select all button comment  -->
+                            <!-- <kendo-toolbar-button kendoEditorSelectAllButton></kendo-toolbar-button> -->
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorCreateLinkButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+                            <!-- <kendo-toolbar-button kendoEditorInsertImageButton></kendo-toolbar-button> -->
+                            <!-- @When: 10-03-2023 @who:Amit @why: EWM-10775 @what: source control hide  -->
+                            <!-- <kendo-toolbar-button kendoEditorViewSourceButton></kendo-toolbar-button> -->
+                            <kendo-toolbar-button kendoEditorCleanFormattingButton>
+                            </kendo-toolbar-button>
+                            <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAddRowBeforeButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAddRowAfterButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorDeleteColumnButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorDeleteTableButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <!-- @When: 07-03-2023 @who:Amit @why: EWM-10778 @what: print button comment  -->
+                            <!-- <kendo-toolbar-button kendoEditorPrintButton></kendo-toolbar-button> -->
+                              <!-- @When: 10-03-2023 @Who:Nitin Bhati @Why: EWM-11273 EWM-11104 @What:For showing Job tag-->
+                                <kendo-toolbar-separator></kendo-toolbar-separator>
+                                <kendo-toolbar-splitbutton *ngFor="let item of (toolButtons$ | async)" [text]="item.text" [icon]="item.icon"
+                                [data]="item.data">
+                            </kendo-toolbar-splitbutton>
+                             <!---------@When: 31-07-2023 @who:Adarsh singh @why: EWM-13233 @Desc- Added image upload button --------->
+                             <kendo-toolbar-button text="Upload Image" (click)="openImageUpload()" [style]="{'padding': '2px 7px', 'font-size': '12px'}"></kendo-toolbar-button>                               
+                             <!-- End  -->
+                        </kendo-toolbar>
+
+                    </kendo-editor>
+                    <mat-error class="matErrorDesc"
+                            *ngIf="myActivityForm.controls['Description'].hasError('required') && myActivityForm.controls['Description'].touched">
+                            {{'label_description'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                        <!-- <mat-error *ngIf="myActivityForm.controls['Description'].hasError('maxlength')">
+                        {{'label_desc' |translate}} {{'label_errormaxlength200' |translate}}
+                    </mat-error> -->
+                </div>
+
+                <div class="matAttachment" *ngIf="this.fileAttachments.length>0" id="myActivity-documentAttachment">
+                    <div *ngFor="let files of fileAttachmentsOnlyTow">
+                        <mat-card class="matCardAttach" id="myActivity-documentAttachmentCard">
+                            <div class="email-attachment">
+                                <div class="file-detail" tabindex>
+                                    <span class="fileName">{{files.Name}}</span>
+                                    <span class="fileSize">{{(files.Size)/1024}}</span>
+                                </div>
+                                <mat-icon [disabled]="IsDisabled" class="matCloseIcon" tabindex (click)="removeAttachment(files)"
+                                id="myActivity-documentRemove">close</mat-icon>
+                            </div>
+                        </mat-card>
+                    </div>
+
+
+                    <div *ngIf="this.fileAttachments.length>3">
+                        <!-- <mat-card class="matCardAttach moreAttach" (click)="openMultipleAttachmentModal()"
+                            id="myActivity-documentAttachmentPopupShow">
+                            <div class="email-attachment">
+                                <div class="file-detail" tabindex>
+                                    <span></span>
+                                    <span>{{fileAttachments?.length-2}} {{'label_more' |
+                                        translate}}..</span>
+                                </div>
+                            </div>
+                        </mat-card> -->
+
+                        <button mat-stroked-button class="moreAttach" color="primary" (click)="openMultipleAttachmentModal()"
+                id="myActivity-documentAttachmentPopupShow" tabindex>{{fileAttachments?.length-3}} {{'label_more' |
+                translate}}..</button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <mat-card class="drawer-footer" id="drawer-footer">
+        <button mat-icon-button color="primary" tabindex class="fileUpload attachFileBtn"
+        [disabled]="IsDisabled"
+            (click)="openMultipleAttachmentModal()" id="myActivity-documentAttachmentAddPopup">
+            <mat-icon>attach_file</mat-icon>
+        </button>
+        <button mat-raised-button color="accent" [disabled]="this.myActivityForm.get('ActivityTitle').value=='' || this.myActivityForm.get('Description').value==''" tabindex type="button" id="btnCancel" (click)="previewEmailPopUp()">
+            {{'label_email_preview'|translate}}
+        </button>
+        <button mat-raised-button color="warn" tabindex type="button" (click)="onDismiss()"
+            id="btnCancel">
+            {{'button_cancel'|translate}}
+        </button>
+        <button mat-raised-button tabindex *ngIf="!action"
+            color="primary" (click)="onSave(this.myActivityForm.getRawValue())" type="button" id="btnSave"
+            [disabled]="!myActivityForm.valid || isMinTimeCondotion">
+            {{'label_save'|translate}}
+        </button>
+    </mat-card>
+</div>

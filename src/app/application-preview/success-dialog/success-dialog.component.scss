@@ -1,0 +1,61 @@
+$green-color: #7fb734;
+$default-bg-color: #5844DA;
+
+.thanku-content{
+  display: flex;
+  justify-content: center;
+  .thanku-mat-card{
+    border-radius: 15px;
+    width: calc(100% - 20%);
+    margin: 50px 0px 10px;
+    box-sizing: border-box;
+    .mat-card-title{
+      text-align: center;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+    .thanku-inner-content{
+      padding:0px;
+      .thanku-data{
+        display: flex;
+        align-items: center;
+        padding: 25px 0px 5px;
+        position: relative;
+        .mat-icon{
+          color: $green-color;
+          font-size: 78px;
+          width: 78px;
+          height: 78px;
+          border-radius: 50px;
+        }
+        span{
+          font-size: 22px;
+          color: $default-bg-color;
+          font-weight: 500;
+          margin: 0px;
+          padding: 0px 15px;
+        }
+      }
+      .thanku-text{
+        p{
+          margin: 0px;
+          padding: 5px 0px;
+          line-height: 22px;
+        }
+      }
+    } 
+  }
+}
+
+.d-flex{
+  display: flex;
+  align-items: center;
+}
+
+.d-flex{
+  margin-top: 30px;
+  margin-bottom: 10px;
+  .redColor {
+    color: #f44336;
+  }
+}

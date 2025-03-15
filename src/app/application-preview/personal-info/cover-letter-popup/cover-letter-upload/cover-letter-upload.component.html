@@ -1,0 +1,53 @@
+<!---
+    @(C): Xeople
+    @Type: File, <html>
+    @Who: Renu
+    @When: 05-July-2021
+    @Why:  EWM-7404 EWM-7515
+    @What:  This page is creted for Common Component HTML of Upload Documents
+-->
+
+<!-- <div *ngIf="loading" class="k-i-loading"></div> && fileViewstatus && activestatus!='view' -->
+<mat-card class="cover-letter-upload">
+    <mat-card-header *ngIf="filestatus  && fileViewstatus && activestatus!='view'"> 
+        <mat-card-title *ngIf="!docRequiredStatus" class="matTitleDocument">{{'lebel_uploadDocument' | translate}} </mat-card-title>
+        <mat-card-title *ngIf="docRequiredStatus" class="matTitleDocument">{{'lebel_uploadDocument' | translate}} <span class="required-show">*</span></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="documentUploadRoundBox" *ngIf="filestatus  && fileViewstatus && activestatus!='view'">
+            <div *ngIf="loading" class="k-i-loading inputSearch"></div>
+            <div class="circleCreateDocFileUpload">
+                <input type="file"  accept="{{fileType}}" (change)="Uploadfile($event)" required/>
+                <mat-icon fontSet="material-icons-outlined">file_upload</mat-icon>
+                <span>{{'label_uploadIcon' | translate}}</span>
+            </div>
+            <p class="fileInstructions">
+                <span>{{'label_parsedResume_AcceptedFileTypes' | translate}}:</span> {{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}}
+            </p>
+        </div>
+
+        <div class="documentUploadRoundBox file-show" *ngIf="!filestatus" (click)="openDoc(filePathOnServer)">
+            <div class="circleCreateDocFileUpload solidBorderFileUploadBox">
+                <mat-icon>{{iconFileType}}</mat-icon>
+            </div>
+
+            <div class="show-details">
+                <div class="details-data">
+                    <span class="fileInstructions cursor text-overflow" matTooltipClass="custom-tooltip"
+                        matTooltip="{{fileInfo}}">
+                        {{fileInfo}}
+                    </span>
+
+                    <button mat-icon-button class="closeIconCreateDoc cursor" *ngIf="fileViewstatus" tabindex type="button"
+                    color="warn" (click)="removeImage(filePathOnServer)">
+                        <mat-icon>cancel</mat-icon>
+                </button>     
+                </div>
+                <div class="title-file">
+                    <span class="other-file">{{'label_UploadDifferentCoverLetter' | translate}}</span>
+                    <input type="file"  accept="{{fileType}}" (change)="Uploadfile($event)" required/>
+                </div>
+            </div>
+        </div>  
+    </mat-card-content>
+</mat-card>

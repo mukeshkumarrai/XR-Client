@@ -1,0 +1,103 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 21-May-2021
+    @Why: EWM-1449 EWM-1583
+    @What:  This component is used for Quick add phone templates.
+-->
+<form [formGroup]="phoneForm" id="addPhone-people" applyTabIndexes>
+    <div class="quick-dialog quick-email">
+        <h2 mat-dialog-title class="mb-10">
+            {{'label_phone' | translate}}
+        </h2>
+      
+        <mat-dialog-content  #target class="phone-mat-dialog" id="phone-mat-dialog">
+            <ng-container formArrayName="phoneInfo">
+                <mat-card *ngFor="let phone of phoneInfo().controls; let i=index" [formGroupName]="i">
+                    <div class="phone-details" id="phone-details">
+                        <!-- @When: 17-05-2023 @who:Bantee Kumar @why: EWM-11500 Desc-When user goes to add Phone number with different code&again add another phone number,By Default Previous Code is displaying&when user add 2 phone number with different code then both Phone number’s code is displaying same  -->
+                        <div class="ng-slectBox">
+                        <app-custom-ng-select-phonecode [countryList]="countryList" tabindex [IsDisabled]="IsDisabled" [selectedIn]="phone.value.phoneCode" [IsRequired]="true" id="MobileNumber{{i}}" (selectedOut)="ddlMobileNumberChange($event,i)"></app-custom-ng-select-phonecode>
+                        </div>
+                       
+                        <mat-form-field>
+                            <mat-label>{{'label_phoneNumber' | translate}}</mat-label>
+                            <input type="hidden" formControlName="phoneCodeName">
+                            <input type="text" tabindex formControlName="PhoneNumber"  (keyup)="checkforPhone(phone.get('PhoneNumber').value,i)" name="phone" matInput id="phones-number{{i}}" placeholder="" required>
+                                
+                                <mat-error
+                                *ngIf="phone.get('PhoneNumber').errors?.required">
+                                {{ 'label_phoneNumber' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                                <!-- // @Bantee @whn 13-9-2023 @EWM-14439 to handle multiple validation msg showing at same time  -->
+                                <mat-error *ngIf="phone.get('PhoneNumber').errors?.maxlength && phone.get('PhoneNumber').touched && !phone.get('PhoneNumber').errors?.pattern">
+                                    {{ 'label_phoneNumber' |translate}} {{ 'label_errormaxlengthdigit15' |translate}}
+                                    </mat-error>
+                                    <mat-error *ngIf="phone.get('PhoneNumber').errors?.minlength && phone.get('PhoneNumber').touched && !phone.get('PhoneNumber').errors?.pattern">
+                                    {{ 'label_phoneNumber' |translate}} {{ 'label_errorminlength5' |translate}}
+                                    </mat-error>
+                                    <mat-error *ngIf="phone.get('PhoneNumber').errors?.pattern && phone.get('PhoneNumber').touched">
+                                        {{ 'label_phoneNumber' |translate}}  {{ 'label_phone_number_err' |translate}}
+                                    </mat-error>
+                                    <mat-error
+                                    *ngIf="phone.get('PhoneNumber').errors?.unique && phone.get('PhoneNumber').touched">
+                                    {{ 'label_phoneNumber' |translate}} {{ 'label_errorunique' |translate}}
+                                </mat-error>
+                                <!-------------   // @suika @whn 18-05-2023 @EWM-12096 to handle validation msg already exist-->
+                                <mat-error
+                                *ngIf="phone.get('PhoneNumber').errors?.nameTaken && phone.get('PhoneNumber').touched">
+                                {{'label_phoneNumber'|translate}} {{'label_errorreqiredAlready'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                        
+                            <div class="ng-slectBox">
+                              
+                            <ng-select class="dropdown-body show-required" [clearable]="false" appendTo="body" tabindex placeholder="{{'label_templatetype' | translate}}" (change)="checkMainType($event,i)" formControlName="Type" id="phones-category{{i}}"  [required]="true">
+                                <ng-option *ngFor="let category of contactCategory" [value]="category.Id">
+                                    {{category.Name}}</ng-option>
+                            </ng-select>
+                            <mat-error *ngIf="phone.get('Type').errors?.required && phone.get('Type').touched">
+                                {{ 'label_templatetype' |translate}} {{ 'label_errorreqired' |translate}}
+                              </mat-error>
+                            <mat-error
+                            *ngIf="phone.get('Type').errors?.unique && phone.get('Type').touched">
+                            {{ 'label_selectModule' |translate}} {{ 'label_errorunique' |translate}}
+                          </mat-error>
+                             <!-------------   // @suika @whn 18-05-2023 @EWM-12096 to handle validation msg already exist-->
+                          <mat-error
+                        *ngIf="phone.get('Type').errors?.TypeTaken && phone.get('Type').touched">
+                        {{'label_templatetype'|translate}} {{'label_errorreqiredAlready'|translate}}
+                    </mat-error>
+                          </div>
+                       
+
+                        <div class="right-align">
+                            <button *ngIf="i!==0" tabindex mat-raised-button color="warn" id="btnRemove" class="remove-row" [disabled]="IsDisabled"
+                                (click)="removeRow(i)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                    <span class="ng-slectBox ngSelectBoxFontSize" *ngIf="mainExistVal && i==0">{{'label_peoplecustomerr'|translate}}</span>
+    
+                </mat-card>
+            </ng-container>
+
+        </mat-dialog-content>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+           <!----------@suika @whn 07-08-2023 handle eidt case in client phone details--------------------------------------------->
+        <button *ngIf="!hideAddButton" mat-mini-fab color="primary" id="mul-add" type="button" class="add-phone" [disabled]="!phoneForm.valid  || typeDuplicate || phoneDuplicate || blankval || IsDisabled || isEditId"
+         (click)="addPhoneRow(target)" matTooltip="{{'label_add'|translate}} {{'label_phone'|translate}}"
+        matTooltipPosition="left" (mouseenter)="mouseoverAnimation(animationVar?.AddPhoneButtonDialog?.id, animationVar?.AddPhoneButtonDialog?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.AddPhoneButtonDialog?.id, animationVar?.AddPhoneButtonDialog?.animation)">
+        <mat-icon id="{{animationVar?.AddPhoneButtonDialog?.id}}" class="{{animationVar?.AddPhoneButtonDialog?.isAnimClass}}">{{animationVar?.AddEmailButtonDialog?.iconName}}</mat-icon>
+    </button>  
+
+        <button mat-stroked-button type="button" color="warn" tabindex id="btnCancel" (click)="onDismissphone()"> {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button type="button" color="primary" tabindex id="btnSave" [disabled]="!phoneForm.valid || mainExistVal || typeDuplicate || phoneDuplicate || blankval" (click)="onConfirmphone()">{{'label_save'|translate}}</button>
+    </div>
+</form>

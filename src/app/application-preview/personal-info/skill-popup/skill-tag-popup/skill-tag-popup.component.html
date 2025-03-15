@@ -1,0 +1,113 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup singh
+    @When: 13-Aug-2021
+    @Why: EWM-2242.EWM-2506
+    @What:  This component is used for add skills and edit.
+-->
+
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 18-Aug-2021
+    @Why: EWM-2244 EWM-2537
+    @What:  This component is used for add skills and edit.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  <form [formGroup]="addForm" id="addskill-people" class="skillsForm" applyTabIndexes>
+    <div class="quick-dialog">
+      <h2 mat-dialog-title *ngIf="actionType=='add'">{{'label_addSkill' | translate}} </h2>
+      <h2 mat-dialog-title *ngIf="actionType=='edit'">{{'label_editSkill' | translate}} </h2>
+  
+      <mat-dialog-content #target [ngClass]="{'add-mat-dialog-content':actionType=='add'}">
+          <div *ngIf="!isBulkEdit">
+            <div class="ng-slectBox">
+              <!----@When:27-07-2022 @What:EWM-7968 EWM-8026 @Who:RENU --->
+              <ng-select tabindex [multiple]="true"   [formControl]="SkillTag" [(ngModel)]="skillSelectedListId"  
+              class="dropdown-body" #select [searchable]="false" appendTo="body" [clearable]="true" [compareWith]="compareFn"
+                  [closeOnSelect]="true"  (change)="selectedSkills($event)" placeholder="{{'quickjob_skills'|translate}}" 
+                  id="ddl_skills" [items]="searchskillList">
+                   <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                      <div class="ng-value ngselect-tag" *ngFor="let item of items | slice:0:maxMoreLength">
+                          <span class="ng-value-label text-overflow" matTooltip=" {{item.SkillName?item.SkillName:item.TagName}}" 
+                          matTooltipClass="custom-tooltip">  {{item.SkillName?item.SkillName:item.TagName}}({{item.Weightage?item.Weightage:0}})</span>
+                          <span class="ng-value-icon right" (click)="clear(item)"
+                              aria-hidden="true">×</span>
+                      </div>
+                      <div class="ng-value" *ngIf="items.length > maxMoreLength">
+                          <span class="ng-value-label">{{items.length - maxMoreLength}} 
+                              {{'label_more'|translate}}...</span>
+                      </div>
+                  </ng-template>
+                  
+                  <ng-template ng-header-tmp>
+                              <div class="pl-15 pr-15">
+                                  <mat-form-field class="no-bottom">
+                                      <input matInput class="selectSearch"  [formControl]="search" [(ngModel)]="searchValue" autocomplete="off" placeholder="{{'label_search' |translate}} {{'quickjob_skills' | translate}}"
+                                       (input)="onsearchSkills($event.target.value)" />
+                                  </mat-form-field>
+                              </div>
+           
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <div class="skills-name">
+                    {{item.SkillName?item.SkillName:item.TagName}}
+                    <span class="skill-data" *ngIf="item.IsTag=='1'">
+                      <mat-icon matBadge="{{item.SkillCount}}" color="primary">local_offer</mat-icon>
+                    </span>
+                  </div>
+                </ng-template>
+                   
+              </ng-select>
+            </div>
+          </div>
+        <!---------name----------------->
+        <div class="row mb-0" *ngIf="isBulkEdit">
+          <div class="col l12 m12 s12 bulkEditChip">
+            <mat-form-field>
+              <mat-chip-list #chipList tabindex="1" class="bulkEditChipContainer" id="bulkEdit-skill-chip">
+                <mat-chip *ngFor="let skill of Skills" [selectable]="selectable" [removable]="removable"
+                  (removed)="removeSkill(skill)">
+                  {{skill.SkillName}}
+                  <button mat-icon-button color="warn" (click)="removeSkill(skill)" *ngIf="removable">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <input placeholder="{{'label_skillsName' |translate}} *" [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" readonly>
+              </mat-chip-list>
+            </mat-form-field>
+            <mat-error class="chipError" *ngIf="!isSkillValidation">
+              {{'label_skillsName' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-icon class="infoIconStyle" tabindex="2" id="bulkEdit-skill-helpMsg" [matMenuTriggerFor]="SkillsHelp">
+              info_outline</mat-icon>
+            <mat-menu #SkillsHelp="matMenu" xPosition="before" class="infoIconContentBox">
+              <span class="material-icons headerDroupDownUp">
+                arrow_drop_up
+              </span>
+              <h4 class="helpHeading">{{'label_skillHelpMsgheading'|translate}}</h4>
+              {{'label_skillHelpMsg'|translate}}
+            </mat-menu>
+          </div>
+  
+          <div class="clear"></div>
+  
+  
+        </div>
+      </mat-dialog-content>
+  
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+      <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+        {{'button_cancel'|translate}}</button>
+      <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid" (click)="onConfirm()"
+        id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+  </form>

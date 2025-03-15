@@ -1,0 +1,61 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash
+    @When: 03-Mar-2022
+    @Why: EWM-5336 EWM-5453
+    @What:  This page will be use for the screening Component scss file
+*/
+.skill{
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0px 2px;
+    font-size: 12px;
+    min-height: 24px;
+    font-weight: 400;
+    margin: 1px;
+    background: #f2f2f2;
+    &:hover{
+        .mat-mini-fab{
+            opacity: 1;
+        }
+    }
+    .skill-box{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        justify-content: space-between;
+        .number{
+            background: #ccc;
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+            min-height: 22px;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+        }
+    }
+    .mat-icon-button{
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        opacity: 0.7;
+        &:hover{
+            opacity: 1;
+        }
+        .mat-icon{
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            font-size: 16px;
+        }
+    }
+}
+::ng-deep{
+    .mat-chip-list-wrapper{
+        margin: 0px;
+    }
+}

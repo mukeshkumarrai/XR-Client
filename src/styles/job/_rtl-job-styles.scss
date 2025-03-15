@@ -1,0 +1,125 @@
+[dir="rtl"] {
+    .job-detail-header{
+      .header-expand-collapse{
+        left: 10px;
+        right: inherit !important;
+      }
+    }
+    .job-status {
+      .jobAge {
+        .jobAgeBox {
+          .jobAgeBoxLabel {
+            margin-left: 15px;
+            &::after {
+              left: -11px;
+              right:unset;
+              transform: rotate(180deg);
+            }
+          }
+          .jobAgeBoxTimer {
+            color:#000000;
+          }
+        }
+      }
+    }
+    .job-details-overlay-sidebar {
+      z-index: 9;
+      .drawerSidenav {
+        left:0px;
+        .closePanel{
+          .closeDrawerIcon{
+              border-radius: 0px 0px 0px 4px;
+              transform: rotate(180deg);
+          }
+          .sidebarSectionName{
+              transform: rotate(90deg);
+              border-radius: 0px 4px 0px 0px;
+  
+          }
+        }
+      }
+    }
+    .jobDetailsViewbtn{
+      left: 50px;
+      top: 50px;
+    }
+    .addCandidateToJobBtn{
+      left: 60px;
+      top: 60px;
+    }
+   .candidateSummaryBtnSidebar{
+      left: 70px;
+      top: 70px;
+    }
+    .searchGreyBgBox{
+      .textRight{
+        text-align: left;
+      }
+    }
+    .candidateMappngLoadingBgFix{
+      top:0px;
+      left:0px;
+      right:0px;
+      bottom: 0px;
+    }
+    .candidateJobBox{
+      .addToJobBtnBox{
+        text-align: left;
+      }
+      .shortName{
+        float: left;
+      }
+    }
+    .panelSidebarInformation{
+      width: calc(100% - 40px);
+      margin-right: 40px;
+    }
+    .seekIntegrationSection{
+      .positionRelative{
+          .infoIconStyle{
+              right:unset;
+              left:12px;
+              text-align: left;
+          }
+      }
+    }
+    .jobdetail-card {
+      .mat-card-content {
+        .canidate-header {
+          .pipeLine {
+            @media only screen and (max-width:1480px) and (min-width: 1280px) {
+              margin-right: 0px;
+              margin-left: 45px;
+            }
+            .mat-raised-button {
+              .matBadge {
+                left: 7px;
+              }
+            }
+          }
+          .candidate-action {
+            @media screen and (min-width: 320px) and (max-width: 1480px) {
+              right: unset;
+              left:45px;
+            }
+          }
+  
+        }
+      }
+    }
+
+    .drawerSidenavQuickJob{
+      .jobDetailsViewLoading{
+        left:0px;
+        right: 40px;
+      }
+    }
+    .select-Workflow.job-select-workflow{
+      .tenant-footer{
+        .mat-stroked-button{
+          border-bottom-right-radius: 4px;
+          border-bottom-left-radius: 13px;
+        }
+      }
+    } 
+}

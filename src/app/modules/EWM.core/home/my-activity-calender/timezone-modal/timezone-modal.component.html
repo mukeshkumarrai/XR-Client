@@ -1,0 +1,44 @@
+<!---
+   @Type: File, <html>
+    @Name: invite-a-teammate.component.html
+    @Who: Anup Singh
+    @When: 25-May-2021
+    @Why: EWM-1434 EWM-1612
+    @What: popup component for Invite Teammate
+   -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+   <h2> {{'label_timezone' | translate}}
+   </h2>
+   <mat-dialog-content class="col">
+       
+       <div class="row mb-0">
+           <div class="col l12 m12 s12">
+            <div class="ng-slectBox searchInput regionInput" >
+                <ng-select placeholder="{{ 'label_timeZone' | translate }}"  #select  [searchable]="false"
+                  id="activity-UserTimezone" class="dropdown-body" (change)="changeActivityTimeZone($event)"
+                  appendTo="body" tabindex [clearable]="false" [(ngModel)]="timezonName">
+                  <ng-template ng-header-tmp>
+                 <input class="selectSearch" tabindex="1" placeholder="{{'label_search' |translate}}" type="text" (input)="select.filter($event.target.value)"/>
+                </ng-template>
+                  <ng-option value="">{{'label_timezone'|translate}}</ng-option>
+                  <ng-option *ngFor="let timezone of gridTimeZone" [value]="timezone.Id">
+                   <div  title="{{timezone.Timezone}}">
+                     {{timezone.Timezone}}
+                    </div> 
+                  </ng-option>
+        
+                </ng-select>
+              </div>
+           </div>
+       </div>
+   
+      
+   </mat-dialog-content>
+   <mat-divider></mat-divider>
+   <mat-dialog-actions align="end" class="button-row actionBoxFooter">
+       <button mat-stroked-button color="warn" id="btnClose" (click)="onDismiss()"> {{'button_close' | translate}}</button>
+       <button mat-stroked-button color="primary" id="btnAdd"    (click)="saveTeamMates()">{{'label_apply' |translate}}</button>
+   </mat-dialog-actions>

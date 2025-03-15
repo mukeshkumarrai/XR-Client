@@ -1,0 +1,240 @@
+@use "../../colors";
+
+.stagecarousel {
+    background: #efefef;
+    display: block;
+    border-radius: 8px;
+    padding: 8px;
+    position: relative;
+    max-width: calc(100% - 5px);
+    margin-top: 5px;
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        background-color: #fff;
+        width: 35px;
+        height: 35px;
+        border-radius: 100%;
+        text-align: center;
+        margin-top: -18px;
+        box-shadow: 0px 0px 4px 0px #000;
+    }
+
+    .swiper-button-next:after,
+    .swiper-container-rtl .swiper-button-prev:after {
+        content: "arrow_forward_ios";
+        font-family: 'Material Icons';
+        font-size: 18px;
+        color: rgba(colors.$black-color, 0.87);
+        margin-left: 0px;
+    }
+
+    .swiper-button-prev:after,
+    .swiper-container-rtl .swiper-button-next:after {
+        content: "arrow_back_ios";
+        font-family: 'Material Icons';
+        font-size: 18px;
+        color: rgba(colors.$black-color, 0.87);
+        margin-left: 7px;
+    }
+
+    .swiper-button-disabled {
+        opacity: 0;
+    }
+
+    .swiper-button-prev {
+        left: 1px;
+    }
+
+    .swiper-button-next {
+        right: 1px;
+    }
+
+    .no-stages {
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+// workflow stages
+.workflow-stages {
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        background-color: #fff;
+        width: 28px;
+        height: 28px;
+        border-radius: 100%;
+        text-align: center;
+        top: calc(50% - 14px);
+        margin: 0px;
+        box-shadow: none;
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .swiper-button-prev.swiper-button-disabled,
+    .swiper-button-next.swiper-button-disabled {
+        opacity: 1;
+        pointer-events: fill;
+
+        &::after {
+            opacity: 0.20;
+        }
+    }
+
+    .swiper-wrapper {
+        .swiper-slide {
+            .flowStage {
+                background: colors.$primary-bg-color;
+                color: colors.$primary-txt-color;
+                padding: 5px 0px;
+                text-align: left;
+                border-radius: 0px;
+                font-size: 14px;
+                line-height: 20px;
+                box-shadow: -4px 0px 3px 0px #767676;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                width: calc(100% - 91px);
+                padding-inline-start: 25px;
+                padding-inline-end: 56px;
+
+                .flowStageTxt {
+                    padding-inline-start: 8px;
+                    padding-inline-end: 3px;
+                    cursor: pointer;
+                    letter-spacing: 1px;
+                    mix-blend-mode: hard-light;
+                    text-shadow: 1px 1px 4px #000;
+                    max-width: calc(100% - 11px);
+                }
+
+                .arrow-left {
+                    width: 0;
+                    height: 0;
+                    position: absolute;
+                    z-index: 1;
+                    border-top: 25px solid transparent;
+                    border-bottom: 25px solid transparent;
+                    border-left: 30px solid #e2e0e4;
+                    right: -19px;
+                }
+            }
+
+            .badge {
+                background: #fff;
+                margin-left: 0px;
+                padding: 6px 1px;
+                font-size: 12px;
+                max-width: 45px;
+                min-width: 35px;
+                height: 25px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                border-radius: 4px;
+                box-shadow: 0px 2px 4px 0px #958686 inset;
+                position: absolute;
+                color: colors.$primary-bg-color;
+                line-height: 15px;
+                right: 30px;
+                top: 13px;
+
+                &::after {
+                    position: absolute;
+                    content: "";
+                    left: 0px;
+                    top: 0px;
+                    width: 100%;
+                    height: 100%;
+                    background-color: currentColor;
+                    opacity: 0.1;
+                }
+
+                &:hover {
+                    &::after {
+                        position: absolute;
+                        content: "";
+                        left: 0px;
+                        top: 0px;
+                        width: 100%;
+                        height: 100%;
+                        background-color: #fff;
+                    }
+                }
+            }
+
+            .stagefilter-selected.badge {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                font-size: 13px;
+                padding-left: 4px;
+                padding-right: 4px;
+                top: 5.5px;
+                right: 15px;
+                line-height: 28px;
+                color: #1E88E5;
+                box-shadow: 0px 2px 4px 0px #958686 inset, 0px 0px 0px 1.5px #fff;
+            }
+        }
+    }
+
+    .selectd-arrow {
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 14px solid #ffffff;
+        position: absolute;
+        bottom: 0px;
+        right: 20px;
+    }
+}
+// workflow stages
+
+.dark-theme {
+    .stagecarousel {
+        background: #4a4a4a;
+
+        &::after {
+            border-left: 20px solid #4a4a4a;
+        }
+
+        .carousel-cell:nth-child(even)::before {
+            background: #424242;
+        }
+
+        .carousel-cell:nth-child(odd)::before {
+            background: #424242;
+        }
+
+        .flowStage {
+            background: #282828 !important;
+            color: #ffffff;
+            box-shadow: 0px 0px 30px 0px #6f6f6f;
+
+            .badge {
+                background: #fff;
+            }
+
+            .arrow-left {
+                border-left: 30px solid #232222 !important;
+            }
+        }
+
+        .carousel-cell:nth-child(even)::after {
+            border-bottom: 10px solid colors.$dark-primary;
+        }
+
+        .carousel-cell:nth-child(odd)::after {
+            border-top: 10px solid colors.$dark-primary;
+        }
+        .selectd-arrow {
+            border-bottom: 14px solid #4a4a4a;
+        }
+    }
+}

@@ -1,0 +1,209 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: job-type.component.scss
+     @Who: Anup
+     @When: 2-july-2021
+     @Why:EWM-1807 EWM-1976
+    @What: You can add configue job board styles to this file, and also import other style files
+*/
+@import '.././.././../../../mixinStyle.scss';
+.col .row {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.jobboard-workforce{
+  display: grid;
+  grid: auto/ calc(50% - 5px) calc(50% - 5px);
+  gap: 10px;
+  margin-bottom: 15px;
+  @include for-ipads{
+    grid: auto/ 50% 50%;
+  }
+  @include for-large-smartphones{
+    grid: auto/ 100%;
+    gap: 0px;
+
+    .jobboard, .workforce{
+      height: auto !important;
+    }
+    .jobboard{
+      margin-bottom: 10px;
+    }
+  }
+  @include for-smartphones{
+    grid: auto/ 100%;
+    gap: 0px;
+
+    .jobboard, .workforce{
+      height: auto !important;
+    }
+    .jobboard{
+      margin-bottom: 10px;
+    }
+  }
+  @include for-small-smartphones{
+    grid: auto/ 100%;
+    gap: 0px;
+
+    .jobboard, .workforce{
+      height: auto !important;
+    }
+    .jobboard{
+      margin-bottom: 10px;
+    }
+  }
+}
+.col-1 {
+  width: 10%;
+}
+.col-2 {
+  width: 60%;
+}
+.col-3 {
+  width:30%;
+}
+
+
+.smallLoadercustom {
+  font-size: 32px;
+  z-index: 9999999 !important;
+}
+
+.smallTableLoadercustom{
+  font-size: 32px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 40px;
+}
+  
+      @media only screen and (min-width:1270px) {
+        .cardWidth {
+          width: 33%;
+        }
+      }
+      
+      @media only screen and (min-width:1024px) and (max-width:1270px) {
+        .cardWidth {
+          width: 50%;
+        }
+      }
+      
+      @media only screen and (min-width:320px) and (max-width:1024px) {
+        .cardWidth {
+          width: 100%;
+        }
+      
+        .maxData {
+          max-height: 100%;
+          overflow: auto;
+        }
+      }
+    .inputSearch{
+        display: block !important;
+        z-index: 9999999999;
+        position: absolute;
+        top: inherit;
+        left: inherit;
+        right: inherit;
+        bottom: inherit;
+        font-size: 64px;
+        background-color: rgba(0, 0, 0, 0);
+        right: 20px;
+        bottom: 18px;
+        font-size: 26px;
+      }
+    
+      .list{
+        display: block !important;
+        z-index: 9999999999;
+        
+        position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      font-size: 64px;
+      background-color: rgba(0, 0, 0, 0.32);
+      }
+      @media only screen and (max-width: 1023px) and (min-width: 320px){
+        .separateLabel{
+          height: 35px;
+        }
+    }
+    @media only screen and (max-width: 374px) and (min-width: 320px){
+        .iconUploadSec .iconUploadbox .mat-button.mat-primary {
+            position: relative;
+            border: 3px;
+            left: 0px;
+            margin: 5px 0px;
+        }
+        .faviconUpload{
+            margin-top: 15px;
+        }
+    }
+    @media only screen and (max-width: 852px) and (min-width: 584px){
+        .iconUploadSec .iconUploadbox .mat-button.mat-primary {
+            position: relative;
+            top: 2px;
+            border: 3px;
+            left: 0px;
+            margin: 5px 0px;
+            display: block;
+        }
+    }
+    
+      .mat-form-field-infix, .mat-form-field{
+        width: 100%;
+      }
+    
+      .scrollloading{
+        height:75px;
+        position: relative;
+        background-color: transparent;
+        top: inherit;
+        right: inherit;
+        left: inherit;
+        bottom: inherit;
+      }
+      .matEyeIcon{float:right; margin-right:20px}
+
+.list-dropDown{
+    height:200px; overflow: auto;
+}
+
+.list-heading{
+    height: auto;
+    padding: 0px;
+}
+
+
+.mat-list-base .mat-list-item, .mat-list-base .mat-list-option{
+  height: 34px !important;
+  font-size: 14px !important;
+}
+.mat-error{
+    font-size: 11px;
+    position: relative;
+    top: -15px;
+}
+
+.mat-list-item-ripple{
+  background:red !important;
+}
+
+#contentdata{
+  max-height: 210px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+}
+
+@media only screen and (max-width: 1375px) and (min-width: 320px){
+  #contentdata{
+    overflow-x: auto;
+  }
+}
+// ::ng-deep .mat-list-option .mat-pseudo-checkbox{ display: none; }

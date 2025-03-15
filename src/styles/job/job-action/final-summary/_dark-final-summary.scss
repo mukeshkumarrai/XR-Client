@@ -1,0 +1,43 @@
+
+/* @When: 22-05-2024 @who:Amit @why: EWM-17156 @what: review final summary style */
+@use "../../../../colors";
+.dark-theme{
+    .final-summary-main{
+        .final-inner-summary{
+            background: colors.$gray-txt;
+            .final-summary.mat-card{
+                border: 1px solid colors.$gray-txt;
+                .final-main-header{
+                    background: #3c3a3a;
+                }
+                .final-main-content{
+                    background: #5d5d5d;
+                    .final-summary-data{
+                        .mat-card{
+                            background: #5d5d5d;
+                            box-shadow: rgba(255, 255, 255, 0.1) 0px 0px 0px 1px;
+                            .mat-card-header{
+                                background: #3c3c3c;
+                            }
+                        }
+                    }
+                    .final-summary-data.final-screening-notes{
+                        .mat-card{
+                            .mat-card-content{
+                                box-shadow: rgba(255, 255, 255, 0.1) 0px 0px 0px 1px;
+                            }
+                        }
+                    }
+                    .final-summary-data.final-screening-action{
+                        background: #5d5d5d;
+                        box-shadow: rgba(255, 255, 255, 0.1) 0px 0px 0px 1px;
+                    }
+                }
+            }
+        }
+        .actionBoxFooter{
+            background: #303030;
+        }
+    }
+}
+    

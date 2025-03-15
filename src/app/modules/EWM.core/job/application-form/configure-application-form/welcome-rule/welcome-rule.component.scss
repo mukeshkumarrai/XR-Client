@@ -1,0 +1,56 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: Satya Prakash Gupta
+    @When: 16-Dec-2022
+    @Why:  EWM-9629 EWM-9900
+    @What:  This page will be use for the welcome rule Component scss file
+*/
+
+.welcome-rules{
+    overflow: auto;
+    height: calc(100% - 76px);
+    padding: 10px 10px 76px 10px;
+    p{
+        margin-top: 0px;
+    }
+    h2{
+        margin-top: 15px;
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #cbcbcb;
+        padding-bottom: 5px;
+        &:first-child{
+            margin-top: 0px;
+        }
+    }
+    .mat-expansion-panel-header-title{
+        font-size: 15px;
+    }
+    .candidate-status{
+        background: #f1f1f1;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        .mat-icon{
+            position: relative;
+            left: -6px;
+        }
+    }
+}
+.full-screen-footer{
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    width: calc(100% - 20px);
+    padding: 10px;
+    bottom: 0px;
+    left: 0px;
+    border-radius: 0px;
+    margin-bottom: 0px;
+    z-index: 2;
+    .mat-raised-button{
+        margin-inline-start: 8px;
+    }
+}

@@ -1,0 +1,188 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <css>
+  @Name: folder.component.scss
+  @Who: Renu
+  @When: 29-Sep-2021
+  @Why: ROST-2641 ROST-3073
+  @What:  This component is used for add  templates for compose mail.
+*/
+@import "../../../../../../../../styles-var.scss";
+// Xeople : Satya Prakash Gupta : 20-Jul-2022 : Alignment issue : EWM-7686 EWM-7892 
+::ng-deep{
+    .mat-checkbox-layout {
+      display: flex;
+      .mat-checkbox-label{
+        width: 100%;
+        display: flex;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  .insert-email-template{
+    height: 65vh;
+    overflow: hidden;
+    .listcardContentMaxData,
+    .sticky-width{
+      min-width: 855px;
+    }
+    .listcardContentMaxData{
+      height: calc(65vh - 156px);
+      overflow: auto;
+    }
+    .tabInfinoteScroll{
+      overflow: hidden;
+      overflow-x: auto;
+    }
+  }
+  
+  .col-1{
+      width: 50%;
+  }
+  .col-2{
+      width: 30%;
+  }
+  .col-3{
+      width: 20%;
+  }
+  
+  .custom-checkbox{
+    margin:0px;
+    position: relative;
+    top:-2px;
+  }
+
+  // @When: 08-08-2023 @who:Amit @why: EWM-13733 @what:add opacity
+.numbers{
+  position: relative;
+  background: $primary-bg-color;
+  color: $primary-txt-color;
+  border-radius: 3px;
+  padding: 0px 4px;
+  font-size: 11px;
+  font-weight: 400;
+  margin-inline-start: 5px;
+  width: min-content;
+  height: 16px;
+  line-height: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 8px;
+  max-width: 26px;
+}
+  
+  // .inputSearch{
+  //     display: block !important;
+  //     z-index: 9999999999;
+  //     position: absolute;
+  //     top: inherit;
+  //     left: inherit;
+  //     right: inherit;
+  //     bottom: inherit;
+  //     font-size: 64px;
+  //     background-color: rgba(0, 0, 0, 0);
+  //     right: 20px;
+  //     bottom: 18px;
+  //     font-size: 26px;
+  //   }
+  
+  //   .list{
+  //     display: block !important;
+  //     z-index: 9999999999;
+  //     position: fixed;
+  //     top: 0;
+  //     left: 0;
+  //     right: 0;
+  //     bottom: 0;
+  //     font-size: 64px;
+  //     background-color: rgba(0, 0, 0, 0.32);
+  //   }
+  //   .scrollloading{
+  //     height:75px;
+  //     position: relative;
+  //     background-color: transparent;
+  //     top: inherit;
+  //     right: inherit;
+  //     left: inherit;
+  //     bottom: inherit;
+  //   }
+  //   .search-results {
+  //     height: 300px;
+  //     overflow: auto;
+  //   }
+  // Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+  // .maxData {
+  //     height: 70px;
+  // }
+  // .maxData:hover {
+  //     height: 70px;
+  // }
+  // .dropdownwithbutton{
+  //     .mat-raised-button{
+  //         margin-top: 7px;
+  //         min-width: 20px;
+  //         padding-left: 5px;
+  //         padding-right: 5px;
+  //         margin-left: 0px;
+  //     }
+  //     .s3{
+  //         text-align: center;
+  //     }
+      
+      
+  // }
+  
+  // .listcardContentMaxData{
+  //     min-width: unset;
+  // }
+  
+  // .listContent {
+  //     padding-top: 0px;
+  //     overflow-x: auto;
+  //     min-width: 650px;
+  //     overflow: hidden;
+  // }
+  
+  // .mgBottom0{
+  //     margin-bottom: 0px;
+  // }
+  
+  
+  // .listcardContentMaxData{
+  //     width: 100%;
+  //     min-width: 530px;
+  //     height: calc(100% - 12px);
+  //     overflow-x: hidden;
+  //     .with-icon{
+  //       padding-left: 13px;
+  //       .mat-icon{
+  //         left: 4px;
+  //         position: absolute;
+  //         font-size: 19px;
+  //         top: 12px;
+  //       }
+  //     }
+  //   }
+  //   .listContent .alternetBG .mat-card{
+  //     padding: 0px;
+  //   }
+  
+  //   .sticky-width{
+  //     min-width: unset;
+  //   }
+  //   .tabInfinoteScroll{
+  //     min-width: 800px;
+  //     overflow-x:auto
+  //   }
+  
+  //   .alternetBG{
+  //     margin-bottom: -15px;
+  //   }
+  
+  //   .pd-0{
+  //     padding:0px;
+  //   }
+  

@@ -1,0 +1,41 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: candidate-check.component.html
+ @When: 17-May-2022
+ @Why: ROST-7151 EWM-7233
+ @What: when candidate already exists
+-->
+<ng-container *ngIf="!otpVerify">
+    <div *ngIf="loading" class="logo-loader" id="logo-loader">
+        <div class="logo-loading"></div>
+      </div>
+      
+    <div class="alert-content" id="alert-content">
+        <mat-card class="alert-mat-card" id="alert-mat-card">
+        <mat-card-content class="alert-inner-content center-align" id="alert-inner-content">
+            <div class="alert-data" id="alert-data">
+                <mat-icon color="warn">warning</mat-icon>
+            </div>
+            <div class="alert-text" id="alert-text">
+                <p *ngFor="let data of candidateInfo?.JobDetails">{{'label_candidateExists'|translate}} {{data?.JobTitle}}
+                    {{'label_candidatesub1'|translate}} {{data.StageName}} {{'label_candidatesub3'|translate}}
+                </p>
+                <p *ngIf="candidateInfo?.HttpStatusCode!==400">{{'label_stillContinue'|translate}}</p>
+                <p *ngIf="candidateInfo?.HttpStatusCode===400">{{'label_candidateSub2'|translate}}</p>
+            </div>
+            <button mat-raised-button color="warn" tabindex id="btnCancel" type="button"  (click)="onCancel()" class="buttonForDesktopMobile">
+                <mat-icon matTooltip="{{'label_cancel'|translate}}"
+                matTooltipClass="custom-tooltip">close</mat-icon>
+                <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+              </button>
+              <button *ngIf="candidateInfo?.HttpStatusCode!==400" mat-raised-button color="warn" tabindex id="btnCancel" type="button"  (click)="onContinue()" class="buttonForDesktopMobile">
+                <mat-icon matTooltip="{{'label_continue'|translate}}"
+                matTooltipClass="custom-tooltip">close</mat-icon>
+                <span class="buttonTxt">{{'label_continue' |translate}}</span>
+              </button>
+        </mat-card-content>
+        </mat-card>
+    </div>
+    </ng-container>
+    <!-- <app-otp-verification *ngIf="otpVerify" [stepper]="stepper"></app-otp-verification> -->

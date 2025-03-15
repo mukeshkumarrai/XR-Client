@@ -1,0 +1,26 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:warning-dialog.component.html
+    @Who: Satya Prakash Gupta
+    @When: 17-Mar-2021
+    @Why: EWM-1017 EWM-1186
+    @What: This page wil be use only for the warning Component HTML
+-->
+
+<div mat-dialog-content class="center-align warning-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        error
+    </span>
+    <h2 mat-dialog-title>
+        {{'label_warning'|translate}}
+    </h2>
+      <p> {{subtitle|translate}}</p>
+
+    <p> {{message|translate}}</p>
+
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter inform-dialog-footer">
+    <button mat-stroked-button color="warn" (click)="onDismiss()"> {{'button_close'|translate}}</button>
+</div>

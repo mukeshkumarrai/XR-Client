@@ -1,0 +1,202 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 19-Aug-2021
+    @Why: EWM-2494
+    @What:  This component is used for Quick add Candidate Folder templates.
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<form [formGroup]="addForm" id="addCandidateFolderId" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0" *ngIf="activestatus=='Add'">{{'label_add' |translate}}
+            {{'label_Folder'|translate}}</h2>
+        <h2 matDialogTitle class="mb-0" *ngIf="activestatus=='Edit'">{{'label_edit' |translate}}
+            {{'label_Folder'|translate}}</h2>
+    </div>
+    <mat-dialog-content class="access-mat-dialog-content">
+        <mat-form-field>
+            <mat-label>{{'label_name'|translate}}</mat-label>
+            <input matInput formControlName="FolderName" tabindex id="folder-Name" text="FolderName"
+                placeholder="{{'label_name'|translate}}" required (blur)="duplicayCheck(false)">
+            <mat-error
+                *ngIf="addForm.controls['FolderName'].hasError('codeTaken')&&!addForm.controls['FolderName'].hasError('whitespace')">
+                {{'label_Folder'|translate}} {{'label_name'|translate}} {{'label_errorreqiredAlready'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['FolderName'].hasError('required')">
+                {{'label_name'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['FolderName'].hasError('maxlength')">
+                {{'label_name'|translate}} {{'label_errormaxlength50'|translate}}
+            </mat-error>
+            <mat-error
+                *ngIf="addForm.controls['FolderName'].hasError('whitespace') && !addForm.controls['FolderName'].hasError('required')">
+                {{'label_nameValidation' |translate}}
+            </mat-error>
+
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{'label_description'|translate}}</mat-label>
+            <textarea matInput formControlName="Description" id="folder-Description" tabindex
+                placeholder="{{'label_description'|translate}}"></textarea>
+            <mat-error *ngIf="addForm.controls['Description'].hasError('maxlength')">
+                {{'label_description'|translate}} {{'label_errormaxlength250'|translate}}
+            </mat-error>
+        </mat-form-field>
+        <!-- //manage assec functionality for client create folder data start ,who:maneesh,what:ewm-15817,when:29/01/2024  -->
+        <small>{{'label_manageaccess'|translate}} <span class="required-show">*</span> </small>
+        <div class="form-group mb-15">
+            <mat-radio-group formControlName="AccessId" id="AccessId" tabindex>
+                <mat-radio-button *ngFor="let accessData of documentAccessModeList"
+                    [checked]="accessData.Id==selectedAccessModeId" (change)="clickAccessData(accessData)"
+                    color="primary" [value]=accessData.Id>
+                    {{accessData.AccessName}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="manage-access-data" id="manage-access-data">
+            <div [ngSwitch]="matchAcessDesc">
+                <ng-template [ngSwitchCase]="'Confidential'">
+                    <p> {{'label_acessPrivate'|translate}}</p>
+                </ng-template>
+                <ng-template [ngSwitchCase]="'Public'">
+                    <p> {{'label_acessPublic'|translate}}</p>
+                </ng-template>
+                <ng-template [ngSwitchCase]="'Protected'">
+                    <p> {{'label_acessProtected'|translate}}</p>
+                </ng-template>
+                <ng-template *ngSwitchDefault>
+                    <p></p>
+                </ng-template>
+            </div>
+            <div *ngIf="divStatus && !toFieldsss">
+                <mat-form-field>
+                    <mat-label>{{'label_manageAccessTo' | translate}} * </mat-label>
+                    <mat-chip-list #chipList aria-label="user selection" [formControl]="EmailList">
+                        <mat-chip class="text-overflow"
+                            *ngFor="let userList of userSelectedList | slice:0:this.userListLengthMore"
+                            [selectable]="selectable" [removable]="removable"
+                            (removed)="remove(userList.UserId,'')" id="chipUserid" tabindex>
+                            <span class="text-overflow">{{userList.FullNameEmail}}</span>
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <mat-chip *ngIf="userSelectedList?.length > this.userListLengthMore">
+                            <!-- One more -->
+                            <span class="ng-value-label"
+                                (click)="clickForMoreRecord()">{{userSelectedList?.length -
+                                this.userListLengthMore}} more...</span>
+                        </mat-chip>
+                        <input matInput placeholder="{{'label_manageAccessToNameEmailGroup' | translate}}"
+                            #nameInput [formControl]="searchUserCtrl" [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [(ngModel)]="searchValue" (keyup)="onsearchByName($event.target.value)"
+                            autocomplete="off" id="UserSearchId" tabindex id="emailSearchId">
+                        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                    </mat-chip-list>
+
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUserEmail($event)">
+                        <mat-option *ngFor="let userData of searchUserList" id="userDropdownId"
+                            [value]="userData">
+                            <div class="user-email-searchlist">
+                                <div class="userAvtaar" id="ProfileImagePath">
+                                    <img src="{{userData.ProfileImagePath}}" tabindex
+                                        *ngIf="userData.ProfileImagePath!='' " class="gridImage circle">
+                                    <span *ngIf="userData.ProfileImagePath==''"
+                                        tabindex>{{sortName(userData.FullName,'')}}</span>
+                                </div>
+                                <span class="search-txt">{{userData.FullName}} ({{userData.Email}})</span>
+                                <span class="spacer"></span>
+                                <button mat-icon-button id="btnAddEmailId" color="primary">
+                                    <mat-icon class="mr-0">add</mat-icon>
+                                </button>
+                            </div>
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="EmailList.hasError('required') && toFieldEmpty && !emailNotExist">
+                        {{'label_manageAccessTo'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                    <mat-error *ngIf="emailNotExisting">
+                        {{'label_emailnotexist'|translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div *ngIf="toFieldsss">
+                <mat-form-field>
+                    <mat-label>{{'label_manageAccessTo' | translate}} * </mat-label>
+                    <mat-chip-list #chipList aria-label="user selection" [formControl]="EmailList">
+                        <mat-chip class="text-overflow"
+                            *ngFor="let userList of duplicateUserselectedEmail | slice:0:this.userListLengthMore"
+                            [selectable]="selectable" [removable]="removable"
+                            (removed)="remove(userList.UserId,'editfolder')" id="chipUserid" tabindex>
+                            <span class="text-overflow">{{userList.FullNameEmail}}</span>
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <mat-chip *ngIf="duplicateUserselectedEmail?.length > this.userListLengthMore">
+                            <!-- One more -->
+                            <span class="ng-value-label"
+                                (click)="clickForMoreRecord()">{{duplicateUserselectedEmail?.length -
+                                this.userListLengthMore}} more...</span>
+                        </mat-chip>
+                        <input matInput placeholder="{{'label_manageAccessToNameEmailGroup' | translate}}"
+                            #nameInput [formControl]="searchUserCtrl" [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [(ngModel)]="searchValue" (keyup)="onsearchByName($event.target.value)"
+                            autocomplete="off" id="UserSearchId" tabindex id="emailSearchId">
+                        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                    </mat-chip-list>
+
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUserEmail($event)">
+                        <mat-option *ngFor="let userData of searchUserList" id="userDropdownId"
+                            [value]="userData">
+                            <div class="user-email-searchlist">
+                                <div class="userAvtaar" id="ProfileImagePath">
+                                    <img src="{{userData.ProfileImagePath}}" tabindex
+                                        *ngIf="userData?.ProfileImagePath!='' " class="gridImage circle">
+                                    <span *ngIf="userData?.ProfileImagePath==''"
+                                        tabindex>{{sortName(userData?.FullName,'')}}</span>
+                                </div>
+                                <span class="search-txt">{{userData?.FullName}} ({{userData?.Email}})</span>
+                                <span class="spacer"></span>
+                                <button mat-icon-button id="btnAddEmailId" color="primary">
+                                    <mat-icon class="mr-0">add</mat-icon>
+                                </button>
+                            </div>
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="EmailList.hasError('required') && toFieldEmpty && !emailNotExisting">
+                        {{'label_manageAccessTo'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                    <mat-error *ngIf="emailNotExisting">
+                        {{'label_emailnotexist'|translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <small>{{'label_permissionAvailable'|translate}}</small>
+        <div class="document-name">
+            <mat-checkbox color="primary" disabled readonly id="documentEmailTemp-DocumentName"
+                formControlName="View">{{'label_View'|translate}}</mat-checkbox>
+            <mat-checkbox color="primary" disabled readonly id="documentEmailTemp-DocumentName2"
+                formControlName="Edit">{{'label_edit'|translate}}</mat-checkbox>
+            <mat-checkbox color="primary" disabled readonly id="documentEmailTemp-DocumentName3"
+                formControlName="Delete">{{'label_delete'|translate}}</mat-checkbox>
+        </div>
+        <!--END manage assec functionality for client create folder data start ,who:maneesh,what:ewm-15817,when:29/01/2024  -->
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="warn"
+            *ngIf="editClientFolder==true && selectedAccessModeId === 3 && userSelectedList.length>0" tabindex
+            type="button" (click)="openRemoveAccessModal()" id="btnRemoveAccessId"
+            [disabled]="userSelectedList.length==0">{{'label_RemoveAccess'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button"
+            [disabled]="!addForm.valid || toField || isResponseGet" (click)="onSaveFolderdata(this.addForm.value)"
+            id="btnSave">
+            <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_save'|translate}}</span>
+            <div *ngIf="isResponseGet" id="loading"></div>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,61 @@
+
+// @When: 15-02-2025 @who:Amit @why: EWM-19494 @what: candidate screening style
+@use "../../../../colors";
+
+.candidate-screening-action{
+    .modal-header{
+        .mat-icon-button{
+            display: none;
+        }
+    }
+    .mat-dialog-content{
+        height: calc(100vh - 225px);
+        max-height: inherit;
+        padding: 0px;
+        margin: 0px;
+        .candidate-overview{
+            margin-block: 5px 0px;
+            .tab-container.candidate-tab-container.share-tab{
+                .mat-tab-group{
+                    .mat-tab-body-wrapper{
+                        .screening-action-main{
+                            height: 100%;
+                            .screening-action{
+                                height: 100%;
+                                padding-bottom: 105px;
+                            }
+                        }
+                        .mat-tab-body .mat-tab-body-content{
+                            .final-summary-main{
+                                .final-inner-summary{
+                                    .final-summary.mat-card:last-child{
+                                        &:last-child{
+                                            margin-bottom: 70px !important;
+                                        }
+                                    }
+                                }
+                                .actionBoxFooter{
+                                    height: 60px;
+                                    min-height: 60px;
+                                    gap: 0px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .mat-dialog-content.member-dialog-content{
+        height: calc(100vh - 225px);
+    }
+    .mat-dialog-actions.dialog-footer{
+        justify-content: end;
+        .button-group{
+            margin-inline: 0px 20px;
+            .mat-stroked-button{
+                padding: 0px 16px;
+            }
+        }
+    }
+}

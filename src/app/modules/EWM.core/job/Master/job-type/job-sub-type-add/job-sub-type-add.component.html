@@ -1,0 +1,107 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: add-job-sub-type.component.html
+  @Who: Anup
+  @When: 14-June-2021
+  @Why:EWM-1815
+  @What: For job Sub Type List
+ -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="job-sub-type-add-mat-card-header">
+        <mat-card-title class="only-title" class="only-title" *ngIf="activestatus=='Add'">{{'label_jobSubTypeAdd' |translate}}</mat-card-title>
+        <mat-card-title class="only-title" class="only-title" *ngIf="activestatus=='Edit'">{{'label_jobSubTypeEdit' |translate}}</mat-card-title>
+        <div class="actionButton">
+            <button mat-raised-button color="warn" tabindex="3" [routerLink]="['../job-sub-type']"
+                [queryParams]="{id: JobTypeId, jobType: jobType,V:viewMode}" id="btnCancel"
+                class="buttonForDesktopMobile">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+            </button>
+            <button mat-raised-button tabindex="4" class="buttonForDesktopMobile" color="primary"
+                (click)="onSave(this.addJobSubForm.value)" type="button" id="btnSave" [disabled]="!addJobSubForm.valid">
+                <mat-icon>check</mat-icon>
+                <span class="buttonTxt">{{'label_save'|translate}}</span>
+            </button>
+        </div>
+</mat-card-header>
+    
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="job-sub-type-add-drawer">    
+<mat-card class="component-card mat-elevation-z2" id="component-card">
+        <div class="addEditSec">
+            <ng-template #template let-anchor>
+                <span>{{ anchor.nativeElement.innerText }}</span>
+            </ng-template>
+            <form novalidate [formGroup]="addJobSubForm" (ngSubmit)="onSave(this.addJobSubForm.value)"
+                accept-charset="utf-8" id="jobSubType-form">
+                <div class="row col mb-0">
+                    <div class="col l8 m12 s12">
+
+                        <div class="row mb-0">
+                            <mat-form-field class="col l6 m6 s12">
+                                <mat-label>{{'label_JobType'|translate}}</mat-label>
+                                <input matInput formControlName="JobType" tabindex="1" id="jobType-Name"
+                                    placeholder="{{'label_JobType'|translate}}" required (blur)="JobduplicayCheck()">
+                                <mat-error *ngIf="addJobSubForm.controls['JobType'].hasError('required')">
+                                    {{'label_JobType'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                                <mat-error *ngIf="addJobSubForm.controls['JobType'].hasError('codeTaken')">
+                                    {{'label_JobType'|translate}} {{'label_errorreqiredAlready'|translate}}
+                                </mat-error>
+                                <mat-error *ngIf="addJobSubForm.controls['JobType'].hasError('maxlength')">
+                                    {{'label_JobType'|translate}} {{'label_errormaxlength50' |translate }}
+                                </mat-error>
+                                <mat-error *ngIf="addJobSubForm.controls['JobType'].hasError('pattern')">
+                                    {{'label_JobType'|translate}} {{'label_errorspecialchar'|translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="row mb-0">
+                            <mat-form-field class="col l6 m6 s12">
+                                <mat-label>{{'label_jobSubType'|translate}}</mat-label>
+                                <input type="hidden" formControlName="Id" id="Id">
+                                <input matInput formControlName="JobSubType" tabindex="1" id="jobSubType-Name"
+                                    placeholder="{{'label_jobSubType'|translate}}" required (blur)="JobduplicayCheck()">
+                                <mat-error *ngIf="addJobSubForm.controls['JobSubType'].hasError('required')">
+                                    {{'label_jobSubType'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                                <mat-error *ngIf="addJobSubForm.controls['JobSubType'].hasError('codeTaken')">
+                                    {{'label_jobSubType'|translate}} {{'label_errorreqiredAlready'|translate}}
+                                </mat-error>
+                                <mat-error *ngIf="addJobSubForm.controls['JobSubType'].hasError('maxlength')">
+                                    {{'label_jobSubType'|translate}} {{'label_errormaxlength100' |translate }}
+                                </mat-error>
+                                <mat-error *ngIf="addJobSubForm.controls['JobSubType'].hasError('pattern')">
+                                    {{'label_jobSubType'|translate}} {{'label_errorspecialchar'|translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col l6 m6 s12 ">
+                                <div class="ng-slectBox">
+                                    <ng-select placeholder="{{'label_status'|translate}}" [clearable]="true" class="show-required"
+                                        tabindex="2" formControlName="Status" id="jobSubType-status" required
+                                        (change)="clickStatusID($event)">
+                                        <ng-option value="" disabled>{{'label_selectStatus'|translate}}</ng-option>
+                                        <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">
+                                            {{list.StatusName}}</ng-option>
+                                    </ng-select>
+                                    <mat-error
+                                        *ngIf="addJobSubForm.controls['Status'].hasError('required') && addJobSubForm.controls['Status'].touched">
+                                        {{'label_status'|translate}} {{'label_errorreqired'|translate}}
+                                    </mat-error>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+</mat-card>
+</mat-drawer-container>

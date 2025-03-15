@@ -1,0 +1,268 @@
+@use "../../colors";
+.candidate-timeline.mat-dialog-content{
+    min-height: 65vh;
+    .total-job{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        position: sticky;
+        top: 0px;
+        z-index: 2;
+        h3{
+            margin: 0px;
+            font-weight: 400;
+            border: 1px solid #ccc;
+            padding: 1px 6px;
+            border-radius: 4px 0px 0px 4px;
+            font-size: 14px;
+            background: #ffffff;
+        }
+        span{
+            background: #000000;
+            color: #ffffff;
+            border-radius: 0px 4px 4px 0px;
+            padding: 2px 3px;
+            font-size: 14px;
+            min-width: 16px;
+            text-align: center;
+        } 
+    }
+    .timeline-data{
+        h4{
+            margin: 0px 0px 5px;
+            font-size: 16px;
+        }
+        .mat-card{
+            padding: 8px;
+            .mat-card-title{
+                font-size: 16px;
+                color: colors.$primary-bg-color;
+                .refid{
+                    font-weight: 400;
+                    margin-left: 4px;
+                    border: 1px solid #cccccc;
+                    padding: 0px 2px;
+                    border-radius: 3px;
+                    white-space: nowrap;
+                }
+            }
+            .candidate-time{
+                gap: 5px;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                @media (320px <= width <= 767px){
+                    grid-template-columns: 1fr;
+                }
+                .candidateTimeStamp{
+                    border: 1px solid #e1e1e2;
+                    display: flex;
+                    align-items: center;
+                    @media (320px <= width <= 500px){
+                        align-items: flex-start;
+                        flex-direction: column;
+                    }
+                    label{
+                        font-weight: 500;
+                        width: 130px;
+                        padding: 5px 10px;
+                        background: #f1f1f2;
+                        height: calc(100% - 10px);
+                        word-wrap: break-word;
+                        @media (320px <= width <= 500px){
+                            width: calc(100% - 20px);
+                        }
+                    }
+                    .spanTimeTxt{
+                        font-weight: 400;
+                        padding: 5px 10px;
+                        height: calc(100% - 10px);
+                    }
+                }
+            }
+            .candidateTimeline{
+                .arrowDownIconBox{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 10px;
+                    .mat-icon{
+                        text-align: center;
+                        cursor: pointer;
+                    }
+                    .expand_more{
+                        box-shadow: 0px -2px 4px 0px #e5dddd inset, rgba(149, 157, 165, 0.12) 0px 8px 10px;
+                    }
+                    .expand_less{
+                        box-shadow: 0px 2px 4px 0px #e5dddd inset, rgba(149, 157, 165, 0.12) 0px 8px 10px;
+                    }
+                }
+                .timelineContainer{
+                    margin: 0px;
+                    padding: 0px 0px;
+                    position: relative;
+                    overflow: hidden;
+                    height: auto;
+                    width: calc(100% - 0px);
+                    display: block;
+                    box-shadow: 0px 0px 1px rgba(119, 119, 119, 1);
+                    .urOrderList {
+                        min-height: 115px;
+                        display: flex;
+                        margin: 0px;
+                        padding: 85px 70px 0px 70px;
+                        .swiper-button-prev{
+                            left: 0px;
+                            top: 22px;
+                            background: #ffffff;
+                            height: 202px;
+                            padding: 0px 10px;
+                        }
+                        .swiper-button-next{
+                            right: 0px;
+                            top: 22px;
+                            background: #ffffff;
+                            height: 202px;
+                            padding: 0px 10px;
+                        }
+                        .swiper-button-prev, .swiper-button-next{
+                            color: colors.$primary-bg-color;
+                        }
+                        .stageListItems {
+                            list-style: none;
+                            padding: 20px 0px 0px 0px;
+                            position: relative;
+                            min-width: 92px;
+                            display: flex;
+                            margin: 8px 0px;
+                            flex-flow: wrap;
+                            justify-content: center;
+                            &::before {
+                                background: colors.$primary-bg-color;
+                            }
+                            &:hover::before {
+                                border-color: #e1e1e2;
+                            }
+                            .timelene-circle {
+                                background: rgb(103 58 183 / 30%);
+                                position: absolute;
+                                width: 36px;
+                                height: 36px;
+                                border-radius: 100%;
+                                top: -24px;
+                                left: calc(50% - 18px);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                z-index: 1;
+                                .timeline-color {
+                                    background: rgb(103 58 183 / 100%);
+                                    width: 25px;
+                                    height: 25px;
+                                    border-radius: 100%;
+                                }
+                            }
+                            .timestamp{
+                                position: relative;
+                                font-size: 12px;
+                                text-align: center;
+                                color: colors.$primary-bg-color;
+                            }
+                            .dataPositionTop {
+                                top: -105px;
+                            }
+                        }
+                        .swiper-slide{
+                            .timelene-border {
+                                width: calc(100% + 1px);
+                                height: 12px;
+                                background: #7fb734;
+                                position: absolute;
+                                top: -10px;
+                            }
+                            .pending-timeline{
+                                right: 50%;
+                                background: #FFD700;
+                            }
+                            &:last-child{
+                                .timelene-border{
+                                    left: - 50%;
+                                }
+                            }
+                            &:first-child{
+                                .timelene-border{
+                                    left: 50%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.dark-theme{
+    .candidate-timeline.mat-dialog-content{
+        .total-job{
+            h3{
+                border: 1px solid #000;
+                background: #414141;
+            }
+        }
+        .timeline-data {
+            .mat-card{
+                .mat-card-title{
+                    color: colors.$dark-primary;
+                    .refid{
+                        border: 1px solid #666666;
+                    }
+                }
+                .candidate-time{
+                    .candidateTimeStamp{
+                        border: 1px solid #5a5a5a;
+                        label{
+                            background: #3a3a3a;
+                        }
+                    }
+                }
+                .candidateTimeline{
+                    .arrowDownIconBox{
+                        .expand_more{
+                            box-shadow: 0px -2px 4px 0px #191919 inset, rgba(149, 157, 165, 0.12) 0px 8px 10px;
+                        }
+                        .expand_less{
+                            box-shadow: 0px 2px 4px 0px #191919 inset, rgba(149, 157, 165, 0.12) 0px 8px 10px;
+                        }
+                    }
+                    .timelineContainer{
+                        box-shadow: 0px 0px 1px rgba(0, 0, 0, 1);
+                        .urOrderList {
+                            .swiper-button-prev{
+                                background: #424242;
+                            }
+                            .swiper-button-next{
+                                background: #424242;
+                            }
+                            .swiper-button-prev, .swiper-button-next{
+                                color: colors.$dark-primary;
+                            }
+                            .stageListItems {
+                                &::before {
+                                    background: #789ab7;
+                                }
+                                &:hover::before {
+                                    border-color: #e1e1e2;
+                                }
+                                .timelene-circle {
+                                    background: rgb(103 58 183 / 30%);
+                                }
+                                .timestamp{
+                                    color: #789ab7;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

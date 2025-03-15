@@ -1,0 +1,214 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Vipul Bansal
+    @When: 27-Nov-2020
+    @Why: ROST-446
+    @What:  This component is used for thr system settings of the email templates.
+-->
+<!-- Entire Software : Renu : 27-Nov-2020 : Contact info : ROST-446 -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="email-template-mat-card-header">
+
+  <mat-card-title class="icon-with-title">
+    <div #gridAdd #gridAdd1>
+      <button mat-mini-fab class="mainAddButton" matTooltip="{{'label_addEmailTemplates'|translate}}"
+        matTooltipClass="custom-tooltip" color="primary" id="btnAdd" [routerLink]="['manage']"
+        (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+          <mat-icon id="{{animationVar?.CreateButton?.id}}"
+          class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+      </button>
+
+    </div>
+    <div class="sub-title">
+      <span>{{'label_emailTemplates' |translate}}</span><br>
+    </div>
+
+  </mat-card-title>
+
+  <div class="header-action-button" id="email-templates-actionButton" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox']">
+
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}} </mat-label>
+        <input matInput id="searchBox" placeholder="{{'label_search'|translate}}" (input)="onFilter($event.target.value)"
+          [(ngModel)]="searchValue">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()"
+          (click)="searchValue=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+    <!-- /*** @When: 20-09-2023 @Who:bantee  @Why: EWM-14395 @What: managing kendo grid via data state **/ -->
+
+    <div class="group-header-button">
+      <!-- @When: 18-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+      <a mat-raised-button class="header-button" id="user-invitation-btnViewAudit"
+      [routerLink]="['/client/core/system-settings/system-audit-log/',auditParameter]"
+      matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+      <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+    </a>
+
+     <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+     matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+     (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+     <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+        {{animationVar?.BarRotateButton?.iconName}}
+     </mat-icon>
+    </button>
+
+    </div>
+
+  </div>
+
+  <div class="header-action-button" id="user-roles-actionButton" *ngIf="formtitle=='Add'">
+    <button mat-raised-button tabindex="5" class="buttonForDesktopMobile" color="warn" (click)="onCancel($event)"
+      id="btnCancel">
+      <mat-icon>close</mat-icon>
+      <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+    </button>
+    <button mat-raised-button tabindex="4" class="buttonForDesktopMobile" color="primary"
+      (click)="onSave(this.addEmailTemplateForm.value,this.activestatus)" type="button" id="btnSave"
+      [disabled]="!addEmailTemplateForm.valid">
+      <mat-icon>check</mat-icon>
+      <span class="buttonTxt">{{'label_save'|translate}}</span>
+      
+    </button>
+  </div>
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-listing-with-breadCrumb email-template-container" autosize id="email-template-drawer">
+  <mat-card class="component-card mat-elevation-z2" id="component-card">
+    <div class="list-container ml-0 mr-0">
+      
+      <div class="kendo-table-container system-email" *ngIf="formtitle=='grid'">
+        <ng-template #template let-anchor>
+          <span>{{ anchor.nativeElement.innerText }}</span>
+        </ng-template>
+        <div kendoTooltip class="email-template-grid" #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+          (mouseover)="showTooltipKendo($event)">
+          <kendo-grid #gridAdd #gridAdd1 [kendoGridBinding]="gridView" id="emailTemplatesList"
+             [pageSize]="pagesize" [sort]="state.sort"  [pageable]="{buttonCount: 3,
+              info: true,
+              type: 'numeric',
+              pageSizes: true,
+              previousNext: true,
+              responsive: true}"  [pageSize]="state.take" [skip]="state.skip" [sortable]="true" [sort]="sort" 
+            [sortable]="true" [groupable]="false"
+            [reorderable]="false" [resizable]="true" (dataStateChange)="dataStateChange($event)" [data]="data" [filterable]="false"
+            [columnMenu]="{ filter: false }" >
+
+  
+            <kendo-grid-command-column [columnMenu]="false" title="" width="35" [resizable]="false"
+              [reorderable]="false"  class="listactionMenu">
+              <ng-template kendoGridCellTemplate let-dataItem>
+  
+  
+                <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+<!-- @When: 19-09-2023 @who:Mukesh @why: EWM-14400 @what: Open edit button  -->
+                  <a mat-menu-item id="editButtonId" [routerLink]="['manage', {id: dataItem.Id}]" >
+                    <mat-icon>edit</mat-icon>
+                    {{'label_edit'|translate}}
+                  </a>
+
+                  <button mat-menu-item (click)="DeleteEmailTemplate(dataItem)" id="deleteId" [disabled]="(dataItem.Delete=='0' || dataItem.IsSys=='1')?true:false">
+                    <mat-icon>delete</mat-icon>
+                    {{'label_delete'|translate}}
+                  </button>
+                </mat-menu>
+              </ng-template>
+            </kendo-grid-command-column>
+
+            <kendo-grid-column field="Title" title="{{'label_templateMailName' |translate}}" [columnMenu]="false"
+              >
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div class="customer-name word-wrap ellipsisText"><span
+                    class="cardListTxt word-wrap displayBlock">{{ dataItem?.Title}}</span>
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="RelatedTo" title="{{'label_relatedTo' |translate}}" [columnMenu]="false"
+              >
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div class="customer-name word-wrap ellipsisText"><span
+                    class="cardListTxt word-wrap displayBlock">{{ dataItem?.UserTypeName}}</span>
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ModuleName" title="{{'label_moduleNames' |translate}}" [columnMenu]="false"
+              >
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div class="customer-name word-wrap ellipsisText"><span
+                    class="cardListTxt word-wrap displayBlock">{{ dataItem?.ModuleName}}</span>
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="AccessName" title="{{'access_permission' |translate}}" [columnMenu]="false"
+              >
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div class="customer-name word-wrap ellipsisText"><span
+                    class="cardListTxt word-wrap displayBlock">{{ dataItem?.AccessName}}</span>
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="CreatedBy" title="{{'label_createdBy' |translate}}" [columnMenu]="false"
+              >
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div class="customer-name word-wrap ellipsisText"><span
+                    class="cardListTxt word-wrap displayBlock">{{ dataItem?.CreatedBy}}</span>
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="Status" title="{{'label_templateStatus' |translate}}" [columnMenu]="false"
+              >
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div class="customer-name word-wrap ellipsisText"><span
+                    class="cardListTxt word-wrap displayBlock">{{ dataItem?.Status}}</span>
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+
+
+            <kendo-grid-column field="LastUpdated" title="{{'lebel_lastUpdateOn' |translate}}" [columnMenu]="false"
+            >
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="customer-name word-wrap ellipsisText"><span
+                  class="cardListTxt word-wrap displayBlock">{{ (dataItem.LastUpdated!=0?dataItem.LastUpdated:'')|
+                  date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+          <ng-template kendoPagerTemplate let-totalPages="totalPages"
+          let-currentPage="currentPage">
+          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+          <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+          <kendo-pager-info></kendo-pager-info>
+          <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+      </ng-template>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+
+  </mat-card>
+</mat-drawer-container>

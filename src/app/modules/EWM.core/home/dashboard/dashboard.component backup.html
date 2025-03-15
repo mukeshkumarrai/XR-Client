@@ -1,0 +1,275 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 12-Jul-2021
+    @Why: EWM-2009 EWM-2049
+    @What:  This page wil be use only for the Customizing Widgets Component HTML
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+
+
+
+<mat-card-header class="dashboard-mat-card-header" id="dashboard-mat-card-header" *ngIf="isButtonActive">
+  <mat-card-title class="only-for-title">{{'label_dashboard' |customTranslate}} </mat-card-title>
+</mat-card-header>
+<!-- <mat-divider class="mgTop0"></mat-divider> -->
+
+<mat-card-header class="dashboard-mat-card-header" id="dashboard-mat-card-header" *ngIf="!isButtonActive">
+  <mat-card-title class="only-for-title">{{'label_dashboard' |customTranslate}}</mat-card-title>
+</mat-card-header>
+
+
+<div class="dashboard-drawer-container">
+  <div class="coming-soon" id="logo-loader">
+    <div class="coming-soon-text">
+      <mat-icon>rocket_launch</mat-icon>
+      <h1 class="center-align">
+        {{'label_Featurecomingsoon' |customTranslate}}</h1>
+    </div>
+  </div>
+
+
+  <mat-drawer-container class="xeople-container-without-header-buttons" autosize id="qualification-drawer">
+    <mat-drawer-content>
+      <div class="new-card-box is-blurred" id="new-card-box">
+        <mat-card class="dashboardCardBoxNew mat-elevation-z2 mb-0" id="dashboardCardBoxNew">
+          <mat-card-header>
+            <mat-card-title>
+              <!-- <mat-icon class="matIcon">add</mat-icon> -->
+              {{'label_MyPosition' |translate}}
+
+            </mat-card-title>
+          </mat-card-header>
+          <div class="content">
+            <apx-chart [series]="chartOptions1?.series1" [chart]="chartOptions1?.chart"
+              [dataLabels]="chartOptions1?.dataLabels" [plotOptions]="chartOptions1?.plotOptions"
+              [xaxis]="chartOptions1?.xaxis"></apx-chart>
+          </div>
+
+        </mat-card>
+
+        <mat-card class="dashboardCardBoxNew mat-elevation-z2 mb-0" id="dashboardCardBoxNew">
+          <mat-card-header>
+            <mat-card-title>
+              <!-- <mat-icon class="matIcon">add</mat-icon> -->
+              {{'label_UpcomingActivities' |translate}}
+
+            </mat-card-title>
+          </mat-card-header>
+          <div class="content">
+            <mat-card class="data past">
+              <p class="heading">Interview For Registered Nurse</p>
+              <p>Lagartha's Meeting</p>
+              <p>13:00 - 14:00 - (April 25th 2022)</p>
+
+            </mat-card>
+            <mat-card class="data present">
+              <p class="heading">Profile discussion with Mark</p>
+              <p>Lagartha's Meeting</p>
+              <p>15:00 - 16:30 - (April 27th 2022)</p>
+
+            </mat-card>
+            <mat-card class="data future">
+              <p class="heading">On-boarding of Michael</p>
+              <p>Jack's Meeting</p>
+              <p>10:30 - 11:00 - (April 29th 2022)</p>
+
+            </mat-card>
+          </div>
+        </mat-card>
+
+        <mat-card class="dashboardCardBoxNew mat-elevation-z2 mb-0" id="dashboardCardBoxNew">
+          <mat-card-header>
+            <mat-card-title>
+              <!-- <mat-icon class="matIcon">add</mat-icon> -->
+              {{'label_CandidateSource' |translate}}
+
+            </mat-card-title>
+          </mat-card-header>
+          <div class="content">
+            <apx-chart [series]="cOptions1?.series" [chart]="cOptions1?.chart" [labels]="cOptions1?.labels"
+              [stroke]="cOptions1?.stroke" id="piechartdata"></apx-chart>
+          </div>
+
+        </mat-card>
+
+        <mat-card class="dashboardCardBoxNew mat-elevation-z2 mb-0" id="dashboardCardBoxNew">
+          <mat-card-header>
+            <mat-card-title>
+              <!-- <mat-icon class="matIcon">add</mat-icon> -->
+              {{'label_totalNoofClient' |customTranslate}} {{TotalNoOfClient}}
+
+            </mat-card-title>
+          </mat-card-header>
+          <div class="content">
+
+            <agm-map #AgmMap class="wolrdMap" [latitude]="lat" [longitude]="lng" [disableDefaultUI]="true"
+              (mapReady)="mapReady($event)" (mapClick)="mapClicked($event)" id="mappopup" [fitBounds]="true"
+              style="height:300px">
+              <!-- <agm-direction [origin]="origin" [destination]="destination">
+            </agm-direction> -->
+              <agm-marker *ngFor="let m of markers; let i = index"
+                (markerClick)="clickedMarker(m.ClientId,infoWindow, i,'modal',m.LocationId)" [latitude]="m.lat"
+                [longitude]="m.lng" [markerDraggable]="false" (dragEnd)="markerDragEnd(m, $event)" id="mappopup-marker"
+                [agmFitBounds]="true" [iconUrl]="m.icon">
+                <agm-info-window #infoWindow id="mappopup-window">
+                  <mat-card class="mat-elevation-z0 p-0 m-0" style="max-width: 200px;"
+                    *ngFor="let mapdata of dasboardMapPopUpData; index as rowIndex">
+                    <mat-card-header class="p-0">
+                      <mat-card-title *ngIf="mapdata.ClientName">
+                        <a [routerLink]="['/client/core/clients/list/client-detail']"
+                          [queryParams]="{clientId:mapdata.ClientId}">
+                          {{mapdata.ClientName}}
+                        </a>
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content style="height: auto;" class=" p-0 mt-0">
+                      <p *ngIf="mapdata.Address"> {{mapdata.Address}}</p>
+                    </mat-card-content>
+                  </mat-card>
+                </agm-info-window>
+              </agm-marker>
+            </agm-map>
+          </div>
+        </mat-card>
+      </div>
+    </mat-drawer-content>
+
+    <mat-drawer-content *ngIf="isButtonActive" style="display: none;">
+      <div class="centerBox vertical-center-align-createjob">
+        <div class="vertical-center-align-createjob singleAddJobButton">
+          <mat-card class="mat-card-container add-mat-card-container" (click)="customizeDashboard()">
+            <div class="row">
+              <div class="col s12 m12 l12 animate__zoomIn animate__animated center-align">
+                <mat-card class="selectTemplateOrCreatejob" tabindex="1" id="createJob-routerAddJob">
+                  <div class=" center-align">
+                    <div class="tenantBox">
+                      <div class="cltImgBox">
+                        <mat-icon class="companyIcon">
+                          widgets
+                        </mat-icon>
+                      </div>
+                      <label (click)="customizeDashboard()">{{'label_dashboardcustomization'
+                        |customTranslate}}</label>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </mat-drawer-content>
+
+    <mat-drawer-content *ngIf="!isButtonActive" style="display: none;">
+      <div class="dashboard-sec" id="dashboard-sec">
+
+        <div class="dashboardColBox" id="left">
+
+          <mat-card class="dashboardCardBoxNew mat-elevation-z2" *ngFor="let item of leftGridData">
+            <div class="content">
+              <div class="data heading">
+                <p>Interview For Registered Nurse</p>
+                <p>Lagartha's Meeting</p>
+
+              </div>
+              <div class="actionButtonNew" id="actionButtonNew">
+                <button mat-raised-button class="viewAuditlog radius-call">
+                  <mat-icon>calculate</mat-icon>
+                </button>
+                <button mat-raised-button class="viewAuditlog radius-call">
+                  <mat-icon>person</mat-icon>
+                </button>
+                <button mat-raised-button class="viewAuditlog radius-call">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="content">
+              <div class="data">
+
+                <p>13:00 - 14:00 - (April 25th 2022)</p>
+
+              </div>
+              <div class="actionButtonNew">
+                <button mat-raised-button class="viewAuditlog radius-call">
+                  <mat-icon>videocam</mat-icon>
+                </button>
+
+                <button mat-raised-button class="viewAuditlog radius-call">
+                  <mat-icon>toggle_on</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </mat-card>
+
+          <mat-card class="dashboardCardBox mat-elevation-z2" *ngFor="let item of leftGridData">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon class="matIcon" *ngIf="!buttonArrayList.includes(item.Id)">add</mat-icon>
+                {{item.WidgetName}}
+
+              </mat-card-title>
+              <div class="actionButton">
+                <a class="viewAllLink">
+                  View All
+                </a>
+              </div>
+            </mat-card-header>
+            <mat-card-content class="cardContent">
+              <div class="cardContentBox">
+                <label class="cardCenterTxt">{{'label_youDontHaveAny' |customTranslate}}
+                  {{item.WidgetName}}</label>
+              </div>
+            </mat-card-content>
+            <div class="matCardFooter">
+              <span class="footerSpanTxt">
+                {{'label_myNotificationssPara' | customTranslate}}
+              </span>
+            </div>
+            <div class="resizeBarSec">
+              <div class="resizeBar"></div>
+              <div class="resizeBar"></div>
+            </div>
+          </mat-card>
+        </div>
+        <div class="dashboardColBox" id="right">
+          <mat-card class="dashboardCardBox mat-elevation-z2" *ngFor="let item of rightGridData">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon class="matIcon" *ngIf="!buttonArrayList.includes(item.Id)">add</mat-icon>
+                {{item.WidgetName}}
+              </mat-card-title>
+              <div class="actionButton">
+                <a class="viewAllLink">
+                  View All
+                </a>
+              </div>
+            </mat-card-header>
+            <mat-card-content class="cardContent moreHeight">
+              <div class="cardContentBox">
+                <label class="cardCenterTxt">{{'label_youDontHaveAny' |customTranslate}}
+                  {{item.WidgetName}}</label>
+              </div>
+            </mat-card-content>
+            <div class="matCardFooter" id="matCardFooter">
+              <span class="footerSpanTxt">
+                {{'label_myActivityStartPlan' | customTranslate}}
+              </span>
+            </div>
+
+            <div class="resizeBarSec">
+              <div class="resizeBar"></div>
+              <div class="resizeBar"></div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </mat-drawer-content>
+
+  </mat-drawer-container>
+
+</div>

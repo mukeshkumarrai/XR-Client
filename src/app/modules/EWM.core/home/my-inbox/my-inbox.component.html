@@ -1,0 +1,508 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 06-May-2024
+    @Why: EWM-1693
+    @What:  This page is creted for email inbox UI Component HTML
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="dashboard-mat-card-header my-inbox-header"
+    id="my-inbox-mat-card-header">
+    <mat-card-title class="only-title">{{'label_myInbox' |customTranslate}}
+        <!---------@When: 28-07-2023 @who:Amit @why: EWM-13395 @what: add current date--------->
+        <!-----@When:  28-08-2023 @Who : bantee @why: EWM-14101---->
+        <div id="my-inbox-LastEmailSync" *ngIf="emailConnection && LastSyncDate!=null && LastSyncDate!=0"
+            class="last-sync">{{'label_myInboxLastEmailSync' |customTranslate }} -
+            {{(currentDate | date) == (LastSyncDate | date) ?
+            (LastSyncDate | dateAgo): (LastSyncDate | date:userpreferences.dateformate:userpreferences.timezone)}}
+        </div>
+    </mat-card-title>
+    <!-----@When:  27-07-2023 @Who : bantee @why: EWM-13394---->
+    <div class="actionButton myInboxConnectTxt">
+        <div class="email-conection-status" *ngIf="emailConnection">
+            <span class="status">{{'label_templateStatus' |translate }}:</span>
+            <span class="green">
+                {{'label_emailConnected' |translate}}
+            </span>
+            <span class="wantTodisconnectTxt">{{'label_wantToDisonnectEmail' |translate }}</span>
+        </div>
+        <button mat-stroked-button color="warn" *ngIf="emailConnection" class="connectBtnLink" (click)="disConnectEmail()">
+            {{'label_emailDisconnect' |translate}}
+        </button>
+        <div class="email-conection-status" *ngIf="!emailConnection">
+            {{'label_templateStatus' |translate }}:
+            <span class="red">
+                {{'label_emailDisconnected' |translate}}
+            </span>
+            {{'label_wantToConnectEmail' |translate }}
+        </div>
+        <button mat-stroked-button color="primary" *ngIf="!emailConnection" type="button" class="connectBtnLink"
+            [routerLink]="['../../profile/email-integration']">{{'label_emailConnect' |translate}}</button>
+    </div>
+</mat-card-header>
+<mat-card id="myInboxPage" class="main-inbox">
+    <mat-card-content>
+        <div class="email-box-header main-inbox-header" id="email-box-header">
+            <!-- @Who: Satya Prakash Gupta ,@When: 11-Nov-2023, @Why: EWM-15143 EWM-15166 ,What: search bar width increase -->
+            <div class="email-box-header-actions">
+                <button mat-raised-button class="email-btn" color="primary" id="newEmail"
+                    (click)="openNewEmailModal(undefined,'')">
+                    <mat-icon>mail</mat-icon>
+                    <span>{{'label_newEmail' |translate}}</span>
+                </button>
+            </div>
+            <div class="search-filters">
+                <mat-form-field class="searchInput" floatLabel="never">
+                    <mat-label>{{'label_search'|translate}}</mat-label>
+                    <input matInput id="searchBox" placeholder="Search" [(ngModel)]="searchValue"
+                        (input)="onFilter($event.target.value)">
+                    <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+                        (click)="searchValue=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                    <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                </mat-form-field>
+                <div class="button-group">
+                    <button *ngIf="tabActive=='Inbox'" mat-raised-button class="icon-button"
+                        [matMenuTriggerFor]="MailBoxFilterGroup">
+                        <mat-icon>filter_list</mat-icon>
+                    </button>
+                    <button mat-raised-button class="icon-button" id="refreshEmailPageDesktop" (click)="reloadPage()"
+                        matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip">
+                        <mat-icon>rotate_right</mat-icon>
+                    </button>
+                    <mat-menu #MailBoxFilterGroup="matMenu" class="listactionMenu" xPosition="after" id="mailMobileMenu">
+                        <button mat-menu-item (click)="updateMarkAsReadUnRead(1)">
+                            {{'label_markAsRead' | customTranslate}}
+                        </button>
+                        <button mat-menu-item (click)="updateMarkAsReadUnRead(0)">
+                            {{'label_markAsUnread' | customTranslate}}
+                        </button>
+                        <mat-slide-toggle (change)="ShowOnlyImportantFilter($event)" (click)="$event.stopPropagation()"
+                            color="primary" labelPosition="before">{{'label_showOnlyImportant' | customTranslate}}
+                        </mat-slide-toggle>
+                    </mat-menu>
+                </div>
+            </div>
+        </div>
+        <mat-tab-group [@.disabled]="true" animationDuration="0ms" [selectedIndex]='selectedTabIndex'
+            (selectedTabChange)="ActiveTab($event)" dir="{{positionMatTab}}">
+            <mat-tab class="mailBoxLeftMenuPanel">
+                <ng-template mat-tab-label>
+                    <mat-icon class="matIconStyle">mail_outline</mat-icon>
+                    <span class="mailLableTxtName">{{'label_MenuInbox' |translate}}</span>
+                    <span class="spacer"></span>
+                    <span class="emailCount">{{mailInBoxCount?mailInBoxCount:0}}</span>
+                </ng-template>
+                <mat-drawer-container class="email-container" autosize>
+                    <mat-drawer #drawer class="emaillist" mode="side" [opened]="true"
+                        [ngClass]="status ? 'email-card-view' : ''" position="{{positionMatDrawer}}">
+                        <div class="scroll-mail-list" infinite-scroll [infiniteScrollDistance]="1"
+                            [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" [scrollWindow]="false">
+                            <div class="multiple-no-data" *ngIf="listView==undefined || listView.length==0">
+                                <p class="mb-15">{{'label_noRecordAvailable' | translate}}</p>
+                            </div>
+                            <div class="detail-email-list" *ngFor="let emailJson of  listView;let i=index"
+                                [ngClass]="{'emailDetailBox-unread':emailJson.IsRead===0,'emailDetailBox-slected':IsSelected==emailJson.UniqueId}">
+                                <div class="sender-basic-details" id="sender-basic-details">
+                                    <mat-checkbox color="primary" type="checkbox"
+                                        (change)='checkmultipleInfo(emailJson.UniqueId,$event.checked)'>
+                                    </mat-checkbox>
+                                    <div class="icons">
+                                        <mat-icon *ngIf="emailJson.IsFavorite==1"
+                                            [ngClass]="{ 'impIconSelected': toggleColor}"
+                                            (click)="enableDisableRule(i,emailJson.IsFavorite,emailJson.UniqueId);">
+                                            star
+                                        </mat-icon>
+                                        <mat-icon *ngIf="emailJson.IsFavorite!=1"
+                                            (click)="enableDisableRule(i,emailJson.IsFavorite,emailJson.UniqueId);"
+                                            [ngClass]="{'impIconGrey' : toggleColor}">
+                                            star_border
+                                        </mat-icon>
+                                    </div>
+                                    <div class="userAvtaarAndName"
+                                        (click)="clickEvent();getDetailsInfo(emailJson.UniqueId)">
+                                        <img *ngIf="emailJson.EmailFrom &&  emailJson.EmailFrom.PreviewUrl!=''"
+                                            src="{{emailJson.EmailFrom.PreviewUrl}}" />
+                                        <!-- who:maneesh,what:ewm-13145 for fixed background color in sortname ,when:14/07/2023 -->
+                                        <span *ngIf="emailJson.EmailFrom && emailJson.EmailFrom.PreviewUrl=='' "
+                                            [style.background]="getBackgroundColor(sortName(emailJson.EmailFrom.Name,''))">{{sortName(emailJson.EmailFrom.Name,'')}}</span>
+                                    </div>
+                                    <div class="name" (click)="clickEvent();getDetailsInfo(emailJson.UniqueId)">
+                                        {{emailJson?.EmailFrom?.Name}}
+                                    </div>
+                                </div>
+                                <div class="subject-body"
+                                    (click)="clickEvent();getDetailsInfo(emailJson.UniqueId)">
+                                    <div class="emailTitle text-overflow">
+                                        {{emailJson.Subject}}
+                                    </div>
+                                    <div class="emailSubTitle text-overflow">
+                                        {{emailJson.BodyPreview}}
+                                    </div>
+                                </div>
+                                <div class="date-attachments"
+                                    (click)="clickEvent();getDetailsInfo(emailJson.UniqueId)">
+                                    <mat-icon *ngIf="emailJson.HasAttachment==1">attach_file</mat-icon>
+                                    <span>{{(emailJson.DateSend?emailJson.DateSend:'')|
+                                        date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                                </div>
+                            </div>
+                            <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+                        </div>
+                    </mat-drawer>
+                    <mat-drawer-content class="email-detail">
+                        <mat-card id="myInbox" class="email-detail-card">
+                            <div class="email-detail-box-sender-details" id="email-detail-box-sender-details">
+                                <button mat-icon-button (click)="hideEmailSection()">
+                                    <mat-icon>keyboard_backspace</mat-icon>
+                                </button>
+                                <mat-card-title>{{listViewDetails?listViewDetails.Subject:''}}</mat-card-title>
+                            </div>
+                            <mat-card-content class="email-detail-box" id="email-detail-box">
+                                <div class="body-header">
+                                    <div class="sender-details">
+                                        <div class="userAvtaarAndName">
+                                            <img *ngIf="listViewDetails.EmailFrom &&  listViewDetails.EmailFrom.PreviewUrl!=''"
+                                                src="{{listViewDetails.EmailFrom.PreviewUrl}}" />
+                                            <!-- who:maneesh,what:ewm-13145 for fixed background color in sortname ,when:14/07/2023 -->
+                                            <span
+                                                *ngIf="listViewDetails.EmailFrom && listViewDetails.EmailFrom.PreviewUrl=='' "
+                                                [style.background]="getBackgroundColor(sortName(listViewDetails.EmailFrom.Name,''))">{{sortName(listViewDetails.EmailFrom.Name,'')}}</span>
+                                        </div>
+                                        <div class="sender-name-email" id="sender-name-email">
+                                            <div>{{listViewDetails.EmailFrom?listViewDetails.EmailFrom.Name:''}}
+                                            </div>
+                                            <small>{{listViewDetails.EmailFrom?listViewDetails.EmailFrom.EmailID:''}}</small>
+                                            <div class="to-and-cc">
+                                                <div class="to">To :</div>
+                                                <div>
+                                                    {{listViewDetails.EmailTo?listViewDetails.EmailTo[0].EmailID:''}}
+                                                </div>
+                                                <button mat-icon-button [matMenuTriggerFor]="toAllList"
+                                                    *ngIf="listViewDetails?.EmailTo?.length>1">
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </button>
+                                                <mat-menu #toAllList="matMenu" xPosition="after"
+                                                    class="toCCMenu" id="headerAddGroupMore">
+                                                    <div class="deprateDetail"
+                                                        (click)="$event.stopPropagation()">
+                                                        <ng-container
+                                                            *ngFor="let emailto of listViewDetails.EmailTo | slice : 1 : listViewDetails?.EmailTo?.length">
+                                                            <span>{{emailto.EmailID?emailto.EmailID:''}}</span>
+                                                        </ng-container>
+                                                    </div>
+                                                </mat-menu>
+                                            </div>
+                                            <div class="to-and-cc" *ngIf="listViewDetails?.EmailCC?.length>0">
+                                                <div class="to">Cc :</div>
+                                                <div>{{listViewDetails.EmailCC?listViewDetails.EmailCC[0].EmailID:''}}</div>
+                                                <button mat-icon-button [matMenuTriggerFor]="ccAllList"  *ngIf="listViewDetails?.EmailCC?.length>1">
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </button>
+                                                <mat-menu #ccAllList="matMenu" xPosition="after"
+                                                    class="toCCMenu" id="headerAddGroupMore">
+                                                    <div class="deprateDetail" (click)="$event.stopPropagation()">
+                                                        <ng-container *ngFor="let emailcc of listViewDetails.EmailCC | slice : 1 : listViewDetails?.EmailCC?.length">
+                                                            <span>{{emailcc.EmailID?emailcc.EmailID:''}}</span>
+                                                        </ng-container>
+                                                    </div>
+                                                </mat-menu>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="replyForwardIcons">
+                                        <div>
+                                            <button mat-icon-button color="primary"
+                                                matTooltip="{{'label_reply'|translate}}"
+                                                (click)="openNewEmailModal(listViewDetails,'reply')">
+                                                <mat-icon>reply</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="primary"
+                                                matTooltip="{{'label_replyAll'|translate}}"
+                                                (click)="openNewEmailModal(listViewDetails,'replyAll')">
+                                                <mat-icon>reply_all</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="primary"
+                                                matTooltip="{{'label_forward'|translate}}"
+                                                (click)="openNewEmailModal(listViewDetails,'forward')">
+                                                <mat-icon>arrow_forward</mat-icon>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            {{(listViewDetails.DateSend?listViewDetails.DateSend:'')| date:userpreferences.timeformate:userpreferences.timezone}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="attachmentFiles">
+                                    <mat-card class="attachedFileStyle"
+                                        *ngFor="let attach of listViewDetails.FileAttachment">
+                                        <mat-icon>article</mat-icon>
+                                        <span>{{attach.Name}}</span>
+                                        <mat-icon class="downloadFileIcon"
+                                            (click)="emailDownloadAttachement(listViewDetails?.UniqueId,attach?.Id,attach?.Name)">
+                                            file_download</mat-icon>
+                                    </mat-card>
+                                </div>
+                                <div class="emailBody" id="emailBody" [innerHTML]="listViewDetails.Body | mailBodySanitizer">
+                                    <mat-divider></mat-divider>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-drawer-content>
+                </mat-drawer-container>
+            </mat-tab>
+            <!-- Xeople : Satya Prakash Gupta : 30-Sep-2021 : draft emailbox : EWM-2641 EWM-3072 : start here -->
+            <mat-tab class="mailBoxLeftMenuPanel">
+                <ng-template mat-tab-label>
+                    <mat-icon class="matIconStyle">drafts</mat-icon>
+                    <span class="mailLableTxtName">{{'label_draft' |translate}}</span>
+                    <span class="spacer"></span>
+                    <span class="emailCount">
+                        {{mailDraftCount?mailDraftCount:0}}
+                    </span>
+                </ng-template>
+                <mat-drawer-container class="email-container" autosize>
+                    <mat-drawer #drawer class="emaillist" mode="side" [opened]="true"
+                        [style.width]="status? '100%' : '100%'">
+                        <div class="scroll-mail-list" infinite-scroll [infiniteScrollDistance]="1"
+                            [infiniteScrollThrottle]="50" (scrolled)="onScrollDownDraft()"
+                            [scrollWindow]="false">
+                            <div class="multiple-no-data"
+                                *ngIf="listViewDraft==undefined || listViewDraft.length==0">
+                                <p class="mb-15">{{'label_noRecordAvailable' | translate}}</p>
+                            </div>
+                            <div class="detail-email-list"
+                                *ngFor="let emailDraft of  listViewDraft;let i=index">
+                                <div class="sender-basic-details" id="sender-basic-details"
+                                    (click)="getDraftInfo(emailDraft.UniqueId)">
+                                    <div class="userAvtaarAndName">
+                                        <mat-icon>account_circle</mat-icon>
+                                    </div>
+                                    <div class="name">
+                                        <span>[DRAFT]</span> {{emailDraft?.EmailFrom?.Name}}
+                                    </div>
+                                </div>
+                                <div class="subject-body" (click)="getDraftInfo(emailDraft.UniqueId)">
+                                    <div class="emailTitle text-overflow">
+                                        {{emailDraft.Subject}}
+                                    </div>
+                                    <div class="emailSubTitle text-overflow">
+                                        {{emailDraft.BodyPreview}}
+                                    </div>
+                                </div>
+                                <div class="checkBoxName" style="display: none;"
+                                    (click)="getDraftInfo(emailDraft.UniqueId)">
+                                    <!-- <mat-checkbox color="primary"></mat-checkbox>                                            -->
+
+                                    <div class="userAvtaarAndName">
+                                        <mat-icon>account_circle</mat-icon>
+                                        <!-- <img *ngIf="emailDraft.EmailFrom &&  emailDraft.EmailFrom.PreviewUrl!=''"  src="{{emailDraft.EmailFrom.PreviewUrl}}"  />
+                                        <span *ngIf="emailDraft.EmailFrom && emailDraft.EmailFrom.PreviewUrl=='' ">{{sortName(emailDraft.EmailFrom.Name,'')}}</span> -->
+                                    </div>
+                                    <div class="emailSenderName">
+                                        <span>[DRAFT] </span> {{emailDraft.EmailFrom.Name}}
+                                    </div>
+                                </div>
+                                <div class="emailTitleSubtitle" (click)="getDraftInfo(emailDraft.UniqueId)"
+                                    style="display: none;">
+                                    <div class="emailTitle">
+                                        {{emailDraft.Subject}}
+                                    </div>
+                                    <div class="emailSubTitle">
+                                        {{emailDraft.BodyPreview}}
+                                    </div>
+                                </div>
+                                <div class="date-attachments" (click)="getDraftInfo(emailDraft.UniqueId)">
+                                    <mat-icon *ngIf="emailDraft.Attachment==true">attach_file</mat-icon>
+                                    <span>{{(emailDraft.DateSend?emailDraft.DateSend:'')|
+                                        date:userpreferences.timeformate}}</span>
+                                </div>
+                            </div>
+                            <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+                        </div>
+                    </mat-drawer>
+                </mat-drawer-container>
+            </mat-tab>
+            <!-- Xeople : Satya Prakash Gupta : 30-Sep-2021 : draft emailbox : EWM-2641 EWM-3072 : end here -->
+            <!-- Xeople : Satya Prakash Gupta : 30-Sep-2021 : Sene emailbox : EWM-2664 EWM-3069 : start here -->
+            <mat-tab class="mailBoxLeftMenuPanel">
+                <ng-template mat-tab-label>
+                    <mat-icon class="matIconStyle">send</mat-icon>
+                    <span class="mailLableTxtName">{{'label_sent' |translate}}</span>
+                    <span class="spacer"></span>
+                    <span class="emailCount"> {{mailSentCount?mailSentCount:0}}</span>
+
+                </ng-template>
+                <mat-drawer-container class="email-container" autosize>
+                    <mat-drawer #drawer class="emaillist" mode="side" [opened]="true"
+                        [ngClass]="status ? 'email-card-view' : ''" position="{{positionMatDrawer}}">
+                        <div class="scroll-mail-list" infinite-scroll [infiniteScrollDistance]="1"
+                            [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" [scrollWindow]="false">
+                            <div class="multiple-no-data"
+                                *ngIf="sendEmailData==undefined || sendEmailData.length==0">
+                                <p class="mb-15">{{'label_noRecordAvailable' | translate}}</p>
+                            </div>
+                            <div class="detail-email-list" *ngFor="let emailSend of  sendEmailData;let i=index"
+                                [ngClass]="{'emailDetailBox-slected':IsSelected==emailSend.UniqueId}">
+                                <div class="sender-basic-details" id="sender-basic-details"
+                                    (click)="clickEvent();getDetailsInfo(emailSend.UniqueId)">
+                                    <ng-container *ngFor="let data of emailSend.EmailTo  let i = index;">
+                                        <div class="userAvtaarAndName"
+                                            (click)="clickEvent();getDetailsInfo(emailJson.UniqueId)"
+                                            *ngIf="i<1">
+                                            <img *ngIf="data &&  data.PreviewUrl!=''"
+                                                src="{{data.PreviewUrl}}" />
+                                            <span *ngIf="data && data.PreviewUrl=='' "
+                                                [style.background]="getBackgroundColor(sortName(data.Name,''))">{{sortName(data.Name,'')}}</span>
+                                        </div>
+                                    </ng-container>
+                                    <div class="name">
+                                        <ng-container *ngFor="let emailto of emailSend.EmailTo">
+                                            {{emailto.Name?emailto.Name:''}}
+                                            <ng-container *ngIf="emailSend.EmailTo.length > 1">,</ng-container>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="subject-body"
+                                    (click)="clickEvent();getDetailsInfo(emailSend.UniqueId)">
+                                    <div class="emailTitle text-overflow">
+                                        {{emailSend.Subject}}
+                                    </div>
+                                    <div class="emailSubTitle text-overflow">
+                                        {{emailSend.BodyPreview}}
+                                    </div>
+                                </div>
+                                <div class="date-attachments"
+                                    (click)="clickEvent();getDetailsInfo(emailSend.UniqueId)">
+                                    <mat-icon *ngIf="emailSend.HasAttachment==1">attach_file</mat-icon>
+                                    <span>{{(emailSend.DateSend?emailSend.DateSend:'')|
+                                        date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                                </div>
+                            </div>
+                            <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+                        </div>
+                    </mat-drawer>
+                    <mat-drawer-content class="email-detail">
+                        <mat-card id="myInbox" class="email-detail-card">
+                            <div class="email-detail-box-sender-details" id="email-detail-box-sender-details">
+                                <button mat-icon-button (click)="hideEmailSection()">
+                                    <mat-icon>keyboard_backspace</mat-icon>
+                                </button>
+                                <mat-card-title>{{listViewDetails?listViewDetails.Subject:''}}</mat-card-title>
+                            </div>
+                            <mat-card-content class="email-detail-box" id="email-detail-box">
+                                <div class="body-header">
+                                    <div class="sender-details">
+                                        <div class="userAvtaarAndName">
+                                            <img *ngIf="listViewDetails.EmailFrom &&  listViewDetails.EmailFrom.PreviewUrl!=''"
+                                                src="{{listViewDetails.EmailFrom.PreviewUrl}}" />
+                                            <!-- who:maneesh,what:ewm-13145 for fixed background color in sortname ,when:14/07/2023 -->
+                                            <span *ngIf="listViewDetails.EmailFrom && listViewDetails.EmailFrom.PreviewUrl=='' "
+                                                [style.background]="getBackgroundColor(sortName(listViewDetails.EmailFrom.Name,''))">{{sortName(listViewDetails.EmailFrom.Name,'')}}</span>
+                                        </div>
+                                        <div class="sender-name-email" id="sender-name-email">
+                                            <div>{{listViewDetails.EmailFrom?listViewDetails.EmailFrom.Name:''}}</div>
+                                            <small>{{listViewDetails.EmailFrom?listViewDetails.EmailFrom.EmailID:''}}</small>
+                                            <div class="to-and-cc">
+                                                <div class="to">To :</div>
+                                                <div>{{listViewDetails.EmailTo?listViewDetails.EmailTo[0].EmailID:''}}</div>
+                                                <button mat-icon-button [matMenuTriggerFor]="toAllList" *ngIf="listViewDetails?.EmailTo?.length>1">
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </button>
+                                                <mat-menu #toAllList="matMenu" xPosition="after"
+                                                    class="toCCMenu" id="headerAddGroupMore">
+                                                    <div class="deprateDetail" (click)="$event.stopPropagation()">
+                                                        <ng-container *ngFor="let emailto of listViewDetails.EmailTo | slice : 1 : listViewDetails?.EmailTo?.length">
+                                                            <span>{{emailto.EmailID?emailto.EmailID:''}}</span>
+                                                        </ng-container>
+                                                    </div>
+                                                </mat-menu>
+                                            </div>
+                                            <div class="to-and-cc" *ngIf="listViewDetails?.EmailCC?.length>0">
+                                                <div class="to">Cc :</div>
+                                                <div>{{listViewDetails.EmailCC?listViewDetails.EmailCC[0].EmailID:''}}</div>
+                                                <button mat-icon-button [matMenuTriggerFor]="ccAllList"  *ngIf="listViewDetails?.EmailCC?.length>1">
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </button>
+                                                <mat-menu #ccAllList="matMenu" xPosition="after"
+                                                    class="toCCMenu" id="headerAddGroupMore">
+                                                    <div class="deprateDetail" (click)="$event.stopPropagation()">
+                                                        <ng-container *ngFor="let emailcc of listViewDetails.EmailCC | slice : 1 : listViewDetails?.EmailCC?.length">
+                                                            <span>{{emailcc.EmailID?emailcc.EmailID:''}}</span>
+                                                        </ng-container>
+                                                    </div>
+                                                </mat-menu>
+                                            </div>
+                                            <div class="to-and-cc" *ngIf="listViewDetails?.EmailBCC?.length>0">
+                                                <div class="to">Bcc :</div>
+                                                <div>{{listViewDetails.EmailBCC?listViewDetails.EmailBCC[0].EmailID:''}}</div>
+                                                <button mat-icon-button [matMenuTriggerFor]="ccAllList"  *ngIf="listViewDetails?.EmailBCC?.length>1">
+                                                    <mat-icon>arrow_drop_down</mat-icon>
+                                                </button>
+                                                <mat-menu #ccAllList="matMenu" xPosition="after"
+                                                    class="toCCMenu" id="headerAddGroupMore">
+                                                    <div class="deprateDetail" (click)="$event.stopPropagation()">
+                                                        <ng-container *ngFor="let emailbcc of listViewDetails.EmailBCC | slice : 1 : listViewDetails?.EmailBCC?.length">
+                                                            <span>{{emailbcc.EmailID?emailbcc.EmailID:''}}</span>
+                                                        </ng-container>
+                                                    </div>
+                                                </mat-menu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="replyForwardIcons">
+                                        <div>
+                                            <button mat-icon-button color="primary" matTooltip="{{'label_reply'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                                            (click)="openNewEmailModal(listViewDetails,'reply')">
+                                                <mat-icon>reply</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="primary" matTooltip="{{'label_replyAll'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                                                (click)="openNewEmailModal(listViewDetails,'replyAll')">
+                                                <mat-icon>reply_all</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="primary" matTooltip="{{'label_forward'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                                                (click)="openNewEmailModal(listViewDetails,'forward')">
+                                                <mat-icon>arrow_forward</mat-icon>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            {{(listViewDetails.DateSend?listViewDetails.DateSend:'')|
+                                                date:userpreferences.timeformate:userpreferences.timezone}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="attachmentFiles">
+                                    <mat-card class="attachedFileStyle"
+                                        *ngFor="let attach of listViewDetails.FileAttachment">
+                                        <mat-icon>article</mat-icon>
+                                        <span>{{attach.Name}}</span>
+                                        <mat-icon class="downloadFileIcon" (click)="emailDownloadAttachement(listViewDetails.UniqueId,attach.Id,attach.Name)">
+                                            file_download</mat-icon>
+                                    </mat-card>
+                                </div>
+                                <div class="emailBody" id="emailBody" [innerHTML]="listViewDetails.Body | mailBodySanitizer">
+                                    <mat-divider></mat-divider>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-drawer-content>
+                </mat-drawer-container>
+            </mat-tab>
+            <!-- Xeople : Satya Prakash Gupta : 30-Sep-2021 : Sene emailbox : EWM-2664 EWM-3069 : end here -->
+            <mat-tab class="mailBoxLeftMenuPanel" disabled>
+                <ng-template mat-tab-label>
+                    <mat-icon class="matIconStyle">description</mat-icon>
+                    <span class="mailLableTxtName">{{'label_pagerItemsTemplate' |translate}}</span>
+                    <span class="spacer"></span>
+                </ng-template>
+                <mat-drawer-container class="mailbox-container" autosize></mat-drawer-container>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

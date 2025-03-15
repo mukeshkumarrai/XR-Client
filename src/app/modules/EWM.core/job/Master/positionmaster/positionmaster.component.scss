@@ -1,0 +1,53 @@
+
+@import "../../../../../../mixinStyle.scss";
+
+.listcardContentMaxData{
+  min-width: 1130px;
+}
+.sticky-width{
+  min-width: 1130px;
+}
+.col-1 {
+  width: calc(51% - 383px);
+}
+.col-2 {
+  width: 15%;
+}
+.col-4 {
+  width: 4%;
+}
+.col-5 {
+  width: 383px;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+    height: 70px;
+}
+.maxData:hover {
+    height: 70px;
+}
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 73px;
+  }
+}
+
+

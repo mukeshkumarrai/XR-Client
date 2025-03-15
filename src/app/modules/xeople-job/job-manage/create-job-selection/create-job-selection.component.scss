@@ -1,0 +1,130 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Anup Singh
+  @When: 13-july-2021
+  @Why: EWM-2001 EWM-2070
+  @What:  This page will be use for the job template List Component scss file
+
+*/
+
+// // Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532
+
+// .centerBox {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+//   height: 100%;
+// }
+
+.vertical-center-align-createjob {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0px 15px;
+    @media only screen and (max-width: 720px) {
+      align-items: flex-start;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      height: auto;
+    }
+    // @media only screen and (max-width: 600px) and (min-width: 320px) {
+    //   flex-direction: column;
+    // }
+    .col {
+      @media only screen and (max-width: 720px) and (min-width: 601px) {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+    }
+    .mat-card-container.mat-card {
+      width: calc(100% - 10px);
+      max-width: 520px;
+      padding: 30px 15px;
+      margin-bottom: 0px;
+      border-radius: 15px;
+      max-width: 475px;
+      padding: 30px 15px;
+      @media only screen and (max-width: 720px) and (min-width: 320px) {
+        max-width: 235px;
+      }
+      .mat-card {
+        @media only screen and (max-width: 600px) and (min-width: 320px) {
+          margin-bottom: 15px;
+        }
+      }
+    }
+    .add-mat-card-container.mat-card{
+      max-width: 300px;
+      width: calc(100% - 10px);
+    }
+  }
+  .singleAddJobButton{
+    height: calc(100% - 65px);
+  }
+  .selectTemplateOrCreatejob.mat-card {
+    box-sizing: border-box;
+    transition: all 0.25s;
+    cursor: pointer;
+    margin: 0px 0px;
+      padding: 30px 10px;
+    label {
+      cursor: pointer;
+      padding: 5px 0px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      top: 18px;
+      font-size: 18px;
+    }
+    .cltImgBox {
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 150px;
+      border-radius: 100%;
+      margin: 0px auto;
+      margin-bottom: 15px;
+      transition: all 0.25s;
+      .mat-icon {
+        font-size: 62px;
+        height: 62px;
+        width: 62px;
+        line-height: 62px;
+        transition: all 0.25s;
+      }
+    }
+  }
+  .selectTemplateOrCreatejob:hover .cltImgBox .mat-icon{
+    transform: scale(1.35);
+    transition: all 0.25s;
+  }
+  .selectTemplateOrCreatejob:hover .cltImgBox{
+    box-shadow: 0px 0px 14px 0px rgb(0 0 0 / 42%) inset;
+  }
+  .selectTemplateOrCreatejob:hover{
+    transform: scale(1.05);
+  }
+  
+  :host ::ng-deep {
+    // @When: 23-03-2023 @who:Amit @why: EWM-11380 @what:small screen height decrease
+    .xeople-container-with-one-card.mat-drawer-container{
+      .mat-drawer-content{
+        .component-card.mat-card{
+          @media only screen and (max-width: 480px) and (min-width: 320px) {
+            height: calc(100% - 36px);
+          }
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,552 @@
+/* 
+ @(C): Entire Software
+ @Type: File, <css>
+ @Who: Anup Singh
+ @When: 28-Sept-2021
+ @Why:EWM-2870 EWM-2990
+ @What: You can add this page styles on same file, and also import other style files
+*/
+
+/* 
+  Modified for CR
+  @(C): Entire Software
+  @Type: File, <css>
+  @Who: Satya Prakash Gupta
+  @When: 07-Apr-2022
+  @Why: EWM-5654 EWM-6057
+  @What: You can add this page styles on same file, and also import other style files
+*/
+
+@import "../../../../../../styles-var.scss";
+
+.maticonforward{
+  transform: rotateY(180deg);
+}
+::ng-deep {
+  .allJobStatus.mat-menu-panel {
+    .show-status {
+      padding: 0px 10px;
+      .mat-button {
+        height: 30px;
+        line-height: 30px;
+        background-color: rgb(127 183 52 / 38%);
+        width: auto;
+        margin-bottom: 5px;
+        padding: 0px 10px;
+        text-align: center;
+        .mat-icon {
+          position: absolute;
+          bottom: -25px;
+          left: calc(50% - 12px);
+          color: #7fb734;
+        }
+        &:hover {
+          border-radius: 4px;
+          color: inherit;
+        }
+      }
+      .mat-icon-button {
+        width: 21px;
+        color: #a8a8a8;
+        border-radius: 0px;
+      }
+      .current {
+        color: #fff;
+        background-color: rgb(127 183 52 / 100%);
+      }
+    }
+    .current {
+      .mat-icon {
+        color: $default-bg-color;
+      }
+    }
+  }
+}
+
+.job-detail-header{
+  display: block;
+  padding: 5px 5px;
+  position: relative;
+  .dynmic-bg-color{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    &::before{
+      content: "";
+      background-color: currentColor;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      opacity: 0.2;
+    }
+  }
+  .header-expand-collapse{
+    width: 30px;
+    height: 20px;
+    line-height: 20px;
+    padding: 0px;
+    min-width: 40px;
+    position: absolute;
+    bottom: 0px;
+    right: 10px;
+    border: 0px;
+    border-radius: 8px 8px 0px 0px;
+    overflow: hidden;
+    z-index: 2;
+    &::before{
+      content: "";
+      background-color: currentColor;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      opacity: 0.2;
+    }
+  }
+  .canidate-header-container{
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    @media only screen and (max-width: 875px) and (min-width: 240px){
+      align-items: flex-start;
+    }
+    .canidate-header-left{
+      display: grid;
+      grid: auto/80px calc(100% - 80px);
+      .job-profile-details {
+        text-align: center;
+        .userAvtaarAndName,
+        .userAvtaarAndName span {
+          width: 60px;
+          height: 60px;
+          font-size: 22px;
+          margin-bottom: 5px;
+        }
+      }
+      .candidate-profile-info {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        .icon-with-detail{
+          display: flex;
+          align-items: center;
+          & > .mat-icon{
+            width: 25px;
+            font-size: 20px;
+            line-height: 25px;
+          }
+          p{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            margin: 0px;
+          }
+          div{
+            height: 28px;
+            display: flex;
+            align-items: center;
+            .userAvtaarAndName{
+              width: 26px;
+              height: 26px;
+              line-height: 26px;
+              span, img{
+                width: 26px;
+                height: 26px;
+                line-height: 26px;
+              }
+            }
+          } 
+        }
+      }
+      .publish-and-tag-buttons{
+        grid-column-start: 1;
+        grid-column-end: 3;
+        align-items: center;
+        padding-top: 5px;
+        display: flex;
+        button{
+          height: 30px;
+          line-height: 30px;
+          padding: 0px 10px;
+          margin-left: 5px !important;
+          box-shadow: none;
+        }
+        .addTag{
+          min-width: 65px;
+          padding: 0px 5px;
+          line-height: 27px;
+        }
+        .tag-list{
+          display: inline-flex;
+          .tag-name{
+            display: inline-flex;
+            align-items: center;
+            padding: 0px 5px;
+            height: 30px;
+            max-width: 150px;
+            .mat-icon{
+              font-size: 20px;
+              height: 30px;
+              line-height: 30px;
+            }
+          }
+        }
+        .hiddenTagMenu{
+          min-width: auto;
+          width: 40px;
+          padding: 0px 7px 0px 7px;
+          border-radius: 25px;
+          line-height: 20px;
+          height: 20px;
+          display: inline-flex;
+          overflow: hidden;
+          .mat-icon{
+            line-height: 20px;
+            height: 20px;
+          }
+        }
+      }
+    }
+    .canidate-header-right{
+      display: grid;
+      grid: auto/330px 40px;
+      gap: 15px;
+      @media only screen and (max-width:875px) and (min-width: 240px){
+        grid: auto/40px;
+      }
+      .candidate-action {
+        .mat-mini-fab {
+          margin-bottom: 5px;
+          @media screen and (min-width: 320px) and (max-width: 1060px) {
+            margin-bottom: 8px;
+            margin-left: 0px;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            .mat-icon {
+              width: 30px;
+              height: 30px;
+              line-height: 15px;
+              font-size: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.jobdetail-card.mat-card {
+  // height: calc(100% - 0px);
+  .jobDetailsPage{
+    
+    .candidate-data-header{
+      display: flex;
+      align-items: center;
+      padding: 7px 0px;
+      gap: 10px;
+      justify-content: space-between;
+      @media screen and (min-width:240px) and (max-width: 767px) {
+        display: grid;
+        grid: auto/100%;
+      }
+      .mat-raised-button{
+        min-width: 36px;
+        padding: 0px;
+        .mat-icon{
+          font-size: 20px;
+          line-height: 24px;
+        }
+      }
+      .filter-refresh{
+        display: flex;
+        position: relative;
+        flex-basis: 90px;
+        button{
+          margin-left: 0px;
+          margin-right: 5px;
+        }
+      }
+      .search-viewicon{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 0px;
+        flex-basis: 100%;
+        .button-with-clear{
+          display: inline-flex;
+          .addFilter{
+            padding-left: 5px;
+            padding-right: 55px;
+          }
+          .mat-stroked-button{
+            min-width: 36px;
+            padding: 0px 8px;
+            .mat-icon{
+              font-size: 20px;
+              line-height: 24px;
+            }
+          }  
+        }
+        .list-grid-button{
+          min-width: 36px;
+          padding: 0px;
+        }
+        .active-list-grid{
+          display: none;
+        }
+        .searchInput{
+          margin: 0px;
+          height: 36px;
+          margin-top: -15px;
+          width: 100%;
+          max-width: 100%;
+          min-width: 140px;
+        }
+      }
+    }
+    .quickFiltr-sidenav-content{
+      padding: 0px 10px;
+      .quick-filter-button{
+        width: 20px;
+        height: 30px;
+        line-height: 20px;
+        padding: 0px;
+        min-width: auto;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        border: 0px;
+        border-radius: 8px 0px 0px 8px;
+        overflow: hidden;
+        z-index: 2;
+        &::before{
+          content: "";
+          background-color: currentColor;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: 0px;
+          top: 0px;
+          opacity: 0.4;
+        }
+      }
+      .dynamic-filter-area{
+        left: 130px;
+      }
+      .kendo-table-container {
+        overflow: hidden;
+        .k-grid {
+          height: calc(100vh - 415px);
+          background: transparent;
+          margin-bottom: 5px;
+          min-width: auto;
+          @media only screen and (max-width: 767px) and (min-width: 581px){
+            height: calc(100vh - 463px);
+          }
+          @media only screen and (max-width: 580px) and (min-width: 240px) {
+            height: calc(100vh - 510px);
+          }
+        }
+        .candidateRank,.candidateStatus{
+          color: #fff;
+          text-align: center;
+          padding: 1px 2px;
+          border-radius: 2px;
+          mix-blend-mode: hard-light;
+          text-shadow: 0px 0px 8px #000;
+        }
+        .candidateStatus{
+          padding: 3px 9px;
+        }
+        .mat-mini-fab{
+          width: 22px;
+          line-height: 22px;
+          height: 22px;
+          display: flex;
+          align-items: center;
+          @media only screen and (max-width: 767px) and (min-width: 320px){        
+              margin-right: 5px !important;
+          }
+          .mat-icon{
+              width: 22px;
+              text-align: center;
+              font-size: 16px;
+              line-height: 24px;
+              height: 24px;
+              opacity: 1;
+          }
+        }
+      }
+      // @When: 18-09-2022 @who:Amit @why:14372 @what: remove by maneesh & nitin bhati
+    }
+  }
+}
+
+/******************for drag and drop****************/
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.candidate-box:last-child {
+  border: none;
+}
+
+.candidate-list.cdk-drop-list-dragging
+  .candidate-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.dragdisable{
+  cursor:no-drop;
+}
+
+.cdk-drop-list-disabled{
+  position: relative;
+  background: rgba(245, 245, 245, 1) !important;
+  cursor: default;
+  cursor:no-drop;
+  .drop-overlay{
+    z-index: 9;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    cursor:no-drop;
+  }
+  .mat-card.jobcandidate-card{
+    opacity: 0;
+  }
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.resume-view{
+  position: relative;
+  margin: 0px 10px;
+  width: 30px;
+  @media only screen and (max-width: 767px) and (min-width: 320px){        
+      margin: 0px 5px;
+  }
+  .share{
+      position: absolute;
+      right: -2px;
+      top: -7px;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      .mat-icon{
+          width: 16px;
+          height: 16px;
+          line-height: 16px;
+          font-size: 12px;
+      }
+  }
+}
+
+.my-activity{
+  height: calc(100% - 0px);
+  overflow: auto;
+}
+
+
+// header collapse layout
+
+.header-collapse-layout{
+  height: 50px;
+  overflow: hidden;
+  .header-expand-collapse{
+    right: 50px;
+  }
+  .canidate-header-container{
+    align-items: flex-start;
+  }
+  .canidate-header-container .canidate-header-left .job-profile-details .userAvtaarAndName{
+    width: 50px;
+    height: 50px;
+    span{
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .publish-and-tag-buttons,
+  .job-status,
+  .canidate-header-container .canidate-header-left .candidate-profile-info .icon-with-detail.publish-and-tag-buttons-sec{
+    display: none;
+  }
+  .candidate-action{
+    grid-column-start: 2;
+  }
+}
+
+// .container-collapse-layout.job-detail-container{
+//   height: calc(100% - 50px);
+//   .jobdetail-card{
+//     .jobDetailsPage{
+//       .quickFiltr-container{
+//         .quickFiltr-sidenav-content{
+//           .kendo-table-container {
+//             .k-grid {
+//               height: calc(100vh - 355px);
+//               @media only screen and (max-width: 767px) and (min-width: 581px){
+//                 height: calc(100vh - 400px);
+//               }
+//               @media only screen and (max-width: 580px) and (min-width: 240px) {
+//                 height: calc(100vh - 450px);
+//               }
+//             }
+//           }
+//           .kanban-sec {
+//             overflow-x: auto;
+//             height: calc(100vh - 355px);
+//             margin-bottom: 5px;
+//             @media only screen and (max-width: 767px) and (min-width: 581px){
+//               height: calc(100vh - 400px);
+//             }
+//             @media only screen and (max-width: 580px) and (min-width: 240px) {
+//               height: calc(100vh - 450px);
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+// header collapse layout
+.callAction{
+  .mat-button-disabled{
+    background: #c1c1c1;
+  }
+}
+
+.mobile-job-status-sec{
+  .job-status{
+    padding: 5px 0px;
+    position: relative;
+    // color: $gray-bg-color;
+    &::before{
+      content: "";
+      background-color: currentColor;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      opacity: 0.9;
+      z-index: 0;
+    }
+  }
+}
+

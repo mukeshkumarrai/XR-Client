@@ -1,0 +1,439 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: skills.component.html
+  @Who: Suika
+  @When: 07-September-2021
+  @Why: ROST-2693
+  @What: For Groups in status- master
+ -->
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="client-dashboard-dashboard-mat-card-header">
+  <mat-card-title>
+      <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_addskills'|translate}}"
+      matTooltipClass="custom-tooltip" color="primary" id="btnAdd" [routerLink]="['manage-skill']"
+      [queryParams]="{viewModeData:viewMode}" *appHasPermission="['Add']"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <mat-icon id="{{animationVar?.CreateButton?.id}}"
+        class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+    </button>
+    <div class="sub-title">
+    <span>{{'label_skills' |translate}}</span><br>
+    <app-breadcrumb [pageLabel]="pageLabel" class="bread-crumb"></app-breadcrumb>
+  </div>
+   
+  </mat-card-title>
+
+  <div class="header-action-button" id="skills-actionButton" *ngIf="formtitle=='grid'">
+
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="status-searchBox" (keyup)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+          (click)="searchVal=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+
+    <div class="group-header-button">
+
+      <div class="button-with-clear">
+        <button mat-raised-button id="candidate-addfilter" class="header-button"
+          [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" matTooltip="{{'label_filters'|translate}}"
+          matTooltipClass="card-list-tooltip" matTooltipPosition="before" (click)="openFilterModalDialog()"
+          (mouseenter)="mouseoverAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)">
+          <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.FilterButton?.id}}"
+            class="{{animationVar?.FilterButton?.isAnimClass}}">{{animationVar?.FilterButton?.iconName}}</mat-icon>
+            <!-- <span class="text-for-mobile-view">{{'label_filters'|translate}}</span> -->
+        </button>
+
+        <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData()">
+          <span class="text-overflow filterCount">{{filterCount}}</span>
+          <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- <div class="button-with-clear">
+
+        <button mat-raised-button id="candidate-addfilter" class="filterButton radius-call" [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" 
+        matTooltip="{{'label_filters'|translate}}" matTooltipClass="custom-tooltip"
+        (mouseenter)="mouseoverAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)">
+        <mat-icon fontSet="material-icons-outlined" (click)="openFilterModalDialog()"
+        id="{{animationVar?.FilterButton?.id}}" class="{{animationVar?.FilterButton?.isAnimClass}}">filter_alt</mat-icon>
+      </button>
+            <div class="clear-with-data" *ngIf="filterCount!=0"  (click)="clearFilterData()">
+              <span class="text-overflow filterCount">{{filterCount}}</span>
+              <button mat-icon-button color="warn" class="clearFilter">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+    </div> -->
+      <!-- @When: 18-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+      <a mat-raised-button class="header-button" *ngIf="formtitle=='grid'" id="user-invitation-btnViewAudit"
+      [routerLink]="['/client/core/system-settings/system-audit-log/',auditParameter]"
+      matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+      <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+      </a>
+
+     <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+     matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+     (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+     <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+        {{animationVar?.BarRotateButton?.iconName}}
+     </mat-icon>
+    </button>
+
+    <button mat-raised-button class="header-button" [routerLink]="['bulk-edit']" id="BulkEditBtn" matTooltip="{{'label_bulkEdit'|translate}}"
+    matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+      (mouseenter)="mouseoverAnimation(animationVar?.EditButton?.id, animationVar?.EditButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.EditButton?.id, animationVar?.EditButton?.animation)">
+        <mat-icon id="{{animationVar?.EditButton?.id}}"
+        class="{{animationVar?.EditButton?.isAnimClass}}">{{animationVar?.EditButton?.iconName}}</mat-icon>
+      </button>
+    </div>
+</div>
+
+
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-listing-with-breadCrumb" autosize id="dashboard-drawer">
+<mat-card id="skills-card" class="component-card mat-elevation-z2">
+ 
+    <!-- <div *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+      <div class="row mb-0" id="status-visibility">
+        <mat-card-subtitle class="col s12 m12 l12 subTitle">
+        </mat-card-subtitle>
+      </div>
+      <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? ' pb-15 mb-0' : 'mb-10']">
+        
+      </div> 
+      
+    </div> -->
+    <div class="list-container changeInfinitescroll">
+      
+          <!-- <button mat-raised-button class="buttonForDesktopMobile green createjob" id="btnCreate"
+            (click)="openEmployeeModal()">
+            <span class="buttonTxt"> {{'label_add'|translate}} {{'label_employees' | customTranslate}} </span>
+            <mat-icon>add_circle</mat-icon>
+          </button> -->
+         
+          <!-- Refresh button by Piyush Singh -->
+         
+          <!-- <button mat-stroked-button color="primary" tabindex id="job-addfilter" class="filterButton">
+            <span (click)="openFilterModalDialog()" class="filterTxt">{{'label_filters'|customTranslate}}</span>
+            <span class="badge" *ngIf="filterCount!=0" (click)="clearFilterData()">{{filterCount}} <mat-icon>
+                close</mat-icon></span>
+          </button> -->
+      
+    
+      <div infinite-scroll  [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pageSize" (scrolled)="onScrollDown()"
+        [scrollWindow]="false"
+        [ngClass]="[ viewMode === 'cardMode' ? 'change-card-infinite-scroll' : 'change-list-infinite-scroll list-infinite-scroll']">
+        <div class="row mb-0 listHeader sticky" id="listHeader" [class.hide]="isvisible">
+          <!------code column header ---->
+
+          <div class="col col-12 listActionBox">
+            <strong>&nbsp;</strong>
+          </div>
+
+          <div class="col col-1" (click)="onSort('SkillName')">
+            <button mat-button [disableRipple]="true" id="btnskillsName">
+              <strong>{{'quickjob_skills'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'SkillName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'SkillName' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+          <div class="col col-2" (click)="onSort('Tags')">
+            <button mat-button [disableRipple]="true" id="btnTags">
+              <strong>{{'label_skillTag'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'Tags' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'Tags' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+          <div class="col col-3" (click)="onSort('Industries')">
+            <button mat-button [disableRipple]="true" id="btnIndustries">
+              <strong>{{'label_industry'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'Industries' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'Industries' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+
+          <div class="col col-4" (click)="onSort('Qualifications')">
+            <button mat-button [disableRipple]="true" id="btnQualifications">
+              <strong>{{'label_qualification'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'Qualifications' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'Qualifications' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+          <div class="col col-5" (click)="onSort('Weightage')">
+            <button mat-button [disableRipple]="true" id="btnWeightage">
+              <strong>{{'label_weightage'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'Weightage' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'Weightage' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+          <div class="col col-6" (click)="onSort('Renewal')">
+            <button mat-button [disableRipple]="true" id="btnRenewal">
+              <strong>{{'label_Expiry'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'Renewal' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'Renewal' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+          <div class="col col-7" (click)="onSort('DocumentRequired')">
+            <button mat-button [disableRipple]="true" id="btnDocumentRequired">
+              <strong>{{'label_DocumentRequired'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'DocumentRequired' && sortDirection === 'asc'">{{ascIcon}}
+              </mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'DocumentRequired' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+          <!------HideExternally column header ---->
+
+          <div class="col col-8" (click)="onSort('HideExternally')">
+            <button mat-button [disableRipple]="true"
+              id="btnHideExternally"><strong>{{'label_industryHideExternally'|translate}}
+              </strong>
+              <mat-icon *ngIf="sortedcolumnName === 'HideExternally' && sortDirection === 'asc'">{{ascIcon}}
+              </mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'HideExternally' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+
+          <!------Last Updated column header ---->
+
+          <div class="col col-9" (click)="onSort('LastUpdated')">
+            <button mat-button [disableRipple]="true"
+              id="btnHideExternally"><strong>{{'label_peopleMasterLastUpdate'|translate}}
+              </strong>
+              <mat-icon *ngIf="sortedcolumnName === 'LastUpdated' && sortDirection === 'asc'">{{ascIcon}}
+              </mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'LastUpdated' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+
+
+          <!------status column header ---->
+
+          <div class="col col-10" (click)="onSort('StatusName')">
+            <button mat-button [disableRipple]="true" id="btnStatus"><strong>{{'label_status'|translate}}
+              </strong>
+              <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'asc'">{{ascIcon}}
+              </mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+
+          </div>
+
+
+          <div class="col col-11" (click)="onSort('DisplaySequence')">
+            <button mat-button [disableRipple]="true" id="btnDisplaySequence">
+              <strong>{{'label_seq'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'DisplaySequence' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'DisplaySequence' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+          <!------Action column header ---->
+
+          
+        </div>
+        <!-----header table start ---->
+        <div class="listCardView " id="listCardView" *ngIf="formtitle=='grid'">
+          <!-----header table end ---->
+          <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+            <div class="row">
+              <div *ngIf="loadingPopup" class="list"></div>
+              <div class="col nodata" *ngIf="this.gridData==undefined ||this.gridData.length==0">
+                <span>{{'label_noRecordAvailable'|translate}}</span>
+              </div>
+              <!-----grid list start ---->
+              <div class="col pl-0 pr-0" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+                *ngFor="let skillData of gridData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+                <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                  <mat-card-content class="listcardContent"
+                    [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                    <!-- list data -->
+                    <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+
+                      <!------Action grid column --->
+
+                      <div class="col"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox customBtnWidth col-12']">
+
+
+                      <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                          <mat-icon>more_vert</mat-icon>
+                      </button>
+<!-- @When: 1-05-2023 @who:Bantee @why: EWM-12139 @what: IsSys in functionality implemented -->
+                      <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                        <a mat-menu-item id="btnEdit"
+                          [routerLink]="['manage-skill', {id: skillData.Id}]" [disabled]="skillData.IsSys=='1'" [queryParams]="{viewModeData:viewMode}"
+                          *appHasPermission="['Edit']">
+                          <mat-icon>edit</mat-icon>
+                          {{'label_edit'|translate}}
+                        </a>
+
+                        <button mat-menu-item id="btnDelete" (click)=confirmDialog(skillData,index)
+                          *appHasPermission="['Delete']" [disabled]="skillData.IsSys=='1'">
+                          <mat-icon>delete</mat-icon>
+                          {{'label_delete'|translate}}
+                        </button>
+
+                        </mat-menu>
+                      </div>
+
+                      <!------code grid column --->
+                      <div class="col cursor" id="SkillName"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                        <span class="cardListTxt word-wrap" matTooltip="{{ skillData.SkillName }}"
+                          matTooltipClass="custom-tooltip">
+                          {{ skillData.SkillName }}
+                        </span>
+                      </div>
+
+                      <div class="col cursor" id="Tags" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                        <span class="cardListTxt word-wrap" matTooltip="{{ skillData.Tags }}"
+                          matTooltipClass="custom-tooltip">
+                          {{ skillData.Tags }}
+                        </span>
+                      </div>
+
+                      <div class="col cursor" id="Industries"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                        <span class="cardListTxt word-wrap" matTooltip="{{ skillData.Industries }}"
+                          matTooltipClass="custom-tooltip">
+                          {{ skillData.Industries }}
+                        </span>
+                      </div>
+
+
+                      <div class="col cursor" id="Qualifications"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-4']">
+                        <span class="cardListTxt word-wrap" matTooltip="{{ skillData.Qualifications }}"
+                          matTooltipClass="custom-tooltip">
+                          {{ skillData.Qualifications }}
+                        </span>
+                      </div>
+
+
+
+                      <div class="col cursor" id="Weightage"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-5 right-align']">
+                        <span class="cardListTxt word-wrap" matTooltip="{{ skillData.Weightage }}"
+                          matTooltipClass="custom-tooltip">
+                          {{ skillData.Weightage }}
+                        </span>
+                      </div>
+
+
+
+                      <div class="col cursor" id="Renewal"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-6']">
+                        <span class="cardListTxt word-wrap" matTooltip="{{ (skillData.Renewal=='1')?'Yes':'No' }}"
+                          matTooltipClass="custom-tooltip">
+                          {{ (skillData.Renewal=='1')?'Yes':'No' }}
+                        </span>
+                      </div>
+
+
+                      <div class="col cursor" id="DocumentRequired"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-7']">
+                        <span class="cardListTxt word-wrap"
+                          matTooltip="{{ (skillData.DocumentRequired=='1')?'Yes':'No' }}"
+                          matTooltipClass="custom-tooltip">
+                          {{ (skillData.DocumentRequired=='1')?'Yes':'No' }}
+                        </span>
+                      </div>
+
+
+
+                      <!------HideExternally grid column --->
+                      <div class="col cursor" id="HideExternally"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-8']">
+
+
+                        <span class="cardListTxt word-wrap" matTooltip="{{(skillData.HideExternally=='1')?'Yes':'No'}}"
+                          matTooltipClass="custom-tooltip">
+                          {{(skillData.HideExternally=='1')?'Yes':'No'}}</span>
+
+                      </div>
+
+                      <!------last updated--->
+
+                      <div class="col cursor" id="LastUpdated"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-9 right-align']">
+                        <span class="cardListTxt word-wrap"
+                          matTooltip="{{skillData.LastUpdated | date:userpreferences.timeformate:userpreferences.timezone}}"
+                          matTooltipClass="custom-tooltip">
+                          {{skillData.LastUpdated | date:userpreferences.timeformate:userpreferences.timezone}}</span>
+
+                      </div>
+
+                      <!------Status grid column --->
+                      <div class="col cursor" id="StatusName"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-10']">
+                        <span class="cardListTxt word-wrap" matTooltip="{{skillData.StatusName}}"
+                          matTooltipClass="custom-tooltip">
+                          {{skillData.StatusName}}</span>
+                      </div>
+
+
+                      <div class="col cursor" id="DisplaySequence"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-11 right-align']">
+                        <span class="cardListTxt word-wrap" matTooltip="{{ skillData.DisplaySequence }}"
+                          matTooltipClass="custom-tooltip">
+                          {{ skillData.DisplaySequence }}
+                        </span>
+                      </div>
+
+                      
+                    </div>
+                    <!-- list data -->
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+        </div>
+      </div>
+    </div>
+  
+</mat-card>
+</mat-drawer-container>

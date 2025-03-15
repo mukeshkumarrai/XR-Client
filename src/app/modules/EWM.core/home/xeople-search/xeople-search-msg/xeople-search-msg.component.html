@@ -1,0 +1,28 @@
+<!-- @When: 20-05-2024 @who:Amit @why: EWM-17135 @what: xeople search message popup create -->
+
+<div class="modal-header">
+    <div>
+        <h2 matDialogTitle class="mb-0">{{'label_failedMessageforSms' | translate}}</h2>
+        <small id="failedProblemMessageforSms">{{'label_failedProblemMessageforSms' | translate}}</small>
+    </div>
+    <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content class="xeople-search-msg"  id="xeople-search-message">
+    <div class="modal-list-view">
+        <div class="modal-list-half-data" id="modal-list-half-data">
+            <div class="list-half-data">
+                <small>{{'label_failedMessageforNumber' | translate}}</small>
+                <small id="statusforSms">{{'label_status' | translate}}</small>
+            </div>
+            <div class="list-half-data" *ngFor="let errorNumber of errorFieldNumber ">
+                <span class="cardListTxt word-wrap">{{errorNumber?.FieldName}}</span>
+                <span class="cardListTxt word-wrap red-text">{{'label_failed' |translate}}</span>
+            </div>
+        </div> 
+        <small class="verify-text" id="verifyMessageforSms">{{'label_verifyMessageforSms' | translate}}</small>
+    </div>
+</mat-dialog-content>
+

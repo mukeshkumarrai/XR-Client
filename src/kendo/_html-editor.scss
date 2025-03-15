@@ -1,0 +1,222 @@
+/* @When: 21-Nov-2023 @who:Amit @why: EWM-14609 @what: kendo editor style */
+@use "html-editor-dark-theme";
+@use "../colors";
+.html-editor-kendo {
+    position: relative;
+    padding-bottom: 10px;
+    .k-toolbar  > * {
+        background-color: #ebebeb;
+    }
+    .k-toolbar {
+        padding: 2px 7px;
+        font-size: 14px;
+        border-color: #949494;
+        gap: 4px;
+        .k-icon-button, .k-button.k-button-icon {
+            padding: 4px;
+            width: calc(1.4285714286em + 8px + 0px);
+            height: calc(1.4285714286em + 8px + 0px);
+            gap: 0;
+        }
+        .k-input-value-text{
+            padding-inline-end: 3px;
+            padding-inline-start: 3px;
+        }
+        .k-colorpicker{
+            height: 28px;
+            .k-input-inner{
+                display: flex;
+                align-items: center;
+                padding-inline-start: 5px;
+                .k-color-preview-mask{
+                    position: relative;
+                    height: 2px;
+                    top: -4px;
+                    display: flex;
+                }
+            }
+        }
+        .k-button{
+            height: 28px;
+            font-size: 12px;
+            padding: 0px 7px;
+        }
+        .k-button.k-selected{
+            &::before{
+                opacity: 0.15;
+            }
+        }
+    }
+    .k-editor {
+        height: inherit;
+        border-color: #949494;
+        .k-editor-content {
+            min-height: 300px;
+            max-height: 800px;
+            resize: vertical;
+            .ProseMirror {
+                min-height: 300px;
+                p {
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+                    line-height: 18px;
+                }
+            }
+        }
+    }
+    // overlay editor start
+    .k-editor.overlay-editor {
+        .k-editor-content {
+            min-height: 145px;
+            max-height: 550px;
+            .ProseMirror {
+                min-height: 145px;
+            }
+        }
+    }
+    .k-editor.overlay-email-editor {
+        // min-height: calc(100vh - 455px);
+        .k-editor-content {
+            min-height: 220px;
+            max-height: 550px;
+            .ProseMirror {
+                min-height: 220px;
+            }
+        }
+    }
+    // overlay editor end
+    .mat-error{
+        font-size: 75%;
+        padding-top: 2px;
+        position: absolute;
+    }
+    // welcome page
+    .k-editor.wel-editor {
+        .k-editor-content {
+            min-height: 250px;
+            .ProseMirror {
+                min-height: 250px;
+            }
+        }
+    }
+    // configure page
+    .k-editor.alert-same-editor {
+        .k-editor-content {
+            min-height: 340px;
+            .ProseMirror {
+                min-height: 340px;
+            }
+        }
+    }
+    // Email settings page
+    .k-editor.setting-editor {
+        .k-editor-content {
+            min-height: 280px;
+            .ProseMirror {
+                min-height: 280px;
+            }
+        }
+    }
+    // job note page
+    .k-editor.note-editor {
+        .k-editor-content {
+            min-height: 200px;
+            .ProseMirror {
+                min-height: 200px;
+            }
+        }
+    }
+    // overlay editor start
+    .k-editor.desc-editor {
+        .k-editor-content {
+            min-height: 420px;
+            max-height: 470px;
+            .ProseMirror {
+                min-height: 420px;
+            }
+        }
+    }
+}
+
+
+.html-editor-kendo.desc-popup-editor{
+    .k-editor {
+        .k-editor-content {
+            max-height: 400px;
+        }
+    }
+}
+
+
+.k-list{
+    overflow: auto;
+    ul{
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        li{
+            list-style: none;
+            padding: 0px 7px;
+            &:hover{
+                background: rgba(0, 0, 0, 0.08);
+            }
+        }
+    }
+}
+.k-animation-container{
+    .k-popup > .k-colorpalette, .k-popup > .k-flatcolorpicker{
+        border-color: rgba(0, 0, 0, 0.08);
+        color: #424242;
+        background-color: #ffffff;
+        width: 285px;
+        padding: 0px 10px;
+    }
+}
+.mic-button{
+    width: 30px;
+    height: 30px;
+    position: absolute !important;
+    bottom: 20px;
+    color: #fff;
+    right: 8px;
+    z-index: 2;
+    .mat-icon,svg{
+        position: relative;
+        font-size: 20px;
+    }
+}
+.pulse-ring {
+    content: '';
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    position: absolute;
+    top: -2px;
+    left: -1px;
+    animation: pulsate infinite 1.5s;
+}
+.mic-off {
+    background: colors.$primary-bg-color;
+    border: 5px solid colors.$primary-bg-color;
+    .pulse-ring{
+        display: none;
+    }
+}
+.mic-on {
+    background: #7fb734;;
+    border: 5px solid #7fb734;
+    .pulse-ring{
+        background: #7fb734;
+        border: 5px solid #7fb734;
+    }
+}
+@keyframes pulsate {
+    0% {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.3, 1.3);
+        opacity: 0;
+    }
+}

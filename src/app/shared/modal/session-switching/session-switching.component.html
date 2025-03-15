@@ -1,0 +1,21 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:confirm-dialog.component.html
+    @Who: Satya Prakash Gupta
+    @When: 17-Mar-2021
+    @Why: EWM-1017 EWM-1186
+    @What: This page wil be use only for the confirm Component HTML
+-->
+<div mat-dialog-content class="center-align">
+    <mat-icon>
+        report_problem
+    </mat-icon>
+    <p>{{'label_sessionMSG' | translate}}</p>
+    
+</div>
+<div mat-dialog-actions align="center" class="button-row actionBoxFooter">
+    <button mat-mini-fab color="primary" (click)="refreshSessionUser()">
+        <mat-icon>sync</mat-icon>
+    </button>
+</div>

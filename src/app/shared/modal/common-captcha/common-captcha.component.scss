@@ -1,0 +1,33 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: captcha.component
+    @Who: Satya Prakash Gupta
+    @When: 1-Feb-2022
+    @Why: EWM-4643 EWM-4859
+    @What: You can add captcha page styles to this file, and also import other style files
+*/
+.captcha-details{
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.captcha-actions{
+  position: relative;
+  .captcahCanvas{
+    position: absolute;
+    overflow: hidden;
+    height: 35px;
+    right: 0px;
+    top: 7px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    canvas{
+      width: 150px;
+      position: relative;
+      right: 0px;
+      top: calc(0% - 0px);
+    }
+  }
+}

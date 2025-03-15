@@ -1,0 +1,26 @@
+<!--@When: 06-12-2023 @who:Amit @why: EWM-15314 @what: structure modified-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-drawer-container autosize class="login-container">
+  <app-outer-header-new></app-outer-header-new>
+  <div class="container-without-scroll" id="mfa-mainContainer">
+    <div class="container-steper" id="mfa-containerStepper">
+      <img src="/assets/mfaImg.png" alt="Multi Factor Authentication" id="mfaImg" class="mfaImgSize" />
+      <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfaSetUp_TwoStepHeading' |translate}}</h3>
+      <p class="mfaParaTxt" id="mfa-paraTxt">
+        {{'label_mfaSetUp_TwoStepPara1' |translate}} <a href="#" class="underline"
+          target="_blank">{{'label_mfaSetUp_TwoStepParaLink' |translate}}</a>
+      </p>
+      <div class="buttons">
+        <button mat-raised-button (click)="stepMfaAuthentication()" id="mfa-2faBtnAuth">
+          {{'label_mfaSetUp_Btn2FA' |translate}}
+        </button>
+        <button mat-raised-button (click)="disableUserMfa()" id="mfa-pathToLogin">{{'label_mfaSetUp_Btn2Continue'
+          |translate}}</button>
+      </div>
+    </div>
+  </div>
+  <app-outer-footer></app-outer-footer>
+</mat-drawer-container>

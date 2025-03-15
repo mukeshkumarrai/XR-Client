@@ -1,0 +1,153 @@
+<!--- 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Anup Singh
+ @When: 21-May-2021
+  @Why: EWM-1445 EWM-1596
+  @What:  This page will be use for the add Tag Component html file
+ --->
+
+
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="add-tag-mat-card-header">
+        <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_addJobTag' |translate}}</mat-card-title>
+        <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_editJobTag' |translate}}</mat-card-title>
+        <div class="actionButton" id="actionButton">
+            <button mat-raised-button tabindex="4" color="warn" id="btnCancel" (click)="onCancel()"
+                class="buttonForDesktopMobile">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+            </button>
+
+            <button mat-raised-button tabindex="3" color="primary" (click)="onSave(this.addTagForm.value)" type="button"
+                id="btnSave" [disabled]="!addTagForm.valid" class="buttonForDesktopMobile">
+                <mat-icon>check</mat-icon>
+                <span class="buttonTxt">{{'label_save'|translate}}</span>
+            </button>
+        </div>
+    </mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="add-tag-drawer">    
+<mat-card id="user-contact-type" class="component-card mat-elevation-z2">
+        <div class="row mb-0">
+            <mat-card-subtitle class="col s12 m12 l12 subTitle"></mat-card-subtitle>
+        </div>
+
+        <!-- <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div> -->
+        <div *ngIf="loading" class="logo-loader" id="logo-loader">
+            <div class="logo-loading"></div>
+          </div>
+          
+        <div class="addEditSec">
+            <ng-template #template let-anchor>
+                <span>{{ anchor.nativeElement.innerText }}</span>
+            </ng-template>
+            <form novalidate [formGroup]="addTagForm" (ngSubmit)="onSave(this.addTagForm.value)" accept-charset="utf-8"
+                enctype='multipart/form-data' id="tag-form">
+                <!-- <div *ngIf="loading" class="k-i-loading loadercustom"></div> -->
+                <div class="kendodialof-body">
+
+
+                    <div class="row">
+                        <mat-form-field class="col l4 m6 s12">
+                            <mat-label>{{'label_tagName'|translate}}</mat-label>
+                            <input type="hidden" formControlName="Id" id="Id">
+                            <input matInput formControlName="Name" tabindex="1" id="tagList-Name" text="Name" placeholder=""
+                                required (blur)="onTagNameChanges()">
+                            <mat-error
+                                *ngIf="addTagForm.controls['Name'].hasError('required') && addTagForm.controls['Name'].touched">
+                                {{'label_tagName'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addTagForm.controls['Name'].hasError('maxlength') && !addTagForm.controls['Name'].hasError('whitespace')">
+                                {{'label_tagName' |translate}} {{'label_errormaxlength50' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addTagForm.controls['Name'].hasError('minlength') && !addTagForm.controls['Name'].hasError('whitespace')">
+                                {{'label_tagName' |translate}} {{'label_errorminlength2' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addTagForm.controls['Name'].hasError('pattern')&& !addTagForm.controls['Name'].hasError('whitespace')">
+                                {{'label_tagName' |translate}} {{'label_errorspecialchar' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addTagForm.controls['Name'].hasError('codeTaken')&&!addTagForm.controls['Name'].hasError('whitespace')">
+                                {{'label_tagName'|translate}} {{'label_areadyExists' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addTagForm.controls['Name'].hasError('whitespace') && !addTagForm.controls['Name'].hasError('required')">
+                                {{'label_tagName' |translate}} {{'label_nameValidation' |translate}}
+                              </mat-error>
+                        </mat-form-field>
+
+
+                        <div class="clear"></div>
+                        <mat-form-field class="col l4 m6 s12 colorCode">
+                            <mat-label>{{'label_colorCode'|translate}}</mat-label>
+                                <input matInput formControlName="ColorCode" id="ColorCodesc" readonly>
+                                <div matSuffix class="color-picker-button" [ngStyle]="{backgroundColor:selctedColor}" (click)="showColorPallate($event)" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+                                </div>
+                                <!-- --------@When: 10-03-2023 @who:maneesh @why: EWM-11117 Desc- Custome color picker -------- -->
+                                <ng-template cdkConnectedOverlay cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+                                [cdkConnectedOverlayHasBackdrop]="true" [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="showColorPallateContainer"
+                                (backdropClick)="showColorPallateContainer = false">
+                                    <!-- color picker body  -->
+                                    <div class="color-picker-default">
+                                        <input type="color" id="head" name="head" value="#e66465" (input)="onChaneColor($event)">
+                                    </div>
+                                    <div class="color-picker-container" [style.opacity]="isMoreColorClicked ? '0' : ' '"
+                                        [style.display]="isMoreColorClicked ? 'none' : ' '">
+                                        <div class="themeColor">{{'label_selectColour' | translate}}</div>
+                                        <div class="picker theme-color">
+                                            <div (click)="onSelectColor(codes)" class="color-picker" *ngFor="let codes of themeColors"
+                                                [ngStyle]="{backgroundColor:codes.colorCode}"> </div>
+                                        </div>
+                                        <div class="picker standard-color">
+                                            <div (click)="onSelectColor(codes)" class="color-picker" *ngFor="let codes of standardColor"
+                                                [ngStyle]="{backgroundColor:codes.colorCode}">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="footer">
+                                            <div class="noFill" (click)="onSelectColor(null)">
+                                                <mat-icon>clear</mat-icon>
+                                                <div class="noFillText">{{'label_clear'| translate}}</div>
+                                            </div>
+                                            <div class="more" (click)="closeTemplate()">
+                                                <label for="head" class="noFill">
+                                                    <mat-icon fontSet="material-icons-outlined">palette</mat-icon>
+                                                    <span>{{'labelMore'| translate}}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+        
+                                    <!-- color picker body End-->
+                                </ng-template>
+                                <!-- End  -->
+                        </mat-form-field>
+
+
+                        <div class="clear"></div>
+                        <div class="col l4 m6 s12">
+                            <div class="ng-slectBox">
+                                   <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data--->
+                            <ng-select placeholder="{{'label_tagStatus'|translate}}" class="show-required" tabindex="3" [clearable]="false"
+                                formControlName="Status" id="tagList-Status" required>
+                                <ng-option value="" disabled>{{'label_tagStatus'|translate}}</ng-option>
+                                <ng-option *ngFor="let status of statusList" [value]="status.StatusId">
+                                    {{status.StatusName}}
+                                </ng-option>
+
+                            </ng-select>
+                            <mat-error
+                                *ngIf="addTagForm.controls['Status'].hasError('required') && addTagForm.controls['Status'].touched">
+                                {{'label_tagStatus'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addTagForm.controls['Status'].hasError('codeTaken')">
+                                {{'label_tagStatus' |translate}} {{'label_areadyExists' |translate}}
+                            </mat-error>
+                        </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+</mat-card>
+</mat-drawer-container>

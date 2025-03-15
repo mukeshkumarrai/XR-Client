@@ -1,0 +1,117 @@
+.breadcrumb-card-content{
+  .mat-card.mat-elevation-z2{
+    height:calc(100vh - 205px);
+    overflow:auto;
+  }
+}
+.email-head{
+  display: flex;
+  align-items: center;
+}
+
+// @When: 18-07-2023 @who:Amit @why: EWM-13371 @what: icon size decrease
+.url-link{
+  .mat-icon-button{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-inline-end: 3px;
+    .mat-icon{
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+      font-size: 18px;
+    }
+  }
+}  
+
+.copyMessage.email-hide{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: none;
+  .alert-green {
+    color: #7fb734;
+    background: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 12px;
+    padding: 5px 25px 5px 5px;
+    height: 12px;
+    line-height: 15px;
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      font-size: 16px;
+    }
+  }
+}
+  
+.newEmailBtn{
+  position: relative;
+  text-decoration: underline;
+  .content-copy{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      font-size: 16px;
+      margin: 0px 3px;
+    }
+  }
+}
+.email-domain{
+  margin-bottom: 12px;
+  line-height: 22px;
+  padding: 0px 15px;
+  .anchor-email-hide{
+    position: relative;
+    .newEmailBtn{
+      position: relative;
+      display: inline-block;
+      word-break: break-all;
+    }
+  }
+  // .adding-text{
+  //   padding-inline-start: 50px;
+  //   @media only screen and (max-width: 767px){
+  //     padding-inline-start: 7px;
+  //   }
+  // }
+}  
+.xeep-container{
+  display: flex;
+  gap: 15px;
+  @media screen and (min-width:240px) and (max-width:1023px){
+    flex-direction: column;
+  }
+  .half-content-box{
+    width: 50%;
+    @media screen and (min-width:1400px) and (max-width:1920px){
+      width: 70%;
+    }
+    @media screen and (min-width:240px) and (max-width:1023px){
+      width: 100%;
+    }
+  }
+  .half-box{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    @media screen and (min-width:1400px) and (max-width:1920px){
+      width: 30%;
+    }
+    @media screen and (min-width:240px) and (max-width:1023px){
+      width: 100%;
+    }
+    img{
+      max-width: 100%;
+    }
+  }
+}    

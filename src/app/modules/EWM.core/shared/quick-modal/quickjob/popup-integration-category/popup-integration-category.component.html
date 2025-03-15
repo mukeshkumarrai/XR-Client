@@ -1,0 +1,37 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 06-JUne-2022
+    @Why: EWM-7019
+    @What:  This component is used for popup integration category templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<form [formGroup]="addForm" id="addCandidateFolderId" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_publishJob' |translate}}</h2>
+    </div>
+    <mat-dialog-content class="integration-dialog-content" id="integration-dialog-content">
+        <div class="ng-slectBox">
+            <ng-select placeholder="{{'label_selectIntegrationCategoryJob'|translate}}*" appendTo="body" [clearable]="true"
+                tabindex="1" formControlName="IntegrationCategory" id="popup-IntegrationCategory" required>
+                <ng-option value="" disabled>{{'label_selectIntegrationCategory'|translate}}</ng-option>
+                <ng-option value="1">Job Boards</ng-option>
+            </ng-select>
+            <mat-error
+                *ngIf="addForm.controls['IntegrationCategory'].hasError('required') && addForm.controls['IntegrationCategory'].touched">
+                {{'label_selectIntegrationCategoryJob'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+        </div>
+</mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button"
+            (click)="onSave(this.addForm.value)" id="btnSave" [disabled]="!addForm.valid"> {{'label_continue'|translate}}</button>
+    </div>
+</form>

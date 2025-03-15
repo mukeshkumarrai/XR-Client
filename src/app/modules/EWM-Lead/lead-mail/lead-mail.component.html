@@ -1,0 +1,229 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  
+  <div id="newEmail" class="newEmailStyle new-mail-heading" applyTabIndexes>
+      <h2 mat-dialog-title>
+        {{'label_newEmail' | translate}}
+        <span (click)="onDismiss()" tooltip="close" class="material-icons closeModal">
+          close
+        </span>
+      </h2>
+      <div class="col email-dialog-content"  #target>
+        <form novalidate [formGroup]="newEmailTemplateForm" class="" id="emailcompose">
+          <div class="insert-template">
+            <button type="button" tabindex class="ml-0" mat-stroked-button color="primary" (click)="openTemplateModal()"
+              id="newEmail-template">{{'label_insertTemplate' |translate}}</button>
+            <mat-icon matTooltip="{{'label_mailBoxTemplateInFo' |translate}}" matTooltipPosition="left" matSuffix
+              class="templateInfoIcon cursor">info</mat-icon>
+          </div>
+  
+          <mat-form-field class="col l12 m12 s12" floatLabel="always">
+            <mat-label>{{'label_from' |translate}}</mat-label>
+            <input type="hidden" formControlName="UserId" id="email-UserId" name="UserId">
+            <input matInput readonly tabindex placeholder="{{'label_enterEmailID' |translate}}" id="email-EmailFrom"
+              formControlName="EmailFrom">
+            <mat-icon tabindex matTooltip="{{'label_mailBoxFromInfo' |translate}}" matTooltipPosition="left" matSuffix
+              class="templateInfoIcon cursor">info</mat-icon>
+          </mat-form-field>
+  
+          <mat-form-field class="col l12 m12 s12 example-chip-list" floatLabel="always">
+            <mat-label>{{'label_to' |translate}}</mat-label>
+  
+            <mat-chip-list #chipListFrom  formControlName="EmailTo"  required> 
+              <mat-chip   tabindex 
+              *ngFor="let item of toEmailList| slice:0:this.emailListLengthToMore;let i=index" 
+              [selectable]="true" [removable]="removable"
+                (removed)="removeToEmail(item)" [disabled]="item.readonly && !isBulkEmail" class="email-chip"><!----@suika @EWM-11673 @Whn 18-05-2023 enable cross icon on job details page except bulk email-->
+                <span class="text-overflow">{{item.value}}</span>
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <mat-chip *ngIf="toEmailList.length > this.emailListLengthToMore">
+         
+                <span  (click)="clickForToMoreRecord(toEmailList)" class="ng-value-label">{{toEmailList.length -
+                    this.emailListLengthToMore}} more...</span>
+            </mat-chip>
+              <input tabindex placeholder="{{'label_enterEmailID' |translate}}" [matChipInputFor]="chipListFrom"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="addFrom($event)" [matAutocomplete]="auto" tabindex>
+            </mat-chip-list>
+  
+  
+            <mat-autocomplete #auto="matAutocomplete">
+            </mat-autocomplete>
+            <button matSuffix mat-button color="primary" (click)="getUserContactInfo('To')"
+           class="ccBccEmailBtn" tabindex [disabled]="isBulkEmailPreviewBtn">
+           <mat-icon class="addContactIcon">add</mat-icon>
+         </button>
+            <button matSuffix tabindex type="button" mat-button color="primary" class="ccBccEmailBtn"
+              (click)="showCCBtn()">{{'label_ccEmails' |translate}}</button>
+            <button matSuffix tabindex mat-button type="button" color="primary" class="ccBccEmailBtn bccBccEmailBtn"
+              (click)="showBCCBtn()">{{'label_bccEmails' | translate}}</button>
+            <mat-icon tabindex matTooltip="{{'label_mailBoxToInfo' |translate}}" matTooltipPosition="left" matSuffix
+              class="templateInfoIcon cursor">info</mat-icon>
+  
+            <mat-error *ngIf="this.newEmailTemplateForm.controls['EmailTo'].hasError('required')">
+              {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="this.newEmailTemplateForm.controls['EmailTo'].hasError('incorrectEmail')">
+              {{ 'label_emailIncorrect' |translate}}
+            </mat-error>
+  
+          </mat-form-field>
+  
+          <mat-form-field class="col l12 m12 s12 example-chip-list" floatLabel="always" *ngIf="showCC">
+            <mat-label>{{'label_ccEmails' |translate}}</mat-label>
+            <mat-chip-list #chipListcc formControlName="EmailCC">
+              <mat-chip tabindex [color]="(item.invalid) ? 'warn' : ''" selected *ngFor="let item of ccEmailList| slice:0:this.emailListLengthccMore; let i=index"
+                [selectable]="true" [removable]="removable" (removed)="removeccEmail(item)" required name="CC Email-ID">
+                {{item.value}}
+                <mat-icon matChipRemove tabindex *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <mat-chip *ngIf="ccEmailList.length > this.emailListLengthccMore">
+         
+                <span  (click)="clickForccMoreRecord(ccEmailList)" class="ng-value-label">{{ccEmailList.length -
+                    this.emailListLengthccMore}} more...</span>
+            </mat-chip>
+              <input tabindex placeholder="{{'label_enterEmailID' |translate}}" [matChipInputFor]="chipListcc"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="addCC($event)" [matAutocomplete]="auto" tabindex>
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete">
+            </mat-autocomplete>
+            <button matSuffix mat-button color="primary" (click)="getUserContactInfo('CC')"
+            class="ccBccEmailBtn" tabindex>
+            <mat-icon class="addContactIcon">add</mat-icon>
+          </button>
+            <mat-error *ngIf="this.newEmailTemplateForm.controls['EmailCC'].hasError('incorrectEmail')">
+              {{ 'label_emailIncorrect' |translate}}
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field class="col l12 m12 s12 example-chip-list" floatLabel="always" *ngIf="showBCC">
+            <mat-label>{{'label_bccEmails' |translate}}</mat-label>
+            <mat-chip-list #chipListBcc formControlName="EmailBCC">
+              <mat-chip tabindex [color]="(item.invalid) ? 'warn' : ''" selected *ngFor="let item of bccEmailList| slice:0:this.emailListLengthMore; let i=index"
+                [selectable]="true" [removable]="removable" (removed)="removeBccEmail(item)" required name="BCC Email-ID">
+                {{item.value}}
+                <mat-icon tabindex matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <mat-chip *ngIf="bccEmailList.length > this.emailListLengthMore">
+         
+                <span  (click)="clickForMoreRecord(bccEmailList)" class="ng-value-label">{{bccEmailList.length -
+                    this.emailListLengthMore}} more...</span>
+            </mat-chip>
+              <input tabindex placeholder="{{'label_enterEmailID' |translate}}" [matChipInputFor]="chipListBcc"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="addBcc($event)" [matAutocomplete]="auto" tabindex>
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete">
+            </mat-autocomplete>
+            <button matSuffix mat-button tabindex color="primary" (click)="getUserContactInfo('BCC')"
+            class="ccBccEmailBtn" tabindex>
+            <mat-icon class="addContactIcon">add</mat-icon>
+          </button>
+            <mat-error *ngIf="this.newEmailTemplateForm.controls['EmailBCC'].hasError('required')">
+              {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="this.newEmailTemplateForm.controls['EmailBCC'].hasError('incorrectEmail')">
+              {{ 'label_emailIncorrect' |translate}}
+            </mat-error>
+          </mat-form-field>
+  
+  
+          <!-- <div class="col l12 m12 s12">
+              <div class="common_dropdown_v2" disabled>
+                <dropdown
+                 [configuration]="common_DropdownC_Config"
+                (selectedOut)="onJobchange($event)" [getSelectedItem]="selectedJobs"></dropdown>
+            </div>
+          </div> -->
+  
+          <mat-form-field class="col l12 m12 s12" floatLabel="always">
+            <mat-label>{{'label_templateSubject' |translate}}</mat-label>
+            <input type="hidden" formControlName="Subject" id="userRole-roleId" name="Subject">
+            <input matInput tabindex placeholder="{{'label_enterSubject' |translate}}" formControlName="Subject" required>
+  <!----@bantee @EWM-11601 @Whn 20-09-2023  error message Validation handled-->
+            <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('required')">
+              {{'label_templateSubject' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('minlength') && !newEmailTemplateForm.controls['Subject'].hasError('whitespace')">
+              {{'label_templateSubject' |translate}} {{'label_errorminlength5' |translate}}
+            </mat-error>
+        <!-- // who:maneesh,what:ewm-15173 for change maxLength,when:28/11/2023 -->
+            <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('maxlength') && !newEmailTemplateForm.controls['Subject'].hasError('whitespace')">
+              {{'label_templateSubject' |translate}} {{'label_errormaxlength500' |translate}}
+            </mat-error>
+            <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('whitespace') && !newEmailTemplateForm.controls['Subject'].hasError('required')">
+               {{'label_nameValidation' |translate}} 
+            </mat-error>
+       
+          </mat-form-field>
+       <!-- who:maneesh,what:ewm-16207 ewm-16343 for fixed new editor,when:13/03/2024 -->
+       <div class="col l12 m12 s12">
+        <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+        <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal" 
+              (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)"
+              [resetConfiguration]="resetEditorValue.asObservable()">
+        </app-mention-editor>   
+      </div>
+    </div>
+
+  
+          <div class="row" *ngIf="!filestatus">
+            <div class="col l4 m6 s12" *ngFor="let files of fileAttachments">
+              <mat-card class="mb-5">
+                <div class="email-attachment">
+                  <div class="file-detail" tabindex>
+                    <span>{{files.Name}}</span>
+                    <span>{{files.Size | fileSize}}</span>
+                  </div>
+                  <mat-icon class="matCloseIcon" tabindex (click)="removeAttachment(files)">cancel</mat-icon>
+                </div>
+                <div class="progress-loader-box" *ngIf="filestatus">
+                  <div class="progress-loader">
+                      <div class="loaderBar"></div>
+                  </div>
+              </div>
+  
+              </mat-card>
+            </div>
+          </div>
+        </form>
+      </div>
+    <mat-divider></mat-divider>
+    <small class="mb-0 mt-0">
+      {{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}}
+    </small>
+  
+    <mat-card align="end" class="button-row actionBoxFooter mb-0">
+        <button mat-icon-button color="primary" tabindex class="fileUpload attachFileBtn">
+          <input id="singleFile" type="file"  (change)="Uploadfile($event)" />
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      <mat-error *ngIf="isfileAttachments">Please select file first</mat-error>
+      <button mat-raised-button  color="primary" class="buttonForDesktopMobile" tabindex type="button" id="EmailPreview"
+       (click)="openPriviewPopup()"  [disabled]="this.newEmailTemplateForm.get('Subject').value=='' || this.newEmailTemplateForm.get('TemplateText').value==null">
+        <mat-icon>drafts</mat-icon>
+        <span class="buttonTxt">{{'label_email'|translate}} {{'button_livePreview'|translate}}</span>
+      </button>
+          <!-- who:bantee,what: ewm-12592 Discard button is not displaying under New Email  ,when:18/09/2023 -->
+  
+      <button  mat-stroked-button  color="primary" tabindex type="button" (click)="resetComposeEmail()" id="btnCancel">
+        {{'label_discard'|translate}}
+      </button>
+  
+      <button *ngIf="!isBulkEmailPreviewBtn" [disabled]="isBulkEmailPreviewBtn" mat-raised-button color="primary" class="buttonForDesktopMobile" tabindex type="button" id="saveAsDraft" 
+      (click)="confirmSaveAsDraft()">
+        <mat-icon>drafts</mat-icon>
+        <span class="buttonTxt">{{'label_saveAsDraft'|translate}}</span>
+      </button>
+      <!-- sendBtnDisabled for desabled -->
+      <button mat-raised-button color="primary" tabindex type="button" id="btnSave"
+        [disabled]="!newEmailTemplateForm.valid" (click)="sendEmail()" class="buttonForDesktopMobile">
+          <mat-icon>send</mat-icon>
+          <span class="buttonTxt">{{'label_sendEmail'|translate}}</span>
+        </button>
+    </mat-card>
+     
+  </div>

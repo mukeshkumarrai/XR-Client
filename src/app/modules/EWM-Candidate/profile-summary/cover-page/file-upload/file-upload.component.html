@@ -1,0 +1,60 @@
+<!---
+    @(C): Xeople
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 06-Oct-2021
+    @Why: EWM-3088 EWM-2549
+    @What:  This page is creted for Common Component HTML of Upload Documents
+-->
+
+<!-- <div *ngIf="loading" class="k-i-loading"></div> && fileViewstatus && activestatus!='view' -->
+<mat-card>
+    <mat-card-header *ngIf="filestatus  && fileViewstatus && activestatus!='view'"> 
+        <mat-card-title *ngIf="!docRequiredStatus" class="matTitleDocument">{{'lebel_uploadDocument' | translate}} </mat-card-title>
+        <mat-card-title *ngIf="docRequiredStatus" class="matTitleDocument">{{'lebel_uploadDocument' | translate}} <span class="required-show">*</span></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="documentUploadRoundBox" *ngIf="filestatus  && fileViewstatus && activestatus!='view'">
+            <div *ngIf="loading" class="k-i-loading inputSearch"></div>
+            <div class="circleCreateDocFileUpload">
+                <input type="file"  accept="{{fileType}}" (change)="Uploadfile($event)" required/>
+                <mat-icon>cloud_upload</mat-icon>
+            </div>
+            <span class="fileInstructions">
+                {{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}}
+                </span>
+        </div>
+        <!-- <div class="documentUploadRoundBox" *ngIf="!filestatus" (click)="openDoc(filePathOnServer)">
+            <div class="circleCreateDocFileUpload solidBorderFileUploadBox">
+                <mat-icon>{{iconFileType}}</mat-icon>
+            </div>
+            <span class="fileInstructions cursor">
+                {{fileInfo}}
+            </span>
+            <mat-icon class="closeIconCreateDoc" *ngIf="fileViewstatus" color="warn" (click)="removeImage(filePathOnServer)">cancel</mat-icon>
+        </div>   -->
+        <div class="documentUploadRoundBox" *ngIf="!filestatus" (click)="openDoc(filePathOnServer)"
+        [ngStyle]="filePathOnServer == ''  && {'cursor': 'auto'}">
+            <div class="circleCreateDocFileUpload solidBorderFileUploadBox"
+            [ngStyle]="filePathOnServer == '' && {'cursor': 'auto'}">
+                <mat-icon>{{iconFileType}}</mat-icon>
+            </div>
+            <span class="fileInstructions cursor text-overflow"
+            [ngStyle]="filePathOnServer == ''  && {'cursor': 'auto'}">
+                {{fileInfo}}
+            </span>
+            <mat-icon class="closeIconCreateDoc" style="position: relative; z-index: 15; cursor: pointer;" 
+            *ngIf="fileViewstatus" color="warn" (click)="removeImage(filePathOnServer)">cancel</mat-icon>
+        </div>  
+    </mat-card-content>
+</mat-card>
+<!-- 
+<div class="documentUploadBox" *ngIf="filestatus" style="display: none;">
+    <div class="createDocFileUpload">
+        <input type="file" #fileInput accept="{{fileType}}" (change)="Uploadfile($event)" />
+        <mat-icon>cloud_upload</mat-icon>
+    </div>
+    <span class="fileInstructions">
+        .pdf, .doc, .docx ,.xls, .xlsx, .jpg, .png, .jpeg, .gif, .zip, .rar up to 5 MB
+    </span>
+</div> -->

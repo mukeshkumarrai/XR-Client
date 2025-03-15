@@ -1,0 +1,52 @@
+<small class="small-size">{{'pushCandidateToEoh_popupSubTitle1'| customTranslate}} <strong>{{candidateInfo['candidateName']}}</strong> {{'label_as'|translate}}
+    <strong *ngIf="selectedValue=='1'">{{'pushCandidateToEoh_applicant'| customTranslate}}.</strong>
+    <strong *ngIf="selectedValue=='2'">{{'pushCandidateToEoh_member'| customTranslate}}.</strong>
+      {{'pushCandidateToEoh_popupSubTitle3'| customTranslate}} </small>
+
+  <div class="candidate-overview">
+  <div class="radio-with-label eoh-with-label">
+    <small>{{'pushCandidateToEoh_radioLabel'| customTranslate}}</small>
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedValue" (change)="onSelectionChange($event)">
+      <mat-button-toggle value="1" checked><mat-icon *ngIf="firstValue">done</mat-icon>{{'pushCandidateToEoh_applicant'|translate}}</mat-button-toggle>
+      <mat-button-toggle value="2"><mat-icon *ngIf="secondValue">done</mat-icon>{{'pushCandidateToEoh_member'|translate}}</mat-button-toggle>
+    </mat-button-toggle-group>
+    
+</div>
+<div class="great-text"><mat-icon svgIcon="great"></mat-icon> <p>{{'label_screeningAction_EOHHeading'|translate}}</p></div>
+
+<div class="tab-container candidate-tab-container member-tab-container share-tab" *ngIf="selectedMemberStatus">
+<mat-tab-group [selectedIndex]="selectedTabIndex" (selectedTabChange)="tabClick($event)">
+  <mat-tab label="{{ 'label_screeningAction_CandidateProfile' | customTranslate }}">
+    <app-push-candidate-to-eoh (NextEmitOut)="nextTabMove($event)" [memberStatus]="selectedMemberStatus" [publishedStatus]="publishedStatus" [IsOpenFor]="IsOpenForNormal" (candidateNameOut)="candidateNameOut($event)"></app-push-candidate-to-eoh>
+  </mat-tab>
+  <mat-tab label="{{ 'label_Notes' | customTranslate }}">
+    <app-screening-notes (NextEmitOut)="nextTabMove($event)" [memberStatus]="selectedMemberStatus" [publishedStatus]="publishedStatus" [memberStatus]="selectedMemberStatus"></app-screening-notes>
+  </mat-tab>
+  <mat-tab label="{{ 'label_EmploymentStatus' | customTranslate }}">
+    <app-employment-status (NextEmitOut)="nextTabMove($event)" [memberStatus]="selectedMemberStatus" [publishedStatus]="publishedStatus" [stageType]="stageType" [lastActivity]="lastActivity"></app-employment-status>
+  </mat-tab>
+  <mat-tab label="{{ 'label_screeningAction_ReviewFinalSummary' | customTranslate }}">
+    <app-review-final-summary [memberStatus]="selectedMemberStatus" [publishedStatus]="publishedStatus"></app-review-final-summary>
+  </mat-tab>
+</mat-tab-group>
+</div>
+
+<div class="tab-container candidate-tab-container share-tab" *ngIf="candidateScreening && !selectedMemberStatus">
+  <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedTabChange)="tabClick($event)">
+    <mat-tab label="{{ 'label_screeningAction_CandidateProfile' | translate }}">
+      <app-push-candidate-to-eoh (NextEmitOut)="nextTabMove($event)" [memberStatus]="selectedMemberStatus" [publishedStatus]="publishedStatus" [IsOpenFor]="IsOpenForNormal" (candidateNameOut)="candidateNameOut($event)"></app-push-candidate-to-eoh>
+    </mat-tab>
+    <mat-tab label="{{ 'label_screeningAction' | customTranslate }}">
+      <app-screening-action (NextEmitOut)="nextTabMove($event)" [memberStatus]="selectedMemberStatus" [publishedStatus]="publishedStatus"></app-screening-action>
+    </mat-tab>
+     <mat-tab label="{{ 'label_Notes' | translate }}">
+      <app-screening-notes (NextEmitOut)="nextTabMove($event)" [memberStatus]="selectedMemberStatus" [publishedStatus]="publishedStatus" [memberStatus]="selectedMemberStatus"></app-screening-notes>
+    </mat-tab>
+     <mat-tab label="{{ 'label_screeningAction_ReviewFinalSummary' | customTranslate }}">
+      <app-review-final-summary [memberStatus]="selectedMemberStatus" [publishedStatus]="publishedStatus"></app-review-final-summary>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<app-push-candidate-to-eoh *ngIf="!candidateScreening && !selectedMemberStatus" (sendPushCandidateInfo)="sendPushCandidateInfo($event)" [IsOpenFor]="IsOpenFor" [memberStatus]="selectedMemberStatus" [publishedStatus]="publishedStatus"></app-push-candidate-to-eoh>
+</div>

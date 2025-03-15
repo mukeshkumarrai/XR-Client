@@ -1,0 +1,20 @@
+#fade-in.show {
+  opacity: 1;
+  height: 150px;
+  width: 500px;
+}
+
+#spin-in {
+  opacity: .2;
+  height: 50px;
+  width: 50px;
+  transform: translateX(0) rotate(0deg);
+  transition: all .75s ease;
+}
+
+#spin-in.show2 {
+  transform: translateX(450px) rotate(720deg);
+  opacity: 1;
+}
+
+

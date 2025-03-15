@@ -1,0 +1,307 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 
+    @Modified: Oct 25 2021
+    @Why: EWM-3040 EWM-3453
+    @What:  This page is creted for Integration interface board UI Component HTML
+-->
+
+
+<div *ngIf="loading || loader" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+
+
+<mat-card-header class="dashboard-mat-card-header" id="integration-mat-card-header">
+    <mat-card-title class="only-for-title">{{'label_Marketplace' |translate}} </mat-card-title>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container" autosize id="xeople-container">
+    <!-- <div class="showAccessSection"> -->
+    <!-- <div class="row mb-0">
+    <mat-card-subtitle class="col s12 m12 l12 subTitle">{{ 'label_integration' |translate }} 
+    </mat-card-subtitle>
+</div> -->
+    <div class="tab-container user-invitaion tab-user-invitation">
+        <!-- <div class="interfaceBoardContainer bg-hide"> -->
+        <!-- <div class="row mb-0 sticky">
+                <div class="col l12 m12 s12 leftPanelLinks">
+                    <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0" [navigation]="true"
+                    (swiper)="onSwiper($event)" (slideChange)="onSlideChange()" [ngClass]="screenPreviewClass" class="urOrderList">
+                        <ng-template class="carousel-cell" swiperSlide *ngFor="let type of typeList">
+                        <div class="stageListItems">
+                            <button mat-raised-button class="tabLinkBtn" [ngClass]="activeType==type.TypeName?'activetabbtn':''" (click)="getDataByType(type)">
+                                {{type.TypeName}}</button>
+                        </div>                  
+                        </ng-template>
+                    </swiper>
+                </div>
+            </div> -->
+
+        <mat-tab-group class="board-group interfaceBoardContainer integration-interface-group" [selectedIndex]="selectedTabIndex" (selectedTabChange)="getDataByType($event)">
+            <mat-tab *ngFor="let type of typeList; let index = index" [label]="type.TypeName">
+                <div class="tabInfinoteScroll" infinite-scroll [infiniteScrollDistance]="pageOption"
+                    [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false">
+                    <div class="row mb-0 greyBgBox">
+                        <div class="col l1 m12 s12">
+                            <label class="searchTitle">Search</label>
+                        </div>
+                        <div class="col l2 m6 s12">
+                            <ng-select tabindex="3" id="ddlAvaible" [(ngModel)]="selectedAvaible" [clearable]="true"
+                                (change)="getSearchedData('Available',$event)"
+                                placeholder="{{'label_available'|translate}}" required>
+                                <ng-option *ngFor="let availble of availbleList" [value]="availble.Id">{{availble.Code}}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                        <div class="col l3 m6 s12">
+                            <ng-select tabindex="3" id="ddlCategory" [(ngModel)]="selectedCategory" [clearable]="true"
+                                (change)="getSearchedData('Category',$event)"
+                                placeholder="{{'label_category' |translate}}" required>
+                                <ng-option *ngFor="let category of categoryList" [value]="category.Id">{{category.Name}}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                        <div class="col l3 m6 s12">
+                            <ng-select tabindex="3" id="ddlTag" [clearable]="true" [(ngModel)]="selectedTag"
+                                (change)="getSearchedData('Tag',$event)" placeholder="{{'label_tagName' |translate}}"
+                                required>
+                                <ng-option *ngFor="let tag of tagList" [value]="tag.Id">{{tag.Code}}</ng-option>
+                            </ng-select>
+                        </div>
+                        <div class="col l3 m6 s12">
+                            <ng-select tabindex="3" id="ddlStatus" [(ngModel)]="selectedStatus" [clearable]="true"
+                                (change)="getSearchedData('Status',$event)" placeholder="{{'label_status' |translate}}"
+                                required>
+                                <ng-option *ngFor="let status of statusList" [value]="status.Id">{{status.Name}}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+
+                    <div class="marketplace-section">
+                        <div class="customBoxWidth" *ngFor="let data of filteredDataList">
+                            <mat-card class="selectTemplateOrCreatejob mat-elevation-z2"
+                                *ngIf="data.Name!=undefined && data.Name!=''" tabindex="1" id="createJob-routerAddJob">
+                                <label class="lblTxtHeading">{{data.Name}}</label>
+                                <div class="ImageFileBox">
+                                    <img src="{{data.LogoUrl}}" />
+                                </div>
+                                <div class="jobInfobox">
+                                    <div class="jobinfodata">
+                                        <span class="boldTxtHeading">{{'label_category'|translate}}</span>
+                                        <span class="txtValueStyle">{{data.CategoryName}}</span>
+                                    </div>
+                                    <div class="jobinfodata">
+                                        <span class="boldTxtHeading">{{'label_moduleName'|translate}}</span>
+                                        <span class="txtValueStyle">--</span>
+                                    </div>
+                                    <div class="jobinfodata">
+                                        <span class="boldTxtHeading">{{'label_available'|translate}}</span>
+                                        <span class="txtValueStyle">{{data.BillingType}}</span>
+                                    </div>
+                                    <ng-container *ngIf="data.RegistrationCode==seekRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!data.IsSelected=='1'"
+                                            id="btnConnect" [routerLink]="['seek-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_emailConnect'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="data.IsSelected=='1'" class="green"
+                                            id="btnConnected" [routerLink]="['seek-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_emailConnected'|translate}}
+                                        </button>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="data.RegistrationCode==Broadbeanregistrationcode">
+                                        <button mat-raised-button color="primary" *ngIf="!data.IsSelected=='1'"
+                                            id="btnConnect" [routerLink]="['broadbean-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enable'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="data.IsSelected=='1'" class="green"
+                                            id="btnConnected" [routerLink]="['broadbean-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enabled'|translate}}
+                                        </button>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="data.RegistrationCode==daxtraRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!data.IsSelected=='1'"
+                                            id="btnConnectDextra" [routerLink]="['daxtra-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_daxtraEnable'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="data.IsSelected=='1'" class="green"
+                                            id="btnConnectedDextra" [routerLink]="['daxtra-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_daxtraEnabled'|translate}}
+                                        </button>
+                                    </ng-container>
+                                  <!-- FOR START SMS -->
+                                    <ng-container *ngIf="data.RegistrationCode==xeopleSMSRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!visibilityStatusForSMSInvite"
+                                            id="btnConnectDextra" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_smsEnable'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="visibilityStatusForSMSInvite" class="green"
+                                            id="btnConnectedDextra" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_smsEnabled'|translate}}
+                                        </button>
+
+                                    </ng-container>
+                                    <!-- FOR END SMS -->
+
+                                     <!-- FOR START Burst SMS -->
+                                     <ng-container *ngIf="data.RegistrationCode==burstSMSRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!data.IsSelected=='1'"
+                                            id="btnConnectDextra" [routerLink]="['burstsms-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_smsEnable'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="data.IsSelected=='1'" class="green"
+                                            id="btnConnectedDextra" [routerLink]="['burstsms-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_smsEnabled'|translate}}
+                                        </button>
+
+                                    </ng-container>
+                                    <!-- FOR END Burst SMS -->
+
+                                    <!-- FOR START DIAL -->
+                                    <ng-container *ngIf="data.RegistrationCode==xeopleCallRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!data.IsSelected=='1'"
+                                            id="btnConnect">
+                                            {{'label_smsEnable'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="data.IsSelected=='1'" class="green"
+                                            id="btnConnected">
+                                            {{'label_smsEnabled'|translate}}
+                                        </button>
+                                    </ng-container>
+                                    <!-- FOR END DIAL -->
+
+
+                                    <!-- FOR Zoom Meeting Invite -->
+                                    <ng-container *ngIf="data.RegistrationCode==zoomMeetingInviteRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!visibilityStatusForZoomInvite"
+                                            id="btnConnectDextra" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enable'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="visibilityStatusForZoomInvite" class="green"
+                                            id="btnConnectedDextra" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enabled'|translate}}
+                                        </button>
+
+                                    </ng-container>
+                                    <!-- FOR Zoom Meeting Invite -->
+
+                                    <!-- FOR zoom phone call -->
+                                    <ng-container *ngIf="data.RegistrationCode==zoomPhoneCallRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!visibilityStatusForZoomCall"
+                                            id="btnConnectDextra" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enable'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="visibilityStatusForZoomCall" class="green"
+                                            id="btnConnectedDextra" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enabled'|translate}}
+                                        </button>
+
+                                    </ng-container>
+                                    <!-- FOR zoom phone call -->
+
+                                       <!-- FOR MS Team Meeting Invite -->
+                                       <ng-container *ngIf="data.RegistrationCode==mSTeamMeetingInviteRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!visibilityStatusForMSTeamInvite"
+                                            id="btnEnableMSTeam" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enable'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="visibilityStatusForMSTeamInvite" class="green"
+                                            id="btnEnabledMSTeam" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enabled'|translate}}
+                                        </button>
+
+                                    </ng-container>
+
+                                      <!-- FOR Google Meet Meeting Invite -->
+                                      <ng-container *ngIf="data.RegistrationCode==googleMeetMeetingInviteRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!visibilityStatusForGoogleMeetInvite"
+                                            id="btnEnableGoogleMeet" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enable'|translate}}
+                                        </button>
+                                        <button mat-raised-button *ngIf="visibilityStatusForGoogleMeetInvite" class="green"
+                                            id="btnEnabledGoogleMeet" [routerLink]="['tenant-feature-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enabled'|translate}}
+                                        </button>
+
+                                    </ng-container>
+
+                                    <ng-container *ngIf="data.RegistrationCode==eohRegistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!visibilityStatusForEohInvite"
+                                            id="btnEnableGoogleMeet" [routerLink]="['ehr-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enable'|translate}}
+                                        </button>
+                                        <button mat-raised-button  class="green" *ngIf="visibilityStatusForEohInvite"
+                                            id="btnEnabledGoogleMeet" [routerLink]="['ehr-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enabled'|translate}}
+                                        </button>
+
+                                    </ng-container>
+                                    <ng-container *ngIf="data.RegistrationCode==indeedRagistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!visibilityStatusForInneedInvite"
+                                            id="btnEnableInnedData" [routerLink]="['indeed-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enable'|translate}}
+                                        </button>
+                                        <button mat-raised-button  class="green" *ngIf="visibilityStatusForInneedInvite"
+                                            id="btnEnabledInneed" [routerLink]="['indeed-integration']"
+                                            [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                            {{'label_Enabled'|translate}}
+                                        </button>
+
+                                    </ng-container>
+                                   <!-- by maneesh  ewm-17967 fixed vxt integration when:29/08/2024 -->
+                                    <ng-container *ngIf="data?.RegistrationCode==vxtRagistrationCode">
+                                        <button mat-raised-button color="primary" *ngIf="!visibilityStatusForVxtInvite"
+                                            id="btnEnableInnedData" [routerLink]="['vxt-integration']"
+                                            [queryParams]="{code: data?.RegistrationCode,name:data?.Name,status:visibilityStatusForVxtInvite}">
+                                            {{'label_Enable'|translate}}
+                                        </button>
+                                        <button mat-raised-button  class="green" *ngIf="visibilityStatusForVxtInvite"
+                                            id="btnEnabledInneed" [routerLink]="['vxt-integration']"
+                                            [queryParams]="{code: data?.RegistrationCode,name:data?.Name,status:visibilityStatusForVxtInvite}">
+                                            {{'label_Enabled'|translate}}
+                                        </button>
+                                    </ng-container>
+
+
+                                </div>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+
+
+
+
+        <!-- </div> -->
+        <!-- </div> -->
+    </div>
+</mat-drawer-container>

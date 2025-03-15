@@ -1,0 +1,45 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: searchheader.component.html
+  @Who: Renu
+  @When: 22-Dec-2020
+  @Why: For implementing the common search Header
+  @What: This page wil be use for common search header section 
+-->
+<!--@(C): Entire Software | @Type: File, <html> | @Name: searchheader.component.html | @Who: Satya Prakash | @When: 05-April-2022 | @Why: For implementing new structure | @What:  -->
+<div class="headerSearch">
+  <!-- mobile menu -->
+  <div class="mobileMenu respinsiveSidebarMenu">
+    <swiper [slidesPerView]="mobileQuery.matches ? '3' : '5'" [spaceBetween]="0" [navigation]="true"
+      (swiper)="onSwiper($event)" (slideChange)="onSlideChange()" class="urOrderList">
+      <ng-template class="carousel-cell" swiperSlide *ngFor="let menu of overflowMenuItems">
+        <a mat-button (click)="routerUrl(menu.Router)" [ngClass]="selectedSubMenu===menu.Name ? 'active' : ''"
+          matTooltip="{{ menu.MenuLabel|customTranslate }}" matTooltipClass="custom-tooltip">
+          <mat-icon *ngIf="menu.IconPath===''" class="material-icons">{{menu.Icon}}</mat-icon>
+          <img *ngIf="menu.IconPath!=''" src="{{menu.IconPath}}" />
+        </a>
+      </ng-template>
+    </swiper>
+  </div>
+  <!-- mobile menu -->
+  <!-- advanced search -->
+  <div class="advanced-search">
+    <div class="list-and-grid">
+      <button mat-raised-button class="listButton" color="primary" disabled>
+        <mat-icon svgIcon="format_list_bulleted"></mat-icon>
+      </button>
+      <button mat-raised-button class="gridButton" disabled>
+        <mat-icon svgIcon="view_module"></mat-icon>
+      </button>
+    </div>
+    <div class="searchMain">
+      <input type="text" placeholder="Global Search - Something awesome is coming soon" disabled>
+      <mat-icon svgIcon="search" class="searchIcon"></mat-icon>
+    </div>
+    <button mat-raised-button disabled>
+      <mat-icon svgIcon="add"></mat-icon>
+      <mat-icon svgIcon="arrow_drop_down"></mat-icon>
+    </button>
+  </div>
+</div>

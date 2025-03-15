@@ -1,0 +1,82 @@
+<!--
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: job-checklist.component.html
+    @Who: Nitin Bhati
+    @When: 12-Sep-2023
+    @Why: EWM-12599 EWM-13985
+    @What: Job Checklist Page Component HTML
+-->
+<div class="kendo-grid-appearance single-checklist" *ngIf="type=='Single'">
+    <kendo-grid #grid [kendoGridBinding]="checkList" [resizable]="true">
+        <kendo-grid-column title="{{'heading_grid_checklist_checkbox'|translate}}" [minResizableWidth]="40" [width]="40">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <mat-checkbox [(ngModel)]="dataItem.checked" color="primary" tabindex matTooltipClass="custom-tooltip" (change)="onChangeChecklist($event,rowIndex,dataItem)">
+                </mat-checkbox>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="TaskName" [width]="120" [editable]="false" title="{{'label_taskName'|translate}}" class="space-manage">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span style="max-width: calc(100% - 20px); display: inline-block;" kendoTooltip title="{{dataItem?.TaskName}}">
+                  {{dataItem?.TaskName}}
+                </span>
+                <span class="star-mandatory" *ngIf="dataItem?.IsMandatory">*</span>   
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [width]="120" title="{{'label_comment'|translate}}">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                <ng-container *ngIf="dataItem?.IsComment===1">
+                    <div class="text-area-outline" (click)="openDialogforDescription(rowIndex,dataItem)" id="rowcomment{{rowIndex}}{{dataItem?.TaskName}}">
+                        {{dataItem.Comments}}
+                        <span class="placeholder-comment" *ngIf="!dataItem.Comments">{{'placeholder_grid_comment'|translate}}</span>
+                     </div>
+                </ng-container>
+               </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="FileName" [width]="80" title="{{'candidate_attachments'|translate}}" class="space-manage">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                <div class="btn-group-files">
+                    <button mat-button *ngIf="dataItem?.Files?.length>0 && dataItem?.IsAttachment===1" class="view-files" color="primary" (click)="openViewAttachmentModal(dataItem?.Files,rowIndex,'Single',dataItem?.TaskName)" id="attachementView_{{rowIndex}}">{{'label_JobAction_ViewFiles'|translate}}</button>
+                    <!-- @When: 17-10-2023 @who:Amit @why: EWM-14847 @what: add attach btn class -->
+                    <button mat-button *ngIf="dataItem?.IsAttachment===1" class="view-files attach-btn" color="primary" (click)="openMultipleAttachmentModal(dataItem?.Files,rowIndex,'Single',dataItem?.TaskName)" id="attachementAdd_{{rowIndex}}">
+                        <mat-icon>attach_file</mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </kendo-grid-column>
+        <mat-divider></mat-divider>
+    </kendo-grid>
+</div>
+
+
+<mat-accordion class="checklist-sec" id="checklist-sec" *ngIf="type=='Group'">
+    <mat-expansion-panel #panelGroup  hideToggle hideToggle (afterExpand)="open(panelGroup)" *ngFor="let data of checkListGroupName;let i=index"
+    (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header id="mat-expansion-panel-header" #panelG (click)="panelG._toggle()">
+            <div class="bg"></div>
+            <div class="checklist-header" id="checklist-header" #panel2>
+                <div class="collapse-expand-title" id="collapse-expand-title">
+                    <button mat-icon-button tabindex *ngIf="!panelGroup.expanded" id="btn_expand"
+                        (click)="panelG._toggle();checkListOpen(data.CheckListQst,false,i)" class="collapse-expand">
+                        <mat-icon>expand_more</mat-icon>
+                    </button>
+                    <button mat-icon-button tabindex *ngIf="panelGroup.expanded" id="btn_less"
+                        (click)="panelG._toggle();" class="collapse-expand">
+                        <mat-icon>expand_less</mat-icon>
+                    </button>
+                    <div class="title-icon" id="title-icon">
+                        <div class="title" id="title">{{data?.CheckListName}}</div>
+                    </div>
+                </div>
+                <div class="staus-actions" id="staus-actions">
+                    <span class="badge white" *ngIf="data?.TotalMandatoryChecklistPendingCount>0">({{data?.TotalMandatoryChecklistPendingCount}}/{{data?.TotalMandatoryChecklistCount}}) Pending</span>
+                </div>
+            </div>
+        </mat-expansion-panel-header><!--*ngIf="checkListStatus"-->
+        <app-group-checklist [jobId]="jobId" [isEditable]="isEditable" [candidateId]="candidateId"
+        [WorkFlowStageId]="WorkFlowStageId"  [EmailId]="EmailId" [checklistId]="checklistId" (savedChecklist)="documentDataFetchFromChild($event)"></app-group-checklist>
+    </mat-expansion-panel>
+</mat-accordion>

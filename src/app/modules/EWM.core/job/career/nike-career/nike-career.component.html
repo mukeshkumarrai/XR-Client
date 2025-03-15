@@ -1,0 +1,174 @@
+<!---
+    Modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 27-April-2022
+    @Why: EWM-6222 EWM-6265
+    @What:  This page wil be use only for the nike career Component HTML
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="career-template-mat-card-header">
+  <mat-card-title class="only-title">{{CareerPageName}} {{ "label_careerPage" | translate }}</mat-card-title>
+  <div class="actionButton listGridButton">
+  <div class="search-viewicon">
+    <!-- @When: 04-10-2023 @who:Amit @why: EWM-14465 @what: add class -->
+    <button mat-raised-button class="radius-call back-btn" id="backToJobBtn" routerLink="../" (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+    (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)" 
+    matTooltip="{{'label_backToCareerPage'|translate}}" matTooltipClass="custom-tooltip">
+      <mat-icon id="{{animationVar?.ActionsButton?.id}}" class="{{animationVar?.ActionsButton?.isAnimClass}}">keyboard_backspace</mat-icon>
+      <!-- {{'label_backToJobLanding'|translate}} -->
+   </button>
+    <button mat-raised-button class="radius-call" id="previewBtn" color="primary"  id="btnContinue"
+    disabled>
+      {{'label_previewCareerSite'|translate}}</button>
+  </div>
+</div>
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-button careerSiteContainer" autosize id="gpdr-drawer">
+  <mat-drawer #gdprDrawer [ngClass]="isCareerNetwork ? 'advancedsearchDrawer network-drawer' : 'advancedsearchDrawer'" id="innerpage-full-drawer" position="end"
+      mode="over" disableClose="true">
+      <div class="innerpage-full-drawer-container" id="innerpage-full-drawer-container">
+          <div class="drawerTitleSec">
+              <h4 class="text-overflow gdpr-overflow">
+                  <span  *ngIf="isCareerSitetype">{{'label_careerSite' |translate}}</span>
+                  <span  *ngIf="isCareerNetwork">{{'label_socialplatform' |translate}}</span>
+
+                  <button class="closeDrawerIcon" mat-stroked-button id="consentReq-DrawerClose"
+                      (click)="gdprDrawer.toggle();closeDrawerConsentRequest()">
+                      <mat-icon>close</mat-icon>
+                  </button>
+              </h4>
+
+          </div>
+
+          <mat-card class="mat-elevation-z2 drawerDataSec create-type-section" *ngIf="isCareerSitetype">
+              <app-career-site-type-selection (consentReqPageTemp)="consentReqPageTempCancelBtn($event)">
+              </app-career-site-type-selection>
+          </mat-card>
+
+          <mat-card class="mat-elevation-z2 drawerDataSec create-type-section" *ngIf="isCareerNetwork">
+            <app-career-network (careerNetworkPage)="careerNetworkPage($event)"></app-career-network>
+        </mat-card>
+
+          
+          
+      </div>
+  </mat-drawer>
+
+  <div class="advancedsearch-container nike-career" autosize id="career_template">
+    <mat-accordion [multi]="true">
+      <!-- First Pannel -->
+      <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  {{'label_Theme&Apperance' | translate}}
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+
+            <div class="career-main-flow">
+
+              <button mat-raised-button color="primary" id="careerFlowList"
+              (click)="openDrawerPageTemplate()" tabindex="selected+3">
+                <div class="text-btn">
+                  <div class="icon-text">
+                    <mat-icon>language</mat-icon>
+                    <span class="btntext">{{'label_careerSiteType' | translate}}</span>
+                  </div>
+                  <mat-icon>chevron_right</mat-icon>
+                </div>
+              </button>
+
+              <button mat-raised-button color="primary" id="careerFlowList" tabindex="selected+3"
+              *ngIf="gridData == 1 || gridData == 0" disabled>
+              <div class="text-btn">
+                <div class="icon-text">
+                  <mat-icon>palette</mat-icon>
+                  <span class="btntext">{{'label_Appreance' | translate}}</span>
+                </div>
+                <mat-icon>chevron_right</mat-icon>
+              </div>
+              </button>
+
+              <button mat-raised-button color="primary" id="careerFlowList" tabindex="selected+3"
+              *ngIf="gridData == 1 || gridData == 0" disabled>
+              <div class="text-btn">
+                <div class="icon-text">
+                  <mat-icon>border_style</mat-icon>
+                  <span class="btntext">{{'label_Contents' | translate}}</span>
+                </div>
+                <mat-icon>chevron_right</mat-icon>
+              </div>
+              </button>
+            </div>
+            
+      </mat-expansion-panel>
+  
+      <!-- Second Pannel -->
+      <mat-expansion-panel  [expanded]="true">
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  {{'label_socialPlatform' | translate}}
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="career-main-flow">
+            <button mat-raised-button color="primary" (click)="openNetworkDrawer()" id="careerFlowList" tabindex="selected+3">
+              <div class="text-btn">
+                <div class="icon-text">
+                  <mat-icon>hive</mat-icon>
+                  <span class="btntext">{{'label_socialplatform' | translate}}</span>
+                </div>
+                <mat-icon>chevron_right</mat-icon>
+              </div>
+            </button>
+            </div>
+      </mat-expansion-panel>
+  
+      <!-- Third Pannel -->
+      <mat-expansion-panel  [expanded]="true">
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  {{'label_advanceConfi' | translate}}
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+         <div>
+          <div class="career-main-flow">
+            <button mat-raised-button color="primary" id="careerFlowList" tabindex="selected+3"
+            disabled>
+              <div class="text-btn">
+                <div class="icon-text">
+                  <mat-icon>dashboard</mat-icon>
+                 <span class="btntext">{{'label_layout' | translate}}</span>
+                </div>
+                <mat-icon>chevron_right</mat-icon>
+              </div>
+            </button>
+
+            <button mat-raised-button color="primary" id="careerFlowList" tabindex="selected+3"
+            *ngIf="gridData == 1 || gridData == 0" disabled>
+              <div class="text-btn">
+                <div class="icon-text">
+                  <mat-icon>integration_instructions</mat-icon>
+                  <span class="btntext">{{'label_customeCss' | translate}}</span>
+                </div>
+                <mat-icon>chevron_right</mat-icon>
+              </div>
+            </button>
+            </div>
+   
+         </div>
+      </mat-expansion-panel>
+   
+  </mat-accordion>
+  
+  </div>
+ 
+</mat-drawer-container>
+
+
+

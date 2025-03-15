@@ -1,0 +1,53 @@
+            <!-- @When: 18-09-2023 @who:maneesh @why: EWM-13769 @what: create component for job deiscription -->
+<div class="progress-loader-box" *ngIf="loaderAddInfo">
+    <div class="progress-loader">
+        <div class="loaderBar"></div>
+    </div>
+</div>
+<div class="multiple-no-data" id="jobHeaderDetailsDiscription" *ngIf="jobHeaderDetails == null || jobHeaderDetails==undefined || jobHeaderDetails=='' ">
+    <p>{{'label_NoDiscription' | translate}}</p>
+</div>
+  <div class="candidate-summry parse-resume-tab-container" id="candidate-summry">
+    <mat-card class="resumeHeader">
+        <h2>{{'label_jobActionJobDiscription' | translate}}</h2>
+        <div class="search-and-parsebutton">
+
+            <mat-form-field class="search-input searchInput" floatLabel="never">
+                <input matInput id="personal-searchBox" [(ngModel)]="textToSearch" placeholder="Search by Keyword"
+                    (keyup)="highligthSearchTextVal($event)">
+                <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                <button *ngIf="textToSearch" matSuffix mat-icon-button id="btnCancel" (click)="clearSearch()">
+                    <mat-icon class="inputval">close</mat-icon>
+                </button>
+                <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+            </mat-form-field>
+
+            <!-- @When: 17-09-2023 @who:Amit @why: EWM-13830 @what: btn group create -->
+            <div class="btn-group" id="jobDetailsDesc_expand">
+                <button  *ngIf="jobHeaderDetails != null || jobHeaderDetails!=undefined || jobHeaderDetails!='' " target="_blank" mat-icon-button id="descBtn" class="resume"
+                 (click)="showDiscription(jobHeaderDetails)" matTooltip="{{'label_jobDetailsDesc_expand'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                  <mat-icon fontSet="material-icons-outlined">settings_overscan</mat-icon>
+                </button>
+
+                <button  id="jobDetailldownload" *ngIf="jobHeaderDetails != null || jobHeaderDetails!=undefined || jobHeaderDetails!='' " type="button"
+                mat-icon-button (click)="downloadJobDescription()" matTooltip="{{'label_download'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                  <mat-icon class="matIconDownload" fontSet="material-icons-outlined">file_download</mat-icon>
+                </button>
+
+                <button type="button" *ngIf="jobHeaderDetails != null || jobHeaderDetails!=undefined || jobHeaderDetails!='' " id="jobDetaillPrint" mat-icon-button matTooltip="{{'label_print'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                  <mat-icon fontSet="material-icons-outlined" (click)="print()">print</mat-icon>
+                </button>
+
+              </div>
+        </div>
+    </mat-card>
+    <div id="scrolltop" class="scrolltop">
+        <mat-card id="candidate-general-information" class="mt-10">
+            <mat-card-content>
+                <div class="inner-html" *ngIf="jobHeaderDetails != null || jobHeaderDetails!=undefined || jobHeaderDetails!='' ">
+                    <p class="inputval" id="pdfTable" #pdfTable  [innerHTML]="jobHeaderDetails | safeHtml"></p>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

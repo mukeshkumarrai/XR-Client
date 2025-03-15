@@ -1,0 +1,95 @@
+<!-- /*
+@Type: File, <html>
+@Name: job-activity-grid.component.html
+@Who: Bantee Kumar
+@When: 7-July-2023
+@Why: EWM-11778 EWM-13014
+*/ -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<div class="kendo-table-container job-activity-table-container locked-column-by-css" id="job-myActivity-list-kendo-table-container">
+  <ng-template #template let-anchor>
+    <span>{{anchor.nativeElement.innerText}}</span>
+  </ng-template>
+  <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+    (mouseover)="showTooltip($event)">
+
+    <kendo-grid #grid [kendoGridBinding]="gridListData" [sortable]="true" [scrollable]="'virtual'" [reorderable]="false"
+      [resizable]="false" (scrollBottom)="pageChange($event)">
+
+      <kendo-grid-column width="35" class="p-0 listActionBox">
+        <ng-template kendoGridCellTemplate let-dataItem>
+
+          <button mat-flat-button [matMenuTriggerFor]="beforegridMenu" class="dataActionButton">
+            <mat-icon>
+              more_vert
+            </mat-icon>
+          </button>
+
+          <mat-menu #beforegridMenu="matMenu" xPosition="after"
+            class="candidateQuickMenu candidate-data-dropdown listactionMenu">
+            <span class="material-icons headerDroupDownUp">
+              arrow_drop_up
+            </span>
+
+            <a mat-menu-item id="btnView" (click)="openMyActivityViewModal(dataItem.Id)">
+              <mat-icon>subject</mat-icon>
+              {{'label_view'|translate}}
+            </a>
+
+            <a mat-menu-item id="btnEdit" (click)="editActivity(dataItem.Id,'edit',dataItem)" *ngIf="dataItem.Edit===1"
+              [disabled]="dataItem?.IsCompleted===1 || dataItem?.IsOwner===0">
+              <mat-icon>edit</mat-icon>
+              {{'label_edit'|translate}}
+            </a>
+
+            <a mat-menu-item id="btnDelete" (click)="deleteActivity(dataItem)" *ngIf="dataItem.Delete===1"
+              [disabled]="dataItem?.IsCompleted===1 || dataItem?.IsOwner===0">
+              <mat-icon>delete</mat-icon>
+              {{'label_delete'|translate}}
+            </a>
+
+            <a mat-menu-item id="btnMarkAsDone"
+              (click)="openQuickMarkDoneModal(dataItem.Id,dataItem.IsCompleted,dataItem.Remarks)"
+              *ngIf="dataItem.IsOwner=='0'">
+              <mat-icon class="done-icon">assignment_turned_in</mat-icon>
+              {{'label_markAsdone'|translate}}
+            </a>
+            <a mat-menu-item id="btnMarkAsDone"
+              (click)="openQuickMarkDoneModal(dataItem.Id,dataItem.IsCompleted,dataItem.Remarks)"
+              *ngIf="dataItem.IsOwner=='1' && dataItem.IsCompleted=='0'">
+              <mat-icon class="done-icon">assignment_turned_in</mat-icon>
+              {{'label_markAsdone'|translate}}
+            </a>
+            <a mat-menu-item id="btnMarkAsDone"
+              (click)="openQuickMarkDoneModal(dataItem.Id,dataItem.IsCompleted,dataItem.Remarks)"
+              *ngIf="dataItem.IsOwner=='1' && dataItem.IsCompleted=='1'">
+              <mat-icon class="done-icon">assignment_turned_in</mat-icon>
+              {{'label_markAsdone'|translate}}
+            </a>
+
+
+          </mat-menu>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column field="ActivityTitle" title="{{'label_title' | translate}}"></kendo-grid-column>
+      <kendo-grid-column field="CategoryName" title="{{'label_category' | translate}}"></kendo-grid-column>
+      <kendo-grid-column field="RelatedTo" title="{{'label_activityRelatedTo' | translate}}"></kendo-grid-column>
+
+
+      <kendo-grid-column field="StartDate" title="{{'label_date_Time' | translate}}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{dataItem.StartDate| date:userpreferences.timeformate:userpreferences.timezone}}
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column field="Duration" title="{{'label_duration' | translate}}"></kendo-grid-column>
+    </kendo-grid>
+
+    <div *ngIf="loadingscroll" class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt">
+    </div>
+  </div>
+</div>

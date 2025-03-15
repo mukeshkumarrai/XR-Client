@@ -1,0 +1,222 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: add-checklist-group.compenent.html
+  @Who: Suika
+  @When: 01-aug-2022
+  @Why: EWM-1734 EWM-7427
+  @What: For add checklist.
+ -->
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-checklist-mat-card-header">
+  <!-- <mat-card-title>{{userTz}}</mat-card-title> -->
+  <mat-card-title class="only-title" *ngIf="actionStatus=='Add'">{{'label_create_checklist_group' |translate}}
+  </mat-card-title>
+  <mat-card-title class="only-title" *ngIf="actionStatus=='Edit'">{{'label_edit_checklist_group' |translate}}
+  </mat-card-title>
+
+
+  <div class="actionButton">
+    <button mat-raised-button color="warn" tabindex="8" id="btnCancel" (click)="onCancel($event)"
+      class="buttonForDesktopMobile">
+      <mat-icon>close</mat-icon>
+      <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+    </button>
+    <button mat-raised-button color="primary" tabindex="9" (click)="onSave(this.addForm.value,this.actionStatus)"
+      type="button" id="btnSave" [disabled]="!addForm.valid" class="buttonForDesktopMobile">
+      <mat-icon>check</mat-icon>
+      <span class="buttonTxt">{{'label_save'|translate}}</span>
+    </button>
+  </div>
+</mat-card-header>
+
+<mat-drawer-container   class="xeople-container-with-one-card" autosize id="manage-checklist-drawer">
+  <mat-card  #target id="checklist-manage-card" class="component-card mat-elevation-z2">
+    <form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data'>
+      <div class="form-group-box">
+        <!---------checklistname-->
+        
+        <mat-form-field>
+          <mat-label>{{'label_checklistGroup_ChecklistGroupName' |translate}}</mat-label>
+          <input matInput formControlName="GroupName" tabindex="1" text="GroupName" id="GroupName" required
+            (blur)="onChecklistGroupChanges();">
+          <mat-error *ngIf="addForm.controls['GroupName'].hasError('required')">
+            {{'label_checklistGroup_ChecklistGroupName' |translate}} {{'label_errorreqired' |translate}}
+          </mat-error>
+          <mat-error *ngIf="addForm.controls['GroupName'].hasError('maxlength')">
+            {{'label_checklistGroup_ChecklistGroupName' |translate}} {{'label_errormaxlength100' |translate}}
+          </mat-error>
+          <mat-error *ngIf="addForm.controls['GroupName'].hasError('codeTaken')">
+            {{'label_checklistGroup_ChecklistGroupName'|translate}} {{'label_errorreqiredAlready'|translate}}
+          </mat-error>
+          <mat-error *ngIf="addForm.controls['GroupName'].hasError('whitespace') && !addForm.controls['GroupName'].hasError('required')">
+            {{'label_checklistGroup_ChecklistGroupName' |translate}} {{'label_nameValidation' |translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group-box">
+        <div class="form-input-group">
+          <div class="ng-slectBox">
+            <app-custom-dropdown tabindex="2" [selectedIn]="selectedRelatedTo" (selectedOut)="onRealtedTochange($event)"
+              [config]="relatedToConfig"></app-custom-dropdown>
+
+          </div>
+          <div class="ng-slectBox">
+
+            <app-custom-dropdown tabindex="3" [resetFormSubject]="resetFromSubjectRelatedTo.asObservable()"
+              [selectedIn]="selectedRelatedToValue" (selectedOut)="onRealtedToValuechange($event)"
+              [config]="relatedToValueConfig"></app-custom-dropdown>
+            <mat-hint class="selectb0x-mat-hint">({{'label_checklist_suggestion'|translate}})</mat-hint>
+          </div>
+        </div>
+      </div>
+      <div class="form-group-box">
+        <!---------status---->
+        <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data--->    
+        <div class="ng-slectBox">
+          <ng-select placeholder="{{'label_industryStatus'|translate}}" tabindex="4" [clearable]="false" class="show-required"
+            formControlName="status" id="checklist-status" required>
+            <ng-option value="" disabled>{{'label_status'|translate}}</ng-option>
+            <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">{{list.StatusName}}</ng-option>
+
+          </ng-select>
+          <mat-error *ngIf="addForm.controls['status'].hasError('required') && addForm.controls['status'].touched">
+            {{'label_industryStatus'|translate}} {{'label_errorreqired'|translate}}
+          </mat-error>
+        </div>
+        <!---hide externally-->
+      </div>
+
+      <mat-slide-toggle formControlName="hideExternally" id="checklist-hideExternally" tabindex="5"
+        (change)="setDefaultSignature($event)" color="primary" labelPosition="before" class="mb-15">
+        {{'label_industryHideExternally' |translate}}
+      </mat-slide-toggle>
+
+      <div class="click-add">
+        {{'info_GroupChecklist_Info_1' |translate}} <mat-icon svgIcon="add_circle"></mat-icon> {{'info_GroupChecklist_Info_2' |translate}}
+      </div>
+      
+      
+<ng-containner formArrayName="groupCheckListInfo">
+  <mat-card class="checklist-card mt-10"  *ngFor="let checklistdata of groupCheckListInfo()?.controls; let i=index"
+  [formGroupName]="i">
+  <mat-accordion class="checlist-mat-accordion">
+    <mat-expansion-panel #panel hideToggle="true" [expanded]="(sectionCount-1)!=i?false:true && actionStatus != 'Edit'">
+      <mat-expansion-panel-header class="checklist-main-card" (keydown.Space)="$event.stopPropagation()" [ngStyle]="checklistdata?.length!=0?{'display':'flex', 'height':'40px'}:{'display':'none'}" style="display: none;" #panelH (click)="panelH._toggle()">
+        <mat-panel-title>
+          <span *ngIf="!checklistdata?.controls['isEditable'].value && !panel.expanded">{{checklistdata?.controls['Name'].value}}</span>
+        </mat-panel-title> 
+        <div class="chaecklist-actionBtnListBox">
+          <button mat-icon-button *ngIf="!checklistdata?.controls['isEditable'].value" color="primary" id="btn_edit{{i}}" type="button" (click)="onEditSection(checklistdata,i);panelH._toggle();">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="checklistdata?.controls['isEditable'].value" color="primary" id="btn_done{{i}}" type="button" (click)="onSaveSection(checklistdata,i);panelH._toggle()">
+            <mat-icon>done</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" *ngIf="checklistdata?.controls['isEditable'].value"  color="primary" id="btn_cancel{{i}}" type="button" (click)="onCancelSection(checklistdata,i);panelH._toggle()">
+            <mat-icon>cancel</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" type="button" (click)="onQuesTypeSelection('',i,undefined,checklistdata.value)"
+          matTooltip="{{'label_addChecklistQuestion'|translate}}" matTooltipClass="card-list-tooltip"
+          matTooltipPosition="before">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+          <button color="warn" mat-icon-button (click)="confirmDialogChecklist(i)" 
+          matTooltip="{{'label_delete'|translate}}" matTooltipClass="card-list-tooltip"
+          matTooltipPosition="before">
+          <mat-icon>delete</mat-icon>
+        </button>
+          <button mat-icon-button  tabindex *ngIf="!panel.expanded" id="btn_Expand" (click)="panelH._toggle();">
+            <mat-icon>expand_more</mat-icon>
+          </button>
+          <button mat-icon-button tabindex *ngIf="panel.expanded" id="btn_collapse" (click)="panelH._toggle();onSaveSection(checklistdata,i);">
+            <mat-icon>expand_less</mat-icon>
+          </button>
+         
+        </div>
+      </mat-expansion-panel-header>
+      <mat-form-field>
+        <mat-label>{{'label_checklist_name' |translate}}</mat-label>
+        <input matInput formControlName="Name" name="Name" tabindex="6" text="checklistName" id="checklistName" required
+          (blur)="onChecklistChanges(checklistdata.get('Name').value,checklistdata);">
+        <mat-error *ngIf="checklistdata.get('Name').errors?.required">
+          {{'label_checklist_name' |translate}} {{'label_errorreqired' |translate}}
+        </mat-error>
+        <mat-error *ngIf="checklistdata.get('Name').errors?.unique && checklistdata.get('Name').touched">
+          {{ 'label_checklist_name' |translate}} {{ 'label_errorunique' |translate}}
+        </mat-error>
+        <mat-error *ngIf="checklistdata.get('Name').errors?.maxlength">
+          {{'label_checklist_name' |translate}} {{'label_errormaxlength100' |translate}}
+        </mat-error>
+        <mat-error *ngIf="checklistdata.get('Name').hasError('checkListTaken')">
+          {{'label_checklist_name'|translate}} {{'label_errorreqiredAlready'|translate}}
+        </mat-error>
+        <mat-error *ngIf="checklistdata.get('Name').hasError('whitespace') && !checklistdata.get('Name').errors?.required">
+          {{'label_checklist_name' |translate}} {{'label_nameValidation' |translate}}
+        </mat-error>
+      </mat-form-field>
+    
+
+    <ng-container formArrayName="Question">
+        <div id="action-dialog-mapping-cdkDroplist" cdkDropList (cdkDropListDropped)="drop($event,i)"
+          class="scroll-area">
+          <div id="product-feature-mapping-cdkDrop-col"
+            *ngFor="let item of questionInfo(i)?.controls ; let quesIndex = index" [formGroupName]="i"
+            class="checklist-question">
+
+            <mat-card class="checklist-question-list cursor mat-elevation-z2"
+              id="selected-grid-mapping-cdkDroplistadd" cdkDrag  *ngIf="item?.get('Question').value!=''">
+              <div class="drag-name">
+                <button mat-icon-button color="primary" cdkDragHandle class="moveCurson">
+                  <mat-icon>drag_indicator</mat-icon>
+                </button>
+
+                <div class="checklist-question-name checked-question-name">
+                  <span> {{item?.get('Question').value}}</span>
+                  <div class="value-show">
+                    <span class="required-attach" *ngIf="item?.get('IsResponseFreeText').value==1">{{'label_required'|translate}} {{'label_free_text'|translate}}</span>
+                    <span class="required-attach" *ngIf="item?.get('IsAttachment').value==1">{{'label_createChecklist_requiredAttachment'|translate}}</span>
+                    <span class="required-attach" *ngIf="item?.get('IsMandatory').value==1">{{'label_createChecklist_taskMandatory'|translate}}</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="actionBtnListBox">
+                <button mat-icon-button color="primary"
+                  (click)="onQuesTypeEditSelection(item,i,quesIndex,questionInfo(i).controls,undefined)"
+                  matTooltip="{{'label_edit'|translate}}" matTooltipClass="card-list-tooltip"
+                  matTooltipPosition="before">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn"  (click)="confirmDialog(i,quesIndex)"
+                  matTooltip="{{'label_delete'|translate}}" matTooltipClass="card-list-tooltip"
+                  matTooltipPosition="before">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              <div class="checklist-question-list-placeholder" *cdkDragPlaceholder></div>
+            </mat-card>
+
+          </div>
+        </div>
+
+      </ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
+</ng-containner>
+   
+
+      <button mat-fab color="primary" class="add-checklist" tabindex="7" type="button"  (click)="addCheckList()" matTooltip="{{'label_addChecklist' |translate}}"
+      matTooltipPosition="right" matTooltipClass="custom-tooltip-right">
+        <mat-icon>
+          add
+        </mat-icon>
+      </button>
+    </form>
+  </mat-card>
+</mat-drawer-container>

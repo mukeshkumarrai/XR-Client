@@ -1,0 +1,48 @@
+/*
+    @(C): Entire Software
+    @Type: File, <SCSS>
+    @Who: Adarsh singh
+    @When: 28-July-2023
+    @Why: EWM-13179 EWM-13223
+    @What: This component is used for image popup advanced feature in kendo editor
+ */
+
+@import "../../../../styles-var.scss";
+.crpperpreview {
+  position: relative;
+  max-width: 200px;
+  margin: 0px auto;
+  margin-bottom: 20px;
+}
+.crpperpreview::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  width: 200px;
+  height: 200px;
+  border: 1px solid #000000;
+  border-radius: 100%;
+}
+p {
+  margin-top: 3px;
+}
+.uploadPhoto {
+  box-shadow: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  color: $default-bg-color;
+  padding: 0px;
+  margin: 0px;
+  font-weight: 500;
+  font-size: 100%;
+}
+input[type=file]::-webkit-file-upload-button {
+  cursor: pointer !important;
+}
+.imageWidth{
+  max-width: 440px;
+  width: 100%;
+  max-height: 331px;
+}

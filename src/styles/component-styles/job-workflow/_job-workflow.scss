@@ -1,0 +1,487 @@
+@use "../../../colors" as *;
+@use "drag-drop";
+@use "dark-mode";
+@use "rtl";
+.dashboard-mat-card-header.mat-card-header{
+    z-index: 2;
+    .workflow-used{
+        position: relative;
+        .badge{
+            text-transform: inherit;
+            line-height: 14px;
+            color: $white-color;
+            background-color: $warn-bg;
+            width: max-content;
+        }
+    }
+}
+/* @When: 03-05-2023 @who:Amit @why: EWM-12297 @what: always visible tooltip start here */
+.warning-message {
+    color: $warn-bg;
+    position: relative;
+    padding: 7px 8px;
+    display: block;
+    margin-top: 10px;
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: currentColor;
+        opacity: 0.15;
+        border-radius: 4px;
+    }
+}
+/* @When: 03-05-2023 @who:Amit @why: EWM-12297 @what: always visible tooltip end here */
+.job-workflow.sticky{
+    display: inline-grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 0px;
+    column-gap: 15px;
+    padding-block: 10px;
+    @media (width <= 767px){
+        grid-template-columns: repeat(2, 1fr);
+        position: relative;
+    }
+    @media (width <= 600px){
+        grid-template-columns: repeat(1, 1fr);
+        position: relative;
+    }
+    &>div:last-child{
+        display: flex;
+        justify-content: flex-end;
+        grid-column: 3;
+        margin-top: -10px;
+        @media (width <= 767px){
+            grid-column: 2;
+        }
+        @media (width <= 600px){
+            grid-column: 1;
+        }
+        .mat-raised-button{
+            @media (width <= 767px){
+                height: 36px;
+            }
+        }
+    }
+    .mat-form-field{
+        margin-bottom: 0px;
+    }
+    .select-group{
+        display: flex;
+        gap: 15px;
+        .ng-slectBox{
+            width: 60%;
+            margin-bottom: 0px;
+            &:last-child{
+                width: 40%;
+            }
+        }
+    }
+}
+.dynamictab {
+    overflow-x: hidden;
+    .sepateCard::after {
+        content: "";
+        width: 100%;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.12);
+        display: inline-block;
+        top: 1px;
+        left: 0px;
+        position: relative;
+    }
+    .sepateCard {
+        background-color: #ffffff;
+        height: 25px;
+    }
+    .secStep::before {
+        content: "";
+        position: absolute;
+        background: #ffffff;
+        height: 12px;
+        width: 100%;
+        top: -13px;
+        left: 0px;
+    }
+    .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+        min-height: 35px;
+        padding-bottom: 1.2em;
+    }
+    .mat-form-field-appearance-legacy .mat-form-field-infix {
+        padding: 4px 0px;
+    }
+    .mat-form-field-appearance-legacy .mat-form-field-subscript-wrapper {
+        margin-top: .5416666667em;
+        top: calc(100% - 2em);
+    }
+    .expandCollapseContent.mat-card {
+        padding: 0px 0px;
+        margin: 1px;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        box-shadow: 0px 0px 0px 1px rgba($color: #000000, $alpha: 0.32);
+        .drag-handle.mat-raised-button:not(.mat-button-disabled){
+            min-width: auto;
+            padding: 0px;
+            border-radius: 0px;
+            border-start-start-radius: 4px;
+            border-end-start-radius: 4px;
+            background: #2196f3;
+            color: #ffffff;
+        }
+        .toggleButtonBox {
+            width: 40px;
+            display: inline-block;
+            .toggleButton {
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                color: #2196f3;
+                margin-left: 5px;
+            }
+        }
+        .mat-button-disabled.mat-button-disabled{
+            min-width: auto;
+            padding: 0px;
+            border-radius: 0px;
+            border-start-start-radius: 4px;
+            border-end-start-radius: 4px;
+        }
+        .all-control{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .flex-row {
+            display: flex;
+            align-items: center;
+            padding-inline-end: 10px;
+            padding-bottom: 4px;
+            @media only screen and (max-width: 664px) and (min-width: 320px) {
+                display: block;
+            }
+            .form-controls {
+                flex: 1;
+                padding-left: 0px;
+                @media only screen and (max-width: 664px) and (min-width: 320px) {
+                    display: block;
+                    width: 100%;
+                }
+            }
+            .buttonGroup {
+                display: flex;
+                justify-content: flex-end;
+                gap: 5px;
+                @media only screen and (max-width: 900px) and (min-width: 665px) {
+                    display: grid;
+                }
+                @media only screen and (max-width: 664px) and (min-width: 320px) {
+                    display: flex;
+                    width: 100%;
+                    margin-bottom: 5px;
+                }
+                .addEsitDeleteButt.mat-stroked-button.mat-primary,
+                .addEsitDeleteButt.mat-stroked-button.mat-warn,
+                .addEsitDeleteButt.mat-stroked-button {
+                    @media only screen and (max-width: 900px) and (min-width: 664px) {
+                        margin-left: 0px;
+                        margin-bottom: 2px;
+                        margin-top: 2px;
+                    }
+                }
+            }
+            .stageName {
+                max-width: 35%;
+                margin-right: 15px;
+                margin-left: 0px;
+                position: relative;
+                top: 7px;
+                @media only screen and (max-width: 994px) and (min-width: 900px) {
+                    width: 30%;
+                }
+                @media only screen and (max-width: 900px) and (min-width: 756px) {
+                    max-width: calc(100% - 60px);
+                }
+                @media only screen and (max-width: 755px) and (min-width: 320px) {
+                    max-width: calc(100% - 60px);
+                    margin-right: 0px;
+                }
+            }
+            .stageTextarea {
+                max-width: calc(50% - 90px);
+                position: relative;
+                top: 7px;
+                @media only screen and (max-width: 1400px) and (min-width: 900px) {
+                    width: calc(50% - 90px);
+                }
+                @media only screen and (max-width: 900px) and (min-width: 756px) {
+                    max-width: calc(65% - 40px);
+                    margin-left: 40px;
+                }
+                @media only screen and (max-width: 755px) and (min-width: 320px) {
+                    max-width: calc(100% - 60px);
+                    margin-left: 40px;
+                }
+            }
+            .colorCode {
+                padding-left: 15px;
+                width: 10%;
+                margin-right: 15px;
+                position: relative;
+                top: 7px;
+                @media only screen and (max-width: 1400px) and (min-width: 995px) {
+                    width: 15%;
+                }
+                @media only screen and (max-width: 994px) and (min-width: 900px) {
+                    width: 20%;
+                }
+                @media only screen and (max-width: 900px) and (min-width: 756px) {
+                    width: 25%;
+                }
+                @media only screen and (max-width: 755px) and (min-width: 320px) {
+                    width: 80%;
+                    margin-left: 25px;
+                    margin-right: 0px;
+                }
+            }
+            .textareaHeight {
+                height: 15px;
+                line-height: 12px;
+                max-height: 39px;
+            }
+        }
+        .checkboxGroupSec {
+            font-size: 12px;
+            font-weight: 500;
+            background: rgba(33, 150, 243, 0.10);
+            padding-inline-start: 40px;
+            border-radius: 0px 0px 4px 0px;
+            display: flex;
+            gap: 5px;
+            padding-block: 4px;
+            flex-wrap: wrap;
+            .mat-mini-fab{
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                .mat-button-wrapper{
+                    padding: 0px;
+                    .mat-icon{
+                        width: 20px;
+                        height: 20px;
+                        line-height: 14px;
+                        font-size: 13px;
+                    }
+                }
+            }
+            .mat-slide-toggle {
+                background: #fff;
+                border-radius: 4px;  
+                padding: 0px 5px;
+                padding-inline-end: 10px;  
+                box-shadow: 0px 0px 0px 0.5px #ccc;  
+                .mat-slide-toggle-thumb {
+                    width: 19px;
+                    height: 19px;
+                }
+                .mat-slide-toggle-bar {
+                    width: 32px;
+                    height: 14px;
+                }      
+                .mat-slide-toggle-ripple {
+                    top: calc(50% - 15px);
+                    left: calc(50% - 15px);
+                    height: 25px;
+                    width: 25px;
+                    border-radius: 100%;
+                }
+            }
+            .mat-slide-toggle.mat-disabled {
+                opacity: .7;
+            }
+            .map-workflow-features{
+                background: #fff;
+                border-radius: 4px; 
+                padding: 0px 5px;
+                box-shadow: 0px 0px 0px 0.5px #ccc;
+                display: flex;
+                gap: 5px;
+                align-items: center;
+            }
+            .stagetype-box {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: #fff;
+                border-radius: 4px;  
+                padding: 0px 5px;
+                box-shadow: 0px 0px 0px 0.5px #ccc;
+                min-height: 24px;
+                .mat-slide-toggle{
+                    box-shadow: none;
+                    padding: 0px;
+                }
+                .stage-type-value {
+                    font-weight: 400;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    .stageColor {
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+            }
+            .mat-icon-button {
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                .mat-icon {
+                    width: 24px;
+                    height: 24px;
+                    line-height: 24px;
+                    font-size: 18px;
+                }
+            }
+        }
+        .addEsitDeleteButt.mat-stroked-button {
+            border-radius: 100%;
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            padding: 0px;
+            .mat-icon {
+                font-size: 18px;
+            }
+        }
+        .addEsitDeleteButt.mat-stroked-button.mat-primary {
+            border: 1px solid $primary-bg-color;
+        }
+        .addEsitDeleteButt.mat-stroked-button.mat-warn {
+            border: 1px solid #f44336;
+        }
+        .addEsitDeleteButt.mat-stroked-button {
+            border: 1px solid rgba($color: #000000, $alpha: 0.87);
+        }
+        .addEsitDeleteButt.mat-stroked-button.mat-button-disabled.mat-button-disabled{
+            border:1px solid rgba(0, 0, 0, 0.5);
+            color: rgba(0, 0, 0, 0.5);
+        }
+    }
+    .firstChild{
+        margin-left: 20px;
+        @media only screen and (max-width: 664px) and (min-width: 320px) {
+            margin-left: 5px;
+        }
+        .secStep.expandCollapseContent.mat-card{
+            margin-top: 25px;
+            .drag-handle.mat-raised-button{
+                background: #4caf50;
+            }
+            .toggleButton {
+                color: #4caf50;
+            }
+            .checkboxGroupSec {
+                background: rgb(76 175 80 / 10%);
+            }
+        }
+    }
+    .secondChild{
+        margin-left: 20px;
+        @media only screen and (max-width: 664px) and (min-width: 320px) {
+            margin-left: 5px;
+        }
+        .expandCollapseContent.mat-card {
+            margin-top: 25px;
+            .drag-handle.mat-raised-button{
+                background: #ffc107;
+            }
+            .checkboxGroupSec {
+                background: rgba(255, 193, 7, 0.10);
+            }
+        }
+    }
+}
+.chart-sec{
+    .ngx-org-name {
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    .ngx-org-title {
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        font-weight: 400;
+        font-size: 13.5px;
+    }
+    .ngx-org-border {
+        border: 1px dashed #d4d5d6;
+    }
+    .ngx-org-self-vertical {
+        display: flex;
+        margin-top: 15px;
+    }
+    .ngx-org-box {
+        transition: transform ease-in-out 0.15s;
+        box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 8px !important;
+    }
+    .ngx-org-box {
+        box-shadow: none;
+        padding: 7px 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 16px;
+        width: 210px;
+        height: 40px;
+        justify-content: center;
+        border: 0;
+        border-left: 0px solid $primary-bg-color;
+        word-break: break-all;
+        position: relative;
+        overflow: hidden;
+    }
+    .ngx-org-box:hover {
+        transition: transform ease-in-out 0.15s;
+        transition-timing-function: linear;
+        transform: scale(1.1);
+    }
+    // .ngx-org-parent {
+    //   border-left: 5px solid #2196f3;
+    // }
+    // .ngx-org-child {
+    //   border-left: 5px solid #4caf50;
+    // }
+    // .ngx-org-subChild {
+    //   border-left: 5px solid #ffc107;
+    // }
+    .ngx-org-image{
+        background-size: cover;
+        border: 0px;
+        position: absolute;
+        left: 0px;
+        height: 100%;
+        border-radius: 0px;
+        padding: 0px;
+        width: 5px;
+    }
+}
+.unfold {
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -webkit-transition: -webkit-transform 0.4s ease-in-out;
+    -ms-transition: -ms-transform 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out;
+  }
+  .fold {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -webkit-transition: -webkit-transform 0.4s ease-in-out;
+    -ms-transition: -ms-transform 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out;
+  }

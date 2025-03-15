@@ -1,0 +1,17 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_roleDescription' | translate}}</h2>      
+    <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content class="info-box">
+           
+            <div class="info-details"  *ngIf="!ISDescription" [innerHTML]="ViewNotesData?.Description| safeHtml">
+               
+            </div>
+            <div class="info-details"  *ngIf="ISDescription"  [innerHTML]="ViewNotesData | safeHtml">  
+            </div>
+</mat-dialog-content>

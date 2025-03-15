@@ -1,0 +1,619 @@
+<!-- @(C): Entire Software @Type: File, <html> @Who: Satya Prakash Gupta @When: 05-Dec-2020  @Why: EWM-15165 EWM-15322  @What: history page design -->
+    <div *ngIf="loading" class="logo-loader" id="logo-loader">
+        <div class="logo-loading"></div>
+    </div>
+    <div class="candidate-history-container job-action-activity" id="candidate-history-container" >
+        <ng-template #searchAndReload>
+          <div class="sticky-box">
+            <mat-form-field class="mb-0 searchInput" floatLabel="never">
+                <mat-label>{{'label_search'|translate}}</mat-label>
+                <input matInput id="userInvitaion-searchBox" [(ngModel)]="searchText" (input)="Search($event.target.value)" placeholder="Search">
+                <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (click)="searchClear()">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <!-- <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div> -->
+            </mat-form-field>
+            <button mat-mini-fab color="primary" (click)="refresh()" class="reolad-history">
+                <mat-icon aria-hidden="true" id="btnRotateIcon">rotate_right</mat-icon>
+            </button>
+        </div>
+        </ng-template>
+        <mat-tab-group class="activity-vertical-tab" [selectedIndex]='1' (selectedTabChange)="onTabChange($event)" dir="{{positionMatTab}}" [animationDuration]="0">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                {{'title_activityUpcoming'| translate}}
+                </ng-template>
+                <ng-container *ngTemplateOutlet="searchAndReload"></ng-container>
+                <ng-container *ngIf="upCommingData?.length>0; else noData">
+                    <div class="all-past-history" infinite-scroll
+                    [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150" (scrolled)="onScrollDownupComming()"
+                    [scrollWindow]="false" alwaysCallback=true>
+                        <ng-container *ngFor="let activityHistoryAll of upCommingData">
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='meeting'">
+                                <div class="activity meeting-activity" id="{{activityHistoryAll?.Id}}" #outer [class.expanded-meeting-activity]="cardId == activityHistoryAll?.Id?true: false" (click)="expandCollapseActivity(activityHistoryAll?.Id)">
+                                    <div class="history-header" id="meeting-header">
+                                        <div class="titles" id="titles">
+                                            <mat-icon id="local_activity" fontSet="material-icons-outlined">local_activity</mat-icon>
+                                            <span class="type" (click)="tabChange('meeting')" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="user">{{activityHistoryAll?.CreatorName }}</span>
+                                            <!-- <span class="user" id="user">{{activityHistoryAll?.UserId | apiCallPipe}}</span> -->
+                                        </div>
+                                         <!--Who:Ankit Rawat, What:EWM-16261 EWM-16456 changed CreatedDateInMiliseconds to MeetingStartDateTimeMiliseconds, When:18March24 -->
+                                        <div class="date" id="date">{{activityHistoryAll?.MeetingStartDateTimeMiliseconds | date : 'dd-MM-yyyy hh:mm a'}}</div>
+                                    </div>
+                                    <div class="history-body" id="history-body" #inner>
+                                        <div class="body-data" id="body-data" *ngIf="activityHistoryAll?.NoteCategory !== null && activityHistoryAll?.NoteCategory !== ''">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activitycategory'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder">
+                                                <mat-chip>{{activityHistoryAll?.NoteCategory}}</mat-chip>
+                                            </div>
+                                        </div>
+                                        <div class="body-data" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activitySchedule'|translate}}:
+                                            </div>
+                                             <!--Who:Ankit Rawat, What:EWM-16261 EWM-16456 changed CreatedDateInMiliseconds to MeetingStartDateTimeMiliseconds, When:18March24 -->
+                                            <div class="body-data-placeholder" id="body-data-placeholder">
+                                              {{activityHistoryAll.MeetingStartDateTimeMiliseconds | date: 'd MMM y hh:mm a'}}
+                                              to
+                                              {{activityHistoryAll.MeetingEndTimeMiliseconds | date: 'hh:mm a'}}
+                                              ( {{ activityHistoryAll?.MeetingStartDateTimeMiliseconds | UtcDiff: activityHistoryAll?.MeetingEndTimeMiliseconds }} )
+                                            </div>
+                                        </div>
+                                        <div class="body-data attendees" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activityAttendees'|translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder" >
+                                              <mat-chip *ngFor="let Attendees of activityHistoryAll.CC" > {{Attendees }} </mat-chip>
+                                              <mat-chip *ngFor="let Attendees of activityHistoryAll.To" > {{Attendees }} </mat-chip>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-container>
+                    </div>
+                </ng-container>
+                <ng-template #noData>
+                  <div class="addSection ng-star-inserted">
+                  <p>{{'title_activityNo' | translate}} {{'title_activityUpcoming'| translate}} {{'title_dataavailable' |translate}}</p>
+                  </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                {{'title_activityLast30days' |translate}} {{selectedIndex}}
+                </ng-template>
+                <ng-container *ngTemplateOutlet="searchAndReload"></ng-container>
+                <ng-container *ngIf="currentMonthData?.length>0; else nocurrentData">
+                    <div class="all-past-history" infinite-scroll
+                    [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150" (scrolled)="onScrollDowncurrentMonth()"
+                    [scrollWindow]="false" alwaysCallback=true>
+                        <ng-container *ngFor="let activityHistoryAll of currentMonthData">
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='comment'">
+                                <div class="activity email-activity" id="{{i}}" #outer [class.expanded-email-activity]="cardId == i?true: false" (click)="expandCollapseActivity(i)">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles mail" id="titles">
+                                            <mat-icon id="email" fontSet="material-icons-outlined">comment</mat-icon>
+                                            <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject" [innerHTML]="activityHistoryAll?.Subject | safeHtml"></span>
+                                            <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="user">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date" >
+                                          <span *ngIf="activityHistoryAll?.CreatedDateInMiliseconds > startOfCurrentWeek">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</span>
+                                          <span>{{activityHistoryAll?.CreatedDateInMiliseconds | date : 'dd-MM-yyyy hh:mm a'}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="history-body" id="history-body"  #inner>
+                                        <div class="body-data email-body-data" id="body-data">
+                                            <div class="body-data-placeholder" id="body-data-placeholder" [innerHTML]="activityHistoryAll.Body | mailBodySanitizer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='client' || activityHistoryAll?.EventFor.toLowerCase()=='candidate' || activityHistoryAll?.EventFor.toLowerCase()=='job' || activityHistoryAll?.EventFor.toLowerCase()=='employee'">
+                                <div class="activity candidate-job-employee-activity" id="{{i}}" #outer>
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles mail" id="titles">
+                                            <mat-icon id="email" fontSet="material-icons-outlined" *ngIf="activityHistoryAll?.EventFor.toLowerCase() =='client'">business</mat-icon>
+                                            <mat-icon id="job" fontSet="material-icons-outlined" *ngIf="activityHistoryAll?.EventFor.toLowerCase() =='job'">work_outline</mat-icon>
+                                            <mat-icon id="employee" fontSet="material-icons-outlined" *ngIf="activityHistoryAll?.EventFor.toLowerCase() =='employee'">person_outline</mat-icon>
+                                            <mat-icon id="candidate" fontSet="material-icons-outlined" *ngIf="activityHistoryAll?.EventFor.toLowerCase() =='candidate'">person_outline</mat-icon>
+                                            <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject" [innerHTML]="activityHistoryAll?.Subject | safeHtml"></span>
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.Body.toLowerCase() != 'broadbean' && activityHistoryAll?.Body.toLowerCase() != 'seek' && activityHistoryAll?.Body.toLowerCase() != 'smart email' && activityHistoryAll?.Body.toLowerCase() != 'application form'">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="user" *ngIf="activityHistoryAll?.Body.toLowerCase() != 'broadbean' && activityHistoryAll?.Body.toLowerCase() != 'seek' && activityHistoryAll?.Body.toLowerCase() != 'smart email' && activityHistoryAll?.Body.toLowerCase() != 'application form'">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date" >
+                                          <span *ngIf="activityHistoryAll?.CreatedDateInMiliseconds > startOfCurrentWeek">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</span>
+                                          <span>{{activityHistoryAll?.CreatedDateInMiliseconds | date : 'dd-MM-yyyy hh:mm a'}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='mail'">
+                                <div class="activity email-activity" id="{{activityHistoryAll?.Id}}" #outer [class.expanded-email-activity]="cardId == activityHistoryAll?.Id?true: false" (click)="expandCollapseActivity(activityHistoryAll?.Id)">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles" id="titles">
+                                            <mat-icon id="email" fontSet="material-icons-outlined">email</mat-icon>
+                                            <span class="type" (click)="tabChange('mail')" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <!-- who:maneesh, what: as discuss with mukesh sir and abhisek sir remove by and To,when:08/03/2024 -->
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.OperationType.toLowerCase() =='sent'">{{activityHistoryAll?.OperationType}}</span>
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.OperationType.toLowerCase() =='received'">{{activityHistoryAll?.OperationType}}</span>
+                                        </div>
+                                        <div class="date" id="date">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</div>
+                                    </div>
+                                    <div class="history-body" id="history-body"  #inner>
+                                        <div class="body-data" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activtyTo'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder">
+                                                <mat-chip *ngFor="let ToEmail of activityHistoryAll.To"> {{ToEmail}} </mat-chip>
+                                            </div>
+                                        </div>
+                                        <div class="body-data cc" id="body-data" *ngIf="activityHistoryAll.CC[0] !== null && activityHistoryAll.CC[0] !== ''" >
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activityCC'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder" *ngIf="activityHistoryAll.CC?.length>0">
+
+                                                <mat-chip *ngFor="let ccEmail of activityHistoryAll.CC" > {{ccEmail }} </mat-chip>
+
+                                            </div>
+                                        </div>
+                                        <div class="body-data email-body-data" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activityBody'|translate}}:
+                                            </div>
+                                            <!-- who:maneesh, what: as discuss with mukesh sir fixed mailBodySanitizer pipe,when:08/03/2024 -->
+                                            <div class="body-data-placeholder" id="body-data-placeholder" [innerHTML]="activityHistoryAll?.Body | mailBodySanitizer">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='sharepersonnel'">
+                              <div class="activity note-activity" id="{{i}}" #outer [class.expanded-note-activity]="cardId == i?true: false" (click)="expandCollapseActivity(i)">
+                                  <div class="history-header" id="history-header">
+                                      <div class="titles sharepersonnel" id="titles">
+                                          <div class="first-column">
+                                            <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z"/></svg>
+                                            <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                          </div>
+                                          <div class="last-column">
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="actions">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                          </div>
+                                      </div>
+                                      <div class="date" id="date" >
+                                        <span *ngIf="activityHistoryAll?.CreatedDateInMiliseconds > startOfCurrentWeek">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</span>
+                                        <span>{{activityHistoryAll?.CreatedDateInMiliseconds | date : 'dd-MM-yyyy hh:mm a'}}</span>
+                                      </div>
+
+                                  </div>
+                                  <div class="history-body" id="history-body" #inner>
+                                      <div class="body-data" id="body-data" *ngIf="activityHistoryAll?.NoteCategory !== null && activityHistoryAll?.NoteCategory !== ''">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activitycategory'| translate}}:
+                                          </div>
+                                          <div class="body-data-placeholder" id="body-data-placeholder">
+                                              <mat-chip>{{activityHistoryAll?.NoteCategory}}</mat-chip>
+                                          </div>
+                                      </div>
+                                      <div class="body-data note-body-data" id="body-data">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activityDescription'| translate}}:
+                                          </div>
+                                          <div class="body-data-placeholder" id="body-data-placeholder" [innerHTML]="activityHistoryAll.Body | safeHtml">
+
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='sms'">
+                                <div class="activity sms-activity" id="{{activityHistoryAll?.Id}}" #outer [class.expanded-sms-activity]="cardId == activityHistoryAll?.Id?true: false" (click)="expandCollapseActivity(activityHistoryAll?.Id)">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles" id="titles">
+                                            <mat-icon id="sms" fontSet="material-icons-outlined">sms</mat-icon>
+                                            <span class="type" (click)="tabChange('sms')" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.OperationType.toLowerCase() =='sent'">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.OperationType.toLowerCase() =='received'">{{activityHistoryAll?.OperationType}} to</span>
+                                            <span class="user" id="user">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</div>
+                                    </div>
+                                    <div class="history-body" id="history-body" #inner>
+                                        <div class="body-data" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'titile_activityMessage'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder" >
+                                             {{activityHistoryAll?.Body}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='meeting'">
+                              <div class="activity meeting-activity"
+                              (click)="tabChange('meeting')" id="{{activityHistoryAll?.Id}}" #outer [class.expanded-meeting-activity]="cardId == activityHistoryAll?.Id?true: false" (click)="expandCollapseActivity(activityHistoryAll?.Id)">
+                                  <div class="history-header" id="meeting-header">
+                                      <div class="titles" id="titles">
+                                          <mat-icon id="local_activity" fontSet="material-icons-outlined">local_activity</mat-icon>
+                                          <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                          <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                          <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                          <span class="user" id="user">{{activityHistoryAll?.CreatorName }}</span>
+                                      </div>
+                                      <!--Who:Ankit Rawat, What:EWM-16261 EWM-16456 changed CreatedDateInMiliseconds to MeetingStartDateTimeMiliseconds, When:18March24 -->
+                                      <div class="date" id="date">{{activityHistoryAll?.MeetingStartDateTimeMiliseconds | dateAgo}}</div>
+                                  </div>
+                                  <div class="history-body" id="history-body" #inner>
+                                      <div class="body-data" id="body-data" *ngIf="activityHistoryAll?.NoteCategory !== null && activityHistoryAll?.NoteCategory !== ''">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activitycategory'| translate}}:
+                                          </div>
+                                          <div class="body-data-placeholder" id="body-data-placeholder">
+                                              <mat-chip>{{activityHistoryAll?.NoteCategory}}</mat-chip>
+                                          </div>
+                                      </div>
+                                      <div class="body-data" id="body-data">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activitySchedule'| translate}}:
+                                          </div>
+                                           <!--Who:Ankit Rawat, What:EWM-16261 EWM-16456 changed CreatedDateInMiliseconds to MeetingStartDateTimeMiliseconds, When:18March24 -->
+                                          <div class="body-data-placeholder" id="body-data-placeholder">
+                                            {{activityHistoryAll.MeetingStartDateTimeMiliseconds | date: 'd MMM y hh:mm a'}}
+                                            to
+                                            {{activityHistoryAll.MeetingEndTimeMiliseconds | date: 'hh:mm a'}}
+                                            ( {{ activityHistoryAll?.MeetingStartDateTimeMiliseconds | UtcDiff: activityHistoryAll?.MeetingEndTimeMiliseconds }} )
+                                          </div>
+                                      </div>
+                                      <div class="body-data attendees" id="body-data">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activityAttendees'| translate}}:
+                                          </div>
+                                          <div class="body-data-placeholder" id="body-data-placeholder" >
+                                            <mat-chip *ngFor="let Attendees of activityHistoryAll.CC" > {{Attendees }} </mat-chip>
+                                            <mat-chip *ngFor="let Attendees of activityHistoryAll.To" > {{Attendees }} </mat-chip>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='note'">
+                                <div class="activity note-activity" id="{{activityHistoryAll?.Id}}" #outer [class.expanded-note-activity]="cardId == activityHistoryAll?.Id?true: false" (click)="expandCollapseActivity(activityHistoryAll?.Id)">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles" id="titles">
+                                            <mat-icon id="text_snippet" fontSet="material-icons-outlined">text_snippet</mat-icon>
+                                            <span class="type" (click)="tabChange('note')" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="actions">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</div>
+                                    </div>
+                                    <div class="history-body" id="history-body" #inner>
+                                        <div class="body-data" id="body-data" *ngIf="activityHistoryAll?.NoteCategory !== null && activityHistoryAll?.NoteCategory !== ''">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activitycategory'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder">
+                                                <mat-chip>{{activityHistoryAll?.NoteCategory}}</mat-chip>
+                                            </div>
+                                        </div>
+                                        <div class="body-data note-body-data" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activityDescription'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder" [innerHTML]="activityHistoryAll?.Body">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='call'">
+                                <div class="activity" id="call-activity">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles" id="titles">
+                                            <mat-icon id="call" fontSet="material-icons-outlined">call</mat-icon>
+                                            <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="actions">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-container>
+                    </div>
+                </ng-container>
+                <ng-template #nocurrentData>
+                  <div class="addSection ng-star-inserted">
+                  <p>{{'title_activityNo' | translate}} {{'title_activityLast30days' |translate}}  {{'title_dataavailable' |translate}}</p>
+                  </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                {{'title_activityOlder' | translate}}
+                </ng-template>
+                <ng-container *ngTemplateOutlet="searchAndReload"></ng-container>
+                <ng-container *ngIf="oldMonthData?.length>0; else noOldData">
+                    <div class="all-past-history" infinite-scroll
+                    [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150" (scrolled)="onScrollDownoldMonth()"
+                    [scrollWindow]="false" alwaysCallback=true>
+                        <ng-container *ngFor="let activityHistoryAll of oldMonthData">
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='comment'">
+                                <div class="activity email-activity" id="{{i}}" #outer [class.expanded-email-activity]="cardId == i?true: false" (click)="expandCollapseActivity(i)">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles mail" id="titles">
+                                            <mat-icon id="email" fontSet="material-icons-outlined">comment</mat-icon>
+                                            <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject" [innerHTML]="activityHistoryAll?.Subject | safeHtml"></span>
+                                            <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="user">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date" >
+                                          <span *ngIf="activityHistoryAll?.CreatedDateInMiliseconds > startOfCurrentWeek">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</span>
+                                          <span>{{activityHistoryAll?.CreatedDateInMiliseconds | date : 'dd-MM-yyyy hh:mm a'}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="history-body" id="history-body"  #inner>
+                                        <div class="body-data email-body-data" id="body-data">
+                                            <div class="body-data-placeholder" id="body-data-placeholder" [innerHTML]="activityHistoryAll.Body | mailBodySanitizer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='client' || activityHistoryAll?.EventFor.toLowerCase()=='candidate' || activityHistoryAll?.EventFor.toLowerCase()=='job' || activityHistoryAll?.EventFor.toLowerCase()=='employee'">
+                                <div class="activity candidate-job-employee-activity" id="{{i}}" #outer>
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles mail" id="titles">
+                                            <mat-icon id="email" fontSet="material-icons-outlined" *ngIf="activityHistoryAll?.EventFor.toLowerCase() =='client'">business</mat-icon>
+                                            <mat-icon id="job" fontSet="material-icons-outlined" *ngIf="activityHistoryAll?.EventFor.toLowerCase() =='job'">work_outline</mat-icon>
+                                            <mat-icon id="employee" fontSet="material-icons-outlined" *ngIf="activityHistoryAll?.EventFor.toLowerCase() =='employee'">person_outline</mat-icon>
+                                            <mat-icon id="candidate" fontSet="material-icons-outlined" *ngIf="activityHistoryAll?.EventFor.toLowerCase() =='candidate'">person_outline</mat-icon>
+                                            <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject" [innerHTML]="activityHistoryAll?.Subject | safeHtml"></span>
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.Body.toLowerCase() != 'broadbean' && activityHistoryAll?.Body.toLowerCase() != 'seek' && activityHistoryAll?.Body.toLowerCase() != 'smart email' && activityHistoryAll?.Body.toLowerCase() != 'application form'">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="user" *ngIf="activityHistoryAll?.Body.toLowerCase() != 'broadbean' && activityHistoryAll?.Body.toLowerCase() != 'seek' && activityHistoryAll?.Body.toLowerCase() != 'smart email' && activityHistoryAll?.Body.toLowerCase() != 'application form'">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date" >
+                                          <span *ngIf="activityHistoryAll?.CreatedDateInMiliseconds > startOfCurrentWeek">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</span>
+                                          <span>{{activityHistoryAll?.CreatedDateInMiliseconds | date : 'dd-MM-yyyy hh:mm a'}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='mail'">
+                                <div class="activity email-activity" id="{{activityHistoryAll?.Id}}" #outer [class.expanded-email-activity]="cardId == activityHistoryAll?.Id?true: false" (click)="expandCollapseActivity(activityHistoryAll?.Id)">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles" id="titles">
+                                            <mat-icon id="email" fontSet="material-icons-outlined">email</mat-icon>
+                                            <span class="type" (click)="tabChange('mail')" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <!-- who:maneesh, what: as discuss with mukesh sir and abhisek sir remove by and To,when:08/03/2024 -->
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.OperationType.toLowerCase() =='sent'">{{activityHistoryAll?.OperationType}}</span>
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.OperationType.toLowerCase() =='received'">{{activityHistoryAll?.OperationType}}</span>
+                                        </div>
+                                        <div class="date" id="date">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</div>
+                                    </div>
+                                    <div class="history-body" id="history-body"  #inner>
+                                        <div class="body-data" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activtyTo'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder">
+                                                <mat-chip *ngFor="let ToEmail of activityHistoryAll.To"> {{ToEmail}} </mat-chip>
+                                            </div>
+                                        </div>
+                                        <div class="body-data cc" id="body-data" *ngIf="activityHistoryAll.CC[0] !== null && activityHistoryAll.CC[0] !== ''" >
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activityCC'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder" *ngIf="activityHistoryAll.CC?.length>0">
+
+                                                <mat-chip *ngFor="let ccEmail of activityHistoryAll.CC" > {{ccEmail }} </mat-chip>
+
+                                            </div>
+                                        </div>
+                                        <div class="body-data email-body-data" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activityBody'| translate}}:
+                                            </div>
+                                            <!-- who:maneesh, what: as discuss with mukesh sir fixed mailBodySanitizer pipe,when:08/03/2024 -->
+                                            <div class="body-data-placeholder" id="body-data-placeholder" [innerHTML]="activityHistoryAll?.Body | mailBodySanitizer">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='sharepersonnel'">
+                              <div class="activity note-activity" id="{{i}}" #outer [class.expanded-note-activity]="cardId == i?true: false" (click)="expandCollapseActivity(i)">
+                                  <div class="history-header" id="history-header">
+                                      <div class="titles sharepersonnel" id="titles">
+                                          <div class="first-column">
+                                            <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z"/></svg>
+                                            <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                          </div>
+                                          <div class="last-column">
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="actions">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                          </div>
+                                      </div>
+                                      <div class="date" id="date" >
+                                        <span *ngIf="activityHistoryAll?.CreatedDateInMiliseconds > startOfCurrentWeek">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</span>
+                                        <span>{{activityHistoryAll?.CreatedDateInMiliseconds | date : 'dd-MM-yyyy hh:mm a'}}</span>
+                                      </div>
+
+                                  </div>
+                                  <div class="history-body" id="history-body" #inner>
+                                      <div class="body-data" id="body-data" *ngIf="activityHistoryAll?.NoteCategory !== null && activityHistoryAll?.NoteCategory !== ''">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activitycategory'| translate}}:
+                                          </div>
+                                          <div class="body-data-placeholder" id="body-data-placeholder">
+                                              <mat-chip>{{activityHistoryAll?.NoteCategory}}</mat-chip>
+                                          </div>
+                                      </div>
+                                      <div class="body-data note-body-data" id="body-data">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activityDescription'| translate}}:
+                                          </div>
+                                          <div class="body-data-placeholder" id="body-data-placeholder" [innerHTML]="activityHistoryAll.Body | safeHtml">
+
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='sms'">
+                                <div class="activity sms-activity" id="{{activityHistoryAll?.Id}}" #outer [class.expanded-sms-activity]="cardId == activityHistoryAll?.Id?true: false" (click)="expandCollapseActivity(activityHistoryAll?.Id)">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles" id="titles">
+                                            <mat-icon id="sms" fontSet="material-icons-outlined">sms</mat-icon>
+                                            <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" (click)="tabChange('sms')" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.OperationType.toLowerCase() =='sent'">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="actions" id="actions" *ngIf="activityHistoryAll?.OperationType.toLowerCase() =='received'">{{activityHistoryAll?.OperationType}} to</span>
+                                            <span class="user" id="user">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</div>
+                                    </div>
+                                    <div class="history-body" id="history-body" #inner>
+                                        <div class="body-data" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'titile_activityMessage'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder" >
+                                             {{activityHistoryAll?.Body}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='meeting'">
+                              <div class="activity meeting-activity" id="{{activityHistoryAll?.Id}}" #outer [class.expanded-meeting-activity]="cardId == activityHistoryAll?.Id?true: false" (click)="expandCollapseActivity(activityHistoryAll?.Id)">
+                                  <div class="history-header" id="meeting-header">
+                                      <div class="titles" id="titles">
+                                          <mat-icon id="local_activity" fontSet="material-icons-outlined">local_activity</mat-icon>
+                                          <span class="type" (click)="tabChange('meeting')" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                          <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                          <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                          <span class="user" id="user">{{activityHistoryAll?.CreatorName }}</span>
+                                      </div>
+                                       <!--Who:Ankit Rawat, What:EWM-16261 EWM-16456 changed CreatedDateInMiliseconds to MeetingStartDateTimeMiliseconds, When:18March24 -->
+                                      <div class="date" id="date">{{activityHistoryAll?.MeetingStartDateTimeMiliseconds | dateAgo}}</div>
+
+                                  </div>
+                                  <div class="history-body" id="history-body" #inner>
+                                      <div class="body-data" id="body-data" *ngIf="activityHistoryAll?.NoteCategory !== null && activityHistoryAll?.NoteCategory !== ''">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activitycategory'| translate}}:
+                                          </div>
+                                          <div class="body-data-placeholder" id="body-data-placeholder">
+                                              <mat-chip>{{activityHistoryAll?.NoteCategory}}</mat-chip>
+                                          </div>
+                                      </div>
+                                      <div class="body-data" id="body-data">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activitySchedule'| translate}}:
+                                          </div>
+                                           <!--Who:Ankit Rawat, What:EWM-16261 EWM-16456 changed CreatedDateInMiliseconds to MeetingStartDateTimeMiliseconds, When:18March24 -->
+                                          <div class="body-data-placeholder" id="body-data-placeholder">
+                                            {{activityHistoryAll.MeetingStartDateTimeMiliseconds | date: 'd MMM y hh:mm a'}}
+                                            to
+                                            {{activityHistoryAll.MeetingEndTimeMiliseconds | date: 'hh:mm a'}}
+                                            ( {{ activityHistoryAll?.MeetingStartDateTimeMiliseconds | UtcDiff: activityHistoryAll?.MeetingEndTimeMiliseconds }} )
+                                          </div>
+                                      </div>
+                                      <div class="body-data attendees" id="body-data">
+                                          <div class="body-data-title" id="body-data-title">
+                                              {{'title_activityAttendees'| translate}}:
+                                          </div>
+                                          <div class="body-data-placeholder" id="body-data-placeholder" >
+                                            <mat-chip *ngFor="let Attendees of activityHistoryAll.CC" > {{Attendees }} </mat-chip>
+                                            <mat-chip *ngFor="let Attendees of activityHistoryAll.To" > {{Attendees }} </mat-chip>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='note'">
+                                <div class="activity note-activity" id="{{activityHistoryAll?.Id}}" #outer [class.expanded-note-activity]="cardId == activityHistoryAll?.Id?true: false" (click)="expandCollapseActivity(activityHistoryAll?.Id)">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles" id="titles">
+                                            <mat-icon id="text_snippet" fontSet="material-icons-outlined">text_snippet</mat-icon>
+                                            <span class="type" (click)="tabChange('note')" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="actions">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</div>
+                                    </div>
+                                    <div class="history-body" id="history-body" #inner>
+                                        <div class="body-data" id="body-data" *ngIf="activityHistoryAll?.NoteCategory !== null && activityHistoryAll?.NoteCategory !== ''">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activitycategory'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder">
+                                                <mat-chip>{{activityHistoryAll?.NoteCategory}}</mat-chip>
+                                            </div>
+                                        </div>
+                                        <div class="body-data note-body-data" id="body-data">
+                                            <div class="body-data-title" id="body-data-title">
+                                                {{'title_activityDescription'| translate}}:
+                                            </div>
+                                            <div class="body-data-placeholder" id="body-data-placeholder" [innerHTML]="activityHistoryAll?.Body">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="activityHistoryAll?.EventFor.toLowerCase()=='call'">
+                                <div class="activity" id="call-activity">
+                                    <div class="history-header" id="history-header">
+                                        <div class="titles" id="titles">
+                                            <mat-icon id="call" fontSet="material-icons-outlined">call</mat-icon>
+                                            <span class="type" id="type">{{activityHistoryAll?.EventFor}} - </span>
+                                            <span class="subject" id="subject">{{activityHistoryAll?.Subject}}</span>
+                                            <span class="actions" id="actions">{{activityHistoryAll?.OperationType}} by</span>
+                                            <span class="user" id="actions">{{activityHistoryAll?.CreatorName | titlecase}}</span>
+                                        </div>
+                                        <div class="date" id="date">{{activityHistoryAll?.CreatedDateInMiliseconds | dateAgo}}</div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-container>
+                    </div>
+                </ng-container>
+                <ng-template #noOldData>
+                  <div class="addSection ng-star-inserted">
+                  <p>{{'title_activityNo' | translate}} {{'title_activityOlder' | translate}}  {{'title_dataavailable' |translate}}</p>
+                  </div>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>

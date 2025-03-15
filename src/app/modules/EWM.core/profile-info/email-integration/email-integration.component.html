@@ -1,0 +1,200 @@
+<!---
+    Modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 06-Sep-2021
+    @Why: EWM-2512 EWM-2717
+    @What:  This page wil be use only for the Email Integration Component HTML
+-->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+
+
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="email-integration-mat-card-header">
+    <mat-card-title class="only-title">{{'label_emailIntegration' |translate}} </mat-card-title>
+         <!-----@When:  27-07-2023 @Who : bantee @why: EWM-13394---->
+    <div class="actionButton" *ngIf="emailConnectedStatus">
+      <button mat-raised-button tabindex="5" color="primary" class="buttonForDesktopMobile" id="btnSave"
+        [disabled]="!(syncStatusCalendar || syncStatusEmail)"
+        (click)="updateUserEmailIntegration(this.userEmailIntegrationForm.getRawValue())">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save' |translate}}</span>
+      </button>
+    </div>
+  </mat-card-header>
+  
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="email-integration-drawer">  
+  <mat-card class="component-card mat-elevation-z2" id="component-card">  
+      <mat-card-subtitle class="subTitle">{{ 'label_emailIntegrationSubTitle' |translate }}
+      </mat-card-subtitle>
+      <form class="col" id="userEmailIntegrationForm-form" novalidate [formGroup]="userEmailIntegrationForm">
+        <div class="row mb-0">
+          <mat-card-subtitle class="col s12 m12 l12 subHeadingTxt" *ngIf="emailStatus">
+            {{'label_emailInt_sectionHeading' |translate }} <span class="emailConnected">{{'label_emailInt_emailConnected'
+              |translate}} </span>
+          </mat-card-subtitle>
+          <mat-card-subtitle class="col s12 m12 l12 subHeadingTxt" *ngIf="!emailStatus">
+            {{'label_emailInt_sectionHeading' |translate }} <span
+              class="emailDisconnected">{{'label_emailInt_emailDisconnect' |translate}}</span>
+          </mat-card-subtitle>
+
+          <div class="col l12 m12 s12">
+
+            <!-- @When: 29-Aug-2023 @who:Amit @why: EWM-14104 @what: add disable class */ --> 
+            <div class="custom-checkbox data-sync">
+              <label class="custom-control overflow-checkbox">
+                <input type="checkbox" tabindex="1" class="overflow-control-input" id="emailIntegration-syncCalendar"
+                  [(ngModel)]="SyncCalendar" formControlName="SyncCalendar"
+                  (change)="SyncCalendar = $event.target.checked ? 1: 0;btnStatus();statusSysnCalender($event.target.checked)" id="SyncCalendar" checked>
+                <span class="overflow-control-indicator"></span>
+                <span class="overflow-control-description">{{'label_emailInt_syncCalendar' |translate}}</span>
+              </label>
+
+              <!---------@When: 28-07-2023 @who:Amit @why: EWM-13395 @what: add current date--------->
+         <!-----@When:  28-08-2023 @Who : bantee @why: EWM-14101---->
+
+              <div id="email-integration-calnder-sync" style="cursor: auto;" *ngIf="emailConnection && LastActivitySyncDate!==0 && LastActivitySyncDate!=null" class="last-sync ">{{'label_emailIntegrationLastCalenderSync' |customTranslate }} - 
+                {{(LastActivitySyncDate | date:userpreferences.timeformate:userpreferences.timezone)}}
+          </div>
+
+            </div>
+
+            <!-- @When: 28-Nov-2023 @who:Amit @why: EWM-15235 @what: sync calender -->
+            <div class="custom-checkbox data-sync sync-calender" *ngIf="SyncCalendar===1">
+              <span class="overflow-control-description">{{'label_EmailDaysSyncCalendar' |translate}}</span>
+                <ng-select formControlName="DaysToSyncCalendar" class="dropdown-body" placeholder="{{'label_EmailDaysSync' |translate}}"
+                [clearable]="false" id="SyncDaysId" (change)="changeDays(this.userEmailIntegrationForm.value)">
+                    <ng-option *ngFor="let day of syncDays" [value]="day?.Id">{{day?.Id}}</ng-option>
+                </ng-select>
+            </div>
+            
+            <!-- @When: 25-09-2023 @who:Amit @why: cursor show @what: cursor remove -->
+            <div class="custom-checkbox data-sync mt-0">
+              <label class="custom-control overflow-checkbox">
+                <input type="checkbox" class="overflow-control-input" tabindex="2" id="emailIntegration-SyncEmails"
+                  (change)="SyncEmails = $event.target.checked ? 1: 0;btnStatus();statusSysnEmails($event.target.checked)" [(ngModel)]="SyncEmails "
+                  formControlName="SyncEmails" >
+                <span class="overflow-control-indicator"></span>
+                <span class="overflow-control-description">{{'label_emailInt_sendOrRec' |translate}}</span>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        
+        <p>{{'label_emailCoonectOptopnPara' |translate}} </p>
+        
+          <div class="foremail-connection">
+        
+        <button mat-raised-button id="Microsoft365" class="outlook-365 mat-elevation-z2" (click)="emailConnectOption('emailInt_Outlook')" [disabled]="emailConnectionGmail"
+          [ngClass]="{'activeBtn' : emailInt_Outlook}">
+          <img src="/assets/microsoft365.svg" alt="Outlook" />
+          <span class="gmailBtn">{{'label_Microsoft365' |translate}}</span>
+        </button>
+         <!-----@When:  19-04-2023 @Who : renu @why: EWM-11/14 EWM-12007---->
+        <!-- EWM-19618   <button class="mat-elevation-z2" id="Exchange" mat-raised-button  (click)="emailConnectOption('emailInt_Exchange')" disabled>
+          <img src="/assets/microsoft-exchange.png" alt="Exchange" />
+          <span class="gmailBtn">{{'label_emailInt_Exchange' |translate}}</span>
+        </button> -->
+        
+        <button class="mat-elevation-z2" id="gmail" mat-raised-button (click)="emailConnectOption('emailInt_Gmail')" [disabled]="emailConnection" [ngClass]="{'activeBtn' : emailInt_Gmail}">
+          <img src="/assets/gmailImg.png" alt="Gmail" />
+          <span class="gmailBtn">{{'label_emailInt_Gmail' |translate}}</span>
+        </button>
+        <!-- EWM-19618 <button class="mat-elevation-z2" id="xeople" mat-raised-button disabled>
+          <img src="/assets/xeople-email.png" alt="xeople" />
+          <span class="gmailBtn">{{'label_emailInt_Xeople' |translate}}</span>
+        </button> -->
+      </div>
+      
+      </form>
+      <div class="emailInt-Outlook-Box" [hidden]="!emailInt_Outlook" id="emailInt_Outlook">
+        <mat-card class="animate__animated" [ngClass]="{'animate__slideInDown' : emailInt_Outlook}">
+          <mat-card-header>
+            <mat-card-title><img src="/assets/microsoft365.svg">{{'label_Microsoft365' |translate}}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <p class="pl-15 pr-15">{{'label_Microsoft365SubTitle' |translate}}</p>
+            <form class="p-15 pt-0" [formGroup]="outlookIntegrationForm">
+              <mat-form-field>
+                <mat-label>{{'label_ConnectAs' |translate}}</mat-label>
+                <input matInput placeholder="" formControlName="connectAs" id="connectAs" readonly required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>{{'label_email' |translate}}</mat-label>
+                <input matInput placeholder="" formControlName="email" id="email" readonly required>
+              </mat-form-field>
+              <div class="col pr-0 right-align">
+                <button *ngIf="!emailConnection" mat-raised-button color="primary" id="emailConnect"
+                  [disabled]="!(!outlookIntegrationForm.valid || userEmailIntegrationForm.value.SyncCalendar == 1 || userEmailIntegrationForm.value.SyncEmails == 1)"  
+                  (click)="officeCheckEmailConnectedWithAnotherTenant()" class="mr-0 365">
+                  {{'label_Connect' |translate}}
+                </button>
+                <!-- <input type="text" id="parentText" value="" /> -->
+
+                <ng-container *ngIf="emailConnection">
+                  <span class="emailConnected">{{'label_emailInt_emailConnected' |translate}}</span>
+                  <p class="mb-0">{{'label_wantToDisConnect' |translate}}
+                    <button class="pl-0 pr-0" mat-button id="emailDisconnectBtn"
+                      (click)="disConnectEmailConfirmBox()" class="email-disconnect">
+                        {{'label_disConnect' |translate}}
+                    </button>
+                  </p>
+                </ng-container>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="emailInt-Outlook-Box" [hidden]="!emailInt_Gmail" id="emailInt_Gmail">
+        <mat-card class="animate__animated" [ngClass]="{'animate__slideInDown' : emailInt_Gmail}">
+          <mat-card-header>
+            <mat-card-title><img src="/assets/gmailImg.png">{{'label_emailInt_Gmail' |translate}}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <p class="pl-15 pr-15">{{'label_Microsoft365SubTitle' |translate}}</p>
+            <form class="p-15 pt-0" [formGroup]="gmailIntegrationForm">
+              <mat-form-field>
+                <mat-label>{{'label_ConnectAs' |translate}}</mat-label>
+                <input matInput placeholder="" formControlName="connectAs"  id="connectAs" readonly required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>{{'label_email' |translate}}</mat-label>
+                <input matInput placeholder="" formControlName="email" id="email" readonly required>
+              </mat-form-field>
+              <div class="col pr-0 right-align" id="gmailEmailConnect">
+                <!-- who:maneesh,what:ewm-15424 for disabled connect button when no option select, when:27/05/2024 -->
+                <button *ngIf="!emailConnectionGmail" mat-raised-button color="primary" id="emailConnect"
+                  [disabled]="!(!gmailIntegrationForm.valid || userEmailIntegrationForm.value.SyncCalendar == 1 || userEmailIntegrationForm.value.SyncEmails == 1)" 
+                  (click)="gmailCheckEmailConnectedWithAnotherTenant()" class="mr-0 microsoft365Btn">
+                  {{'label_Connect' |translate}}
+                </button>
+                <!-- <input type="text" id="parentText" value="" /> -->
+
+                <ng-container *ngIf="emailConnectionGmail">
+                  <span class="emailConnected">{{'label_emailInt_emailConnected' |translate}}</span>
+                  <p class="mb-0">{{'label_wantToDisConnect' |translate}}
+                    <button type="button" class="pl-0 pr-0" mat-button color="primary" id="emaildisConnect"
+                      (click)="disConnectEmailConfirmBox()">
+                      {{'label_disConnect' |translate}}
+                    </button>
+                  </p>
+                </ng-container>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+        </div>
+
+  </mat-card>
+</mat-drawer-container>

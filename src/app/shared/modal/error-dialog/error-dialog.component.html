@@ -1,0 +1,25 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:error-dialog.component.html
+    @Who: Satya Prakash Gupta
+    @When: 17-Mar-2021
+    @Why: EWM-1017 EWM-1186
+    @What: This page wil be use only for the error Component HTML
+-->
+
+
+<div mat-dialog-content class="center-align error-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        cancel
+    </span>
+    <h2 mat-dialog-title>
+        {{'label_error'|translate}}
+    </h2>
+    <p> {{'label_titleDialogContent'|translate}}</p>
+
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter inform-dialog-footer">
+    <button mat-stroked-button color="warn" (click)="onDismiss()"> {{'button_close'|translate}}</button>
+</div>

@@ -1,0 +1,97 @@
+<!-- who:maneesh:what:ewm-13776  for create job action client tab get contact list,when:13/09/2023 -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="right-tab-header" id="right-tab-header">
+    <mat-form-field class="mb-0" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="userInvitaion-searchBox" tabindex="1" placeholder="Search"
+            (input)="onFilter($event.target.value)" [(ngModel)]="searchValue">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button id="closeIcon" *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear"
+            (click)="onFilterClear()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+    </mat-form-field>
+    <div class="right-box">
+        <button mat-stroked-button id="managIcon" (click)="managecontact()" color="primary">
+            <mat-icon fontSet="material-icons-outlined">manage_accounts</mat-icon>
+            {{'label_Manage' |translate}}
+        </button>
+        <mat-icon id="managInfoIcon" class="info" color="primary"
+            matTooltip="{{'label_jobActionManageAllContacts'|translate}}" matTooltipPosition="before">info</mat-icon>
+    </div>
+</div>
+<div class="contact-list" infinite-scroll [infiniteScrollDistance]="1"
+[infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" [scrollWindow]="false"id="contact-list">
+    <div class="col nodata center-align p-15"
+        *ngIf="contactList==null || contactList==undefined || contactList?.length==0">
+        <p class="mb-15">{{'label_jobActionNoContact' | translate}}</p>
+    </div>
+    <div class="contact-sec" id="contact-detail" *ngFor="let list of contactList;let i=index">
+        <mat-card class="contact-card" id="contact-card">
+            <div class="left" id="left">
+                <div id="imageIcon" class="userAvtaarAndName" matTooltip="{{'label_profilePicture' | translate}}" matTooltipClass="custom-tooltip">
+                    <img src="{{list?.ProfileImageURL}}" tabindex *ngIf="list?.ProfileImagePath!=null">
+                    <span id="shortNameIcon" *ngIf="list?.ProfileImagePath==null" [style.background]="list?.ShortNameColor">{{list?.ShortName}}</span>
+                </div>
+                <div class="status" id="statusNameIcon" [style.background]="list?.StatusColor">
+                    {{list?.StatusName}}
+                </div>
+            </div>
+            <div class="right" id="right">
+                <div class="placeholder" id="nameIcon">
+                    <div>{{'label_name' | translate}} :</div>
+                    <div class="data name" id="data">{{list?.FullName}}</div>
+                </div>
+                <div class="placeholder" id="locationIcon">
+                    <div>{{'label_location' | translate}}:</div>
+                    <div class="data" id="data">{{list?.FullAddress}}</div>
+                </div>
+                <div class="placeholder" id="newEmail"> 
+                    <div>{{'label_email' | translate}}:</div>
+                    <div class="data email" id="data">
+                        <button mat-icon-button color="primary" type="button" id="url-copy-btn__{{i}}" class="content-copy"
+                            matTooltip="{{'label_copy' | translate}} {{'label_emailAddressInput' | translate}}"
+                            matTooltipClass="custom-tooltip" (click)="copyContactData(list?.EmailId,i,'emailId');"
+                            *ngIf="list?.EmailId!=null && list?.EmailId!=''">
+                            <mat-icon>content_copy</mat-icon>
+                        </button>
+                        <span class="mail-text" (click)="openNewEmailModal(undefined,'',list?.EmailId,list)" matTooltip="{{list?.EmailId}}"
+                        matTooltipClass="custom-tooltip">{{list?.EmailId}}</span>
+                        <div class="copyMessage email-hide" id="autoHide{{i}}">
+                            <div class="alert-primary alert-green">
+                                <mat-icon>check</mat-icon>
+                                <span>{{'label_jobActionEmailAddressCopied'| translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="placeholder" id="PhoneNoIcon">
+                    <div>{{'label_canEmergencyPhoneNo' | translate}}:</div>
+                    <div class="data" id="data" [hidden]="list?.PhoneNo==null || list?.PhoneNo==''">
+                        <button mat-icon-button color="primary" type="button" id="url-copy-phonebtn__{{i}}" class="content-copy"
+                            matTooltip="{{'label_copy' | translate}} {{'label_canEmergencyPhoneNo' | translate}}"
+                            matTooltipClass="custom-tooltip" (click)="copyContactData(list?.PhoneNo,i,'phone');"
+                            *ngIf="list?.PhoneNo!=null && list?.PhoneNo!=''">
+                            <mat-icon>content_copy</mat-icon>
+                        </button>
+                      <!-- //  who:maneesh:what:ewm-14550 for get status zoom call enabel and disable,when:10/10/2023 -->
+                        <a href="tel:{{list?.PhoneNo}}" mat-button matTooltipClass="custom-tooltip" color="primary">
+                            <mat-icon>call</mat-icon>
+                            <span>+{{list?.PhoneCode}}{{list?.PhoneNo}}</span>
+                        </a>
+                        <div class="copyMessage email-hide" id="autoHidePhone{{i}}">
+                            <div class="alert-primary alert-green">
+                                <mat-icon>check</mat-icon>
+                                <span>{{'label_jobActionPhonNumberCopied'| translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+</div>

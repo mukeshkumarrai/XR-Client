@@ -1,0 +1,89 @@
+/* 
+ @(C): Entire Software
+ @Type: File, <css>
+ @Who: Anup Singh
+ @When: 19-oct-2021
+ @Why:EWM-3039 EWM-3407
+ @What: You can add this page styles on same file, and also import other style files
+*/
+.listGridButton {
+  width: 98px;
+  display: flex;
+  margin-top: 0px;
+  position: relative;
+    top: -5px;
+}
+.k-i-loading{
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+}
+.pointer{
+  cursor: pointer;
+}
+.candidatJobMatContent{
+  height: calc(100vh - 442px) !important;
+  margin-top:5px !important;
+}
+.cardHeightWithImage{
+  padding:10px;
+}
+.companyNameInitial{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  line-height: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  }
+.peopleShareIcon{
+  position: relative;
+  top: 5px;
+  font-size: 20px;
+}
+.assignment_return-flip.mat-icon{
+  transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+}
+.data-header{
+  padding: 0px 10px;
+  z-index: inherit;
+  .filterButton{
+    margin: 0px;
+  }
+}
+span.green {
+  display: flex;
+  align-items: center;
+  .mat-icon{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 20px;
+  }
+}
+.header-button{
+  min-width: 36px;
+  top: -5px;
+  margin-inline-end: 5px;
+}
+.jobDetailInformation{
+  .candidate-job-mat-card{
+    border-radius: 0px; 
+    padding: 0px; 
+    height: 100%;
+  }
+}
+.page-container-cardview.mat-drawer-container{
+  .cardview-container{
+    .grid-card-mode.mat-card{
+      min-height: 223px;
+    }
+    .grid-card-mode-data{
+      margin-top: 2px;
+    }
+  }
+}

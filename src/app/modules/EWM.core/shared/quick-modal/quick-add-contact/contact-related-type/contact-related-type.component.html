@@ -1,0 +1,28 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 25-Nov-2021
+    @Why: EWM-3700 EWM-3918
+    @What:  This component is used for contact related type templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="quick-dialog" applyTabIndexes>
+    <h2 mat-dialog-title class="mb-0">
+        &nbsp;
+        <span (click)="onDismiss()" id="btnCancel" tabindex class="material-icons closeModal timeLineCloseIcon">
+            close
+        </span>
+    </h2>
+    <mat-dialog-content class="">
+        <ng-select placeholder="{{'label_contactRelatedTo' | translate}}"
+            (change)="openModelContactRelatedTo($event)" id="addContact-Gender"
+            class="dropdown-body icon-withchip" appendTo="body" tabindex>
+            <ng-option *ngFor="let contactType of contactRelatedTypeList" [value]="contactType">
+                {{contactType.InternalName}}</ng-option>
+        </ng-select>
+    </mat-dialog-content>
+</div>

@@ -1,0 +1,93 @@
+/*
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 16-Oct-2022
+    @Why: EWM-9627 EWM-9909
+    @What:  Xeople Smart Email Popup
+*/
+
+.candidate-mail{
+    min-height: 280px;
+    .url-link{
+        span{
+            padding-right: 5px;
+        }
+        a{
+            color: #166ebe;
+            word-break: break-word;
+            max-width: 205px;
+            display: inline-block;
+            text-decoration: underline;
+            vertical-align: middle;
+        }
+        .mat-icon-button{
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            z-index: 0;
+            border: none;
+            .mat-icon{
+                width: 22px;
+                height: 22px;
+                line-height: 22px;
+                font-size: 18px;
+                border: none;
+            }
+        }
+        .mat-raised-button{
+            @media only screen and (max-width: 767px) and (min-width: 240px){        
+                display: flex;
+                align-self: end;
+            }
+        }
+    }
+
+    //@When: 22-08-2023 @who:Amit @what: add class style
+    .url-link.url-link-full{
+      a{
+        max-width: 325px;
+      }
+    }
+
+    .copyMessage.email-hide{
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      display: none;
+      .alert-green {
+        color: #7fb734;
+        background: #fff;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 12px;
+        padding: 5px 25px 5px 5px;
+        height: 12px;
+        line-height: 15px;
+        .mat-icon{
+          width: 16px;
+          height: 16px;
+          line-height: 16px;
+          font-size: 16px;
+        }
+      }
+    }
+    
+    .newEmailBtn{
+    position: relative;
+    .content-copy{
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      .mat-icon{
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        font-size: 16px;
+        margin: 0px 3px;
+      }
+    }
+    }
+  }

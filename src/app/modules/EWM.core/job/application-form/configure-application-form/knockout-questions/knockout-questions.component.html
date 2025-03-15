@@ -1,0 +1,83 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: knockout question.component.html
+  @Who: Satya Prakash Gupta
+  @When: 12-May-2022
+  @Why:  EWM-6554 EWM-6680
+  @What: knockout question page
+ -->
+<div class="configure-application-card-sub-title" id="configure-application-card-sub-title">
+    <div>{{'label_totalKnockoutQuestion'|translate}} : {{knockoutQuestionList.length}}</div>
+    <div class="enable-knock">
+        <mat-label>{{'label_knockout_enable'|translate}}</mat-label>
+        <mat-slide-toggle [(ngModel)]="isKnockOutEnable" id="isToggel" tabindex="8" (change)="setDefaultKnockout($event)"
+            color="primary" [disabled]="isActionButtonDisabledFromSeekPreview">
+        </mat-slide-toggle>                                 
+    </div>
+</div>
+<div class="application-fade-sec" *ngIf="!IsKnockoutQuestion"></div>
+<div class="knockout-section" id="knockout-section">
+    <mat-accordion class="knockout-mat-accordion" cdkDropList (cdkDropListDropped)="drop($event)">
+        <mat-expansion-panel #panel1 hideToggle *ngFor="let data of knockoutQuestionList" cdkDrag>
+            <mat-expansion-panel-header class="knockout-mat-panel"  #panelH (click)="panelH._toggle()">
+                <button mat-icon-button color="primary" class="move-cursor" cdkDragHandle [disabled]="activestate()">
+                    <mat-icon>drag_indicator</mat-icon>
+                </button>
+                <div class="knock-question">
+                    {{data.Question}}
+                </div>
+                <div>
+                    <button mat-icon-button  tabindex *ngIf="!panel1.expanded" id="btn_expand" (click)="panelH._toggle()" [disabled]="activestate()">
+                        <mat-icon>expand_more</mat-icon>
+                    </button>
+                    <button mat-icon-button tabindex *ngIf="panel1.expanded" id="btn_less" (click)="panelH._toggle()" [disabled]="activestate()">
+                        <mat-icon>expand_less</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)=openQuickAddKnockOutModal(data.Id,data)  id="btn_edit" [disabled]="activestate()">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)=deleteKnockoutquestion(knockoutQuestionList,data.Question,data.Id)  id="btn_delete" [disabled]="activestate()">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </mat-expansion-panel-header>
+            <mat-card *cdkDragPreview class="knockout-question-preview">
+                <button mat-icon-button color="primary" class="move-cursor" cdkDragHandle>
+                    <mat-icon>drag_indicator</mat-icon>
+                </button>
+                <div>
+                    {{data.Question}}
+                </div>
+                <div>
+                    <button mat-icon-button  tabindex *ngIf="!panel1.expanded" id="btn_expand" (click)="panelH._toggle()">
+                        <mat-icon>expand_more</mat-icon>
+                    </button>
+                    <button mat-icon-button tabindex *ngIf="panel1.expanded" id="btn_less" (click)="panelH._toggle()">
+                        <mat-icon>expand_less</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)=openQuickAddKnockOutModal(data.Id,data)  id="btn_edit">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)=deleteKnockoutquestion(knockoutQuestionList,data.Question,data.Id)  id="btn_delete">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </mat-card>
+            <div class="question-sets-placeholder" *cdkDragPlaceholder></div>
+            <div class="configure-application-text-area label-with-radio">
+                <label class="textarea-lavel">
+                    <span>{{'label_desiredAnswer'|translate}} *</span>
+                </label>
+                <mat-radio-group aria-label="Select an option" color="primary"  id="ResumeRequiredId">
+                    <mat-radio-button [checked]="data.Answer=='1'?true:false" value="1" class="pt-0 pb-0" disabled>Yes</mat-radio-button>
+                    <mat-radio-button [checked]="data.Answer=='1'?false:true" value="0" class="pt-0 pb-0" disabled>No</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
+<button mat-fab color="primary" class="add-knockout-floating" (click)="openQuickAddKnockOutModal('Add','')" id="btn_Add"
+matTooltip="{{'label_addKnockoutQuestion' | translate}}" matTooltipPosition="left" [disabled]="activestate()">
+    <mat-icon>add</mat-icon>
+</button>

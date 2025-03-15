@@ -1,0 +1,149 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Priti
+    @When: 3-sep-2021
+    @Why: EWM-2702
+    @What: You can add  styles to this file, and also import other style files
+*/
+@import '../../modules/EWM-Candidate/candidate-document/candidate-document.component.scss';
+.mat-tree .mat-tree-node .with-icon .mat-icon,
+.document-container .listcardContentMaxData .with-icon .mat-icon{
+  color: rgb(103 58 183 / 70%);
+}
+
+.document-container {
+  height: calc(100vh - 120px);
+  padding: 15px;
+  background: #f5f5f5;
+  @media only screen and (max-width: 1060px) and (min-width: 240px){        
+    height: calc(100vh - 100px);
+  }
+  .mat-drawer.document-sidenav {
+    border: 0px;
+    padding: 0px;
+  }
+  .mat-drawer-content.document-sidenav-content{
+    overflow: hidden;
+  }
+  .listcardContentMaxData{
+    width: 100%;
+    min-width: 530px;
+    height: calc(100% - 12px);
+    overflow-x: hidden;
+    .with-icon{
+      padding-left: 13px;
+      .mat-icon{
+        left: 4px;
+        position: absolute;
+        font-size: 19px;
+        line-height: 20px;
+      }
+    }
+  }
+  .listContent .alternetBG .mat-card{
+    padding: 0px;
+    margin-bottom: 0px;
+  }
+}
+
+.col-1 {
+  width: 35%;
+}
+.col-2 {
+  width: 25%;
+}
+.col-3 {
+  width: 27%;
+}
+.col-4 {
+  width: 13%;
+}
+
+.inputSearch {
+  display: block !important;
+  z-index: 9999999999;
+  position: absolute;
+  top: inherit;
+  left: inherit;
+  background-color: rgba(0, 0, 0, 0);
+  right: 20px;
+  bottom: 18px;
+  font-size: 26px;
+}
+
+.list {
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.scrollloading {
+  height: 75px;
+  position: relative;
+  background-color: transparent;
+  top: inherit;
+  right: inherit;
+  left: inherit;
+  bottom: inherit;
+}
+.curser {
+  cursor: pointer;
+}
+.headerDroupDownUp{
+  position: absolute;
+  top: -14px;
+  color: rgba(0, 0, 0, 0.67);
+  right: 7px;
+}
+.breadcum {
+  display: block;
+  margin-top: -15px;
+  margin-bottom: 3px;
+  .breadcumContent {
+    font-size: 12px;
+    font-weight: 400;
+    // min-width: unset;
+    line-height: 16px;
+    padding: 0px 0px 0px 0px;
+  }
+
+  .breadcumContentopen {
+    font-size: 12px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 16px;
+    padding: 0px 0px 0px 0px;
+    min-width: unset;
+  }
+
+  .label_breadcum {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    text-align: left;
+    max-width: 600px;
+    padding-right: 5px;
+  }
+
+  .arrowIcon {
+    position: relative;
+    top: 4px;
+    font-size: 14px;
+    height: 10px;
+    width: 13px;
+  }
+
+  .threeDotStyleMobile {
+    display: none;
+  }
+  .hyperlink{
+    color: #7aa6e7;
+  }
+}

@@ -1,0 +1,274 @@
+
+/* @When: 21-09-2023 @who:Amit @why: EWM-13899 @what: close job style */
+@use "../../../colors";
+// current color bg start here
+@mixin color-bg-after{
+    position: absolute;
+    content: "";
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: currentColor;
+}
+.close-job-form{
+    .mat-dialog-content{
+        // @When: 16-10-2023 @who:Amit @why: EWM-14822 @what: note style
+        .note{
+            color: colors.$warn-bg;
+            margin: 5px 0px;
+            font-size: 12px;
+        }
+        h3{
+            font-weight: 500;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            gap: 5px;
+            margin-bottom: 8px;
+            margin-top: 5px;
+            .mat-icon{
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                font-size: 20px;
+                cursor: default;
+                color: colors.$primary-bg-color;
+            }
+        }
+        .ng-box-select{
+            display: grid;
+            grid-template-columns: repeat(3, calc(33.33% - 10px));
+            gap: 15px;
+            @media only screen and (max-width: 860px) and (min-width: 240px){   
+                grid-template-columns: 1fr;
+                row-gap: 0px;
+            }
+        }
+        .selected-candidate{
+            border-radius: 3px;
+            padding: 8px;
+            border: 1px solid #ebebeb;
+            .action-candidate{
+                padding: 10px;
+                border-radius: 3px;
+                background: #eef5f9;
+                box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+                &:first-child{
+                    margin-bottom: 10px;
+                }
+                .mat-checkbox{
+                    .mat-checkbox-layout{
+                      white-space: pre-wrap;
+                    }
+                }
+                .close-job-comment{
+                    .divTextAreaLavel{
+                        opacity: 0.57;
+                    }
+                }
+            }
+        }
+        .send-email{
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 25px;
+            .mat-checkbox{
+                .mat-checkbox-layout{
+                    white-space: pre-wrap;
+                }
+            }
+            .mat-icon{
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                font-size: 20px;
+                cursor: default;
+                color: colors.$primary-bg-color;
+            }
+        }
+        .email-details{
+            .input-with-info-icon{
+                .infoStyle{
+                    right: 0px;
+                    cursor: default;
+                }
+            }
+            .attach-size{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            } 
+        }
+        .endoHTMLEditer{
+            .mailediter.my-activity-editor{
+                height: 200px;
+            }
+        }
+    }
+    .fileUpload {
+        input[type="file"] {
+          height: 40px;
+          width: 40px;
+          position: absolute;
+          top: -15px;
+          left: 0;
+          opacity: 0;
+          cursor: pointer;
+          z-index: 3;
+        }
+    }
+    .group-email{
+        .mat-icon-button{
+            width: 36px;
+            height: 21px;
+            line-height: 22px;
+            border-radius: 4px;
+            color: colors.$primary-bg-color;
+            font-size: 13px;
+            position: relative;
+            z-index: 2;
+            &::after{
+                @include color-bg-after;
+                opacity: 0.1;
+                border-radius: 3px;
+            }
+       }
+    }
+   .endoHTMLEditer{
+    .desc-label{
+       padding-bottom: 3px;
+       width: 100%;
+       display: inline-block;
+    }
+    .mat-error{
+       font-size: 11px;
+       padding-bottom: 3px;
+    }
+    } 
+   .close-job-comment{
+        position: relative;
+        .countlabel{
+            position: absolute;
+            bottom: 7px;
+            right: 0px;
+            margin-top: 0px;
+            text-align: right;
+            color: #fe7000;
+            font-size: 80%;
+            right: 0px;
+        }
+    }
+    .file-attachment{
+        display: grid;
+        grid-template-columns: repeat(3, calc(33.33% - 10px));
+        gap: 15px;
+        margin: 10px 0px;
+        @media only screen and (max-width: 767px) and (min-width: 320px){
+            grid-template-columns: repeat(2, calc(50% - 8px));
+        }
+        .email-attachment {
+            display: flex;
+            padding-bottom: 5px;
+            justify-content: space-between;
+            .file-detail {
+                padding-right: 5px;
+                display: grid;
+                span {
+                max-width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                }
+                .fileSize{
+                font-size: 13px;
+                margin-top: 4px;
+                color: #9ea7b3;
+                }
+            }
+            .mat-icon{
+                cursor: pointer;
+            }
+            .mat-icon:hover {
+                color: colors.$warn-bg;
+            }
+        }
+    }
+    .file-size{
+        display: flex;
+        margin-bottom: 10px;
+        padding-top: 3px;
+    }
+    .ng-select-with-info-icon{
+        .status-error{
+            bottom: -8px;
+            @media only screen and (max-width: 860px) and (min-width: 578px){  
+                bottom: 1px;
+            }
+        }
+    }
+    .mat-form-field-appearance-legacy.email-chip-list-group{
+        .mat-form-field-suffix{
+            .mat-icon-button{
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                border-radius: 4px;
+                color: colors.$primary-bg-color;
+                top: 2px;
+                position: relative;
+                z-index: 2;
+                font-size: 16px;
+                &::after{
+                    @include color-bg-after;
+                    opacity: 0.1;
+                    border-radius: 3px;
+                }
+            }
+        }
+    }
+}
+
+/* @When: 21-09-2023 @who:Amit @why: EWM-13899 @what: close job dark mode */
+.dark-theme{
+    .close-job-form{
+        .mat-dialog-content{
+          h3{
+            .mat-icon{
+              color: colors.$dark-primary;
+            }
+          }
+          .selected-candidate{
+            border: 1px solid colors.$gray-txt;
+            .action-candidate{
+              background: #515151;
+            }
+          }
+          .send-email{
+            .mat-icon{
+              color: colors.$dark-primary;
+            }
+          }
+        }
+        .group-email{
+          .mat-checkbox-layout{
+            .mat-checkbox-label{
+                white-space: pre-wrap;
+            } 
+          }
+          .mat-icon-button{
+            color: colors.$dark-primary;
+          }
+        }
+        .mat-form-field-appearance-legacy.email-chip-list-group{
+            .mat-form-field-suffix{
+                .mat-icon-button{
+                    color: colors.$dark-primary;
+                }
+            }
+        }
+    }
+}

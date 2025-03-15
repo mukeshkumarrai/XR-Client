@@ -1,0 +1,26 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:Email Disconnection.html
+    @Who: Naresh Singh
+    @When: 16-Sep-2021
+    @Why: EWM-2512 EWM-2857
+    @What: This page wil be use only for the Email Disconnection HTML
+-->
+<div mat-dialog-content class="center-align confirm-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        help
+    </span>
+    <h2 mat-dialog-title>
+        {{'label_confirmation'|translate}}<!-- {{title|translate}} {{subtitle|translate}} -->
+    </h2>
+    <!-- <p *ngIf="orgDataEnable"> {{subtitle|translate}} ?</p>
+    <p *ngIf="!siteDomainUpdate && !orgDataEnable"> {{message|translate}} {{subtitle|translate}} ?</p> 
+    <p *ngIf="siteDomainUpdate"> {{'label_titleDialogContentSiteDomain'|translate}} {{title|translate}} {{subtitle|translate}} ?</p>-->
+    <p> {{message|translate}} {{title|translate}} {{subtitle|translate}} </p>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" (click)="onDismiss()"> {{'label_noBtn'|translate}}</button>
+    <button mat-stroked-button color="primary" (click)="onConfirm()"> {{'label_yesBtn'|translate}}</button>
+</div>

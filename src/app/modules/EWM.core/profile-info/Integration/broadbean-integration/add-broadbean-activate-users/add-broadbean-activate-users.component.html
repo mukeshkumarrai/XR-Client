@@ -1,0 +1,80 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Adarsh singh
+    @When: 30-Jan-2023
+    @Why: EWM-10279 EWM-10329
+    @What: for add-broadbean-activate-users ccomponent 
+-->
+<div *ngIf="loading" class="logo-loader" id="loader">
+    <div class="logo-loading"></div>
+</div>
+
+<form [formGroup]="activatedUsersForm" id="activatedUsersFormId" applyTabIndexes>
+    <div class="modal-header" id="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_add'|translate}} {{'label_new'|translate}} {{'label_colUser'|translate}}</h2>
+    </div>
+
+    <mat-dialog-content class="career-dialog-content">
+        <div class="ng-slectBox ng-select-with-info-icon" >
+            <ng-select placeholder="{{'label_email'|translate}} *" class="dropdown-body"  appendTo="body" [clearable]="true" tabindex="2"
+                formControlName="EmailId" id="EmailId" (change)="onEmailIdSelect($event)" required [searchable]="false"
+                (input)="execKeypress($event.target.value)" (click)="onRefreshEmp()">
+                <ng-template ng-header-tmp>
+                    <input class="selectSearch" tabindex="1" placeholder="{{'label_search' |translate}}" type="text" (input)="execKeypress($event.target.value)"/>
+                </ng-template>
+                <ng-option *ngFor="let list of gridListData" [value]="list.UserId">{{list.UserName}} ({{list.Email}})</ng-option>
+            </ng-select>
+
+            
+            <mat-error
+                *ngIf="activatedUsersForm.controls['EmailId'].hasError('required') && activatedUsersForm.controls['EmailId'].touched">
+                {{'label_email' |translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+
+            <mat-error *ngIf="activatedUsersForm.controls['EmailId'].hasError('codeTaken')">
+                {{'label_email'|translate}} {{'label_errorreqiredAlready'|translate}}
+            </mat-error>
+
+            <mat-icon class="infoStyle" color="warn" matTooltip="{{'lable_selectEmpList' |translate}}"
+                matTooltipPosition="left" matSuffix>info_outline
+            </mat-icon>
+        </div>
+        <mat-form-field>
+            <input type="text" tabindex formControlName="BroadbeanUserId" matInput
+                placeholder="{{'lable_broadbeanUserId' | customTranslate}}" id="BroadbeanUserId" required (keyup)="onUserIdCheckIsExist($event.target.value)">
+            <mat-error *ngIf="activatedUsersForm.controls['BroadbeanUserId'].hasError('required')">
+                {{'lable_broadbeanUserId' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+            <!-- <mat-error *ngIf="activatedUsersForm.controls['BroadbeanUserId'].hasError('pattern') && !activatedUsersForm.controls['BroadbeanUserId'].hasError('whitespace')">
+                {{'lable_broadbeanUserId' |translate}} {{'label_errorpatternAlphanumeric' |translate}}
+            </mat-error> -->
+            
+            <mat-error *ngIf="activatedUsersForm.controls['BroadbeanUserId'].hasError('maxlength')">
+                {{'lable_broadbeanUserId'|translate}} {{'label_errormaxlength100'|translate}}
+            </mat-error>
+            <mat-error *ngIf="activatedUsersForm.controls['BroadbeanUserId'].hasError('whitespace') && !activatedUsersForm.controls['BroadbeanUserId'].hasError('required')">
+                {{'lable_broadbeanUserId' |translate}} {{'label_nameValidation' |translate}} 
+              </mat-error>
+               
+              <mat-error *ngIf="activatedUsersForm.controls['BroadbeanUserId'].hasError('codeTaken')">
+                {{'lable_broadbeanUserId' |translate}} is Already in use
+            </mat-error>
+
+            <mat-icon matSuffix color="warn" matTooltip="{{'lable_broadBeanAddDesc' |translate}}"
+                matTooltipPosition="left" matSuffix>info_outline
+            </mat-icon>
+        </mat-form-field>
+
+    </mat-dialog-content>
+
+
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" type="button" tabindex id="btnCancel" (click)="onDismiss()">
+            {{'label_cancel'|customTranslate}}</button>
+        <button mat-raised-button id="nextToConfirmEmail" color="primary"
+            (click)="onConfirm(this.activatedUsersForm.value)" [disabled]="!activatedUsersForm.valid" id="btnContinue">
+            {{'label_save'|translate}}</button>
+
+    </div>
+</form>

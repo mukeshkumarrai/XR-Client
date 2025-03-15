@@ -1,0 +1,86 @@
+<!---
+@(C): Entire Software
+@Type: File, <html>
+@Who: Adarsh singh
+@When: 19-05-2022
+@Why: EWM-6550 EWM-6696
+@What:  This component is used for add Skill from document page 
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<form [formGroup]="addSkillForm" id="addskill-people" class="skillsForm" applyTabIndexes>
+    <div class="quick-dialog">
+        <h2 mat-dialog-title *ngIf="actionType=='Add'">{{'label_addSkill' | translate}} </h2>
+        <h2 mat-dialog-title *ngIf="actionType=='Edit'">{{'label_editSkill' | translate}} </h2>
+
+        <mat-dialog-content>
+            <!-- who:maneesh ,what:apply ng-select for skill dropdown ewm-10533  ,when:03/03/2023 -->
+            <ng-select tabindex [multiple]="true"   [formControl]="SkillTag" [(ngModel)]="skillSelectedListId"  
+            class="dropdown-body" #select [searchable]="false" appendTo="body" [clearable]="true" [compareWith]="compareFn"
+                [closeOnSelect]="true"  (change)="selectedSkills($event)" placeholder="{{'quickjob_skills'|translate}}" 
+                id="ddl_skills" [items]="searchskillList">
+                 <ng-template ng-multi-label-tmp let-items="items" let-clear="clear" id="SkillName">
+                    <div class="ng-value ngselect-tag" *ngFor="let item of items | slice:0:maxMoreLength">
+                        <span class="ng-value-label text-overflow" matTooltip=" {{item.SkillName?item.SkillName:item.TagName}}" 
+                        matTooltipClass="custom-tooltip">  {{item.SkillName?item.SkillName:item.TagName}}({{item.Weightage?item.Weightage:0}})</span>
+                        <span class="ng-value-icon right" (click)="clear(item)"
+                            aria-hidden="true">×</span>
+                    </div>
+                    <div class="ng-value" *ngIf="items.length > maxMoreLength" id="SkillLength">
+                        <span class="ng-value-label">{{items.length - maxMoreLength}} 
+                            {{'label_more'|translate}}...</span>
+                    </div>
+                </ng-template>
+                
+                <ng-template ng-header-tmp id="skillDropdown">
+                        <div class="add-manage" id="skill">
+                          <span class="spacer"></span>
+                            <a target="_blank" routerLink="./client/core/administrators/skills" mat-icon-button id="favIcon" class="dropdown-manage"    color="primary" matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                            (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+                              <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                              class="{{animationVar?.ManageButton?.isAnimClass}}">
+                                <mat-icon>subject</mat-icon>
+                                <mat-icon class="secondIcon">settings</mat-icon>
+                            </div>
+                          </a>
+                            <button mat-icon-button class="dropdown-reload" (click)="refreshComponent()"  color="primary" type="button" [ngClass]="loader?'rotate-loader':''" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                            (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                                  <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">rotate_right</mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="pl-15 pr-15" id="selectSearch">
+                            <mat-form-field class="no-bottom">
+                                <input matInput class="selectSearch"  [formControl]="search" [(ngModel)]="searchValue" autocomplete="off" placeholder="{{'label_search' |translate}} {{'quickjob_skills' | translate}}"
+                                (input)="onsearchSkills($event.target.value)" />
+                            </mat-form-field>
+                        </div>
+         
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm" id="searchTerm">
+                  <div class="skills-name"  id="TagName">
+                  {{item.SkillName?item.SkillName:item.TagName}}
+                  <span class="skill-data" *ngIf="item.IsTag=='1'">
+                    <mat-icon matBadge="{{item.SkillCount}}" color="primary">local_offer</mat-icon>
+                  </span>
+                </div>
+              </ng-template>
+                 
+            </ng-select>
+            <!-- who:maneesh ,what: I am comment this for ewm-10533  ,when:03/03/2023 -->
+        </mat-dialog-content>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addSkillForm.valid"
+            (click)="onConfirm()" id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+</form>

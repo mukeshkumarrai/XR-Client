@@ -1,0 +1,74 @@
+@use "../../../../colors";
+.dark-theme{
+    .push-candidate-icon-button{
+        svg{
+            fill: colors.$dark-primary;
+        }
+        &:hover{
+            svg{
+                fill: #fff;
+            } 
+        }
+    }
+    .radio-with-label{
+        background: #424242;
+    }
+    .push-candidate-to-eoh{
+        background: #696969;
+        .card-group{
+            & > .mat-card{
+                border: 1px solid #696969;
+                h3{
+                    background: #3c3a3a;
+                    border-bottom: rgb(159 171 180 / 15%);
+                }
+            }
+        }
+    }
+    .screening-and-interview-area-three, .screening-and-interview-area-full{
+        .radio-with-label{
+            background: #4f4f4f;
+        }
+    }
+    .candidate-overview{
+        border: 1px solid #696969;
+        .radio-with-label.eoh-with-label{
+            background: #3c3a3a;
+            border-bottom: 1px solid #696969;
+            .mat-button-toggle-group{
+                border: solid 1px colors.$dark-primary;
+                .mat-button-toggle-appearance-standard{
+                    color: colors.$dark-primary;
+                    background: #303030;
+                }
+                .mat-button-toggle-checked{
+                    color: colors.$white-color;
+                    background: colors.$dark-primary;
+                }
+            }
+        }
+        .great-text{
+            background: #3c3a3a;
+            border-bottom: 1px solid #696969;
+        }
+    }
+    .tab-container.candidate-tab-container.share-tab{
+        .mat-tab-group{
+            .mat-tab-header{
+                .mat-tab-label{
+                    background: transparent;
+                    border-bottom: 3px solid #444444;
+                    .mat-tab-label-content{
+                        color: #9b9b9b;
+                    }
+                }
+                .mat-tab-label-active{
+                    border-bottom: 3px solid colors.$dark-primary;
+                    .mat-tab-label-content{
+                        color: colors.$dark-primary;
+                    }
+                }
+            }
+        }
+    }
+}

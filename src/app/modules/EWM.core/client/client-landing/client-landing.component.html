@@ -1,0 +1,463 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: Clientlandingpage.component.html
+  @Who: Nitin Bhati
+  @When: 25-Oct-2021
+  @Why: EWM-3272 EWM-3483
+  @What: This page wil be use only for the client landing page Component HTML
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="client-dashboard-dashboard-mat-card-header">
+  <mat-card-title class="page-header-title-buttons" id="clientLandingTitle">
+    <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_addedToJob'|translate}} {{'label_addClient' | customTranslate}}"
+      matTooltipClass="custom-tooltip" color="primary" id="btnCreate" (click)="openQuickCompanyModal()"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+      <div id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">
+        <mat-icon>{{animationVar?.CreateButton?.iconName}}</mat-icon>
+      </div>
+    </button>
+    <div class="page-header-title ml-5">{{'label_totalNoofClient' |customTranslate}} {{TotalNoOfClient}}</div>
+  </mat-card-title>
+  <div class="header-action-button" id="client-dashboard-actionButton">
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal" [ngModelOptions]="{standalone: true}">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" id="clear"
+          (click)="onSearchFilterClear()" (click)="searchVal=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+    <div class="group-header-button">
+      <!-- <div class="desktop-view-header-menu">
+        <ng-container *ngTemplateOutlet="buttonRef"></ng-container>
+      </div> -->
+
+      <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+      matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+      (mouseenter)="mouseoverAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)">
+      <mat-icon id="{{animationVar?.RotateButton?.id}}" class="{{animationVar?.RotateButton?.isAnimClass}}">
+        {{animationVar?.RotateButton?.iconName}}</mat-icon>
+        <!-- <span class="text-for-mobile-view">{{'label_refreshBtn'|translate}}</span> -->
+    </button>
+
+    <!-- @When: 01-03-2024 @who:Amit @why: EWM-16254 @what: class add in blank filter -->
+    <div class="button-with-clear blank-count" id="proximity-search">
+      <button mat-raised-button (click)="openProximitySearchDialog()" class="header-button"
+        matTooltip="{{'label_proximity' | translate}} {{'label_search' | translate}}" matTooltipClass="card-list-tooltip"
+         matTooltipPosition="before" id="proximity-area" [ngClass]="[IsProximitySearch==true ? 'addFilter' : 'blankFilter']"
+        (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)">
+        <mat-icon id="{{animationVar?.ActionsButton?.id}}" class="{{animationVar?.ActionsButton?.isAnimClass}}">share_location</mat-icon>
+      </button>
+      <div class="clear-with-data blank-text" *ngIf="IsProximitySearch==true" (click)="onClearProximitySearch()">
+        <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+      
+      <button mat-raised-button class="header-button" id="job-landing-btnViewAudit"
+        [routerLink]="['../client-dashboard']" id="job-landing-btnViewAudit"
+        (mouseenter)="mouseoverAnimation(animationVar?.GraphButton?.id, animationVar?.GraphButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GraphButton?.id, animationVar?.GraphButton?.animation)"
+        matTooltip="{{'label_graph'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <span class="material-icons" id="{{animationVar?.GraphButton?.id}}"
+          class="{{animationVar?.GraphButton?.isAnimClass}}">
+          {{animationVar?.GraphButton?.iconName}}
+        </span>
+      </button>
+
+
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']"
+        class="header-button" (click)="switchListMode('listMode')" id="job-landing-viewModeInactive"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? 'active' : '']"
+        class="header-button" (click)="switchListMode('cardMode')" id="job-landing-viewModeactive"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}}
+        </span>
+      </button>
+
+      <button mat-raised-button [matMenuTriggerFor]="mobileViewButtonsMenu" class="header-button">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #mobileViewButtonsMenu="matMenu" class="threedot-inside-menu">
+        <ng-container *ngTemplateOutlet="buttonRef"></ng-container>
+      </mat-menu>
+
+      <ng-template #buttonRef>
+        <!-- who:maneesh,what:ewm-15959 for fixed sequence icon name,when:08/02/2024 -->
+
+        <button mat-menu-item class="header-button" (click)="openActionModalDialog()" id="actionsBtn">
+          <mat-icon fontSet="material-icons-outlined">
+            {{animationVar?.ActionsButton?.iconName}}</mat-icon>
+            <span class="text-for-mobile-view">{{'label_Actions'|translate}}</span>
+        </button>
+
+
+
+        <button mat-menu-item (click)="advancedsearch.toggle()" class="header-button"
+        id="dashboard-search">
+        <mat-icon>{{animationVar?.AdvanceSearchButton?.iconName}}
+        </mat-icon>
+        <span class="text-for-mobile-view">{{'label_advancedSearch'|translate}}</span>
+      </button>
+
+      <button *ngIf="gridListData!=null && gridListData.length>0 && UserType===1" mat-menu-item (click)="downloadCSV()"
+        class="header-button" id="exportBtn">
+        <mat-icon>
+          exit_to_app</mat-icon>
+          <span class="text-for-mobile-view">{{'label_systemExport'|translate}}</span>
+      </button>
+
+        <div class="button-with-clear">
+          <button mat-menu-item class="filterButton header-button" (click)="openFilterModalDialog()" id="dashboard-filter-close"
+            [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']">
+            <mat-icon fontSet="material-icons-outlined">
+              {{animationVar?.FilterButton?.iconName}}
+            </mat-icon>
+            <span class="text-for-mobile-view">{{'label_filters'|translate}}</span>
+          </button>
+          <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData(viewMode)">
+            <span class="text-overflow filterCount">{{filterCount}}</span>
+            <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="button-with-clear">
+          <button mat-menu-item id="folderBtn" class="header-button"
+            [ngClass]="[ folderId!=null ? 'addFilter' : 'blankFilter']"
+            (click)="getFolderListAll()">
+            <mat-icon fontSet="material-icons-outlined">{{animationVar?.FolderButton?.iconName}}</mat-icon>
+            <span class="text-for-mobile-view">{{'candidate_folders'|translate}}</span>
+          </button>
+          <div class="clear-with-data" *ngIf="folderId!=null" (click)="clearFolderData()">
+            <span class="text-overflow filterCount" matTooltip="{{folderName}}">{{folderName}}</span>
+            <button mat-icon-button color="warn" id="candidate-list-close">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>  
+        <button mat-menu-item class="header-button" id="bulksmsBtn" [disabled]="1 > selectedCandidate?.length || !SMSCheckStatus" (click)="openJobBulkSMSForClient()">
+          <mat-icon fontSet="material-icons-outlined">sms</mat-icon>
+            <span class="text-for-mobile-view">{{'Client_SendSMSContact'|translate}}</span>
+        </button>
+        <!-- who:maneesh,what remove mailConnectStatus discuss with mukesh sr,when:15/03/2024 -->
+        <button mat-menu-item class="header-button" id="bulkmailBtn" [disabled]="1 > selectedCandidate?.length" (click)="onBulkEmail()">
+          <mat-icon fontSet="material-icons-outlined">
+            {{animationVar?.MailButton?.iconName}}</mat-icon>
+            <span class="text-for-mobile-view">{{'Client_SendMailContact'|translate}}</span>
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</mat-card-header>
+
+
+<mat-drawer-container class="advancedsearch-container p-10" autosize id="dashboard-drawer">
+  <mat-card id="landingpage-card" class="landingpage-card mat-elevation-z2">
+
+
+      <mat-drawer-container class="advancedsearch-container" autosize>
+        <mat-drawer #advancedsearch class="advancedsearchDrawer" mode="over" disableClose="true" position="end">
+          <div style="display: flex; height:100%;">
+            <div class="drawerTitleSec">
+              <h4 class="text-overflow">
+                {{'label_advancedSearch'|translate}}
+                <button class="closeDrawerIcon" mat-stroked-button (click)="advancedsearch.toggle()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </h4>
+            </div>
+            <mat-card class="advancedsearchDrawerData" style="height:100%;">
+              <div class="row mb-0">
+                <div class="ng-slectBox">
+                  <app-custom-dropdown [selectedIn]="selectedRelation" (selectedOut)="onIndustrychange($event)"
+                    [config]="dropDoneConfig"></app-custom-dropdown>
+                </div>
+                <div class="ng-slectBox">
+                  <!--@Nitin Bhtai,@EWM-13251,@when:31-07-2023, Handle countryList API Callingfrom custom drop-->
+                  <app-custom-ng-select [countryList]="countryList" class="someClass2" [selectedIn]="selectedValue" [IsRequired]="false"
+                    [isselectAll]="true" (selectedOut)="onCountrychange($event)" [isCrossIcon]="true">
+                  </app-custom-ng-select>
+                </div>
+                <div class="ng-slectBox">
+                  <app-custom-dropdown [selectedIn]="selectedRelation" (selectedOut)="onParentClientchange($event)"
+                    [config]="dropDoneConfigParentClient"></app-custom-dropdown>
+                </div>
+                <div class="ng-slectBox">
+                  <app-custom-dropdown [selectedIn]="selectedRelation" (selectedOut)="onClientRMchange($event)"
+                    [config]="dropDoneConfigClientRM"></app-custom-dropdown>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </mat-drawer>
+
+        <div class="advancedsearch-sidenav-content client-landing-content">
+          <div [ngClass]="[ viewMode === 'listMode' ? 'listMode' : 'hide']">
+            <!-- @Who: Satya Prakash Gupta ,@When: 21-April-2023, @Why: EWM-11977 EWM-11976 ,What: locked comumn false -->
+            <div class="kendo-grid-appearance without-column-popup p-10">
+              <ng-template #template let-anchor>
+                <span>{{ anchor.nativeElement.innerText }}</span>
+              </ng-template>
+              <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+                (mouseover)="showTooltip($event)">
+                <kendo-grid #grid  [sortable]="true"
+                [sort]="sort" [filter]="filter" id="overflowCustom" 
+                          [reorderable]="false" [resizable]="true" 
+                          [filterable]="true" [data]="data" [selectable]="true" [pageable]="{buttonCount: 3,
+                              info: true,
+                              type: 'numeric',
+                              pageSizes: true,
+                              previousNext: true,
+                              responsive: true}" [pageSize]="state.take" [skip]="skip" 
+                              (pageChange)="pageChanges($event)" (filterChange)="filterChange($event)" (sortChange)="sortChange($event)" 
+                              (selectedKeysChange)="selectionChange($event)"  [kendoGridSelectBy]="selectedCallback" [selectable]="selectableSettings" [(selectedKeys)]="selectedCandidate">
+                       <!-------------@bantee @EWM-13194 @when 04-08-2023 what: When we click on the clients list view, system is showing no records found---------------------------------->
+                  <kendo-grid-checkbox-column [columnMenu]="false" [showSelectAll]="true"></kendo-grid-checkbox-column>
+                  <ng-template kendoGridNoRecordsTemplate>
+                    <p *ngIf="TotalNoOfClient==0">{{'label_noRecordAvailable'|translate}}</p>
+                    
+                  </ng-template>
+                  <kendo-grid-column width="35" class="p-0">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <!-- <div class="alert-primary alert-green" *ngIf="dataItem.EOHClientId && dataItem.EOHClientId!==null">
+                        <mat-icon>check</mat-icon>
+                      </div> -->
+                      <!-- <div class="alert-primary alert-green" *ngIf="!dataItem.EOHClientId && dataItem.EOHClientId !== 0">
+                        <mat-icon>close</mat-icon>
+                      </div> -->
+                      <button type="button" id="moreActionBtns" mat-flat-button [matMenuTriggerFor]="listactionMenu"
+                        class="dataActionButton">
+                        <mat-icon>
+                          more_vert
+                        </mat-icon>
+                      </button>
+
+                      <mat-menu #listactionMenu="matMenu" xPosition="after" class="candidateQuickMenu listactionMenu menu-dropdown">
+                        <a mat-menu-item [routerLink]="['client-detail']" [queryParams]="{clientId:dataItem.ClientId}"
+                          id="btnView">
+                          <mat-icon>subject</mat-icon>
+                          {{'label_view_summary' | translate}}
+                        </a>
+                        <!-- // who:Renu,what: EWM-19410 EWM-19551 @wy: for EOH Share client,when:12/02/2025 -->
+             
+            <button mat-button *ngIf="(extractEnableClientCheck == 1) && (IsEOHIntergrated)" id="EOHSHareClientBtn" class="share-job-app" 
+            (click)="openEOHShareClientPopUp(dataItem)">
+            <!-- <mat-icon fontSet="material-icons-outlined">sms</mat-icon> -->
+            <img src="../../../../assets/brand/{{EOHLogo}}">
+            <span class="share-job">
+              <span>{{'label_ShareClient' | translate}}</span>
+            </span>
+          </button>
+          <a *ngIf="!(extractEnableClientCheck == 1) || (!IsEOHIntergrated)" class="push-candidate-icon-button logo-with-text"  mat-button
+          (click)="redirectOnMarketPlace()" id="pushClient_redirectPush">
+              <div class="groups">
+                <img src="../../../../assets/brand/{{EOHLogo}}">               
+                   <!-- not connected message  -->
+                  <div class="list-view-name" *ngIf="!IsEOHIntergrated">
+                      <div class="txt">{{'label_ShareClient' |translate}}</div>
+                      <div class="text-label">{{'pushCandidateToEoh_marketplace'|translate}}</div>
+                  </div>
+                  <!-- connected but not subscribe message -->
+                  <div class="list-view-name" *ngIf="IsEOHIntergrated">
+                    <div class="txt">{{'label_ShareClient' |translate}}</div>
+                    <div class="text-label">{{'pushCandidateToEoh_marketplace_Subs'|translate}}</div>
+                </div>
+              </div>
+          </a>
+
+                      </mat-menu>
+
+                    </ng-template>
+                  </kendo-grid-column>
+                  <!-- @When: 13-07-2023,@who:Nitin, @why: EWM-13108 @what: add [filter] -->
+          <!--  who:maneesh,what:ewm-13417 for change width 170 to 40px fixed "column.width<40?150:column.width" when:19/07/2023 -->
+                  <kendo-grid-column *ngFor="let column of columns , let i = index" [field]="column.Field"
+                  [filter]="column?.Type?.toLowerCase()=='dropdown'?'text':column.Type|lowercase" 
+                    [title]="column.Title |customTranslate" [width]="column.width<40?150:column.width"
+                    [headerStyle]="column.Type=='Numeric' ||column.Type=='Date'|| column.Field=='PhoneNumber' || column.Field=='ZipCode' ?{'text-align': 'right'}:''"
+                    [format]="column?.Type?.toLowerCase()=='date'?dateFormatKendo:column.Format" [reorderable]="column.Type=='Action'?false:true" [filterable]="column.Filterable">
+ <!--  who:suika,what:EWM-13301 stop drag and drop for action column-- [reorderable]="column.Type=='Action'?false:true" -->
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ClientName'">
+                      <div class="eoh-synced">
+                        <mat-icon svgIcon="tick" *ngIf="dataItem.EOHClientId && dataItem.EOHClientId!==null"></mat-icon>
+                        <a [routerLink]="['client-detail']" [queryParams]="{clientId:dataItem.ClientId}"
+                        id="btnViewCandiateName" matTooltipClass="custom-tooltip" matTooltip="{{dataItem.ClientName}}" >
+                        {{dataItem.ClientName|customTranslate}}
+                        </a>
+                      </div>
+                    </ng-template>
+
+                     <!--Who:Ankit Rawat, What:EWM-16114-EWM-16203 Added Proximity column on Grid, When:01March24 -->
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Proximity'">
+                <span class="textRight">{{ IsProximitySearch ? dataItem.Proximity : ' ' }}</span>
+              </ng-template>
+              
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='SyncedOn'">
+                <span class="textRight">{{(dataItem.SyncedOn?dataItem.SyncedOn:'')|
+                  date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </ng-template>
+                       <!-------------@suika @EWM-13288 @EWM-13412 @whn 24-07-2023---------------------------------->
+                       <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ClientEmail'"  let-rowIndex="rowIndex">                      
+                        <div class="newEmailBtn" color="primary" id="newEmail" >
+                          <button mat-icon-button color="primary" type="button" id="url-copy-btn__{{i}}"
+                            class="content-copy" matTooltip="{{'label_copy' | translate}}" matTooltipClass="custom-tooltip"
+                            (click)="copyCandidateEmailId(dataItem.ClientEmail,rowIndex);" *ngIf="dataItem.ClientEmail!=null && dataItem.ClientEmail!=''">
+                            <mat-icon>content_copy</mat-icon>
+                          </button>
+                          <span class="systemAuditEyeIcon cursor"
+                          (click)="openNewEmailModal(undefined,'',dataItem.ClientEmail,dataItem)">{{dataItem.ClientEmail}}</span>                         
+                          <div class="copyMessage email-hide" id="autoHide{{rowIndex}}">
+                            <div class="alert-primary alert-green">
+                              <mat-icon>check</mat-icon>
+                              <span>{{'label_emailAddressCipied'| translate }}</span>
+                            </div>
+                          </div>
+                        </div>
+                    </ng-template>
+                    <!---------------------------------------------------------------->
+                   <!-- @Who: Ankit Rawat,@When:15 March 24, @Why: EWM-16422 -->
+                    <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='numeric'">
+                      <kendo-grid-numeric-filter-cell    [column]="column" [filter]="filter" operator="eq">
+                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                      </kendo-grid-numeric-filter-cell>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='PhoneNumber'"  class="p-0">
+                    <div [hidden]= "dataItem?.PhoneNumber == null || dataItem?.PhoneNumber ==''">
+                        <div *ngIf="dataItem?.PhoneNumber != null || dataItem?.PhoneNumber != undefined || dataItem?.PhoneNumber != blank" class="callAction">
+                        <a href="tel:{{dataItem?.PhoneNumber}}" mat-icon-button matTooltip="{{'label_call' | translate}} - {{dataItem?.PhoneNumber}}"
+                        matTooltipClass="custom-tooltip"><mat-icon   id="{{animationVar?.CallButton?.id}}"
+                        class="{{animationVar?.CallButton?.isAnimClass}}">call</mat-icon>
+                        </a>
+                        {{dataItem?.PhoneNumber}}
+                      </div>
+                  </div>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ZipCode'">
+                    <span class="textRight">{{dataItem.ZipCode}}</span>
+                  </ng-template>
+                  </kendo-grid-column>
+                  <ng-template kendoPagerTemplate let-totalPages="totalPages"
+                  let-currentPage="currentPage">
+                  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                  <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+                  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+  
+                  <kendo-pager-info></kendo-pager-info>
+                  <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+              </ng-template>
+                </kendo-grid>
+                <div *ngIf="loadingscroll"
+                  class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="listCardView kendocardData" [ngClass]="[ viewMode === 'cardMode' ? 'cardMode' : 'hide']"
+            infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="70"
+            (scrolled)="onScrollDown()" [scrollWindow]="false">
+            <div class="cardContent">
+                       <!-------------@bantee @EWM-13194 @when 04-08-2023 what: When we click on the clients list view, system is showing no records found---------------------------------->
+
+              <div class="col nodata" *ngIf="TotalNoOfClient==0">
+                <span>{{'label_noRecordAvailable'|translate}}</span>
+              </div>
+              <div class="row">
+                <div id="cardWidthList__{{i}}" class="cardWidth col"
+                  *ngFor="let listDataList of gridListData;let i =index"
+                  [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+                  <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                    <mat-card-content class="listcardContent cardHeightWithImage kendoCard">
+                      <div [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+                        <div class="cardModeLine">
+                          <div class="clientShortName">{{sortName(listDataList.ClientName)}}</div>
+                          <div class="card-header-data text-overflow">
+                            <span class="cardListTxt word-wrap cursor" [routerLink]="['client-detail']"
+                              [queryParams]="{clientId:listDataList.ClientId}" id="clientName__{{i}}"
+                              matTooltip="{{ listDataList.ClientName }}" matTooltipClass="custom-tooltip">
+                              <strong>{{listDataList.ClientName?listDataList.ClientName:'--'}}</strong>
+                            </span>
+                            <div class="clear"></div>
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.FullAddressLine }}"
+                              matTooltipClass="custom-tooltip">
+                              <mat-icon>location_on</mat-icon>
+                              {{listDataList.AddressLine1?listDataList.FullAddressLine:'--'}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="row mb-5 mt-15">
+                          <div class="col l6 m6 s6">
+                            <div class="col card-data" id="client-OwnerName">
+                              <span class="cardListTxt word-wrap" matTooltip=" {{ listDataList.IndustryName }}"
+                                matTooltipClass="custom-tooltip">
+                                <mat-icon>domain</mat-icon> {{ listDataList.IndustryName?listDataList.IndustryName:'--'
+                                }}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="col l6 m6 s6">
+                            <div class="col card-data" id="client-statusname">
+                              <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.ClientStatus}}"
+                                matTooltipClass="custom-tooltip">
+                                <mat-icon [style.color]="listDataList.StatusColorCode">lightbulb</mat-icon>
+                                {{listDataList.ClientStatus ?listDataList.ClientStatus :'--'}}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="go-corner">
+                            <button mat-icon-button color="primary" id="navigateBtn_{{i}}"
+                              [routerLink]="['client-detail']" [queryParams]="{clientId:listDataList.ClientId}"
+                              matTooltip="{{'label_view_summary'|translate}}"
+                              matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                              <mat-icon>navigate_next</mat-icon>
+                            </button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+          </div>
+
+        </div>
+
+      </mat-drawer-container>
+
+  </mat-card>
+</mat-drawer-container>

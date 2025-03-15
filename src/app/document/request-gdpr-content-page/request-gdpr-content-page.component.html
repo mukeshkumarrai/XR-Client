@@ -1,0 +1,30 @@
+<!--@When: 05-12-2023 @who:Amit @why: EWM-15314 @what: structure modified--> 
+<mat-drawer-container autosize class="login-container">
+    <mat-drawer-content>
+        <app-outer-header-new></app-outer-header-new>
+        <div class="document-page-container" id="document-page-gdpr">
+            <mat-card id="requestConsentDivId">
+                <div class="mailer-header">
+                    <img src="https://s3.ap-south-1.amazonaws.com/ent-roster/EWM/Email/email-logo.png" />
+                </div>
+                <div [innerHTML]="pageTemplate" id="requestGdpr-Description" class="divTextArea"></div>
+                <div class="center-align" id="center-align-gdpr">
+                    <p *ngIf="showingrenew" class="process">{{'showing_GDPRrenew' | translate}} {{RequestedOn |
+                        date:'mediumDate'}} </p>
+                    <p *ngIf="showinggiveMessage" class="process">{{'showing_GDPRgive' | translate}}</p>
+                    <div *ngIf="showingDiv">
+                        <div>
+                            <button *ngIf="this.ConsentType==0 || this.ConsentType==2" mat-raised-button color="primary"
+                                (click)="clickForRenew()" id="btnConsentId">{{'give_Consent' | translate}}</button>
+                            <button *ngIf="this.ConsentType==1" mat-raised-button color="primary" (click)="clickForGive()"
+                                id="btnRenewConsentId">{{'renew_Consent' | translate}}</button>
+                            <button mat-stroked-button color="primary" (click)="clickForWithHold()"
+                                id="btnWithholdconset">{{'withhold_consent' | translate}}</button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+        <app-outer-footer></app-outer-footer>
+    </mat-drawer-content>
+</mat-drawer-container>

@@ -1,0 +1,116 @@
+<!--- 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name:job-description-popup-editor.component.html
+  @Who: Anup Singh
+  @When: 25-June-2021
+  @Why: EWM-1749 EWM-1900
+  @What:  This page will be use for the description html editor
+ --->
+ <div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'quickjob_jobDescription' | translate}}*</h2>
+</div>
+<mat-dialog-content class="col job-dialog-content">
+    <form [formGroup]="jobDesc" id="jobDesc">
+    <div class="row mb-0">
+        <div class="col l12 m12 s12 job-description-editor">
+        <kendo-editor #editor tabindex class="mailediter" formControlName="Description" scrollbar="true"  [(ngModel)]="selectedDescription" [iframe]="true" id="activity-editor"
+        [iframe]="false">  
+            <kendo-toolbar [overflow]="false" tabindex>
+                <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorStrikethroughButton>
+                    </kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+                <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorSuperscriptButton>
+                    </kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+                <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAlignCenterButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAlignRightButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAlignJustifyButton>
+                    </kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+                <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+                <kendo-toolbar-dropdownlist kendoEditorFontSize>
+                </kendo-toolbar-dropdownlist>
+                <kendo-toolbar-dropdownlist kendoEditorFontFamily>
+                </kendo-toolbar-dropdownlist>
+                <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+                <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+                </kendo-toolbar-colorpicker>
+                <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+                <!-- @When: 13-03-2023 @who:Amit @why: EWM-10776 @what: select all button hide  -->
+                <!-- <kendo-toolbar-button kendoEditorSelectAllButton></kendo-toolbar-button> -->
+                <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+                <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorCreateLinkButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+                <!-- <kendo-toolbar-button kendoEditorInsertImageButton></kendo-toolbar-button> -->
+                <!-- @When: 10-03-2023 @who:Amit @why: EWM-10775 @what: source control hide  -->
+                <!-- <kendo-toolbar-button kendoEditorViewSourceButton></kendo-toolbar-button> -->
+                <kendo-toolbar-button kendoEditorCleanFormattingButton>
+                </kendo-toolbar-button>
+                <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAddRowBeforeButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAddRowAfterButton>
+                    </kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+                <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorDeleteColumnButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorDeleteTableButton>
+                    </kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+                <!-- @When: 10-03-2023 @who:Amit @why: EWM-10776 @what: print button hide  -->
+                <!-- <kendo-toolbar-button kendoEditorPrintButton></kendo-toolbar-button> -->
+                 <!---------@When: 31-07-2023 @who:Adarsh singh @why: EWM-13233 @Desc- Added image upload button --------->
+                 <kendo-toolbar-button text="Upload Image" (click)="openImageUpload()" [style]="{'padding': '2px 7px', 'font-size': '12px'}"></kendo-toolbar-button>                               
+                 <!-- End  -->
+            </kendo-toolbar>
+        </kendo-editor>
+        <mat-error *ngIf="jobDesc.invalid" class="custom-mat-error mb-5">
+            {{'label_IndeedJobRequired'|translate}}
+          </mat-error>
+        </div>
+    </div>
+    </form>
+
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" id="btnCancel"  (click)="onDismiss()"> {{'button_cancel' |
+        translate}}</button>
+        <!---@when: 19-sep-2022 @who:Renu @what: EWM-8797 EWM-8863 @Why: changing the editor to rich text editor-->
+        <button mat-stroked-button color="primary" [disabled]="jobDesc.invalid" id="btnSave"  (click)="sendDescription(this.jobDesc.value)">{{'label_save' | translate}}</button> 
+    <!-- <button mat-stroked-button color="primary" id="btnSave" [disabled]="!errMsg"   *ngIf ="isJobDescription ==undefined" (click)="sendDescription()">{{'label_save' |
+        translate}}</button> -->
+</mat-dialog-actions>
+

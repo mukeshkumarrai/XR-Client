@@ -1,0 +1,45 @@
+<!---
+   @Type: File, <html>
+    @Name: cleint-job-category.component.html
+    @Who: Renu
+    @When: 16-Dec-2021
+    @Why: EWM-3751 EWM-4175
+    @What: popup component for job client category
+   -->
+
+
+<!-- who:maneesh,what:change label ewm-15061,when:22/11/2023; -->
+<h2> {{'label_searchnotesByCatogry' | translate}}
+</h2>
+<mat-dialog-content class="col">
+  <form [formGroup]="addForm" id="clientNote">
+    <div class="row mb-0">
+      <div class="col l12 m12 s12">
+        <div class="col nodata" *ngIf="this.gridListData==undefined ||this.gridListData.length==0">
+          <span>{{'label_noRecordAvailable'|translate}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- @When: 26-08-2024 @who:Amit @why: EWM-17720 @what: structure change -->
+    <div class="area-selection">
+        <div class="area-selection-box" *ngFor="let data of gridListData" [ngClass]="data?.IsSelected==0 ?'':'area-selection-box-selected'" (click)="clickevent(data?.Id,data?.IsSelected)">
+          <div class="area-selection-box-data" tabindex="3" id="addToJobBtn">
+            <mat-icon>{{data.IconName}}</mat-icon> 
+            <div class="buttonTxt">{{data.CategoryName}}</div>
+          </div>
+          <svg class="check-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="check-mark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="check-mark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button color="warn" id="btnClose" (click)="onDismiss()"> {{'button_close' | translate}}</button>
+  <button mat-stroked-button color="primary" id="btnAdd" [disabled]="saveStatus"
+    (click)="onSave(addForm.value)">{{'label_apply' |translate}}</button>
+</mat-dialog-actions>

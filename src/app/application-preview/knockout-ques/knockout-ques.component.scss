@@ -1,0 +1,66 @@
+ //* media mixin for small smartphones start here */
+ @mixin for-small-smartphones-320x767{
+    @media (min-width : 320px) and (max-width : 767px) { @content; }
+  }
+  /* media mixin for small smartphones end here */
+
+@import "../../../styles-var.scss";  
+    
+.header{
+  @include for-small-smartphones-320x767{
+    grid-template-columns: auto;
+  }
+}
+.preview-upload-resume{
+  padding:0px;
+  .knockout-card-content{
+    padding: 0px 15px;
+    margin-top: 15px;
+    .knockQuesForm{
+        padding: 0px 0px;
+        .knockout-mat-card{
+          padding:0px;
+          box-shadow: none;
+          border: 2px solid #eaecf1;
+          overflow: hidden;
+          h2{
+            font-size: 18px;
+            margin-bottom: 0px;
+            padding: 10px 15px;
+            font-weight: 500;
+            // color: $primary-bg-color;
+            position: relative;
+            z-index: 1;
+            font-family: 'Bariol';
+            &:after{
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+              background-color: currentColor;
+              opacity: 0.10;
+              left: 0px;
+              top: 0px;
+            }
+            span{
+              color: rgba(0, 0, 0, 0.87);
+            }
+          }
+          .mat-divider{
+            border-top-color:#f3f3f3;
+          } 
+          .configure-application-text-area{
+            padding: 13px 15px;
+            .mat-radio-group{
+              .mat-radio-button{
+                  padding: 0px 20px 0px 0px;
+              }
+            }
+          }
+        }
+    }
+  }
+}
+.sub-title p {
+    font-size: 14px;
+}

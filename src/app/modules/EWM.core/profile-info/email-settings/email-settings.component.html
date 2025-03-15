@@ -1,0 +1,72 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash 
+    @When: 19-Nov-2020
+    @Why: ROST-366 ROST-398
+    @What:  This page wil be use only for the email setting Component HTML
+-->
+<!-- Entire Software : Satya Prakash Gupta : 19-Nov-2020 : email setting : ROST-366 ROST-398 -->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="email-settings-mat-card-header">
+    <mat-card-title class="only-title">{{'label_emailSettings' |translate}}</mat-card-title>
+    <div class="actionButton">
+        <button mat-raised-button class="buttonForDesktopMobile" color="primary" tabindex="4" id="btnSave"
+            [disabled]="!userFrom.valid" (click)="updateEmailSetting(this.userFrom.value)">
+            <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save' |translate}}</span>
+        </button>
+    </div>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="email-settings-drawer">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+        <mat-card-subtitle class="subTitle">{{ 'label_emailSettingSubTitle' |translate }}
+        </mat-card-subtitle>
+        <form class="col" novalidate [formGroup]="userFrom" id="emailsetting-form">
+            <div class="row mb-0">
+                <mat-form-field class="col l4 m6 s12">
+                    <mat-label>{{'label_yourEmailId' |translate}}</mat-label>
+                    <input matInput formControlName="UserEmail" id="emailsetting-userEmail" tabindex="1" readonly>
+                </mat-form-field>
+                <mat-form-field class="col l4 m6 s12">
+                    <mat-label>{{'label_emailDisplayName' |translate}}</mat-label>
+                    <input matInput formControlName="EmailDisplayName" id="emailsetting-emailDisplayName"
+                        tabindex="2" required>
+                    <mat-error *ngIf="this.userFrom.controls['EmailDisplayName'].hasError('required')">
+                        {{ 'label_emailDisplayName' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="userFrom.get('EmailDisplayName').hasError('minlength')">
+                        {{'label_emailDisplayName' |translate}} {{'label_errorreqiredMinlength' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="userFrom.get('EmailDisplayName').hasError('maxlength')">
+                        {{'label_emailDisplayName' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+                    </mat-error>
+                </mat-form-field>
+             
+
+            </div>
+            <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+                <!-- //who:maneesh,what:ewm-15343 for show red discription titel,when:07/12/2023 -->
+                <label  
+                            [ngStyle]="this.userFrom.controls['EmailSignature'].hasError('required') &&
+                            this.userFrom.controls['EmailSignature'].touched &&
+                             {'color': '#f44336'}"
+                             >{{ 'label_yourEmailSignature' | translate}} <span class="required-show">*</span></label>
+                            <small>{{'label_yourEmailSignatureInfo' |translate}}</small>
+               <app-mention-editor [configuration]="editorConfig" [getEditorVal]="getEditorVal" 
+                (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"></app-mention-editor>
+                
+            </div>
+        </form>
+    </mat-card>
+</mat-drawer-container>
+
+<!-- Entire Software : Satya Prakash Gupta : 19-Nov-2020 : email setting : ROST-366 ROST-398 -->

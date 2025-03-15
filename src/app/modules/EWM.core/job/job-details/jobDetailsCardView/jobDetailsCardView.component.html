@@ -1,0 +1,235 @@
+<div cdkDropListGroup class="kanban">
+  <!-------------@suika @whn 24-05-2023 @EWM-12465------------------------->
+  <ng-container *ngFor="let stageData of stages">
+    <div class="kanban-step" cdkDropList [cdkDropListData]="stageData.candidates"
+      (cdkDropListDropped)="drop($event,stageData.StageName,stageData.InternalCode,stageData.StageDisplaySeq)"
+      id="stageid_{{stageData.StageDisplaySeq}}" *ngIf="stageData.StageVisibility==1">
+      <div class="process-box">
+        <div class="stageName" [style.background-color]="stageData.ColorCode">
+          <div class="el text-overflow">{{stageData.StageName}}</div>
+          <div class="number-counter text-overflow"> {{stageData.candidatesCount}}</div>
+        </div>
+        <div class="col nodata"
+          *ngIf="stages==undefined || stages?.length == 0 && stageData?.candidates?.length != 0">
+          <span>{{'label_job_details_candidates_loading'|translate}}</span>
+        </div>
+        <div class="col nodata"
+          *ngIf="stageData?.candidates==undefined || stageData?.candidates?.length == 0">
+          <span>{{loadingData |translate}}</span>
+        </div>
+        <!--@When: 07-09-2023 @who:Amit @why: EWM-13874 @what: add id-->
+        <div class="candidate-list" id="candidate-list" *ngIf="stageData?.candidates?.length > 0">
+          <!-- @Who: Satya Prakash Gupta ,@Why:EWM-12465 EWM-12512,@When: 24-May-2023,@What:add accordion in job sunmmary card view and move all design in accordion -->
+          <!---------@When: 16-09-2023 @who:Amit @why: EWM-14372 @what: new card start here--------->
+          <app-candidate-card></app-candidate-card>
+          <mat-card class="candidate-card-box" class="candidateInfoPanel_{{can?.CandidateId}}" [ngClass]="{'selected': can?.CheckboxStatus !=0, 'unread':  can?.IsProfileRead === 0}"  (cdkDragStarted)="dragStart($event,stageData.StageDisplaySeq)"
+            *ngFor="let can of stageData?.candidates | orderByFun; let i = index" cdkDrag
+            (cdkDragMoved)="onDragMoved($event)"  id="stageid_{{stageData.StageDisplaySeq}}_jobcandidate-card_{{i}}">
+            <div class="job-card-placeholder" *cdkDragPlaceholder></div>
+            <mat-card class="job-card-preview" *cdkDragPreview>
+              <div class="candidate-box-top" id="candidate-box-top">
+                <div class="candidate-box-avtaardetails" id="candidate-box-avtaardetails">
+                  <div class="candidate-box-avtaar" id="candidate-box-avtaar">
+                    <mat-checkbox [checked]="can.CheckboxStatus" color="primary" id="stageCheckId_{{stageData.StageName}}_{{i}}"
+                          name="stageCheckId_{{stageData.StageName}}_{{i}}" tabindex
+                          (change)="selectStageCanData(stageData,can,$event)">
+                    </mat-checkbox>
+
+                    <!-- adarsh singh for EWM-14514 open profile modal on 28-Sep-23 --><!-- Satya Prakash Gupta for EWM-14691 EWM-14724 open profile on 13-Oct-23 -->
+                    <div class="userAvtaarAndName" id="userImage_{{can?.CandidateId}}" style="cursor: pointer;" *ngIf="can.PreviewUrl !='' "
+                    (mouseenter)="openProfile(i, true)" (mouseleave)="closeProfile(i, false)" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+                      <img src="{{can.PreviewUrl}}" *ngIf="can.PreviewUrl !='' " alt="user" />
+                      <ng-template
+                        cdkConnectedOverlay
+                        [cdkConnectedOverlayOrigin]="trigger"
+                        [cdkConnectedOverlayOpen]="profilePicStatus" *ngIf="isOpen==i">
+                        <img class="hover-image" src="{{can.PreviewUrl}}" alt="user" />
+                      </ng-template>
+                    </div>
+
+                    <div class="userAvtaarAndName"  *ngIf="can.PreviewUrl =='' ">
+                      <!-- <span [style.background]="getBackgroundColor(can?.ShortName)">{{can?.ShortName}}</span> -->
+                      <span [style.background]="can?.StatusColorCode">{{can?.ShortName}}</span>
+                    </div>
+
+
+                    <div class="diamond-screen" id="diamond-screen">
+                      <div class="screen-card-main">
+                      <p matTooltipClass="custom-tooltip" matTooltip="{{can.CandidateName}}">
+                      <span (click)="openSingleCanActionView(can)" class="text-overflow">{{can.CandidateName}}</span>
+                      <!-- <mat-icon id="star">star</mat-icon> -->
+                      </p>
+                      <div class="screen-card" id="screen-card">
+                        <span (click)="openMoveBoxModal(can)" matTooltipClass="custom-tooltip" class="text-overflow" matTooltip="{{can.WorkFlowStageName}}">{{can.WorkFlowStageName?can.WorkFlowStageName:'--'}}</span>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="candidate-box-icons" id="candidate-box-icons">
+                  <div class="pin-unpin" id="pin-unpin">
+                    <button *ngIf="can?.IsPin === 0" mat-icon-button class="pin-btn" tabindex id="pinBtn"
+                    matTooltipClass="custom-tooltip" matTooltip="{{'label_jobDetails_Pin' | translate}}">
+                        <mat-icon fontSet="material-icons-outlined" id="pin-icon" (click)="markPinUnPin(can,stageData?.candidates)"
+                        >push_pin</mat-icon>
+                    </button>
+                    <button *ngIf="can?.IsPin === 1" mat-icon-button class="pin-btn pin-active" tabindex id="unPinBtn"
+                    matTooltipClass="custom-tooltip" matTooltip="{{'label_jobDetails_UnPin' | translate}}"
+                    (click)="markPinUnPin(can,stageData?.candidates)">
+                        <div class="two-icons" id="two-icons-unpin">
+                        <mat-icon class="first-icon" id="first-icon-unpin" fontSet="material-icons-outlined">push_pin</mat-icon>
+                        <mat-icon class="secondIcon" id="second-icon-unpin" fontSet="material-icons-outlined">horizontal_rule</mat-icon>
+                      </div>
+                    </button>
+                  </div>
+                  <div class="date" id="date-activity">
+                    <span>{{can.LastActivity | utctodate:timezonName:timezonName:userpreferences.timeformate }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="source-details" id="source-details">
+                <div class="source-data">
+
+                  <div class="source-form" id="source-form-apply" *ngIf="can?.AppliedSource == true">
+                    <span class="text-bold cursorLink" (click)="OpenApplicationFormPopUp(can)" matTooltipClass="custom-tooltip" matTooltip="{{'jobdetails_applied'|translate}} {{'label_Source'|translate}} : {{can.AppliedSource}}">{{can.AppliedSource}}</span>
+                    <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{can.LastActivity | date:userpreferences.timeformate:userpreferences.timezone}}">error_outline</mat-icon>
+                  </div>
+                  <div class="source-form" id="source-form-application" *ngIf="!can?.AppliedSource == false">
+                    <span class="text-bold" matTooltipClass="custom-tooltip" matTooltip="{{'jobdetails_applied'|translate}} {{'label_Source'|translate}} : {{can.AppliedSource}}">{{can.AppliedSource}}</span>
+                    <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{can.LastActivity | date:userpreferences.timeformate:userpreferences.timezone}}">error_outline</mat-icon>
+                  </div>
+                  <div class="source-form" id="source-form">
+                    <span class="text-bold" matTooltipClass="custom-tooltip" matTooltip="{{'label_Source'|translate}} : {{can.Source?can.Source:'--'}}">{{can.Source?can.Source:'--'}}</span>
+                    <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{'label_CreatedOn' | translate}} {{can.CreatedDate | date:userpreferences.timeformate:userpreferences.timezone}}">error_outline</mat-icon>
+                  </div>
+                </div>
+
+                <div class="group-icon" id="group-icon">
+                  <button mat-icon-button color="primary" id="descBtn" [disabled]="can.IsResume==0"
+                  class="resume PreviewMode" matTooltipClass="custom-tooltip" matTooltip="{{'label_View' | translate}} {{'candidate_resume' | translate}}" matTooltipClass="custom-tooltip"
+                  (click)="OpenResumePopUp(can)">
+                  <div class="two-icons">
+                    <mat-icon class="first-icon" id="first-icon-desc" fontSet="material-icons-outlined">description</mat-icon>
+                    <mat-icon class="secondIcon" id="secondIcon-outline">person</mat-icon>
+                  </div>
+                </button>
+
+                  <button mat-icon-button tabindex id="thumb-up-btn_DragMode{{can?.CandidateId}}" class="accept PreviewMode"
+                    matTooltip="{{'label_jobDetails_Accept' | translate}}" matTooltipClass="custom-tooltip">
+                    <mat-icon>thumb_up</mat-icon>
+                  </button>
+                  <button mat-icon-button tabindex id="thumb-down-btn_DragMode{{can?.CandidateId}}" class="reject PreviewMode"
+                  matTooltip="{{'label_jobDetails_Reject' | translate}}" matTooltipClass="custom-tooltip">
+                    <mat-icon>thumb_down</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </mat-card>
+            <div class="candidate-box-top" id="candidate-box-top">
+              <div class="candidate-box-avtaardetails" id="candidate-box-avtaardetails">
+                <div class="candidate-box-avtaar" id="candidate-box-avtaar">
+                  <mat-checkbox [checked]="can.CheckboxStatus" color="primary" id="stageCheckId_{{stageData.StageName}}_{{i}}"
+                        name="stageCheckId_{{stageData.StageName}}_{{i}}" tabindex
+                        (change)="selectStageCanData(stageData,can,$event)">
+                  </mat-checkbox>
+
+                  <!-- adarsh singh for EWM-14514 open profile modal on 28-Sep-23 --><!-- Satya Prakash Gupta for EWM-14691 EWM-14724 open profile on 13-Oct-23 -->
+                  <div class="userAvtaarAndName" id="userImage_{{can?.CandidateId}}" *ngIf="can.PreviewUrl !='' "  (click)="openCandidateDetails(can)"
+                  (mouseenter)="openProfile(can?.CandidateId, true)" (mouseleave)="closeProfile(can?.CandidateId, false)" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+                    <img src="{{can.PreviewUrl}}" *ngIf="can.PreviewUrl !='' " alt="user" />
+                    <ng-template
+                      cdkConnectedOverlay
+                      [cdkConnectedOverlayOrigin]="trigger"
+                      [cdkConnectedOverlayOpen]="profilePicStatus" *ngIf="isOpen==can?.CandidateId">
+                      <img class="hover-image" src="{{can.PreviewUrl}}" alt="user" />
+                    </ng-template>
+                  </div>
+
+                  <div class="userAvtaarAndName"  *ngIf="can.PreviewUrl =='' " (click)="openCandidateDetails(can)">
+                    <!-- <span [style.background]="getBackgroundColor(can?.ShortName)">{{can?.ShortName}}</span> -->
+                    <span [style.background]="can?.StatusColorCode">{{can?.ShortName}}</span>
+                  </div>
+
+
+                  <div class="diamond-screen" id="diamond-screen">
+                    <div class="screen-card-main">
+                    <p matTooltipClass="custom-tooltip" matTooltip="{{can.CandidateName}}">
+                    <span (click)="openSingleCanActionView(can)" class="text-overflow">{{can.CandidateName}}</span>
+                    <!-- <mat-icon id="star">star</mat-icon> -->
+                    </p>
+                    <div class="screen-card" id="screen-card">
+                      <span (click)="openMoveBoxModal(can)" matTooltipClass="custom-tooltip" class="text-overflow" matTooltip="{{can.WorkFlowStageName}}">{{can.WorkFlowStageName?can.WorkFlowStageName:'--'}}</span>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div class="candidate-box-icons" id="candidate-box-icons">
+                <div class="pin-unpin" id="pin-unpin">
+                  <button *ngIf="can?.IsPin === 0" mat-icon-button class="pin-btn" tabindex id="thumb-up-btn"
+                  matTooltipClass="custom-tooltip" matTooltip="{{'label_jobDetails_Pin' | translate}}">
+                      <mat-icon fontSet="material-icons-outlined" id="pin-icon" (click)="markPinUnPin(can,stageData?.candidates)"
+                      >push_pin</mat-icon>
+                  </button>
+                  <button *ngIf="can?.IsPin === 1" mat-icon-button class="pin-btn pin-active" tabindex id="thumb-up-btn"
+                  matTooltipClass="custom-tooltip" matTooltip="{{'label_jobDetails_UnPin' | translate}}"
+                  (click)="markPinUnPin(can,stageData?.candidates)">
+                      <div class="two-icons" id="two-icons-unpin">
+                      <mat-icon class="first-icon" id="first-icon-unpin" fontSet="material-icons-outlined">push_pin</mat-icon>
+                      <mat-icon class="secondIcon" id="second-icon-unpin" fontSet="material-icons-outlined">horizontal_rule</mat-icon>
+                    </div>
+                  </button>
+                </div>
+                <div class="date" id="date-activity">
+                  <span>{{can.LastActivity | utctodate:timezonName:timezonName:userpreferences.timeformate }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="source-details" id="source-details">
+              <div class="source-data">
+
+                <div class="source-form" id="source-form-apply" *ngIf="can?.AppliedSource == true">
+                  <span class="text-bold cursorLink" (click)="OpenApplicationFormPopUp(can)" matTooltipClass="custom-tooltip" matTooltip="{{'jobdetails_applied'|translate}} {{'label_Source'|translate}} : {{can.AppliedSource}}">{{can.AppliedSource}}</span>
+                  <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{can.LastActivity | date:userpreferences.timeformate:userpreferences.timezone}}">error_outline</mat-icon>
+                </div>
+                <div class="source-form" id="source-form-application" *ngIf="!can?.AppliedSource == false">
+                  <span class="text-bold" matTooltipClass="custom-tooltip" matTooltip="{{'jobdetails_applied'|translate}} {{'label_Source'|translate}} : {{can.AppliedSource}}">{{can.AppliedSource}}</span>
+                  <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{can.LastActivity | date:userpreferences.timeformate:userpreferences.timezone}}">error_outline</mat-icon>
+                </div>
+                <div class="source-form" id="source-form">
+                  <span class="text-bold" matTooltipClass="custom-tooltip" matTooltip="{{'label_Source'|translate}} : {{can.Source?can.Source:'--'}}">{{can.Source?can.Source:'--'}}</span>
+                  <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{'label_CreatedOn' | translate}} {{can.CreatedDate | date:userpreferences.timeformate:userpreferences.timezone}}">error_outline</mat-icon>
+                </div>
+              </div>
+
+              <div class="group-icon" id="group-icon">
+                <button mat-icon-button color="primary" id="descBtn" [disabled]="can.IsResume==0"
+                class="resume" matTooltipClass="custom-tooltip" matTooltip="{{'label_View' | translate}} {{'candidate_resume' | translate}}" matTooltipClass="custom-tooltip"
+                (click)="OpenResumePopUp(can)">
+                <div class="two-icons">
+                  <mat-icon class="first-icon" id="first-icon-desc" fontSet="material-icons-outlined">description</mat-icon>
+                  <mat-icon class="secondIcon" id="secondIcon-outline">person</mat-icon>
+                </div>
+              </button>
+
+                <button mat-icon-button tabindex id="thumb-up-btn_{{can?.CandidateId}}" class="accept" [disabled]="stageData?.lastStage"
+                  matTooltip="{{'label_jobDetails_Accept' | translate}}" matTooltipClass="custom-tooltip" (click)="likeCandidate(can, stageData,can?.CandidateId)">
+                  <mat-icon>thumb_up</mat-icon>
+                </button>
+                <button mat-icon-button tabindex id="thumb-down-btn_{{can?.CandidateId}}" class="reject" [disabled]="!isAnyRejectedStageType"
+                matTooltip="{{'label_jobDetails_Reject' | translate}}" matTooltipClass="custom-tooltip" (click)="dislikeCandidate(can, stageData,can?.CandidateId)">
+                  <mat-icon>thumb_down</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </mat-card>
+          <!---------@When: 16-09-2023 @who:Amit @why: EWM-14372 @what: new card end here--------->
+
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

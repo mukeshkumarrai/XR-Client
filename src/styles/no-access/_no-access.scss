@@ -1,0 +1,78 @@
+@use "../no-access/dark-no-access";
+.no-access{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px solid rgba(193, 193, 193, 0.2);
+    border-radius: 4px;
+    padding: 10px;
+    row-gap: 0px;
+    background: #fbfbfb;
+    height: calc(100% - 30px);
+    width: 100%;
+    svg{
+      width: 8em; 
+      height: 8em; 
+      animation-duration: 1s;
+      animation-name: bounce;
+      transform-origin: center bottom;
+      animation-delay: 0.2s;
+      .first-path{
+        fill: #E3EDF1;
+      }
+      .white-path{
+        fill: #ffffff;
+      }
+      .red-path{
+        fill:  #F44336;
+      }
+      .grey-path{
+        fill: #c1c1c1;
+      }
+      .light-grey-path{
+        fill: #f5f5f5;
+      }
+    }
+    @keyframes bounce {
+      0%,20%,53%,to {
+        -webkit-animation-timing-function: cubic-bezier(.215,.61,.355,1);
+        animation-timing-function: cubic-bezier(.215,.61,.355,1);
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+      }
+    
+      40%,43% {
+        -webkit-animation-timing-function: cubic-bezier(.755,.05,.855,.06);
+        animation-timing-function: cubic-bezier(.755,.05,.855,.06);
+        -webkit-transform: translate3d(0,-30px,0) scaleY(1.1);
+        transform: translate3d(0,-30px,0) scaleY(1.1);
+      }
+    
+      70% {
+        -webkit-animation-timing-function: cubic-bezier(.755,.05,.855,.06);
+        animation-timing-function: cubic-bezier(.755,.05,.855,.06);
+        -webkit-transform: translate3d(0,-15px,0) scaleY(1.05);
+        transform: translate3d(0,-15px,0) scaleY(1.05);
+      }
+    
+      80% {
+        -webkit-transform: translateZ(0) scaleY(.95);
+        transform: translateZ(0) scaleY(.95);
+        -webkit-transition-timing-function: cubic-bezier(.215,.61,.355,1);
+        transition-timing-function: cubic-bezier(.215,.61,.355,1);
+      }
+    
+      90% {
+        -webkit-transform: translate3d(0,-4px,0) scaleY(1.02);
+        transform: translate3d(0,-4px,0) scaleY(1.02);
+      }
+    }
+    span{
+      padding: 5px 10px;
+      border-radius: 4px;
+      background: #fff;
+      border: 1px solid #e7e7e7;
+      font-size: 13px;
+    }
+  }

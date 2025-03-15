@@ -1,0 +1,136 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who:  Nitin Bhati
+    @When: 19-02-2024
+    @Why: EWM-16074,EWM-16092
+    @What:  This page is bulk sms for client
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header job-sms-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_SMS' | translate}} </h2>
+    <span class="badge primary" color="primary">
+        {{'label_smsCredits' |translate}}-{{balanceSMS}}
+    </span>
+</div>
+<mat-dialog-content id="sendSMSJobForCan" applyTabIndexes class="sms-card-content">
+    <form novalidate [formGroup]="sendSMSForm" accept-charset="utf-8" enctype='multipart/form-data'>
+        <div class="insert-template" id="insert-template">
+            <button type="button" tabindex class="ml-0" mat-stroked-button color="primary" (click)="openTemplateModal()"
+                id="newEmail-template">{{'label_insertTemplate'|translate}}</button>
+        </div>
+        <div class="sms-data-bottom">
+            <mat-form-field class="example-chip-list">
+                <mat-label>{{'label_share_to' | translate}} <span class="required-show">*</span></mat-label>
+                <mat-chip-list #chipList aria-label="user selection" [formControl]="SmsList">
+                    <mat-chip *ngFor="let mappedPhone of mappedPhones | slice:0:3" [selectable]="selectable" [removable]="removable" id="smsphoneId">
+                        {{mappedPhone?.PhoneNumber}}
+                        <button mat-icon-button color="warn" (click)="removeSMS(mappedPhone?.ContactId)" *ngIf="removable">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip>
+                    <input matInput *ngIf="mappedPhones?.length==0" formControlName="ToPhonesIds" id="SmsReadonly" readonly>
+                </mat-chip-list>
+                <button mat-button *ngIf="mappedPhones?.length>3" matSuffix [matMenuTriggerFor]="addCandidateMenu" id="showwAllSms" (click)="showAll()">Show all</button>
+                <!-- <mat-error *ngIf="sendSMSForm.controls['Subject'].hasError('ToPhone') && sendSMSForm.controls['ToPhone'].touched">
+                    {{ 'label_share_to' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error> -->
+            </mat-form-field>
+            <span class="error" *ngIf="isNotValidSMS">
+                {{ 'label_share_to' |translate}} {{ 'label_errorreqired' |translate}}
+            </span>
+        </div>
+        <mat-menu #addCandidateMenu="matMenu" xPosition="before">
+            <div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+                <mat-form-field class="remove-bottom-matinput" floatLabel="never">
+                    <input matInput type="text" [(ngModel)]="searchTextPhoneNo" id="phonenumberSearch" tabindex="5"
+                    placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}"/>
+                </mat-form-field>
+            </div>
+            <div class="contact-list-container" (click)="$event.stopPropagation();">
+                <ng-container *ngFor="let mappedPhone of mappedPhones | slice:3:mappedPhones?.length | NameFilter:searchTextPhoneNo:'PhoneNumber'">
+                    <button mat-menu-item class="contact-list" (click)="removeSMS(mappedPhone?.ContactId)" id="removePhoneNumber">
+                        <span>{{mappedPhone?.PhoneNumber}}</span>
+                        <button mat-icon-button color="warn" *ngIf="removable" id="cancelSms">
+                            <mat-icon color="warn">cancel</mat-icon>
+                        </button>
+                    </button>
+                </ng-container>
+            </div>
+        </mat-menu>
+        <mat-form-field>
+            <mat-label>{{'label_smsSubject' | translate}}</mat-label>
+            <textarea type="text" tabindex formControlName="Subject" name="Subject" matInput id="sms-subject"
+                placeholder="" required></textarea>
+            <mat-error
+                *ngIf="sendSMSForm.controls['Subject'].hasError('required') && sendSMSForm.controls['Subject'].touched">
+                {{ 'label_smsSubject' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="sendSMSForm.controls['Subject'].hasError('maxlength')">
+                {{ 'label_smsSubject' |translate}} {{ 'label_errormaxlength75' |translate}}
+            </mat-error>
+            <mat-error *ngIf="sendSMSForm.controls['Subject'].hasError('minlength')">
+                {{ 'label_smsSubject' |translate}} {{ 'label_errorminlength1' |translate}}
+            </mat-error>
+        </mat-form-field>
+        <div class="sms-data-bottom counterTxt">
+            <mat-form-field>
+                <mat-label>{{'label_message' | translate}}</mat-label>
+                <textarea type="text" tabindex matInput formControlName="MessageBody"
+                    placeholder="{{'label_messagePlaceholder' | translate}}" rows="3"
+                    (keyup)="onMessage($event.target.value)" id="sms-MessageBody" required></textarea>
+                <mat-error
+                    *ngIf="sendSMSForm.controls['MessageBody'].hasError('required') && sendSMSForm.controls['MessageBody'].touched">
+                    {{ 'label_message' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <!-- <mat-error *ngIf="this.sendSMSForm.controls['MessageBody'].hasError('maxlength')">
+                    {{ 'label_message' |translate}} {{ 'label_errormaxlength612' |translate}}
+                </mat-error> -->
+                <mat-error *ngIf="sendSMSForm.controls['MessageBody'].hasError('minlength')">
+                    {{ 'label_message' |translate}} {{ 'label_errorminlength1' |translate}}
+                </mat-error>
+            </mat-form-field>
+            <div class="count-error">
+                <div class="sms-count">
+                    <span *ngIf="msgLength>0">{{msgLength}}:{{'label_characters' |translate}} /</span>
+                    <span *ngIf="smsCount>0"> {{'label_smscount' |translate}}:{{smsCount}}</span>
+                </div>
+                <span class="countlabelnew" color="warn">
+                    {{'label_balance' |translate}}:{{maxMessage}} {{'label_characters' |translate}}
+                </span>
+            </div>
+        </div>
+        <section class="checkbox-group">
+            <mat-checkbox color="primary" type="checkbox" [disabled]="checkboxDisabled && ContactCheckboxDisabled && ClientCheckboxDisabled"
+            [checked]="AllStatusChecklist" (change)="AllStatus($event.checked)"
+            id="AllCheckboxId">{{'label_all' |translate}}</mat-checkbox>
+            <mat-checkbox color="primary" type="checkbox" [disabled]="ClientCheckboxDisabled" 
+            [checked]="StatusClientChecklist" (change)="statusClients($event.checked)"
+            id="ClientCheckboxId">{{'label_Clients' | customTranslate}}</mat-checkbox>
+            <mat-checkbox color="primary" type="checkbox" [disabled]="ContactCheckboxDisabled" 
+            [checked]="AllContactsStatus" (change)="statusAllContact($event.checked)"
+             id="AllContactsCheckboxId">{{'Client_AllContacts' |translate}}</mat-checkbox>
+            <mat-checkbox color="primary" type="checkbox" [disabled]="checkboxDisabled"
+            [checked]="PrimaryContactStatus" (change)="statusPrimary($event.checked)"
+            id="PrimaryContactCheckboxId">{{'Client_PrimaryContact' |translate}}</mat-checkbox>
+        </section>
+        <p *ngIf="checkboxDisabledRedirect">
+            {{'lable_ClientNoprimaryConatct'|translate}}
+            <a (click)="onDismiss()" id="RedirectOnContactId" [routerLink]="['/client/core/clients/list/client-detail']" [queryParams]="{clientId:ClientId, cliTabIndex: '3'}">
+                {{'lable_ClientClickheretoSelect'|translate}}
+             </a>
+        </p>
+        <small *ngIf="mappedPhones?.length>=1">({{selectedClient?.length}} {{'Client_Selected'|customTranslate}})</small>
+    </form>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter" id="actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+        {{'button_cancel'|translate}}</button>
+    <button mat-raised-button tabindex color="primary" type="button" id="btnSave" [disabled]="!sendSMSForm.valid || ContactStatus"
+        (click)="onConfirm(this.sendSMSForm.value)">
+        {{'label_send'|translate}}
+    </button>
+</div>

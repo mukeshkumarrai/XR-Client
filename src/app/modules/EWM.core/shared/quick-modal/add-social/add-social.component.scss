@@ -1,0 +1,66 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Satya Prakash Gupta
+    @When: 21-May-2021
+    @Why: EWM-1449 EWM-1583
+    @What: You can add this page styles on same file, and also import other style files
+*/
+.add-socail-box{
+    display: grid;
+    grid-template-columns: calc(50% - 20px) calc(50% - 26px) 26px;
+    gap: 10px;
+    align-items: baseline;
+    .mat-raised-button{
+        padding: 0px;
+        min-width: 26px;
+        height: 26px;
+        min-height: 26px;
+        line-height: 26px;
+        margin-top: 15px;
+        .mat-icon{
+            width: 26px;
+            height: 26px;
+            font-size: 18px;
+            line-height: 26px;
+        }
+    }
+}
+.mat-dialog-content{
+    max-height: 50vh;
+    padding-bottom: 40px;
+    .mat-card{
+        &:first-child{
+            margin-top: 3px;
+        }
+    }
+}
+
+.ng-slectBox{
+    .mat-error{
+        white-space: nowrap;
+        bottom:0px;
+    }
+}
+
+.ngSelectBoxFontSize{
+    font-size: 75%;
+    line-height: 20px;
+    color:red;
+}
+.ng-slectBox{
+    .mat-error{
+        white-space: nowrap;
+        bottom:0px;
+    }
+}
+
+.actionBoxFooter{
+    position: relative;
+    .add-phone{
+        position: absolute;
+        right: 0px;
+        top: -50px;
+    }
+}
+ 

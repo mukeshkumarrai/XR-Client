@@ -1,0 +1,96 @@
+
+/* 
+  Modified
+  @(C): Entire Software
+  @Type: File, <css>
+  @Who: Amit Rajput
+  @When: 06-July-2022
+  @Why: EWM-7401 EWM-7511
+  @What: job log page style modified
+*/
+
+@import "../../../../../mixinStyle.scss";
+@import './../../../../../styles-var.scss';
+
+.job-log-content{
+    // @When: 27-03-2023 @who:Amit @why: EWM-11380 @what: searchbar add height decrease
+    height: calc(100vh - 424px);
+    overflow: auto;
+    .job-log-data{ 
+        .job-log-box{   
+            display: flex;    
+            padding: 0px 10px;
+            .job-log{
+                display: grid;
+                align-items: flex-start;
+                gap: 10px;
+                grid-template-columns: 35px calc(100% - 45px);
+                margin-bottom: 12px;
+                background: #fafafa;
+                padding: 8px 10px;
+                border-radius: 8px;
+                width: 100%;
+                box-sizing: border-box;
+                box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
+                .userAvtaarAndName{
+                    width: 35px;
+                    height: 35px;
+                    overflow: hidden;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                    span{
+                        width: 35px;
+                        height: 35px;
+                    }
+                }
+                .job-log-info{
+                    h1{
+                        font-weight: 500;
+                        font-size: 14px;
+                        margin: 0px;
+                        padding: 2px 0px;
+                        font-weight: normal;
+                        word-break: break-all;
+                        span.primary{
+                            padding: 0px;
+                            font-weight: 500;
+                            display: initial;
+                            &::before{
+                                content: inherit;
+                            }
+                        }
+                    }
+                    p{
+                        margin: 0px;
+                        padding: 2px 0px;
+                        font-size: 12px;
+                        font-weight: 500;
+                        font-style: italic;
+                        color: $default-bg-color;
+                    }
+                }
+            }
+        }
+    }
+}
+.asc-desc-btn{
+    padding:0px;
+    min-width: 36px;
+    overflow: hidden;
+}
+
+::ng-deep {
+    .sorting-dropdown{
+        min-width: 140px;
+    }
+    .container-collapse-layout.job-detail-container{
+        .job-log-content{
+            height: calc(100vh - 295px);
+            @media only screen and (max-width: 580px) and (min-width: 240px){
+                height: calc(100vh - 345px);
+            }
+        } 
+    }
+}

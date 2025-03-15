@@ -1,0 +1,388 @@
+
+  /* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Nitin Bhati
+    @When: 06-Jan-2022
+    @Why: EWM-6873 EWM-7056
+    @What: You can Access Permission details styles to this file, and also import other style files
+*/
+
+@import "../../../../../../styles-var.scss";
+
+.col-1{
+    width: 15%;
+  }
+  .col-2{
+    width: 17%;
+  }
+  .col-3{
+    width: 17%;
+  }
+  .col-4{
+    width: 20%;
+  }
+  .col-5{
+    width: 45%;
+  }
+  .col-6{
+    width: 3%;
+  }
+    
+  .inputSearch{
+      display: block !important;
+      z-index: 9999999999;
+      position: absolute;
+      top: inherit;
+      left: inherit;
+      right: inherit;
+      bottom: inherit;
+      font-size: 64px;
+      background-color: rgba(0, 0, 0, 0);
+      right: 20px;
+      bottom: 18px;
+      font-size: 26px;
+    }
+  
+    .list{
+      display: block !important;
+      z-index: 9999999999;
+      
+      position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 64px;
+    background-color: rgba(0, 0, 0, 0.32);
+    }
+    @media only screen and (max-width: 1023px) and (min-width: 320px){
+      .separateLabel{
+        height: 35px;
+      }
+  }
+  @media only screen and (max-width: 374px) and (min-width: 320px){
+      .iconUploadSec .iconUploadbox .mat-button.mat-primary {
+          position: relative;
+          border: 3px;
+          left: 0px;
+          margin: 5px 0px;
+      }
+      .faviconUpload{
+          margin-top: 15px;
+      }
+  }
+  @media only screen and (max-width: 852px) and (min-width: 584px){
+      .iconUploadSec .iconUploadbox .mat-button.mat-primary {
+          position: relative;
+          top: 2px;
+          border: 3px;
+          left: 0px;
+          margin: 5px 0px;
+          display: block;
+      }
+  }
+  
+    .mat-form-field-infix, .mat-form-field{
+      width: 100%;
+    }
+  
+    .scrollloading{
+      height:75px;
+      position: relative;
+      background-color: transparent;
+      top: inherit;
+      right: inherit;
+      left: inherit;
+      bottom: inherit;
+    }
+    .colorBox{
+      position: relative;
+      border: 1px solid #707070;
+      width: 20px;
+      height: 20px;
+      right: 0px;
+      bottom: 0px;
+      &:focus{
+          outline: none;
+      }
+    }
+  
+  .subTitle.mat-card-subtitle{
+      width:calc(100% - 60px) !important
+  }
+  
+  .backBtn{
+  width:55px !important;
+  }
+  
+  .listGridButton .mat-raised-button:last-child {
+      border-radius: 4px;
+  }
+  
+  .matEyeIcon{float:right; margin-right:20px}
+  
+    ////  Styling For Back button and Breadcum BY Anup Singh //////
+  .matCardTitleStyle{
+    margin-bottom: 0px !important;
+  }
+    .matbtnBack{
+      line-height: 25px;
+      position: relative;
+        top: -3px;
+    }
+    
+    .heading{
+      margin-left: 15px;
+    }
+    .breadcum{
+      height: auto;
+      width: 70%;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 0px; 
+      .threeDotStyle{
+        width:30%;
+      }
+    .breadcumContent{
+      font-size: 12px;
+      padding: 0px;
+      min-width: 45px;
+    
+    }
+    
+    .breadcumContentopen{
+      font-size: 12px;
+      padding: 0px;
+      font-style: italic;
+      min-width: 45px;
+    }
+  
+  
+    .label_breadcum{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      text-align: left;
+      max-width: 300px;
+    }
+  
+    .arrowIcon{
+      position: relative;
+      top: 7px;
+      font-size: 20px;
+     }
+  
+    .threeDotStyleMobile{
+     display: none;
+    }
+    
+    }
+    
+    @media only screen and (max-width: 1150px) and (min-width: 850px) {
+  
+      .matCardTitleStyle {
+        display: unset!important;
+      }
+      .breadcum{
+        width: 98%;
+        position: absolute;
+        left:13px;
+        top:36px;
+        white-space: break-spaces;
+        .line{
+          display: none;
+        }
+        .label_breadcum{
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+          text-align: left;
+          max-width: 300px;
+        }
+        // .threeDotStyleMobile{
+        //   position: absolute;
+        //   right:0px;
+        //   top: -1px;
+        //   z-index: 99;
+        //   text-align: right;
+        //   display: unset;
+        // }
+      }
+      .mat-card .mat-divider-horizontal{
+        top:65px !important
+      }
+    }
+  
+  
+    @media only screen and (max-width: 850px) and (min-width: 400px) {
+   .matCardTitleStyle {
+        display: unset!important;
+      }
+      .breadcum{
+        width: 98%;
+        position: absolute;
+        left:13px;
+        top:36px;
+        white-space: break-spaces;
+        .line{
+          display: none;
+        }
+        .breadcumContent{
+          font-size: 10px;
+        }
+  
+        .breadcumContentopen{
+            font-size: 10px;
+        }
+  
+        .label_breadcum{
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+          text-align: left;
+          max-width: 140px;
+        }
+        // .threeDotStyleMobile{
+        //   position: absolute;
+        //   right:0px;
+        //   top: -1px;
+        //   z-index: 99;
+        //   text-align: right;
+        //   display: unset;
+        // }
+      }
+      .mat-card .mat-divider-horizontal{
+        top:65px !important
+      }
+     }
+  
+  
+     @media only screen and (max-width:400px) and (min-width: 150px) {
+      .matCardTitleStyle {
+           display: unset!important;
+         }
+         .breadcum{
+          display: none;
+           width: 98%;
+           position: absolute;
+           left:13px;
+           top:36px;
+           white-space: break-spaces;
+           .line{
+             display: none;
+           }
+           .breadcumContent{
+             font-size: 10px;
+           }
+     
+           .breadcumContentopen{
+               font-size: 10px;
+           }
+           .label_breadcum{
+             white-space: nowrap;
+             overflow: hidden;
+             text-overflow: ellipsis;
+             display: inline-block;
+             text-align: left;
+             max-width: 40px;
+           }
+           // .threeDotStyleMobile{
+           //   position: absolute;
+           //   right:0px;
+           //   top: -1px;
+           //   z-index: 99;
+           //   text-align: right;
+           //   display: unset;
+           // }
+         }
+         .mat-card .mat-divider-horizontal{
+           top:65px !important
+         }
+        }
+        .colorCodeBoxCenter span{
+          display:flex;
+          align-items: center;
+          justify-content: center;
+        }
+  
+        .listContent .mat-card .col{height: auto;}
+        .listContent .mat-card .col{
+          height: auto; 
+          padding:10px 15px;
+          .cardListTxt{
+            padding:0px;
+          }
+          .m-0{
+            margin:0px;
+            padding:7px 0px;
+          }
+        }
+
+// new listing
+.question-list-sec{
+  overflow-y: hidden;
+  height: 100%;
+  .new-data-list-header{
+    grid:auto/60% 13.33%;
+    .new-data{
+      align-items: center;
+      &:first-child{
+        text-align: left;
+        grid-row: 1 / 5;
+        display: flex;
+      }
+      &:nth-child(2){
+        grid-column: 2 / 5;
+        border-right: none;
+      }
+      &:nth-child(3){
+        grid-column: 2 / 2;
+      }
+    }
+    .new-data-bottom{
+      border-bottom: 1px solid #ccc;
+    }
+  }
+  .new-data-list-content{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - 40px);
+    .new-data-list-list{
+      // grid:auto/40px calc(60% - 238px) 20% 20% 198px;
+      grid:auto/60% 13.33% 13.33% 13.33%;
+      &:last-child{
+        border-bottom: 1px solid rgba($black-color, 0.08);
+      }
+      .new-data{
+        justify-content: center;
+        .material-icons{
+          vertical-align: middle;
+        }
+        &:first-child{
+          justify-content: start;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 704px) and (min-width: 320px){
+  .dashboard-mat-card-header.title-and-btn.mat-card-header {
+      flex-direction: column;
+      .actionButton{
+        width: 100%;
+      }
+  }
+}
+
+@media only screen and (max-width: 704px) and (min-width: 320px){
+  .xeople-container-with-one-card.mat-drawer-container{
+    .component-card.mat-card {
+      height: calc(100% - 58px);
+    }
+  } 
+}

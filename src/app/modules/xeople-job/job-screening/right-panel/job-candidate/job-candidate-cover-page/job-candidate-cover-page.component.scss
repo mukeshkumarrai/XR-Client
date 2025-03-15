@@ -1,0 +1,30 @@
+.candidate-resume-summry{
+    height: calc(100vh - 255px);
+}
+.candidate-screening-tab{
+    height: calc(100% - 45px);
+    .PDF-viewer-box{
+        height: 100%;
+    }
+}
+.resumeDownloadBtn-cover{
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    padding-bottom: 5px;
+    padding-top: 7px;
+    .mat-icon-button{   
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        background: #0d197c1a;
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.1), 0px 2px 2px 0px rgba(0, 0, 0, 0.1), 
+        0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+        .mat-icon{
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            font-size: 22px;
+        }
+    }
+}

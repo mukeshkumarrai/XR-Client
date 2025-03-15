@@ -1,0 +1,47 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: document.component
+    @Who: Satya Prakash Gupta
+    @When: 15-Sep-2021
+    @Why: EWM-2518 EWM-2848
+    @What: You can add document page styles to this file, and also import other style files
+*/
+
+// .document-page-container{
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     height: calc(100vh - 110px);
+//     padding: 0px 15px;
+// }
+
+.list-header.mat-card {
+  display: flex;
+  align-items: center;
+  padding: 5px 0px;
+  box-shadow: none;
+  margin-bottom: 5px;
+  background: transparent;
+  .spacer {
+    flex: 1 1 auto;
+  }
+  button:first-child {
+    margin-left: 0px;
+  }
+  .searchInput {
+    min-width: 300px;
+    margin-bottom: 0px;
+    @media only screen and (max-width: 850px) and (min-width: 371px) {
+      min-width: 173px;
+      width: 100%;
+    }
+    @media only screen and (max-width: 370px) and (min-width: 240px) {
+      min-width: 173px;
+      width: 170px;
+    }
+  }
+  .mat-form-field-infix {
+    background: transparent;
+  }
+}

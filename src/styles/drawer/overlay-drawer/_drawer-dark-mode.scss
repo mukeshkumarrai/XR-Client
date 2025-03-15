@@ -1,0 +1,78 @@
+@use "../../../colors";
+.dark-theme {
+    .overlay-drawer-container{
+        .overlay-drawer{
+            box-shadow: none;
+            .mat-drawer-inner-container{
+                .closePanel{
+                    .sidebarSectionName{
+                        background: colors.$dark-primary;
+                    }
+                }
+                // candidate summary drawer start
+                .view-profile-summary{
+                    background: colors.$dark-primary-bg;
+                    .profile-summary-container{
+                        .profile-summary-card{
+                            .profile-summary-card-content{
+                                .summary-tabs{
+                                    .mat-tab-header{
+                                        .mat-tab-label{
+                                            .mat-tab-label-content{
+                                                .numbers{
+                                                    background: colors.$dark-primary;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .candidate-job-maped-sec{
+                        .map-application-card{
+                            .searchGreyBgBox{
+                                background: #1c1c1c;
+                            }
+                        }
+                    }
+                }
+                // candidate summary drawer start
+                // link job to candidate drawer start
+                .link-job-summary{
+                    .candidate-job-maped-sec{
+                        form{
+                            .searchGreyBgBox{
+                                background: #1c1c1c;
+                            }
+                        }
+                    }
+                }
+                // link job to candidate drawer end
+                // parse resume drawer start
+                .parse-resume-summary{
+                    .candidate-summry.parse-resume-tab-container{
+                        .scrolltop{
+                            .mat-card{
+                                border: 1px solid #5d5d5d;
+                                &:hover{
+                                    box-shadow: 0 11px 22px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22), 
+                                    0px -4px 0px colors.$dark-primary inset;
+                                }
+                                .mat-card-header{
+                                    color: colors.$dark-primary;
+                                    .mat-card-header-text{
+                                        .mat-card-title{
+                                            color: colors.$white-color;
+                                        }
+                                    }
+                                }
+                            } 
+                        } 
+                    }
+                }
+                // parse resume drawer end
+            }
+        }
+    }
+}

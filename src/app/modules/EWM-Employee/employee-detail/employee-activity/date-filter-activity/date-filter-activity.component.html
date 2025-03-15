@@ -1,0 +1,70 @@
+<!---
+   @Type: File, <html>
+    @Name: owner-filter.component.html
+    @Who: Nitin Bhati
+    @When: 13-jan-2022
+    @Why: EWM-4545
+    @What: popup component for  filtering activity based on date
+   -->
+
+
+<h2 *ngIf="!CallDatefilterPop"> {{'label_activityDateFilter' | translate}}
+</h2>
+<h2 *ngIf="CallDatefilterPop"> {{'label_SearchCall_between_TwoDates' | translate}}
+</h2>
+<mat-dialog-content class="col">
+ <form [formGroup]="clientDatesFilterForm" id="clientNote" applyTabIndexes>
+     <div class="col l6 m6 s12">
+         <mat-form-field>
+             <mat-label>{{'label_startDate' | translate}}</mat-label>
+         
+             <input matInput [matDatepicker]="picker2" tabindex
+                 id="quickjob-filledDate"    [placeholder]="getDateFormat" 
+                 formControlName="FromDate" (dateChange)="checkDuration(clientDatesFilterForm.controls['FromDate'].value,clientDatesFilterForm.controls['ToDate'].value)" >
+                 <button type="button" *ngIf="clientDatesFilterForm.value.FromDate || clientDatesFilterForm.controls['FromDate'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                 (click)="clearStartDate()" > 
+                 <mat-icon>close</mat-icon>
+             </button>
+             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+             <mat-datepicker #picker2></mat-datepicker>
+              <!---------@When: 23-03-2023 @who:Adarsh singh @why: EWM-10688 @Desc- Added date validation--------->
+            <mat-error *ngIf="clientDatesFilterForm.controls['FromDate'].hasError('required') && clientDatesFilterForm.controls['FromDate'].touched && !clientDatesFilterForm.controls['FromDate'].hasError('matDatepickerParse')"> {{'label_startDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+            <mat-error *ngIf="clientDatesFilterForm.controls['FromDate'].hasError('invalidDate') && !clientDatesFilterForm.controls['FromDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+            <mat-error *ngIf="clientDatesFilterForm.controls['FromDate'].hasError('matDatepickerParse') && !clientDatesFilterForm.controls['FromDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+            <mat-error *ngIf="clientDatesFilterForm.controls['FromDate'].hasError('matDatepickerMax') && !clientDatesFilterForm.controls['FromDate'].hasError('invalidDate')"> {{'label_startDate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error>
+            <!-- <mat-error *ngIf="clientDatesFilterForm.controls['FromDate'].hasError('matDatepickerMin') && !clientDatesFilterForm.controls['FromDate'].hasError('invalidDate')"> {{'label_startDate' | translate}} {{'label_mustbeStartDate'|translate}}</mat-error> -->
+            <!-- End  -->
+         </mat-form-field>
+     </div>
+     <div class="col l6 m6 s12">
+         <mat-form-field>
+             <mat-label>{{'label_endDate' | translate}}</mat-label>
+         
+             <input matInput [matDatepicker]="picker1" tabindex
+                 id="quickjob-filledDate"    [placeholder]="getDateFormat" 
+                 formControlName="ToDate" [min]="clientDatesFilterForm.controls['FromDate'].value" [max]="endDay" (dateChange)="checkDuration(clientDatesFilterForm.controls['FromDate'].value,clientDatesFilterForm.controls['ToDate'].value)">
+                 <button type="button" *ngIf="clientDatesFilterForm.value.ToDate || clientDatesFilterForm.controls['ToDate'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                 (click)="clearEndDate()" > 
+                 <mat-icon>close</mat-icon>
+             </button>
+             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+             <mat-datepicker #picker1></mat-datepicker>
+            <!---------@When: 23-03-2023 @who:Adarsh singh @why: EWM-10688 @Desc- Added date validation--------->
+            <mat-error *ngIf="clientDatesFilterForm.controls['ToDate'].hasError('required') && clientDatesFilterForm.controls['ToDate'].touched && !clientDatesFilterForm.controls['ToDate'].hasError('matDatepickerParse')"> {{'label_endDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+            <mat-error *ngIf="clientDatesFilterForm.controls['ToDate'].hasError('invalidDate') && !clientDatesFilterForm.controls['ToDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+            <mat-error *ngIf="clientDatesFilterForm.controls['ToDate'].hasError('matDatepickerParse') && !clientDatesFilterForm.controls['ToDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+            <mat-error *ngIf="clientDatesFilterForm.controls['ToDate'].hasError('matDatepickerMax') && !clientDatesFilterForm.controls['ToDate'].hasError('invalidDate')"> {{'label_durationerror' | translate}}  </mat-error>
+            <mat-error *ngIf="clientDatesFilterForm.controls['ToDate'].hasError('matDatepickerMin') && !clientDatesFilterForm.controls['ToDate'].hasError('invalidDate')"> {{'label_endDate' | translate}} {{'label_mustbeStartDate'|translate}} </mat-error>
+            <!-- End  -->
+         </mat-form-field>
+     </div>
+     </form>
+
+   
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+    <button mat-stroked-button color="warn" id="btnClose" (click)="onDismiss()"> {{'button_close' | translate}}</button>
+    <button mat-stroked-button color="primary" id="btnAdd" [disabled]="!clientDatesFilterForm.valid || durationError"
+        (click)="saveDateFilter(clientDatesFilterForm.value)">{{'label_apply' |translate}}</button>
+</mat-dialog-actions>

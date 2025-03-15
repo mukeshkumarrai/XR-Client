@@ -1,0 +1,29 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: manage-name.component.scss
+    @Who: Nitin Bhati
+    @When: 16-July-2021
+    @Why: EWM-2056
+    @What: You can add manage name.component styles to this file, and also import other style files
+*/
+.pageContainer {
+    .mat-card {
+        .mat-card-content {
+            height: calc(100vh - 303px);
+        }
+    }
+}
+.ng-slectBox{
+    width: 300px;
+    @media(767px >= width){
+        width: 100%;
+    }
+}
+.gdpr-slde-toggle{
+    display: flex;
+    align-items: center;
+    margin-block: 0px 10px;
+    gap: 10px;
+}
+

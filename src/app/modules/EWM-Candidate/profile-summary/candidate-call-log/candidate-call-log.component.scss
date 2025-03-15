@@ -1,0 +1,81 @@
+@import "../../../../../styles-var.scss";
+@import "../../../../../mixinStyle.scss";
+
+.data-header{
+  padding: 0px 10px 3px;
+  display: flex;
+  h2{
+    font-size: 20px;
+    margin: 0px;
+    font-weight: 500;
+    width: 300px;
+  }
+  // .filterButton{
+  //   margin: 0px;
+  //   min-width: 36px;
+  //   padding: 0px;
+  //   cursor: pointer;
+  // }
+  // .filterButton.addFilter{
+  //   padding-left: 5px;
+  //   padding-right: 55px;
+  // }
+  .search-viewicon{
+    width: 100%;
+    .searchInput{
+      max-width: 100%;
+    }
+    // .button-with-clear.only-clear{
+    //   margin-inline-end: 5px;
+    //   .more-filter{
+    //     min-width: 36px;
+    //   }
+    // }
+  }
+}
+
+.add-calllogs-button.mat-menu-panel{
+  padding: 0px;
+  .mat-menu-item.activity-quick-button-group{
+    // color: inherit;
+    justify-content: space-between;
+    align-items: center;
+    height: 35px;
+    gap: 7px;
+    .mat-icon{
+      background: $primary-bg-color;
+      color: $primary-txt-color;
+      border-radius: 100%;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0px;
+      padding: 2px;
+    }
+  }
+  .mat-menu-item.activity-quick-button-group.phone-disabled{
+    .label-text{
+      color: rgba(0, 0, 0, 0.40);
+    }
+    .mat-icon{
+      color: rgba(0, 0, 0, 0.40);
+      background: rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+.dark-theme{
+  .add-calllogs-button.mat-menu-panel{
+    .mat-menu-item.activity-quick-button-group.phone-disabled{
+      .label-text{
+        color: #838383;
+      }
+      .mat-icon{
+        color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.12);
+      }
+    }
+  }
+}
+

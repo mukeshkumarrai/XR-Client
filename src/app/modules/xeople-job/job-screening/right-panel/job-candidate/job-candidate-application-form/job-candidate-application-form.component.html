@@ -1,0 +1,47 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: job-candidate.application-form.component.html
+    @Who: Bantee Kumar
+    @When: 26-May-2023
+    @Why: EWM-11776 EWM-12534
+    @What:  This page wil be use only for the candidate application form Component HTML
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+
+<div class="progress-loader-box" *ngIf="loaderAddInfo">
+  <div class="progress-loader">
+    <div class="loaderBar"></div>
+  </div>
+</div>
+
+<div class="multiple-no-data" *ngIf="!applicationUrl">
+   <!---------@When: 07-08-2023 @who:Adarsh singh @why: EWM-12873 --------->
+  <span *ngIf="docUrl">Loading...</span>
+  <p *ngIf="!docUrl">{{'label_noAppFormFound' | translate}}</p>
+  <!-- End  -->
+</div>
+
+<div id="candidate-summry" class="candidate-resume-summry" *ngIf="applicationUrl">
+  <div class="PDFViewer-buttons resumeDownloadBtn-cover">
+    <button target="_blank" mat-icon-button [hidden]="IsApplicationForm" id="descBtn" class="resume"
+      (click)="showAppForm(applicationUrl,UploadFileName)">
+      <mat-icon>fullscreen</mat-icon>
+    </button>
+    <button class="resumeDownloadBtn-cover" type="button" mat-icon-button class="buttonForDesktopMobile"
+      [hidden]="IsApplicationForm" tabindex="8" color="primary" id="downloadResumeBtn"
+      (click)="onDownloadAppForm(applicationUrl,UploadFileName)">
+      <mat-icon class="matIconDownload">file_download</mat-icon>
+    </button>
+  </div>
+
+
+  <div class="PDFViewer candidate-screening-tab">
+    <!-- <div *ngIf="isLoading" class="logo-loader">
+      <div class="logo-loading"></div>
+    </div> -->
+
+    <ngx-doc-viewer class="PDF-viewer-box" [url]="applicationUrl" [viewer]="viewer" (loaded)="isLoading=false" style="width:100%;height:99%;">
+    </ngx-doc-viewer>
+  </div>
+</div>

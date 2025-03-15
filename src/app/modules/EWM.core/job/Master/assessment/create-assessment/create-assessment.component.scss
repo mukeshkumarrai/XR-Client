@@ -1,0 +1,534 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: Satya Prakash
+    @When: 08-Mar-2022
+    @Why: EWM-5427 EWM-5472
+    @What:  This page will be use for the create assesment Component scss file
+*/
+@import '../../../../../../../styles-var.scss';
+@import '../../../../../../../mixinStyle.scss';
+.dashboard-mat-card-header{
+    @media only screen and (max-width: 1060px) and (min-width: 840px){
+        flex-direction: row;
+    }
+}
+.stepper-button{
+    display: flex;
+    @media only screen and (max-width: 839px) and (min-width: 240px){
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .mat-stroked-button{
+        margin-left: 8px;
+    }
+    .mat-raised-button{
+        margin-inline-start: 8px;
+    }
+}
+.assesment-stepper-container{
+    padding: 0px 10px;  
+    form{
+        padding-bottom: 0px;
+        label {
+            display: block;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+    }
+    form.assesment-addQuestions-form{
+        padding-bottom: 65px;
+    }
+    .input-with-button{
+        display: flex;
+        .add-quistions-and-section{
+            display: flex;
+            position: relative;
+            top: 5px;
+            width: 90px;
+            justify-content: flex-end;
+            .mat-stroked-button{
+                min-width: auto;
+                padding: 0px;
+                width: 40px;
+                height: 40px;
+                &:first-child{
+                    margin-right: 5px;
+                    margin-left: 5px;
+                }
+                .two-icons{
+                    .mat-icon{
+                        right: -4px;
+                    }
+                    .secondIcon.mat-icon{
+                        right: 14px;
+                        top: 11px;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+    .addquestion-input-with-button{
+        justify-content: flex-end;
+        padding-bottom: 5px;
+        .add-quistions-and-section{
+            top: 0px;
+        }
+    }
+    h5.quistion-type-heading{
+        margin: 0px;
+        margin-bottom: 5px;
+        color: $primary-bg-color;
+    }
+    .assesment-add-question{
+        display: grid;
+        grid-template-columns: repeat(4, calc(25% - 7.5px));
+        grid-gap: 10px;
+        padding-bottom: 10px;
+        @include for-small-smartphones{
+            grid-template-columns: repeat(1, calc(100% - 0px)); 
+        }
+        @include for-smartphones{
+            grid-template-columns: repeat(1, calc(100% - 0px)); 
+        }
+        @include for-large-smartphones{
+            grid-template-columns: repeat(2, calc(50% - 7.5px)); 
+        }
+        @include for-ipads-portrait-landscape {
+            grid-template-columns: repeat(2, calc(50% - 7.5px)); 
+        }
+        .question-type.mat-card{
+           padding: 10px;
+           cursor: pointer;
+           &:hover{
+            background-color: rgba($green-color, 0.10);
+           }
+           .mat-icon.check-selection{
+               position: absolute;
+               right: 10px;
+               top: 7px;
+               opacity: 0;
+               color: $green-color;
+           }
+           .question-type-heading{
+                padding-right: 30px;  
+                display: flex;
+                align-items: center;
+                .mat-icon{
+                    font-size: 18px;
+                    display: flex;
+                    align-items: center;
+                }     
+           }
+           small{
+            background-color: rgba(0, 0, 0, 0.03);
+            display: block;
+            padding: 5px;
+            margin-top: 15px;
+            font-style: italic;
+           }
+
+        }
+        .active.question-type.mat-card{
+            background-color: rgba($green-color, 0.10);
+            .mat-icon.check-selection{
+                opacity: 1;
+            }
+        }
+    }
+
+    .question-list-sec{
+        width: 100%;
+        overflow: auto;
+        margin-bottom: 10px;
+        .new-data-list-header{
+            min-width: 850px;
+            display: grid;
+            grid:auto/40px 20% 10% calc(70% - 130px) 90px;
+            line-height: 40px;
+            background-color: #e1e1e3;
+            color: #1a1a1a;
+            font-weight: 500;
+            border-radius: 4px;
+            div{
+                border-right: 1px solid #ccc;
+                &:last-child{
+                    border-right: 0px solid #ccc; 
+                }
+            }
+            .new-data{
+                padding: 0px 7px;
+            }
+        }
+        .new-data-list-list{
+            min-width: 850px;
+            display: grid;
+            grid: auto/40px 20% 10% calc(70% - 130px) 90px;
+            grid: auto/100%;
+            line-height: 20px;
+            min-height: 40px;
+            font-weight: 400;
+            align-items: center;
+            .drag-action, 
+            .actions{
+                min-height: 40px;
+                line-height: 40px;
+                text-align: center;
+                @include mat-icon-button-25;
+            }
+            .drag-action{
+                .mat-icon-button{
+                    cursor: move;
+                }
+            }
+            .actions{
+                text-align: left;
+            }
+            .new-data{
+                padding: 0px 7px;
+                min-height: 40px;
+                line-height: 40px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            &:nth-child(odd) {
+                background: #f8f8f8;
+            }
+            .set-question{
+                display: grid;
+                grid: auto/ auto auto;
+                p{
+                    margin-top: 0px;
+                }
+                div:last-child{
+                    display: grid;
+                }
+                .answer{
+                    position: relative;
+                    margin-bottom: 10px;
+                    padding: 5px;
+                    overflow: hidden;
+                    box-shadow: none;
+                    &::after{
+                        border-radius: 4px;
+                        content: "";
+                        position: absolute;
+                        left: 0px;
+                        top: 0px;
+                        width: 100%;
+                        height: 100%;
+                        background-color: currentColor;
+                        opacity: 0.1;
+                    }
+                }
+                .answer.right{
+                    color: $green-color;
+                    border: 1px solid $green-color;
+                    
+                }
+                .answer.wrong{
+                    color: #3f51b5;
+                    border: 1px solid #3f51b5;
+                }
+            }
+            .one-column.set-question{
+                grid: auto/ 100%;
+            }
+        }
+    }
+
+    .without-weightage .new-data-list-header{
+        grid:auto/40px 20% calc(80% - 130px) 90px;
+    }
+
+    .form-input{
+        display: grid;
+        grid: auto/ 100%;
+        position: relative;
+        .form-input-group{       
+            display: grid;
+            grid-template-columns: repeat(3, calc(33.33% - 15px));
+            gap: 15px;
+            @include for-small-smartphones{
+                grid-template-columns: repeat(1, calc(100% - 0px));
+            }
+            @include for-smartphones{
+                grid-template-columns: repeat(1, calc(100% - 0px));
+            }
+            @include for-large-smartphones{
+                grid-template-columns: repeat(2, calc(50% - 15px));
+            }
+            @include for-ipads-portrait-landscape {
+                grid-template-columns: repeat(2, calc(50% - 15px));
+            }
+            .matSuffix-icon{
+                min-width: auto;
+                text-align: center;
+                padding: 0px;
+                width: 33px;
+                height: 33px;
+                line-height: 33px;
+                margin-left: 0px;
+                .mat-icon{
+                    width: 33px;
+                    height: 33px;
+                    line-height: 33px;
+                    font-size: 18px;
+                    text-align: center;
+                }
+            }
+            .assessment-duration{
+                display: grid;
+                gap: 15px;
+                margin-top: 5px;
+                grid-template-columns: calc(50% - 7.5px) calc(50% - 7.5px);
+                div:first-child{
+                    grid-column-start: 1;
+                    grid-column-end: 3;
+                    font-size: 12px;
+                    position: absolute;
+                }
+            }
+        }
+        .form-radio-group{
+            display: grid;
+            grid: auto/ 100%;
+            margin-top: 15px;
+            .radio-label{
+                font-size: 13px;
+                margin-bottom: 5px;
+            }
+            .mat-radio-button {
+                padding: 5px 5px 5px;
+            }
+        }
+    }
+
+    .mat-stepper-footer.mat-card{
+        position: absolute;
+        bottom: 10px;
+        display: flex;
+        justify-content: flex-end;
+        width: calc(100% - 40px);
+        left: 10px;
+        padding: 5px 10px;
+        height: 35px;
+        border-radius: 0px 0px 4px 4px;
+        z-index: 3;
+    }
+
+    .assessment-time{
+        margin-top: 10px;
+        .assessment-time-input{
+            display: grid;
+            grid: auto/calc(50% - 15px) calc(50% - 15px);
+            gap: 15px;
+            .k-datepicker, .k-timepicker{
+                width: 100%;
+            }
+        }
+    }
+    
+    .single-add-button{
+        background-color: #f5f5f5;
+        padding: 15px 15px;
+        border-radius: 15px;
+        padding: 30px 30px;
+        width: 215px;
+        margin: 0px auto;
+        margin-top: 30px;
+        @include single-add-button-style;
+    }
+
+    .add-section{
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        .two-icons{
+            .mat-icon{
+                top: 0px;
+            }
+            .secondIcon.mat-icon{
+                right: 9px;
+                top: 6.5px;
+                font-size: 16px;
+            }
+        }
+    }
+
+    .ngx-timepicker-field{
+        width: 100%;
+    }
+    
+    .choose-layout{
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(3, calc(33.33% - 6.6px));
+        margin-bottom: 10px;
+        @include for-small-smartphones{
+            grid-template-columns: repeat(1, calc(100% - 0px));
+        }
+        @include for-smartphones{
+            grid-template-columns: repeat(1, calc(100% - 0px));
+        }
+        @include for-large-smartphones{
+            grid-template-columns: repeat(2, calc(50% - 10px));
+        }
+        @include for-ipads-portrait-landscape {
+            grid-template-columns: repeat(2, calc(50% - 10px));
+        }
+        .mat-card{
+            padding: 10px;
+            &:hover{
+                background-color: rgba($green-color, 0.20);
+            }
+            .mat-card-title{
+                font-size: 16px;
+                position: relative;
+                padding-right: 30px;
+                .check-selection.mat-icon{
+                    opacity: 0;
+                    color: $green-color;
+                    position: absolute;
+                    right: 0px;
+                    top: 0px;
+                }
+            }
+            .mat-divider{
+                position: relative;
+                margin-bottom: 10px;
+            }
+            .layout-column-logo{
+                background: #f7f7f7;
+                padding: 6px;
+            }
+            .layout-column-welcome{
+                background-color: #f1f1f1;
+                padding: 5px;
+            }
+            .layout-column-guidelies{
+                background-color: #f1f1f1;
+                padding: 5px;
+            }
+            .layout-column-buttons{
+                .mat-raised-button{
+                    margin-left: 0px;
+                }
+            }
+        }
+        .selected{
+            background-color: rgba($green-color, 0.20);
+            .check-selection.mat-icon{
+                opacity: 1;
+            }
+            .mat-card-title{
+                .check-selection.mat-icon{
+                    opacity: 1;
+                }
+            }
+        }
+         // simple-layout
+        .simple-layout{
+            display: grid;
+            grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+            gap: 10px;
+            .layout-column-logo{
+                grid-row-start: 1;
+                grid-row-end: 4;
+            }
+        }
+        // simple-layout
+
+        // center-layout
+        .center-layout{
+            display: grid;
+            grid-template-columns: 100%;
+            gap: 10px;
+        }
+        // center-layout
+        
+        // left-align-layout
+        .left-align-layout{
+            display: grid;
+            grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+            gap: 10px;
+            .layout-column-logo{
+                grid-column-start: 1;
+                grid-column-end: 3;
+            }
+            .layout-column-buttons{
+                grid-column-start: 1;
+                grid-column-end: 3;
+            }
+        }
+        // left-align-layout
+
+        .lines{
+            margin-top: 7px;
+            width: 100%;
+            height: 15px;
+            background: #e0e0e0;
+        }
+    }
+
+    .uploadImage{
+        margin: 10px 0px;
+        margin-top: 3px;
+    }
+
+    .total-question-weightage{
+        display: flex;
+        justify-content: center;
+        div{
+            position: relative;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            &::after{
+                content: "";
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                background-color: currentColor;
+                opacity: 0.10;
+                width: 100%;
+                height: 100%;
+                border-radius: 4px;
+            }
+        }
+        .total-question{
+            color: #000;
+            color: #ffc000;
+            border: 1px solid #ffc000;
+            margin-right: 5px;
+        }
+        .total-weightage{
+            color: #000;
+            color: #9ee441;
+            border: 1px solid #9ee441;
+        }
+    }
+}
+.span-error{
+    color: red;
+    position: absolute;
+    left: 0px;
+    font-size: 75%;
+    bottom: -26px;
+}
+
+// assessment guidelines editor start here
+.mailediter.create-guidelines-editor{
+    height: 250px;
+}
+// assessment guidelines editor start here
+
+.space-error{
+    font-size: 75%;
+    padding-top: 2px;
+    position: absolute;
+}
+  

@@ -1,0 +1,153 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="client-dashboard-dashboard-mat-card-header">
+    <mat-card-title class="only-title" id="add-card" *ngIf="actionStatus=='Add' && !isBulkEdit">{{'label_add' |translate}} {{'label_position' |translate}}
+    </mat-card-title>
+    <mat-card-title class="only-title" id="edit-card" *ngIf="actionStatus=='Edit'"> {{'label_edit' |translate}} {{'label_position' |translate}}
+    </mat-card-title>
+    <mat-card-title class="only-title" id="bulkedit-card" *ngIf="actionStatus=='Add' && isBulkEdit"> {{'label_bulkEdit' |translate}} {{'label_position' |translate}}
+    </mat-card-title>
+
+    <div class="actionButton">
+      <button mat-raised-button color="warn" tabindex="13" id="btnCancel" (click)="onCancel($event)"
+        class="buttonForDesktopMobile">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+      </button>
+      <button mat-raised-button color="primary" tabindex="14" (click)="onSave(this.addForm.value,this.actionStatus)"
+        type="button" id="btnSave" [disabled]="!addForm.valid  || !isPositionValidation || !isPositionduplicateValidation"
+        class="buttonForDesktopMobile">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save'|translate}}</span>
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-drawer-container class="xeople-container-with-one-card" autosize id="dashboard-drawer">
+  <mat-card id="position-manage-card" class="component-card mat-elevation-z2">
+    <form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data'>
+      <div class="row mb-0">
+        <div class="col l4 m6 s12">
+          <div class="ng-slectBox"  *ngIf="!isBulkEdit" id="notBulkEdit">
+              <app-custom-dropdown  [selectedIn]="selectedIndustry" tabindex="1" (selectedOut)="onIndustrychange($event)"
+                [config]="dropDownIndustryConfig">
+              </app-custom-dropdown>
+            </div>
+            <div class="ng-slectBox" *ngIf="isBulkEdit" id="isBulkEdit" >
+              <app-custom-dropdown [selectedIn]="selectedIndustryBulkEdit" tabindex="1" (selectedOut)="onBulkEditIndustrychange($event)"
+                [config]="dropDownBulkEditIndustryConfig">
+              </app-custom-dropdown>
+            </div>
+              
+        
+          
+          </div>
+  
+          <div class="clear"></div>
+        <!---------name----------------->
+        <div class="col l4 m6 s12 position-relative" *ngIf="actionStatus=='Add'">
+          <mat-form-field>
+            <mat-label>{{'label_candidatePositionName' |translate}} <span class="required-show">*</span></mat-label>
+            <mat-chip-list #chipList tabindex="1" id="position-chip" formControlName="PositionName">
+              <mat-chip   *ngFor="let position of positionList"  [color]="(position.invalid) ? 'warn' : ''" (click)="editForm(position.Id)" [selectable]="selectable" [removable]="removable"
+                (removed)="remove(position)">
+                {{position.PositionName}}
+                <!-- <mat-icon matChipRemove *ngIf="removable" class="redColor">cancel</mat-icon> -->
+                <button mat-icon-button color="warn" matChipRemove *ngIf="removable">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input id="PositionName" [readonly]="isBulkEdit" placeholder="{{'label_candidatePositionName' |translate}}" [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)" required>
+            </mat-chip-list>
+            <mat-error *ngIf="this.addForm.controls['PositionName'].hasError('required')">
+              {{ 'label_candidatePositionName' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-error class="chipError" *ngIf="!isPositionduplicateValidation">
+            <!-- <span *ngFor="let errdata of ErrorField">
+              {{errdata.FieldName}},
+            </span> -->
+            {{'label_candidatePositionName'|translate}} {{'label_errorreqiredAlready'|translate}}
+          </mat-error>
+        
+          <mat-error class="chipError" *ngIf="!isPositionValidation">
+            {{'label_candidatePositionName' |translate}} {{'label_errorreqired' |translate}}
+          </mat-error>
+          <mat-error class="chipError" *ngIf="isPositionMax">
+            {{'label_candidatePositionName' |translate}} {{'label_errormaxlength20long' |translate}}
+          </mat-error>
+          <mat-error class="chipError" *ngIf="isPositionMin">
+            {{'label_candidatePositionName' |translate}} {{'label_errorminlength3' |translate}}
+          </mat-error>
+          <mat-icon class="infoIconStyle" tabindex="2" id="position-helpMsg" [matMenuTriggerFor]="PositionHelp">info_outline
+          </mat-icon>
+          <mat-menu #PositionHelp="matMenu" xPosition="after" class="infoIconContentBox">
+            <span class="material-icons headerDroupDownUp">
+              arrow_drop_up
+            </span>
+            <h4 class="helpHeading">{{'label_positionMsgheading'|translate}}</h4>
+            {{'label_positionHelpMsg'|translate}}
+          </mat-menu>
+        </div>
+
+       
+        <div class="col l4 m6 s12 position-relative" *ngIf="actionStatus=='Edit' && !isBulkEdit">
+          <mat-form-field>
+            <mat-label>{{'label_candidatePositionName' |translate}}</mat-label>
+            <input matInput required formControlName="PositionName" tabindex="1" text="name" (blur)="onNameChanges()"
+              id="positionName-name">
+  
+            <mat-error *ngIf="addForm.controls['PositionName'].hasError('nameTaken')">
+              <!-- <span *ngFor="let errdata of ErrorField">
+                {{errdata.FieldName}},
+              </span> -->
+              {{'label_candidatePositionName'|translate}} {{'label_errorreqiredAlready'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['PositionName'].hasError('required')">
+              {{'label_candidatePositionName' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+           <!--  @Who: maneesh, @When: 29-dec-2022,@Why: EWM-10076 addnoWhitespaceValidator -->
+              <mat-error *ngIf="this.addForm.controls['PositionName'].hasError('whitespace') && !this.addForm.controls['PositionName'].hasError('required')">
+                      {{'label_candidatePositionName' |translate}} {{'label_nameValidation' |translate}} 
+            </mat-error>
+          </mat-form-field>
+       
+        </div>
+
+        <div class="clear"></div>
+       
+      
+        <!---------status---->
+        <div class="col l4 m6 s12" *ngIf="isShow">
+          <div class="ng-slectBox">
+            <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data---->
+            <ng-select id="StatusName" placeholder="{{'label_industryStatus'|translate}}" class="show-required" tabindex="8" [clearable]="false"
+              formControlName="StatusName" id="position-status" (change)="onchangeStatus($event)" required> 
+              <ng-option  value="" disabled>{{'label_status'|translate}}</ng-option>           
+              <ng-option *ngFor="let list of statusList" [value]="list">{{list.StatusName}}</ng-option>
+            </ng-select>
+            <mat-error
+              *ngIf="addForm.controls['StatusName'].hasError('required') && addForm.controls['StatusName'].touched">
+              {{'label_industryStatus'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+          </div>
+        </div>
+        <div class="clear"></div>
+     
+        <!---hide externally-->
+        <div class="col l4 m6 s12"  *ngIf="isShow">
+          <mat-slide-toggle class="mb-10" formControlName="HideExternally" name="hideExternally" id="position-hideExternally" tabindex="10"
+            (change)="setDefaultSignature($event)" color="primary">
+            {{'label_industryHideExternally' |translate}}
+          </mat-slide-toggle>
+          <div class="clear"></div>
+        
+        </div>
+      </div>
+    </form>
+</mat-card>
+</mat-drawer-container>

@@ -1,0 +1,92 @@
+<!---
+  @Type: File, <html>
+  @Name: custom-attachment-popup.component.ts
+  @Who: Anup Singh
+  @When: 08-FEB-2022
+  @Why:EWM-4805 EWM-4861
+  @What:for custom attachment-popup
+-->
+
+<!---
+  @modified
+  @Type: File, <html>
+  @Name: custom-attachment-popup.component.html
+  @Who: Amit Rajput
+  @When: 02-MAR-2023
+  @Why:EWM-10689 EWM-10801
+  @What: select icon position work
+-->
+
+<div *ngIf="loading" class="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<div class="modal-header" id="documentUpload">
+  <h2 matDialogTitle class="mb-0" *ngIf="!isAssessment">{{'label_adddocuments'|translate}}</h2>
+  <h2 matDialogTitle class="mb-0" *ngIf="isAssessment">{{'label_addImages'|translate}}</h2>
+</div>
+<!-- // who:bantee,what:ewm-13764 After uploading the file, the scroll should move to the bottom of the recent added file in custom attach pop up component. when:11/08/2023 -->
+
+<mat-dialog-content class="moveScrollDown">
+  <div class="uploadImgBox" id="documentUpload-box">
+
+
+    <!-- <mat-progress-bar  mode="indeterminate" style="position: absolute; top: 0px;">Test</mat-progress-bar> -->
+
+    <div class="progress-loader-box" *ngIf="filestatus">
+      <div class="progress-loader">
+          <div class="loaderBar"></div>
+      </div>
+    </div>
+
+
+    <div class="attach-box" *ngIf="this.fileAttachments?.length>0" id="documentUpload-card">
+      <div class="multiple-attach">
+        <mat-card class="matCardAttach custWidgetCols " *ngFor="let files of fileAttachments">
+          <div class="email-attachment">
+            <div class="file-detail" tabindex>
+              <span class="fileName">{{files.Name}}</span>
+              <span class="fileSize">{{files.Size | fileSize}}</span>
+            </div>
+            <button tabindex mat-icon-button style="cursor: pointer;" matTooltip="{{'label_remove'|translate}}"
+            (click)="removeAttachment(files,fileInput)" matTooltipClass="custom-tooltip"
+              id="documentUpload-remove">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <!---------@When: 02-03-2023 @who:Amit @why: EWM-10801 @what: icon position change start here--------->
+  <div class="select-file">
+    <button mat-stroked-button  [disabled]="isAssessment && fileAttachments?.length>=maxUploadFile" color="primary" tabindex class="multiple-file-upload" id="documentUpload-file">
+      <input id="singleFile" #fileInput type="file"  multiple [disabled]="isAssessment && fileAttachments?.length>=maxUploadFile" (change)="Uploadfile($event,fileInput)" />
+      <mat-icon>attach_file</mat-icon>
+      <span class="text">{{'lebel_uploadDocument' | translate}}</span>
+    </button>
+    <small class="mb-5 mt-5">
+      {{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}}
+    </small>
+<!-- // who:bantee,what:ewm-13764 After uploading the file, the scroll should move to the bottom of the recent added file in custom attach pop up component. when:11/08/2023 -->
+
+  <p *ngIf="isAssessment && fileAttachments?.length>=maxUploadFile">{{'lable_max_file_upload_alert'|translate}}</p>
+  <p *ngIf="isInvalidType">{{'label_invalidDocumentType'|translate}}</p>
+  <p *ngIf="isInvalidSize">{{'label_invalidDocumentSize'|translate}} {{fileSizetoShow}}</p>
+  <p *ngIf="isInvalidAttachedFilesSize">{{'label_invalidAttachmentSize'|translate}} {{fileSizetoShow}}</p>
+  </div>
+  <!---------@When: 02-03-2023 @who:Amit @why: EWM-10801 @what: icon position change end here--------->
+
+ 
+
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end" class="button-row actionBoxFooter">
+  <button mat-stroked-button (click)="onDismiss()" id="btnCancel" color="warn" cdkFocusInitial>{{'label_cancel'|translate}}</button>
+  <!-- who:maneesh,what:ewm-12451 for wrong formate file upload then save button disabel,when:17/05/2023 -->
+  <button mat-stroked-button id="btnSave" [disabled]="isInvalidType" (click)="onSave()" color="primary">{{'label_doneBtn'|translate}}</button>
+
+</mat-dialog-actions>

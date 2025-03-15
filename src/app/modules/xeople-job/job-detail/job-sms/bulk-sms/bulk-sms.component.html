@@ -1,0 +1,127 @@
+<p>bulk-sms works!</p>
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 16 Dec
+    @Why: EWM-4210 EWM-4219
+    @What:  This page is job sms for candidate
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<div class="modal-header job-sms-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_SMS' | translate}} </h2>
+    <span class="badge primary" color="primary">
+        {{'label_smsCredits' |translate}}-{{balanceSMS}}
+    </span>
+</div>
+
+<mat-dialog-content id="sendSMSJobForCan" applyTabIndexes class="sms-card-content">
+    <!-- <div class="quick-dialog job-sms-dialog" id="job-sms-dialog">
+
+        <mat-card-content class="sms-card-content"> -->
+    <form novalidate [formGroup]="sendSMSForm" accept-charset="utf-8" enctype='multipart/form-data'>
+        <div class="insert-template" id="insert-template">
+            <button type="button" tabindex class="ml-0" mat-stroked-button color="primary" (click)="openTemplateModal()"
+                id="newEmail-template">{{'label_insertTemplate'
+                |translate}}</button>
+        </div>
+        <div class="sms-data-bottom">
+            <mat-form-field class="example-chip-list">
+                <mat-label>{{'label_share_to' | translate}} *</mat-label>
+                <mat-chip-list #chipList aria-label="user selection"[formControl]="EmailList">
+                    <mat-chip *ngFor="let mappedPhone of mappedPhones" [selectable]="selectable" [removable]="removable"
+                        (removed)="removeSMS(mappedPhone)">
+                        {{mappedPhone.PhoneNumber}}
+                        <button mat-icon-button color="warn" (click)="removeSMS(mappedPhone)" *ngIf="removable">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip>
+                    <input matInput *ngIf="mappedPhones?.length==0" formControlName="ToEmailIds" readonly>
+                </mat-chip-list>
+                <mat-error
+                    *ngIf="sendSMSForm.controls['Subject'].hasError('ToPhone') && sendSMSForm.controls['ToPhone'].touched">
+                    {{ 'label_share_to' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+            </mat-form-field>
+            <span class="error" *ngIf="isNotValidEmail">
+                {{ 'label_share_to' |translate}} {{ 'label_errorreqired' |translate}}
+            </span>
+            <!---<mat-form-field>
+                        <mat-label>{{'label_to' | translate}}</mat-label>
+                        <mat-chip-list #chipList tabindex="1" class="bulkEditChipContainer" id="bulkEdit-skill-chip">
+                            <mat-chip *ngFor="let mappedPhone of mappedPhones" [selectable]="selectable"
+                                [removable]="removable" (removed)="removeSMS(mappedPhone)">
+                                {{mappedPhone.PhoneNumber}}
+                                <button mat-icon-button color="warn" (click)="removeSMS(mappedPhone)" *ngIf="removable">
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </mat-form-field>---->
+        </div>
+        <div class="sms-data-bottom">
+            <mat-form-field>
+                <mat-label>{{'label_smsSubject' | translate}}</mat-label>
+                <input type="text" tabindex formControlName="Subject" name="Subject" matInput id="sms-subject"
+                    placeholder="" required>
+                <mat-error
+                    *ngIf="sendSMSForm.controls['Subject'].hasError('required') && sendSMSForm.controls['Subject'].touched">
+                    {{ 'label_smsSubject' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <mat-error *ngIf="sendSMSForm.controls['Subject'].hasError('maxlength')">
+                    {{ 'label_smsSubject' |translate}} {{ 'label_errormaxlength1000' |translate}}
+                </mat-error>
+                <mat-error *ngIf="sendSMSForm.controls['Subject'].hasError('minlength')">
+                    {{ 'label_smsSubject' |translate}} {{ 'label_errorminlength1' |translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="sms-data-bottom counterTxt">
+            <mat-form-field>
+                <mat-label>{{'label_message' | translate}}</mat-label>
+                <textarea type="text" tabindex matInput formControlName="MessageBody"
+                    placeholder="{{'label_messagePlaceholder' | translate}}" rows="3"
+                    (keyup)="onMessage($event.target.value)" id="sms-MessageBody" required></textarea>
+                <mat-error
+                    *ngIf="sendSMSForm.controls['MessageBody'].hasError('required') && sendSMSForm.controls['MessageBody'].touched">
+                    {{ 'label_message' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <mat-error *ngIf="this.sendSMSForm.controls['MessageBody'].hasError('maxlength')">
+                    {{ 'label_message' |translate}} {{ 'label_errormaxlength612' |translate}}
+                </mat-error>
+                <mat-error *ngIf="sendSMSForm.controls['MessageBody'].hasError('minlength')">
+                    {{ 'label_message' |translate}} {{ 'label_errorminlength1' |translate}}
+                </mat-error>
+
+            </mat-form-field>
+
+            <div class="count-error">
+                <div class="sms-count">
+                    <span *ngIf="msgLength>0">{{msgLength}}:{{'label_characters' |translate}} /</span>
+                    <span *ngIf="smsCount>0"> {{'label_smscount' |translate}}:{{smsCount}}</span>
+                </div>
+                <span class="countlabelnew" color="warn">
+                    {{'label_balance' |translate}}:{{maxMessage}} {{'label_characters' |translate}}
+                </span>
+
+            </div>
+        </div>
+    </form>
+    <!-- </mat-card-content>
+
+    </div> -->
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter" id="actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+        {{'button_cancel'|translate}}</button>
+    <button mat-raised-button tabindex color="primary" type="button" id="btnSave"
+        [disabled]="!sendSMSForm.valid" (click)="onConfirm(this.sendSMSForm.value)">
+        {{'label_send'|translate}}
+    </button>
+</div>

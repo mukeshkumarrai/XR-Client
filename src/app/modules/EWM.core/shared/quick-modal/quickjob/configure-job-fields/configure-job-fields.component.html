@@ -1,0 +1,58 @@
+
+<!-- <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div> -->
+
+<div class="modal-header job-sms-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_selectJobScreen' | translate}} </h2>
+    <!-- <span class="badge primary" color="primary">
+        {{'label_smsCredits' |translate}}-{{balanceSMS}}
+    </span> -->
+</div>
+
+<mat-dialog-content id="sendSMSJobForCan" applyTabIndexes class="configure-job-content">
+    <div class="permission-list-container">
+        <!-- <div class="headerTopFix row">
+            <div class="col l12 m12 s12">
+                <strong>Role :</strong> <span class="userRolePerTxt">{{permissionforRole}}</span>
+            </div>
+        </div> -->
+
+        <div class="check-data mt-10 mb-10">
+          
+                 <mat-checkbox class="selectAllPermission" id="userRole-checkboxPermission" color="primary"
+                    [checked]="allchecked" [indeterminate]="somechecked()" (change)="checkAll($event.checked)">
+                    {{'label_selectAll'|translate}}</mat-checkbox>
+          
+            <!-- <div>
+
+                <button mat-button class="collapsBtn" tabindex="3" type="button" color="primary"
+                    (click)="toggleAccordian()" *ngIf="!isCollaps" id="btnUnfoldPermission">
+                    <mat-icon>remove_box</mat-icon>
+                    <span class="buttonTxt">{{'label_unfoldAll' |translate}}</span>
+                </button>
+                <button mat-button class="collapsBtn" tabindex="4" type="button" color="primary"
+                    (click)="toggleAccordian()" *ngIf="isCollaps" id="btnCollapsBtn">
+                    <mat-icon>add_box</mat-icon>
+                    <span class="buttonTxt">{{'label_collapseAll' |translate}}</span>
+                </button>
+            </div> -->
+
+        </div>
+        
+        <!--put tree control-->
+        <app-configure-job-field-permission *ngFor="let c of Menudata;let i =index" [data]="c" [id]="i" [title]="c.GroupName"
+            [opened]="c.isCollapse" (menudata)="updatedata($event)" (toggle)="c.isCollapse = !c.isCollapse">
+        </app-configure-job-field-permission>
+    </div>
+    
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter" id="actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+        {{'button_cancel'|translate}}</button>
+    <button mat-raised-button tabindex color="primary" type="button" id="btnSave"
+        (click)="onSavePermission()">
+        {{'label_save'|translate}}
+    </button>
+</div>

@@ -1,0 +1,120 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-document-category-mat-card-header">
+    <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_adddocument'|translate}}</mat-card-title>
+    <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_editdocument'|translate}}</mat-card-title>
+    <div class="actionButton">
+
+        <button mat-raised-button color="warn" tabindex="9" [routerLink]="['../']" [queryParams]="{V:viewMode}"
+            id="btnCancel" class="buttonForDesktopMobile">
+            <mat-icon>close</mat-icon>
+            <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+        </button>
+        <button mat-raised-button tabindex="" class="buttonForDesktopMobile" color="primary"
+            (click)="onSave(this.addForm.value,this.activestatus)" type="button" id="btnSave"
+            [disabled]="!addForm.valid">
+            <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save'|translate}}</span>
+        </button>
+    </div>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-document-category-drawer">
+
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+        <div class="row addEditSec">
+            <ng-template #template let-anchor>
+                <span>{{ anchor.nativeElement.innerText }}</span>
+            </ng-template>
+            <form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data'
+                class="col l12 m12 s12">
+                <div class="row mb-0">
+                    <div class="ng-slectBox col l4 m6 s12">
+                        <ng-select placeholder="{{'label_usertype'|translate}}" class="show-required"
+                            [clearable]="true" tabindex="1" formControlName="UserTypeId"
+                            (change)="onUserTypeChange($event)" id="UserTypeId" required>
+                            <ng-option disabled="true" value="" disabled>{{'label_usertype'|translate}}</ng-option>
+                            <ng-option *ngFor="let list of userTYpeList" [value]="list.Id">{{list.InternalName}}
+                            </ng-option>
+
+                        </ng-select>
+
+                        <mat-error
+                            *ngIf="addForm.controls['UserTypeId'].hasError('required') && addForm.controls['UserTypeId'].touched">
+                            {{'label_usertype'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="row mb-0">
+                    <mat-form-field class="col l4 m6 s12">
+                        <mat-label>{{'label_document'|translate}}</mat-label>
+                        <input matInput formControlName="CategoryName" id="CategoryName" tabindex="2"
+                            placeholder="{{'label_document'|translate}}" 
+                            (blur)="checkUnique(false)" required />
+
+                        <mat-error *ngIf="addForm.controls['CategoryName'].hasError('required')">
+                            {{'label_document'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                        <!-- Error message changed by Adarsh Singh -->
+                        <mat-error
+                            *ngIf="addForm.controls['CategoryName'].hasError('maxlength') && !addForm.controls['CategoryName'].hasError('whitespace')">
+                            {{'label_document'|translate}} {{'label_errormaxlength100'|translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addForm.controls['CategoryName'].hasError('codeTaken')">
+                            {{'label_document'|translate}} {{'label_errorreqiredAlready'|translate}}
+                        </mat-error>
+                        <!--  @Who: maneesh, @When: 21-dec-2022,@Why: EWM-9955 addnoWhitespaceValidator -->
+
+                        <mat-error
+                            *ngIf="addForm.controls['CategoryName'].hasError('whitespace') && !addForm.controls['CategoryName'].hasError('required')">
+                            {{'label_document' |translate}} {{'label_nameValidation' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+                <div class="row mb-0">
+
+                    <div class="ng-slectBox col l4 m6 s12">
+                        <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data---->
+                        <ng-select placeholder="{{'label_status'|translate}}" class="show-required" [clearable]="false" tabindex="3"
+                            formControlName="Status" id="document-status" required>
+                            <ng-option value="" disabled>{{'label_status'|translate}}</ng-option>
+                            <ng-option *ngFor="let list of statusList" [value]="list.StatusId">{{list.StatusName}}
+                            </ng-option>
+
+                        </ng-select>
+
+                        <mat-error
+                            *ngIf="addForm.controls['Status'].hasError('required') && addForm.controls['Status'].touched">
+                            {{'label_status'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="row mb-0">
+                    <div class="col l2 m6 s6">
+                        <mat-label>{{'label_hideexternally' |translate}}</mat-label>
+                    </div>
+                    <div class="col l3 m6 s6">
+                        <mat-slide-toggle formControlName="HideExternally" 
+                            id="dumentCategory-HideExternally" tabindex="4" (change)="setValue($event)" color="primary">
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+                <div class="row mb-0">
+                    <div class="col l2 m6 s6">
+                        <mat-label>{{'label_ExpiryDate' |translate}}</mat-label>
+                    </div>
+                    <div class="col l3 m6 s6">
+                        <mat-slide-toggle formControlName="ExpiryDate"
+                            id="dumentCategory-ExpiryDate" tabindex="5" (change)="setValue($event)" color="primary">
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+                
+
+            </form>
+        </div>
+    </mat-card>
+
+</mat-drawer-container>

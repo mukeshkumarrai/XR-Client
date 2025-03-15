@@ -1,0 +1,72 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<form [formGroup]="addForm" applyTabIndexes  id="share-document-form">
+    <div  class="quick-dialog-candidateAdd-dependent" id="share-document">
+       <h2 mat-dialog-title>
+            {{'label_externalShare' | translate}}
+        </h2>
+        <mat-dialog-content class="col">
+          <div class="row mb-0">
+            <div class="col l12 m12 s12 custum-warning-msg">
+                <mat-form-field class="example-chip-list">
+                    <mat-label>{{'label_share_to' | translate}}</mat-label>
+                    <input matInput placeholder="{{'lable_validemailerr' | translate}}" #nameInput
+                    [matChipInputFor]="chipList" formControlName="SharedEmailIds" style="width: 100%;"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" required
+                    (blur)="addEmail($event.target.value)">
+                    <mat-chip-list #chipList aria-label="user selection"  required>
+                        <mat-chip *ngFor="let userList of userSelectedList | slice:0:this.userListLengthMore" [selectable]="selectable"
+                            [removable]="true" (removed)="remove(userList.id)">
+                            {{userList.email}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                        <mat-chip *ngIf="(userSelectedList!=undefined) && (userSelectedList.length > this.userListLengthMore)">
+                          <!-- One more -->
+                          <span class="ng-value-label"
+                              (click)="clickForMoreRecord()">{{userSelectedList.length -
+                              this.userListLengthMore}} more...</span>
+                      </mat-chip>
+                        
+                        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                    </mat-chip-list>
+
+          </mat-form-field>
+          <mat-error *ngIf="addForm.controls['SharedEmailIds'].hasError('required') && addForm.controls['SharedEmailIds'].touched">
+            {{'label_email'|translate}} {{'label_errorreqired'|translate}}
+          </mat-error>
+          <mat-error *ngIf="addForm.controls['SharedEmailIds'].hasError('pattern')">
+            {{'label_emailreqired'|translate}} 
+          </mat-error>
+          <mat-error *ngIf="addForm.controls['SharedEmailIds'].hasError('hasEamil')">
+            {{'label_email'|translate}} {{'label_errorreqiredAlready'|translate}}
+          </mat-error>
+        </div>
+       
+      </div>
+
+      <div class="row mb-0 counterTxt">
+        <mat-form-field class="col l12 m12 s12 ">
+          <mat-label>{{'label_validityLink' | translate}}</mat-label>
+          <input matInput formControlName="LinkExpiryDays" type="number" id="validityDays" tabindex="2"
+              placeholder="Enter No" min="1" max="365"  (keyup)="conditionChcek()" appDigitOnly />
+              <mat-error *ngIf="addForm.controls['LinkExpiryDays'].hasError('numbercheck')">
+                {{'label_validityLink'|translate}} {{'label_DocShareMaxLength'|translate}}
+            </mat-error>
+          <div matSuffix class="days">Days</div>
+        </mat-form-field>
+        
+      </div>
+
+    </mat-dialog-content>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+      {{'button_cancel'|translate}}</button>
+      <button mat-stroked-button color="warn" tabindex type="button" [disabled]="isBtnDisabled" (click)="revokeAccess()" id="btnRevoke">{{'label_revokeaccess'|translate}}</button>
+    <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid" (click)="onSave(addForm.value)"
+      id="btnSave">{{'label_share'|translate}}</button>
+  </div>
+</form>

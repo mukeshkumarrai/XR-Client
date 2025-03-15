@@ -1,0 +1,41 @@
+/*
+  @Type: File, <ts>
+  @Who: Adarsh singh
+  @When: 01-june-2023
+  @Why: EWM-6872-EWM-7186
+  @What: displaying job posted boards of broadbean 
+*/
+.underline{text-decoration: underline;}
+::ng-deep {
+    .xeople-modal-lg{
+      .mat-dialog-container{
+        position: relative;
+      }
+    }
+  }
+  
+  // new listing
+  .question-list-sec{
+      overflow-y: hidden;
+      height: 100%;
+      .new-data-list-header{
+        grid:auto/20% 20% 20% 20% 20%;
+        z-index: 3;
+      }
+      .new-data-list-content{
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: calc(100% - 40px);
+        .new-data-list-list{
+          grid:auto/20% 20% 20% 20% 20%;
+          .img-new-data{
+            span{
+              display: flex;
+              img{
+                padding:5px;
+              }
+            }
+          }
+        }
+      }
+    }

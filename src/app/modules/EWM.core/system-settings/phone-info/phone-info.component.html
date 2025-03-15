@@ -1,0 +1,36 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 14-Dec-2020
+    @Why: ROST-536
+    @What:  This page wil be use only for the Web: Search with special character POC purpose
+-->
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Phone info </mat-card-title>
+        <div class="actionButton">
+            <button mat-raised-button color="primary" id="submit" 
+              >Save</button>
+        </div>
+
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <div class="row mb-0">
+            <mat-card-subtitle class="col s12 m12 l12 subTitle">Phone Info</mat-card-subtitle>
+            <form class="example-form">
+                <mat-form-field class="col l6 m12 s12">
+                  <input #inputField type="text" placeholder="Pick one" aria-label="Number" matInput 
+                  [formControl]="myControl" [matAutocomplete]="auto" (keyup)="changeDetect($event.target.value)">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions" [value]="option.id">
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </form>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,29 @@
+<div class="choose-layout" id="choose-layout" >
+    <mat-card class="container" id="simple-layout-card">
+
+        <div class="watermark" id="watermark"><span>Xeople sample</span></div>
+        <div class="simple-layout" id="simple-layout">
+            <div class="layout-column-logo" id="layout-column-logo">
+                <a class="logo">
+                    <img width="120" src="{{guideLines?.PreviewLogoPath}}">
+                </a>
+            </div>
+            <div class="layout-column-welcome" id="layout-column-welcome" *ngIf="patternId==1">
+                <p><strong>{{'label_candidateHeading'|translate}},</strong></p>
+                <p>You have submitted <strong>{{finealAttemptQuestionLength}}</strong> out of <strong>{{totalQues}}</strong> questions.</p>
+                <p>Your response has been captured.</p>
+                <p>Thank You!</p>
+            </div>
+            <div class="layout-column-welcome" id="layout-column-welcome" *ngIf="patternId==2">
+                <p><strong>{{'label_candidateHeading'|translate}},</strong></p>
+                <p>You have submitted <strong>{{finealAttemptQuestionLength}}</strong> out of <strong>{{patternIdCountQuestion}}</strong> tests.</p>
+                <p>Your response has been captured.</p>
+                <p>Thank You!</p>
+            </div>
+
+            <div class="layout-column-guidelies">
+                <mat-icon class="sucssess-icon">thumb_up_off_alt</mat-icon>
+            </div>
+        </div>
+    </mat-card>
+</div>

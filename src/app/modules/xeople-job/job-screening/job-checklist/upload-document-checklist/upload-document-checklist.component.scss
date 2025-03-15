@@ -1,0 +1,90 @@
+.fileType{
+    position: relative;
+    top: 0px;
+    font-size: 11px;
+    color: #fe7009;
+    left: -40px;
+    margin:1px 0px 5px 0px;
+    @media only screen and (max-width: 600px) and (min-width: 320px){
+      left: 0px;
+    }
+  }
+  .counterTxt{
+      position: relative;
+    .countlabel{
+      margin-top: 0px;
+      text-align: right;
+      color: #fe7000;
+      font-size: 80%;
+      position: absolute;
+      bottom: 5px;
+      right: 0px;
+    }
+  }
+  .breadcum {
+    display: block;
+    margin-top: -15px;
+    margin-bottom: 3px;
+    .breadcumContent {
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 16px;
+      padding: 0px 0px 0px 0px;
+    }
+    .breadcumContentopen {
+      font-size: 18px;
+      padding: 0px;
+      font-weight: 800;
+      font-style: italic;
+      line-height: 16px;
+      padding: 0px 0px 0px 0px;
+      min-width: unset;
+    }
+    .label_breadcum {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      text-align: left;
+      max-width: 600px;
+      padding-right: 5px;
+    }
+  
+    .arrowIcon {
+      position: relative;
+      top: 1px;
+      font-size: 20px;
+      height: 10px;
+      width: 13px;
+    }
+  
+    .threeDotStyleMobile {
+      display: none;
+    }
+  }
+  .addEditSec{
+    .mat-card-subtitle{
+      margin:-5px 0px 5px;
+      font-size: 11px;
+      line-height: 13px;
+    }
+    .show-hide{
+      display: flex;
+      justify-content: flex-end;
+      margin: 5px 0px;
+      .mat-stroked-button{
+        padding: 0px 10px;
+        span{
+          display: flex;
+          align-items: center;
+          .mat-icon{
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            font-size: 24px;
+            margin: 0px 2px;
+          }
+        }
+      }
+    }
+  }

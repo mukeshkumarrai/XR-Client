@@ -1,0 +1,55 @@
+/* @When: 20-Nov-2023 @who:Amit @why: EWM-15076 @what: job action job notes style */
+@import "../../../../../../modules/EWM-Employee/employee-detail/employee-notes/employee-notes.component.scss";
+
+// @(C): Entire Software @Who: Satya Prakash Gupta @When: 23-Aug-2023 @Why: EWM-13770 EWM-13838 @What:  scss page
+.right-tab-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  .right-box {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding-top: 7px;
+    .header-button{
+      min-width: 36px;
+      .mat-icon{
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+    .mat-stroked-button {
+      height: 36px;
+      position: relative;
+      top: -7px;
+    }
+    .mat-icon.info {
+      cursor: default;
+      position: relative;
+      top: -7px;
+    }
+  }
+}
+
+@mixin avtaar-name-width-height {
+  width: 35px;
+  height: 35px;
+}
+.job-summary-container {
+  overflow: hidden;
+  .common-notes-sec {
+    height: calc(100vh - 325px);
+    overflow: auto;
+    @media only screen and (max-width: 480px) and (min-width: 240px){ 
+      height: calc(100vh - 385px);
+    }
+    .common-notes-content {
+      padding-top: 5px;
+      .topToBottom.mat-fab {
+        position: absolute;
+        bottom: 15px;
+        right: 20px;
+      }
+    }
+  }
+}

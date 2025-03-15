@@ -1,0 +1,73 @@
+
+// @When: 23-02-2024 @who:Amit @why: EWM-16185 @what: proximity search style //
+@import '../../../../styles-var.scss';
+@import '../../../../mixinStyle.scss';
+.proximity-card-content{
+    min-height: 38vh;
+    .search-address{
+        font-size: 13px;
+        font-weight: 500;
+        margin: 0px 0px 10px;
+    }
+    .location{
+        display: flex;
+        align-items: flex-start;
+        gap: 5px;
+        margin-bottom: 12px;
+        margin-top: 15px;
+        box-shadow: #ffa000 0px 0px 0px 0.4px, #ffa000 0px 0px 0px 0.4px;
+        border-radius: 5px;
+        background: rgba(255, 160, 0, 0.05);
+        padding: 10px 0px 8px 10px;
+        .address{
+            width: calc(100% - 45px);
+        }
+        h3{
+            color: #FFA000;
+            border-radius: 3px 3px 0px 0px;
+            margin: 0px;
+            font-size: 13px;
+            width: 30px;
+        }
+        p{
+            margin: 0px 0px 3px;
+            font-size: 13px;
+            word-break: break-word;
+            span{
+                font-weight: 500;
+            }
+        }
+    }
+    .contact-radio-group{
+        mat-radio-button{
+            padding-inline: 0px 20px;
+            padding-block: 10px;
+        }
+    }
+    .distance{
+        p{
+            margin: 0px;
+            color: rgba(0, 0, 0, 0.54);
+        }
+        .search-km{
+            display: flex;
+            align-items: center;
+            width: calc(100% - 53%);
+            column-gap: 5px;
+            @include for-small-smartphones{
+                width: 100%;
+            }
+            .kilo-metre{
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0.57);
+                font-weight: 600;
+                background: #f5f5f5;
+                padding: 1px 5px;
+                border-radius: 3px;
+                margin-inline-start: 5px;
+                height: 20px;
+                line-height: 20px;
+            }
+        }
+    }
+}

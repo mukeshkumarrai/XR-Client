@@ -1,0 +1,255 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 22-Sep-2022
+    @Why: EWM-8875
+    @What:  This page is creted for BurstSms Component HTML
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="page-header" id="seek-integration-mat-card-header">
+    <mat-card-title class="only-title ml-5">{{'label_partners' |translate}} </mat-card-title>
+
+    <div class="header-action-button" id="tenant-feature-actionButton">
+        <div class="group-header-button">
+            <button mat-raised-button class="header-button" (click)="backToJob()"
+                matTooltip="{{'label_backtointegrations'|translate}}"
+                (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+                matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                <mat-icon id="{{animationVar?.ActionsButton?.id}}" class="{{animationVar?.ActionsButton?.isAnimClass}}">
+                    keyboard_backspace</mat-icon>
+            </button>
+        </div>
+    </div>
+
+</mat-card-header>
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="seek-integration-drawer">
+    <mat-card class="seek-mat-card component-card mat-elevation-z2">
+        <mat-card-content class="mt-0 pt-0 pb-0">
+
+            <div class="showAccessSection">
+                <mat-card class="interfaceBoardContainer mat-elevation-z0 mb-0 p-0">
+
+                    <div class="row seekIntegrationSection">
+
+                        <mat-card-title>{{'label_burstSmsIntegration' |translate}}</mat-card-title>
+
+                        <div class="seekbox mb-15">
+                            <div class="seekImbBox">
+                                <img src="{{LogoUrl}}" />
+                            </div>
+                            <div class="seekButtonBox">
+                                <button mat-stroked-button *ngIf="!visibilityStatus" id="getStartedId"
+                                    class="greenColorBtn" (click)="openSeekFormData('Add')">
+                                    <span class="buttonTxt">{{'label_getStarted' |translate}}</span>
+                                </button>
+                                <button mat-stroked-button *ngIf="visibilityStatus" id="getDisconnectId"
+                                    class="warnColorBtn" (click)="disconnectPopUp()">
+                                    <span class="buttonTxt">{{'label_emailDisconnect' |translate}}</span>
+                                </button>
+                                <button mat-stroked-button *ngIf="visibilityStatus" id="getUpdateId"
+                                    class="greenColorBtn" (click)="openSeekFormData('edit')">
+                                    <span class="buttonTxt">{{'label_updateSettings' |translate}}</span>
+                                </button>
+                                <span class="profileBuildBtn" id="tenantFeatureTag">
+                                    <mat-icon>local_offer</mat-icon>
+                                    {{TagCode}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col l12 m12 s12" *ngIf="showTabData">
+                            <div class="row">
+                                <div class="seekContentSectionBox">
+                                    <p class="mb-0">{{Description}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="">
+                                    <div class="user-invitaion tab-container margin0">
+                                        <mat-tab-group id='userinvitation-mtg'>
+                                            <mat-tab>
+                                                <ng-template mat-tab-label matRippleDisabled="disabled">
+                                                    {{'label_snaps' | translate}}
+                                                </ng-template>
+                                                <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0"
+                                                    [navigation]="true" (swiper)="onSwiper($event)"
+                                                    (slideChange)="onSlideChange()" [ngClass]="screenPreviewClass"
+                                                    class="urOrderList">
+                                                    <ng-template class="carousel-cell"
+                                                        *ngFor="let images of IntegrationImages" swiperSlide>
+                                                        <div class="stageListItems">
+                                                            <img src="{{images.ImageUrl}}" />
+                                                        </div>
+                                                    </ng-template>
+                                                </swiper>
+                                            </mat-tab>
+                                            <mat-tab>
+                                                <ng-template mat-tab-label matRippleDisabled="disabled">
+                                                    {{'label_video' | translate}}
+                                                </ng-template>
+                                                <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0"
+                                                    [navigation]="true" (swiper)="onSwiper($event)"
+                                                    (slideChange)="onSlideChange()" [ngClass]="screenPreviewClass"
+                                                    class="urOrderList">
+                                                    <ng-template class="carousel-cell" swiperSlide>
+                                                        <div class="stageListItems">
+                                                            <video class="videoHeight" width="100%" controls>
+                                                                <source src="{{VideoUrl}}" type="video/mp4">
+                                                                <source src="{{VideoUrl}}" type="video/ogg">
+                                                                Your browser does not support HTML video.
+                                                            </video>
+                                                        </div>
+                                                    </ng-template>
+                                                </swiper>
+                                            </mat-tab>
+                                            <mat-tab>
+                                                <ng-template mat-tab-label matRippleDisabled="disabled">
+                                                    {{'label_contactDetails' |translate}}
+                                                </ng-template>
+                                                <mat-card class="contactDetailsSection">
+                                                    <div class="contact-details">
+                                                        <p>{{'label_locationName' | translate}}</p>
+                                                        <span class="spnStyle">{{LocationName?LocationName:'--'}}</span>
+                                                    </div>
+                                                    <mat-divider class="mt-0 mb-0"></mat-divider>
+                                                    <div class="contact-details">
+                                                        <p>{{'label_locationType' | translate}}</p>
+                                                        <span class="spnStyle">{{LocationType?LocationType:'--'}}</span>
+                                                    </div>
+                                                    <mat-divider class="mt-0 mb-0"></mat-divider>
+                                                    <div class="contact-details">
+                                                        <p>{{'label_country' | translate}}</p>
+                                                        <span class="spnStyle">{{Country?Country:'--'}}</span>
+                                                    </div>
+                                                    <mat-divider class="mt-0 mb-0"></mat-divider>
+                                                    <div class="contact-details">
+                                                        <p>{{'label_addressLine1' | translate}}</p>
+                                                        <span class="spnStyle">{{AddressLine1?AddressLine1:'--'}}</span>
+                                                    </div>
+                                                    <mat-divider class="mt-0 mb-0"></mat-divider>
+                                                    <div class="contact-details">
+                                                        <p>{{'label_addressLine2' | translate}}</p>
+                                                        <span class="spnStyle">{{AddressLine2?AddressLine2:'--'}}</span>
+                                                    </div>
+                                                    <mat-divider class="mt-0 mb-0"></mat-divider>
+                                                    <div class="contact-details">
+                                                        <p>{{'label_districtSuburb' | translate}}</p>
+                                                        <span class="spnStyle">{{District?District:'--'}}</span>
+                                                    </div>
+                                                    <mat-divider class="mt-0 mb-0"></mat-divider>
+                                                    <div class="contact-details">
+                                                        <p>{{'label_city' | translate}}</p>
+                                                        <span class="spnStyle">{{TownCity?TownCity:'--'}}</span>
+                                                    </div>
+                                                    <mat-divider class="mt-0 mb-0"></mat-divider>
+                                                    <div class="contact-details">
+                                                        <p>{{'label_state' | translate}}</p>
+                                                        <span class="spnStyle">{{State?State:'--'}}</span>
+                                                    </div>
+                                                </mat-card>
+                                            </mat-tab>
+                                        </mat-tab-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="showSeekFormData">
+                            <div class="seekContentSectionBox">
+                                <p style="font-weight: 600;">{{'label_burstSMS' |translate}} 
+                                </p>
+                            </div>
+                            <div class="seekDetails">
+                                <form [formGroup]="seekIntegrationForm" class="p-0">
+                                    <div class="positionRelative">
+                                        <mat-form-field class="l5 m5 s5">
+                                            <mat-label>{{'label_APIUrl' |translate}}</mat-label>
+                                            <input matInput tabindex="3" value="{{ClientSecretUrl}}" text="APIKeyUrl"
+                                                id="APIKeyUrl" readonly>
+                                                <mat-icon color="warn" matSuffix
+                                                matTooltip="{{'label_brustSmsAPIUrlhelpIcon' |translate}}"
+                                                matTooltipPosition="left" matSuffix>info_outline
+                                            </mat-icon>
+                                        </mat-form-field>
+                                       
+                                    </div>
+                                    <div class="positionRelative">
+                                        <mat-form-field class="l5 m5 s5">
+                                            <mat-label>{{'label_APIKey' |translate}}</mat-label>
+                                            <input matInput tabindex="3" formControlName="ClientId" text="APIKey"
+                                                id="APIKey" required (change)="changeAPIKey()">
+                                            <mat-error
+                                                *ngIf="seekIntegrationForm.controls['ClientId'].hasError('required')">
+                                                {{'label_APIKey' |translate}} {{'label_errorreqired'
+                                                |translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="seekIntegrationForm.controls['ClientId'].hasError('maxlength') && !seekIntegrationForm.controls['ClientId'].hasError('whitespace')">
+                                                {{'label_APIKey'|translate}} {{'label_errormaxlength255'|translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="seekIntegrationForm.controls['ClientId'].hasError('whitespace') && !seekIntegrationForm.controls['ClientId'].hasError('required')">
+                                                {{'label_APIKey' |translate}} {{'label_nameValidation' |translate}}
+                                              </mat-error>
+                                              <mat-icon color="warn" matSuffix
+                                                matTooltip="{{'label_brustSmsAPIKeyhelpIcon' |translate}}"
+                                                matTooltipPosition="left" matSuffix>info_outline
+                                            </mat-icon>
+                                        </mat-form-field>
+                                       
+
+                                    </div>
+                                    <!-- // who:bantee,what:ewm-12854,What: Add Dedicated Number while activating Burst SMS from marketplace,when:03/07/2023 -->
+                                    <div>
+                                        <mat-form-field class="l5 m5 s5">
+                                            <mat-label>{{'label_burstSMS_DedicatedNumber'  |translate}}
+                                            </mat-label>
+                                            <input matInput tabindex="3" formControlName="DedicatedNumber" (keyup)="clearMessage()"
+                                                text="label_burstSMS_DedicatedNumber" appDigitOnly id="label_burstSMS_DedicatedNumber" >
+                                        </mat-form-field>
+                                        <!-- <div class="clear"></div> -->
+                                        <div class='mat-error'>
+                                            <span *ngIf="messageValidation=='400050'">
+                                                {{'label_burstSMS_400050' |translate}}
+                                              </span>
+                                              <span *ngIf="messageValidation=='400051'">
+                                                {{'label_burstSMS_400051' |translate}}
+                                              </span>
+                                              <span *ngIf="messageValidation=='400052'">
+                                                {{'label_burstSMS_400052' |translate}}
+                                              </span>
+                                        </div>
+                                    </div>
+                                    <div class="right-align mt-15">
+                                        <div class="actionButton">
+                                            <button mat-raised-button tabindex="11" color="warn" (click)="onCancel()"
+                                                id="btnCancel" class="buttonForDesktopMobile">
+                                                <mat-icon>close</mat-icon>
+                                                <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+                                            </button>
+                                            <button mat-raised-button *ngIf="activestatus=='Add'" color="primary"
+                                                (click)="onSave(this.seekIntegrationForm.value)" type="button"
+                                                id="btnSave" [disabled]="!seekIntegrationForm.valid" tabindex="10"
+                                                class="buttonForDesktopMobile">
+                                                <mat-icon>check</mat-icon>
+                                                <span class="buttonTxt">{{'label_save'|translate}}</span>
+                                            </button>
+                                            <button mat-raised-button *ngIf="activestatus=='Edit'" color="primary"
+                                                (click)="onSave(this.seekIntegrationForm.value)"
+                                                [disabled]="!seekIntegrationForm.valid" type="button" id="btnUpdate"
+                                                tabindex="10" class="buttonForDesktopMobile">
+                                                <mat-icon>check</mat-icon>
+                                                <span class="buttonTxt">{{'label_update'|translate}}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</mat-drawer-container>

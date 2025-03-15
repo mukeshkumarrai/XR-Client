@@ -1,0 +1,79 @@
+.push-candidate-footer, .dialog-footer{
+    .mat-raised-button{
+        svg{
+            fill: #fff;
+        }
+    }
+    .mat-raised-button.mat-button-disabled{
+        svg{
+            fill: rgba(0, 0, 0, 0.12);
+        }
+    }
+}
+.push-candidate-footer{
+    display: none;
+}
+.push-candidate-to-eoh-modal.xeople-modal{
+    .mat-dialog-content{
+        height: calc(100vh - 163px);
+        max-height: calc(100vh - 163px);
+        overflow-x: hidden;
+    }
+    .mat-dialog-content.member-dialog-content{
+        height: calc(100vh - 120px);
+        max-height: calc(100vh - 120px);
+    }
+    .modal-header{
+        flex-direction: column;
+        margin-bottom: 0px;
+    }
+    .dialog-footer.mat-dialog-actions{
+        justify-content: flex-end;
+        &>.button-group{
+            display: flex;
+            .mat-stroked-button{
+                padding: 0px 16px !important;
+            }
+        }
+    }
+}
+.push-candidate-to-eoh-modal{
+    .push-candidate-to-eoh{
+        padding: 0px;
+        padding-top: 0px;
+        .card-group{
+            & > .mat-card{
+                &> .mat-card-content{
+                    & > .form-column{
+                        // width: calc(50% - 10px);
+                        // @media only screen and (max-width: 1024px) and (min-width: 768px){
+                        //     width: calc(50% - 10px);
+                        // }
+                        // @media only screen and (max-width: 767px) and (min-width: 240px){
+                        //     width: calc(100% - 0px);
+                        // }
+                    }
+                    & > .half-width{
+                        @media only screen and (max-width: 600px) and (min-width: 240px){
+                            flex-direction: column;
+                            width: calc(100% - 0px);
+                            row-gap: 0px;
+                        }
+                        &>.mat-form-field, &>.common_dropdown_v2{
+                            width: calc(50% - 10px);
+                            @media only screen and (max-width: 600px) and (min-width: 240px){
+                                width: calc(100% - 0px);
+                            }
+                        }
+                    }
+                    &>.address{
+                        width: calc(100% - 0px);
+                        @media only screen and (max-width: 1024px) and (min-width: 240px){
+                            width: calc(100% - 0px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

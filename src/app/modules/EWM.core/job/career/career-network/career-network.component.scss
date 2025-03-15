@@ -1,0 +1,31 @@
+.network{
+    margin-bottom:25px;
+    .social-network{
+        padding: 10px;
+        margin-bottom: 20px;
+        .mat-slide-toggle{
+            height: auto;
+            width: 100%;
+            img{
+                vertical-align: middle;
+            }
+            span{
+                padding:0px 8px;
+            }
+        }
+    }
+}
+
+.display-on{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 115px);
+    margin-top: 5px;
+}
+
+
+.error{
+    position: relative;
+    top: -18px;
+    font-size: 85%
+}

@@ -1,0 +1,18 @@
+@import "../../../../styles-var.scss";
+.actionBoxFooter{
+    margin: 0px;
+    min-height: auto;
+    display: block;
+    text-align: right;
+    .mat-stroked-button:first-child{
+        border-color: $primary-bg-color;
+    }
+    .mat-stroked-button:last-child{
+        border-color: $warn-bg;
+    }
+}
+.mat-dialog-title{
+    margin-top: -5px;
+    font-size: 18px;
+    margin-bottom: 10px;
+}

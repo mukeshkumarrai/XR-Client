@@ -1,0 +1,51 @@
+.multiselectChip{
+    display: flex;
+    gap: 2px;
+    &-chip{
+      display: grid;
+      grid: auto/ calc(100% - 20px)16px;
+      gap: 5px;
+      background-color: #e0e0e0;
+      color: rgba(0, 0, 0, 0.87);
+      border-radius: 16px;
+      height: 20px;
+      line-height: 17px;
+      padding: 2px 4px;
+      width: 115px;
+      cursor: default;
+      @media (min-width : 1024px) and (max-width : 1365px){
+        width: 114px;
+      }
+      &-text{
+        font-size: 11px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+    &-morechips{
+      width: 65px;
+      grid: initial;
+    }
+  }
+  :host ::ng-deep {
+    .multiselectChip-close.mat-fab{
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      .mat-button-wrapper{
+        padding: 0px;
+        line-height: 16px;
+      }
+      .mat-icon{
+        width: 16px;
+        height: 16px;
+        line-height: 15px;
+        font-size: 14px;
+      }
+    }
+  }

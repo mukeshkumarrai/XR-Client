@@ -1,0 +1,53 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: sample.component.html
+  @Who: Suika
+  @What: For sample html
+ --> 
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+ <mat-card id="industry-card">
+    <mat-card-header>
+        <mat-card-title>Employees</mat-card-title>
+        <span class="heading-spacer"></span>
+        <a mat-raised-button class="viewAuditlog" id="user-invitation-btnViewAudit" 
+        [routerLink]="['../system-audit-log/',auditParameter]">
+          <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+        </a>
+        <div class="actionButton listGridButton" *ngIf="formtitle=='grid'">
+          <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="listButton"
+            (click)="switchListMode('listMode')" id="industry-viewcardInactive">
+            <span class="material-icons">
+              format_list_bulleted
+            </span>
+          </button>
+          <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? 'active' : '']" class="gridButton"
+            (click)="switchListMode('cardMode')" id="industry-viewcardActive">
+            <span class="material-icons">
+              view_module
+            </span>
+          </button>
+        </div>
+   
+      </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50"
+        (scrolled)="onScrollDown()" [scrollWindow]="false">
+        <div class="sticky" *ngIf="formtitle=='grid'"
+            [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+            <div class="row mb-0" id="status-visibility">
+                </div>
+            <mat-card-subtitle class="col s12 m12 l12 subTitle">           
+              
+        </mat-card-subtitle>
+</div>
+
+    
+
+
+<div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+
+</mat-card-content>
+</mat-card>

@@ -1,0 +1,94 @@
+
+.listcardContentMaxData{
+    min-width: 1130px;
+  }
+  .sticky-width{
+    min-width: 1130px;
+  }
+
+  .col-1 {
+    width: 40%;
+  }
+  
+  .col-2 {
+    width: 20%;
+  }
+
+  .col-3 {
+    width: 37%;
+  }
+  .col-5 {
+    width: 3%;
+  }
+  
+
+// @media only screen and (min-width:1270px){
+//     .cardWidth{
+//         width: 33%;
+//     }
+// }
+
+// @media only screen and (min-width:1024px) and (max-width:1270px){
+//     .cardWidth{
+//         width: 50%;
+//     }
+// }
+// @media only screen and (min-width:320px) and (max-width:1024px){
+//     .cardWidth{
+//         width: 100%;
+//     }
+//     .maxData{
+//         max-height: 100%;
+//         overflow: auto;
+//     }
+// }
+
+.inputSearch{
+    display: block !important;
+    z-index: 9999999999;
+    position: absolute;
+    top: inherit;
+    left: inherit;
+    right: inherit;
+    bottom: inherit;
+    font-size: 64px;
+    background-color: rgba(0, 0, 0, 0);
+    right: 20px;
+    bottom: 18px;
+    font-size: 26px;
+  }
+
+  .list{
+    display: block !important;
+    z-index: 9999999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 64px;
+    background-color: rgba(0, 0, 0, 0.32);
+  }
+  .scrollloading{
+    height:75px;
+    position: relative;
+    background-color: transparent;
+    top: inherit;
+    right: inherit;
+    left: inherit;
+    bottom: inherit;
+  }
+  .search-results {
+    height: 300px;
+    overflow: auto;
+  }
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+    height: 70px;
+}
+.maxData:hover {
+    height: 70px;
+}
+
+
+.matEyeIcon{float:right; margin-right:20px}

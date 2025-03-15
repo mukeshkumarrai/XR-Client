@@ -1,0 +1,110 @@
+<!---
+   @Type: File, <html>
+    @Name: category-filter.component.html
+    @Who: Anup Singh
+    @When: 14-jan-2022
+    @Why:EWM-4465 EWM-4660
+    @What: popup component for category filter for my activity
+   -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>   
+   <form [formGroup]="addForm" id="clientNote" applyTabIndexes>
+   <h2> {{'label_category' | translate}}
+</h2>
+
+<div class="search-viewicon">
+    <mat-form-field class="searchInput">
+      <mat-label>{{'label_search'|translate}}</mat-label>
+      <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="{{''|translate}}"
+        [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}">
+      <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+      <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+        (click)="searchValue=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+    </mat-form-field>
+  </div>
+
+<mat-dialog-content class="col">
+    <div class="row mb-0">
+      <div class="col l12 m12 s12">
+        <div class="col nodata" *ngIf="this.gridListData==undefined ||this.gridListData.length==0">
+          <span>{{'label_noRecordAvailable'|translate}}</span>
+        </div>
+      </div>
+    </div>
+
+    <h4>{{'label_job'|customTranslate}}</h4>
+    <div class="row mainCardSection mb-0" id="my-activity-category">
+      <div class="col l4 m4 s12" *ngFor="let data of gridListData" tabindex>
+        <ng-container *ngIf="data.UserType=='Job'">
+          <mat-card class="notes-category-tag-box mat-elevation-z1 cursor" [ngClass]="data.IsSelected==0 ?'':'notes-category-tag-box-selected'" (click)="clickevent(data.Id,data.IsSelected)">
+          <div class="notes-category-tag" tabindex="3">
+            <mat-icon>{{data.Icon}}</mat-icon>
+            <div class="buttonTxt">{{data.ActivityCategory}}</div>
+          </div>
+          <mat-icon class="checked-icon">task_alt</mat-icon>
+        </mat-card>
+      </ng-container>
+    </div>
+  </div>
+
+    <h4>{{'label_Candidate'|customTranslate}}</h4>
+    <div class="row mainCardSection mb-0" id="my-activity-category">
+    <div class="col l4 m4 s12" *ngFor="let data of gridListData" tabindex>
+      <ng-container *ngIf="data.UserType=='Candidate'">
+        <mat-card class="notes-category-tag-box mat-elevation-z1 cursor" [ngClass]="data.IsSelected==0 ?'':'notes-category-tag-box-selected'" (click)="clickevent(data.Id,data.IsSelected)">
+        <div class="notes-category-tag" tabindex="3">
+          <mat-icon>{{data.Icon}}</mat-icon>
+          <div class="buttonTxt">{{data.ActivityCategory}}</div>
+        </div>
+        <mat-icon class="checked-icon">task_alt</mat-icon>
+      </mat-card>
+    </ng-container>
+  </div>
+</div>
+
+  <h4>{{'label_Employee'|customTranslate}}</h4>
+  <div class="row mainCardSection mb-0" id="my-activity-category">
+  <div class="col l4 m4 s12" *ngFor="let data of gridListData" tabindex>
+    <ng-container *ngIf="data.UserType=='Employee'">
+      <mat-card class="notes-category-tag-box mat-elevation-z1 cursor" [ngClass]="data.IsSelected==0 ?'':'notes-category-tag-box-selected'" (click)="clickevent(data.Id,data.IsSelected)">
+      <div class="notes-category-tag" tabindex="3">
+        <mat-icon>{{data.Icon}}</mat-icon>
+        <div class="buttonTxt">{{data.ActivityCategory}}</div>
+      </div>
+      <mat-icon class="checked-icon">task_alt</mat-icon>
+    </mat-card>
+  </ng-container>
+</div>
+  </div>
+
+<h4>{{'label_Client'|customTranslate}}</h4>
+<div class="row mainCardSection mb-0" id="my-activity-category">
+<div class="col l4 m4 s12" *ngFor="let data of gridListData" tabindex>
+  <ng-container *ngIf="data.UserType=='Client'">
+    <mat-card class="notes-category-tag-box mat-elevation-z1 cursor" [ngClass]="data.IsSelected==0 ?'':'notes-category-tag-box-selected'" (click)="clickevent(data.Id,data.IsSelected)">
+    <div class="notes-category-tag" tabindex="3">
+      <mat-icon>{{data.Icon}}</mat-icon>
+      <div class="buttonTxt">{{data.ActivityCategory}}</div>
+    </div>
+    <mat-icon class="checked-icon">task_alt</mat-icon>
+  </mat-card>
+</ng-container>
+</div>
+</div>
+   
+      
+   
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button color="warn" id="btnClose" (click)="onDismiss()" tabindex> {{'button_close' | translate}}</button>
+  <button mat-stroked-button color="primary" id="btnAdd" [disabled]="saveStatus" tabindex
+    (click)="onSave(addForm.value)">{{'label_apply' |translate}}</button>
+</mat-dialog-actions>
+
+</form>

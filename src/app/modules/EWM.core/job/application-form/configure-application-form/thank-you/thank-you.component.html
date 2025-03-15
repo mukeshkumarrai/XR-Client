@@ -1,0 +1,166 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: thank-you.component.html
+  @Who: Renu
+  @When: 01-oct-2022
+  @Why:  EWM-8901 EWM-9096
+  @What: thank you Page
+ -->
+<div class="welcome-page">
+    <form [formGroup]="thankYouFrom">
+
+        <!-- @When: 13-12-2023 @who:Amit @why: EWM-15194 @what: editor class use -->
+        <div class="configure-application-text-area counterTxt mb-15 html-editor-kendo">
+            <!-- <label class="textarea-lavel">
+                <span
+                    [ngStyle]="this.thankYouFrom.controls['ThankYouMessage'].hasError('required')
+                    &&
+                    this.thankYouFrom.controls['ThankYouMessage'].touched &&
+                    {'color': '#f44336'}" class="sub-ttile">{{'label_ThankYouMessage' |translate}}
+                    *</span>
+            </label> -->
+            <div class="col l12 m12 s12" id="alert_message">
+                <div class="html-editor-kendo" tabindex id="kendoHTMLEditer" (valueChange)="sendDataToParent(null)" >
+                    <mat-label
+                    [ngStyle]="thankYouFrom.controls['ThankYouMessage'].hasError('required') && showErrorDesc? 
+                    {'color': '#f44336'}:''">{{ 'label_ThankYouMessage' | translate}} <span class="required-show">*</span></mat-label>
+                <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal" [getEmailEditorVal]="getEmailEditorVal"
+                [ThankUpage]="ThankUpage" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()" [otherInputIcon]="true"
+                      (editorValueEmit)="getEditorFormInfo($event)"  (editorImageValueEmit)="getEditorImageFormInfo($event)" >
+                </app-mention-editor>     
+              </div>
+            </div>
+            <!-- @When: 07-03-2023 @who:Amit @why: EWM-10776 @what: add class  -->
+            <!-- <kendo-editor #editor tabindex formControlName="ThankYouMessage"
+                id="thankYouFrom-ThankYouMessage"
+                class="mailediter thank-you-editor" (valueChange)="sendDataToParent(null)" [iframe]="false">
+                <kendo-toolbar [overflow]="false" tabindex>
+                    <kendo-toolbar-buttongroup>
+                        <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorStrikethroughButton>
+                        </kendo-toolbar-button>
+                    </kendo-toolbar-buttongroup>
+                    <kendo-toolbar-buttongroup>
+                        <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorSuperscriptButton>
+                        </kendo-toolbar-button>
+                    </kendo-toolbar-buttongroup>
+                    <kendo-toolbar-buttongroup>
+                        <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorAlignCenterButton>
+                        </kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorAlignRightButton>
+                        </kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorAlignJustifyButton>
+                        </kendo-toolbar-button>
+                    </kendo-toolbar-buttongroup>
+                    <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+                    <kendo-toolbar-dropdownlist kendoEditorFontSize>
+                    </kendo-toolbar-dropdownlist>
+                    <kendo-toolbar-dropdownlist kendoEditorFontFamily>
+                    </kendo-toolbar-dropdownlist>
+                    <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+                    <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+                    </kendo-toolbar-colorpicker>
+                    <kendo-toolbar-buttongroup>
+                        <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+                        </kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+                        </kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+                    </kendo-toolbar-buttongroup>
+                    <kendo-toolbar-buttongroup>
+                        <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+                    </kendo-toolbar-buttongroup>
+                    <kendo-toolbar-buttongroup>
+                        <kendo-toolbar-button kendoEditorCreateLinkButton>
+                        </kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+                    </kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorInsertImageButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorCleanFormattingButton>
+                    </kendo-toolbar-button>
+                    <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                    <kendo-toolbar-buttongroup>
+                        <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+                        </kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+                        </kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorAddRowBeforeButton>
+                        </kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorAddRowAfterButton>
+                        </kendo-toolbar-button>
+                    </kendo-toolbar-buttongroup>
+                    <kendo-toolbar-buttongroup>
+                        <kendo-toolbar-button kendoEditorDeleteColumnButton>
+                        </kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+                        <kendo-toolbar-button kendoEditorDeleteTableButton>
+                        </kendo-toolbar-button>
+                    </kendo-toolbar-buttongroup>
+                    <kendo-toolbar-separator></kendo-toolbar-separator>
+                    <kendo-toolbar-splitbutton *ngFor="let item of (toolButtons$
+                        | async)" [text]="item.text"
+                        [icon]="item.icon" [data]="item.data">
+                    </kendo-toolbar-splitbutton>
+                </kendo-toolbar>
+
+            </kendo-editor> -->
+            <!-- <mat-error class="matErrorDesc"
+            *ngIf="thankYouFrom.controls['ThankYouMessage'].hasError('required')  &&
+            this.thankYouFrom.controls['ThankYouMessage'].touched">
+            {{'label_ThankYouMessage' |translate}}
+            {{'label_errorreqired' |translate}}
+        </mat-error> -->
+        </div>
+
+        
+        <div class="label-with-switch">
+            <label class="textarea-lavel">
+                <span>{{'label_selfDeclareToggle'|translate}}<span class="required-show">*</span></span>
+            </label>
+            <mat-slide-toggle color="primary"
+            formControlName="SelfDeclaration"
+            (change)="sendDataToParent($event);"
+            id="thankYouFrom-SelfDeclaration"></mat-slide-toggle>
+        </div>
+
+        <div class="counterTxt">
+            <mat-form-field class="textarea-form-field">
+                <label class="textarea-lavel">
+                    <span
+                        [ngStyle]="this.thankYouFrom.controls['SelfDeclarationMessage'].hasError('required')
+                        &&
+                        this.thankYouFrom.controls['SelfDeclarationMessage'].touched
+                        &&
+                        {'color': '#f44336'}">{{'label_SelfDeclarationMessage'
+                        |translate}} <span class="required-show">*</span></span>
+                    <small>{{'label_SelfshortDesc' |translate}} </small>
+                </label>
+                <textarea [attr.disabled]="isEnabled? '' : null" matInput formControlName="SelfDeclarationMessage"
+                    (keyup)="inputCountValue($event.target.value)"
+                    (blur)="sendDataToParent(null)" 
+                    id="thankYouFrom-SubHeading" rows="3"></textarea>
+                <mat-error
+                    *ngIf="thankYouFrom.controls['SelfDeclarationMessage'].hasError('maxlength')">
+                    {{'label_SelfDeclarationMessage' |translate}}
+                    {{'label_errormaxlength500' |translate}}
+                </mat-error>
+                <mat-error
+                *ngIf="thankYouFrom.controls['SelfDeclarationMessage'].hasError('required')">
+                {{'label_SelfDeclarationMessage' |translate}}
+                {{'label_errorreqired' |translate}}
+            </mat-error>
+            </mat-form-field>
+            <span class="countlabel" color="warn">
+                {{'label_balance' |translate}}: {{selfDeclarationCount}} {{'label_characters' |translate}}
+            </span>
+        </div>
+    </form>
+</div>

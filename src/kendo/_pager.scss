@@ -1,0 +1,153 @@
+/*@(C): Entire Software @Type: File, <scss> @Name: _pager.scss @Who: Satya Prakash Gupta @When: 10-Oct-2023 @Why: for pager @What: You can add global pager styles to this file*/
+@use "../colors";
+@use "pager-dark-theme";
+kendo-pager.k-grid-pager.k-pager-wrap, kendo-datapager.k-listview-pager.k-pager-wrap{
+    border:0px;
+    padding: 3px 0px !important;
+    @media only screen and (max-width: 1024px) and (min-width: 240px){
+        justify-content: center;
+    }
+    .k-pager-sizes, kendo-datapager-page-sizes{
+        flex: 1 1 0%;
+        @media only screen and (max-width: 1024px) and (min-width: 240px){
+            display: none;
+        }
+        .k-dropdown {
+            height: 26px;
+            border: 0px;
+            .k-dropdown-wrap {
+                background: transparent;
+                border: 0px;
+                border-bottom: 1px solid rgba(colors.$black-color, 0.42);
+                border-radius: 0px;
+                .k-select{
+                    .k-icon{
+                        &::before{
+                            font-family: "Material Icons";
+                            content: "keyboard_arrow_down";
+                            font-size: 20px;
+                        }
+                    }
+                }
+                &:focus {
+                    border: none;
+                    box-shadow: none;
+                }
+
+                .k-input {
+                    padding: 0px;
+                    height: 100%;
+                    padding-inline-start: 5px;
+                }
+            }
+        }
+    }
+    kendo-pager-info.k-pager-info, kendo-datapager-info{
+        flex: 0 0 auto;
+        order: 0;
+        margin: 0px;
+        @media only screen and (max-width: 767px) and (min-width: 240px){
+            display: none;
+        }
+    }
+    kendo-pager-prev-buttons, kendo-datapager-prev-buttons{
+        order: 10;
+        align-items: center;
+        display: flex;
+        .k-link{
+            color: rgba(colors.$black-color, 0.87);
+            &:hover{
+                color: colors.$primary-bg-color;
+                background: transparent;
+            }
+            &:focus{
+                box-shadow: none;
+            }
+        }
+        .k-pager-nav:not(.k-pager-first){
+            .k-icon{
+                font-size: 20px;
+                line-height: 20px;
+                height: 20px;
+                &::before{
+                    font-family: 'Material Icons';
+                    content: "chevron_left";
+                }
+            } 
+        }
+        .k-pager-first{
+            .k-icon{
+                &::before{
+                    font-family: 'Material Icons';
+                    content: "skip_previous";
+                }
+            }
+        }
+    }
+    kendo-pager-numeric-buttons, kendo-datapager-numeric-buttons{
+        order: 11;
+        .k-rounded-md {
+            display: none;
+        }
+        .k-link{
+            color: rgba(colors.$black-color, 0.87);
+            &:hover{
+                color: colors.$primary-bg-color;
+                background: transparent;
+            }
+            &:focus{
+                box-shadow: none;
+            }
+        }
+        .k-link.k-state-selected{
+            color: colors.$primary-bg-color;
+            position: relative;
+            background: transparent;
+            &::before{
+                content: "";
+                background: currentColor;
+                opacity: 0.20;
+                width: 100%;
+                height: 100%;
+                border-radius: 100%;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+            }
+        }
+    }
+    kendo-pager-next-buttons, kendo-datapager-next-buttons{
+        order: 12;
+        align-items: center;
+        display: flex;
+        .k-link{
+            color: rgba(colors.$black-color, 0.87);
+            &:hover{
+                color: colors.$primary-bg-color;
+                background: transparent;
+            }
+            &:focus{
+                box-shadow: none;
+            }
+        }
+        .k-pager-nav:not(.k-pager-last){
+            .k-icon{
+                font-size: 20px;
+                line-height: 20px;
+                height: 20px;
+                &::before{
+                    font-family: 'Material Icons';
+                    content: "chevron_right";
+                }
+            } 
+        }
+        .k-pager-last{
+            .k-icon{
+                &::before{
+                    font-family: 'Material Icons';
+                    content: "skip_next";
+                }
+            }
+        }
+    }
+}

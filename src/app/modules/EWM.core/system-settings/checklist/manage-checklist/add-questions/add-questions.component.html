@@ -1,0 +1,102 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Suika
+    @When: 03 Aug 2022
+    @Why: EWM-7427 EWM-7635
+    @What: This component is used for add questions templates.
+-->
+<form [formGroup]="addQuestionsForm" id="UploadCoverPageForm">
+  <!-- <div class="quick-dialog"> -->
+    <div class="modal-header">
+      <h2 matDialogTitle class="mb-0">{{'Heading_task' | translate}}</h2>
+    </div>
+    <mat-dialog-content>
+      <!-- <div class="row mb-0"> -->
+        <mat-form-field>
+          <mat-label>{{'label_task' |translate}}</mat-label>
+
+          <textarea matInput formControlName="Question" rows="2" id="Question" tabindex="1"
+            placeholder="{{'label_task'|translate}}" required (blur)="checkDuplicity()"></textarea>
+          <mat-error *ngIf="addQuestionsForm.controls['Question'].hasError('required')">
+            {{'label_task'|translate}} {{'label_errorreqired'|translate}}
+          </mat-error>
+          <mat-error *ngIf="addQuestionsForm.controls['Question'].hasError('codeTaken')">
+            {{'label_task'|translate}} {{'label_errorreqiredAlready'|translate}}
+          </mat-error>
+          <mat-error *ngIf="addQuestionsForm.controls['Question'].hasError('maxlength')">
+            {{'label_task'|translate}} {{'label_errormaxlength300'|translate}}
+          </mat-error>
+          <mat-error *ngIf="addQuestionsForm.get('Question').hasError('whitespace') && !addQuestionsForm.controls['Question'].hasError('required')">
+            {{'label_task' |translate}} {{'label_nameValidation' |translate}}
+          </mat-error>
+          
+        </mat-form-field>
+      <!-- </div> -->
+
+      <!-- <div class="row mb-0"> -->
+        <mat-checkbox color="primary" name="IsResponseFreeText" id="IsResponseFreeText"
+          formControlName="IsResponseFreeText">
+          {{'label_required_response'|translate}}</mat-checkbox>
+      <!-- </div> -->
+
+     <!-- who:maneesh,what:ewm-10404 for add check box when:02/05/2023 -->
+        <mat-checkbox color="primary" name="IsAttachment" id="IsAttachment"
+        formControlName="IsAttachment">
+        {{'label_required_attachment'|translate}}</mat-checkbox>
+
+      <!-- who:Ankit Rawat,what:EWM-17538 Added mandatory checkbox for make this required field when:05Jul24 --> 
+      <mat-checkbox color="primary" name="IsMandatory" id="IsMandatory"
+        formControlName="IsMandatory">
+        {{'label_task_checkbox'|translate}}</mat-checkbox>
+      <!-- <div class="row mb-0">
+        <div class="col l12 m12 s12"> -->
+          
+        <!-- </div>
+      </div> -->
+    <!-- //I am comment this who:maneesh,what:ewm-10404 for add required checkbox IsAttachment when:02/06/2023 -->
+
+        <!---------@When: 20-03-2023 @who:Adarsh singh @why: EWM-10238 @Desc- Added slice for show file only 2--------->
+      <!-- <div class="uploadMultiple-files" *ngIf="this.fileAttachments?.length>0" id="myActivity-documentAttachment">
+        <div class="" *ngFor="let files of fileAttachmentsOnlyTow | slice : 0 : 2">
+          <mat-card class="matCardAttach" id="myActivity-documentAttachmentCard">
+            <div class="email-attachment">
+              <div class="file-detail text-overflow" tabindex>
+                <span>{{files.Name}}</span>
+                <span>{{files.Size | fileSize }}</span>
+              </div>
+              <mat-icon class="matCloseIcon" tabindex (click)="removeAttachment(files)" id="myActivity-documentRemove">
+                cancel</mat-icon>
+            </div>
+          </mat-card>
+        </div>
+
+
+        <div class="" *ngIf="this.fileAttachments.length>2">
+          <mat-card class="matCardAttach moreAttach" (click)="openMultipleAttachmentModal()"
+            id="myActivity-documentAttachmentPopupShow">
+            <div class="email-attachment">
+              <div class="file-detail" tabindex>
+                <span></span>
+                <span>{{fileAttachments?.length-2}} {{'label_more' | translate}}..</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div> -->
+
+    </mat-dialog-content>
+  <!-- </div> -->
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <!-- //I am comment this who:maneesh,what:ewm-10404 for add required checkbox IsAttachment when:02/06/2023 -->
+    <!-- <button mat-icon-button color="primary" tabindex class="fileUpload attachFileBtn"
+      (click)="openMultipleAttachmentModal()" id="myActivity-documentAttachmentAddPopup">
+      <mat-icon>attach_file</mat-icon>
+    </button> -->
+    <button mat-stroked-button color="warn" type="button" (click)="onDismiss()" id="btnCancel" tabindex="3">
+      {{'button_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" type="button" (click)="onConfirm()" id="btnSave"
+      [disabled]="!addQuestionsForm.valid" tabindex="4"> {{'label_save'|translate}}</button>
+  </div>
+</form>

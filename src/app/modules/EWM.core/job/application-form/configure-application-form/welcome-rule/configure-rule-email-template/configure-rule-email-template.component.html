@@ -1,0 +1,270 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 05-Sep-2021
+    @Why: EWM-2511 EWM-2707
+    @What:  This page is creted for Common Component HTML of NEW / Compose Email
+-->
+
+<!-- Xeople : Satya Prakash Gupta : 30-Sep-2021 : New Email : EWM-2641 EWM-3115 : start here -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<div id="newEmail" class="newEmailStyle" applyTabIndexes>
+  <div class="col email-dialog-content" #target>
+    <form novalidate [formGroup]="newEmailTemplateForm" class="" id="emailcompose">
+      <div class="insert-template">
+        <button type="button" tabindex class="ml-0" mat-stroked-button color="primary" (click)="openTemplateModal()"
+          id="newEmail-template">{{'label_insertTemplate' |translate}}</button>
+      </div>
+      <mat-form-field class="col l12 m12 s12" floatLabel="always">
+        <mat-label>{{'label_jobTemplateName' |translate}}</mat-label>
+        <input matInput readonly tabindex value="" required placeholder="{{'label_jobTemplateName' |translate}}"
+          id="template-name" formControlName="TemplateName">
+        <mat-error *ngIf="newEmailTemplateForm.controls['TemplateName'].hasError('required')">
+          {{'label_jobTemplateName' |translate}} {{'label_errorreqired' |translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col l12 m12 s12" floatLabel="always">
+        <mat-label>{{'label_templateSubject' |translate}}</mat-label>
+        <input type="hidden" formControlName="Subject" id="userRole-roleId" name="Subject">
+        <input matInput tabindex placeholder="{{'label_enterSubject' |translate}}" formControlName="Subject" required>
+        <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('required')">
+          {{'label_templateSubject' |translate}} {{'label_errorreqired' |translate}}
+        </mat-error>
+        <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('minlength')">
+          {{'label_templateSubject' |translate}} {{'label_errorreqiredMinlength' |translate}}
+        </mat-error>
+        <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('maxlength')">
+          {{'label_templateSubject' |translate}} {{'label_errormaxlength500' |translate}}
+        </mat-error>
+        <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('pattern')">
+          {{'label_templateSubject' |translate}} {{'label_errorspecialchar' |translate}}
+        </mat-error>
+        <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('codeTaken')">
+          {{'label_templateSubject' |translate}} {{'label_areadyExists' |translate}}
+        </mat-error>
+        <mat-error *ngIf="newEmailTemplateForm.controls['Subject'].hasError('whitespace') && !newEmailTemplateForm.controls['Subject'].hasError('required')">
+          {{'label_templateSubject' |translate}} {{'label_errorreqired' |translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col l12 m12 s12 example-chip-list" floatLabel="always">
+        <mat-label>{{'label_ccEmails' |translate}}</mat-label>
+        <mat-chip-list #chipListcc formControlName="CcEmail">
+          <mat-chip tabindex [color]="(item.invalid) ? 'warn' : ''" selected
+            *ngFor="let item of ccEmailList| slice:0:this.emailListLengthccMore; let i=index" [selectable]="true"
+            [removable]="removable" (removed)="removeccEmail(item)" required name="CC Email-ID">
+            {{item.value}}
+            <mat-icon matChipRemove tabindex *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <mat-chip *ngIf="ccEmailList.length > this.emailListLengthccMore">
+
+            <span (click)="clickForccMoreRecord(ccEmailList)" class="ng-value-label">{{ccEmailList.length -
+              this.emailListLengthccMore}} more...</span>
+          </mat-chip>
+          <input tabindex placeholder="{{'label_enterEmailID' |translate}}" [matChipInputFor]="chipListcc"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+            (matChipInputTokenEnd)="addCC($event)" [matAutocomplete]="auto" tabindex>
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete">
+        </mat-autocomplete>
+        <button matSuffix mat-button color="primary" (click)="getUserContactInfo('CC')" class="ccBccEmailBtn" tabindex>
+          <mat-icon class="addContactIcon">add</mat-icon>
+        </button>
+        <!-- <mat-error *ngIf="this.newEmailTemplateForm.controls['CcEmail'].hasError('required')">
+            {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+          </mat-error> -->
+        <mat-error *ngIf="this.newEmailTemplateForm.controls['CcEmail'].hasError('incorrectEmail')">
+          {{ 'label_emailIncorrect' |translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col l12 m12 s12 example-chip-list" floatLabel="always">
+        <mat-label>{{'label_bccEmails' |translate}}</mat-label>
+        <mat-chip-list #chipListBcc formControlName="BccEmail">
+          <mat-chip tabindex [color]="(item.invalid) ? 'warn' : ''" selected
+            *ngFor="let item of bccEmailList| slice:0:this.emailListLengthMore; let i=index" [selectable]="true"
+            [removable]="removable" (removed)="removeBccEmail(item)" required name="BCC Email-ID">
+            {{item.value}}
+            <mat-icon tabindex matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <mat-chip *ngIf="bccEmailList.length > this.emailListLengthMore">
+
+            <span (click)="clickForMoreRecord(bccEmailList)" class="ng-value-label">{{bccEmailList.length -
+              this.emailListLengthMore}} more...</span>
+          </mat-chip>
+          <input tabindex placeholder="{{'label_enterEmailID' |translate}}" [matChipInputFor]="chipListBcc"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+            (matChipInputTokenEnd)="addBcc($event)" [matAutocomplete]="auto" tabindex>
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete">
+        </mat-autocomplete>
+        <button matSuffix mat-button tabindex color="primary" (click)="getUserContactInfo('BCC')" class="ccBccEmailBtn"
+          tabindex>
+          <mat-icon class="addContactIcon">add</mat-icon>
+        </button>
+        <mat-error *ngIf="this.newEmailTemplateForm.controls['BccEmail'].hasError('required')">
+          {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+        </mat-error>
+        <mat-error *ngIf="this.newEmailTemplateForm.controls['BccEmail'].hasError('incorrectEmail')">
+          {{ 'label_emailIncorrect' |translate}}
+        </mat-error>
+      </mat-form-field>
+      <div class="col l12 m12 s12">
+        <div class="html-editor-kendo" tabindex>
+          <kendo-editor #editor tabindex [iframe]="false" formControlName="TemplateText">
+            <kendo-toolbar [overflow]="false" tabindex>
+              <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorStrikethroughButton>
+                </kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorSuperscriptButton>
+                </kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAlignCenterButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAlignRightButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAlignJustifyButton>
+                </kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+            <kendo-toolbar-dropdownlist kendoEditorFontSize>
+            </kendo-toolbar-dropdownlist>
+            <kendo-toolbar-dropdownlist kendoEditorFontFamily>
+            </kendo-toolbar-dropdownlist>
+            <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+            <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+            </kendo-toolbar-colorpicker>
+            <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <!-- @When: 13-03-2023 @who:Amit @why: EWM-10776 @what: select all button hide  -->
+            <!-- <kendo-toolbar-button kendoEditorSelectAllButton></kendo-toolbar-button> -->
+            <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorCreateLinkButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+            <kendo-toolbar-button kendoEditorInsertImageButton></kendo-toolbar-button>
+            <!-- @When: 10-03-2023 @who:Amit @why: EWM-10775 @what: source control hide  -->
+            <!-- <kendo-toolbar-button kendoEditorViewSourceButton></kendo-toolbar-button> -->
+            <kendo-toolbar-button kendoEditorCleanFormattingButton>
+            </kendo-toolbar-button>
+            <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+            <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAddRowBeforeButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAddRowAfterButton>
+                </kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorDeleteColumnButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorDeleteTableButton>
+                </kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <!-- @When: 13-03-2023 @who:Amit @why: EWM-10776 @what: print button hide  -->
+            <!-- <kendo-toolbar-button kendoEditorPrintButton></kendo-toolbar-button> -->
+              <kendo-toolbar-separator></kendo-toolbar-separator>
+              <!--<kendo-toolbar-splitbutton *ngFor="let item of (toolButtons$ | async)" [text]="item.text" [icon]="item.icon"
+              [data]="item.data">
+            </kendo-toolbar-splitbutton>--->
+            <kendo-toolbar-splitbutton *ngFor="let item of jobData" [text]="item.text" [icon]="item.icon"
+            [data]="item.data">
+          </kendo-toolbar-splitbutton>
+          <kendo-toolbar-splitbutton *ngFor="let citem of canData" [text]="citem.text" [icon]="citem.icon"
+          [data]="citem.data">
+        </kendo-toolbar-splitbutton>
+            </kendo-toolbar>
+          </kendo-editor>
+        </div>
+      </div>
+      <div class="row" *ngIf="!filestatus">
+        <div class="col l4 m6 s12" *ngFor="let files of fileAttachments">
+          <mat-card class="mb-5">
+            <div class="email-attachment">
+              <div class="file-detail" tabindex>
+                <span>{{files.AttachmentName}}</span>
+                <span>{{files.FileSize | fileSize}}</span>
+              </div>
+              <mat-icon class="matCloseIcon" tabindex (click)="removeAttachment(files,fileInput)">cancel</mat-icon>
+            </div>
+
+            <!-- <mat-progress-bar *ngIf="filestatus" mode="indeterminate"></mat-progress-bar> -->
+            <div class="progress-loader-box" *ngIf="filestatus">
+              <div class="progress-loader">
+                <div class="loaderBar"></div>
+              </div>
+            </div>
+
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </div>
+  <mat-divider></mat-divider>
+
+  <mat-card align="end" class="button-row actionBoxFooter mb-0">
+    <button mat-icon-button color="primary" tabindex class="fileUpload attachFileBtn">
+      <input id="singleFile" #fileInput type="file" (change)="Uploadfile($event,fileInput)" />
+      <mat-icon>attach_file</mat-icon>
+    </button>
+
+    <!-- @When: 20-03-2024 @who:Amit @why: EWM-16505 @what: filename extension move -->
+    <small class="mb-0 mt-0">
+      {{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}}
+    </small>
+
+    <!-- <button mat-raised-button class="drawer-icon-button" tabindex type="button" color="primary"
+      id="EmailPreview" (click)="openPriviewPopup()" [disabled]="!newEmailTemplateForm.valid || sendBtnDisabled "
+      matTooltip="{{'label_email'|translate}} {{'button_livePreview'|translate}}" matTooltipClass="drawer-button-tooltip-top" matTooltipPosition="left"
+      (mouseenter)="mouseoverAnimation(animationVar?.configureEmailPreview?.id, animationVar?.configureEmailPreview?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.configureEmailPreview?.id, animationVar?.configureEmailPreview?.animation)">
+        <mat-icon id="{{animationVar?.configureEmailPreview?.id}}" class="{{animationVar?.configureEmailPreview?.isAnimClass}}">preview</mat-icon>
+    </button>
+    <button mat-raised-button color="warn" class="drawer-icon-button" tabindex type="button" class="drawer-icon-button"
+      (click)="resetComposeEmail()" id="btnCancel" matTooltip="{{'button_cancel'|translate}}"
+      matTooltipClass="drawer-button-tooltip-top" matTooltipPosition="left"
+      (mouseenter)="mouseoverAnimation(animationVar?.configureEmailClose?.id, animationVar?.configureEmailClose?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.configureEmailClose?.id, animationVar?.configureEmailClose?.animation)">
+      <mat-icon id="{{animationVar?.configureEmailClose?.id}}"
+      class="{{animationVar?.configureEmailClose?.isAnimClass}}">close</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" tabindex type="button" id="btnSave"
+      [disabled]="!newEmailTemplateForm.valid || sendBtnDisabled " (click)="sendEmail()" class="drawer-icon-button"
+      matTooltip="{{'label_save'|translate}}" matTooltipClass="drawer-button-tooltip-top" matTooltipPosition="left"
+      (mouseenter)="mouseoverAnimation(animationVar?.configureEmailSave?.id, animationVar?.configureEmailSave?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.configureEmailSave?.id, animationVar?.configureEmailSave?.animation)">
+      <mat-icon id="{{animationVar?.configureEmailSave?.id}}"
+      class="{{animationVar?.configureEmailSave?.isAnimClass}}">check</mat-icon>
+    </button> -->
+  </mat-card>
+</div>
+<!-- Xeople : Satya Prakash Gupta : 30-Sep-2021 : New Email : EWM-2641 EWM-3115 : start here -->

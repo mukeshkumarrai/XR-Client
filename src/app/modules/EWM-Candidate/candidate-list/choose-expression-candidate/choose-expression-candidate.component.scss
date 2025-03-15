@@ -1,0 +1,80 @@
+/*
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 16-Oct-2022
+    @Why: EWM-9627 EWM-9909
+    @What:  Choose Expression Candidate
+*/
+
+.candidate-folder{
+    .vertical-center-align-createjob {
+        margin: 20px 15px;
+        .mat-card-container.mat-card {
+            margin-bottom: 0px;
+            display: grid;
+            grid-template-columns: repeat(3, calc(33.33% - 20px));
+            gap: 30px;
+            border-radius: 15px;
+            padding: 30px;
+            @media only screen and (max-width: 780px) and (min-width: 320px) {
+                grid-template-columns: 1fr;
+            }
+            .mat-card {
+                @media only screen and (max-width: 600px) and (min-width: 320px) {
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+    .selectTemplateOrCreatejob.mat-card {
+        box-sizing: border-box;
+        transition: all 0.25s;
+        cursor: pointer;
+        margin: 0px 0px;
+        padding: 30px 10px;
+        label {
+            cursor: pointer;
+            padding: 5px 0px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            top: 18px;
+            font-size: 18px;
+        }
+    .cltImgBox {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        border-radius: 100%;
+        margin: 0px auto;
+        margin-bottom: 15px;
+        transition: all 0.25s;
+            .mat-icon {
+                font-size: 62px;
+                height: 62px;
+                width: 62px;
+                line-height: 62px;
+                transition: all 0.25s;
+            }
+        }
+    }
+    .selectTemplateOrCreatejob:hover .cltImgBox .mat-icon{
+        transform: scale(1.35);
+        transition: all 0.25s;
+    }
+    .selectTemplateOrCreatejob:hover .cltImgBox{
+        box-shadow: 0px 0px 14px 0px rgb(0 0 0 / 42%) inset;
+    }
+    .selectTemplateOrCreatejob:hover{
+        transform: scale(1.05);
+    }
+}

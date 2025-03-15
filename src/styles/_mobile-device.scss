@@ -1,0 +1,192 @@
+@use "../colors";
+.mobile-device{
+    .main-section{
+        .preview-section{
+            .preview-header{
+                flex-direction: column;
+                row-gap: 3px;
+                position: relative;
+                img{
+                    position: relative;
+                }
+                .sticky-data{
+                    margin-bottom: 8px;
+                    margin-top: 10px;
+                    width: calc(100% - 20px);
+                    .org-name{
+                        font-size: clamp(2vw, 26px, 4.55vw);
+                    }
+                }
+            }
+            .preview-wrapper{
+                .caption{
+                    .title-btn{
+                        p{
+                            font-size: 16px;
+                        }
+                    }
+                    h1{
+                        padding-top: 2px;
+                        font-size: 22px;
+                    }
+                }
+                .landing-mat-card{
+                    .mat-card-content{
+                        padding: 0px;
+                        .upload-resume-sec{
+                            .upload-resume-card{
+                                margin: 0px;
+                                .upload-resume-box{
+                                    max-width: 340px;
+                                }
+                            }
+                        }
+                    }
+                } 
+                .preview-upload-resume{
+                    .mat-stepper-horizontal{
+                        .mat-step-header{
+                            width: 32px;
+                            padding: 0px;
+                            border-radius: 100%;
+                            .mat-step-icon{
+                                margin-right: 0px;
+                                background: colors.$primary-bg-color;
+                                .mat-step-icon-content{
+                                    color: colors.$white-color;
+                                }
+                            }
+                            .mat-step-label{
+                                display: none;
+                            }
+                        }
+                        .mat-horizontal-stepper-header-container{
+                            top: 0px;
+                            padding: 8px 15px 5px;
+                            .mat-horizontal-stepper-header{
+                                justify-content: center;
+                                background: colors.$white-bg;
+                                height: 32px;
+                            }
+                            .mat-stepper-horizontal-line{
+                                min-width: 22px;
+                            }
+                        }
+                        .mat-step-header[aria-selected="true"]{
+                            background-color:  colors.$primary-bg-color;
+                            .mat-step-icon{
+                                background: colors.$white-bg;
+                                .mat-step-icon-content{
+                                    color: colors.$primary-bg-color;
+                                }
+                            }
+                        }
+                        .mat-step-header[ng-reflect-state="edit"]{
+                            background-color: colors.$green-color;
+                            .mat-step-icon{
+                                background: colors.$white-bg;
+                                .mat-step-icon-content{
+                                    color: colors.$green-color;
+                                }
+                            }
+                        }
+                    }
+                    .mat-stepper-horizontal{
+                        .mat-horizontal-content-container{
+                            .header{
+                                top: 45px;
+                                gap: 8px;
+                                padding: 5px 15px;
+                                margin-bottom: 0px;
+                                height: auto;
+                                .title{
+                                    p{
+                                        font-size: 12px;
+                                    }
+                                }
+                                .actionBoxFooter{
+                                    button{
+                                        padding: 0px 8px;
+                                        line-height: 28px;
+                                        &:first-child{
+                                            margin: 0px 5px;
+                                        }
+                                    }
+                                }
+                                .button-row{
+                                    width: auto;
+                                }
+                            }
+                            .mat-card-title.stepper-title{
+                                display: block;
+                                margin: 0px;
+                            }
+                        }
+                    }
+                }
+                .upload-parsed-content{
+                    .parsed-mat-card{
+                        width: calc(100% - 20px);
+                        margin: 20px auto 10px;
+                        padding: 20px 10px 8px;
+                        .resume-content{
+                            margin: 0px 5px;
+                            .documentUploadRoundBox{
+                                .circleCreateDocFileUpload{
+                                    height: 40px;
+                                    padding: 0px 8px;
+                                    margin: 5px 0px 0px;
+                                    gap: 5px;
+                                    input[type='file']{
+                                        height: 42px;
+                                    }
+                                }
+                            }
+                            .documentUploadRoundBox.file-show{
+                                .circleCreateDocFileUpload{
+                                    height: 48px;
+                                    padding: 0px 10px;
+                                    margin: 0px;
+                                    width: 48px;
+                                }
+                                .fileInstructions{
+                                    padding: 0px;
+                                }
+                            }
+                        }
+                    }
+                } 
+            }
+        }
+    }
+
+}
+.dark-theme.mobile-device{
+    .main-section{
+        .preview-section{
+            .preview-wrapper{
+                .mat-stepper-horizontal{
+                    .mat-step-header{
+                        .mat-step-icon{
+                            background-color: colors.$dark-primary;
+                        }
+                    }
+                    .mat-step-header[aria-selected=true]{
+                        background-color: colors.$dark-primary;
+                        .mat-step-icon{
+                            background-color: colors.$white-bg !important;
+                        }
+                    }
+                } 
+                .preview-upload-resume .mat-stepper-horizontal .mat-horizontal-content-container .mat-card-title.stepper-title {
+                    border-bottom: 1px solid #818181;
+                    background: linear-gradient(90deg, #020024 0%, #353535 0%, #4d4d4d 100%);
+                }
+                .preview-upload-resume .mat-stepper-horizontal .mat-horizontal-stepper-header-container .mat-step-header[aria-selected=true] .mat-step-icon .mat-step-icon-content{
+                    color: #5c5757;
+                }
+            }
+        }
+    }
+    
+}

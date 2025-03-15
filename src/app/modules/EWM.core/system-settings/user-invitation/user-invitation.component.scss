@@ -1,0 +1,264 @@
+@import "../../../../../styles-var.scss";
+.sticky-width,
+.listcardContentMaxData {
+  min-width: 1230px;
+}
+.tab-container .listContent .mat-card .col.right-align{
+  justify-content: flex-end;
+}
+.overflow-hidden {
+  overflow: hidden !important;
+}
+.col-1 {
+  width: 9%;
+}
+.col-5 {
+  width: 10%;
+}
+.col-9{
+  width: 43%;
+}
+.col-11{
+  width: 20%;
+}
+
+
+.col-7 {
+  width: 3%;
+}
+.col-8{
+  width: 25%;
+}
+.col-12 {
+  width: 7%;
+}
+.col-13 {
+  width: 11%;
+}
+.col-14 {
+  width: 13%;
+}
+.col-2 {
+  width: 10%;
+}
+.col-3 {
+  width: 13%;
+}
+.col-6 {
+  width: 10%;
+}
+.col-10{
+  width: 9%;
+}
+.col-4 {
+  width: 30%;
+}
+
+.page-container-cardview.mat-drawer-container{
+  height: initial;
+}
+
+.tabInfinoteScroll.without-invite-people{
+  .sticky-width,
+  .listcardContentMaxData {
+    min-width: 1230px;
+  }
+  .col-8{
+    width: 23%;
+  }
+  .col-2{
+    width: 12%;
+  }
+  .col-3{
+    width: 12%;
+  }
+  .col-6{
+    width: 10%;
+  }
+  .col-10{
+    width: 9%;
+  }
+  .col-4{
+    width: 31%;
+  }
+  .page-container-cardview.mat-drawer-container{
+    .cardview-container{
+      .grid-card-mode.mat-card{
+        min-height: 239px;
+      }
+    }
+  }
+}
+.tabInfinoteScroll.without-invite-shop{
+  .sticky-width,
+  .listcardContentMaxData {
+    min-width: 1230px;
+  }
+  .col-8{
+    width: 28%;
+  }
+  .col-1{
+    width: 13%;
+  }
+  .col-2{
+    width: 13%;
+  }
+  .col-9{
+    width: 30%;
+  }
+  .page-container-cardview.mat-drawer-container{
+    .cardview-container{
+      .grid-card-mode.mat-card{
+        min-height: 239px;
+      }
+    }
+  }
+}
+
+.tabInfinoteScroll.with-invite-people{
+  .page-container-cardview.mat-drawer-container{
+    .cardview-container{
+      .grid-card-mode.mat-card{
+        min-height: 239px;
+      }
+    }
+  }
+}
+
+.dataActionButton.mat-flat-button:hover {
+  color: $primary-bg-color;
+}
+.mat-menu-item .mat-icon {
+  margin-right: 16px;
+  vertical-align: middle;
+  font-size:20px;
+}
+.mat-menu-item .mat-button-wrapper{
+  font-size:20px !important;
+}
+.mat-menu-item {
+  height: 35px !important;
+  line-height: 35px !important;
+  font-size: 14px;
+}
+span.white{
+  margin-left: 0px;
+  padding: 1px 3px;
+}
+.email-chip-list {
+  width: 100%;
+}
+.cardListTxt {
+  display: inline-block;
+}
+.pl-0 {
+  padding-left: 0px;
+}
+.maxWidth155 {
+  margin-left: 10px;
+}
+.ml-10 {
+  margin-left: 10px;
+}
+
+.listContent .mat-card .col {
+  height: 55px;
+  overflow: hidden;
+}
+.cardListTxt{
+  .emailTxt{
+    font-size: 14px;
+  }
+}
+
+.emailTxt{
+  font-size:12px;
+  display: block;
+  line-height: 15px;
+}
+
+.user-invitaion{
+  margin:0px;
+}
+
+.page-header.mat-card-header{
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 55px;
+  }
+}
+
+.list-lock-unlock{
+  column-gap: 5px;
+  justify-content: space-between;
+  .cardListTxt{
+    display: flex;
+    flex-direction: column;
+    .badge{
+      margin-inline-end: 4px;
+    }
+  }
+  .lock-btn{
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    line-height: 23px;
+  }
+}
+
+.card-lock-unlock{
+  .cardContent{
+    .mat-card.CarMode{
+      .cardModeLine.unlock-user{
+        justify-content: space-between;
+        .lock-btn{
+          border-radius: 4px;
+          width: 28px;
+          height: 28px;
+          line-height: 23px;
+        }
+      }
+      .card-data{
+        display: flex;
+        align-items: center;
+      }
+      .cardHeight{
+        .go-corner.person-user{
+          justify-content: space-between;
+          .mat-stroked-button{
+            margin-left: 15px;
+          }
+        }
+      }
+    }
+  } 
+}
+
+.invite-user-btn{
+  line-height: 24px;
+  padding: 0px 10px;
+  margin-inline-end: 8px;
+  min-width: auto;
+  height: 32px;
+  width: auto;
+  .svg-icon{
+    path{
+      fill: $primary-bg-color;
+    }
+  }
+}
+
+.page-container-cardview.mat-drawer-container{
+  .cardview-container{
+    .grid-card-mode.mat-card{
+      min-height: 285px;
+    }
+    .grid-card-mode.shop-card-mode.mat-card{
+      min-height: 239px;
+    }
+  }
+} 
+
+
+
+
+

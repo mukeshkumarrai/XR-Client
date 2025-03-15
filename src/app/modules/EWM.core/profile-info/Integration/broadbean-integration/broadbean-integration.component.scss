@@ -1,0 +1,202 @@
+
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: broadbean-integration.component.scss
+    @Who: Satya Prakash Gupta
+    @When: 02-Aug-2023
+    @Why: EWM-13290 EWM-13308
+    @What: You can add broadbean integration styles to this file, and also import other style files
+*/
+@import '../../../../../../styles-var.scss';
+@import '../../../../../../mixinStyle.scss';
+
+.page-header.mat-card-header{
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+      height: 55px;
+    }
+    .jobBoardStatus {
+        span{
+            padding-left: 5px;
+            padding-right: 5px;
+            @media only screen and (max-width: 350px) and (min-width: 320px) {
+                font-size:11px;
+            }
+        }
+    }    
+}
+.component-card.mat-card {
+    @media only screen and (max-width: 580px) and (min-width: 240px) {
+        height: calc(100% - 38px) !important;
+    }
+}
+.integration{
+    .subTitle.mat-card-subtitle{
+        font-size:15px;
+        font-weight: 500;
+    }
+    &-header{
+        display: flex;
+        align-items:flex-end;
+        gap: 10px;
+        @media only screen and (max-width: 767px) and (min-width: 240px) {
+            flex-wrap: wrap;
+        }
+        &-image{
+            width:150px;
+            border-radius: 4px;
+            padding: 4px;
+            border: 1px solid rgba(120,130,140,.13);
+            img{
+                width:100%;
+            }
+        }
+        &-data{
+            p{
+                margin: 0px;
+                margin-bottom: 8px;
+            }
+            button{
+                margin-inline-end: 5px;
+                margin-bottom: 5px;
+                padding: 0px 5px;
+                line-height: 28px;
+                height: 30px;
+                font-size: 13px;
+                position: relative;
+                &::after{
+                    content: "";
+                    background: currentColor;
+                    opacity: 0.08;
+                    pointer-events: none;
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    left: 0px;
+                    right: 0px;
+                    top: 0px;
+                    bottom: 0px;
+                    z-index: 0;
+                    border-radius: 4px;
+                    transition: opacity .2s ease-in-out;    
+                }
+            }
+            .warnColorBtn{
+                color: $warn-bg;
+            }
+            .defaultColorBtn{
+                color: $default-bg-color;
+            }
+            button.active{
+                &::after{
+                    opacity: 0.30; 
+                }
+            }
+            .profileBuildBtn{
+                position: relative;
+                margin-left: 10px;
+                display: inline-block;
+                @media only screen and (max-width: 815px) and (min-width: 320px) {
+                    margin-top: 10px;
+                }
+                .mat-icon{
+                    width: 18px;
+                    height: 18px;
+                    font-size: 16px;
+                    color: $warn-bg;
+                    vertical-align: middle;
+                }
+        
+            }
+        }
+    }
+    &-contentsection{
+        margin: 10px 0px;
+        p{
+            line-height: 20px;
+            margin: 0px;
+        }
+        .tab-container{
+            margin: 10px 0px 0px 0px;
+        }
+        .seekDetails{
+            width: 33.33%;
+            @media only screen and (max-width: 1060px) and (min-width: 481px) {
+                width: 50%;
+            }
+            @media only screen and (max-width: 480px) and (min-width: 320px) {
+                width: 100%;
+            }
+            .actionButton{
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+                gap: 8px;
+            }
+        }
+        .kendo-table-container .k-grid{
+            height: auto;
+            min-width:auto;
+        }
+        .add-new-user-broadbean{
+            position: fixed;
+            bottom: 60px;
+            right: 23px;
+            z-index: 2;
+            overflow: hidden;
+        }
+        .stageListItems {
+            padding: 0px 25px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @media only screen and (max-width: 767px) and (min-width: 481px){
+                height: 300px;
+            }
+            @include for-small-smartphones{
+                height: 200px;
+            }
+            img{
+                max-width: 100%;
+                max-height: 400px;
+            }
+            video{
+                width: auto;
+                height: 400px;
+                max-width: 100%;
+                max-height: 100%;
+                @media only screen and (max-width: 767px) and (min-width: 481px){
+                    height: 300px;
+                }
+                @include for-small-smartphones{
+                    height: 200px;
+                }
+            }
+        }
+        .contactDetailsSection{
+            max-width: 500px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            .contact-details{
+                display: grid;
+                grid-template-columns: 140px calc(100% - 150px);
+                gap: 10px;
+                @include for-small-smartphones{
+                  grid-template-columns: 1fr;
+                  gap:inherit;
+                }
+                p{
+                    margin:8px 0px;
+                    width: 130px;
+                    font-weight: 500;
+                }
+                .spnStyle{
+                    display:block;
+                    font-weight: 400;
+                    margin:8px 0px;
+                }
+            }
+        }
+    }
+}

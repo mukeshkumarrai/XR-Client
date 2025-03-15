@@ -1,0 +1,889 @@
+@import "../../mixinStyle.scss";
+@import "../../styles-var.scss";
+.profile-summary-container,
+.job-detail-container,
+.client-detail-container{
+  .notes-details-sec{
+    height: calc(100vh - 324px);
+    @media only screen and (max-width: 1024px) and (min-width: 581px){
+      height: calc(100vh - 343px);
+    }
+    @media screen and (min-width: 320px) and (max-width: 580px){
+      height: calc(100vh - 380px);
+    }
+    .notes-yearfilter-drawer{
+      .yearsFilter{
+        padding: 10px;
+      }
+    }
+    .mat-drawer{
+      @media only screen and (max-width: 480px) and (min-width: 320px){
+        width:80%;
+        max-width:80%;
+      }
+    }
+    .row-space-remove{
+      .row .col{
+        @media only screen and (max-width: 480px) and (min-width: 320px){
+          padding:0px 5px;
+        }
+      }
+    }
+    .mat-drawer-content {
+      overflow: auto;
+      .nodata{
+        padding:0px 15px;
+      }
+      .notes-matcard-content {
+        padding-inline-start: 10px;
+      }
+      .notes-detail {
+        display: flex;
+        position: relative;
+        @media only screen and (max-width: 1024px) and (min-width: 240px) {
+          margin-inline-start: 10px;
+        }
+        .done-icon{
+          color:#9CCC65;
+        }
+        .mob-divider{
+          @media only screen and (max-width: 480px) and (min-width: 320px){
+            margin-top:15px !important;
+          }
+        }
+        .notes-detail-linebar {
+          position: absolute;
+          height: 100%;
+          width: 1px;
+        }
+        .flex-box {
+          display: flex;
+          flex: 1 1 auto;
+          // @When: 25-09-2023 @who:Amit @why: horizontal scroll issue @what: full content
+          width: 100%;
+          .notes-created-by-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 40px;
+            @media only screen and (max-width: 580px) and (min-width: 240px) {
+              flex-direction: column;
+              align-items: inherit;
+              height: auto;
+            }
+            .notes-created-header {
+              display: flex;
+              align-items: center;
+              .mat-icon {
+                // @When: 24-04-2023 @who:Amit @why: EWM-12105 @what: space manage
+                margin-inline-start: 3px;
+                font-size: 32px;
+                width: 33px;
+                height: 32px;
+                position: relative;
+                left: -3px;
+                line-height: 32px;
+                text-align: right;
+              }
+              .notes-created{
+                span{
+                  font-weight: bold;
+                  font-style: italic;
+                }
+              }
+            }
+            .notes-created-action {
+              position: relative;
+              padding-inline-start: 10px;
+              display: flex;
+              @media only screen and (max-width: 580px) and (min-width: 240px) {
+                align-self:flex-end;
+              }
+              .mat-icon-button {
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                .mat-icon {
+                  font-size: 22px;
+                  line-height: 20px;
+                  height: 20px;
+                }
+              }
+            }
+            .notes-created-date {
+              font-size: 80%;
+            }
+          }
+
+          .notes-created-by-action.screening-notes-drawer{
+            @include for-small-smartphones{
+              position: relative;
+            }
+            .notes-created-action{
+              @include for-small-smartphones{
+                position: absolute;
+                bottom: -5px;
+                right: 0px;
+              }
+              .mat-icon{
+                @include for-small-smartphones{
+                  font-size:18px;
+                }
+              }
+            }
+          }
+
+          .notes-created-info-icon {
+            width: 60px;
+            justify-content: center;
+            @include for-small-smartphones{
+              width:45px;
+            }
+            .mat-mini-fab {
+              cursor: default;
+              box-shadow: none;
+            }
+          }
+          .notes-info {
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            max-width: 65%;
+            min-width: 410px;
+            @media only screen and (max-width: 1140px) and (min-width: 1025px) {
+              max-width: 100%;
+              min-width: 300px;
+            }
+            @media only screen and (max-width: 645px) and (min-width: 240px) {
+              max-width: 100%;
+              min-width: 240px;
+              box-sizing: border-box;
+            }
+            .mat-divider-horizontal{
+
+              position: relative;
+
+            }
+            .notes-created-details.mat-card {
+              padding: 0px 0px;
+              background: transparent;
+              margin: 10px 0px;
+              margin-bottom: 25px;
+              box-shadow: none;
+              width: 100%;
+              word-break: break-word;
+              .notes-content{
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+                p{
+                  width:100%;
+                  margin-bottom: 15px;
+                }
+              }
+              .mat-card-header{
+                padding:0px;
+                width:50%;
+                // align-items: center;
+                margin-bottom: 10px;
+                @media screen and (min-width: 320px) and (max-width: 650px){
+                  width:100%;
+                }
+                .mat-card-avatar{
+                  width:25px;
+                  height:25px;
+                  .mat-icon{
+                    font-size:22px;
+                    cursor: pointer;
+                  }
+                }
+                .mat-card-header-text{
+                  padding:0px 5px;
+                  .mat-card-title{
+                    font-size:14px;
+                    font-weight: bold;
+                  }
+                  .mat-card-subtitle{
+                    font-size:14px;
+                    margin-bottom:0px;
+                  }
+                }
+              }
+              .user-notes-data{
+                word-break: break-word;
+              }
+              p {
+                margin: 0px;
+                margin-bottom: 5px;
+              }
+              .attachment-data {
+                display: flex;
+                justify-content: flex-end;
+                .attach_file{
+                  position: relative;
+                  top: 11px;
+                  font-size: 20px;
+                }
+              }
+
+              // create for common
+              .user-main-data{
+                position: relative;
+                .user-notes-data.gradient{
+                  overflow-x: auto;
+                  max-height: 100px;
+                  overflow-y: hidden;
+                  transition: max-height .5s ease;
+                  padding: 5px 5px 30px;
+                  &::before{
+                    content:'';
+                    transition:height .25s ease;
+                    height:50px;
+                    position:absolute;
+                    bottom:0px;
+                    left:0;
+                    width:100%;
+                    background: linear-gradient(to bottom,  rgba(237,231,246,0) -75%,rgba(237,231,246,1) 75%); transition:height .25s ease;
+                  }
+                  // @When: 06-09-2022 @who:Amit @why: EWM-13836  @what: white space add //
+                  p{
+                    span{
+                      white-space: inherit !important;
+                    }
+                  }
+                }
+                .user-notes-data.gradient.withoutShadow {
+                  padding: 5px;
+                  &::before{
+                    height: 0px;
+                    background: transparent;
+                  }
+                }
+                .addClientButton.mat-mini-fab{
+                  width: 25px;
+                  height: 25px;
+                  line-height: 25px;
+                  background:  #7E57C2;
+                  color: $white-color;
+                  position: absolute;
+                  bottom: 0px;
+                  left: calc(50% - 12.5px);
+                  transition: background-color .25s ease;
+                  .mat-button-wrapper{
+                    padding: 0px;
+                    .mat-icon{
+                      width: 25px;
+                      height: 25px;
+                      line-height: 25px;
+                    }
+                  }
+                }
+              }
+              .user-main-data.user-notes-desc .addClientButton {
+                transform: rotate(180deg);
+                bottom: 18px;
+              }
+              .user-main-data.user-notes-desc .user-notes-data.gradient {
+                max-height: initial;
+                padding-bottom: 45px;
+              }
+              .user-main-data.user-notes-desc .user-notes-data.gradient:before{
+                height:0px;
+              }
+              // create for common
+            }
+          }
+          // for type of color
+          .notes-info.protected{
+            .notes-created-details.mat-card{
+              .user-main-data{
+                .user-notes-data.gradient{
+                  &::before{
+                    background: linear-gradient(to bottom,  rgba(225,245,254,0) -75%,rgba(225,245,254,1) 75%); transition:height .25s ease;
+                  }
+                }
+                .user-notes-data.gradient.withoutShadow{
+                  &::before{
+                    height: 0px;
+                    background: transparent;
+                  }
+                }
+                .addClientButton.mat-mini-fab{
+                  background: #29B6F6;
+                }
+              }
+            }
+          }
+          .notes-info.private{
+            .notes-created-details.mat-card{
+              .user-main-data{
+                .user-notes-data.gradient{
+                  &::before{
+                    background: linear-gradient(to bottom,  rgba(255,235,238,0) -75%,rgba(255,235,238,1) 70%); transition:height .25s ease;
+                  }
+                }
+                .user-notes-data.gradient.withoutShadow{
+                  &::before{
+                    height: 0px;
+                    background: transparent;
+                  }
+                }
+              }
+              .addClientButton.mat-mini-fab{
+                background: #EF5350;
+              }
+            }
+          }
+          .notes-info.public{
+              .notes-created-details.mat-card{
+                .user-main-data{
+                  .user-notes-data.gradient{
+                    &::before{
+                      background: linear-gradient(to bottom,  rgba(241,248,233,0) -75%,rgba(241,248,233,1) 70%); transition:height .25s ease;
+                    }
+                  }
+                  .user-notes-data.gradient.withoutShadow{
+                    &::before{
+                      height: 0px;
+                      background: transparent;
+                    }
+                  }
+                  .addClientButton.mat-mini-fab{
+                    background: #9CCC65;
+                  }
+                }
+              }
+          }
+          // for type of color
+        }
+      }
+    }
+    // @When: 11-08-2023 @who:Amit @why: EWM-13389 @what: notes drawer style
+    .notes-addEdit-drawer{
+      .add-new-note{
+        overflow: hidden;
+        padding-top: 0px;
+        form{
+          padding: 10px 15px;
+          padding-bottom: 60px;
+          overflow: auto;
+          height: calc(100% - 70px);
+        }
+        .drawer-footer{
+          width: 100%;
+          position: absolute;
+          height: 50px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          z-index: 9;
+          padding: 0px 10px;
+          right: 0px;
+          bottom: 0px;
+          border-radius: 0px;
+          left: 0px;
+          box-sizing: border-box;
+          .attachFileBtn{
+            position: absolute;
+            cursor: pointer;
+            left: 0px;
+          }
+        }
+      }
+    }
+  }
+}
+.summary-small-layout.profile-summary-container,
+.summary-small-layout.job-detail-container,
+.summary-small-layout.client-detail-container{
+  .notes-details-sec{
+    height: calc(100vh - 271px);
+    @media only screen and (max-width: 480px) and (min-width: 320px){
+      height: calc(100vh - 327px);
+    }
+  }
+}
+
+.advancedsearchDrawer {
+  width: 100%;
+  max-width: 75%;
+  padding: 0px;
+  background: transparent;
+  box-shadow: none !important;
+  display: flex;
+  @media only screen and (max-width: 1024px) and (min-width: 240px){
+    max-width: 98%;
+  }
+  .drawerTitleSec {
+    width: 40px;
+    h4 {
+      width: 140px;
+      margin: 0px;
+      height: 40px;
+      line-height: 40px;
+      .closeDrawerIcon {
+        position: absolute;
+        padding: 0px;
+        min-width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  .advancedsearchDrawerData {
+    padding: 10px 0px;
+    overflow: auto;
+    border-radius: 0px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.example-is-mobile .notes-details {
+  flex: 1 0 auto;
+}
+
+.topToBottom.mat-fab {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  @media only screen and (max-width: 640px) and (min-width: 320px){
+    bottom: 70px;
+  }
+  .two-icons {
+    .mat-icon {
+      top: 0px;
+    }
+    .secondIcon.mat-icon {
+      top: 12px;
+    }
+  }
+}
+
+// job detail notes and activity
+.jobDetailsMatDrawerEnd{
+  .mat-card-content{
+    .notes-details-sec {
+      // @When: 27-03-2023 @who:Amit @why: EWM-11380 @what: searchbar add height decrease
+      height: calc(100vh - 423px);
+      .mat-drawer{
+        position: absolute;
+      }
+    }
+  }
+}
+.container-collapse-layout.job-detail-container{
+  .notes-details-sec {
+    // @When: 28-03-2023 @who:Amit @why: EWM-11597 @what:drawer height change
+    height: calc(100vh - 292px);
+    @media only screen and (max-width: 580px) and (min-width: 240px) {
+      height: calc(100vh - 350px);
+    }
+    .mat-drawer-content{
+      height: 100%;
+      .topToBottom.mat-fab{
+        @media only screen and (max-width: 580px) and (min-width: 240px) {
+          bottom: 90px;
+        }
+      }
+    }
+  }
+}
+// job detail notes and activity
+
+
+// client detail notes and activity
+.client-detail-card.mat-card .mat-card-content.summary-normal-layout {
+  height: calc(100vh - 148px);
+  @media screen and (min-width: 320px) and (max-width: 1024px) {
+    height:calc(100vh - 150px);
+  }
+}
+// client detail notes and activity
+
+// notes and activity
+.notes-addEdit-drawer .drawerFooter{
+  padding:0px 15px;
+}
+
+.notes-addEdit-drawer{
+  .mat-form-field{
+      .mat-raised-button {
+          min-width: 35px;
+          padding: 0px 5px;
+          line-height: 30px;
+          .mat-icon{
+              font-size: 16px;
+              line-height: 20px;
+              width: 20px;
+              height: 20px;
+          }
+      }
+  }
+}
+// notes and activity
+
+.gpdr-container{
+  @media only screen and (max-width: 683px) and (min-width: 320px){
+    height: calc(100vh - 70px);
+  }
+  .gpdr-addEdit-drawer{
+    @media only screen and (max-width: 480px) and (min-width: 320px){
+      max-width: 100%;
+    }
+  }
+}
+.candidate-tab {
+  height: calc(100% - 155px);
+}
+// resume cover section tab
+
+.mat-card-content.summary-normal-layout {
+  .question-list-sec{
+    .new-data-list-content{
+      height: calc(100vh - 505px);
+      @media screen and (min-width: 1061px) and (max-width: 1119px){
+        height: calc(100vh - 510px);
+      }
+      @media screen and (min-width: 320px) and (max-width: 1060px){
+        height: calc(100vh - 505px);
+      }
+    }
+  }
+}
+.mat-card-content.summary-normal-layout.summary-small-layout {
+  .question-list-sec{
+    .new-data-list-content{
+      height: calc(100vh - 435px);
+      @media screen and (min-width: 1061px) and (max-width: 1119px){
+        height: calc(100vh - 440px);
+      }
+      @media screen and (min-width: 320px) and (max-width: 1060px){
+        height: calc(100vh - 435px);
+      }
+    }
+  }
+}
+
+// common only notes box styling start here
+.notes-list{
+  .notes-detail {
+    display: flex;
+    position: relative;
+    .notes-detail-linebar {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background: #ccc;
+      left: 20px;
+    }
+    .flex-box {
+      display: grid;
+      grid: auto/ 50px calc(100% - 60px);
+      .notes-created-info-icon {
+        .mat-mini-fab {
+          cursor: default;
+          box-shadow: none;
+          .mat-button-wrapper{
+            padding: 6px 0px;
+          }
+        }
+      }
+      .notes-info {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 8px 10px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        min-width: 280px;
+        background: #EDE7F6;
+        a, .mat-icon{
+          color: #7E57C2;
+          font-size: 12px;
+          font-weight: 600;
+        }
+        .mat-icon{
+          font-size: 20px;
+        }
+        @media only screen and (max-width: 1140px) and (min-width: 581px) {
+          min-width: 300px;
+        }
+        @media only screen and (max-width: 580px) and (min-width: 240px) {
+          min-width: 185px;
+        }
+        .mat-divider-horizontal{
+          position: relative;
+        }
+        .notes-created-details.mat-card {
+          padding: 0px 0px;
+          background: transparent;
+          margin: 10px 0px;
+          margin-bottom: 25px;
+          box-shadow: none;
+          width: 100%;
+          word-break: break-word;
+          .notes-content{
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            p{
+              width:100%;
+              margin-bottom: 15px;
+            }
+          }
+          .mat-card-header{
+            padding:0px;
+            width:50%;
+            // align-items: center;
+            margin-bottom: 10px;
+            @media screen and (min-width: 320px) and (max-width: 650px){
+              width:100%;
+            }
+            .mat-card-avatar{
+              width:25px;
+              height:25px;
+              .mat-icon{
+                font-size:22px;
+                cursor: pointer;
+              }
+            }
+            .mat-card-header-text{
+              padding:0px 5px;
+              .mat-card-title{
+                font-size:14px;
+                font-weight: bold;
+              }
+              .mat-card-subtitle{
+                font-size:14px;
+                margin-bottom:0px;
+              }
+            }
+          }
+          .user-notes-data{
+            word-break: break-word;
+          }
+          p {
+            margin: 0px;
+            margin-bottom: 5px;
+          }
+          .attachment-data {
+            display: flex;
+            justify-content: flex-end;
+            .attach_file{
+              position: relative;
+              top: 11px;
+              font-size: 20px;
+            }
+          }
+
+          // create for common
+          .user-main-data{
+            position: relative;
+            .user-notes-data.gradient{
+              overflow-x: auto;
+              max-height: 100px;
+              overflow-y: hidden;
+              transition: max-height .5s ease;
+              padding: 5px 5px 30px;
+              &::before{
+                content:'';
+                transition:height .25s ease;
+                height:50px;
+                position:absolute;
+                bottom:0px;
+                left:0;
+                width:100%;
+                background: linear-gradient(to bottom,  rgba(237,231,246,0) -75%,rgba(237,231,246,1) 75%); transition:height .25s ease;
+              }
+              p{
+                span{
+                  white-space: inherit !important;
+                }
+              }
+            }
+            .user-notes-data.gradient.withoutShadow {
+              padding: 5px;
+              &::before{
+                height: 0px;
+                background: transparent;
+              }
+            }
+            .addClientButton.mat-mini-fab{
+              width: 25px;
+              height: 25px;
+              line-height: 25px;
+              background:  #7E57C2;
+              color: $white-color;
+              position: absolute;
+              bottom: 0px;
+              left: calc(50% - 12.5px);
+              transition: background-color .25s ease;
+              .mat-button-wrapper{
+                padding: 0px;
+                .mat-icon{
+                  width: 25px;
+                  height: 25px;
+                  line-height: 25px;
+                  color: #ffffff;
+                }
+              }
+            }
+          }
+          // @When: 06-09-2022 @who:Amit @why: EWM-13836  @what: bottom space //
+          .user-main-data.user-notes-desc .addClientButton {
+            transform: rotate(180deg);
+            bottom: 18px;
+          }
+          // @When: 06-09-2022 @who:Amit @why: EWM-13836  @what: bottom space //
+          .user-main-data.user-notes-desc .user-notes-data.gradient {
+            max-height: initial;
+            padding-bottom: 45px;
+          }
+          .user-main-data.user-notes-desc .user-notes-data.gradient:before{
+            height:0px;
+          }
+          // create for common
+        }
+        .notes-created-by-action {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          height: 40px;
+          .notes-created-header {
+            display: flex;
+            align-items: center;
+            .mat-icon {
+              margin-inline-start: 3px;
+              font-size: 32px;
+              width: 33px;
+              height: 32px;
+              position: relative;
+              left: -3px;
+              line-height: 32px;
+              text-align: right;
+            }
+          }
+          .notes-created-action {
+            position: relative;
+            padding-inline-start: 10px;
+            display: flex;
+            .mat-icon-button {
+              width: 30px;
+              height: 30px;
+              line-height: 30px;
+              .mat-icon {
+                font-size: 22px;
+                line-height: 20px;
+                height: 20px;
+              }
+            }
+          }
+          .notes-created-date {
+            font-size: 80%;
+          }
+        }
+      }
+      // for type of color
+      .notes-info.protected{
+        background: #E1F5FE;
+        a, .mat-icon{
+          color: #29B6F6;
+        }
+        .notes-created-details.mat-card{
+          .user-main-data{
+            .user-notes-data.gradient{
+              &::before{
+                background: linear-gradient(to bottom,  rgba(225,245,254,0) -75%,rgba(225,245,254,1) 75%); transition:height .25s ease;
+              }
+            }
+            .user-notes-data.gradient.withoutShadow{
+              &::before{
+                height: 0px;
+                background: transparent;
+              }
+            }
+            .addClientButton.mat-mini-fab{
+              background: #29B6F6;
+            }
+          }
+        }
+      }
+      .notes-info.private{
+        background: #FFEBEE;
+        a, .mat-icon{
+          color: #EF5350;
+        }
+        .notes-created-details.mat-card{
+          .user-main-data{
+            .user-notes-data.gradient{
+              &::before{
+                background: linear-gradient(to bottom,  rgba(255,235,238,0) -75%,rgba(255,235,238,1) 70%); transition:height .25s ease;
+              }
+            }
+            .user-notes-data.gradient.withoutShadow{
+              &::before{
+                height: 0px;
+                background: transparent;
+              }
+            }
+          }
+          .addClientButton.mat-mini-fab{
+            background: #EF5350;
+          }
+        }
+      }
+      .notes-info.public{
+        background: #F1F8E9;
+        a, .mat-icon{
+          color: #9CCC65;
+        }
+        .notes-created-details.mat-card{
+          .user-main-data{
+            .user-notes-data.gradient{
+              &::before{
+                background: linear-gradient(to bottom,  rgba(241,248,233,0) -75%,rgba(241,248,233,1) 70%); transition:height .25s ease;
+              }
+            }
+            .user-notes-data.gradient.withoutShadow{
+              &::before{
+                height: 0px;
+                background: transparent;
+              }
+            }
+            .addClientButton.mat-mini-fab{
+              background: #9CCC65;
+            }
+          }
+        }
+      }
+      // for type of color
+    }
+  }
+}
+// common only notes box styling end here
+
+.dark-theme{
+  .notes-list{
+    .notes-detail{
+      .flex-box{
+        .notes-info{
+          background: $dark-primary;
+        }
+      }
+    }
+  }
+}
+
+[dir="rtl"]{
+  .topToBottom.mat-fab {
+    left: 20px;
+    right: inherit;
+  }
+}
+
+

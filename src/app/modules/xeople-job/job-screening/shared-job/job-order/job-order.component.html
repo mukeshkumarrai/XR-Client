@@ -1,0 +1,140 @@
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  
+  <form [formGroup]="shareJobOrderForm" (ngSubmit)="submitForm()" class="job-order-form">
+  <div class="share-client-note">
+    <h3><span>{{'candidate_note'|translate}}</span></h3>
+    <p>{{'label_ShareJobOrder_Notes'|translate}} {{assignMember}} {{'label_With'|translate}}</p>
+  </div>
+   
+        <mat-form-field class="location-show">
+        <input matInput formControlName="locationName" id="label_ShareJobOrder_ServiceLocation"
+        placeholder="{{'label_ShareJobOrder_ServiceLocation'|translate}}" required readonly>
+            <button type="button" matSuffix mat-stroked-button color="primary" class="matSuffix-icon mgBottom5">Synced</button>  
+        </mat-form-field>
+        <mat-form-field class="location-show">
+            <input matInput formControlName="AssignCandidateMember" id="label_ShareJobOrder_AssignCandidateMember"
+            placeholder="{{'label_ShareJobOrder_AssignCandidateMember'|translate}}" required readonly>
+            <button type="button" matSuffix mat-stroked-button color="primary" class="matSuffix-icon mgBottom5">Synced</button> 
+        </mat-form-field>
+        <div class="common_dropdown_v2"> 
+            <dropdown [configuration]="Qualification_Dropdown_Config" tabindex
+                [resetConfiguration]="resetQualDrp.asObservable()" (selectedOut)="onQualchange($event)"
+                [getSelectedItem]="selectedQual" [initialize]="dropdownInitilize"
+                [showMoreOptionsNum]="5">
+            </dropdown>
+          </div> 
+          <div class="share-inner-section contract-period">
+            <h3>{{'label_joborder_contractPeriod'|translate}}</h3>  
+            <mat-form-field>
+                <input matInput tabindex (click)="picker_from?.open()" formControlName="DateFrom" [matDatepicker]="picker_from" id="pushEoh-DOB"
+                placeholder="{{'label_ShareJobOrder_From'|translate}}" (dateInput)="inputEventStart(shareJobOrderForm.value.DateFrom)" required>
+                    <!-- <button *ngIf="shareJobOrderForm.controls['DateFrom'].hasError('matDatepickerParse') || shareJobOrderForm.value.DateFrom" type="button" id="clearBtn" matSuffix mat-icon-button aria-label="Clear" (click)="onClearHired()"> 
+                        <mat-icon>close</mat-icon> 
+                    </button>-->
+                <mat-datepicker-toggle matSuffix [for]="picker_from"></mat-datepicker-toggle>
+                <mat-datepicker #picker_from></mat-datepicker>
+                <mat-error *ngIf="shareJobOrderForm.controls['DateFrom'].hasError('matDatepickerMin') && !shareJobOrderForm.controls['DateFrom'].hasError('invalidDate')"> {{'label_ShareJobOrder_From' | translate}} {{'label_mustbeStartDate' | translate}} </mat-error>
+                <mat-error *ngIf="shareJobOrderForm.controls['DateFrom'].hasError('invalidDate') && shareJobOrderForm.controls['DateFrom'].touched"> {{'label_invalidDate' | translate}} </mat-error>
+                <mat-error *ngIf="shareJobOrderForm.controls['DateFrom'].hasError('matDatepickerParse') && !shareJobOrderForm.controls['DateFrom'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+            </mat-form-field> 
+            
+            <mat-form-field>
+                <input matInput tabindex (click)="picker?.open()" formControlName="DateTo" [matDatepicker]="picker" id="pushEoh-DOB"
+                placeholder="{{'label_ShareJobOrder_To'|translate}}" [min]="shareJobOrderForm.controls['DateFrom'].value" (dateInput)="inputEventStart(shareJobOrderForm.value.DateTo)" required>
+                    <!-- <button *ngIf="shareJobOrderForm.controls['DateFrom'].hasError('matDatepickerParse') || shareJobOrderForm.value.DateFrom" type="button" id="clearBtn" matSuffix mat-icon-button aria-label="Clear" (click)="onClearHired()"> 
+                        <mat-icon>close</mat-icon> 
+                    </button>-->
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="shareJobOrderForm.controls['DateTo'].hasError('matDatepickerMin') && !shareJobOrderForm.controls['DateTo'].hasError('invalidDate')"> {{'label_ShareJobOrder_To' | translate}} {{'label_mustbeStartDate' | translate}} </mat-error>
+                <mat-error *ngIf="shareJobOrderForm.controls['DateTo'].hasError('invalidDate') && shareJobOrderForm.controls['DateFrom'].touched"> {{'label_invalidDate' | translate}} </mat-error>
+                <mat-error *ngIf="shareJobOrderForm.controls['DateTo'].hasError('matDatepickerParse') && !shareJobOrderForm.controls['DateTo'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+            </mat-form-field> 
+            <div class="common_dropdown_v2"> 
+                <dropdown [configuration]="Shift_Dropdown_Config" tabindex
+                    [resetConfiguration]="resetShiftDrp.asObservable()" (selectedOut)="onShiftchange($event)"
+                    [getSelectedItem]="selectedShift" [initialize]="dropdownInitilize"
+                    [showMoreOptionsNum]="5">
+                </dropdown>
+            </div>
+        </div>
+        
+        <div class="share-inner-section">
+            <h3>{{'label_joborder_expectedShiftTimings'|translate}}</h3> 
+            <div class="kendo-input-box">
+                <kendo-floatinglabel text="{{ 'label_startTime' | translate }}" class="show-label-required">
+                    <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a"
+                        [value]="TimeStartValue" (valueChange)="handleChangeStartTime($event)">
+                    </kendo-timepicker>
+                </kendo-floatinglabel>
+                <!-- <button *ngIf="TimeStartValue!=''" id="cleartimeBtn" matSuffix mat-icon-button
+                    aria-label="Clear" (click)="clearStartTime()">
+                    <mat-icon>close</mat-icon>
+                </button> -->
+                <p *ngIf="isStartTmeRequired" style="color:red">{{ 'label_startTime' | translate }}
+                    {{'label_errorreqired' | translate}}</p>
+            </div>
+            <div class="kendo-input-box">
+                <kendo-floatinglabel text="{{ 'label_endTime' | translate }}" class="show-label-required">
+                    <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a"
+                        [value]="TimeEndValue" (valueChange)="handleChangeEndTime($event)">
+                    </kendo-timepicker>
+                </kendo-floatinglabel>
+                <!-- <button *ngIf="TimeEndValue!=''" id="cleartimeBtn" matSuffix mat-icon-button
+                    aria-label="Clear" (click)="clearEndTime()">
+                    <mat-icon>close</mat-icon>
+                </button> -->
+                <p *ngIf="isEndTmeRequired" style="color:red">{{ 'label_endTime' | translate }}
+                    {{'label_errorreqired' |
+                    translate}}</p>
+            </div>
+        </div>
+
+        <div class="common_dropdown_v2 mb-10"> 
+            <dropdown [configuration]="Office_Dropdown_Config" tabindex
+                [resetConfiguration]="resetOfficeDrp.asObservable()" (selectedOut)="onOfficechange($event)"
+                [getSelectedItem]="selectedOffice" [initialize]="dropdownInitilize"
+                [showMoreOptionsNum]="5">
+            </dropdown>
+        </div>
+  
+        <mat-form-field>
+            <input matInput formControlName="ContactPerson" id="label_ShareJobOrder_ContactPerson"
+            placeholder="{{'label_ShareJobOrder_ContactPerson'|translate}}" required  >
+            <mat-error *ngIf="this.shareJobOrderForm.controls['ContactPerson'].hasError('required')">
+                {{ 'label_ShareJobOrder_ContactPerson' |translate}} {{ 'label_required' |translate}}
+            </mat-error>
+            
+        </mat-form-field>
+
+    <div class="counterTxt">
+        <mat-form-field>
+            <mat-label>{{'label_ShareJobOrder_BookingNotes' | translate}}</mat-label>
+            <textarea type="text" tabindex formControlName="Notes" matInput
+                (keyup)="onMessage($event.target.value)" id="document-comment"></textarea>
+            <mat-error *ngIf="this.shareJobOrderForm.controls['Notes'].hasError('maxlength')">
+                {{ 'label_ShareJobOrder_BookingNotes' |translate}} {{ 'label_errormaxlength200' |translate}}
+            </mat-error>
+        </mat-form-field>
+    <span class="countlabel" color="warn">
+        {{'label_balance' |translate}}:{{maxMessage}} {{'label_characters' |translate}}
+    </span>
+  </div>
+
+  
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="eoh-dialog-footer">
+    <div class="button-group">
+      <button mat-stroked-button color="warn" tabindex type="button"  id="Backbtn"
+      (click)="onBack()">{{'label_back'|translate}}</button>
+          <button mat-stroked-button class="eoh-bg-button" color="primary" tabindex type="button" [disabled]="!shareJobOrderForm.valid || isResponseGet" id="btnSave"
+       (click)="submitForm()"><img *ngIf="!isResponseGet" src="../../../../../assets/brand/{{EOHLogo}}">
+       <span *ngIf="!isResponseGet">{{'label_ShareJob'|translate}}</span>
+       <div *ngIf="isResponseGet" id="loading"></div>         </button>
+    </div>
+  </div>
+    
+  </form>

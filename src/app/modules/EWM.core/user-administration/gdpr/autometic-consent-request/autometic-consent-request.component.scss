@@ -1,0 +1,18 @@
+@import '../../../../../../mixinStyle.scss';
+.autometic-slde-toggle{
+    display: grid;
+    grid: auto / calc(70% - 100px) 100px;
+    align-items: center;
+    h4{
+        margin: 0px;
+    }
+    @include for-small-smartphones{
+        grid: auto / calc(100% - 50px) 50px;
+    }
+}
+.hederConsent{
+    h3{
+        margin:0px;
+        margin-bottom: 5px;
+    }
+}

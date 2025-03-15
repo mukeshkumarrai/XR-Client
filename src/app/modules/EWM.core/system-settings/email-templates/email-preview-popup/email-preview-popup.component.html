@@ -1,0 +1,32 @@
+<!-- @(C): Entire Software
+@Type: File, <html>
+@Who: Anup Singh
+@When: 20-April-2022
+@Why: EWM-4945
+@What:  This page wil be use only for email preview Component HTML -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<form id="emailTemp-Preview" applyTabIndexes>
+    <div id="emailTemp-Preview-header" class="modal-header">
+      <h2 mat-dialog-title *ngIf="!isActivity">{{'label_email_preview' |translate}}</h2>
+      <h2 mat-dialog-title *ngIf="isActivity">{{'label_activityPreviewTitile' |translate}}</h2>
+      <button mat-icon-button id="btnClose" tabindex (click)="onClose()" color="warn">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <mat-dialog-content *ngIf="!isActivity && !isMailActive"> 
+        <p>Subject: {{subjectName}} </p>
+        <!-- <p>Dear {{candName}},</p> -->
+        <p [innerHTML]="emailtemplateData"></p>
+        <br>
+  </mat-dialog-content> 
+
+  <mat-dialog-content *ngIf="isActivity || isMailActive"> 
+    <p>Subject: {{resSubjectName}} </p>
+    <!-- <p>Dear {{candName}},</p> -->
+    <p [innerHTML]="resEmailtemplateData"></p>
+    <br>
+</mat-dialog-content> 
+
+</form>

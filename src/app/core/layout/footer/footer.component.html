@@ -1,0 +1,340 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: footer.component.html
+  @Who: Mukesh kumar Rai
+  @When: 10-Sep-2020
+  @Why: This page is footer of the application
+  @What: This page wil be use only for the footer HTML.
+-->
+<mat-toolbar class="footer" color="primary">
+  <div class="ewmContainer">
+    <div class="row mb-0 orangeBg" *ngIf="!inStorage" style="display: none;">
+      <div class="col l12 m12 s12">
+        <p class="footerNotificationMsg">
+          {{'label_acceptCookies' |translate}}
+        </p>
+        <button (click)="saveCookies()" class="cookiesBtn cursor">{{'label_acceptBtn' |translate}}</button>
+      </div>
+    </div>
+    <div class="row mb-0">
+      <div #footerDirectionMove #footerDirection class="col m6 l6 s5 footerLink">
+        <p>© {{currentYear}}. {{'label_allRightsReserved' |translate}}</p>
+          <a style="cursor: pointer;" class="pipe">{{'label_privacyPolicy'
+            |translate}}</a>
+          <a style="cursor: pointer;" class="">
+            {{'label_TermOfUse' |translate}}</a>
+      </div>
+      <div #imagefooter class="col m6 l6 s7 right-align footer-icons" *ngIf="accessBlocked">
+        <div class="footerFloatBox" [style.visibility]="openMenu?'visible' : 'hidden'">
+
+          <div #widgetsContent class="middle withoverflow" (scroll)='checkthis($event)'>
+
+            <!-- Network online offline -->
+            <button mat-mini-fab class="action-button float-action-button one" color="basic"
+              [matMenuTriggerFor]="NetworOnkMenu" #networkonTriggerMobile="matMenuTrigger"
+              (menuOpened)="preventCloseOnClickOut()" (menuClosed)="allowCloseOnClickOut()"
+              [style.display]="noInternetConnection? 'none' : ''" (click)="setTimer('NetworkOnMobile')"
+              matTooltip="{{'label_tootipNetwork' |translate}}" matTooltipPosition="left"
+              matTooltipClass="custom-tooltip-right">
+              <mat-icon class="screenResolutionGreen">wifi</mat-icon>
+            </button>
+            <button mat-mini-fab class="float-action-button action-button one" #networkoffTriggerMobile="matMenuTrigger"
+              color="basic" [matMenuTriggerFor]="NetworOffkMenu" (menuOpened)="preventCloseOnClickOut()"
+              (menuClosed)="allowCloseOnClickOut()" [style.display]="noInternetConnection? '' : 'none'"
+              (click)="setTimer('NetworkOffMobile')" matTooltip="{{'label_tootipNetwork' |translate}}"
+              matTooltipPosition="left" matTooltipClass="custom-tooltip-right">
+              <mat-icon class="material-icons screenResolutionRed">
+                wifi_off
+              </mat-icon>
+            </button>
+            <!-- Version  -->
+            <button mat-mini-fab class="float-action-button action-button three" color="basic"
+              (click)="setTimer('versionMobile')" #versionTriggerMobile="matMenuTrigger"
+              [matMenuTriggerFor]="VersionMenu" (menuOpened)="preventCloseOnClickOut()"
+              (menuClosed)="allowCloseOnClickOut()"
+              [ngClass]="isVersionMismatch ? 'screenResolutionRed' : 'screenResolutionGreen'"
+              matTooltip="{{'label_tootipVersion' |translate}}" matTooltipPosition="left"
+              matTooltipClass="custom-tooltip-right">
+              <mat-icon class="error animate__animated animate__swing animate__infinite animate__slower" *ngIf="isVersionMismatch">
+                notification_important
+              </mat-icon>
+              <mat-icon class="task_alt" *ngIf="!isVersionMismatch">
+                task_alt
+              </mat-icon>
+            </button>
+            <!-- Version  -->
+
+            <!-- Last login -->
+            <button mat-mini-fab class="float-action-button action-button four" color="basic"
+              *ngIf="orgSelect && LastLoginDateTime" [matMenuTriggerFor]="lastLoginMenu"
+              #lastLoginTriggerMobile="matMenuTrigger" (menuOpened)="preventCloseOnClickOut()"
+              (menuClosed)="allowCloseOnClickOut()" [style.color]="lastLogin+' !important'"
+              (click)="setTimer('lastLoginMobile')" matTooltip="{{'label_tootipLastLogin' |translate}}"
+              matTooltipPosition="left" matTooltipClass="custom-tooltip-right">
+              <mat-icon>account_circle</mat-icon>
+            </button>
+            <!-- Last login -->
+          </div>
+        </div>
+
+        <button mat-flat-button class="footerButton versionTxtStyle" [matMenuTriggerFor]="EnvironmentMenu"
+          #environmenTrigger="matMenuTrigger" [style.color]="environment_color"
+          [style.border-color]="environment_color+' !important'" (menuOpened)="preventCloseOnClickOut()"
+          (menuClosed)="allowCloseOnClickOut()" (click)="setTimer('environment')" *ngIf="environment !==''"
+          matTooltip="{{'label_tootipEnvironment' |translate}}" matTooltipPosition="above">
+          <span> {{environment}}</span>
+        </button>
+
+        <div class="dvider" *ngIf="environment !==''"></div>
+        <div class="footerMenu">
+          <button mat-flat-button class="footerButton lastLoginButton" *ngIf="orgSelect && LastLoginDateTime"
+            [matMenuTriggerFor]="lastLoginMenu" #lastLoginTrigger="matMenuTrigger"
+            (menuOpened)="preventCloseOnClickOut()" (menuClosed)="allowCloseOnClickOut()"
+            [style.color]="lastLogin+' !important'" (click)="setTimer('lastLogin')"
+            matTooltip="{{'label_tootipLastLogin' |translate}}" matTooltipPosition="above">
+            <mat-icon class="material-icons">
+              account_circle
+            </mat-icon>
+          </button>
+          <div class="dvider" *ngIf="orgSelect && LastLoginDateTime"></div>
+          <button style="overflow: hidden;" (click)="setTimer('version')" mat-flat-button class="footerButton" #versionTrigger="matMenuTrigger"
+            [matMenuTriggerFor]="VersionMenu" (menuOpened)="preventCloseOnClickOut()"
+            (menuClosed)="allowCloseOnClickOut()"
+            [ngClass]="isVersionMismatch ? 'screenResolutionRed' : 'screenResolutionGreen'"
+            matTooltip="{{'label_tootipVersion' |translate}}" matTooltipPosition="above">
+            <mat-icon class="error animate__animated animate__swing animate__infinite animate__slower" *ngIf="isVersionMismatch">
+              notification_important
+            </mat-icon>
+            <mat-icon class="task_alt" *ngIf="!isVersionMismatch">
+              task_alt
+            </mat-icon>
+          </button>
+
+          <div class="dvider"></div>
+          <button mat-flat-button class="footerButton" #networkonTrigger="matMenuTrigger"
+            [matMenuTriggerFor]="NetworOnkMenu" (menuOpened)="preventCloseOnClickOut()"
+            (menuClosed)="allowCloseOnClickOut()" [style.display]="noInternetConnection? 'none' : 'inline-block'"
+            (click)="setTimer('NetworkOn')" matTooltip="{{'label_tootipNetwork' |translate}}"
+            matTooltipPosition="above">
+            <mat-icon class="material-icons screenResolutionGreen">
+              wifi
+            </mat-icon>
+          </button>
+          <button mat-flat-button class="footerButton" #networkoffTrigger="matMenuTrigger"
+            [matMenuTriggerFor]="NetworOffkMenu" (menuOpened)="preventCloseOnClickOut()"
+            (menuClosed)="allowCloseOnClickOut()" [style.display]="noInternetConnection? 'inline-block' : 'none'"
+            (click)="setTimer('NetworkOff')" matTooltip="{{'label_tootipNetwork' |translate}}"
+            matTooltipPosition="above">
+            <mat-icon class="material-icons screenResolutionRed">
+              wifi_off
+            </mat-icon>
+          </button>
+
+        </div>
+
+        <button mat-flat-button (click)="clickMenu();" (click)="clicked = !clicked" [class.activeThreeDots]="clicked"
+          class="footerButton footerFloatButton" (mouseover)="isOver = true" (mouseleave)="isOver = false">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #EnvironmentMenu="matMenu" yPosition="above" xPosition="before"
+          class="EnvironmentMenu custom-popover animate__animated animate__headShake">
+          <mat-icon class="material-icons arrow_drop_down">
+            arrow_drop_down
+          </mat-icon>
+
+          <div class="popover center-align"
+            *ngIf="!environmentDirection">
+            <mat-progress-bar color="warn" (click)="$event.stopPropagation();" mode="determinate" [value]="progressbarValue"></mat-progress-bar>
+            <div class="stopPropagation" (click)="$event.stopPropagation();">
+              <div class="screenResolutionIcon-icons production-icon">
+                <mat-icon [style.background-color]="environment_color">
+                  dvr
+                </mat-icon>
+              </div>
+              <h4 *ngIf="environment !=='Prod'">{{'label_Environment' |translate}} : <span
+                  [style.color]="environment_color+' !important'">{{environment }}</span> </h4>
+              <p>{{'label_environmentPara' | translate}} {{environment }} {{'label_environment' | translate}}
+              </p>
+            </div>
+            <button mat-icon-button color="warn" class="popoverClose">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div>
+            </div>
+          </div>
+
+          <div class="popover center-align"
+            *ngIf="environmentDirection">
+            <mat-progress-bar color="warn" (click)="$event.stopPropagation();" mode="determinate" [value]="progressbarValue"></mat-progress-bar>
+            <div class="stopPropagation" (click)="$event.stopPropagation();">
+              <div class="screenResolutionIcon-icons production-icon">
+                <mat-icon [style.background-color]="environment_color">
+                  dvr
+                </mat-icon>
+              </div>
+              <h4 *ngIf="environment !=='Prod'">{{environment }} : <span
+                  [style.color]="environment_color">{{'label_Environment' |translate}}</span> </h4>
+              <p>{{'label_environment' | translate}} {{environment}} {{'label_environmentPara' | translate}}</p>
+            </div>
+            <button mat-icon-button color="warn" class="popoverClose">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div>
+            </div>
+          </div>
+        </mat-menu>
+
+        <mat-menu #lastLoginMenu="matMenu" yPosition="above" xPosition="before"
+          class="lastLogin-popover custom-popover animate__animated animate__headShake">
+          <mat-icon class="material-icons arrow_drop_down">
+            arrow_drop_down
+          </mat-icon>
+          <mat-progress-bar class="lastLogin-progress" (click)="$event.stopPropagation();" mode="determinate" [value]="progressbarValue"></mat-progress-bar>
+          <div class="popover center-align">
+            <div class="user-last-login" (click)="$event.stopPropagation();">
+              <div class="user-avtaar">
+                <img class="user-profile" src="{{currentUser[0]?.profileUrl}}" />
+              </div>
+              <div class="user-data">
+                <h3 class="name">{{currentUser[0]?.name}}</h3>
+              </div>
+              <div class="user-data mb-10">
+                <span class="email" matTooltipClass="custom-tooltip" matTooltip="{{'label_email'|translate}} : {{currentUser[0]?.email}}">{{currentUser[0]?.email}}</span>
+              </div>
+              <div class="user-data">
+                <h4>{{'label_lastLoginDetails' |translate}}</h4>
+              </div>
+              <div class="user-data">
+                <span class="org" matTooltipClass="custom-tooltip" matTooltip="{{'label_organization'|translate}} : {{orgSelect}}">{{orgSelect}}</span>
+              </div>
+              <div class="user-data">
+                <span class="login">{{LastLoginDateTime | date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </div>
+            </div>
+
+            <button mat-icon-button color="warn" class="popoverClose" (click)="clearTimer()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div>
+            </div>
+          </div>
+        </mat-menu>
+
+        <mat-menu #VersionMenu="matMenu" yPosition="above" xPosition="before"
+          class="custom-popover animate__animated animate__headShake version-popover"
+          [class]="isVersionMismatch?'':''">
+          <mat-icon class="material-icons arrow_drop_down">
+            arrow_drop_down
+          </mat-icon>
+
+          <mat-progress-bar (click)="$event.stopPropagation();" *ngIf="swCurrentApplicationVersion!=swVersionValue || swCurrentApplicationVersion===swVersionValue" color="primary" mode="determinate" [value]="progressbarValue"></mat-progress-bar>
+          <div class="popover center-align">
+
+            <div class="stopPropagation p-0" *ngIf="swCurrentApplicationVersion===swVersionValue" (click)="$event.stopPropagation();">
+              <div class="rocket-animation">
+                <mat-icon class="task_alt">
+                  task_alt
+                </mat-icon>
+                <img src="/assets/xeople-email.png" class="rocket animate__animated animate__fadeInUpBig animate__slower" />
+                <img src="/assets/cloud.png" class="cloud" />
+              </div>
+
+              <h4 class="left-align pl-15 pr-15 mt-0 mb-10">{{'label_updated' |translate}}</h4>
+              <!-- <p class="left-align pl-15 mb-0">{{'label_UsingLatestV' |translate}}</p> -->
+              <!---------@When: 30-03-2023 @who:Amit @why: EWM-11636 @what: format change--------->
+              <p class="left-align pl-15 mt-5 font-weight-500">{{'label_LatestVersion' |translate}}</p>
+              <!---------@When: 30-03-2023 @who:Amit @why: EWM-11636 @what: popover footer comment--------->
+              <div class="popoverFooter">
+                <div class="current-version">
+                  <!-- @When: 14-April-2023 @who: Satya Prakash Gupta @why: EWM-11814 EWM-11916 @what:Add build date and build number -->
+                  {{appVersion}}
+                </div>
+              </div>
+            </div>
+            <div class="stopPropagation p-0" *ngIf="swCurrentApplicationVersion!=swVersionValue" (click)="$event.stopPropagation();">
+              <div class="rocket-animation">
+                <mat-icon class="error animate__animated animate__swing animate__infinite animate__slower">
+                  notification_important
+                </mat-icon>
+                <img src="/assets/xeople-email.png" class="rocket animate__animated animate__fadeInUpBig animate__slower" />
+                <img src="/assets/cloud.png" class="cloud" />
+              </div>
+
+              <h4 class="left-align pl-15 pr-15 mt-0 mb-10">{{'label_updateAvailable' |translate}}</h4>
+              <p class="popover-txt-justify">{{'label_UsingOldV' |translate}} ({{currentApplicationVersion}}). {{'label_UsingOldVMessage' |translate}}</p>
+              <div class="popoverFooter">
+                <div class="current-version">
+                  {{previousApplicationVersion}}
+                </div>
+                <button mat-mini-fab color="primary" matTooltip="{{'label_updateNow'|translate}}" matTooltipClass="custom-tooltip" id="btnUpdate" (click)="versionUpdate()">
+                  <mat-icon>update</mat-icon>
+                </button>
+              </div>
+            </div>
+            <button mat-icon-button color="warn" class="popoverClose versionPopoverClose" (click)="clearTimer()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div>
+            </div>
+          </div>
+        </mat-menu>
+        <mat-menu #NetworOnkMenu="matMenu" yPosition="above" xPosition="before"
+          class="custom-class-green custom-popover animate__animated animate__headShake">
+          <mat-icon class="material-icons arrow_drop_down">
+            arrow_drop_down
+          </mat-icon>
+          <mat-progress-bar (click)="$event.stopPropagation();" mode="determinate" [value]="progressbarValue"></mat-progress-bar>
+          <div class="popover center-align">
+            <div class="stopPropagation" (click)="$event.stopPropagation();">
+              <div class="screenResolutionIcon-icons">
+                <mat-icon class="screenResolutionGreen">
+                  wifi
+                </mat-icon>
+              </div>
+
+              <h4>{{'label_network' | translate}} <span class="screenResolutionGreen">{{'tooltip_online'
+                  |translate}}</span></h4>
+              <p>{{'label_onlinePara' |translate}}</p>
+
+            </div>
+
+            <button mat-icon-button color="warn" class="popoverClose"  (click)="clearTimer()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div>
+            </div>
+          </div>
+        </mat-menu>
+
+        <mat-menu #NetworOffkMenu="matMenu" yPosition="above" xPosition="before"
+          class="custom-class-red custom-popover animate__animated animate__headShake">
+          <mat-icon class="material-icons arrow_drop_down">
+            arrow_drop_down
+          </mat-icon>
+          <mat-progress-bar (click)="$event.stopPropagation();" mode="determinate" color="warn" [value]="progressbarValue"></mat-progress-bar>
+          <div class="popover center-align">
+
+            <div class="stopPropagation" (click)="$event.stopPropagation();">
+              <div class="screenResolutionIcon-icons">
+                <mat-icon class="screenResolutionRed">
+                  wifi_off
+                </mat-icon>
+              </div>
+              <h4>{{'label_network' | translate}} <span class="screenResolutionRed"> {{'tooltip_offline'
+                  |translate}}</span></h4>
+              <p>{{'label_offlinePara' |translate}}</p>
+            </div>
+
+            <button mat-icon-button color="warn" class="popoverClose">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,118 @@
+<!-- @(C): Entire Software @Type: File, <html> @Who: Satya Prakash Gupta @When: 03-Nov-2020  @Why: EWM-15045 EWM-15046  @What: Login page design -->
+<mat-drawer-container autosize class="login-container" id="login-container">
+    <mat-drawer-content>
+        <app-outer-header-new></app-outer-header-new>
+        <div class="login-section" id="login-section">
+            <div class="banner-panel" id="banner-panel">
+                <kendo-scrollview class="image-slider" id="image-slider" #sv [data]="items" [width]="width" [arrows]="false"
+                    [pageable]="true" [endless]="true">
+                    <ng-template let-item="item">
+                        <div class="silder-container" id="silder-container">
+                            <div class="image-box">
+                                <img src="{{ item.url }}" alt="{{ item.title }}" [ngStyle]="{ minWidth: auto }"
+                                    draggable="false" />
+                            </div>
+                            <h2 class="title" id="title">{{ item.title }}</h2>
+                            <p class="description" id="description">{{ item.description }}</p>
+                        </div>
+                    </ng-template>
+                </kendo-scrollview>
+            </div>
+            <div class="form-panel" id="form-panel">
+                <div class="login-box" id="login-box">
+                    <form class="form-box" *ngIf="!forgotEmailActive" [formGroup]="forgotEmailFrom">
+                        <div *ngIf="enterEmail" class="enter-email">
+                            <h1>{{'label_accountRecovery' | translate}}</h1>
+                            <div class="errormessage" *ngIf="forgotEmailFrom.controls['UserFisrtName'].hasError('NotExistFirstName') && forgotEmailFrom.controls['UserFisrtName'].hasError('NotExistFirstName')">
+                                Make sure you're entering the correct credentials
+                            </div>
+                            <mat-form-field class="signin-input" appearance="outline" floatLabel="never">
+                                <input matInput #UserEmailorPhone="matInput" type="email" autofocus tabindex="1"
+                                    placeholder="{{'label_EnterEmailOrPhone' | translate}} ({{'label_required' |translate}})" name="email" id="email"
+                                    formControlName="UserEmailorPhone" required 
+                                    (keyup)="checkformfield(this.forgotEmailFrom.controls['UserEmailorPhone'].value)">
+                                    <mat-icon matPrefix fontSet="material-icons-outlined">mail</mat-icon>
+                                <mat-error
+                                    *ngIf="this.forgotEmailFrom.controls['UserEmailorPhone'].hasError('required')">
+                                    {{ 'label_mfa_alternativeEmailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                                <!-- who:maneesh,what:ewm-15128 for change error message,when:13/12/2023; -->
+                                <mat-error
+                                    *ngIf="this.forgotEmailFrom.controls['UserEmailorPhone'].hasError('pattern')">
+                                    {{'label_invalidEmailId' |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="forgotEmailFrom.controls['UserEmailorPhone'].hasError('NotExistEmail')">
+                                    {{'label_noAccountFoundWarning' | translate}}
+                                  </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="signin-input" appearance="outline" floatLabel="never">
+                                <input matInput type="text" tabindex="3" placeholder="{{'label_firstName' | translate}} ({{'label_required' |translate}})"
+                                    id="UserFisrtNameId" formControlName="UserFisrtName" required
+                                     (keyup)="checkformfield(this.forgotEmailFrom.controls['UserFisrtName'].value)">
+                                     <mat-icon matPrefix fontSet="material-icons-outlined">person_outline</mat-icon>
+                                <mat-error *ngIf="this.forgotEmailFrom.controls['UserFisrtName'].hasError('required')">
+                                    {{ 'label_firstName' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                                <mat-error
+                                *ngIf="this.forgotEmailFrom.controls['UserFisrtName'].hasError('maxlength')">
+                                {{ 'label_firstName' |translate}} {{ 'label_errormaxlength50' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="signin-input" appearance="outline" floatLabel="never">
+                                <input matInput type="text" tabindex="4" placeholder="{{'label_lastName' | translate}} ({{'label_required' |translate}})"
+                                    id="UserLastNameId" formControlName="UserLastName" required 
+                                    (keyup)="checkformfield(this.forgotEmailFrom.controls['UserLastName'].value)">
+                                <mat-icon matPrefix fontSet="material-icons-outlined">person_outline</mat-icon>
+                                <mat-error *ngIf="this.forgotEmailFrom.controls['UserLastName'].hasError('required')">
+                                    {{ 'label_lastName' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                                <mat-error
+                                *ngIf="this.forgotEmailFrom.controls['UserLastName'].hasError('maxlength')">
+                                {{ 'label_lastName' |translate}} {{ 'label_errormaxlength50' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                            <button type="button" tabindex="2" id="btnCheckEmail" mat-raised-button color="primary" 
+                            [disabled]="formfieldnotempty || this.forgotEmailFrom.controls['UserFisrtName'].hasError('maxlength') || this.forgotEmailFrom.controls['UserLastName'].hasError('maxlength')
+                             || this.forgotEmailFrom.controls['UserEmailorPhone'].hasError('pattern')"
+                                (click)="switchNameForm(this.forgotEmailFrom.controls['UserEmailorPhone'].value,this.forgotEmailFrom.controls['UserFisrtName'].value,this.forgotEmailFrom.controls['UserLastName'].value)">{{'label_submit'
+                                | translate}}
+                                <div *ngIf="loading" class="k-i-loading button-loading"></div>
+                            </button>
+                            <div class="or-continue">
+                                <div class="line"></div>
+                                <div>or</div>
+                                <div class="line"></div>
+                            </div>
+                            <div class="cancel-login" id="cancel-login">
+                                <button type="button" id="back" [routerLink]="['/login/']">{{'label_clickHere'| translate}}</button> {{'lebel_togobackToLoginscreen' |translate}}
+                            </div>
+                        </div>
+
+                        <!-- Enter email or phone -->
+                        <div *ngIf="enterCode" class="enter-code">
+                            <h1>{{'label_enterCode' | translate}}</h1>
+                            <div class="welcome-msg" id="welcome-msg">
+                                <small>{{'label_sendVerificayionCode' | translate}} {{emailAddress}}</small>
+                            </div>
+                            <mat-form-field class="signin-input" appearance="outline" floatLabel="never">
+                                <input matInput type="email" tabindex="7" placeholder="{{ 'label_mfa_enterCodeStep' | translate}}" name="email"
+                                    id="email" formControlName="UserVerifyCode" required>
+                                <mat-error *ngIf="this.forgotEmailFrom.controls['UserVerifyCode'].hasError('required') &&!this.forgotEmailFrom.controls['UserVerifyCode'].hasError('InvalidCode')">
+                                    {{ 'label_EnterVerifyCode' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="this.forgotEmailFrom.controls['UserVerifyCode'].hasError('InvalidCode')">
+                                   Invalid code
+                                </mat-error>
+                            </mat-form-field>
+                            <button type="button" tabindex="8" id="btnCheckEmailsubmit" mat-raised-button color="primary" 
+                                (click)="switchEnterCode(this.forgotEmailFrom.controls['UserVerifyCode'].value);">{{'label_submit'
+                                |translate}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <app-outer-footer></app-outer-footer>
+    </mat-drawer-content>
+</mat-drawer-container>

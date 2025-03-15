@@ -1,0 +1,25 @@
+@import '../../../../../../mixinStyle.scss';
+.gdpr-slde-toggle{
+  display: grid;
+  grid: auto / calc(100% - 440px) 400px 40px;
+  align-items: center;
+  min-height: 30px;
+  @include for-small-smartphones{
+    grid: auto / calc(100% - 140px) 100px 40px;
+    margin: 15px 0px;
+  }
+  @include for-smartphones {
+    grid: auto / calc(100% - 270px) 230px 40px;
+  }
+  @include for-large-smartphones {
+    grid: auto / calc(100% - 270px) 230px 40px;
+  }
+}
+h3{
+  font-weight: 500;
+}
+.infoIconStyle{
+  color:#9a9a9a;
+  cursor: pointer;
+  vertical-align: top;
+}

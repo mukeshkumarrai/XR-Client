@@ -1,0 +1,71 @@
+<div class="" id="candidate-summry">
+    <div class="row mb-0">
+        <div class=" s12 m12 l12">
+<mat-card id="candidate-recentnotes">
+    <mat-card-header>
+        <mat-card-title>{{'label_recentnotes' | translate}}</mat-card-title>
+        <span class="summryeheader-spacer"></span>
+        <button type="button" class="mgtopFix" color="primary"  (click)="openRecentNotesModal()" *ngIf="this.GridDataListNotes?.length>0"
+            mat-mini-fab matTooltipClass="custom-tooltip"
+            matTooltip="{{'label_add'|translate}}">
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="mgBottom">
+        <div class="addSection"
+            *ngIf="this.GridDataListNotes==undefined ||this.GridDataListNotes.length==0">
+            <p class="mb-15">{{'label_noNotessAddedYet' | translate}}</p>
+            <button type="button" (click)="openRecentNotesModal()" color="primary" mat-raised-button matTooltipClass="custom-tooltip">
+                <mat-icon>
+                    add
+                </mat-icon> {{'label_add' | translate}}
+            </button>
+        </div>
+        <div *ngFor="let data of GridDataListNotes">
+            <div class="row mb-10">
+                <div class="col s12 m9 l9">
+                    <p class="wordwrap"><span class="noteHeadingLbl mgBottom10">{{'label_templateTitle' |translate}}</span> : <span class="notesTxt">{{data.NoteTitle}}</span></p>
+                    <p class="wordwrap"><span class="noteHeadingLbl">{{'label_roleDescription' |translate}}</span> : <span class="notesTxt">{{data.Description}}</span></p>                 
+                </div>
+                <div class="col s12 m3 l3 right-align candidateActionButton">
+                    <button type="button" color="primary"  (click)="openRecentNotesModal(data.NoteId,'view')" mat-icon-button matTooltipClass="custom-tooltip"
+                        matTooltip="{{'label_view'|translate}}">
+                        <mat-icon>
+                            arrow_forward_ios
+                        </mat-icon>
+                    </button>
+                    <button type="button" color="primary" (click)="openRecentNotesModal(data.NoteId,'edit')" mat-icon-button matTooltipClass="custom-tooltip"
+                        matTooltip="{{'label_edit'|translate}}">
+                        <mat-icon>
+                            edit
+                        </mat-icon>
+                    </button>
+                    <button type="button" color="warn" (click)="confirmDialog(data);" mat-icon-button matTooltipClass="custom-tooltip"
+                        matTooltip="{{'label_delete'|translate}}">
+                        <mat-icon>
+                            delete
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="row mb-0 recentNotesGreyBg">
+                <div class="col l12 s12 s12">
+                    <p class="wordwrap"><span class="noteHeadingLbl">{{data.UName}} &nbsp; ( {{data.LastUpdated | date:userpreferences.timeformate:userpreferences.timezone}} )</span></p>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+        </div>
+
+
+    </mat-card-content>
+    <!-- <div class="resizeBarSec">
+        <div class="resizeBar"></div>
+        <div class="resizeBar"></div>
+    </div> -->
+</mat-card>
+</div>
+</div>
+</div>

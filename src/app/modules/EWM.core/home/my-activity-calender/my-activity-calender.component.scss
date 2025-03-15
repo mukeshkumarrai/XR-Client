@@ -1,0 +1,305 @@
+// .panelSidebarInformation {
+//   position: absolute;
+//   height: 100%;
+// }
+
+// .k-scheduler-views {
+//   z-index: 9999;
+//   position: fixed;
+
+//   .addJobCandidateSummarySidebar {
+//     position: fixed;
+//   }
+// }
+
+@import "../../../../../mixinStyle.scss";
+@import "../../../../../styles-var.scss";
+
+.my-activity-sec {
+  padding: 10px;
+  height: calc(100% - 48px);
+
+  @media only screen and (max-width: 1060px) and (min-width: 320px) {
+    height: calc(100% - 82px);
+  }
+
+  .calender-mat-card {
+    height: calc(100% + 0px);
+    margin-bottom: 0px;
+  }
+
+  .activity-scheduler {
+    height: calc(100% + 0px) !important;
+  }
+}
+
+.my-activity-sec.action-button-hide {
+  height: calc(100% - 46px);
+}
+
+:host ::ng-deep {
+  .k-scheduler-fullday {
+    display: none
+  }
+}
+
+.completed-activity {
+  width: 8px;
+  height: 100%;
+  left: -7px;
+  position: absolute;
+  overflow: hidden;
+
+  &::after {
+    transform: rotate(90deg);
+    position: absolute;
+    left: -2px;
+    letter-spacing: 3px;
+    font-weight: bolder;
+    top: -20px;
+    height: 19px;
+    width: 100%;
+  }
+}
+
+// .k-scheduler-views {
+//   @media only screen and (max-width: 621px) and (min-width: 320px) {
+//     width: 100%;
+//     justify-content: flex-end;
+//   }
+// }
+
+.popover-organiser {
+  img {
+    padding-right: 5px;
+  }
+}
+
+.smallSlideToggle-source {
+  justify-content: space-between;
+
+  .source-icon {
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 5px 3px;
+    align-items: center;
+    border-radius: 4px;
+    display: inline-flex;
+    position: relative;
+    bottom: -6px;
+    right: -12px;
+
+    img {
+      margin: 0px 4px;
+      background-color: #fff;
+      border-radius: 4px;
+      padding: 2px;
+
+      &:hover {
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.32);
+      }
+    }
+  }
+}
+
+.current_date {
+  color: red;
+}
+
+.listGridButton {
+  .active {
+    background: transparent;
+    color: inherit;
+  }
+
+  .mat-raised-button {
+    &:last-child {
+      border-radius: 4px;
+      margin-inline-start: 0px;
+    }
+  }
+}
+
+.dashboard-mat-card-header.mat-card-header {
+  @media (min-width: 320px) and (max-width: 1060px) {
+    align-items: flex-start;
+  }
+  .user-view-text{
+    display: none;
+    background: #BBDEFB;
+    color: $primary-bg-color;
+    font-size: 13px;
+    padding: 2px 8px;
+    font-weight: normal;
+    margin-inline-start: 5px;
+    border-radius: 4px;
+    @media screen and (max-width: 767px){
+      display: block;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+    span{
+      font-weight: 500;
+      font-size: 13px;
+      @media screen and (max-width: 767px){
+        font-size: 12px;
+      }
+    }
+  }
+  .listGridButton {
+    .search-viewicon {
+      .tooltip{
+        @media (min-width: 320px) and (max-width: 767px) {
+          display: none;
+        }
+        .tooltip-drop{
+          opacity: 1;
+          color: #BBDEFB;
+          font-size: 13px;
+          padding: 4px 8px;
+          max-width: inherit;
+          position: relative;
+          right: 5px;
+          top: 11px;
+          .view-text{
+            color: $primary-bg-color;
+            span{
+              font-weight: 500;
+            }
+          }
+          &::after{
+            z-index: -1;
+            opacity: 1;
+            border-radius: 4px;
+            box-shadow: rgba(0, 0, 0, 0.26) 0px 1px 1px;
+          }
+        }
+      }
+      .share-calender-user{
+        position: relative;
+        color: $primary-bg-color;
+        width: 100%;
+        padding: 3px 6px;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-block;
+        max-width: max-content;
+        border-radius: 3px;
+        background: #eef5f9;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+        margin-inline-end: 10px;
+      }
+      .mat-checkbox{
+        margin-inline-end: 10px;
+        height: 34px;
+        background: rgba(238, 245, 249, 0.6);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 4px;
+        padding: 0px 8px;
+        line-height: 32px;
+      }
+      .mat-checkbox.mat-checkbox-disabled{
+        background: rgb(245 245 245 / 40%);
+      }
+
+      .refreshBtn{
+        margin: 0px 5px 0px 0px;
+        &::before,&::after{
+          position: inherit;
+        }
+        .mat-icon{
+          color: $dark-primary-bg;
+        }
+      }
+
+      .share-calendar-button.mat-stroked-button{
+        padding: 0px 8px;
+        line-height: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        margin-inline-end: 8px;
+        background: rgb(238 245 249 / 60%);
+        .two-icons{
+          width: 22px;
+          height: 22px;
+          line-height: 22px;
+          .mat-icon{
+            &:first-child{
+              position: inherit;
+              width: 22px;
+              height: 22px;
+              line-height: 22px;
+              top: 0px;
+              font-size: 20px;
+            }
+          }
+          .mat-icon.secondIcon{
+            width: 12px;
+            height: 12px;
+            font-size: 12px;
+            line-height: 12px;
+            border-radius: 100%;
+            position: absolute;
+            left: 0px;
+            top: 11px;
+            background: rgba(238, 245, 249, 1);
+          }
+        }
+        .share-label{
+          padding-inline-start: 3px;
+        }
+      }
+      .ng-select {
+        @media (min-width: 320px) and (max-width: 1060px) {
+          width: inherit;
+          max-width: inherit;
+        }
+      }
+      @media (min-width: 320px) and (max-width: 450px) {
+        row-gap: 8px;
+      }
+    }
+  }
+}
+
+.employees-shared-calender{
+  width: 100%;
+  max-width: 280px;
+  p{
+    padding: 7px 10px;
+    margin: 0px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  .main-checkbox{
+    height: calc(100% - 32px);
+    overflow: auto;
+    .employees-shared-calender-list{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px 15px 5px;
+      align-items: flex-start;
+      .mat-radio-button{
+        padding: 0px;
+      }
+      .user-avtaar-name{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        .userAvtaarAndName{
+          width: 25px;
+          height: 25px;
+          margin-inline-start: 2px;
+          img,span{
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+          }
+        }
+      }
+    }
+  }
+}

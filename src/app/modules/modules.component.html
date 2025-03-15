@@ -1,0 +1,175 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: module.component.html
+  @Who: Renu
+  @When: 15-Sep-2020
+  @Why: For implementing the common header footer in admin section
+  @What: This page wil be use for common header/footer section and main section loading
+-->
+<!-- Entire Software : Satya Prakash Gupta : 10-Nov-2020 : responsive : ROST-375 ROST-401 -->
+<!-- Entire Software : Satya Prakash Gupta : 19-Feb-2021 : Add remove Search header class : EWM-892 EWM-852 -->
+<mat-drawer-container autosize class="main-mat-drawer-container" [ngClass]="searchEnable===1 ? '' : 'hideSearchHeader'">
+  <mat-drawer #drawer class="mainSidenav" mode="over">
+    <div class="sidenavHeader">
+      <button mat-button class="headerRight-menu" *ngIf="!isFullScreen" (click)="openFullscreen()" color="basic">
+        <span class="material-icons">fullscreen</span>
+      </button>
+      <button mat-button class="headerRight-menu" *ngIf="isFullScreen" (click)="closeFullscreen()" color="basic">
+        <span class="material-icons">fullscreen_exit</span>
+      </button>
+      <button mat-button class="headerRight-menu" color="basic">
+        <span class="material-icons">help_outline</span>
+      </button>
+      <button mat-button class="headerRight-menu" color="basic" #settingtrigger="matMenuTrigger"
+        [matMenuTriggerFor]="settingMenu">
+        <span class="material-icons">settings</span>
+        <span class="material-icons">arrow_drop_down</span>
+      </button>
+      <button mat-button class="headerRight-menu" color="basic" [matMenuTriggerFor]="notification"
+        id="module-notification">
+        <span class="material-icons" matBadge="" matBadgeColor="warn"
+          class="notification-button__icon material-icons">notifications_none</span>
+      </button>
+      <mat-menu #notification="matMenu" class="headerNotification" id="module-notificationBox">
+        <span class="material-icons headerDroupDownUp">
+          arrow_drop_up
+        </span>
+        <div style="padding: 15px;display: flex;" (click)="$event.stopPropagation()">
+          <h4><span class="material-icons">notifications_none</span> {{'label_notification' | translate}}</h4> <span
+            class="example-spacer"></span>
+        </div>
+        <mat-divider (click)="$event.stopPropagation()"></mat-divider>
+        <div>
+          <div class="notificationBox" (click)="$event.stopPropagation()">
+            <div class="name">MR</div>
+            <div class="notificationBoxData" id="module-notificationBoxData">
+              <h6>Mukesh Kumar Rai</h6>
+              <!-- <p>New request recieved for access grant</p> -->
+              <a href="" id="module-notificationLink">New request recieved for access grant</a>
+            </div>
+          </div>
+        </div>
+        <mat-divider (click)="$event.stopPropagation()"></mat-divider>
+        <div>
+          <div class="notificationBox" (click)="$event.stopPropagation()">
+            <div class="name">AS</div>
+            <div class="notificationBoxData">
+              <h6>Anoop Singh</h6>
+              <a href="">New request recieved for access grant</a>
+            </div>
+          </div>
+        </div>
+        <mat-divider (click)="$event.stopPropagation()"></mat-divider>
+        <div>
+          <div class="notificationBox" (click)="$event.stopPropagation()">
+            <div class="name">AS</div>
+            <div class="notificationBoxData">
+              <h6>Anoop Singh</h6>
+              <a href="">New request recieved for access grant</a>
+            </div>
+          </div>
+        </div>
+        <mat-divider (click)="$event.stopPropagation()"></mat-divider>
+        <div>
+          <div class="notificationBox" (click)="$event.stopPropagation()">
+            <div class="name">AS</div>
+            <div class="notificationBoxData">
+              <h6>Anoop Singh</h6>
+              <a href="">New request recieved for access grant</a>
+            </div>
+          </div>
+        </div>
+        <mat-divider (click)="$event.stopPropagation()"></mat-divider>
+      </mat-menu>
+    </div>
+    <mat-menu #settingMenu="matMenu" xPosition="before" class="headerUserDropdown setting-dropdown" (click)="drawer.close()">
+      <span class="material-icons headerDroupDownUp">
+        arrow_drop_up
+      </span>
+      <button mat-button id="settings-menu" *ngFor="let settingMenu of setting"
+        (click)="topMenuActive(settingMenu.Name);drawer.close()" [ngClass]="settingMenu.Name==ActiveTopMenu ? 'active' : ''"
+        [routerLink]="settingMenu.Router ? settingMenu.Router : null">
+        <span class="material-icons">
+          {{settingMenu.Icon}}
+        </span> {{settingMenu.MenuLabel|translate}}
+      </button>
+    </mat-menu>
+    <div class="orgDropdown">
+      <mat-select [(value)]="OrganizationId" class="companyInfoHeader" (selectionChange)="openConfrmDialog($event);">
+        <mat-option *ngFor="let orgName of organizationData" value="{{orgName.OrganizationId}}">
+          {{orgName.OrganizationName | titlecase}}</mat-option>
+      </mat-select>
+    </div>
+    <div class="mainsidebar-menu">
+      <button mat-button *ngFor="let topMenuData of topMenu" (click)="topMenuActive(topMenuData.Name);drawer.close()"
+        [ngClass]="topMenuData.Name==ActiveTopMenu ? 'active' : ''"
+        [routerLink]="topMenuData.Router ? topMenuData.Router : null">
+        <ng-container *ngIf="topMenuData.MenuLabel=='label_Menuclients'; else second">
+          {{ 'label_Menuclients' | customTranslate }}
+        </ng-container>
+        <ng-template #second>
+          <ng-container *ngIf="topMenuData.MenuLabel=='label_Menuemployees'; else newDeb">
+            {{ 'label_Menuemployees' | customTranslate}}
+          </ng-container>
+        </ng-template>
+        <ng-template #newDeb>
+          {{topMenuData.MenuLabel |customTranslate}}
+        </ng-template>
+      </button>
+    </div>
+    <div class="mobileMenuFooter">
+      <mat-divider></mat-divider>
+      <div class="mobileMainMenu">
+        <span class="lastLoginTxt" *ngIf="orgSelect && LastLoginDateTime">
+          <button mat-button (click)="openDialog('privacy');drawer.close()">
+            {{'label_privacyPolicy' |translate}}
+          </button>
+          <button mat-button (click)="openDialog('term');drawer.close()">
+            {{'label_TermOfUse' |translate}}
+          </button>
+        </span>
+      </div>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content class="main-mat-drawer-content">
+    <app-header></app-header>
+    <app-searchheader></app-searchheader> <!-- EWM-19557 -->  
+      <div *ngFor="let s of sizes" class="{{s.css + ' ' + (prefix + s.id) }}"></div>
+      <!---
+          @(C): Entire Software
+          @Type: File, <html>
+          @Who: Satya Prakash
+          @When: 19-Nov-2020
+          @Why: ROST-366 ROST-398
+          @What:  This page wil be use only for the email setting Component HTML
+      -->
+      <!-- Entire Software : Satya Prakash Gupta : 19-Nov-2020 : email setting : ROST-366 ROST-398 -->
+      <mat-drawer-container class="inner-drawer-container" autosize>
+        <mat-drawer #moduleDrawer class="sidenav moduleDrawer" [mode]="drawerMode" [style.width]="drawerWidth"
+          opened position="{{positionMatDrawer}}" id="mat-sidebar">
+          <!-- [ngStyle]="{'background-image': currentXeepImage!='' ? 'url('+currentXeepImage+')' : 'url('+defaultbackgroundUrl+')'}"> -->
+          <app-sidebar></app-sidebar>
+          
+          <button mat-mini-fab color="primary" class="leftMnuButton" (click)="moduleDrawerOpenClose();">
+            <mat-icon *ngIf="drawerOpenCloseIcon" svgIcon="keyboard_arrow_right"></mat-icon>
+            <mat-icon *ngIf="!drawerOpenCloseIcon" svgIcon="keyboard_arrow_left"></mat-icon>
+          </button>
+          <ng-container *ngIf="IsXeepVisible">
+          <img class="xeep-img" [ngClass]="currentXeepImage === 'default.gif' ? ['default-img'] : ''" src="/assets/Xeep/{{currentXeepImage}}">
+        </ng-container>
+        </mat-drawer>
+        <mat-drawer-content>
+          <!-- Entire Software : Satya Prakash Gupta1 : 10-Dec-2021 : add page transition : EWM-3959 EWM-1337 -->
+          <!-- first div ( [@rightToLeft]="changeState(o)") and router-outlet ( #o="outlet") -->
+          <div class="clientDashboardContainer" id="pageContainer">
+            <router-outlet (activate)="themeApply()"></router-outlet>
+          </div>
+          <!-- Entire Software : Satya Prakash Gupta1 : 10-Dec-2021 : add page transition : EWM-3959 EWM-1337 -->
+        </mat-drawer-content>
+      </mat-drawer-container>
+      <!-- Entire Software : Satya Prakash Gupta1 : 19-Nov-2020 : email setting : ROST-366 ROST-398 -->
+    <app-footer></app-footer>
+  </mat-drawer-content>
+</mat-drawer-container>
+<!-- Entire Software : Satya Prakash Gupta : 10-Nov-2020 : responsive : ROST-375 ROST-401 -->

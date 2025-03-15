@@ -1,0 +1,83 @@
+.table-container{
+    width: 100%;
+    overflow-y: auto;
+}
+.mat-table {
+    display: table;
+    width: 100%;
+
+    > .mat-header-row, > .mat-row {
+        display: table-row;
+        padding: 0;
+        border: none;
+
+        > .mat-header-cell, > .mat-cell {
+            display: table-cell;
+            height: 48px;
+            vertical-align: middle;
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        }
+    }
+}
+h2.cardSubTitle .mat-raised-button.mat-primary{
+    @media only screen and (min-width:501px) and (max-width:770px){
+        float: none !important;
+        position: relative;
+        top: 0px !important;
+        margin-top: 3px;
+        display: inline-block;
+    }
+    @media only screen and (min-width:320px) and (max-width:500px){
+        float: none !important;
+        position: relative;
+        top: 0px !important;
+        margin-top: 3px;
+        display: inline-block;
+    }
+}
+.subTitle.mat-card-subtitle{
+    margin-bottom:10px;
+}
+.sticky{
+    top:-15px;
+}
+.email-settings{
+    .setting-full-part{
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 10px;
+        h2.cardSubTitle{
+            text-align: left;
+            font-size: 16px;
+            margin: 0px;
+            margin-bottom: 5px;
+            font-weight: 500;
+            .mat-raised-button.mat-primary{
+                float: right;
+                position: relative;
+                top: -8px;
+            }
+        }
+        .mat-divider-horizontal{
+            position: relative;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        } 
+        .setting-section{
+            display: grid;
+            grid: auto/calc(33.33% - 10px) calc(33.33% - 10px) calc(33.33% - 10px);
+            gap: 15px;
+            @media only screen and (min-width:320px) and (max-width:640px){
+                grid: auto/calc(100% - 0px);
+            }
+        }
+    }
+}
+
+.html-editor-kendo{
+    .mat-label{
+        margin: 5px 0px 3px;
+        display: block;
+    }
+}

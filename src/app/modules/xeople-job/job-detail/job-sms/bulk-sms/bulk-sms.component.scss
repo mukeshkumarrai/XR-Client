@@ -1,0 +1,24 @@
+
+
+/*
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash
+    @When: 07 Oct 2022
+    @Why: EWM-7482 EWM-8966
+    @What: You can add style for bulk sms, and also import other style files
+*/
+@import "../job-sms.component.scss";
+
+::ng-deep {
+    .mat-form-field .mat-chip-list-wrapper .mat-standard-chip{
+        margin: 2px;
+    }
+}
+.error{
+    color: #f44336;
+    font-size: 11px;
+    position: relative;
+    top: -17px;
+    display: block;
+}

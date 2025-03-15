@@ -1,0 +1,156 @@
+.exportButton {
+  .mat-icon {
+    font-size: 20px;
+    position: relative;
+    top: -3px;
+    transform: rotate(180deg);
+  }
+}
+.clearIcon {
+  position: absolute;
+  right: 0px;
+  top: 8px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.action {
+  max-width: 60px;
+}
+.eventName {
+  max-width: 120px;
+}
+.date {
+  max-width: 200px;
+}
+
+#userGrupId {
+  border: none !important;
+}
+.floatRight {
+  float: right;
+}
+// Entire Software : Satya Prakash Gupta : 26-April-2021 : add box for new data : EWM-1196 EWM-1408
+.kendoGridDetailTemplate {
+    .mat-divider-horizontal{
+        margin-top: 0px;
+    }
+    h4{
+        margin-bottom: 5px;
+        font-weight: 500;
+    }
+    p {
+        font-size: 12px;
+        margin-top: 0px;
+        margin-bottom: 5px;
+        strong{
+            font-weight: 500;
+        }
+  }
+}
+// Entire Software : Satya Prakash Gupta : 26-April-2021 : add box for new data : EWM-1196 EWM-1408
+.kendo-table-container .k-grid {
+  height: calc(100vh - 312px);
+  @media only screen and (min-width: 1060px) and (max-width: 1160px) {
+    height: calc(100vh - 311px);
+  }
+  @media only screen and (min-width: 581px) and (max-width: 1060px) {
+    height: calc(100vh - 264px);
+  }
+  @media only screen and (min-width: 320px) and (max-width: 580px) {
+    height: auto;
+  }
+}
+
+a{color:unset;}
+
+.col-1 {
+    width: 30%;
+}
+
+.col-2 {
+    width: 30%;
+}
+.col-3 {
+    width: 30%;
+}
+.col-4 {
+    width: 10%;
+}
+
+@media only screen and (min-width:1270px){
+    .cardWidth{
+        width: 33%;
+    }
+}
+
+@media only screen and (min-width:1024px) and (max-width:1270px){
+    .cardWidth{
+        width: 50%;
+    }
+}
+@media only screen and (min-width:320px) and (max-width:1024px){
+    .cardWidth{
+        width: 100%;
+    }
+    .maxData{
+        max-height: 100%;
+        overflow: auto;
+    }
+}
+
+.inputSearch{
+    display: block !important;
+    z-index: 9999999999;
+    position: absolute;
+    top: inherit;
+    left: inherit;
+    right: inherit;
+    bottom: inherit;
+    font-size: 64px;
+    background-color: rgba(0, 0, 0, 0);
+    right: 20px;
+    bottom: 18px;
+    font-size: 26px;
+  }
+
+  .list{
+    display: block !important;
+    z-index: 9999999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 64px;
+    background-color: rgba(255, 0, 0, 0.32);
+  }
+
+.actionBox {
+    position: relative;
+    height: 40px;
+    margin-top: 0px;
+    padding: 0px 15px;
+    width: calc(100% - 30px) !important;
+    background-color: #EEEBF1;
+  } 
+
+  .k-grid{border-color: transparent !important;}
+
+.actionPadding{padding:0 0px 0 25px !important}
+.pdLeft0{padding-left:0px !important; padding-top:5px !important}
+.comment {width: 100%;}
+.listcardContent{height:unset !important}
+.overflowHidden{overflow:hidden !important}
+.maxData{padding:15px !important}
+.overflowHidden:hover{background-color:#f1f1f2 !important}
+.mat-card .mat-card-header .mat-icon-button{top:7px;}
+.subTitle.mat-card-subtitle{font-weight: 500;}
+.gridTollbar{margin-bottom:15px !important}
+.widthFix{width:calc(100% - 5px) !important}
+
+@media only screen and (max-width: 660px) and (min-width: 320px) {
+  .minWidthSize{
+    min-width:60px;
+    padding-left:8px;
+  }
+}

@@ -1,0 +1,135 @@
+<!-- @Type: File, <html> @Name: share Calendar @Who: Satya Prakash Gupta @When: 23-Nov-2021 @Why: EWM-16176 EWM-15204 @What: -->
+    <div class="modal-header" id="modal-header">
+        <!-- <h2 matDialogTitle class="mb-0"></h2> -->
+        <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content class="share-calender">
+        <mat-tab-group class="summary-tabs" id="Shared-calender-matgroup" (selectedTabChange)="selectedTabValue($event)">
+            <mat-tab>
+                <form [formGroup]="sharedCalenderForm" id="sharedCalenderForm" class="p-10">
+                <ng-template mat-tab-label>
+                    <!-- <mat-icon class="example-tab-icon" fontSet="material-icons-outlined">calendar_today</mat-icon> -->
+                    <div class="center">
+                    <button mat-icon-button class="header-button" id="confidential-btn">
+                      <div class="two-icons">
+                        <mat-icon class="example-tab-icon" fontSet="material-icons-outlined">calendar_today</mat-icon>
+                        <mat-icon class="secondIcon">arrow_forward</mat-icon>
+                      </div>
+                    </button>
+                  </div>
+                    <div>{{'label_shareCalendarShareCalendar'|translate}}</div>
+                </ng-template>
+                <div class="common_dropdown_v2">
+                    <input type="hidden" id="shared-EmployeeIds" formControlName="EmployeeIds">
+                    <dropdown
+                     [configuration]="common_DropdownC_Config" [resetConfiguration]="resetRelattedUserDrp.asObservable()"
+                    (selectedOut)="onRelatedEmployeechange($event)" [getSelectedItem]="selectedEmp"
+                    [initialize]="dropdownInitilize"
+                    [showMoreOptionsNum]="5"></dropdown>    
+                </div>
+                <div class="share-calendar-container" id="share-calendar-container">
+
+                    <mat-radio-group aria-label="Select an option" formControlName="ViewRights">
+                        <div class="radio-group">
+                        <mat-radio-button color="primary"  [value]="0">{{'label_shareCalendarCanViewBasicDetails'|translate}} 
+                            </mat-radio-button>
+                            <div class="share-text">{{'label_shareCalenderSelectThisOptionActivity'|translate}}</div>
+                        </div>    
+                        <div class="radio-group">
+                            <mat-radio-button color="primary" [value]="1">{{'label_shareCalendarCanViewAllDetails'|translate}}
+                            </mat-radio-button>
+                            <div class="share-text">{{'label_shareCalenderSelectThisOptionDetails'|translate}}</div>
+                        </div>
+                    </mat-radio-group>
+
+                    <div class="share-till-date" id="share-till-date">
+                        <mat-checkbox color="primary" (change)="ShowDate=!ShowDate" formControlName="SharedTillDateChecked" >{{'label_shareCalendarShareTillDate'|translate}}</mat-checkbox>
+                        <mat-form-field floatLabel="never"  class="searchInput">
+                            <input matInput [matDatepicker]="picker" [disabled]="!ShowDate" [min]="todayFillDate" [value]="ShowDate?sharedCalenderForm.get('SharedTillDate').value:''" formControlName="SharedTillDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <p class="mt-0 mb-15 sh-cal">{{'label_shareCalenderShareCalenderTillDate'|translate}}</p>
+                    
+                    <mat-checkbox color="primary" formControlName="SendEmailCheck" (change)="onEmailTemplateChange($event)">{{'label_shareCalendarSendEmail'|translate}}</mat-checkbox>
+                    <button mat-raised-button id="shared-Template" *ngIf="ShowTemplateBtn && selectedTemplateId==null" (click)="openTemplateModal()">{{'label_shareCalendarInsertTemplate'|translate}}</button>
+                    <p class="mt-0 mb-5 sh-cal">{{'label_shareCalenderByDefaultSystem'|translate}}</p>
+                    <div class="insert-tamplate-list" id="insert-tamplate-list" *ngIf="ShowTemplateBtn && selectedTemplateId!=null">
+                        <mat-card>
+                            <div>{{sharedCalenderForm.get('EmailTemplateTitle').value}}</div>
+                            <button mat-icon-button color="primary"  id="insert-tamplate-edit" type="button" (click)="openTemplateModal()">
+                                <mat-icon>border_color</mat-icon>
+                            </button>
+                        </mat-card>
+                    </div>
+                </div>
+                </form>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <!-- <mat-icon class="example-tab-icon" fontSet="material-icons-outlined">share</mat-icon> -->
+                    <div class="center">
+                      <button mat-icon-button class="header-button" id="confidential-btn">
+                        <div class="two-icons">
+                          <mat-icon class="example-tab-icon" fontSet="material-icons-outlined">share</mat-icon>
+                          <mat-icon class="secondIcon">cancel</mat-icon>
+                        </div>
+                      </button>
+                    </div>
+                    <div>{{'label_shareCalendarRevoke'|translate}}</div>
+                </ng-template>
+                <div class="kendo-grid-appearance" id="kendo-grid-appearance-calender">
+                  <kendo-grid [data]="gridData" [pageable]="{buttonCount: 3,
+                      info: true,
+                      type: 'numeric',
+                      pageSizes: true,
+                      previousNext: true,
+                      responsive: true}"  [pageSize]="state.take" [skip]="state.skip" 
+                      [kendoGridSelectBy]="selectedCallback"   (dataStateChange)="dataStateChange($event)" [(selectedKeys)]="selectedEmployeesToRevoke" 
+                      [selectable]="true">
+                      <kendo-grid-checkbox-column [columnMenu]="false" [showSelectAll]="true"></kendo-grid-checkbox-column>
+                      <kendo-grid-column field="Name" title="Name" [width]="200">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <div class="user-avtaar-name">
+                          <div class="userAvtaarAndName tooltip tooltip-bottom">
+                              <img class="tooltip-trigger" *ngIf="dataItem?.ProfileImage && dataItem?.ProfileImage!==''" src="{{dataItem?.ProfileImage}}" />
+                              <span class="tooltip-trigger" *ngIf="dataItem?.ProfileImage==''||dataItem?.ProfileImage==null" [style.background]="getBackgroundColor(dataItem?.ShortName)">{{dataItem.ShortName}}</span>
+                          </div>
+                          <span>{{dataItem?.Name}}</span>
+                        </div>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="EmailId" title="Email"> </kendo-grid-column>
+                      <kendo-grid-column field="SharedUptoDate" title="Shared Till Date" [width]="150" [headerStyle]="{'text-align': 'right'}">
+                        <ng-template kendoGridCellTemplate let-dataItem >
+                            <span class="textRight">{{(dataItem.SharedUptoDate!=0?dataItem.SharedUptoDate:'')| date:userpreferences.dateformate}}</span>
+                          </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column [width]="50">   <ng-template kendoGridCellTemplate let-dataItem >
+                          <button mat-icon-button type="button" color="warn" id="delete-btn" (click)="revokeAccess([dataItem])"><mat-icon>delete</mat-icon></button>
+                          </ng-template>
+                      </kendo-grid-column>
+                      <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                          <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+                          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                          <kendo-pager-info></kendo-pager-info>
+                          <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+                        </ng-template>
+                  </kendo-grid>
+               </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-dialog-content>
+    <!-- <mat-divider></mat-divider> -->
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button *ngIf="labelName==0" [disabled]="!sharedCalenderForm.valid" mat-stroked-button color="primary" type="button" id="btnShare" (click)="onConfromSharedCalender()" >
+            <span class="buttonTxt">{{'label_share'|translate}}</span>
+        </button>
+        <button *ngIf="labelName==1" [disabled]="selectedEmployeesToRevoke.length==0" mat-stroked-button color="primary" type="button" id="btnRevoke" (click)="revokeAccess(selectedEmployeesToRevoke)">
+            <span class="buttonTxt">{{'label_sharedCalenderrevoke'|translate}}</span>
+        </button>
+    </div>

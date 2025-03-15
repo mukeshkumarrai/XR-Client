@@ -1,0 +1,44 @@
+<!--
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: genrate-otp.component.html
+    @Who: Satya Prakash Gupta
+    @When: 15-Sep-2021
+    @Why: EWM-2518 EWM-2848
+    @What: There are all HTML genrate otp components
+    
+-->
+<div class="document-page-container">
+    <mat-card class="center-align" id="document-otp-genrate">
+        <mat-card-content>
+            <div *ngIf="genrateOtpBox" id="document-genrateotp">
+                <mat-icon class="lock">{{lock}}</mat-icon>
+                <p>{{'lebel_clickHereBelowForOTP' | translate}}</p>
+                <p *ngIf="isAuthorizedMessage" style="color: #F44336;">{{'lebel_documentNotAccess' | translate}}</p>
+                <button mat-raised-button color="primary" (click)="genrateOtpCode()" id="document-genrateotp-button">{{'lebel_clickHereToGenrateOtp' | translate}}</button>
+                <p *ngIf="otpSendMessage">{{'lebel_otp_send' | translate}}</p>
+                <!-- <mat-error *ngIf="errorMessage">{{errorMsg | translate}}</mat-error> -->
+            </div>
+            <div *ngIf="showmsgBox" id="document-checkmsg">
+                <mat-icon class="unlock">{{lock}}</mat-icon>
+                <p>{{'lebel_otp_send_msg' | translate}}</p>
+              
+                <button mat-raised-button color="primary" (click)="getMsg()" class="mt-15" id="document-open">{{'lebel_click_here' | translate}}</button>
+            </div>
+            <div id="document-enterOtpBox" *ngIf="enterOtpBox">
+                <mat-icon class="unlock">{{lock}}</mat-icon>
+                <p>{{'lebel_enterOneTimeOtp' | translate}}</p>
+                
+                <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)"  [config]="{length:6}"></ng-otp-input>
+                
+                <mat-error *ngIf="errorMessage">{{errorMsg | translate}}</mat-error>
+                <button mat-raised-button color="primary" [disabled]="!otpEnable" class="mt-10" (click)="validateOtpCode()"  id="document-open">{{'lebel_verify_otp' | translate}}</button>
+                
+                <p class="mb-0">{{'label_didntReceiveCode' | translate}}</p>
+                <div class="timer" *ngIf="!showResendButton">{{display}}</div>
+                <button mat-button color="primary" [disabled]="!showResendButton"  (click)="resendOtpCode()" class="mt-10" id="document-open">{{'lebel_resend_otp' | translate}}</button>
+                <p *ngIf="otpSendMessage">{{'lebel_otp_send' | translate}}</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

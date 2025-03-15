@@ -1,0 +1,46 @@
+/*
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: Nitin Bhati
+    @When:07-Feb-2022
+    @Why: EWM-10420
+    @What:  This page wil be use  for tree checkbox
+*/
+.accordian-spacer {
+    flex: 1 1 auto;
+  }
+  .panel-heading {
+    background: #f1f1f1;
+    color: #1a1a1a;
+    font-weight: 600;
+    border: 1px solid #e1e1e3;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .panel-body {
+    background: white;
+    border: 1px solid #e1e1e3;
+    border-top: none;
+    margin-top: 0px;
+  }
+  .panel-body {
+    ul {
+      margin: 0px;
+      padding: 10px;
+      li {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 10px;
+        &:last-child{
+          margin-bottom: 0px;
+        }
+      }
+    }
+  }
+  .panelWidth {
+    width: 100%;
+  }
+  

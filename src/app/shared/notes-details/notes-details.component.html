@@ -1,0 +1,247 @@
+<mat-drawer-container class="notes-details-sec" [class.example-is-mobile]="mobileQuery.matches">
+    <mat-drawer #snav [opened]="yearFilter.matches ? 'false' : 'true'" [mode]="mobileQuery.matches ? 'over' : 'side'">
+        <mat-accordion class="yearsFilter">
+            <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        2021 <span>44</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="monthWithData">
+                    <div>Jan</div>
+                    <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+                    <div>100</div>
+                </div>
+                <div class="monthWithData">
+                    <div>Feb</div>
+                    <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
+                    <div>5000</div>
+                </div>
+                <div class="monthWithData">
+                    <div>Mar</div>
+                    <mat-progress-bar mode="determinate" value="80"></mat-progress-bar>
+                    <div>60000</div>
+                </div>
+                <div class="monthWithData">
+                    <div>Apr</div>
+                    <mat-progress-bar mode="determinate" value="10"></mat-progress-bar>
+                    <div>10</div>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        2020 <span>44</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        2019 <span>44</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        2018 <span>44</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-drawer>
+    <mat-drawer #notesEdit class="advancedsearchDrawer" position="end" [mode]="mobileQuery.matches ? 'over' : 'over'" disableClose="true">
+        <div style="display: flex; height: 100%;">
+            <div class="drawerTitleSec">
+              <h4 class="text-overflow">
+                {{'label_addNewNotes'|translate}}
+                <button class="closeDrawerIcon" mat-stroked-button (click)="notesEdit.toggle()">
+                  <mat-icon>arrow_forward_ios</mat-icon>
+                </button>
+              </h4>
+            </div>
+            <mat-card class="advancedsearchDrawerData">
+              fsdfdsfdsf
+            </mat-card>
+          </div>
+    </mat-drawer>
+
+    <mat-drawer-content>
+
+        <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <div class="notes-detail">
+            <div class="notes-detail-linebar"></div>
+            <div class="flex-box">
+                <div class="notes-created-info-icon">
+                    <button mat-mini-fab color="primary">
+                        <mat-icon>star</mat-icon>
+                    </button>
+                </div>
+                <div class="notes-info">
+                    <div class="notes-created-by-action">
+                        <div>
+                            <div class="notes-created">Rahul added a Note</div>
+                            <div class="notes-created-date">
+                                3rd November 2021
+                            </div>
+                        </div>
+                        <div class="notes-created-action">
+                            <button mat-icon-button color="primary" (click)="notesEdit.toggle()">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    
+                    <mat-card class="notes-created-details">
+                        <p><strong>Congratulations for your acceptance!</strong></p>
+                        <p>Hi Brian,<br>Your submission has been accepted and you are ready to move into the next
+                            phase. Once you are ready, reach out to me and we will ...</p>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+        <div class="notes-detail">
+            <div class="notes-detail-linebar"></div>
+            <div class="flex-box">
+                <div class="notes-created-info-icon">
+                    <button mat-mini-fab color="accent">
+                        <mat-icon>star</mat-icon>
+                    </button>
+                </div>
+                <div class="notes-info">
+                    <div class="notes-created-by-action">
+                        <div>
+                            <div class="notes-created">Rahul added a Note</div>
+                            <div class="notes-created-date">
+                                3rd November 2021
+                            </div>
+                        </div>
+                        <div class="notes-created-action">
+                            <button mat-icon-button color="primary">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <mat-card class="notes-created-details">
+                        <p><strong>Notes Category :</strong> The category can be edit by picking up from the master.</p>
+                        <p><strong>Subject :</strong> The subject of the Notes can be edit.</p>
+                        <p><strong>Access : </strong> Private</p>
+                        <p><strong>Description :</strong> The description can be edit in the editor.</p>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+        <div class="notes-detail">
+            <div class="notes-detail-linebar"></div>
+            <div class="flex-box">
+                <div class="notes-created-info-icon">
+                    <button mat-mini-fab>
+                        <mat-icon>star</mat-icon>
+                    </button>
+                </div>
+                <div class="notes-info">
+                    <div class="notes-created-by-action">
+                        <div>
+                            <div class="notes-created">Rahul added a Note</div>
+                            <div class="notes-created-date">
+                                3rd November 2021
+                            </div>
+                        </div>
+                        <div class="notes-created-action">
+                            <button mat-icon-button color="primary">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <mat-card class="notes-created-details">
+                        <p><strong>Congratulations for your acceptance!</strong></p>
+                        <p>Hi Brian,<br>Your submission has been accepted and you are ready to move into the next
+                            phase. Once you are ready, reach out to me and we will ...</p>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+        <div class="notes-detail">
+            <div class="notes-detail-linebar"></div>
+            <div class="flex-box">
+                <div class="notes-created-info-icon">
+                    <button mat-mini-fab>
+                        <mat-icon>star</mat-icon>
+                    </button>
+                </div>
+                <div class="notes-info">
+                    <div class="notes-created-by-action">
+                        <div>
+                            <div class="notes-created">Rahul added a Note</div>
+                            <div class="notes-created-date">
+                                3rd November 2021
+                            </div>
+                        </div>
+                        <div class="notes-created-action">
+                            <button mat-icon-button color="primary">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <mat-card class="notes-created-details">
+                        <p><strong>Congratulations for your acceptance!</strong></p>
+                        <p>Hi Brian,<br>Your submission has been accepted and you are ready to move into the next
+                            phase. Once you are ready, reach out to me and we will ...</p>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+        <div class="notes-detail">
+            <div class="notes-detail-linebar"></div>
+            <div class="flex-box">
+                <div class="notes-created-info-icon">
+                    <button mat-mini-fab color="warn">
+                        <mat-icon>star</mat-icon>
+                    </button>
+                </div>
+                <div class="notes-info">
+                    <div class="notes-created-by-action">
+                        <div>
+                            <div class="notes-created">Rahul added a Note</div>
+                            <div class="notes-created-date">
+                                3rd November 2021
+                            </div>
+                        </div>
+                        <div class="notes-created-action">
+                            <button mat-icon-button color="primary">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <mat-card class="notes-created-details">
+                        <p><strong>Congratulations for your acceptance!</strong></p>
+                        <p>Hi Brian,<br>Your submission has been accepted and you are ready to move into the next
+                            phase. Once you are ready, reach out to me and we will ...</p>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

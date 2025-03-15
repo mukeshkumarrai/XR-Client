@@ -1,0 +1,314 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 07-Mar-2021
+    @Why: EWM-3571 EWM-4175
+    @What:  This component is used for adding questions based on selected type
+-->
+<div *ngIf="loading" class="logo-loader" id="loader">
+    <div class="logo-loading"></div>
+  </div>
+<form class="assessment-ques-form" [formGroup]="addForm" id="AddQuesFrom" applyTabIndexes>
+    <div class="modal-header" id="modal-header">
+        <h2 matDialogTitle class="mb-0">{{quesName}} {{'lable_question' | translate}}</h2>      
+        <button mat-icon-button  id="btnclosemap" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content class="assessment-content">
+        <div class="set-question-answer" id="set-question-answer" [ngClass]="quesName=='Free Text' ||quesName=='Attachments' ?'one-column':''">
+
+            <div class="set-question mt-5 mb-5" id="set-question"  [ngClass]="quesName=='Free Text' ||quesName=='Attachments' ?'TEST':''">
+            <!----comment @suika as per story EWM-8839, EWM--10122  --->
+                <!----<mat-form-field *ngIf="evalCriteriaId==2">
+                    <input matInput #titleActivity="matInput" autofocus formControlName="Weightage"
+                        placeholder="{{'label_weightage' | translate}}" id="ques-weightage" (blur)="formControlValueChanged($event.target.value)"
+                        required>
+                    <mat-error
+                        *ngIf="addForm.controls['Weightage'].hasError('required') && addForm.controls['Weightage'].touched">
+                        {{'label_weightage'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                    <mat-error
+                    *ngIf="addForm.controls['Weightage'].hasError('pattern') && addForm.controls['Weightage'].touched">
+                    {{'label_weightage'|translate}} {{'label_numericerr'|translate}}
+                </mat-error>
+                <mat-error
+                *ngIf="addForm.controls['Weightage'].hasError('weightage') && addForm.controls['Weightage'].touched">
+                {{'label_WeightageErrMsg'|translate}} 
+            </mat-error>
+                </mat-form-field>--->
+                <div class="ng-select-with-info-icon textarea-with-info-icon">
+                <mat-form-field appearance="fill">
+                    <!-- <p>{{'label_ques_textinfo'|translate}}  </p> -->
+                    <mat-label>{{'lable_question' | translate | titlecase}}</mat-label>
+                    <textarea  tabindex formControlName="QuestionDesc" id="QuestionDesc" class="textareaHeight" matInput required></textarea>
+                    <mat-error
+                    *ngIf="addForm.controls['QuestionDesc'].hasError('required') && addForm.controls['QuestionDesc'].touched">
+                    {{'lable_question'|translate}}  {{'label_errorreqired'|translate}}
+                </mat-error>
+                     <!--  @Who: maneesh, @When: 26-dec-2022,@Why: EWM-9957 addnoWhitespaceValidator -->
+               <mat-error *ngIf="addForm.controls['QuestionDesc'].hasError('whitespace') && !addForm.controls['QuestionDesc'].hasError('required')">
+                {{'lable_question' |translate}} {{'label_nameValidation' |translate}}
+               </mat-error>
+                           
+               <mat-error
+               *ngIf="addForm.controls['QuestionDesc'].hasError('maxlength') && addForm.controls['QuestionDesc'].touched">
+               {{'lable_question'|translate}}  {{'label_errormaxlength2000'|translate}} 
+                  </mat-error>
+                 </mat-form-field>
+
+                 <mat-icon class="infoStyle" matSuffix matTooltipPosition="left" matTooltip="{{'label_ques_textinfo' |translate}}">info</mat-icon>
+                </div>
+
+                <div class="ng-slectBox ng-select-with-info-icon">
+                    <!-- <p>{{'label_weigtage_textinfo'|translate}}  </p> -->
+                    <ng-select placeholder="{{'label_weightageDescription' | translate}}" id="Weightage"
+                        class="dropdown-body show-required" appendTo="body" formControlName="Weightage"  bindLabel="CurrencyName"  
+                         tabindex [required]="true">
+                        <ng-option disabled>{{'label_select' | translate}} {{'label_weightageDescription' |
+                            translate}}</ng-option>
+                        <ng-option *ngFor="let list of weigthageList" [value]="list">
+                            {{list.Weightage}}</ng-option>
+                    </ng-select>
+
+                      <mat-error *ngIf="addForm.controls['Weightage'].hasError('required') && addForm.controls['Weightage'].touched">
+                    {{'label_weightageDescription'|translate}}  {{'label_errorreqired'|translate}}
+                </mat-error>
+
+                    <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_weigtage_textinfo' |translate}}">info</mat-icon>
+                </div>
+    
+                <div class="ng-select-with-info-icon textarea-with-info-icon">
+                <mat-form-field appearance="fill">
+                    <!-- <p>{{'label_intructions_textinfo'|translate}}  </p> -->
+                    <mat-label>{{'label_instructions' | translate | titlecase}}</mat-label>
+                    <textarea class="textareaHeight" tabindex formControlName="Instruction" id="Instruction" matInput></textarea>
+                    
+                    <!----<mat-error *ngIf="addForm.controls['Instruction'].hasError('required') && addForm.controls['Instruction'].touched">
+                    {{'label_instructions'|translate}}  {{'label_errorreqired'|translate}}
+                </mat-error>--->
+
+              <mat-error *ngIf="addForm.controls['Instruction'].hasError('maxlength') && addForm.controls['Instruction'].touched">
+                {{'label_instructions'|translate}}  {{'label_errormaxlength150'|translate}}
+            </mat-error>
+    
+               <!----<mat-error *ngIf="addForm.controls['Instruction'].hasError('whitespace') && !addForm.controls['Instruction'].hasError('required')">
+                {{'label_instructions' |translate}} {{'label_nameValidation' |translate}}
+               </mat-error>--->
+                 </mat-form-field>
+                 <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_intructions_textinfo' |translate}}">info</mat-icon>
+                </div>
+
+
+                  <!-----------------start end data--------------------->
+         
+
+                        <mat-card *ngIf="fileAttachments?.length==0 || fileAttachments==undefined" class="mt-10">                        
+                              <mat-card-title class="matTitleDocument mb-5">{{'label_attachment'|translate}} </mat-card-title>
+                              <mat-card-subtitle class="mt-0">{{'label_attachments_textinfo'|translate}}</mat-card-subtitle>
+                          <mat-card-content>
+                              <div class="documentUploadRoundBox" >
+                                  <div class="circleCreateDocFileUpload" (click)="openMultipleAttachmentModal()" id="myActivity-documentAttachmentAddPopup">
+                                      <mat-icon>cloud_upload</mat-icon>
+                                  </div>
+                                  <span class="fileInstructions">
+                                      {{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}}
+                                      </span>
+                              </div>
+                          </mat-card-content>
+                      </mat-card>
+                     <!--- <div  *ngIf="fileAttachments?.length>0"> 
+                        <button  (click)="openMultipleAttachmentModal()" mat-mini-fab id="addAttach" color="primary" matTooltipClass="custom-tooltip" matTooltip="{{'label_add'|translate}} {{'label_attachment'|translate}}"
+                        (mouseenter)="mouseoverAnimation(animationVar?.CandidateBackspaceButton?.id, animationVar?.CandidateBackspaceButton?.animation)"
+                        (mouseleave)="mouseleaveAnimation(animationVar?.CandidateBackspaceButton?.id, animationVar?.CandidateBackspaceButton?.animation)">
+                          <div class="two-icons">
+                            <mat-icon class="first-icon"
+                            id="{{animationVar?.CandidateBackspaceButton?.id}}"
+                            class="{{animationVar?.CandidateBackspaceButton?.isAnimClass}}">attach_file</mat-icon>
+                            <mat-icon class="secondIcon"
+                            id="{{animationVar?.CandidateBackspaceButton?.id}}"
+                          class="{{animationVar?.CandidateBackspaceButton?.isAnimClass}}">add</mat-icon>
+                        </div>
+                        </button>
+                        </div>--->
+
+
+                    
+                        <!---------carosal------->
+                        <div class="stagecarousel" id="stagecarousel"  *ngIf="fileAttachments?.length>0">  
+                          
+                          <div class="btn-group-bottom addClientButton" *ngIf="fileAttachments?.length>0">
+
+                            <button mat-icon-button id="addAttach" color="primary" (click)="openMultipleAttachmentModal()" id="documentUpload-file" 
+                            matTooltip="{{'label_attachment'|translate}}" matTooltipClass="card-tooltip-left" matTooltipPosition="after"
+                            (mouseenter)="mouseoverAnimation(animationVar?.CandidateBackspaceButton?.id, animationVar?.CandidateBackspaceButton?.animation)"
+                            (mouseleave)="mouseleaveAnimation(animationVar?.CandidateBackspaceButton?.id, animationVar?.CandidateBackspaceButton?.animation)">
+                              <div class="two-icons" id="{{animationVar?.CandidateBackspaceButton?.id}}"
+                              class="{{animationVar?.CandidateBackspaceButton?.isAnimClass}}">
+                                <mat-icon class="first-icon">attach_file</mat-icon>
+                                <mat-icon class="secondIcon">add</mat-icon>
+                            </div>
+                            </button>
+  
+                          </div>
+
+                          <swiper [slidesPerView]="1"  [spaceBetween]="0" [navigation]="true" [pagination]="{type: 'fraction'}"
+                            (swiper)="onSwiper($event)">
+                            <ng-template class="carousel-cell assessment-cell" *ngFor="let filedata of fileAttachments"  swiperSlide>                        
+                              
+                              <img src="{{filedata.Preview}}" class="logoImage cursor" (click)="openDialog(filedata.Preview)" alt="">
+
+                              <div class="btn-group">
+                              <button type="button" id="btnDelete" class="ml-5 mr-5" mat-icon-button
+                              matTooltip="{{'label_delete'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                              (click)="confirmAttachment(filedata)" 
+                              (mouseenter)="mouseoverAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)"
+                              (mouseleave)="mouseleaveAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)">
+                              <mat-icon id="{{animationVar?.FolderButton?.id}}"
+                              class="{{animationVar?.FolderButton?.isAnimClass}}" color="warn">
+                                  delete
+                              </mat-icon>
+                              </button>
+
+                              <!-- <button  type="button" id="fullScreen" class="full-btn" mat-mini-fab color="white"
+                              matTooltipClass="custom-tooltip" matTooltip="{{'label_fullScreen'|translate}}"
+                              (mouseenter)="mouseoverAnimation(animationVar?.ScreeningExpViewButton?.id, animationVar?.ScreeningExpViewButton?.animation)"
+                              (mouseleave)="mouseleaveAnimation(animationVar?.ScreeningExpViewButton?.id, animationVar?.ScreeningExpViewButton?.animation)">
+                              <mat-icon id="{{animationVar?.ScreeningExpViewButton?.id}}"
+                              class="{{animationVar?.ScreeningExpViewButton?.isAnimClass}}">
+                                fullscreen
+                              </mat-icon>
+                              </button> -->
+                            </div>
+
+
+                            
+                            
+                            </ng-template>
+                          </swiper>
+                        </div>
+
+                        <!---------carosal end----->
+
+            </div>
+
+            <mat-card class="set-answer mat-elevation-z2 mt-5 mb-5" id="set-answer" *ngIf="questionType==2">
+                <div class="set-answer-heading">{{'qoute_selectRightAnswer'|translate}} </div>
+                <ng-container formArrayName="Options">
+                    <mat-card class="set-answer-description" *ngFor="let ques of QuesInfo().controls; let i=index" [formGroupName]="i">
+                        <mat-radio-group *ngIf="questionType==2" id="btn-iscorrect" name="isCorrect" 
+                        formControlName="IsCorrect"  (change)="updateSelection(QuesInfo().controls,ques)" tabindex>
+                            <mat-radio-button color="primary"  [value]="true"></mat-radio-button>
+                        </mat-radio-group>
+
+                        <mat-form-field floatLabel="never" class="mb-0">
+                            <input type="text" tabindex formControlName="Description" id="Description" matInput 
+                             placeholder="{{'label_addOption' | translate}}" (keyup)="availableEmail($event, i)" required>
+                            <!-- <mat-error *ngIf="ques.get('Description').errors?.required && ques.get('Description').touched">
+                                {{ 'label_addOption' |translate}} {{ 'label_errorreqired' |translate}}
+                              </mat-error> -->
+                                <mat-error
+                                *ngIf="ques.get('Description').errors?.unique && ques.get('Description').touched">
+                                {{ 'label_addOption' |translate}} {{'label_errorunique'|translate}}
+                                </mat-error>
+                              
+                                    <!-- @Who: maneesh, @When: 27-dec-2022,@Why: EWM-9957 addnoWhitespaceValidator -->
+
+                                <span *ngIf="blankval" class="span-error">
+                                    {{'label_addOption' |translate}} {{'label_nameValidation' |translate}}  
+                                  </span>
+                         </mat-form-field>
+                            
+                      
+                         <button mat-icon-button color="warn" type="button" id="btn_delete{{i}}" *ngIf="i!==0" (click)=confirmDialog(i)
+                         matTooltip="{{'label_delete'|translate}}" matTooltipClass="custom-tooltip">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                    </mat-card>
+                </ng-container>
+                <ng-container>
+                    <button [disabled]="counter>maxOptions" mat-mini-fab class="add-btn mt-10" type="button" tabindex id="btnSave-mul" color="primary" (click)="addQuesRow()"  *ngIf="questionType==2"
+                    matTooltip="{{'label_addOption'|translate}}" matTooltipPosition="left"
+                    (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+                        <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+                    </button>
+                    <p *ngIf="counter>maxOptions" class="count-text">{{'lable_max_ques_alert'|translate}} {{maxOptions}}</p>
+                    </ng-container>
+              </mat-card>
+
+            <mat-card class="set-answer mat-elevation-z2 mt-5 mb-5" id="set-answer" *ngIf="questionType==3">
+                <div class="set-answer-heading">{{'qoute_selectRightAnswer'|translate}} </div>
+                <ng-container formArrayName="Options">
+                    <mat-card class="set-answer-description" *ngFor="let ques of QuesInfo().controls; let i=index" [formGroupName]="i">
+                        <!-- <mat-radio-group *ngIf="questionType==2" id="btn-iscorrect" name="isCorrect" formControlName="IsCorrect" tabindex>
+                            <mat-radio-button color="primary"  [value]="i">
+                              
+                            </mat-radio-button>
+                        </mat-radio-group> -->
+
+                        <mat-checkbox color="primary" [ngModelOptions]="{standalone: true}" formControlName="IsCorrect" 
+                        type="checkbox" id="mulitbtn-iscorrect{{i}}" [value]="i" tabindex>
+                        </mat-checkbox>
+
+                        <mat-form-field floatLabel="never" class="mb-0">
+                            <input type="text" tabindex formControlName="Description" id="Description" matInput 
+                             placeholder="{{'label_addOption' | translate}}" (keyup)="availableEmail($event, i)" required>
+                             <!-- <mat-error *ngIf="ques.get('Description').errors?.required && ques.get('Description').touched">
+                                {{ 'label_addOption' |translate}} {{ 'label_errorreqired' |translate}}
+                              </mat-error> -->
+                                <mat-error
+                                *ngIf="ques.get('Description').errors?.unique && ques.get('Description').touched">
+                                {{ 'label_addOption' |translate}} {{'label_errorunique'|translate}}
+                                </mat-error>
+                                <mat-error
+                                *ngIf="ques.get('Description').errors?.required && ques.get('Description').touched">
+                                {{ 'label_addOption' |translate}} {{'label_errorunique'|translate}}
+                                </mat-error>
+                        <!-- @Who: maneesh, @When: 27-dec-2022,@Why: EWM-9957 addnoWhitespaceValidator -->
+                        <!----<span *ngIf="blankval" class="span-error">
+                            {{'label_addOption' |translate}} {{'label_nameValidation' |translate}}  
+                          </span> not working properly ---> 
+                         </mat-form-field>
+                         <button mat-icon-button color="warn" type="button" id="btn_delete{{i}}" *ngIf="i!==0" (click)=confirmDialog(i)
+                         matTooltip="{{'label_delete'|translate}}" matTooltipClass="custom-tooltip">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                    </mat-card>
+                </ng-container>
+                <ng-container>
+                  <button [disabled]="counter>maxOptions" mat-mini-fab class="add-btn mt-10" type="button" tabindex id="btnSave-mul" color="primary" (click)="addQuesRow()"  *ngIf="questionType==3"
+                  matTooltip="{{'label_addOption'|translate}}" matTooltipPosition="left"
+                  (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+                  (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+                      <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+                  </button>
+                  <p *ngIf="counter>maxOptions" class="count-text">{{'lable_max_ques_alert'|translate}} {{maxOptions}}</p>
+                  </ng-container>
+                </mat-card>
+        </div>
+        <!-- <div class="total-question-weightage" *ngIf="evalCriteriaId==2">
+            <div class="total-question">
+                {{'label_totalWeightage'|translate}} : 100%
+            </div>
+            <div class="total-weightage">
+                {{'label_runningWeightage'|translate}} : {{runningWeightage}}% 
+            </div> 
+          </div> -->
+          
+    </mat-dialog-content>
+    
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter assesment-question-footer">
+        <div class="weightage-box">
+            <div class="show-weightage-footer" *ngIf="evalCriteriaId==2">
+                {{'label_weightageAllocated' | translate}} : {{runningWeightage}}/100
+            </div>
+        </div>
+        <div class="button-group">
+            <button mat-stroked-button color="warn" tabindex type="button" id="btn-cancel" (click)="onDismiss()" id="btnRemoveAccessId">{{'button_cancel'|translate}}</button>
+            <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid || blankval" (click)="onSave(this.addForm.value)" id="btnSave" cdkFocusInitial> {{'label_save'|translate}}</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,82 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <css>
+  @Name: folder.component.scss
+  @Who: Renu
+  @When: 29-Sep-2021
+  @Why: ROST-2641 ROST-3073
+  @What:  This component is used for add  templates for compose mail.
+*/
+
+// Xeople : Satya Prakash Gupta : 20-Jul-2022 : Alignment issue : EWM-7686 EWM-7892 
+::ng-deep{
+  .template-checkbox{
+      .mat-checkbox-layout {
+        display: flex;
+        .mat-checkbox-label{
+          width: 100%;
+          display: flex;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+  .insert-email-template{
+    height: 65vh;
+    overflow: hidden;
+    .listcardContentMaxData,
+    .sticky-width{
+      min-width: 855px;
+    }
+    .listcardContentMaxData{
+      height: calc(65vh - 156px);
+      overflow: auto;
+    }
+    .tabInfinoteScroll{
+      overflow: hidden;
+      overflow-x: auto;
+    }
+    .preview-btn{
+      padding: 8px 0px;
+      cursor: pointer;
+    }
+  }
+  
+  .col-1{
+      width: 40%;
+  }
+  .col-2{
+      width: 27%;
+  }
+  .col-3{
+      width: 25%;
+  }
+  .col-4{
+    width: 8%;
+  }
+  
+  .custom-checkbox{
+    margin:0px;
+    position: relative;
+    top:-2px;
+  }
+  
+.template-modal-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .add-manage{
+    background: transparent;
+    display: flex;
+    align-items: center;
+  }
+}
+.actionBoxFooter{
+    padding: 5px 0px;
+    .mat-raised-button{
+        margin-left: 8px;
+    }
+}
+  

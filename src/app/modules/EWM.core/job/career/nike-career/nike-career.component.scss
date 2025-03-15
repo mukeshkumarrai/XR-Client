@@ -1,0 +1,75 @@
+@import "../../../../../../mixinStyle.scss";
+
+// Entire Software : Amit Rajput : 27-April-2022 : Pannel design : EWM-6222 EWM-6365
+
+.nike-career{
+  .mat-expansion-panel{
+    .mat-expansion-panel-header{
+      padding:0px 15px;
+    }
+    .mat-expansion-panel-header.mat-expanded{
+      height: 45px;
+    }
+    .career-main-flow{
+      display: grid;
+      column-gap: 20px;
+      row-gap: 10px;
+      grid-template-columns: repeat(7, 1fr);
+      @media only screen and (max-width: 1299px) and (min-width: 800px) {
+        grid-template-columns:repeat(3, 1fr);
+      }
+      @media only screen and (max-width: 799px) and (min-width: 481px) {
+        grid-template-columns:repeat(2, 1fr);
+      }
+      @include for-small-smartphones{
+        grid-template-columns: 1fr;
+      }  
+      button{
+        border-radius: 8px;
+        padding: 7px;
+        width: 210px;
+        max-width: 210px;
+        margin:0px;
+        .text-btn{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .icon-text{
+            display: flex;
+            align-items: center;
+            .btntext{
+              padding:0px 5px;
+            }
+          }
+          .mat-icon{
+            width: 30px;
+            height: 30px;
+            line-height: 28px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.advancedsearchDrawer.network-drawer{
+  max-width:580px;
+}
+
+// @When: 04-10-2023 @who:Amit @why: EWM-14465 @what: btn design
+.dashboard-mat-card-header.mat-card-header{
+  .listGridButton{
+    .search-viewicon{
+      .mat-raised-button.back-btn{
+        padding: 0px;
+        min-width: 36px;
+        .mat-icon{
+          font-size: 20px;
+          line-height: 24px;
+        }
+      }
+    }
+  }
+}
+
+

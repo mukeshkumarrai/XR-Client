@@ -1,0 +1,109 @@
+.advancedsearchDrawer {
+    width: 100%;
+    max-width: 345px;
+    padding: 0px;
+    background: transparent;
+    box-shadow: none !important;
+    display: flex;
+    .drawerTitleSec {
+      width: 40px;
+      h4 {
+        width: 140px;
+        margin: 0px;
+        height: 40px;
+        line-height: 40px;
+        .closeDrawerIcon {
+          position: absolute;
+          padding: 0px;
+          min-width: 40px;
+          height: 40px;
+         }
+      }
+    }
+    .advancedsearchDrawerData {
+      padding: 10px;
+      overflow: auto;
+      border-radius: 0px;
+      width: 100%;
+    //   height: calc(100vh - 270px);
+    //   @media only screen and (max-width: 1060px) and (min-width: 581px) {
+    //     height: calc(100vh - 248px);
+    //   }
+    //   @media only screen and (max-width: 580px) and (min-width: 320px) {
+    //     height: calc(100vh - 253px);
+    //   }
+    }
+  }
+  
+  .example-is-mobile .notes-details {
+    /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+       `<body>` to be our scrolling element for mobile layouts. */
+    flex: 1 0 auto;
+  }
+
+  .notes-details-sec{
+    display: flex;
+    height: 100%;
+    .mat-drawer{
+        .yearsFilter{
+            .monthWithData{
+                display: flex;
+                align-items: center;
+                margin: 5px 0px;
+                .mat-progress-bar{
+                    margin: 0px 10px;
+                }
+            }
+        }
+    }
+    .mat-drawer-content{
+        width: 100%;
+        overflow: auto;
+        padding-left: 15px;
+        .notes-detail{
+            display: flex;
+            position: relative;
+            .notes-detail-linebar{
+                position: absolute;
+                height: 100%;
+                left: 20px;
+                width: 1px;
+                background: #ccc;
+            }
+            .flex-box{
+                display: flex;
+                flex: 1 1 auto;
+                .notes-created-by-action{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    .notes-created-action{
+                        position: relative;
+                    }
+                    .notes-created-date{
+                        color: #7fb734;
+                        font-size: 80%;
+                    }
+                }
+                
+                .notes-created-info-icon{
+                    width: 60px;
+                    justify-content: center;
+                }
+                .notes-info{
+                    display: flex;
+                    align-items: flex-start;
+                    flex-direction: column;
+                    .notes-created-details.mat-card{
+                        line-height: 22px;
+                        padding: 15px;
+                        background: #e2e8f0;
+                        margin: 10px 0px;
+                        margin-bottom: 25px;
+                    }
+                }
+            }
+        }
+    }
+  }

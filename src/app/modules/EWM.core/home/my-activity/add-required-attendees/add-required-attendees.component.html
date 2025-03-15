@@ -1,0 +1,95 @@
+<!---
+    @Type: File, <ts>
+    @Name: add-required-attendees.component.ts
+    @Who: Anup Singh
+    @When: 08-jan-2022
+    @Why:EWM-4467 EWM-4529
+    @What: popup component for add-required-attendees
+   -->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <!--- @When: 17-03-2023 @Who:Renu @Why: EWM-11055 EWM-11095 @What:  optional attendees handling --->
+    <h2 matDialogTitle *ngIf="popUpType=='requiredAttendees'" class="mb-0">{{'label_addRequiredAttendees' | customTranslate}}</h2>
+    <h2 matDialogTitle *ngIf="popUpType=='optionalAttendees'" class="mb-0">{{'label_addOptionalAttendees' | customTranslate}}</h2>
+    <h2 matDialogTitle *ngIf="popUpType=='shareJob'" class="mb-0">{{'label_addEmailAddress' | customTranslate}}</h2>
+</div>
+
+<mat-dialog-content class="modal-search-email-name" applyTabIndexes>
+    <mat-chip-list>
+        <mat-chip *ngFor="let users of searchAttendees" [removable]="true" class="addContatChip"
+            id="add-required-attendees-Chip" (removed)="onrequiredAttendeesListRemove(users.Id)">
+            <span class="text-overflow" matTooltip="{{ users.Name }}" matTooltipClass="custom-tooltip">{{ users.Name ? users.Name : users.Email }}</span>
+            <mat-icon *ngIf="removable && users.isDefaultAttendees== undefine " id="iconCancel" matChipRemove>cancel</mat-icon>
+        </mat-chip>
+    </mat-chip-list>
+    <span *ngIf="maxMsg" class="new badge red" style="text-transform: initial;"> 
+        {{'label_maxDataTxt'| translate}}
+    </span>
+
+    <div class="search-box">
+        <div class="ng-slectBox">
+            <ng-select placeholder="{{placeholderText}}" id="activity-ModifyClient" class="dropdown-body"
+                appendTo="body" [(ngModel)]="labelFor" tabindex="2" [clearable]="true"
+                (change)="onChangeActivityRelatedTo($event)">
+                <!-- <ng-option value="JOB">Job</ng-option> -->
+                <ng-option value="CAND">Candidate</ng-option>
+                <ng-option value="EMPL" *ngIf="popUpType">Employee</ng-option>
+                <ng-option value="CLIE" *ngIf="popUpType" [disabled]="!isClientActive">Client</ng-option>
+                <ng-option value="CONT" *ngIf="popUpType">Contacts</ng-option>
+                <ng-option value="ATTE" *ngIf="popUpType">Attendees</ng-option>
+
+            </ng-select>
+            <mat-error *ngIf="isActivityRelated"> {{ 'label_select' | translate}} {{ 'label_usertype' |translate }}</mat-error>
+            <mat-error *ngIf="isSelectType"> {{ 'label_select' | translate}} {{ 'label_usertype' | translate }}</mat-error>
+
+        </div>
+        <div class="searchWithError">
+            <mat-form-field class="searchContact searchInput">
+                <input matInput type="text" tabindex [(ngModel)]="searchValue" id="add-required-attendees-SearchInput"
+                    (keyup)="onsearchAttendees($event.target.value)"
+                    (keydown.enter)="addExternalEmail($event.target.value)"  placeholder="{{emailPlaceholder}}"
+                    autocomplete="off">
+                <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()"
+                    (click)="searchValue=''" id="candidate-list-searchValue">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <div *ngIf="loadingPopup" class="k-i-loading inputSearch"></div>
+            </mat-form-field>
+            <mat-error *ngIf="invalidEmailError"> {{ 'label_invalidEmailId' | translate}}</mat-error>
+        </div>
+    </div>
+
+    <!-- <mat-error *ngIf="noRecordFound!=null" class="maxValue"> {{ noRecordFound | translate}}</mat-error> -->
+
+    <mat-list class="contactList">
+        <mat-list-item *ngFor="let user of searchListAttendees" [disabled]="addAttendees(user)">
+            <div class="search-data" (click)="AddSelectrequiredAttendeesList(user,user.Name)">
+                <span class="text-overflow">{{user.Name}}</span>
+                <div class="email text-overflow">({{user.Email ? user.Email : user.EmailId}})</div>
+            </div>
+            <button mat-icon-button id="btnListAdd" color="primary"
+            (click)="AddSelectrequiredAttendeesList(user,user.Name)">
+                <mat-icon class="mr-0">add</mat-icon>
+            </button>
+        </mat-list-item>
+        <!---@When: 20-03-2023 @Who:Renu @Why: EWM-11055 EWM-11410 @What: attendes poup changes.--->
+
+    <mat-list-item *ngIf="!searchListAttendees?.length && noRecordFound">
+        <div class="search-data">
+            <span class="text-overflow">{{ noRecordFound | translate}}</span>
+        </div>
+    </mat-list-item>
+    </mat-list>
+  
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+    <button mat-stroked-button color="warn" id="btnClose" tabindex (click)="onDismiss()"> {{'button_close' |
+        translate}}</button>
+    <button mat-stroked-button color="primary" id="btnAdd" tabindex [disabled]="saveEnableDisable"
+        (click)="saveRequiredAttendees()">{{'label_add' |translate}}</button>
+</mat-dialog-actions>

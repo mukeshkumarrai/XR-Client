@@ -1,0 +1,702 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: screening-and-interview.component.scss
+    @Who: Satya Prakash
+    @When: 18-May-2023
+    @Why: EWM-11781 EWM-12518
+    @What: You can add screening-and-interview.component.scss to this file, and also import other style files
+*/
+@import "../../../../../src/styles-var.scss";
+@import "../../../../../src/mixinStyle.scss";
+
+.screening-and-interview{
+    display: flex;
+    flex-direction: column;    
+    height: 100%;
+    position: relative;
+    &-summarydrawer{
+        &-container{
+            display: flex;
+            height: 100%;
+            .mat-card{
+                width: calc(100% - 40px);
+                border-radius: 0px; 
+                padding: 0px;
+                margin-bottom: 0px;
+            }
+        }
+    }
+    &-header{
+        display: flex;
+        justify-content: space-between;
+        height: 80px;
+        padding: 10px;
+        align-items: center;
+        position: relative;
+        justify-content: space-between;
+        .dynamic-bg-color{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            &::before{
+              content: "";
+              background-color: currentColor;
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              left: 0px;
+              top: 0px;
+              opacity: 0.1;
+            }
+          }
+        .group-left{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            @media only screen and (max-width: 767px) and (min-width: 240px){
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .buttons-group{
+                height: 63px;
+                display: flex;
+                border-radius: 4px;
+                box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px, 0px 0px 0px 1px $primary-bg-color;
+                @media only screen and (max-width: 767px) and (min-width: 240px){
+                    height: 24px;
+                    width: 100%;
+                }
+                .mat-button{
+                    min-width: auto;
+                    min-width: 40px;
+                    padding: 0px;
+                    border-radius: 0px;
+                    margin-left: 0px;
+                    @media only screen and (max-width: 767px) and (min-width: 240px){
+                        min-width: 26px;
+                        line-height: 20px;
+                    }
+                    .mat-icon{
+                        font-size: 30px;
+                        width: 31px;
+                        height: 31px;
+                        line-height: 30px;
+                        @media only screen and (max-width: 767px) and (min-width: 240px){
+                            font-size: 18px;
+                            width: 20px;
+                            height: 20px;
+                            line-height: 20px;
+                        }
+                    }
+                }
+                .upcoming-and-past{
+                    display: flex;
+                    flex-direction: column;
+                    @media only screen and (max-width: 767px) and (min-width: 240px){
+                        flex-direction: inherit;
+                        width: 100%;
+                    }
+                    .mat-button{
+                        height: 31px;
+                        line-height: 31px;
+                        box-shadow: none;
+                        padding: 0px 2px;
+                        font-size: 16px;
+                        @media only screen and (max-width: 767px) and (min-width: 240px){
+                            height: 24px;
+                            line-height: 24px;
+                            font-size: 14px;
+                            width: 100%;
+                        }
+                    }
+                    .mat-divider{
+                        border-right-width: 1px;
+                        border-right-style: solid;
+                        border-right-color: rgb(0 0 0 / 12%);
+                    }
+                    .comment-count{
+                        height: 100%;
+                    }
+                }
+            }
+        }
+        &-left{
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 1;
+            &-name-and-rating{
+                font-size: 12px;
+                display: flex;
+                flex-direction: column;
+                width: 400px;
+                max-width: 400px;
+                @media only screen and (max-width: 767px) and (min-width: 240px){
+                    width: auto;
+                }
+                @media only screen and (max-width: 590px) and (min-width: 430px){
+                    max-width: 190px;
+                }
+                @media only screen and (max-width: 429px) and (min-width: 240px){
+                    max-width: 110px;
+                }
+                .stage{
+                    font-weight: 500;
+                    font-size: 18px;
+                    padding-bottom: 5px;
+                    text-align: center;
+                }
+                .job-name, .client, .address{
+                    padding: 2px 0px;
+                    gap: 5px;
+                    font-size: 11px;
+                    display: inline-block;
+                    text-align: center;
+                    .mat-icon{
+                        width: 20px;
+                        height: 18px;
+                        line-height: 18px;
+                        font-size: 14px;
+                        text-align: center;
+                    }
+                }
+                .client{
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+                .job-name{
+                    text-decoration: underline;
+                    font-size: 15px;
+                    cursor: pointer;
+                    .mat-icon{
+                        width: 20px;
+                        height: 20px;
+                        line-height: 20px;
+                        font-size: 18px;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+        &-right{
+            flex-direction: column;
+            display: flex;
+            row-gap: 10px;
+            justify-content: center;
+            &-top{
+                display: flex;
+                gap: 5px;
+                align-items: flex-end;
+                .mat-raised-button,
+                .mat-stroked-button{
+                    min-width: 46px;
+                    height: 30px;
+                    padding: 0px 0px;
+                    width: 46px;
+                    margin-left: 0px;
+                    line-height: 25px;
+                    @media only screen and (max-width: 767px) and (min-width: 481px){ 
+                        min-width: 37px;
+                        width: 37px;
+                    }
+                    @include for-small-smartphones {
+                        min-width: 28px;
+                        width: 28px;
+                    }
+                    .mat-icon{
+                        width: 24px;
+                        height: 24px;
+                        line-height: 24px;
+                        @media only screen and (max-width: 767px) and (min-width: 320px){ 
+                            width: 20px;
+                            height: 20px;
+                            line-height: 20px;
+                            font-size: 16px;
+                        }
+                    }
+                }
+                .next-prev-layout{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3px;
+                    height: 62px;
+                    justify-content: flex-end;
+                    .candidate-next-prev{
+                        display: flex;
+                        gap: 3px;
+                    }
+                    .screening-and-interview-header-right-layout{
+                        display: flex;
+                        justify-content: flex-end;
+                        &-group{                     
+                            border-radius: 4px;
+                            height: 28px;
+                            overflow: hidden;
+                            @media only screen and (max-width: 767px) and (min-width: 481px){ 
+                                height: 24px;
+                            }
+                            @include for-small-smartphones {
+                                height: 20px;
+                            }
+                            .mat-flat-button{ 
+                                min-width: auto;
+                                padding: 0px 10px;
+                                border-radius: 0px;
+                                position: relative;
+                                line-height: 28px;
+                                @media only screen and (max-width: 767px) and (min-width: 320px){ 
+                                   line-height: 24px;
+                                   padding: 0px 7px;
+                                }
+                                @include for-small-smartphones {
+                                    padding: 0px 4px;
+                                    line-height: 20px;
+                                }
+                                &::before{
+                                    content: "";
+                                    position: absolute;
+                                    width: 100%;
+                                    height: 100%;
+                                    border-radius: 0px;
+                                    background-color: currentColor;
+                                    opacity: 0.15;
+                                    left: 0px;
+                                    top: 0px;
+                                  }
+                                .line{
+                                    height: calc(30px - 6px);
+                                    width: 3px;
+                                    border-radius: 4px;
+                                    background: currentColor;
+                                }
+                            }
+                            .full-view{
+                                .line{
+                                    height: calc(30px - 6px);
+                                    width: 6px;
+                                    border-radius: 4px;
+                                    background: currentColor;
+                                }
+                            }
+                            .two-view{
+                                .line{
+                                    height: calc(30px - 6px);
+                                    width: 6px;
+                                    border-radius: 4px;
+                                    background: currentColor;
+                                }
+                            }
+                            .three-view{
+                                .line{
+                                    height: calc(30px - 6px);
+                                    width: 7px;
+                                    border-radius: 4px;
+                                    background: currentColor;
+                                }
+                            }
+                            .mat-primary{
+                                color: #ffffff;
+                            }
+                        }
+                    }
+                }
+                .close{
+                    border-radius: 100%;
+                    width: 36px;
+                    height: 36px;
+                    min-width: 36px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    align-self: flex-start;
+                    position: relative;
+                    top: -16px;
+                    right: -6px;
+                    @media only screen and (max-width: 767px) and (min-width: 320px){ 
+                        width: 25px;
+                        height: 25px;
+                        min-width: 25px;
+                    }
+                }
+            }
+        }
+    }
+    .screening-and-interview-area{
+        height: calc(100% - 100px); 
+        display: flex;
+        .screening-and-interview-area-left{
+            width: calc(130px - 20px);
+            padding: 10px;
+            @media only screen and (max-width: 580px) and (min-width: 240px){
+                width: calc(80px - 37px);
+                padding: 10px 8px 10px 5px;
+            }
+            .total-candidates{
+                width: fit-content;
+                margin: 10px 0px;
+                @media only screen and (max-width: 580px) and (min-width: 240px){
+                    font-size: 8px;
+                }
+                .mat-badge-content{
+                    @media only screen and (max-width: 580px) and (min-width: 240px){
+                        right: 0px;
+                        top: -17px;
+                        width: 18px;
+                        height: 18px;
+                        line-height: 18px;
+                    }
+                }
+            }
+            &-candidate{
+                text-align: center;
+                padding: 5px;
+                border-radius: 4px;
+                margin-bottom: 10px;
+                cursor: pointer;
+                position: relative;
+                width: 96px;
+                @media only screen and (max-width: 580px) and (min-width: 240px){
+                    width: 35px;
+                }
+                &::after{
+                    content: "";
+                    position: absolute;
+                    width: calc(100% - 30px);
+                    height: 1px;
+                    left: 15px;
+                    bottom: -6px;
+                    opacity: 0.1;
+                    background: $primary-bg-color;
+                }
+                &:last-child{
+                    &::after{
+                        display: none;
+                    }  
+                }
+                $user-img-span-width-height:25px;
+                @media only screen and (max-width: 580px) and (min-width: 240px){
+                    $user-img-span-width-height:30px;
+                }
+                &-shortname{
+                    width: $user-img-span-width-height;
+                    height: $user-img-span-width-height;
+                    overflow: hidden;
+                    border-radius: 100%;
+                    display: inline-block;
+                    cursor: pointer;
+                    img{
+                        width: $user-img-span-width-height;
+                        height: $user-img-span-width-height;
+                        overflow: hidden;
+                        border-radius: 100%;
+                    }
+                    span{
+                        border-radius: 100%;
+                        background-color: $primary-bg-color;
+                        color: $primary-txt-color;
+                        width: $user-img-span-width-height;
+                        height: $user-img-span-width-height;
+                        overflow: hidden;
+                        border-radius: 100%;
+                        display: flex;
+                        font-size: 14px;
+                        align-items: center;
+                        justify-content: center;
+                        text-transform: uppercase;
+                    }
+                }
+                &-percent{
+                    font-size: 11px;
+                }
+                &-name{
+                    font-weight: 500;
+                    word-break: break-word;
+                    text-transform: capitalize;
+                    @media only screen and (max-width: 580px) and (min-width: 240px){
+                        display: none;
+                    }
+                }
+                &-sub-stage{
+                    color: $highlight-bg-color;
+                    padding: 3px 0px 5px;
+                    @media only screen and (max-width: 580px) and (min-width: 240px){
+                        font-size: 11px;
+                    }
+                }
+                &-maped-job{
+                    margin-top: 5px;
+                    // width: min-content;
+                    width: 50px;
+                    display: inline-block;
+                    padding-top: 10px;
+                    .mat-icon{
+                        line-height: 14px;
+                        height: 14px;
+                    }
+                    &:hover{
+                        .mat-icon{
+                            animation-name: pulse;
+                            animation-duration: 1s;
+                            animation-duration: var(--animate-duration);
+                            animation-fill-mode: both;
+                            animation-timing-function: ease-in-out;
+                        }
+                        @keyframes pulse {
+                            0% {
+                                transform: scaleX(1);
+                            }
+                            50% {
+                                transform: scale3d(1.05,1.05,1.05);
+                            }
+                            to {
+                                transform: scaleX(1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .screening-and-interview-area-right{
+            width: calc(100% - 120px);
+            display: flex;
+            @media only screen and (max-width: 580px) and (min-width: 240px){
+                width: calc(100% - 57px);
+            }
+            &-firstcol{
+                width: calc(50% - 10px);
+                padding: 7px;
+                position: relative;
+            }
+        }
+    }
+    .screening-and-interview-area-full{
+        .screening-and-interview-area-left{
+            height: calc(100% - 20px);
+            overflow-y: hidden;
+            overflow-x: hidden;
+            .job-action-container{
+              display: none;
+            }
+            .drawerMinimizeSec{
+              display: flex;
+            }
+            &:hover{
+                overflow-y: overlay;
+            }
+        }
+        .screening-and-interview-area-right{
+            &-firstcol{
+                width: calc(100% - 0px);
+                padding: 7px;
+                @media only screen and (max-width: 636px) and (min-width: 240px){
+                    width: calc(100% - 10px);
+                }
+                @media only screen and (max-width: 580px) and (min-width: 240px){
+                    padding: 7px 5px;
+                }
+            }
+            &-seccol{
+                display: none;
+            }
+        }
+    }
+    .screening-and-interview-area-two{
+        .screening-and-interview-area-left{
+            height: calc(100% - 20px);
+            overflow-y: hidden;
+            overflow-x: hidden;
+            .job-action-container{
+                display: none;
+            }
+            .drawerMinimizeSec{
+                display: flex;
+            }
+            &:hover{
+                overflow-y: overlay;
+            }
+        }
+        .screening-and-interview-area-right{
+            &-firstcol{
+                display: none;
+            }
+            &-seccol{
+                width: calc(100% - 14px);  
+                padding: 7px;
+                @media only screen and (max-width: 636px) and (min-width: 240px){
+                    width: calc(100% - 5px);
+                }
+                @media only screen and (max-width: 580px) and (min-width: 240px){
+                    padding: 7px 3px;
+                }
+            }
+        }
+    }
+    .screening-and-interview-area-three{
+        .screening-and-interview-area-left{
+            height: calc(100% - 20px);
+            overflow-y: hidden;
+            overflow-x: hidden;
+            ::-webkit-scrollbar {
+                width: 5px;
+            }
+            ::-webkit-scrollbar-thumb:vertical:hover{
+                outline:4px solid $primary-bg-color;
+            }
+            .drawerMinimizeSec{
+                display: none;
+            }
+            &:hover{
+                overflow-y: overlay;
+            }
+        }
+        .screening-and-interview-area-right{
+            width: calc(100% - 134px);
+            display: flex;
+            &-seccol{
+                width: 50%;
+                padding: 7px;
+                box-sizing: border-box;
+            }
+        }
+    }
+}
+
+
+// status tab style
+.status-data{
+    padding: 10px;
+    h3{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0px 0px 5px;
+        span.primary{
+            z-index: 1;
+            &::before{
+                z-index: -1;
+            }
+        }
+    }
+    .mat-label{
+        font-size: 14px;
+        color: #424242;
+    }
+    .example-chip-list{
+        .mat-chip-list{
+            .mat-chip{
+                padding: 0px 7px;
+                margin-top: 5px;
+            }
+        }
+    }
+    .new-status{
+        display: grid;
+        grid-template-columns: repeat(3, calc(33.33% - 10px));
+        gap: 15px;
+        @media only screen and (max-width: 991px) and (min-width: 240px){
+            grid-template-columns: 1fr;
+            gap: 5px; 
+        }
+    }
+    .restrict-candidate{
+        display: grid;
+        align-items: center;
+        grid: auto/calc(100% - 200px) 185px;
+        gap: 15px;
+        @media only screen and (max-width: 991px) and (min-width: 240px){
+            grid: auto/1fr;
+            gap: 5px; 
+        }
+        .mat-form-field{
+            .mat-raised-button{
+                min-width: 35px;
+                padding: 0px 5px;
+                line-height: 30px;
+                border-radius: 3px;
+            }
+        }
+    }
+}
+
+:host ::ng-deep{
+    .status-data{
+        .restrict-candidate{
+            .mat-checkbox{
+                .mat-checkbox-layout{
+                    white-space: break-spaces;
+                    .mat-checkbox-label{
+                        font-size: 13px;
+                        line-height: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .screening-and-interview{
+        .screening-and-interview-area{
+            .screening-and-interview-area-left-candidate-maped-job{
+                .mat-icon .mat-badge-content{
+                    @media only screen and (max-width: 580px) and (min-width: 240px){
+                        right: -7px;
+                        width: 18px;
+                        height: 18px;
+                        line-height: 18px;
+                    }
+                }
+            }
+        } 
+    }
+}
+
+// comments tab style start
+.comments-data{
+    padding: 10px;
+    h3{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0px 0px 5px;
+        span.primary{
+            z-index: 1;
+            &::before{
+                z-index: -1;
+            }
+        }
+    }
+    .comment-box{
+        .comment-card-content{
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            .main-comment-profile{
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                gap: 10px;
+                .comment-profile{
+                    width: 50px;
+                    height: 50px;
+                    min-width: 50px;
+                    min-height: 50px;
+                    border-radius: 100%;
+                    overflow: hidden;
+                    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.32);
+                    position: relative;
+                    transition: 0.4s ease;
+                }
+                h5{
+                    margin: 0px;
+                }
+            }
+        }
+    }
+}
+// comments tab style end
+
+
+

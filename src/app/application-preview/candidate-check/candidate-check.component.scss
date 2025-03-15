@@ -1,0 +1,34 @@
+
+$green-color: #7fb734;
+$default-bg-color: #5844DA;
+
+.alert-content{
+  display: grid;
+  justify-content: center;
+  .alert-mat-card{
+    border-radius: 15px;
+    max-width: 775px;
+    padding: 10px 15px;
+    margin: 30px 0px;
+    box-sizing: border-box;
+    .alert-inner-content{
+        .alert-data{
+          .mat-icon{
+            font-size: 78px;
+            width: 78px;
+            height: 78px;
+            border-radius: 50px;
+          }
+        }
+        .alert-text{
+            padding: 25px 0px 35px;
+            p{
+                margin: 0px;
+            }
+        }
+    }
+  }
+}
+
+
+

@@ -1,0 +1,59 @@
+.header-action-button{
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    margin-bottom: 7px;
+    .searchInput{
+        margin-bottom: 0px;
+    }
+    .mat-raised-button{
+        min-width: 36px;
+        padding: 0px;
+    }
+}
+.kendo-grid-appearance .k-grid{
+    height: calc(100vh - 318px);
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+        height: calc(100vh - 355px);
+    }
+    .avtaar-and-name{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+    }
+}
+::ng-deep{
+    .jobdetail-applicant-drawer{
+        .kendo-grid-appearance .k-grid{
+            height: calc(100vh - 399px) !important;
+            @media only screen and (max-width: 580px) and (min-width: 320px) {
+                height: calc(100vh - 449px) !important;
+            }
+        }
+    }
+    .copyMessage.email-hide{
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        display: none;
+        .alert-green {
+          color: #7fb734;
+          background: #fff;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          gap: 3px;
+          font-size: 12px;
+          padding: 5px;
+          height: 12px;
+          line-height: 15px;
+          .mat-icon{
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            font-size: 16px;
+          }
+        }
+      }
+}

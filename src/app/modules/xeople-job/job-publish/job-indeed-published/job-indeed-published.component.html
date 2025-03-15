@@ -1,0 +1,399 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data' class="publish-job-form">
+
+    <div class="publish_job pb-15">
+        <div class="publish_form">
+           {{JobTitle}} ({{'label_JobRefID' |translate}}:{{jobRefId}})
+        </div>
+
+        <div class="publish-menu">
+        <div class="mat-card-header-text" id="downloadXml">
+                <a class="viewAllLink" id="downloadXmlId" (click)="downloadXml()">
+                    {{'label_DownloadXMLIndeed'|translate}}
+                </a>
+            </div>
+        <div class="mat-card-header-text" id="ExpireJobId">
+            <a class="viewAllLink" id="ExpireJobDateId">
+                {{'label_ExpireJob' |translate}}
+            </a>
+        </div>
+       <div class="mat-card-header-text" id="incompleteId">
+        <a class="viewAllLink" id="editPublishId" (click)="tabIndex()">
+            {{'label_EditPublishJobonIndeed' |translate}}
+        </a>
+       </div>
+       <div class="mat-card-header-text" id="viewJobOnSeekId">
+        <a class="viewAllLink">
+            {{'label_ViewJobonIndeed' |translate}}
+        </a>
+       </div>
+       <div class="mat-card-header-text" id="backLandingId">
+        <a class="viewAllLink" [routerLink]="['/client/core/job/job-landingpage',workflowId]" >
+            {{'label_BacktoJobLandingPage' |translate}}
+        </a>
+       </div>
+       <div class="mat-card-header-text" id="informationId" (click)="clickInformation()">
+        <mat-icon class="infoIconStyle" >info_outline</mat-icon>
+       </div>   
+    </div>        
+    </div>
+
+    <mat-accordion class="publishJob-tab re-publishJob-tab">
+        <mat-expansion-panel expanded="true" class="col re-publish-card">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <img src="{{logoURL}}" class="seek-logo" />
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{JobCount}} {{'label_JobsPosted' |translate}} <div id="countDateid" *ngIf="JobCount>0"><span class="pl-10 pr-10">|</span>{{'label_Lastjobpostedon' |translate}} (<small>{{LastJobPostdate |
+                        date:userpreferences.timeformate:userpreferences.timezone}}</small>) 
+                   </div>
+                    <span
+                        class="pl-10 pr-10">|</span>
+                    <div class="profileFillValue" id="percentageProgid">
+                        <span>100%</span>
+                        <mat-progress-bar mode="determinate" value="100" color="primary"></mat-progress-bar>
+                    </div>
+                    <!-- <div class="profileFillValue" *ngIf="100>totalFilledPercentage">
+                        <span>{{totalFilledPercentage | number: '1.0-0'}}%</span>
+                        <mat-progress-bar mode="determinate" value="{{totalFilledPercentage}}" color="primary"></mat-progress-bar>
+                    </div> -->
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <form novalidate novalidate [formGroup]="addForm"
+            accept-charset="utf-8" enctype='multipart/form-data' class="p-0 mt-10 mb-10 quick-job" id="seek-form">
+
+            <div class="row mb-10">
+                <div class="col s12 m12 l3">
+                    <mat-label>{{'label_Indeed_ClientName' |translate}}<span class="required-show">*</span></mat-label><br/>
+                    <small>Company name that appears in search results.</small>
+                </div>
+                <div class="col s12 m12 l4">
+                    <mat-form-field floatLabel="always">
+                        <mat-label>{{'label_Indeed_ClientName' |translate}}</mat-label>
+                        <input type="text" formControlName="clientName" id="clientNameId"
+                             matInput placeholder="{{'label_Indeed_ClientName' |translate}}" #textboxes readonly required>
+                       </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row mb-10">
+                <div class="col s12 m12 l3">
+                    <mat-label>{{'label_indeed_ClientHoldingCompany' |translate}}<span class="required-show">*</span></mat-label><br/>
+                    <small>Parent organization hiring for role.</small>
+                </div>
+                <div class="col s12 m12 l4">
+                    <mat-form-field floatLabel="always">
+                        <mat-label>{{'label_indeed_ClientHoldingCompany' |translate}}</mat-label>
+                        <input type="text" formControlName="clientHoldingName" id="clientHoldingNameId"
+                            matInput placeholder="{{'label_indeed_ClientHoldingCompany' |translate}}" #textboxes  readonly required>
+                       </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row mb-10">
+                <div class="col s12 m12 l3">
+                    <mat-label>{{'label_Indeed_EmailId' |translate}}<span class="required-show">*</span></mat-label><br/>
+                    <small>Email account associated with the Indeed account for the selected organization.</small>
+                </div>
+                <div class="col s12 m12 l4">
+                    <mat-form-field floatLabel="always">
+                        <mat-label>{{'label_Indeed_EmailId' |translate}}</mat-label>
+                        <input type="text" formControlName="emailIds" id="emailId"
+                            matInput placeholder="{{'label_Indeed_EmailId' |translate}}" required>
+                         </mat-form-field>
+                </div>
+            </div>
+            <div class="row mb-10">
+                <div class="col s12 m12 l3">
+                    <mat-label>{{'label_applicationForm' |translate}}<span class="required-show">*</span></mat-label><br/>
+                 </div>
+                <div class="col s12 m12 l4">
+                    <mat-form-field class="icon-withchip" >                     
+                        <mat-chip-list #chipList aria-label="emails selection"  id="applicationId"
+                            tabindex formControlName="applicationFormNameValue" required>
+                            <mat-chip [removable]="true">
+                                {{applicationFormName}}
+                                <mat-icon color="warn" matChipRemove>cancel</mat-icon>
+                            </mat-chip>                       
+                            </mat-chip-list>                    
+                         </mat-form-field>
+                        <!-- <div class=" ng-slectBox">
+                            <mat-error *ngIf="!isHideChip">
+                                {{ 'label_applicationForm' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                        </div> -->
+               </div>
+               <div class="col s12 m12 l5">
+               
+                <div class="share-url" id="share-url-job">
+                    <mat-label class="text-overflow" matTooltip="{{shareJobApplicationUrl}}" matTooltipClass="custom-tooltip">{{shareJobApplicationUrl}}</mat-label>
+                    <button mat-icon-button class="comment-group-btn" color="primary" [disabled]="true"
+                    matTooltip="{{'label_copy'|translate}}" matTooltipClass="custom-tooltip">
+                        <mat-icon>content_copy</mat-icon>
+                    </button>
+                    </div>
+               </div>
+            </div>
+
+            
+            <div class="row mb-10">
+                <div class="col s12 m12 l3">
+                    <mat-label>{{'label_Indeed_CareerSiteURL' |translate}}</mat-label><br/>
+                </div>
+                <div class="col s12 m12 l4">
+                    <mat-form-field floatLabel="always">
+                        <input type="text" formControlName="careerSiteURL" matInput placeholder="">
+                        <button mat-icon-button class="comment-group-btn" color="primary" matSuffix
+                        matTooltip="{{'label_copy'|translate}}" matTooltipClass="custom-tooltip" [disabled]="true">
+                            <mat-icon>content_copy</mat-icon>
+                        </button>
+                       </mat-form-field>
+                </div>
+            </div>
+
+            <h2 class="publishJobSubTitle" id="cardSubTitle">{{'label_classifyYourJob' |translate}}</h2>
+            <mat-divider class="mt-10"></mat-divider>
+            <div class="row mb-10">
+                <div class="col s12 m12 l3">
+                    <mat-label>{{'label_jobTitle' |translate}}<span class="required-show">*</span></mat-label><br />
+                </div>
+                <div class="col s12 m12 l4">
+                    <mat-form-field floatLabel="always">
+                        <mat-label>{{'label_seekJobTitle' |translate}}</mat-label>
+                        <input type="text" formControlName="jobTitle" id="jobTitleId"
+                             matInput placeholder="{{'label_jobTitle' |translate}}" #textboxes  required>
+                        </mat-form-field>
+                </div>
+              </div>
+            <div class="row mb-10">
+                <div class="col s12 m12 l3">
+                    <mat-label>{{'label_jobLocation'|translate}}<span class="required-show">*</span></mat-label><br />
+                    <small>{{'label_seekjobLocation'|translate}}</small>
+                </div>
+                <div class="col s12 m12 l4" style="position: relative;">
+
+                    <div formGroupName="address" class="icon-page">
+                        <mat-form-field class="icon-withchip location-icon-withchip">
+                            <mat-label>{{'label_location' | customTranslate}}</mat-label>                                     
+                            <input type="text" tabindex formControlName="AddressLinkToMap" readonly matInput
+                                placeholder="{{'label_location' | customTranslate}}" id="people-address">              
+                            <mat-icon matPrefix class="matPrefix-icon">location_on</mat-icon>
+                             <!-- <button tabindex id="addbtn-address" mat-raised-button matSuffix color="primary" type="button"
+                                class="matSuffix-icon mb-0" (click)="addAddress()">
+                                <mat-icon>add</mat-icon>
+                            </button>-->
+                           </mat-form-field>    
+                    </div>
+               </div>
+              </div>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_Jobcategory'|translate}}</mat-label><br/>
+                     </div>
+                     <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <mat-chip-list #chipList>
+                                <mat-chip [disabled]="true" *ngFor="let category of categoryList" [selectable]="selectable" [removable]="removable">
+                                  {{category.JobCategory}}
+                                  <mat-icon color="warn" matChipRemove>cancel</mat-icon>
+                                 </mat-chip>
+                              </mat-chip-list>
+                            </mat-form-field>
+                    </div>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_JobType' |translate}}</mat-label><br/>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <mat-label>{{'label_JobType' |translate}}</mat-label>
+                            <input type="text" formControlName="jobType" id="jobTitleId"
+                                 matInput placeholder="{{'label_JobType' |translate}}" #textboxes  required>
+                            </mat-form-field>
+                    </div>
+                </div>
+                 <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_JobExpiryDate' |translate}}</mat-label><br/>
+                     </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field class="dateInput">
+                              <input  matInput [matDatepicker]="picker2" tabindex id="Addinfo-DateExpiry" #textboxes 
+                            formControlName="DateExpiry">
+                            <button *ngIf="addForm.value.DateExpiry || addForm.controls['DateExpiry'].hasError('matDatepickerParse')" type="button" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"> 
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                            <mat-error *ngIf="addForm.controls['DateExpiry'].hasError('required') && addForm.controls['DateExpiry'].touched && !addForm.controls['DateExpiry'].hasError('matDatepickerParse')"> {{'label_JobExpiryDate' |translate}} {{'label_errorreqired'|translate}} </mat-error>
+                            <mat-error *ngIf="addForm.controls['DateExpiry'].hasError('invalidDate') && !addForm.controls['DateExpiry'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                            <mat-error *ngIf="addForm.controls['DateExpiry'].hasError('matDatepickerParse') && !addForm.controls['DateExpiry'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                            <mat-error *ngIf="addForm.controls['DateExpiry'].hasError('matDatepickerMax') && !addForm.controls['DateExpiry'].hasError('invalidDate')"> {{'label_JobExpiryDate' |translate}} {{'label_shouldNot30days' | translate}}</mat-error>
+                            <mat-error *ngIf="addForm.controls['DateExpiry'].hasError('matDatepickerMin') && !addForm.controls['DateExpiry'].hasError('invalidDate')"> {{'label_JobExpiryDate' |translate}} {{'label_shoulNotLessThan' | translate}} </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <h2 class="publishJobSubTitle" id="cardSubTitle">{{'label_payDetails' |translate}}</h2>
+                <mat-divider class="mt-10"></mat-divider>
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'Currency' |translate}}</mat-label><br/>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <mat-label>{{'Currency' |translate}}</mat-label>
+                            <input type="text" formControlName="curency" id="jobTitleId"
+                                 matInput placeholder="{{'Currency' |translate}}" #textboxes  required>
+                            </mat-form-field>
+                    </div>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_PayType' |translate}}</mat-label><br />
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <mat-label>{{'label_PayType' |translate}}</mat-label>
+                            <input type="text" formControlName="PayType" id="jobTitleId"
+                                 matInput placeholder="{{'label_PayType' |translate}}" #textboxes  required>
+                            </mat-form-field>
+                    </div>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_SalaryRange'|translate}}</mat-label><br />
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <input matInput type="number"  formControlName="SalaryRangeMinimum" min="0" max="999999" step="0" matInput
+                                placeholder="Minimum" #textboxes  id="salaryRangeMinimumId">
+                                <!-- <mat-error *ngIf="addForm.controls['SalaryRangeMinimum'].hasError('required')">
+                                    {{'label_jb_minimumSalary'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error> -->
+                                <mat-error *ngIf="addForm.controls['SalaryRangeMinimum'].hasError('max')">
+                                    {{'label_jb_minimumSalary'|translate}} {{'label_errormaxlength6'|translate}}
+                                </mat-error>
+                                </mat-form-field>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <input matInput type="number" formControlName="SalaryRangeMaximum" min="0" max="999999" step="0"
+                                matInput placeholder="Maximum" #textboxes id="SalarymaximumId">
+                            <!-- <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('required')">
+                                    {{'label_jb_maximumSalary'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>     -->
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('numbercheck')">
+                                {{'label_jb_maximumSalary'|translate}} {{'label_salaryBanderrmax'|translate}} {{'label_jb_minimumSalary'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('diffcheck')">
+                                {{'label_diffrencemaxminvalue'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('diffGreaterThan')">
+                                {{'label_diffGreaterThan'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('diffMinBelowFiftyHour')">
+                                {{'label_diffMinBelowFifty'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('max')">
+                                {{'label_jb_maximumSalary'|translate}} {{'label_diffGreaterThan'|translate}}
+                            </mat-error>
+                            </mat-form-field>
+                    </div>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12">
+                        <mat-checkbox color="primary" formControlName="payLabelCheck">{{'label_seekHidepayInformation'|translate}}</mat-checkbox>
+                    </div>
+                </div>
+               <h2 class="publishJobSubTitle" id="cardSubTitle">{{'label_jobAdditionalDetails' |translate}}</h2>
+                <mat-divider class="mt-10"></mat-divider>
+                <div class="row mb-10">
+                    <div class="col s12">
+                        <mat-checkbox formControlName="jobDetailsCheck" color="primary">{{'label_seekJobDescriptionDetails'|translate}}  </mat-checkbox>
+                    </div>
+                </div>
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_JobDescription' |translate}}<span class="required-show">*</span></mat-label><br />
+                    </div>
+                    
+                    <div class="col s12 m12 l4">
+                        <div [innerHTML]="DescriptionValue" tabindex 
+                        id="quickjob-jobDescription" class="divTextArea">
+                        </div>
+                        </div>
+                </div>
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_Indeed_RemoteJob' |translate}}</mat-label><br />
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-radio-group aria-label="Select an option" class="mb-15 d-block publish-raidio-group-worktype"
+                            formControlName="remoteJob" id="remoteJob">
+                            <mat-radio-button color="primary" class="publishJobRadio"
+                                [value]="1">Yes</mat-radio-button>
+                            <mat-radio-button color="primary" class="publishJobRadio"
+                                [value]="0">No </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div class="row mb-10" *ngIf="remoteTypeValue">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_Indeed_WorkPlaceType' |translate}}</mat-label><br/>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <ng-select formControlName="workplaceType" placeholder="{{'label_Indeed_WorkPlaceType' |translate}}"
+                            [clearable]="false" id="workplaceType">
+                            <ng-option value='FullTime'>Full remote</ng-option>
+                            <ng-option value='Hybrid'>Hybrid remote</ng-option>
+                            <ng-option value='covid'>COVID-19</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_experience' |translate}}</mat-label><br/>
+                        <small>Experience desired for this job.</small>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <mat-chip-list #chipList>
+                                <mat-chip [disabled]="true" *ngFor="let experience of experienceList" [selectable]="selectable" [removable]="removable">
+                                  {{experience.Name}}
+                                  <mat-icon color="warn" matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                              </mat-chip-list>
+                            </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_education' |translate}}</mat-label><br/>
+                        <small>Education level desired for this job.</small>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <mat-chip-list #chipList>
+                                <mat-chip [disabled]="true" *ngFor="let education of educationList" [selectable]="selectable" [removable]="removable">
+                                  {{education.QualificationName}}
+                                  <mat-icon color="warn" matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                              </mat-chip-list>
+                            </mat-form-field>
+                    </div>
+                </div>               
+        </form>
+        </mat-expansion-panel>
+    </mat-accordion>
+  </form>

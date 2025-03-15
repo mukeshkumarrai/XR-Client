@@ -1,0 +1,73 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 14-April-2022
+    @Why: EWM-4945 EWM-6165
+    @What:  This page wil be use only for document email template Component HTML
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<form id="emailTemp-documentPopup" applyTabIndexes>
+  <div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_Documents' |translate}}</h2>
+  </div>
+  <mat-dialog-content class="usertype-modal">
+    <div class="mb-15">
+      <mat-chip-list>
+        <ng-container *ngFor="let checkedData of subCategoryChecked">
+          <mat-chip [removable]="true" class="contact-list-chip" id="documentEmailTemp-Chip"
+            (removed)="onRemoveDocument(checkedData)">
+            <span class="text-overflow">{{checkedData?.DocumentName}}</span>
+            <mat-icon id="iconCancel" matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </ng-container>
+      </mat-chip-list>
+    </div>
+
+    <div class="ng-slectBox">
+      <ng-select placeholder="{{'label_usertype'|translate}}*" appendTo="body" class="dropdown-body" [clearable]="true"
+        tabindex="1" (change)="onUserTypeChangeGetCategory($event)" [(ngModel)]="typeName" name="typeName"
+        id="documentEmailTemp-UserTypeId">
+        <ng-option *ngFor="let list of userTypeList" [value]="list">{{list.InternalName}}</ng-option>
+      </ng-select>
+    </div>
+
+    <div class="mobileMenu usertype-category">
+      <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="10" [navigation]="true" (swiper)="onSwiper($event)" [ngClass]="screenPreviewClass">
+        <ng-template class="carousel-cell" *ngFor="let category of categoryList" swiperSlide>
+          <button mat-stroked-button (click)="getSubCategory(category)" id="documentEmailTemp-CategoryName"
+            [ngClass]="{swipperCategory:CategoryName==category.CategoryName}">
+            {{category.CategoryName}}
+          </button>
+        </ng-template>
+      </swiper>
+    </div>
+
+    <div class="nodata"
+      *ngIf="((this.subCategoryList==undefined || this.subCategoryList==null ||this.subCategoryList.length==0) && isNoRecordSubCategory)">
+      <span>{{'label_noRecordAvailable'|translate}}</span>
+    </div>
+    <div class="document-name">
+      <mat-checkbox color="primary" *ngFor="let subCategory of subCategoryList;let i=index"
+        [checked]="subCategory.completed" id="documentEmailTemp-DocumentName{{i}}"
+        (change)="checkedSubCategory($event, subCategory,typeName)">
+        {{subCategory.DocumentName}}
+      </mat-checkbox>
+      <!-- <input type="checkbox" (change)="checkedSubCategory($event, subCategory)" *ngFor="let subCategory of subCategoryList;let i=index">
+    -->
+    </div>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onClose()" id="btnCancel">
+      {{'label_cancel'|translate}}</button>
+
+    <button mat-stroked-button color="primary" tabindex type="button" id="btnSave" [disabled]="!(this.subCategoryChecked!=undefined && typeName && this.subCategoryChecked!=null && this.subCategoryChecked.length!=0)"
+      (click)="onSave()"> {{'label_save'
+      |translate}}</button>
+
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,123 @@
+<div class="html-editor-kendo">
+  <form novalidate [formGroup]="addForm" class="" id="emailcompose">
+    <mat-label [ngStyle]="this.addForm.controls['TemplateText'].hasError('required') &&
+      this.addForm.controls['TemplateText'].touched &&
+       {'color': '#f44336'}">{{'label_alert_message' |translate}} <span>*</span></mat-label>
+    <kendo-editor #editor tabindex="3" [iframe]="false" formControlName="TemplateText" [pasteCleanupSettings]="pasteCleanupSettings"
+      required>
+      <kendo-toolbar [overflow]="false" tabindex="7">
+        <!-- @When: 09-03-2023 @who:Amit @why: EWM-10776 @what: controls change  -->
+        <kendo-toolbar-buttongroup>
+          <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorStrikethroughButton>
+          </kendo-toolbar-button>
+      </kendo-toolbar-buttongroup>
+      <kendo-toolbar-buttongroup>
+          <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorSuperscriptButton>
+          </kendo-toolbar-button>
+      </kendo-toolbar-buttongroup>
+      <kendo-toolbar-buttongroup>
+          <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorAlignCenterButton>
+          </kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorAlignRightButton>
+          </kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorAlignJustifyButton>
+          </kendo-toolbar-button>
+      </kendo-toolbar-buttongroup>
+      <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+      <kendo-toolbar-dropdownlist kendoEditorFontSize>
+      </kendo-toolbar-dropdownlist>
+      <kendo-toolbar-dropdownlist kendoEditorFontFamily>
+      </kendo-toolbar-dropdownlist>
+      <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+      <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+      </kendo-toolbar-colorpicker>
+      <kendo-toolbar-buttongroup>
+          <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+          </kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+          </kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+      </kendo-toolbar-buttongroup>
+      <!-- <kendo-toolbar-button kendoEditorSelectAllButton></kendo-toolbar-button> -->
+      <kendo-toolbar-buttongroup>
+          <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+      </kendo-toolbar-buttongroup>
+      <kendo-toolbar-buttongroup>
+          <kendo-toolbar-button kendoEditorCreateLinkButton>
+          </kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+      </kendo-toolbar-buttongroup>
+      <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorInsertImageButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorViewSourceButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorCleanFormattingButton>
+      </kendo-toolbar-button>
+      <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+      <kendo-toolbar-buttongroup>
+          <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+          </kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+          </kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorAddRowBeforeButton>
+          </kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorAddRowAfterButton>
+          </kendo-toolbar-button>
+      </kendo-toolbar-buttongroup>
+      <kendo-toolbar-buttongroup>
+          <kendo-toolbar-button kendoEditorDeleteColumnButton>
+          </kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+          <kendo-toolbar-button kendoEditorDeleteTableButton>
+          </kendo-toolbar-button>
+      </kendo-toolbar-buttongroup>
+      <!-- <kendo-toolbar-button kendoEditorPrintButton></kendo-toolbar-button> -->
+        <kendo-toolbar-separator></kendo-toolbar-separator>
+        <!-- <kendo-toolbar-dropdownbutton [text]="'People'" [icon]="'rss'" [data]="peopledata"></kendo-toolbar-dropdownbutton>
+                <kendo-toolbar-dropdownbutton [text]="'Clients'" [icon]="'user'" [data]="clientdata"></kendo-toolbar-dropdownbutton>
+                <kendo-toolbar-dropdownbutton [text]="'Jobs'" [icon]="'myspace'" [data]="jobdata"></kendo-toolbar-dropdownbutton>
+                <kendo-toolbar-dropdownbutton [text]="'Roster'" [icon]="'globe'" [data]="rosterdata"></kendo-toolbar-dropdownbutton> -->
+        <!-----<kendo-toolbar-splitbutton *ngFor="let item of (toolButtons$ | async)" [text]="item.text" [icon]="item.icon"
+          [data]="item.data">
+        </kendo-toolbar-splitbutton>---->
+
+        <kendo-toolbar-splitbutton *ngFor="let item of jobData" [text]="item.text" [icon]="item.icon"
+              [data]="item.data">
+            </kendo-toolbar-splitbutton>
+            <kendo-toolbar-splitbutton *ngFor="let citem of canData" [text]="citem.text" [icon]="citem.icon"
+            [data]="citem.data"></kendo-toolbar-splitbutton>
+      </kendo-toolbar>
+    </kendo-editor>
+    <mat-error class="matErrorDesc"
+      *ngIf="this.addForm.controls['TemplateText'].hasError('required') && addForm.controls['TemplateText'].touched">
+      {{'label_alert_message' |translate}} {{ 'label_errorreqired' |translate}}
+    </mat-error>
+    <!-- <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+      <button mat-raised-button color="warn" tabindex type="button" (click)="clearAlertMsg()" id="btnCancel" class="drawer-icon-button"
+      matTooltip="{{'button_cancel'|translate}}" matTooltipClass="drawer-button-tooltip-top" matTooltipPosition="left"
+      (mouseenter)="mouseoverAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)">
+        <mat-icon id="{{animationVar?.FolderButton?.id}}"
+        class="{{animationVar?.FolderButton?.isAnimClass}}">close</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" tabindex type="button" (click)="restMessage()" id="btnReset" class="drawer-icon-button" matTooltip="{{'label_resetBtn'|translate}}"
+      matTooltipClass="drawer-button-tooltip-top" matTooltipPosition="left"
+      (mouseenter)="mouseoverAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)">
+        <mat-icon>restart_alt</mat-icon>
+      </button>
+      <button mat-raised-button color="primary"  [disabled]="!addForm.valid" tabindex type="button" (click)="onSave()" id="btnSave" class="drawer-icon-button"
+      matTooltip="{{'label_save'|translate}}" matTooltipClass="drawer-button-tooltip-top" matTooltipPosition="left"
+      (mouseenter)="mouseoverAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)">
+        <mat-icon>check</mat-icon>
+      </button>
+    </div> -->
+  </form>
+</div>

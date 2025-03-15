@@ -1,0 +1,91 @@
+<form id="map-checklist">
+
+    <div class="modal-header mb-10">
+      <h2 mat-dialog-title class="breadcum">
+        {{'label_mapChecklist'|translate}}
+      </h2>
+      <p>{{'label_pleaseaddbelowlistedChecklist'|translate}}</p>
+    </div>
+  
+   
+  
+    <mat-dialog-content class="assessment-dialog-content" infinite-scroll [infiniteScrollDistance]="pagneNo"
+      [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false" >
+  
+      <mat-card class="assessment-main-flow mat-elevation-z0">
+        <mat-chip-list aria-label="Assessment Selection">
+    
+          <mat-chip class="text-overflow" *ngFor="let data of inputArray" (removed)="remove(data)">
+            <span class="cursor text-overflow" matTooltipClass="custom-tooltip" matTooltip="{{data.Name}}">{{data.Name}}</span>
+            <div class="btnActioncolor ml-5">
+              <button type="button" id="btnCancel" mat-mini-fab color="warn" matTooltipClass="custom-tooltip"
+                matTooltip="{{'label_remove'|translate}}" (click)="deleteItem(data);">
+                <mat-icon>
+                  close
+                </mat-icon>
+              </button>
+            </div>
+          </mat-chip>
+        </mat-chip-list>
+        <div class="assessment-search mat-elevation-z0 right-align">
+          <mat-form-field class="searchInput" floatLabel="never">
+            <mat-label>{{'label_search'|translate}}</mat-label>
+            <input matInput id="status-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+              [(ngModel)]="searchVal" [ngModelOptions]="{standalone: true}">
+            <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+            <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+              (click)="searchVal=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+          </mat-form-field>
+        </div>
+      </mat-card>
+  
+      
+  
+      <div class="listCardView" id="listCardView">
+        <div *ngIf="loading" class="list"></div>
+        <div class="nodata" *ngIf="gridView==undefined || gridView.length==0">
+          <span>{{'label_noRecordAvailable'|translate}}</span>
+        </div>
+        <div class="assessment-card-box">
+          <mat-card class="mat-elevation-z2" *ngFor="let checklistData of gridView" [ngClass]="checklistData.isDelete==1 ? 'active' : ''">
+            <div class="assessment-header text-overflow">
+              <span class="text-overflow" matTooltipClass="custom-tooltip" matTooltip="{{checklistData.Name}}">{{checklistData.Name}}</span>
+            <mat-icon class="task-active">task_alt</mat-icon>
+            </div>
+            <div class="description">
+                <span class="text-overflow">{{checklistData.Type}}</span>
+            </div>
+            <div class="assessment-footer skills-name">
+  
+                <span class="checklist-data skill-data" *ngIf="checklistData.Type=='Group'">
+                    <mat-icon matBadge="{{checklistData.ChildChecklistCount}}" color="primary">local_offer</mat-icon>
+                  </span>
+
+              <a mat-icon-button color="primary" [disabled]="inputArray.length>perWorkflowMapMaxChecklist"  id="btnView" *ngIf="getCurrentStatus(checklistData)||checklistData.isDelete==0"
+                matTooltipClass="custom-tooltip" (click)="addItem(checklistData);"
+                matTooltip="{{'label_add'|translate}}">
+                <mat-icon>add_circle</mat-icon>
+              </a>
+              <a mat-icon-button color="warn" *ngIf="getCurrentStatus(checklistData)||checklistData.isDelete==1" id="btnView"
+                matTooltipClass="custom-tooltip" (click)="deleteItem(checklistData);"
+                matTooltip="{{'label_deleteMessage'|translate}}">
+                <mat-icon>delete</mat-icon>
+              </a>
+            </div>
+          </mat-card>
+  
+        </div>
+      </div>
+    </mat-dialog-content>
+    
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+      <button mat-stroked-button color="warn" tabindex type="button" id="btnCancel" (click)="onDismiss()">
+        {{'button_cancel'|translate}}</button>
+      <button mat-stroked-button color="primary" tabindex type="button" (click)="onSave()" id="btnSave">
+        {{'label_doneBtn'|translate}}</button>
+    </div>
+  </form>

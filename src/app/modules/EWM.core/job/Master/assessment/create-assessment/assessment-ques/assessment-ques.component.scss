@@ -1,0 +1,461 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: Satya Prakash
+    @When: 05-May-2022
+    @Why: EWM-5338 EWM-6526
+    @What:  This page will be use for the create assesment ques scss file
+*/
+
+@import "../../../../../../../../styles-var.scss";
+
+.assessment-ques-form{
+    position: relative;
+    .assessment-content{
+        min-height: 69vh;
+        .set-question-answer{
+            display: grid;
+            grid-template-columns: 60% calc(40% - 15px);
+            gap: 15px;
+            min-height: 67vh;
+            @media only screen and (max-width: 767px) and (min-width: 240px){
+                grid-template-columns: 100%;
+                min-height: auto;
+            }
+            .set-question{
+                padding-right: 10px;
+                .textareaHeight{
+                    height: 50px;
+                    box-sizing: border-box;
+                    margin: 5px 0px 0px;
+                }
+                .fileInstructions{
+                    font-size: 12px;
+                    padding: 3px 0px 0px 15px;
+                    position: relative;
+                    text-align: left;
+                }
+                .documentUploadRoundBox{
+                    padding: 0px;
+                    position: relative;
+                    height: 40px;
+                    margin: 5px 0px 0px 5px;
+                    display: flex;
+                    align-items: center;
+                    &::before{
+                        opacity: 1;
+                    }
+                    .circleCreateDocFileUpload{
+                        border-radius: 50%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        transition: all 0.5s;
+                        cursor: pointer;
+                        text-align: center;
+                        z-index: 9999;
+                        width: 50px;
+                        margin: -10px 0px 1px 0px;
+                        height: 50px;
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        left: -12px;
+                        .mat-icon{
+                            font-size: 32px;
+                            margin-top: 0px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 18px;
+                            border-radius: 50%;
+                        }
+                        input[type='file']{
+                            height: 55px;
+                            width: 60px;
+                            position: absolute;
+                            top: 0;
+                            left: -6px;
+                            opacity: 0;
+                            cursor: pointer;
+                            border-radius: 50%;
+                        }
+                    }
+                    .solidBorderFileUploadBox{
+                        margin: -6px 0px 1px 0px;
+                        border:1px solid rgba(103, 58, 183, 0.25);
+                    }
+                    .fileInstructions{
+                        font-size: 12px;
+                        // top: 10px;
+                        padding: 0px 0px 0px 60px;
+                        position: relative;
+                        display: block;
+                        text-align: left;
+                        .closeIconCreateDoc{
+                        position: absolute;
+                        right: 5px;
+                        top: 0px;
+                        font-size: 20px;
+                        text-align: right;
+                        cursor: pointer;
+                        }
+                    }
+                    button{
+                        line-height: 32px;
+                        font-size: 13.5px;
+                        font-weight: 500;
+                    }  
+                }
+                .mat-card{
+                    padding: 5px 15px;
+                    .matTitleDocument{
+                        font-size: 14px;
+                        text-align: center;
+                    }
+                    .mat-card-subtitle{
+                        text-align: center;
+                        margin-bottom: 2px;
+                        font-size: 12px;
+                    }
+                }
+                .ng-select-with-info-icon.textarea-with-info-icon{
+                    .infoStyle{
+                        top: inherit;
+                        right: -3px;
+                        bottom: -2px;
+                    }
+                }
+                .input-with-info-icon{
+                    .infoStyle{
+                        right: -3px;
+                        top: 33px;
+                    }
+                }
+            }
+            .set-answer{
+                padding: 10px 12px 60px;
+                position: relative;
+                background-color: #fafafa;
+                box-sizing: border-box;
+                // @media only screen and (max-width: 767px) and (min-width: 240px){
+                //     min-height: 255px;
+                //     padding-left: 0px;
+                //     padding-top: 15px;
+                // }
+                .set-answer-heading{
+                    color: #7fb734;
+                }
+                .set-answer-description{
+                    display: flex;
+                    align-items: center;
+                    height: 45px;
+                    padding: 0px 10px 0px 0px;
+                    margin-top: 10px;
+                    margin-bottom: 0px;
+                    .mat-radio-group{
+                        @media only screen and (max-width: 340px) and (min-width: 240px){
+                            max-width: 27px;
+                        }
+                    }
+                    .mat-radio-button{
+                        padding-top: 0px;
+                        padding-bottom: 0px;
+                        @media only screen and (max-width: 340px) and (min-width: 240px){
+                            max-width: 27px;
+                            padding-left: 2px;
+                            padding-right: 0px;
+                        }
+                    }
+                    .mat-checkbox{
+                        width: 50px;
+                        text-align: center;
+                        @media only screen and (max-width: 340px) and (min-width: 240px){
+                            max-width: 27px;
+                        }
+                    }
+                    .mat-icon-button{
+                        width: 30px;
+                        height: 30px;
+                        line-height: 30px;
+                        .mat-icon{
+                            width: 30px;
+                            height: 30px;
+                            line-height: 30px;
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }   
+        }
+        .one-column.set-question-answer{
+            grid-template-columns: 100%;
+        }
+        .span-error{
+            color: red;
+            position: absolute;
+            left: 0px;
+            font-size: 75%;
+            bottom: -26px;
+        }
+    }
+    .add-btn{
+        position: absolute;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        line-height: 38px;
+        .mat-icon{
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 24px;
+        }   
+    } 
+    .assesment-question-footer{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 3px;
+        @media only screen and (max-width: 570px) and (min-width: 240px){
+            flex-direction: column;
+        }
+        .button-group{
+            @media only screen and (max-width: 570px) and (min-width: 240px){
+                justify-content: flex-end;
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+        .weightage-box{
+            @media only screen and (max-width: 570px) and (min-width: 240px){
+                text-align: left;
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+        .error-show-weightage{
+            color: #ffc000; 
+        }  
+    }
+}
+
+:host ::ng-deep {
+    .carousel-cell.assessment-cell{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 120px;
+        width: 100% !important;
+        .btn-group{
+            position: absolute;
+            right: -5px;
+            top: 0px;
+            .mat-icon-button{
+                width: 28px;
+                line-height: 28px;
+                height: 28px;
+                background: #fafafa;
+                border-radius: 0px 0px 0px 8px;
+                box-shadow: rgb(0 0 0 / 15%) -1.95px 1.95px 2.6px;
+                
+                .mat-button-wrapper{
+                    padding: 0px;
+                    .mat-icon{
+                        width: 28px;
+                        line-height: 26px;
+                        height: 28px;
+                        font-size: 18px;
+                    }
+                }
+            }
+            .mat-mini-fab.full-btn{
+                .mat-icon{
+                    color: $primary-bg-color;
+                }
+            }
+        }
+        img{
+            max-height: 150px;
+            max-width: 100%;
+            padding-bottom: 38px;
+        }
+    }
+    .assessment-content{
+        .set-question-answer{
+            .stagecarousel{
+                margin-top: 35px;
+                padding-bottom: 0px;
+                background: #fafafa;
+                .swiper-button-prev{
+                    left: 5px;
+                    bottom: 8px;
+                    // box-shadow: rgb(0 0 0 / 25%) -40px 0px 28px, rgb(0 0 0 / 22%) -30px 0px 10px;
+                    box-shadow: 0px 0px 4px 0px #000, rgb(0 0 0 / 25%) -40px 0px 28px, rgb(0 0 0 / 22%) -30px 0px 10px;
+                }
+                .swiper-button-next{
+                    right: 5px;
+                    // box-shadow: rgb(0 0 0 / 25%) 40px 0px 28px, rgb(0 0 0 / 22%) 30px 0px 10px;
+                    box-shadow: 0px 0px 4px 0px #000, rgb(0 0 0 / 25%) 40px 0px 28px, rgb(0 0 0 / 22%) 30px 0px 10px;
+                }
+            }
+        }
+    }
+    .stagecarousel{
+        .swiper-button-prev{
+            left: 5px;
+            &::after{
+                opacity: 0.6;
+                font-size: 20px;
+                margin-left: 8px;
+            }
+        }
+        .swiper-button-prev{
+            &:hover{
+                &::after{
+                    opacity: 1;
+                    animation: lightSpeedOutLeft 0.3s linear;
+                    @-webkit-keyframes lightSpeedOutLeft {
+                        0% {
+                            opacity: 1
+                        }
+
+                        to {
+                            -webkit-transform: translate3d(-100%, 0, 0) skewX(-10deg);
+                            transform: translate3d(-100%, 0, 0) skewX(-10deg);
+                            opacity: 0
+                        }
+                    }
+                    @keyframes lightSpeedOutLeft {
+                        0% {
+                            opacity: 1
+                        }
+
+                        to {
+                            -webkit-transform: translate3d(-100%, 0, 0) skewX(-10deg);
+                            transform: translate3d(-100%, 0, 0) skewX(-10deg);
+                            opacity: 0
+                        }
+                    }
+                } 
+            }
+        }
+        .swiper-button-next{
+            right: 5px;
+            &::after{
+                opacity: 0.6;
+                font-size: 20px;
+            }
+        }
+        .swiper-button-next{
+            &:hover{
+                &::after{
+                    opacity: 1;
+                    animation: lightSpeedOutRight 0.3s linear;
+                } 
+                @-webkit-keyframes lightSpeedOutRight {
+                    0% {
+                        opacity: 1
+                    }
+                    to {
+                        -webkit-transform: translate3d(100%, 0, 0) skewX(10deg);
+                        transform: translate3d(100%, 0, 0) skewX(10deg);
+                        opacity: 0
+                    }
+                }
+                
+                @keyframes lightSpeedOutRight {
+                    0% {
+                        opacity: 1
+                    }
+                    to {
+                        -webkit-transform: translate3d(100%, 0, 0) skewX(10deg);
+                        transform: translate3d(100%, 0, 0) skewX(10deg);
+                        opacity: 0
+                    }
+                }
+            }
+        }
+        .swiper-pagination{
+            position: absolute;
+            color: $white-color; 
+            padding: 5px;
+            overflow: hidden;
+            box-shadow: none;
+            width: 50px;
+            display: inline-block;
+            left: calc(50% - 30px);
+            bottom: 8px;
+            border-radius: 50px;
+            background: $info-color;
+            font-size: 12px;
+            box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px, rgb(0 0 0 / 10%) 0px 7px 13px -3px, rgb(0 0 0 / 20%) 0px -1px 0px inset;
+            &::after{
+                border-radius: 4px;
+                content: "";
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                // background-color: currentColor;
+                opacity: 0;
+            }
+        }
+    }
+    .ng-select-with-info-icon.textarea-with-info-icon{
+        .mat-form-field-appearance-legacy .mat-form-field-infix{
+            padding: 8px 0px 0px;
+        }
+        .mat-form-field{
+            .mat-form-field-flex{
+                padding: 5px;
+                .mat-form-field-infix{
+                    padding: 0px 0.25px 0em;
+                }
+            }
+            .mat-form-field-subscript-wrapper{
+                padding: 0px;
+            }
+        }
+    }
+    .btn-group-bottom{
+        position: absolute;
+        top: -34px;
+        left: 0px;
+        .mat-icon-button{
+            background: #fafafa;
+            border-radius: 50px 50px 0px 0px;
+            .mat-button-wrapper{
+                padding: 0px;
+                .mat-icon.first-icon{
+                    width: 28px;
+                    line-height: 28px;
+                    height: 28px;
+                    font-size: 24px;
+                }
+                .mat-icon.secondIcon{
+                    top: 19px;
+                    right: 3px;
+                    background: #efefef;
+                }
+            }
+        }
+    }
+    .count-text{
+        color: #F44336;
+        font-size: 12px;
+    }
+    .assessment-ques-form{
+        .add-btn{
+            .mat-button-wrapper{
+                padding: 0px;
+            }
+        }
+    }
+}
+
+
+
+
+

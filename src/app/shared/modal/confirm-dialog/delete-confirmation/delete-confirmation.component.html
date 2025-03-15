@@ -1,0 +1,31 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:delete-confirmation.component.html
+    @Who: maneesh
+    @When: 02-08-2022
+    @Why: EWM-7686 EWM-7841
+    @What: This page wil be use only for the delete confirmation messege HTML
+-->
+<div mat-dialog-content class="center-align confirm-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        help
+    </span>
+    <h2 mat-dialog-title  *ngIf="!iscloseJob">
+        {{'label_delete' | customTranslate}} {{'label_confirmation'| customTranslate}}
+    </h2>
+    <h2 *ngIf="iscloseJob" mat-dialog-title>
+        {{'label_close_job' | customTranslate}} {{'label_confirmation'| customTranslate}}
+    </h2>
+   
+    <!-- @When: 06-08-2024 @who:Amit @why: EWM-17829 @what: ? & full stop remove -->
+    <p *ngIf="noQuestionMark && !iscloseJob">  {{message |  customTranslate}} </p>
+    <p *ngIf="!noQuestionMark && !iscloseJob">  {{message |  customTranslate}} </p>
+    <p *ngIf="iscloseJob">  {{'label_close_job_msg' | customTranslate}} </p>
+    
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" (click)="onDismiss()"> {{'label_noBtn'|  customTranslate}}</button>
+    <button mat-stroked-button color="primary" (click)="onConfirm()"> {{'label_yesBtn'|customTranslate}}</button>
+</div>

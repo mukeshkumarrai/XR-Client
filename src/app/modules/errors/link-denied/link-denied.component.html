@@ -1,0 +1,23 @@
+<!-- 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: link-denied.component.html
+  @Who: Satya Prakash Gupta
+  @When: 25-Mar-2021
+  @Why: EWM-1017 EWM-1229
+  @What: There are all HTML link denied components 
+-->
+
+<!-- Entire Software : Satya Prakash Gupta : 15-Mar-2021 : container start here : EWM-1017 EWM-1229 -->
+
+<div class="link-expire-iiner">
+  <div class="link-expire">
+    <span class="material-icons">
+      lock
+    </span>
+    <h2>{{'label_accessDenied' |translate}}</h2>
+    <p>{{'label_accessDeniedParaOne' |translate}} <button class="login-button ghost"
+        (click)="domainDenied()">{{'label_clickHere' |translate}}</button> {{'label_accessDeniedParaTwo' |translate}}
+    </p>
+  </div>
+</div>

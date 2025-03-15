@@ -1,0 +1,502 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Priti Srivastava
+    @When: 23-Dec-2020
+    @Why: ROST-569
+    @What:  This component is used for user type master.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="user-type-mat-card-header">
+  <mat-card-title class="only-title ml-5">
+    {{'label_usertype' |translate}}
+  </mat-card-title>
+
+  <div class="header-action-button" id="user-type-actionButton" *ngIf="formtitle=='grid'">
+
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="usertype-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchValue">
+          <!-- who:maneesh,why:ewm-10669 ,what:for fixed cross icon,when :09/03/2023 -->
+          <button id="crossBtn" *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+          (click)="searchValue=''">
+          <mat-icon>close</mat-icon>
+      </button>
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+
+    <div class="group-header-button">
+    
+        <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+        matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+        <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+          {{animationVar?.BarRotateButton?.iconName}}
+        </mat-icon>
+        </button>
+
+        
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('listMode')" id="usertype-viewModeInactive"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('cardMode')" id="usertype-viewModeActive"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}} 
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="header-action-button" id="user-type-actionButton-new" *ngIf="formtitle=='Add'">
+    <button mat-raised-button  tabindex="12" (click)="onCancel($event)" id="btnBack"
+    class="buttonForDesktopMobile backBtncolor" *ngIf="visibilityStatus">
+    <mat-icon>close</mat-icon>
+    <span class="buttonTxt">{{'label_back' |translate}}</span>
+  </button>
+
+  <button mat-raised-button tabindex="11" color="warn" (click)="onCancel($event)" id="btnCancel"
+    class="buttonForDesktopMobile" *ngIf="!visibilityStatus">
+    <mat-icon>close</mat-icon>
+    <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+  </button>
+
+  <button mat-raised-button color="primary" (click)="onSave(this.addUserTypeForm.getRawValue())" type="button"
+    id="btnSave" tabindex="10" [disabled]="!addUserTypeForm.valid" class="buttonForDesktopMobile" *ngIf="!visibilityStatus">
+    <mat-icon>check</mat-icon>
+    <span class="buttonTxt">{{'label_save'|translate}}</span>
+  </button>
+
+  </div>
+ 
+</mat-card-header>
+
+
+<mat-drawer-container class="xeople-container-listing-without-breadCrumb" autosize id="dashboard-drawer">
+<mat-card class="component-card mat-elevation-z2" id="component-card">
+
+    <!-- <a mat-raised-button class="viewAuditlog" id="user-invitation-btnViewAudit" 
+    [routerLink]="['../../system-settings/system-audit-log/',auditParameter]" *ngIf="!auditbtnVisibility">
+      <mat-icon>visibility</mat-icon>
+    </a> -->
+    
+  <div class="list-container" infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pagesize"
+    (scrolled)="onScrollDown()" [scrollWindow]="false">
+    
+    <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+      <div class="row mb-0" id="usertype-visibilityId">
+        <mat-card-subtitle class="subTitle">{{ 'label_userTypeMasterSubTitle' |translate }}</mat-card-subtitle>
+      <!-- <div class="actionButton matEyeIcon" *ngIf="this.idLocation" id="btnView">
+          <a [routerLink]="['../../system-settings/system-audit-log/',auditParameter]">
+            <mat-icon>visibility</mat-icon>
+          </a>
+       </div> -->
+       <!-- <div class="actionButton matEyeIcon" *ngIf="!this.idLocation" id="btnViewId">
+        <a [routerLink]="['../../system-settings/system-audit-log/',auditParameter]">
+          <mat-icon>visibility</mat-icon>
+        </a>
+     </div> -->
+      </div>
+       
+          <!-- <button mat-raised-button color="primary" (click)="openForm('Add','')" id="usergroupAdd">{{'label_createSmsTemplates' |translate}}</button> -->
+       
+      <div class="row mb-0 listHeader" id="user-type-listHeader" [class.hide]="isvisible">
+
+        <div class="col col-8 listActionBox">
+          <strong>&nbsp;</strong>
+        </div>
+
+        <div class="col col-1">
+          <strong>{{'label_userIcon'|translate}}</strong>
+        </div>
+        <div class="col col-2" (click)="onSort('Code')">
+          <button mat-button [disableRipple]="true" id="usertype-code"><strong>{{'label_code'|translate}}
+            </strong>
+            <mat-icon *ngIf="sortedcolumnName === 'Code' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'Code' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>
+        </div>
+
+        <div class="col col-3" (click)="onSort('InternalName')">
+          <button mat-button [disableRipple]="true" id="usertype-InternalName"> <strong>{{'label_internalname'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'InternalName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'InternalName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>
+        </div>
+        <div class="col col-4" (click)="onSort('PublicName')">
+          <button mat-button [disableRipple]="true" id="usertype-PublicName"> <strong>{{'label_publicname'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'PublicName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'PublicName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>
+        </div>
+        <div class="col col-5" (click)="onSort('UserRoleName')">
+          <button mat-button [disableRipple]="true" id="usertype-UserRole">
+            <strong>{{'label_userrole'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'UserRoleName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'UserRoleName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>
+        </div>
+        <div class="col col-9" (click)="onSort('GroupName')">
+          <button mat-button [disableRipple]="true" id="usertype-groupName">
+            <strong>{{'label_grpName'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'GroupName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'GroupName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+    <div class="listCardView" id="listCardView" [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']"
+      *ngIf="formtitle=='grid'">
+      <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+        <div class="row">
+          <div *ngIf="loadingPopup" class="list"></div>
+          <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView.length==0">
+            <span>{{'label_noRecordAvailable'|translate}}</span>
+          </div>
+          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+            *ngFor="let listDataList of gridView;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+            <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+              <mat-card-content class="listcardContent" [ngClass]="[ viewMode === 'cardMode' ? 'cardHeightWithImage' : 'pt-0 pb-0']">
+
+                  <!-- card mode Start-->
+                  <div [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+                    <div class="cardModeLine">
+                      <img [ngClass]="[ viewMode === 'cardMode' ? 'image' : 'hide']" src="{{listDataList.PreviewIcon }}"
+                        (click)="imagePreviewModal(listDataList.PreviewIcon)">
+                      <span class="spacer"></span>
+                      <!-- <span class="badge red">
+                        <strong>{{'label_status'|translate}}</strong> : {{listDataList.StatusName}}
+                      </span> -->
+                    </div>
+                    <div class="row mb-5 mt-15">
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_code'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="code">
+                          <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Code }}"
+                          matTooltipClass="custom-tooltip">{{ listDataList.Code }}</span>
+                       </div>
+                      </div>
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_internalname'|translate}}</strong>
+                        </div>
+                        <div class="col card-data">
+                          <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.InternalName }}"
+                          matTooltipClass="custom-tooltip">{{ listDataList.InternalName }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-5 mt-15">
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_publicname'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="code">
+                          <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.PublicName }}"
+                          matTooltipClass="custom-tooltip">{{ listDataList.PublicName }}</span>
+                       </div>
+                      </div>
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_userrole'|translate}}</strong>
+                        </div>
+                        <div class="col card-data">
+                          <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.UserRoleName }}"
+                      matTooltipClass="custom-tooltip">{{ listDataList.UserRoleName }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="row mb-5 mt-15">
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_grpName'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="code">
+                          <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.GroupName }}"
+                          matTooltipClass="custom-tooltip">{{ listDataList.GroupName }}</span>
+                       </div>
+                      </div>
+                      <!-- <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_userrole'|translate}}</strong>
+                        </div>
+                        <div class="col card-data">
+                          <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.InternalName }}"
+                          matTooltipClass="custom-tooltip">{{ listDataList.InternalName }}</span>
+                        </div>
+                      </div> -->
+                    </div>
+                  
+                    <div class="go-corner">
+                      <button mat-icon-button color="primary" routerLink="manage-user-type-master" [queryParams]="{Id:listDataList.Id, Visibility:'visi'}"
+                      id="usertype-visiButtonId" matTooltipClass="card-list-tooltip" matTooltipPosition="before" matTooltip="{{'label_View'|translate}}">
+                      <mat-icon>subject</mat-icon>
+                      </button>
+                      <button mat-icon-button color="primary" routerLink="manage-user-type-master" [queryParams]="{Id:listDataList.Id}" id="usertype-editButtonId"
+                      matTooltipClass="card-list-tooltip" matTooltipPosition="before" matTooltip="{{'label_edit'|translate}}">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- card mode End-->
+               <!-- list data start-->
+               <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+
+                  <!-- <div class="col l2 m3 s3">
+                    <span class="cardListImg"><img src="{{listDataList.PreviewIcon }}"
+                        (click)="imagePreviewModal(listDataList.PreviewIcon)"></span>
+                  </div>
+                  
+                  <div class="col l10 m9 s9">
+                    <strong>{{'label_code'|translate}}</strong> : {{ listDataList.Code }}
+                    <div class="clear"></div>
+                    <strong>{{'label_publicname'|translate}}</strong> : {{ listDataList.PublicName }}
+                  </div> -->
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-8']">
+
+                    <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+
+                    <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                    <a mat-menu-item routerLink="manage-user-type-master" [queryParams]="{Id:listDataList.Id, Visibility:'visi'}"
+                    id="usertype-visiButtonId" class="mat-menu-item">
+                    <mat-icon class="mat-icon-no-color">subject</mat-icon>
+                    {{'label_view_user_type' | translate}}
+                    </a>
+
+                    <a mat-menu-item routerLink="manage-user-type-master" [queryParams]="{Id:listDataList.Id}" id="usertype-editButtonId" class="mat-menu-item">
+                      <mat-icon class="mat-icon-no-color">edit</mat-icon>
+                      {{'label_edit' | translate}}
+                    </a>
+                    </mat-menu>
+
+                  </div>
+                 
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                    <span class="cardListImg" [ngClass]="[ viewMode === 'cardMode' ? 'hide' : '']"><img
+                        src="{{listDataList.PreviewIcon }}"
+                        (click)="imagePreviewModal(listDataList.PreviewIcon)"></span>
+                    </div>
+
+                  
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data hide' : 'col-2']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Code }}"
+                      matTooltipClass="custom-tooltip">{{ listDataList.Code }}</span>
+                   </div>
+
+                 
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data hide' : 'col-3']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.InternalName }}"
+                      matTooltipClass="custom-tooltip">{{ listDataList.InternalName }}</span>
+                 </div>
+
+                 
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-4']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.PublicName }}"
+                      matTooltipClass="custom-tooltip">{{ listDataList.PublicName }}</span>
+                 </div>
+
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-5']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.UserRoleName }}"
+                      matTooltipClass="custom-tooltip">{{ listDataList.UserRoleName }}</span>
+                  </div>
+
+                 <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-9']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.GroupName }}"
+                      matTooltipClass="custom-tooltip">{{ listDataList.GroupName }}</span>
+                 </div>
+
+                  
+                </div>
+              </mat-card-content>
+             </mat-card>
+          </div>
+        </div>
+        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+      </div>
+    </div>
+    <!-- Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 -->
+    <div class="addEditSec" *ngIf="active">
+      <ng-template #template let-anchor>
+        <span>{{ anchor.nativeElement.innerText }}</span>
+      </ng-template>
+      <form novalidate [formGroup]="addUserTypeForm" *ngIf="formtitle=='Add'" accept-charset="utf-8"
+        enctype='multipart/form-data' class="col" id=usertype-formId>
+        <div class="row mb-0">
+          <mat-form-field class="col l4 m6 s12" [ngClass]="['addUserTypeForm.Code.disabled' ? 'disableField' : '']">
+            <mat-label>{{'label_code' |translate}}</mat-label>
+            <input type="hidden" formControlName="Id" id="userTypeId" name="userTypeId">
+            <input matInput tabindex="1" formControlName="Code" text="Name" id="usertype-Name" required (blur)="checkColumnunique('Code',$event)">
+            <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('required')">
+              {{'label_code' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('minlength')">
+              {{'label_code' |translate}} {{'label_errorreqiredMinlength' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('maxlength')">
+              {{'label_code' |translate}} {{'label_errorreqiredMaxlengthOne' |translate}}
+            </mat-error>
+             <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('codeTaken')">
+              {{'label_code' |translate}} {{'label_areadyExists' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('pattern')">
+              {{'label_code'|translate}} {{'label_errorAlphabet'|translate}}
+          </mat-error>
+           </mat-form-field>
+         <div class="clear"></div>
+
+          <mat-form-field class="col l4 m6 s12" [ngClass]="['addUserTypeForm.RoleCode.disabled' ? 'disableField' : 'enableField']">
+            <mat-label>{{'label_userrole' |translate}}</mat-label>
+            <mat-select name="roleString" tabindex="2" [(value)]="Role" formControlName="RoleCode"
+              placeholder="Role" id= "usertype-Role" required>
+              <mat-option [value]="">Select Role</mat-option>
+              <mat-option [value]="role.RoleCode" *ngFor="let role of userRole">
+                {{role.Name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="clear"></div>
+          <mat-form-field class="col l4 m6 s12" [ngClass]="['addUserTypeForm.Abbreviation.disabled' ? 'disableField' : '']">
+            <mat-label>{{'label_abbreviation' |translate}}</mat-label>
+            <input matInput tabindex="3" formControlName="Abbreviation" text="tenantUserTypeAbbreviation"
+              id="userType-Abbreviation" required>
+              <mat-error *ngIf="addUserTypeForm.controls['Abbreviation'].hasError('required')">
+                {{'label_abbreviation' |translate}} {{'label_errorreqired' |translate}}
+              </mat-error>
+              <mat-error *ngIf="addUserTypeForm.controls['Abbreviation'].hasError('maxlength')">
+                {{'label_abbreviation' |translate}} {{'label_errorreqiredMaxlengthFive' |translate}}
+              </mat-error>
+              <mat-error *ngIf="addUserTypeForm.controls['Abbreviation'].hasError('pattern')">
+                {{'label_abbreviation' |translate}} {{'label_errorpatternAlphanumeric' |translate}}
+              </mat-error>
+          </mat-form-field>
+          <div class="clear"></div>
+           <mat-form-field class="col l4 m6 s12">
+            <mat-label>{{'label_publicname' |translate}}</mat-label>
+            <input matInput tabindex="4" formControlName="PublicName" text="userTypePublicName"
+              (blur)="checkColumnunique('PublicName',$event)" id="TenantUserType-PublicName" required>
+            <mat-error *ngIf="addUserTypeForm.controls['PublicName'].hasError('required')">
+              {{'label_publicname' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserTypeForm.controls['PublicName'].hasError('maxlength')">
+              {{'label_publicname' |translate}} {{'label_errormaxlength15' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserTypeForm.controls['PublicName'].hasError('codeTaken')">
+              {{'label_publicname' |translate}} {{'label_areadyExists' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserTypeForm.controls['PublicName'].hasError('pattern')">
+              {{'label_publicname' |translate}} {{'label_errorpatternAlphanumeric' |translate}}
+            </mat-error>
+          </mat-form-field>
+          <div class="clear"></div>
+          
+          <mat-form-field class="col l4 m6 s12" [ngClass]="['addUserTypeForm.InternalName.disabled' ? 'disableField' : '']">
+            <mat-label>{{'label_internalname' |translate}}</mat-label>
+            <input matInput tabindex="5" formControlName="InternalName" text="userTypeInternalName"
+              id="tenantUserType-InternalName" required (blur)="checkColumnunique('InternalName',$event)">
+              <mat-error *ngIf="addUserTypeForm.controls['InternalName'].hasError('required')">
+                {{'label_internalname' |translate}} {{'label_errorreqired' |translate}}
+              </mat-error>
+              <mat-error *ngIf="addUserTypeForm.controls['InternalName'].hasError('maxlength')">
+                {{'label_internalname' |translate}} {{'label_errormaxlength15' |translate}}
+              </mat-error>
+               <mat-error *ngIf="addUserTypeForm.controls['InternalName'].hasError('codeTaken')">
+                {{'label_internalname' |translate}} {{'label_areadyExists' |translate}}
+              </mat-error>
+              <mat-error *ngIf="addUserTypeForm.controls['InternalName'].hasError('pattern')">
+                {{'label_internalname' |translate}} {{'label_errorpatternAlphanumeric' |translate}}
+              </mat-error>
+          </mat-form-field>
+         <div class="clear"></div>
+         
+         <mat-form-field class="col l4 m6 s12" [ngClass]="['addUserTypeForm.GroupName.disabled' ? 'disableField' : '']">
+          <mat-label>{{'label_grpName' |translate}}</mat-label>
+          <input matInput tabindex="5" formControlName="GroupName" text="GroupName"
+            id="tenantUserType-GroupName" required >
+       </mat-form-field>
+       <div class="clear"></div>
+
+       <div class="col l4 m6 s12" id="icon-upload-sec" *ngIf="visibilityStatus">
+        <h2 class="cardSubTitle logoTitle" id="cardSubTitle">{{'label_userIcon' |translate}}</h2>
+          <span class="uploadTxt" *ngIf="!imagePreviewStatus">
+           </span>
+        <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+          <div class="previewImage" *ngIf="imagePreviewStatus">
+            <img src="{{IconPreviewUrl}}" *ngIf="IconPreviewUrl" (click)="imagePreviewModal(IconPreviewUrl)" />
+            <!-- <img src="../../../../assets/logo1.png" /> -->
+           </div>
+        </div>
+
+          <div class="col l4 m6 s12 margin0" id="icon-upload-sec" *ngIf="!visibilityStatus">
+            
+            <mat-card class="p-15 matCardWidth margin0">
+              <h2 class="cardSubTitle txtCenter" id="cardSubTitle">{{'label_userIcon' |translate}}</h2>
+            
+              <div class="uploadImage ">
+                <span class="uploadTxt" *ngIf="!imagePreviewStatus">
+                  <img class="uploadImgIcon" src="/assets/uploadFileIcon.png"  />
+                    <!-- Entire Software : Satya Prakash Gupta : 20-Jan-2020 : language file add : EWM-589 EWM-731 -->
+                    <!-- Entire Software : priti srivastava : 29-Jan-2021 :  : EWM-589 EWM-681 -->
+                    <button mat-button (click)="croppingImage()" tabindex="6" type="button" id="btnCrop">{{'label_browseFileToUpload'
+                      |translate}}</button>
+                    <!-- <button mat-button (click)="fileInput.click()" type="button">{{'label_browseFileToUpload' |translate}}</button> -->
+                    <!-- Entire Software : Satya Prakash Gupta : 20-Jan-2020 : language file add : EWM-589 EWM-731 -->
+                    <!-- <input hidden  (change)="selectFile($event)" required #fileInput type="file" id="file"> -->
+                  </span>
+                <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+                  <div class="previewImage" *ngIf="imagePreviewStatus">
+                    <img src="{{IconPreviewUrl}}" *ngIf="IconPreviewUrl" (click)="imagePreviewModal(IconPreviewUrl)" />
+                    <!-- <img src="../../../../assets/logo1.png" /> -->
+                    <div class="removeImage">
+                      <!-- Entire Software : priti srivastava : 29-Jan-2021 :  : EWM-589 EWM-681 -->
+                      <button mat-mini-fab (click)="croppingImage()" tabindex="7" color="primary" id="usertype-restorepreview" id="btnEditImage">
+                        <!-- <button mat-icon-button (click)="fileInput.click()" color="primary" id="restorepreview">
+                                                    <input hidden  (change)="selectFile($event)" required #fileInput type="file" id="file"> -->
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-mini-fab color="warn" (click)="remove()" id="btnRemove">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+                    </div>
+                </div>
+            </mat-card>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-card>
+</mat-drawer-container>

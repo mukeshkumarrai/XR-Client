@@ -1,0 +1,61 @@
+
+
+/*
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who:  Nitin Bhati
+    @When: 1 Dec 2023
+    @Why: EWM-15214,EWM-15247
+    @What: You can add style for bulk sms, and also import other style files
+*/
+@import "../../../EWM.core//job/job/job-sms/job-sms.component.scss";
+
+::ng-deep {
+    .mat-form-field .mat-chip-list-wrapper .mat-standard-chip{
+        margin: 2px;
+    }
+}
+.sms-card-content {
+    min-height: 400px;
+    .counterTxt .mat-form-field .mat-error{
+        padding-top: 0px;
+    }
+    .checkbox-group{
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+    small{
+        display: flex;
+        margin: 5px 0px;
+    }
+    p{
+        a{
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}
+.contact-list-container{
+    max-height: 300px;
+    overflow: auto;
+    .contact-list{
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+        height: 40px;
+        line-height: 42px;
+        .mat-icon{
+            margin-right: 0px;
+            font-size: 20px;
+        }
+    }
+}
+.error{
+    color: #f44336;
+    font-size: 11px;
+    position: relative;
+    top: -17px;
+    display: block;
+}

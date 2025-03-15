@@ -1,0 +1,48 @@
+<!-- @(C): Entire Software
+@Type: File, <ts>
+@Who: Renu
+@When: 05-April-2024
+@Why: EWM-15584 EWM-16614
+@What:  for keyword search & paresed resume commonly on popup-->
+
+<div class="modal-header">
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content id="candidate-jobresume-right-seccol">
+    <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+        <mat-tab label="{{'label_resume' | translate}}">
+            <ng-template mat-tab-label>
+                <mat-icon id="example-tab-icon" class="example-tab-icon">description</mat-icon>
+                {{'label_resume' | translate}}
+            </ng-template>  
+            <div class="parse-resume-btn" id="parse-resume-btn">
+                <h2 matDialogTitle class="mb-0">{{showTabName?showTabName:'Resume'}}</h2>
+                <button mat-raised-button class="buttonForDesktopMobile" color="primary" tabindex type="button"
+                    id="parseResumeBtn" [disabled]="isNewResumeLoading" (click)="parseResume()">
+                    <mat-icon matTooltip="{{'label_parseResume'|translate}}" matTooltipClass="card-list-tooltip"
+                        matTooltipPosition="before">description</mat-icon>
+                    <span class="buttonTxt">{{'label_parseResume'|translate}}</span>
+                </button>
+            </div>
+            <div class="PDFViewer" id="PDFViewer">
+                <ngx-doc-viewer *ngIf="docStatus" [url]="resumeEntity?.DemoDoc" [viewer]="viewer" (loaded)="isLoading=false"
+                style="width: 100%; height: 100%;" id="FilePreviwerPopup"></ngx-doc-viewer>
+                <img *ngIf="!docStatus" style="width: 100%;" src="{{resumeEntity?.DemoDoc}}" />
+            </div> 
+        </mat-tab>
+        <mat-tab label="{{'label_parseResume'|translate}}">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon" id="example-tab-iconparsed">description</mat-icon>
+                {{'label_parseResume'| translate}}
+            </ng-template>
+          
+            <app-candidate-resume-parse *ngIf="isParse" [candidateId]="resumeEntity.CandidateId" [DemoDoc]="url"
+                [FileName]="resumeEntity.FilePath" [FilePath]="resumeEntity.FilePath"
+                [UploadFileName]="resumeEntity.FileName" [isNewResumeLoading]="isNewResumeLoading"
+                (docFileUrlEmit)="getResumeInfo($event)">
+            </app-candidate-resume-parse>
+        </mat-tab>
+    </mat-tab-group>
+</mat-dialog-content>

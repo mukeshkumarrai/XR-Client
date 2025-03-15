@@ -1,0 +1,288 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: checklist.component.html
+  @Who: Suika
+  @When: 03-Aug-2022
+  @Why: ROST-7427
+  @What: For Groups in status- master
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="checklist-mat-card-header">
+  <mat-card-title>
+    <!-- <div mat-card-avatar> -->
+    <button mat-mini-fab class="mainAddButton"  *appHasPermission="['Add']" matTooltip="{{'label_create_checklist'|translate}}"
+      matTooltipClass="custom-tooltip" color="primary" id="btnAdd" [routerLink]="['manage-checklist']"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+      <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">add
+      </mat-icon>
+    </button>
+    <!-- </div> -->
+    <div class="sub-title">
+      <span>{{'label_checklist' |translate}}</span><br>
+      <app-breadcrumb [pageLabel]="pageLabel" class="bread-crumb"></app-breadcrumb>
+    </div>
+
+  </mat-card-title>
+
+  <div class="header-action-button" id="client-dashboard-actionButton">
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="status-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal">
+        <mat-icon matPrefix style="top: 7px; position: relative;">search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" id="btnClearFilterId"
+          (click)="onFilterClear()" (click)="searchVal=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+    <div class="group-header-button">
+
+      <!-- @When: 19-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+      <a mat-raised-button class="header-button" id="user-invitation-btnViewAudit"
+        [routerLink]="['/client/core/system-settings/system-audit-log/',auditParameter]"
+        matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+      </a>
+
+      <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+        matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+        <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+          rotate_right</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-listing-with-breadCrumb" autosize id="checklist-drawer">
+  <mat-card id="checklist-card" class="component-card mat-elevation-z2">
+    <div class="list-container">
+      <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+
+        <!------->
+
+        <div class="row mb-0 listHeader" id="listHeader" [class.hide]="isvisible">
+
+          <!------Action column header ---->
+
+          <div class="col col-9 listActionBox">
+            <strong>&nbsp;</strong>
+          </div>
+
+          <!------code column header ---->
+          <div class="col col-1" (click)="onSort('ChecklistType')">
+            <button mat-button [disableRipple]="true" id="btnChecklistType">
+              <strong>{{'label_templatetype'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'ChecklistType' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'ChecklistType' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+          <!------description column header ---->
+
+          <div class="col col-2" (click)="onSort('Name')">
+            <button mat-button [disableRipple]="true" id="btnName"><strong>{{'label_checklist_name'|translate}}
+              </strong>
+              <mat-icon *ngIf="sortedcolumnName === 'Name' && sortDirection === 'asc'">{{ascIcon}}
+              </mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'Name' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+
+
+          <!------display sequence column header ---->
+
+          <div class="col col-4" (click)="onSort('RelatedTo')">
+            <button mat-button [disableRipple]="true" id="btnRelatedTo"><strong>{{'label_RelatedTo'|translate}}
+              </strong>
+              <mat-icon *ngIf="sortedcolumnName === 'RelatedTo' && sortDirection === 'asc'">{{ascIcon}}
+              </mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'RelatedTo' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+
+         
+          <!------HideExternally column header ---->
+
+          <div class="col col-6" (click)="onSort('HideExternally')">
+            <button mat-button [disableRipple]="true" id="btnHideExternally"><strong>{{'label_industryHideExternally'|translate}}
+              </strong>
+              <mat-icon *ngIf="sortedcolumnName === 'HideExternally' && sortDirection === 'asc'">{{ascIcon}}
+              </mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'HideExternally' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+
+
+          <!------status column header ---->
+
+          <div class="col col-8" (click)="onSort('StatusName')">
+            <button mat-button [disableRipple]="true" id="btnStatus"><strong>{{'label_status'|translate}}
+              </strong>
+              <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'asc'">{{ascIcon}}
+              </mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+
+          </div>
+
+          <div class="col col-4" (click)="onSort('LastUpdated')">
+            <button mat-button [disableRipple]="true" id="btnOrder"><strong>{{'label_peopleMasterLastUpdate'|translate}}
+              </strong>
+              <mat-icon *ngIf="sortedcolumnName === 'LastUpdated' && sortDirection === 'asc'">{{ascIcon}}
+              </mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'LastUpdated' && sortDirection === 'desc'">{{descIcon}}
+              </mat-icon>
+            </button>
+          </div>
+
+
+
+        </div>
+      </div>
+      <!-----header table start ---->
+      <div class="listCardView " id="listCardView"
+        [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']"
+        *ngIf="formtitle=='grid'" infinite-scroll [infiniteScrollDistance]="pageOption"
+        [infiniteScrollThrottle]="pageSize" (scrolled)="onScrollDown()" [scrollWindow]="false">
+
+        <!-----header table end ---->
+        <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+          <div class="row">
+            <div *ngIf="loadingPopup" class="list"></div>
+            <div class="col nodata" *ngIf="this.gridData==undefined ||this.gridData.length==0 ||this.gridData==null">
+              <span>{{'label_noRecordAvailable'|translate}}</span>
+            </div>
+            <!-----grid list start ---->
+            <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+              *ngFor="let checklistData of gridData;let i =index"
+              [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+              <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                <mat-card-content class="listcardContent"
+                  [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+
+
+
+                  <!-- list data -->
+                  <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+
+                    <!------Action grid column --->
+
+                    <div class="col"
+                      [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox customBtnWidth col-9']">
+
+                      <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+
+                      <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+
+                        <!--<button mat-menu-item id="btnView">
+                          <mat-icon>subject</mat-icon>
+                          {{'label_View'|translate}}
+                        </button>--->
+                        <ng-containner *ngIf="checklistData?.ChecklistType=='Single'">
+                          <button mat-menu-item  id="btnEdit"
+                          [routerLink]="['add-checklist']" *appHasPermission="['Edit']" [queryParams]="{id: checklistData?.Id}">
+                          <mat-icon>edit</mat-icon>
+                          {{'label_edit'|translate}}
+                        </button>
+                        </ng-containner>
+                        <ng-containner *ngIf="checklistData?.ChecklistType=='Group'">
+                          <button mat-menu-item  id="btnEditGroup"
+                          [routerLink]="['add-checklist-group']" *appHasPermission="['Edit']" [queryParams]="{id: checklistData?.Id}">
+                          <mat-icon>edit</mat-icon>
+                          {{'label_edit'|translate}}
+                        </button>
+                        </ng-containner>
+                      
+                        <button mat-menu-item id="btnDelete" *appHasPermission="['Delete']" (click)=confirmDialog(checklistData,index)>
+                          <mat-icon>delete</mat-icon>
+                          {{'label_delete'|translate}}
+                        </button>
+                      </mat-menu>
+
+
+                    </div>
+
+                    <!------ChecklistType grid column --->
+                    <div class="col cursor col-1" id="ChecklistType">
+                      <span class="cardListTxt word-wrap" matTooltip="{{ checklistData?.ChecklistType }}"
+                        matTooltipClass="custom-tooltip">
+                        {{ checklistData?.ChecklistType }}
+                      </span>
+                    </div>
+                    <!------Name grid column --->
+                    <div class="col cursor col-2" id="Name">
+                      <span class="cardListTxt word-wrap" matTooltip="{{ checklistData?.Name  }}"
+                        matTooltipClass="custom-tooltip">
+                        {{checklistData?.Name}}</span>
+                    </div>
+                    <!------RelatedTo sequence grid column --->
+                    <div class="col cursor col-4" id="RelatedTo">
+                      <span class="cardListTxt word-wrap" matTooltip="{{ checklistData?.RelatedTo  }}"
+                        matTooltipClass="custom-tooltip">
+                        {{ checklistData?.RelatedTo }}</span>
+
+                    </div>
+
+                  
+                    <!------HideExternally grid column --->
+                    <div class="col cursor col-6" id="HideExternally">
+                      <span class="cardListTxt word-wrap"
+                        matTooltip=" {{(checklistData?.HideExternally=='1')?'Yes':'No'}}"
+                        matTooltipClass="custom-tooltip">
+                        {{(checklistData?.HideExternally=='1')?'Yes':'No'}}</span>
+
+                    </div>
+
+                    <!------Status grid column --->
+                    <div class="col cursor col-8" id="status">
+                      <span class="cardListTxt word-wrap" matTooltip="{{checklistData?.StatusName}}"
+                        matTooltipClass="custom-tooltip">
+                        {{checklistData?.StatusName}}</span>
+
+                    </div>
+
+                      <!------LastUpdated grid column --->
+                      <div class="col cursor col-4" id="LastUpdated">
+                        <span class="cardListTxt word-wrap"
+                          matTooltip=" {{checklistData.LastUpdated | date:userpreferences.timeformate:userpreferences.timezone}}"
+                          matTooltipClass="custom-tooltip">
+                          {{checklistData.LastUpdated | date:userpreferences.timeformate:userpreferences.timezone}}</span>
+  
+                      </div>
+
+
+                  </div>
+                  <!-- list data -->
+                </mat-card-content>
+              </mat-card>
+
+            </div>
+          </div>
+        </div>
+        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+      </div>
+    </div>
+  </mat-card>
+</mat-drawer-container>

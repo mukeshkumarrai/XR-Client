@@ -1,0 +1,60 @@
+// @(C): Entire Software
+// @Type: File, <html>
+// @Who: Anup Singh
+// @When: 29-Oct-2021
+//@Why: EWM-3132 EWM-3605
+
+.bulkEditChip{
+    position: relative;
+    .bulkEditChipContainer{
+        max-height: 250px;
+       // overflow-y: auto;
+        //overflow-x: hidden;
+        display: inline-block;
+        .mat-standard-chip{
+            margin-top: 5px;
+            padding-right: 2px;
+            padding-left: 5px;
+            .edit-btn{
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                margin-left: 5px;
+                .mat-icon{
+                    width: 18px;
+                    height: 18px;
+                    line-height: 14px;
+                    font-size: 18px;
+                }
+            }
+            .mat-icon-button.mat-warn{
+                margin-left: 3px;
+            }
+        }
+    }
+    .infoIconStyle{
+        position: absolute;
+        top: -1px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        color: #9a9a9a;
+    }
+}
+
+.helpHeading{
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.chipError{
+    font-size: 11px;
+    position: relative;
+    top: -20px;
+}
+
+.redColor{
+    color: #cc0000 !important;
+    opacity: 1 !important;
+}

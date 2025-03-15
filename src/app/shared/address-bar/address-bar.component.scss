@@ -1,0 +1,40 @@
+
+//    @Type: File, <scss>
+//     @Name: address-bar.component.scss
+//     @Who: Anup Singh
+//     @When: 16-June-2021
+//     @Why: EWM-1662 EWM-1916
+//     @What: popup component for Address Bar Popup
+
+.maxValue{
+    position: relative;
+    top: -25px;
+    font-size: 60%;
+}
+
+.searchContact{
+    .mat-input-element{
+        padding-right: 40px;
+        width: calc(100% - 40px);
+    }
+    .inputSearch{
+        display: block !important;
+        z-index: 9999999999;
+        position: absolute;
+        top: inherit;
+        left: inherit;
+        right: inherit;
+        bottom: inherit;
+        font-size: 64px;
+        background-color: rgba(0, 0, 0, 0);
+        right: 20px;
+        bottom: 18px;
+        font-size: 26px;
+    }
+}
+
+
+
+
+
+

@@ -1,0 +1,133 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 17-Sep-2021
+    @Why: EWM-2861
+    @What:  This component is used for Remove access templates.
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<form id="addCandidateFolderId" applyTabIndexes>
+  <div class="quick-dialog">
+    <h2 mat-dialog-title class="mgBottom0">
+      {{'label_RemoveHassAccess' | translate}}
+      <span class="closeModal" id="btnCloseId" (click)="onDismiss()">
+        <mat-icon>close</mat-icon>
+    </span>
+    </h2>
+    <mat-dialog-content>
+      <div class="" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : '']">
+        <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? ' pb-15 mb-0' : 'mb-10']">
+          <div class="listCardViewButtonroup col l8 m6 s4">
+            <button mat-raised-button tabindex class="buttonForDesktopMobile" color="primary" id="btnAdd">
+              <!-- <mat-icon>add</mat-icon>
+              <span class="buttonTxt">{{'label_add' |translate}}</span> -->
+            </button>
+          </div>
+          <div class="col l4 m6 s8">
+            <mat-form-field class="searchInput">
+              <mat-label>{{'label_search'|translate}}</mat-label>
+              <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="Search" [(ngModel)]="searchVal"
+                [ngModelOptions]="{standalone: true}">
+              <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+              <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()" (click)="searchVal=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+            </mat-form-field>
+          </div>
+        </div>
+        
+      </div>
+      <div [ngClass]="[ viewMode === 'cardMode' ? 'cardViewContentMaxData card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']"
+      infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()"
+      [scrollWindow]="false">
+        <div class="row mb-0 listHeader sticky" id="removeAccess-listHeader" [class.hide]="isvisible">
+          <div class="col col-1">
+            <button mat-button [disableRipple]="true" id="remove-NameId">
+              <strong>{{'label_mailName'|translate}}</strong>
+            </button>
+          </div>
+          <div class="col col-2">
+            <button mat-button [disableRipple]="true" id="remove-emailId">
+              <strong>{{'label_email'|translate}}</strong>
+            </button>
+          </div>
+          <div class="col col-3">
+            <strong>{{'label_actions'|translate}}</strong>
+          </div>
+        </div>
+        <div class="listCardView" id="removeAccess-listCardView"  [ngClass]="[ viewMode === 'cardMode' ? '' : 'listcardContentMaxData']"
+        >
+        <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+          <div class="">
+            <!-- <div *ngIf="loadingPopup" class="list"></div> -->
+            <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView.length==0">
+              <span>{{'label_noRecordAvailable'|translate}}</span>
+            </div>
+            
+            <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+              *ngFor="let listDataList of gridView;let i =index">
+
+              <mat-card class="padding0" [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                <mat-card-content class="listcardContent"
+                  [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                  <!-----list data start------------>
+                  <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+                    <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                      <span class="cardListTxt word-wrap" *ngIf="listDataList.UserType=='Owner'"
+                        matTooltip="{{listDataList.UserName}}({{listDataList.UserType}})"
+                        matTooltipClass="custom-tooltip">
+                        {{listDataList.UserName}}(<strong>{{listDataList.UserType}}</strong>)
+                      </span>
+                      <span class="cardListTxt word-wrap" *ngIf="listDataList.UserType!='Owner'"
+                          matTooltip="{{listDataList.UserName}}"
+                          matTooltipClass="custom-tooltip">
+                          {{listDataList.UserName}}
+                    </span>
+                      
+                    </div>
+                    <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                    <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                      <strong>{{'label_owner'|translate}}</strong>
+                    </div>
+                    <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                      <span class="cardListTxt word-wrap" matTooltip="{{listDataList.EmailId}}"
+                        matTooltipClass="custom-tooltip">
+                        {{listDataList.EmailId}}
+                      </span>
+                    </div>
+
+                    <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                    <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-3']">
+                      <!-- who:maneesh,what:ewm-8411 fir edit icon not display with delete icon,when:25/04/2023 -->
+                      <!-- <button mat-icon-button tabindex class="cursorpoint" color="primary" id="btnEditListId"
+                        *ngIf="listDataList.PermissionName=='edit'">
+                        <mat-icon>edit</mat-icon>
+                      </button> -->
+                      <button mat-icon-button tabindex class="cursorpoint" color="primary" id="btnViewListId"
+                        *ngIf="listDataList.PermissionName=='view'">
+                        <mat-icon>subject</mat-icon>
+                      </button>
+                      <button mat-icon-button tabindex color="warn" id="btnDeleteListId" *ngIf="listDataList.UserType!='Owner'"
+                        (click)="DeleteInfo(listDataList)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <!------list data end------->
+                </mat-card-content>
+
+              </mat-card>
+            </div>
+          </div>
+          <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+        </div>
+      </div>
+      </div>
+      
+    </mat-dialog-content>
+  </div>
+</form>

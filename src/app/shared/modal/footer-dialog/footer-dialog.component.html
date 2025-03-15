@@ -1,0 +1,43 @@
+<!-- @(C): Entire Software
+@Type: File, <html>
+@Name: FooterModal.component.html
+@Who: Naresh Singh
+@When: 04-Jun-2021
+@Why: Common modal
+@What: There are  HTML for modal window components -->
+
+<div class="modal-header" id="modal-header" *ngIf="count===2">
+  <h2 matDialogTitle class="mb-0">{{title | translate}}</h2>      
+  <button mat-icon-button  id="btncloseinfo" (click)="onNoClick()" color="warn">
+      <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="modal-header" id="modal-header" *ngIf="count===3" >
+  <h2 matDialogTitle class="mb-0"></h2>      
+  <button mat-icon-button  id="btncloseinfo" (click)="onNoClick()" color="warn">
+      <mat-icon>close</mat-icon>
+  </button>
+</div>
+<!-- <span (click)="onNoClick()" *ngIf="count===3" style="float: right;cursor: pointer;" 
+  class="material-icons closeModal">
+  close
+</span> -->
+<!-- <h2 mat-dialog-title *ngIf="count===2">{{title | translate}}
+  <span (click)="onNoClick()" style="padding-top: 5px; float: right;cursor: pointer;"
+    class="material-icons">
+    close
+  </span></h2> -->
+<!-- Entire Software : Mukesh kumar rai : 10-Sep-2020 : Main container start here -->
+<mat-dialog-content class="mat-typography modal-body" [ngClass]="{'imagepreview' : count===3}">
+  <p *ngIf="count===2">
+    {{content}}
+  </p>
+  <img *ngIf="count===3" src="{{content}}" />
+</mat-dialog-content>
+<!-- Entire Software : Mukesh kumar rai : 10-Sep-2020 : Main container start here -->
+<!-- Entire Software : Mukesh kumar rai : 10-Sep-2020 : Footer container start here -->
+<!-- <mat-dialog-actions align="end"> -->
+  <!-- <button mat-button mat-dialog-close > {{'button_close' | translate}}</button> -->
+<!-- </mat-dialog-actions> -->
+<!-- Entire Software : Mukesh kumar rai : 10-Sep-2020 : Footer container end here -->

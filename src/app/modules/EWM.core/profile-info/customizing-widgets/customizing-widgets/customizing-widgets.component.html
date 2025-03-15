@@ -1,0 +1,58 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 12-Jul-2021
+    @Why: EWM-2009 EWM-2049
+    @What:  This page wil be use only for the Customizing Widgets Component HTML
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{'label_dashboardWidgets' |translate}}</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="row mb-0 sticky">
+      <mat-card-subtitle class="col s12 m12 l12 subTitle">{{ 'label_widgetsSubTitle' |translate }}</mat-card-subtitle>
+     </div>
+    <form class="col s12" id="userEmailIntegrationForm-form">
+      <div class="row rowFlex mb-0">
+        <mat-card class="p-15 col l6 m12 s12 widgetsBoxShadow">
+          <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="drop($event)">
+            <div class="row mb-0 listViewBox" *ngFor="let item of todo" cdkDrag>
+              <div class="col l10 m8 s8 moveCursor">
+                <mat-icon class="matDragIcon">drag_indicator</mat-icon>
+                <label class="titleHeading">{{item}}</label>
+              </div>
+              <div class="col l2 m4 s4 threeDotIconPadding">
+                <mat-slide-toggle color="primary"></mat-slide-toggle>
+                <mat-icon (click)="showActionList()">more_vert</mat-icon>                
+              </div>
+              <div *ngIf="!isShowActionList" class="actionBtnListBox">
+                dropdown data coming soon...
+              </div>
+            </div>
+          </div>
+        </mat-card>
+        <mat-card class="p-15 col l6 m12 s12 widgetsBoxShadow">
+          <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done" [cdkDropListConnectedTo]="[todoList]" (cdkDropListDropped)="drop($event)">
+            <div class="row mb-0 listViewBox" *ngFor="let item of done" cdkDrag>
+              <div class="col l10 m8 s8">
+                <mat-icon class="matDragIcon">drag_indicator</mat-icon>
+                <label class="titleHeading">{{item}}</label>
+              </div>
+              <div class="col l2 m4 s4 threeDotIconPadding">
+                <mat-slide-toggle color="primary"></mat-slide-toggle>
+                <mat-icon (click)="showActionList()">more_vert</mat-icon>                
+              </div>
+              <div *ngIf="!isShowActionList" class="actionBtnListBox">
+                dropdown data coming soon...
+              </div>
+            </div>
+          </div>
+        </mat-card>        
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

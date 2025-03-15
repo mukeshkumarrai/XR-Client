@@ -1,0 +1,48 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 19-Aug-2021
+    @Why: EWM-2494
+    @What:  This component is used for Quick add Candidate Folder templates.
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<form [formGroup]="addForm" id="addCandidateFolderId" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0" *ngIf="activestatus=='Add'">{{'label_add' |translate}}
+            {{'label_Folder'|translate}}</h2>
+        <h2 matDialogTitle class="mb-0" *ngIf="activestatus=='Edit'">{{'label_edit' |translate}}
+            {{'label_Folder'|translate}}</h2>
+    </div>
+    <mat-dialog-content>
+        <mat-form-field>
+            <mat-label>{{'label_name'|translate}}</mat-label>
+            <input matInput formControlName="FolderName" tabindex id="folder-Name" text="FolderName"
+                placeholder="{{'label_name'|translate}}" required>
+            <mat-error *ngIf="addForm.controls['FolderName'].hasError('required')">
+                {{'label_name'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['FolderName'].hasError('maxlength')">
+                {{'label_name'|translate}} {{'label_errormaxlength50'|translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{'label_description'|translate}}</mat-label>
+            <textarea matInput formControlName="Description" id="folder-Description" tabindex
+                placeholder="{{'label_description'|translate}}"></textarea>
+            <mat-error *ngIf="addForm.controls['Description'].hasError('maxlength')">
+                {{'label_description'|translate}} {{'label_errormaxlength250'|translate}}
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div  mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid"
+            (click)="onSave(this.addForm.value)" id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+
+</form>

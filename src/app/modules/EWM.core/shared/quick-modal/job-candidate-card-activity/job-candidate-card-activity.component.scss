@@ -1,0 +1,58 @@
+// <!-- 
+//   @Type: File, <scss>
+//   @Name: job-candidate-card-activity.component.scss
+//   @Who: Adarsh singh
+//   @When: 01-Sept-2023
+//   @Why: EWM-13814 EWM-14141
+//   -->
+ 
+
+
+@import "../../../../../../mixinStyle.scss";
+@import "../../../../../../styles-var.scss";
+// @import "../../../../../modules/EWM.core/home/my-activity/my-activity.component.scss";
+
+.activitydrawer-innercontainer{
+  display: flex;
+  height: 100%;
+} 
+
+// @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: update activity style
+.activity-related{
+  .activityDetails{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 5px;
+    p{
+      margin: 0px;
+      color: $green-color;
+    }
+    .details-main{
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      width: 100%;
+      background: rgba(23, 115, 43, 0.05);
+      border-radius: 4px;
+      padding: 5px 7px;
+      border: 1px solid rgb(127 183 52 / 20%);
+      .last-activity{
+        transform: rotate(165deg);
+      }
+      .date-comming{
+        transform: rotate(-125deg);
+      }
+      .details{
+        line-height: 16px;
+        span{
+          font-size: 12px;
+        }
+        p{
+          font-size: 11px;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}

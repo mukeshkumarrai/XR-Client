@@ -1,0 +1,167 @@
+@import "../../../../../styles-var.scss";
+.fileInstructions{
+  font-size: 12px;
+  padding: 3px 0px 0px 15px;
+  position: relative;
+  text-align: left;
+}
+.documentUploadRoundBox{
+  padding: 0px;
+  position: relative;
+  margin: 5px 0px 15px 5px;
+  display: flex;
+  width: 100%;
+  row-gap: 10px;
+  flex-direction: column;
+  border: none;
+  &::before{
+    content: none;
+    border: none;
+  }
+    .circleCreateDocFileUpload{
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.5s;
+      cursor: pointer;
+      text-align: center;
+      z-index: 1;
+      width: 90px;
+      margin: -10px 0px 1px 0px;
+      height: 45px;
+      gap: 8px;
+      padding: 0px 13px;
+      border: 5px solid #EDF4FF;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
+      background: #ffffff;
+      color: $primary-bg-color;
+      &::before{
+        content: none;
+      }
+        .mat-icon{
+          margin-top: 0px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+        }
+        span{
+          font-weight: 500;
+          font-size: 16px;
+        }
+        input[type=file]{
+          height: 55px;
+          width: 126px;
+          position: absolute;
+          top: -10px;
+          left: -1px;
+          opacity: 0;
+          cursor: pointer;
+          border-radius: 50%;
+          text-indent: -999px;
+        }
+    }
+    .solidBorderFileUploadBox{
+      margin: -6px 0px 1px 0px;
+      border:1px solid rgba(103, 58, 183, 0.25);
+    }
+  .fileInstructions{
+    font-size: 12px;
+    position: relative;
+    display: block;
+    text-align: left;
+    color: #797979;
+    margin: 0px;
+    padding: 0px;
+    span{
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.87);
+    }
+    .closeIconCreateDoc{
+      position: absolute;
+      right: 5px;
+      top: 0px;
+      font-size: 20px;
+      text-align: right;
+      cursor: pointer;
+    }
+  }
+  button{
+    width: 28px;
+    height: 28px;
+    line-height: 20px;
+  }  
+}
+.documentUploadRoundBox.file-show{
+flex-direction: inherit;
+align-items: center;
+.circleCreateDocFileUpload{
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  box-sizing: border-box;
+  margin: 0px;
+  .mat-icon{
+    font-size: 28px;
+  }
+}
+.show-details{
+  padding-inline-start: 20px;
+  width: calc(100% - 67px);
+  .details-data{
+    display: flex;
+    align-items: center;
+    .fileInstructions{
+      color: rgba(0, 0, 0, 0.87);
+      font-size: 13px;
+    }
+  }
+  .title-file{
+    position: relative;
+    .other-file{
+      text-decoration: underline;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    input[type='file']{
+      height: 18px;
+      width: 160px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      opacity: 0;
+      cursor: pointer;
+      border-radius: 50%;
+      text-indent: -999px;
+    }
+  }
+}
+}
+
+.matTitleDocument{
+  font-size: 18px;
+  margin: 0px;
+  padding-bottom: 20px;
+  span{
+    color: $warn-bg;
+  }
+}
+
+.inputSearch{
+  display: block !important;
+  z-index: 9999999999;
+  position: absolute;
+  top: inherit;
+  left: inherit;
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 26px;
+  right: inherit;
+  bottom: inherit;
+}
+.cover-letter-upload{
+  margin-top: 5px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 
+  0px 0px 2px 0px rgba(0, 0, 0, 0.2);
+}

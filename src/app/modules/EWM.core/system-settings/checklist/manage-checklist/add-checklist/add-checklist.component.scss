@@ -1,0 +1,41 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: Satya Prakash Gupta
+    @When: 23-May-2022
+    @Why: ROST-7427 EWM-7637
+    @What:  This page will be use for the add checklist Component scss file
+*/
+
+@import "../../../../../../../mixinStyle.scss";
+.form-group-box{
+    @media only screen and (max-width: 1060px) and (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media only screen and (max-width: 767px) and (min-width: 240px){
+        grid-template-columns: 1fr;
+    }
+}
+.moveCurson{
+    cursor: move;
+}
+.actionBtnListBox{
+    width: 60px;
+    display: flex;
+}
+.mat-fab{
+    position: fixed;
+    right: 20px;
+    bottom: 60px;
+    z-index: 3;
+}
+.checklist-question{
+    &:last-child{
+        margin-bottom: 60px;
+    }
+}
+.selectb0x-mat-hint{
+    position: absolute;
+    bottom: 0px;
+    font-size: 13px;
+}

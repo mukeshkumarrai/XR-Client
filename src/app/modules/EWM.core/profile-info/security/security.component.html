@@ -1,0 +1,234 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash 
+    @When: 18-Nov-2020
+    @Why: ROST-368 ROST-401
+    @What:  This page wil be use only for the Security Component HTML
+-->
+<!-- Entire Software : Satya Prakash Gupta : 18-Nov-2020 : Security : ROST-368 ROST-401 -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="security-mat-card-header">
+        <mat-card-title class="only-title">{{'label_security' |translate}}</mat-card-title>
+        <div class="actionButton">
+            <button tabindex="12" mat-raised-button color="primary" [disabled]="!chngPwdForm.valid"
+                id="btnSave" (click)="changePwd(this.chngPwdForm.value)">{{'label_save' |translate}}</button>
+        </div>
+
+    </mat-card-header>
+   
+<mat-drawer-container class="xeople-container-with-one-button" autosize id="security-drawer">    
+        <mat-card-content class="security-part">
+            <mat-card-subtitle class="subTitle">{{ 'label_securityInfoSubTitle' |translate }}
+            </mat-card-subtitle>
+            <form class="security" id="chngPwdForm" [formGroup]="chngPwdForm">
+                <div class="security-full-part">
+                    <mat-card class="p-15 mat-elevation-z2 mb-0">
+                        <h2 class="cardSubTitle" id="cardSubTitle">{{'label_changeYourPassword' |translate}}</h2>
+                    <mat-divider></mat-divider>
+                    <div class="security-section">
+                        <mat-form-field class="col l4 m6 s12">
+                            <mat-label>{{'label_currentPassword' |translate}}</mat-label>
+                            <input tabindex="1" matInput placeholder="" formControlName="CurPwd" id="security-curpassword" type="password"
+                                [type]="currentPasswordHide ? 'password' : 'text'" [errorStateMatcher]="errorMatcher" required>
+                            <button tabindex="2" mat-icon-button matSuffix (click)="currentPasswordHide = !currentPasswordHide"
+                                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="currentPasswordHide">
+                                <mat-icon class="eyeIcon">{{currentPasswordHide ? 'visibility_off' : 'visibility'}}
+                                </mat-icon>
+                            </button>
+                            <mat-error *ngIf="this.chngPwdForm.controls['CurPwd'].hasError('required')">
+                                {{'label_currentPassword' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.chngPwdForm.controls['CurPwd'].hasError('minlength')">
+                                {{'label_currentPassword' |translate}} {{'label_errorminlength8' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.chngPwdForm.controls['CurPwd'].hasError('maxlength')">
+                                {{'label_currentPassword' |translate}} {{'label_errormaxlength30' |translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>    
+
+                    <div class="security-section security-section-break">
+                        <div fxFlex class="col l4 m6 s12 passwordStrenth" *ngIf="filtersLoaded | async">
+                            <!--password input filed-->
+                            <mat-form-field style="width: 100%"  [color]="passwordComponent.color">
+                            <mat-label>{{'label_newPassword' |translate}}</mat-label>
+                            <mat-pass-toggle-visibility class="viewPassword" #toggle matSuffix></mat-pass-toggle-visibility>
+                            <input matInput #password
+                                    [type]="toggle.type"
+                                    formControlName="NewPwd"
+                                    id="security-NewPwd"
+                                    required
+                                    placeholder="Password">
+                            <mat-hint align="end" aria-live="polite">
+                                {{password.value.length}} / {{passwordComponent.max}}
+                            </mat-hint>
+                            <mat-error *ngIf="this.chngPwdForm.controls['NewPwd'].hasError('required')">
+                                {{'label_newPassword' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.chngPwdForm.controls['NewPwd'].hasError('minlength')">
+                                {{'label_errorminreqired' |translate}} {{passwordComponent.min}} {{'label_characters'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.chngPwdForm.controls['NewPwd'].hasError('maxlength')">
+                                {{'label_errorminreqired' |translate}} {{passwordComponent.max}} {{'label_characters'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.chngPwdForm.controls['NewPwd'].hasError('pattern')">
+                                {{ 'label_PasswordPatern' |translate}}
+                            </mat-error>
+                            </mat-form-field>
+                            <!--@angular-material-extensions/password-strength's main component-->
+                            <mat-label *ngIf="Strength<99 && Strength>0" class="redColor">{{'label_PoorPassword' | translate}}</mat-label>
+                            <mat-label *ngIf="Strength>99" class="greenColor">{{'label_StrongPassword' | translate}}</mat-label>
+                        <mat-icon class="infoStyle" (click)="toggleInfo()">info</mat-icon>
+                            <mat-password-strength #passwordComponent 
+                            class="prgressBarColor securityPgPos"
+                        
+                                                (onStrengthChanged)="onStrengthChanged($event)"
+                                                [password]="password.value"
+                                                [enableLengthRule]="IsPasswordLength"
+                                                [enableLowerCaseLetterRule]="IsLowercase"
+                                                [enableDigitRule]="IsDigit"
+                                                [enableSpecialCharRule]="IsSpecialCharector"
+                                                [enableUpperCaseLetterRule]="IsUpperCase"
+                                                [max]="PasswordMax"
+                                                [min]="PasswordMin"
+                                                [customValidator]="pattern"
+                                                >
+                            </mat-password-strength>
+                        <!--Password's strength info-->
+                        <div class="row">
+                            <div class="col l12 m12 s12 posRel">
+                                <mat-icon *ngIf="showDetails" (click)="toggleInfo()" class="closeIconPswd" color="warn">cancel</mat-icon>
+                                <mat-password-strength-info class="infoHeigth" *ngIf="showDetails" 
+                                        [lowerCaseCriteriaMsg]="'label_lowerCaseCriteriaMsg'|translate"
+                                    [upperCaseCriteriaMsg]="'label_upperCaseCriteriaMsg'|translate"
+                                    [digitsCriteriaMsg]="'label_digitsCriteriaMsg'|translate"
+                                    [specialCharsCriteriaMsg]="'label_specialCharsCriteriaMsg'|translate"
+                                    [minCharsCriteriaMsg]="('label_errorminreqired'|translate)+passwordComponent.min +('label_characters'|translate)"
+                                    [customCharsCriteriaMsg]="'label_CustomMsg'|translate"
+                            [passwordComponent]="passwordComponent">
+                            </mat-password-strength-info>
+                                </div>
+                            </div> 
+
+                            
+                        </div>
+                        <!-- <mat-form-field class="col l4 m6 s12">
+                            <mat-label>{{'label_newPassword' |translate}}</mat-label>
+                            
+                            <input tabindex="3" matInput placeholder="" formControlName="NewPwd" id="newpwd" type="password"
+                                [type]="newPasswordHide ? 'password' : 'text'" [errorStateMatcher]="errorMatcher" required>
+                            <button tabindex="4" mat-icon-button matSuffix (click)="newPasswordHide = !newPasswordHide"
+                                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="newPasswordHide">
+                                <mat-icon class="eyeIcon">{{newPasswordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error *ngIf="this.chngPwdForm.controls['NewPwd'].hasError('required')">
+                                {{'label_newPassword' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.chngPwdForm.controls['NewPwd'].hasError('minlength')">
+                                {{'label_newPassword' |translate}} {{ 'label_errorminlength4' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.chngPwdForm.controls['NewPwd'].hasError('maxlength')">
+                                {{'label_newPassword' |translate}} {{ 'label_errormaxlength10' |translate}}
+                            </mat-error>
+                        </mat-form-field> -->
+                        <mat-form-field class="col l4 m6 s12">
+                            <mat-label>{{'label_confPassword' |translate}}</mat-label>
+                            <input tabindex="5" matInput placeholder="" formControlName="ConfPwd" id="security-ConfPwd" type="password"
+                                [type]="confPasswordHide ? 'password' : 'text'" [errorStateMatcher]="errorMatcher" required>
+                            <button tabindex="6" mat-icon-button matSuffix (click)="confPasswordHide = !confPasswordHide"
+                                [attr.aria-label]="'Hide password'" id="btn-confPasswordHide" [attr.aria-pressed]="confPasswordHide">
+                                <mat-icon class="eyeIcon">{{confPasswordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        <mat-error *ngIf="this.chngPwdForm.controls['ConfPwd'].hasError('required')">
+                                {{'label_confPassword' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.chngPwdForm.controls['ConfPwd'].hasError('minlength')">
+                                {{'label_confPassword' |translate}} {{ 'label_errorminlength4' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.chngPwdForm.controls['ConfPwd'].hasError('maxlength')">
+                                {{'label_confPassword' |translate}} {{ 'label_errormaxlength10' |translate}}
+                            </mat-error>
+                            <mat-error
+                            *ngIf="this.chngPwdForm.controls['ConfPwd'].hasError('mustMatch')">
+                            {{'label_confPassword' |translate}} {{'label_pwdmatch' |translate}}
+                        </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                        
+                    </mat-card>
+                </div>
+            </form>
+            <form class="col s12 security" [formGroup]="AccpwdVerifyFrom" id="AccpwdVerifyFrom">
+                <div class="security-full-part">
+                    <mat-card class="p-15 mat-elevation-z2 mb-0">
+                        <h2 class="cardSubTitle" id="cardSubTitle">{{'label_twoStepVerification' |translate}}
+                            <span class="new badge red" *ngIf="MFA!='1'">{{'label_disabled' |translate}}</span>
+                            <span class="new badge green" *ngIf="MFA=='1'">{{'label_enabled' |translate}}</span>
+                        </h2>
+                        <mat-divider></mat-divider>
+                        <p class="mt-0">{{'label_twoStepInfo' |translate}}</p>
+                        <p><strong>{{'label_twoStepVerification' |translate}}</strong></p>
+                        <p class="mt-0">{{'label_twoStepShortInfo' |translate}}</p>
+
+
+                        <div class="security-section">
+                            <div class="security-pwd-full-part">
+                            <mat-form-field>
+                                <mat-label>{{'label_accountPassword' |translate}}</mat-label>
+                                <input tabindex="7" matInput placeholder="" formControlName="accPwd" id="security-accPwd" type="password"
+                                    [type]="accountPasswordHide ? 'password' : 'text'" [errorStateMatcher]="errorMatcher"
+                                    required>
+                                <button tabindex="8" mat-icon-button matSuffix   id="btn-accountPasswordHide"
+                                    (click)="accountPasswordHide = !accountPasswordHide" [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="accountPasswordHide">
+                                    <mat-icon class="eyeIcon">{{accountPasswordHide ? 'visibility_off' : 'visibility'}}
+                                    </mat-icon>
+                                </button>
+                                <mat-error *ngIf="this.AccpwdVerifyFrom.controls['accPwd'].hasError('required')">
+                                    {{'label_accountPassword' |translate}} is required
+                                </mat-error>
+                                <mat-error *ngIf="this.AccpwdVerifyFrom.controls['accPwd'].hasError('minlength')">
+                                    {{'label_accountPassword' |translate}} {{'label_errorminlength8' |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="this.AccpwdVerifyFrom.controls['accPwd'].hasError('maxlength')">
+                                    {{'label_accountPassword' |translate}} {{'label_errormaxlength30' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                            
+                            <div class="mt-10">
+                                <ng-container *ngIf="MFA!='1'">
+                                    <button tabindex="9" mat-raised-button color="primary"
+                                        (click)="AccFormSubmit(this.AccpwdVerifyFrom.value,'setUp')"
+                                        [disabled]="!AccpwdVerifyFrom.valid" id="btn-submitAccpwdVerifyFrom">{{'label_setUp'
+                                        |translate}}</button>
+                                </ng-container>
+                                <ng-container *ngIf="MFA=='1'">
+                                    <button tabindex="10" mat-raised-button color="primary"
+                                        (click)="AccFormSubmit(this.AccpwdVerifyFrom.value,'reset')"
+                                        [disabled]="!AccpwdVerifyFrom.valid" id="btn-resetbtn">{{'label_resetBtn'
+                                        |translate}}</button>
+                                    <button tabindex="11" mat-raised-button color="primary"
+                                        (click)="AccFormSubmit(this.AccpwdVerifyFrom.value,'disable')"
+                                        [disabled]="!AccpwdVerifyFrom.valid" id="btn-disabledbtn">{{'label_disabledBtn'
+                                        |translate}}</button>
+                                </ng-container>
+
+                            </div>
+                        </div>
+                        </div>
+
+
+                    </mat-card>
+                </div>
+            </form>
+        </mat-card-content>
+</mat-drawer-container>
+
+<!-- Entire Software : Satya Prakash Gupta : 18-Nov-2020 : Security : ROST-368 ROST-401 -->

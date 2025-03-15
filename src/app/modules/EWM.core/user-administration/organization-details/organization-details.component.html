@@ -1,0 +1,276 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 16-Nov-2020
+    @Why: ROST-404
+    @What:  This page wil be use only for the buynow Component HTML
+-->
+<!-- Entire Software : Renu : 20-Nov-2020 : Contact info : ROST-404 -->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="organization-details-mat-card-header">
+  <mat-card-title *ngIf="formtitle=='grid'">
+      <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_add'|translate}} {{'label_organizationDetails'|translate}}"
+      matTooltipClass="custom-tooltip" color="primary" id="btnAdd" 
+      [disabled]="UserType=='1'?false:true"
+      [routerLink]="['add-organization-details']"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <mat-icon id="{{animationVar?.CreateButton?.id}}"
+        class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+    </button>
+    <div class="sub-title">
+    <span *ngIf="formtitle =='grid'">{{'label_organizationDetails' |translate}}</span>
+    <span *ngIf="formtitle =='Add'">{{'label_add' |translate}} {{'label_organizationDetails' |translate}}</span>
+    <span *ngIf="formtitle =='Edit' ">{{'label_edit' |translate}} {{'label_organizationDetails' |translate}}</span>
+  </div>
+  </mat-card-title>
+
+  <div class="header-action-button" id="organization-details-actionButton" *ngIf="formtitle=='grid'">
+
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="organization-searchBox" placeholder="Search" (input)="onFilter($event.target.value)"
+          [(ngModel)]="searchValue">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+          (click)="searchValue=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+
+    <div class="group-header-button">
+
+     <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+     matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+     (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+     <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+        {{animationVar?.BarRotateButton?.iconName}}
+     </mat-icon>
+    </button>
+        
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('listMode')" id="organization-viewCardInActive"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('cardMode')" id="organization-viewCardActive"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}} 
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-listing-without-breadCrumb" autosize id="organization-details-drawer" [ngClass]="[ viewMode === 'cardMode' ? 'mat-card-mode' : '']">
+<mat-card class="component-card mat-elevation-z2" id="component-card">
+
+  <div class="new-list-card-content" id="new-list-card-content">
+    <mat-card-subtitle class="subTitle">{{ (('label_organizationSubHead'
+      |translate).length>maxCharacterLengthSubHead)? (('label_organizationSubHead' |translate) |
+      slice:0:maxCharacterLengthSubHead)+'...':(('label_organizationSubHead' |translate)) }}
+    </mat-card-subtitle>
+    <div class="new-list-content" [ngClass]="[ viewMode === 'cardMode' ? 'hide' : '']">
+      
+      <div class="new-list-data-header sticky-width" style="position: sticky; top: 0px; z-index: 9999;">
+        <div class="new-data-list-header">
+          <div class="actions">
+          </div>
+
+          <div (click)="onSort('OrganizationName')" id="organization-Name">
+            {{'label_organizationName'|translate}}
+            <mat-icon *ngIf="sortedcolumnName === 'OrganizationName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'OrganizationName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </div>
+
+          <div (click)="onSort('City')" id="organization-city">
+            {{'label_location'|translate}}
+            <mat-icon *ngIf="sortedcolumnName === 'City' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'City' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </div>
+
+          <div (click)="onSort('Key')" id="organization-Key">
+            {{'label_key'|translate}}
+            <mat-icon *ngIf="sortedcolumnName === 'Key' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'Key' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </div>
+
+          <div (click)="onSort('BRN')" id="organization-ABN">
+            {{'label_ABN'|translate}}
+            <mat-icon *ngIf="sortedcolumnName === 'BRN' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'BRN' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col nodata center-align" *ngIf="this.gridData==undefined ||this.gridData.length==0">
+        <span>{{'label_noRecordAvailable'|translate}}</span>
+      </div>
+
+
+      <div class="new-list-data-content" id="new-list-data-content">
+        <div class="new-data-list-list" *ngFor="let gridDataList of gridData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+          <div class="actions">
+            <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+              <button mat-menu-item [disabled]="UserType=='1' || currentUserId==gridDataList?.CreatedBy?false:true" color="primary"
+            (click)="getOrgId(gridDataList)"
+            id="btnEditList">
+              <mat-icon>edit</mat-icon>
+              {{'label_edit' | translate}}
+            </button>
+          </mat-menu>
+          </div>
+
+          <div class="new-data">
+            <span class="cardListTxt word-wrap" matTooltip="{{ gridDataList.OrganizationName }}"
+            matTooltipClass="custom-tooltip">
+            {{ (gridDataList.OrganizationName.length>maxCharacterLengthName)? (gridDataList.OrganizationName |
+              slice:0:maxCharacterLengthName)+'...':(gridDataList.OrganizationName) }}
+            </span>
+          </div>
+
+          <div class="new-data">
+            <ng-container *ngFor="let data of gridDataList.OrganizationAddress">
+              <span class="cardListTxt" *ngIf="data.AddressType=='tenant'" matTooltip="{{ data.City}}"
+                matTooltipClass="custom-tooltip">
+                {{ (data.City.length>maxCharacterLengthName)? (data.City |
+                slice:0:maxCharacterLengthName)+'...':(data.City) }}
+              </span>
+            </ng-container>
+          </div>
+
+          <div class="new-data">
+            <span class="cardListTxt word-wrap" matTooltip="{{ gridDataList.Key }}" matTooltipClass="custom-tooltip">
+              {{ gridDataList.Key | uppercase}}
+            </span>
+          </div>
+
+          <div class="new-data">
+            <ng-container *ngFor="let data of gridDataList.OrganizationAddress">
+              <span class="cardListTxt" *ngIf="data.AddressType=='tenant'" matTooltip="{{ data.BRN}}"
+                matTooltipClass="custom-tooltip">
+                {{ data.BRN }}
+              </span>
+            </ng-container>
+          </div>
+
+        </div>
+        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+      </div>
+    </div>
+    <div class="new-card-content cardContent" [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+      <div *ngFor="let gridDataList of gridData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+        <!-- card mode -->
+        <mat-card class="card-mode">
+          <div class="card-height">
+            <div class="card-mode-line">
+            </div>
+            
+            <div class="card-column two-column">
+              <div>
+                <div class="card-header">
+                  <strong>{{'label_organizationName'|translate}}</strong>
+                </div>
+                <div class="card-data" id="org-label-name">
+                  <span class="cardListTxt" matTooltip="{{ gridDataList.OrganizationName }}"
+                        matTooltipClass="custom-tooltip">
+                        {{ (gridDataList.OrganizationName.length>maxCharacterLengthName)?
+                        (gridDataList.OrganizationName |
+                        slice:0:maxCharacterLengthName)+'...':(gridDataList.OrganizationName) }}
+                      </span>
+
+                </div>
+              </div>
+
+              <div>
+                <div class="card-header">
+                  <strong>{{'label_location'|translate}}</strong>
+                </div>
+                <div class="card-data" id="org-label-lacation">
+                  <ng-container *ngFor="let data of gridDataList.OrganizationAddress">
+                    <span class="cardListTxt" *ngIf="data.AddressType=='tenant'" matTooltip="{{ data.City}}"
+                      matTooltipClass="custom-tooltip">
+                      {{ (data.City.length>maxCharacterLengthName)? (data.City |
+                      slice:0:maxCharacterLengthName)+'...':(data.City) }}
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-column two-column">
+              <div>
+                <div class="card-header">
+                  <strong>{{'label_key'|translate}}</strong>
+                </div>
+                <div class="card-data" id="org-label-key">
+                  <span class="cardListTxt" matTooltip="{{ gridDataList.Key }}" matTooltipClass="custom-tooltip">
+                    {{ gridDataList.Key | uppercase}}
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <div class="col card-header">
+                  <strong>{{'label_ABN'|translate}}</strong>
+                </div>
+                <div class="card-data" id="org-label-brn">
+                  <ng-container *ngFor="let data of gridDataList.OrganizationAddress">
+                    <span class="cardListTxt" *ngIf="data.AddressType=='tenant'" matTooltip="{{ data.BRN}}"
+                      matTooltipClass="custom-tooltip">
+                      {{ data.BRN }}
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="corner-btns">
+               <button mat-icon-button [disabled]="UserType=='1' || currentUserId==gridDataList?.CreatedBy?false:true" color="primary" (click)="getOrgId(gridDataList)"
+              id="btnEdit" matTooltip="{{'label_edit'|translate}}" matTooltipClass="custom-tooltip">
+              <mat-icon>edit</mat-icon>
+            </button>
+            </div>
+
+          </div>
+        </mat-card>
+        <!-- card mode -->
+      </div>
+      <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+    </div>
+   
+  </div>
+</mat-card>
+</mat-drawer-container>

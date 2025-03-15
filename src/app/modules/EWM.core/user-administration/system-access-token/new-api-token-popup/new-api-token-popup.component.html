@@ -1,0 +1,63 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 06-April-2022
+    @Why: EWM-5580 EWM-6098
+    @What:  This page wil be use only for new-api-token Component HTML
+-->
+
+<!---
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 14-April-2022
+    @Why: EWM-5580 EWM-6100
+    @What:  This page wil be use only for generate-token Component HTML
+-->
+
+<form id="newApiToken" [formGroup]="newApiTokenForm" applyTabIndexes>
+
+    <div id="new-token-header" class="modal-header">
+      <h2 mat-dialog-title>{{'label_yourNewApiToken' |translate}}</h2>
+      <button mat-icon-button id="btnClose" tabindex (click)="onClose()" color="warn">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <mat-dialog-content>
+      <mat-icon class="token" color="primary">generating_tokens</mat-icon>
+      <p>{{'label_newApiPopupText' |translate}}</p>
+          <mat-form-field>
+            <mat-label>{{'label_clientId' | translate}} </mat-label>
+            <input matInput placeholder="{{'label_clientId' | translate}}" tabindex formControlName="ClientId"
+              id="Token-ClientId" name="ClientId" type="password" [type]="hideClientId ? 'password' : 'text'"
+              #userinputClientId readonly>
+
+            <button type="button" id="btnvisible-ClientId" mat-icon-button matSuffix (click)="hideClientId = !hideClientId"
+              [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideClientId"  tabindex>
+              <mat-icon>{{hideClientId ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <button tabindex id="btnCopy-ClientId" mat-icon-button matSuffix color="primary" type="button"
+              class="matSuffix-icon mb-5" (click)="copyInputClientId(userinputClientId)" matTooltip="{{'label_copy' | translate}}">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'label_clientSecret' | translate}} </mat-label>
+            <input matInput placeholder="{{'label_clientSecret' | translate}}" tabindex formControlName="ClientSecret"
+              id="Token-ClientSecret" name="ClientSecret" type="password"
+              [type]="hideClientSecret ? 'password' : 'text'" #userinputClientSecret readonly>
+
+            <button type="button" id="btnvisible-ClientSecret" mat-icon-button matSuffix (click)="hideClientSecret = !hideClientSecret"
+              [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideClientSecret" tabindex>
+              <mat-icon>{{hideClientSecret ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <button tabindex id="btnCopy-ClientSecret" mat-icon-button matSuffix color="primary" type="button"
+              class="matSuffix-icon mb-5" (click)="copyInputClientSecret(userinputClientSecret)" matTooltip="{{'label_copy' | translate}}">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </mat-form-field>
+    </mat-dialog-content>
+</form>

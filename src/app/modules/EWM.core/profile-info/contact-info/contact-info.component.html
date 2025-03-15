@@ -1,0 +1,358 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash 
+    @When: 16-Nov-2020
+    @Why: ROST-365 ROST-396
+    @What:  This page wil be use only for the buynow Component HTML
+-->
+<!-- Entire Software : Satya Prakash Gupta : 16-Nov-2020 : Contact info : ROST-365 ROST-396 -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+   <div class="logo-loading"></div>
+</div>
+
+
+   <mat-card-header class="dashboard-mat-card-header title-and-btn" id="contact-info-mat-card-header">
+      <mat-card-title class="only-title">{{'label_contact' |translate}}</mat-card-title>
+      <div class="actionButton">
+         <div class="search-viewicon">
+         <button mat-raised-button  tabindex="14" class="buttonForDesktopMobile" color="primary" id="btnSave"
+            [disabled]="!contactFrom.valid" (click)="updateContact(this.contactFrom.getRawValue())">
+            <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save' |translate}}</span>
+         </button>
+      </div>
+   </div>
+
+   </mat-card-header>
+   
+<mat-drawer-container class="xeople-container-with-one-button" autosize id="contact-info-drawer">   
+   <mat-card-content class="contact-info">
+     
+         <mat-card-subtitle class="subTitle">{{'label_contactINFO' |translate}}</mat-card-subtitle>
+     
+      <form novalidate [formGroup]="contactFrom" id="contactinfo-form">
+
+
+         <div class="contact-full-part">
+               <mat-card class="p-15 mat-elevation-z2 mb-0">
+                  <h2 class="cardSubTitle" id="cardSubTitle">{{'label_address' |translate}}</h2>
+
+                  <mat-divider></mat-divider>
+
+                  <div class="contact-section">
+                     <mat-form-field>
+                        <mat-label>{{'label_location' |translate}}</mat-label>
+                        <input matInput  tabindex="1" formControlName="Address_1" id="contactinfo-location">
+                        <input type="hidden" id="UserId" formControlName="UserId" />
+                         <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                        <!--<mat-error *ngIf="this.contactFrom.controls['Address_1'].hasError('required')">
+                           {{'label_location' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>-->    
+                        <mat-error *ngIf="this.contactFrom.controls['Address_1'].hasError('minlength')">
+                           {{'label_location' |translate}} {{ 'label_errorminlength2' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['Address_1'].hasError('maxlength')">
+                           {{'label_location' |translate}} {{ 'label_errormaxlength30' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['Address_1'].hasError('pattern')">
+                           {{'label_location' |translate}} {{ 'label_errorspecialchar' |translate}}
+                        </mat-error>
+                     </mat-form-field>
+                     <mat-form-field>
+                        <mat-label>{{'label_streetAddress' |translate}}</mat-label>
+                        <input matInput  tabindex="2" formControlName="Address_2" id="contactinfo-streetAddress">
+                        <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                        <!--<mat-error *ngIf="this.contactFrom.controls['Address_2'].hasError('required')">
+                           {{'label_streetAddress' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>-->
+                        <mat-error *ngIf="this.contactFrom.controls['Address_2'].hasError('minlength')">
+                           {{'label_streetAddress' |translate}} {{ 'label_errorminlength2' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['Address_2'].hasError('maxlength')">
+                           {{'label_streetAddress' |translate}} {{ 'label_errormaxlength100' |translate}}
+                        </mat-error>
+                     </mat-form-field>
+                     <!-- <mat-form-field class="col l4 m6 s12">
+                              <mat-label>{{'label_country' |translate}}</mat-label>
+                              <mat-select formControlName="Country" id="Country"  required>
+                                    <mat-option value="">Select Country</mat-option>
+                                    <mat-option *ngFor="let country of countryList" value="{{country.id}}">{{country.name}}</mat-option>
+                              </mat-select>
+                              <mat-error *ngIf="this.contactFrom.controls['Country'].hasError('required')">
+                                    {{'label_country' |translate}} {{ 'label_errorreqired' |translate}}
+                                 </mat-error>
+                           </mat-form-field> -->
+                    
+                        <div class="ng-slectBox">
+                            <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                            <!--@Nitin Bhtai,@EWM-13251,@when:31-07-2023, Handle countryList API Callingfrom custom drop-->
+                           <app-custom-ng-select *ngIf="CountryStatus" [countryList]="countryList" [selectedIn]="selectedValue" [IsRequired]="false" id="CountryId" (selectedOut)="ddlchange($event)"></app-custom-ng-select>
+                           <!-- <ng-select  [loading]="loading" [virtualScroll]="true" (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" placeholder="{{'label_country'|translate}}" tabindex="3" [clearable]="true"
+                              formControlName="Country" id="contactinfo-country" (keyup)="getsearchDataList($event)"  required>
+                              <ng-option [value]="0">Select Country</ng-option>
+                              <ng-option *ngFor="let country of countryList" [value]="country.id">{{country.name}}
+                              </ng-option>
+                           </ng-select> 
+                           <div *ngIf="loadingPopup" class="k-i-loading inputSearch"></div> -->
+                           <!--<mat-error
+                              *ngIf="this.contactFrom.controls['Country'].hasError('required') && contactFrom.controls['Country'].touched">
+                              {{'label_country' |translate}} {{ 'label_errorreqired' |translate}}
+                           </mat-error>--->
+                        </div>
+                     
+                     <mat-form-field>
+                        <mat-label>{{'label_city' |translate}}</mat-label>
+                        <input matInput  tabindex="4" id="contactinfo-city" formControlName="City" id="city">
+                        <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                        <!--<mat-error *ngIf="this.contactFrom.controls['City'].hasError('required')">
+                           {{'label_city' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>-->
+                        <mat-error *ngIf="this.contactFrom.controls['City'].hasError('minlength')">
+                           {{'label_city' |translate}} {{ 'label_errorminlength2' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['City'].hasError('maxlength')">
+                           {{'label_city' |translate}} {{ 'label_errormaxlength30' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['City'].hasError('pattern')">
+                           {{'label_city' |translate}} {{ 'label_errorspecialchar' |translate}}
+                        </mat-error>
+                     </mat-form-field>
+                     <mat-form-field>
+                        <mat-label>{{'label_state' |translate}}</mat-label>
+                        <input matInput  tabindex="5" formControlName="State" id="contactinfo-state">
+                         <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                        <!---<mat-error *ngIf="this.contactFrom.controls['State'].hasError('required')">
+                           {{'label_state' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>--->
+                        <mat-error *ngIf="this.contactFrom.controls['State'].hasError('minlength')">
+                           {{'label_state' |translate}} {{ 'label_errorminlength2' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['State'].hasError('maxlength')">
+                           {{'label_state' |translate}} {{ 'label_errormaxlength30' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['State'].hasError('pattern')">
+                           {{'label_state' |translate}} {{ 'label_errorspecialchar' |translate}}
+                        </mat-error>
+                     </mat-form-field>
+                     <mat-form-field>
+                        <mat-label>{{'label_zipCode' |translate}}</mat-label>
+                        <input matInput  tabindex="6" formControlName="Zipcode" id="contactinfo-zipCode">
+                         <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                        <!---<mat-error *ngIf="this.contactFrom.controls['Zipcode'].hasError('required')">
+                           {{'label_zipCode' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>--->
+                        <mat-error *ngIf="this.contactFrom.controls['Zipcode'].hasError('pattern')">
+                           {{'label_zipCode' |translate}} {{'label_numericerr'|translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['Zipcode'].hasError('maxlength')">
+                           {{'label_zipCode' |translate}} {{'label_errorsmaxlength10'|translate}}
+                        </mat-error>
+                     </mat-form-field>
+                  </div>
+
+               </mat-card>
+         </div>
+
+         <div class="contact-full-part">
+            <mat-card class="p-15 mat-elevation-z2 mb-0">
+
+               <h2 class="cardSubTitle" id="cardSubTitle">{{'label_nextOfKinDetails' |translate}}</h2>
+               <mat-divider></mat-divider>
+
+               <div class="contact-section contact-section-next">
+                  <mat-form-field>
+                     <mat-label>{{'label_relationship' |translate}}</mat-label>
+                     <input matInput  tabindex="7" formControlName="KinRelationShip" id="contactinfo-relationship" required>
+                     <mat-error *ngIf="this.contactFrom.controls['KinRelationShip'].hasError('required')">
+                        {{'label_relationship' |translate}} {{ 'label_errorreqired' |translate}}
+                     </mat-error>
+                     <mat-error *ngIf="this.contactFrom.controls['KinRelationShip'].hasError('minlength')">
+                        {{'label_relationship' |translate}} {{ 'label_errorminlength2' |translate}}
+                     </mat-error>
+                     <mat-error *ngIf="this.contactFrom.controls['KinRelationShip'].hasError('maxlength')">
+                        {{'label_relationship' |translate}} {{ 'label_errormaxlength12' |translate}}
+                     </mat-error>
+                     <mat-error *ngIf="this.contactFrom.controls['KinRelationShip'].hasError('pattern')">
+                        {{'label_relationship' |translate}} {{ 'label_errorspecialchar' |translate}}
+                     </mat-error>
+                  </mat-form-field>
+                  <!--- @When: 12-04-2023 @Who:Satya Prakash Gupta @Why: EWM-11863 @What: move here checkbox -->
+                  <div class="copy-full-address" id="copy-full-address">
+                     <mat-form-field>
+                        <mat-label>{{'label_fullAddress' |translate}}</mat-label>
+                        <input matInput  tabindex="8" formControlName="KinFullAddress" id="contactinfo-fullAddress">
+                        <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                        <!---<mat-error *ngIf="this.contactFrom.controls['KinFullAddress'].hasError('required')">
+                           {{'label_fullAddress' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>--->
+                        <mat-error *ngIf="this.contactFrom.controls['KinFullAddress'].hasError('minlength')">
+                           {{'label_fullAddress' |translate}} {{ 'label_errorminlength2' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['KinFullAddress'].hasError('maxlength')">
+                           {{'label_fullAddress' |translate}} {{ 'label_errorreqiredMaxlengthAddress' |translate}}
+                        </mat-error>
+                     </mat-form-field>
+                     <!------------------- @suika EWM-10680 EWM-10821 add checkbox for address field copy --------------------->
+                       
+                     
+                     <mat-checkbox color="primary" (change)="copyAddress($event)"  id="sameasAbove" formControlName="sameasAbove">{{'label_sameasAbove'|translate}}</mat-checkbox>
+                  </div>
+                  <mat-form-field>
+                     <mat-label>{{'label_fullName' |translate}}</mat-label>
+                     <input matInput  tabindex="9" formControlName="KinFullName" id="contactinfo-fullName" required>
+                     <mat-error *ngIf="this.contactFrom.controls['KinFullName'].hasError('required')">
+                        {{'label_fullName' |translate}} {{ 'label_errorreqired' |translate}}
+                     </mat-error>
+                     <mat-error *ngIf="this.contactFrom.controls['KinFullName'].hasError('minlength')">
+                        {{'label_fullName' |translate}} {{ 'label_errorminlength2' |translate}}
+                     </mat-error>
+                     <mat-error *ngIf="this.contactFrom.controls['KinFullName'].hasError('maxlength')">
+                        {{'label_fullName' |translate}} {{ 'label_errormaxlength30' |translate}}
+                     </mat-error>
+                     <mat-error *ngIf="this.contactFrom.controls['KinFullName'].hasError('pattern')">
+                        {{'label_fullName' |translate}} {{ 'label_errorspecialchar' |translate}}
+                     </mat-error>
+                  </mat-form-field>
+             
+
+              
+                  <div class="next-kin-data">
+                     <div class="ng-slectBox">
+                        <!--@Nitin Bhtai,@EWM-13251,@when:31-07-2023, Handle countryList API Callingfrom custom drop-->
+                     <app-custom-ng-select-phonecode *ngIf="CountryStatus" [countryList]="countryList" [selectedIn]="selectedContactNumberValue" [IsRequired]="false" id="contactNumber" (selectedOut)="ddlContactNumberChange($event)"></app-custom-ng-select-phonecode>
+                      <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                     <!--<mat-error *ngIf="this.contactFrom.controls['ContactNumberCode'].hasError('required')" class="matErrorFix">
+                        {{'label_countryCode' |translate}} {{ 'label_errorreqired' |translate}}
+                     </mat-error>-->
+                     </div>
+
+                     <div>
+                     <mat-form-field>
+                        <mat-label>{{'label_contactNumber' |translate}}</mat-label>
+                        <input matInput  tabindex="10" formControlName="KinContactNumber" id="contactinfo-contactNumber">
+                        <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                        <!---<mat-error *ngIf="this.contactFrom.controls['KinContactNumber'].hasError('required') && contactFrom.controls['KinContactNumber'].touched">
+                           {{'label_contactNumber' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>--->
+                        <mat-error *ngIf="this.contactFrom.controls['KinContactNumber'].hasError('pattern')">
+                           {{'label_contactNumber' |translate}}  {{ 'label_phone_number_err' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['KinContactNumber'].hasError('minlength') && !this.contactFrom.controls['KinContactNumber'].errors?.pattern">
+                           {{'label_contactNumber' |translate}} {{'label_errorminlength10'|translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.contactFrom.controls['KinContactNumber'].hasError('maxlength') && !this.contactFrom.controls['KinContactNumber'].errors?.pattern">
+                           {{'label_contactNumber' |translate}} {{'label_errormaxlength12'|translate}}
+                        </mat-error>
+                     </mat-form-field>
+                     </div>
+
+                  </div>
+                     
+                     
+                  <mat-form-field>
+                     <mat-label>{{'label_emailId' |translate}}</mat-label>
+                     <input type="email" matInput  tabindex="11" formControlName="KinEmailid" id="contactinfo-emailId">
+                      <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                     <!---<mat-error *ngIf="this.contactFrom.controls['KinEmailid'].hasError('required')">
+                        {{'label_emailId' |translate}} {{ 'label_errorreqired' |translate}}
+                     </mat-error>--->
+                     <mat-error *ngIf="this.contactFrom.controls['KinEmailid'].hasError('pattern')">
+                        {{'label_emailreqired' |translate}}
+                     </mat-error>
+                     <mat-error *ngIf="this.contactFrom.controls['KinEmailid'].hasError('email')">
+                        {{'lable_validemailerr' |translate}}
+                     </mat-error>
+                  </mat-form-field>
+                  
+
+               </div>
+
+            </mat-card>
+         </div>
+
+
+
+         <div class="contact-full-part">
+               <mat-card class="p-15 mat-elevation-z2 mb-0">
+
+                  <h2 class="cardSubTitle" id="cardSubTitle">{{'label_contactNumber' |translate}}</h2>
+                  <mat-divider></mat-divider>
+
+                  <div class="contact-section contact-section-number">
+
+                           <div class="next-kin-data next-kin-data">
+                              <div class="ng-slectBox">
+                              <app-custom-ng-select-phonecode *ngIf="CountryStatus" [countryList]="countryList" [selectedIn]="selectedMobileNumberValue" [IsRequired]="false" id="MobileNumber" (selectedOut)="ddlMobileNumberChange($event)"></app-custom-ng-select-phonecode>
+                              <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                              <!--<mat-error *ngIf="this.contactFrom.controls['MobileNumberCode'].hasError('required') && contactFrom.controls['MobileNumberCode'].touched" class="matErrorFix">
+                                 {{'label_countryCode' |translate}} {{ 'label_errorreqired' |translate}}
+                              </mat-error>-->
+                           </div>
+
+                           <div>
+                              <mat-form-field>
+                                 <mat-label>{{'label_mobileNumber' |translate}}</mat-label>
+                                 <input matInput  tabindex="12" formControlName="UserPhone" id="contactinfo-mobileNumber">
+                                  <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                                 <!---<mat-error *ngIf="this.contactFrom.controls['UserPhone'].hasError('required')">
+                                    {{'label_mobileNumber' |translate}} {{ 'label_errorreqired' |translate}}
+                                 </mat-error>--->
+                                 <mat-error *ngIf="this.contactFrom.controls['UserPhone'].hasError('pattern')">
+                                    {{'label_mobileNumber' |translate}}  {{ 'label_phone_number_err' | translate}}
+                                 </mat-error>
+                                 <mat-error *ngIf="this.contactFrom.controls['UserPhone'].hasError('minlength') && !this.contactFrom.controls['UserPhone'].errors?.pattern">
+                                    {{'label_mobileNumber' |translate}} {{'label_errorminlength10'|translate}}
+                                 </mat-error>
+                                 <mat-error *ngIf="this.contactFrom.controls['UserPhone'].hasError('maxlength') && !this.contactFrom.controls['UserPhone'].errors?.pattern">
+                                    {{'label_mobileNumber' |translate}} {{'label_errormaxlength12'|translate}}
+                                 </mat-error>
+                              </mat-form-field>
+                           </div>
+                           </div>
+
+                         
+                             <div class="next-kin-data">    
+                              <div class="ng-slectBox">   
+                              <app-custom-ng-select-phonecode *ngIf="CountryStatus" [countryList]="countryList" [selectedIn]="selectedHomeNumberValue" [IsRequired]="false" id="HomeNumber" (selectedOut)="ddlHomeNumberChange($event)"></app-custom-ng-select-phonecode>
+                             <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                              <!-- <mat-error *ngIf="this.contactFrom.controls['HomeNumberCode'].hasError('required') && contactFrom.controls['HomeNumberCode'].touched" class="matErrorFix">
+                                 {{'label_countryCode' |translate}} {{ 'label_errorreqired' |translate}}
+                              </mat-error>-->
+                           </div>   
+                         
+                           <div>  
+                           <mat-form-field>
+                              <mat-label>{{'label_homeNumber' |translate}}</mat-label>
+                              <input matInput  tabindex="13" formControlName="HomeNumber" id="contactinfo-homeNumber">
+                              <!--@suika@EWM-10675 EWM-10947 only fullname and rekationshiop is required--->
+                              <!---<mat-error *ngIf="this.contactFrom.controls['HomeNumber'].hasError('required')">
+                                 {{'label_homeNumber' |translate}} {{ 'label_errorreqired' |translate}}
+                              </mat-error>--->
+                              <mat-error *ngIf="this.contactFrom.controls['HomeNumber'].hasError('pattern')">
+                                 {{'label_homeNumber' |translate}}  {{ 'label_phone_number_err' | translate}}
+                              </mat-error>
+                              <mat-error *ngIf="this.contactFrom.controls['HomeNumber'].hasError('minlength') && !this.contactFrom.controls['HomeNumber'].errors?.pattern">
+                                 {{'label_homeNumber' |translate}} {{'label_errorminlength6'|translate}}
+                              </mat-error>
+                              <mat-error *ngIf="this.contactFrom.controls['HomeNumber'].hasError('maxlength') && !this.contactFrom.controls['HomeNumber'].errors?.pattern">
+                                 {{'label_homeNumber' |translate}} {{'label_errormaxlength12'|translate}}
+                              </mat-error>
+                           </mat-form-field>
+                           </div>
+                        </div>    
+                      
+                     
+                  </div>
+               </mat-card>
+          </div>
+            
+
+
+      </form>
+   </mat-card-content>
+</mat-drawer-container>
+
+
+<!-- Entire Software : Satya Prakash Gupta : 16-Nov-2020 : Contact info : ROST-365 ROST-396 -->

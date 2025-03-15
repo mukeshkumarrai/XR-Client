@@ -1,0 +1,84 @@
+<!---
+   @Type: File, <ts>
+    @Name: contact-receipent-popup.component.html
+    @Who: Renu
+    @When: 24-March-2021
+    @Why: EWM-1181
+    @What: common component for contact-receipent Selection option
+   -->
+<!-- <h2 *ngIf="filterFor!='usergroup'"> {{'label_receipent' | translate}}
+
+</h2>
+<h2 *ngIf="filterFor=='usergroup'"> {{'label_Member' | translate}}
+
+</h2> -->
+<div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0" *ngIf="filterFor!='usergroup'">{{'label_receipent' | translate}}</h2>
+    <h2 matDialogTitle class="mb-0" *ngIf="filterFor=='usergroup'">{{'label_Member' | translate}}</h2>
+</div>
+<mat-dialog-content class="add-contact-modal">
+    <!-- @When: 02-04-2024 @who:Amit @why: EWM-16545 @what: space show -->
+    <div class="mb-15 mt-5">
+        <mat-chip-list id="contactReceipent-mcl">
+            <mat-chip *ngFor="let users of searchUser" [removable]="true" class="contact-list-chip"
+                (removed)="onUserRemove(users.emailId)">
+                <div class="userAvtaarAndName">
+                    <span *ngIf="users.PreviewUrl==''" tabindex>{{sortName(users.userName,'')}}</span>
+                    <img src="{{users.PreviewUrl}}" id="contactReceipent-imgdataPreview" *ngIf="users.PreviewUrl!='' " >
+                </div>
+                <span class="text-overflow">{{ users.FullNameEmail }}</span>
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+    <mat-form-field >
+        <input matInput type="text" id="contactReceipent-txtSearch" tabindex="1" [(ngModel)]="searchValue"
+            (input)="onSearch($event.target.value)" placeholder=" {{'label_receipentBy' |translate }} "
+            autocomplete="off" />
+        <!-- who:bantee,what: ewm-12592 cross icon are missing in the From, CC and BCC fields  ,when:18/09/2023 -->
+
+            <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchClear()"
+              (click)="searchValue=''" id="contact-receipent-onSearchFilterClear">
+              <mat-icon>close</mat-icon>
+            </button>
+        <div *ngIf="loadingPopup" class="k-i-loading inputSearch"></div>
+        <mat-hint *ngIf="errorMsg!==''">
+            <mat-error>
+                {{ errorMsg |translate}}
+            </mat-error>
+        </mat-hint>
+    </mat-form-field>
+    
+    <mat-list class="contactList">
+        <!-- who:maneesh,what: ewm-12030 for clickebel field  (click)="AddSelectUser(user,user.UserName)",when:04/05/2023 -->
+        <div class="feature-box" *ngFor="let user of searchListUser" (click)="AddSelectUser(user,user.UserName)">
+            <div *ngIf="Isuser" class="imageName">
+                <div class="userAvtaarAndName">
+                    <img src="{{user.PreviewUrl}}" tabindex="2" id="contactReceipent-imgDefaultUser"
+                        *ngIf="user.PreviewUrl!='' ">
+                    <span *ngIf="user.PreviewUrl==''" tabindex>{{sortName(user.UserName,'')}}</span>
+                </div>
+                <span class="text-overflow">{{(user.UserName!=undefined && user.UserName!=null && user.UserName!='')?user.UserName:user.FullName}}({{user.EmailId}})</span>
+            </div>
+            <div *ngIf="!Isuser" class="imageName">
+                <div class="userAvtaarAndName">
+                    <img src="{{user.ProfileImageUrl}}" tabindex="2" id="contactReceipent-imgDefaultContact"
+                    *ngIf="user.ProfileImageUrl!='' ">
+                    <span *ngIf="user.ProfileImageUrl==''" tabindex>{{sortName(user.FullName,'')}}</span>
+                </div>
+                <span class="text-overflow">{{(user.UserName!=undefined && user.UserName!=null && user.UserName!='')?user.UserName:user.FullName}}({{user.Email}})</span>
+            </div>
+            <button mat-icon-button color="primary" id="contactReceipent-btnAdd" tabindex="4"
+                (click)="AddSelectUser(user,user.UserName)">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </mat-list>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" id="contactReceipent-btnClose" (click)="onDismiss()"> {{'button_close' |
+        translate}}</button>
+    <button mat-stroked-button color="primary" id="contactReceipent-btnSave" [disabled]="searchUser.length==0"
+        (click)="closePopup()">{{'label_add' |translate}}</button>
+</mat-dialog-actions>

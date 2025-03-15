@@ -1,0 +1,226 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 06-Jan-2022
+    @Why: EWM-6873 EWM-7056
+    @What: access-permission change view page
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="client-dashboard-dashboard-mat-card-header">
+    <mat-card-title class="only-title p-0">
+        <span>{{'access_permission' |customTranslate}}</span>
+        <app-breadcrumb [pageLabel]="pageLabel" class="bread-crumb"></app-breadcrumb>
+    </mat-card-title>
+    <div class="actionButton">
+        <button mat-raised-button color="warn" tabindex="6" [routerLink]="['../']" [queryParams]="{V:viewMode}"
+            id="btnCancel" class="buttonForDesktopMobile">
+            <mat-icon>close</mat-icon>
+            <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+        </button>
+        <button mat-raised-button tabindex="5" class="buttonForDesktopMobile" color="primary" type="button"
+            id="btnSave" (click)="onSave()" [disabled]="viewStatus">
+            <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save'|translate}}</span>
+        </button>
+    </div>
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="dashboard-drawer">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+        
+        <!-- <div id="contentdata">
+            <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+                <div class="row mb-0" id="manageAccess-visibility">
+                    <mat-card-subtitle class="col s10 m10 l11 subTitle">
+                    </mat-card-subtitle>
+                </div>
+
+                <div class="row mb-0 listHeader" id="listHeader" [class.hide]="isvisible">
+                    <div class="col col-5">
+                        <button mat-button [disableRipple]="true" id="access-permission-userType">
+                            <strong>{{'access_permission_type'|translate}}</strong>
+                            <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'asc'">{{ascIcon}}
+                            </mat-icon>
+                            <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'desc'">
+                                {{descIcon}}
+                            </mat-icon>
+                        </button>
+                    </div>
+                    <div class="col col-1">
+                        <button mat-button [disableRipple]="true" id="access-permission-view">
+                            <strong>{{'label_View'|translate}}</strong>
+                            <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'asc'">{{ascIcon}}
+                            </mat-icon>
+                            <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'desc'">
+                                {{descIcon}}
+                            </mat-icon>
+                        </button>
+                    </div>
+                    <div class="col col-4">
+                        <button mat-button [disableRipple]="true" id="access-permission-Edit">
+                            <strong>{{'label_edit'|translate}}</strong>
+                            <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'asc'">{{ascIcon}}
+                            </mat-icon>
+                            <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'desc'">{{descIcon}}
+                            </mat-icon>
+                        </button>
+                    </div>
+                    <div class="col col-4  center-align">
+                        <button mat-button [disableRipple]="true" id="access-permission-delete">
+                            <strong>{{'label_delete'|translate}}</strong>
+                            <mat-icon *ngIf="sortedcolumnName === 'LastUpdated' && sortDirection === 'asc'">{{ascIcon}}
+                            </mat-icon>
+                            <mat-icon *ngIf="sortedcolumnName === 'LastUpdated' && sortDirection === 'desc'">
+                                {{descIcon}}
+                            </mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="listCardView" id="listCardView"
+                [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']"
+                *ngIf="formtitle=='grid'" infinite-scroll [infiniteScrollDistance]="pageOption"
+                [infiniteScrollThrottle]="pagesize" [scrollWindow]="false">
+                <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+                    <div class="row">
+                        <div *ngIf="loadingPopup" class="list"></div>
+                        <div class="col nodata" *ngIf="this.accessData==undefined ||this.accessData.length==0">
+                            <span>{{'label_noRecordAvailable'|translate}}</span>
+                        </div>
+                        <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+                            id="accessBox" *ngFor="let accessPermissionData of accessData;let i =index"
+                            [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+                            <mat-card class="p-0" [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                                <mat-card-content class="listcardContent"
+                                    [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                                  
+                                    <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+
+                                        <div class="col col-5"
+                                            [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'col-5']">
+                                            <b>{{accessPermissionData.AccessName}}</b>
+                                        
+                                        </div>
+
+                                        <div class="col col-1"
+                                            [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                                            <mat-checkbox color="primary" id="access-permissionViewId_{{i}}"
+                                                [checked]="accessPermissionData.View == 1"
+                                                (change)="checkboxView($event.checked,i,accessPermissionData)">
+                                            </mat-checkbox>
+                                        </div>
+
+                                        <div class="col col-4"
+                                            [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-4']">
+                                            <mat-checkbox color="primary" id="access-permissionEditId_{{i}}"
+                                                [checked]="accessPermissionData.Edit == 1"
+                                                (change)="checkboxEdit($event.checked,i,accessPermissionData)">
+                                            </mat-checkbox>
+                                        </div>
+
+                                        <div class="col col-4 center-align"
+                                            [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-4 center-align']">
+                                            <mat-checkbox color="primary" id="access-permissionDeleteId_{{i}}"
+                                                [checked]="accessPermissionData.Delete == 1"
+                                                (change)="checkboxDelete($event.checked,i,accessPermissionData)">
+                                            </mat-checkbox>
+                                        </div>
+
+                                    </div>
+                                  
+
+                                </mat-card-content>
+
+                            </mat-card>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div> -->
+
+        <div class="question-list-sec">
+            <div class="new-data-list-header" id="career-listHeader" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+               
+                <div class="new-data" [disableRipple]="true" id="access-permission-userType">
+                  {{'access_permission_type'|translate}}
+                  <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                  <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                </div>
+
+                <div class="new-data center-align new-data-bottom" [disableRipple]="true" id="access-permission-userType">
+                    {{'label_UserTypeAllUsers'|translate}}
+                    <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                  </div>
+
+                <div class="new-data center-align" [disableRipple]="true" id="access-permission-view">
+                  {{'label_View'|translate}}
+                  <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                  <mat-icon *ngIf="sortedcolumnName === 'UserTypeName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                </div>
+
+                <div class="new-data center-align" [disableRipple]="true" id="access-permission-Edit">
+                    {{'label_edit'|translate}}
+                  <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                  <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                </div>
+
+                <div class="new-data center-align" [disableRipple]="true" id="access-permission-delete">
+                  {{'label_delete'|translate}}
+                  <mat-icon *ngIf="sortedcolumnName === 'LastUpdated' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                  <mat-icon *ngIf="sortedcolumnName === 'LastUpdated' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                </div>
+
+            </div>
+
+            <div class="col nodata" *ngIf="this.accessData==undefined ||this.accessData.length==0">
+                <span>{{'label_noRecordAvailable'|translate}}</span>
+            </div>
+
+            <div class="listCardView new-data-list-content"  id="listCardView" [ngClass]="[ viewMode === 'cardMode' ? '' : 'listcardContentMaxData list-infinite-scroll']"
+          *ngIf="formtitle=='grid'"  infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pageSize" (scrolled)="onScrollDown()"
+          [scrollWindow]="false">
+            <div class="new-data-list-list" *ngFor="let accessPermissionData of accessData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+                    
+                    <div class="new-data">
+                    <span class="cardListTxt word-wrap">
+                      {{accessPermissionData.AccessName}} - {{'label_AccessAllowUser'|translate}}
+                    </span>
+                    </div>
+
+                    <div class="new-data center-align">
+                    <mat-checkbox color="primary" id="access-permissionViewId_{{i}}"
+                    [checked]="accessPermissionData.View == 1"
+                    (change)="checkboxView($event.checked,i,accessPermissionData)">
+                    </mat-checkbox>
+                    </div>
+
+                    <div class="new-data center-align">
+                        <mat-checkbox color="primary" id="access-permissionEditId_{{i}}"
+                        [checked]="accessPermissionData.Edit == 1"
+                        (change)="checkboxEdit($event.checked,i,accessPermissionData)">
+                        </mat-checkbox>
+                    </div>
+
+                  <div class="new-data center-align">
+                    <mat-checkbox color="primary" id="access-permissionDeleteId_{{i}}"
+                    [checked]="accessPermissionData.Delete == 1"
+                    (change)="checkboxDelete($event.checked,i,accessPermissionData)">
+                    </mat-checkbox>
+                  </div>
+  
+            </div>
+          </div>
+          <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+        </div>
+
+    </mat-card>
+</mat-drawer-container>

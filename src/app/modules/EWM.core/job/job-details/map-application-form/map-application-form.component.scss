@@ -1,0 +1,82 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: candidate-job-mapped.component.scss
+    @Who: Naresh singh
+    @When: 29th-Sep-2021
+    @Why: EWM-2984
+    @What: You can add global candidate-job mapping.component to this file, and also import other style files
+*/
+/*
+  modified
+  @(C): Entire Software
+  @Type: File, <css>
+  @Name: candidate-job-mapped.component.scss
+  @Who: Satya Prakash Gupta
+  @When: 07-Apr-2022
+  @Why: EWM-5654 EWM-6057
+  @What: You can add global candidate-job mapping.component to this file, and also import other style files
+*/
+@import "../../../../../../mixinStyle.scss";
+
+.nodata{
+  display: flex;
+  height: calc(100% - 60px);
+  justify-content: center;
+  align-items: center;
+}
+.candidate-job-maped-data{
+  display: grid;
+  gap: 10px;
+  max-height: calc(100% - 74px);
+  overflow: auto;
+  padding: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  @include for-small-smartphones{
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @include for-smartphones {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.addJobCandidate{
+  .candidateJobBox{
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      height: 122px;
+      .candidate-card{
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 10px;
+      }
+      .minHeightTxtBox{
+        height: 77px;
+        width: calc(100% - 60px);
+      }
+        
+    .txtValueStyle{
+      display: block;
+      margin: 5px 0px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .candidateImg{
+      width: 50px;
+      height: 50px;
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 50%;
+      margin:10px 0px;
+      float: right;
+    }
+    .connectedBtn {
+      background: #7FB734;
+    }
+  }
+  .candidateJobBox:hover{
+    transform: scale(1.02);
+    animation-duration: 0.30s;
+    box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+  }
+}

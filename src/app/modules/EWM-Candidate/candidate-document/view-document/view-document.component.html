@@ -1,0 +1,67 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_viewDetails' | translate}}</h2>      
+    <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content class="info-box">
+    <mat-card class="info-Data mt-5">
+            <div class="info-title">
+                {{'label_customer_type' | translate}}
+            </div>
+            <div class="info-details">
+                {{documentData?.DocumentType}}
+            </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_modified' | translate}}
+        </div>
+        <div class="info-details">
+            {{documentData?.LastActivity| date:userpreferences.timeformate:userpreferences.timezone}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_referenceId' | translate}}
+        </div>
+        <div class="info-details">
+            {{documentData?.ReferenceId}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_category' | translate}}
+        </div>
+        <div class="info-details">
+            {{documentData?.Category}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_documentname' | translate}}
+        </div>
+        <div class="info-details">
+            {{documentData?.DocumentName}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_filename' | translate}}
+        </div>
+        <div class="info-details">
+            {{documentData?.Name}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_size' | translate}}
+        </div>
+        <div class="info-details">
+            {{documentData?.DocumentSize}}
+        </div>
+    </mat-card>
+</mat-dialog-content>

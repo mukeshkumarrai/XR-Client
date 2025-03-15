@@ -1,0 +1,245 @@
+
+// @(C): Entire Software
+// @Type: File, <html>
+// @Who: Anup Singh
+// @When: 30-Sep-2021
+// @Why: EWM-2871 EWM-2979
+
+
+.removeCandidate{
+    .quick-dialog{
+        span.timeLineCloseIcon{
+            float: right;
+            position: relative;
+             z-index: 999;
+             cursor: pointer;
+             right:0px;
+             color:#c1c1c1;
+        }
+        span.timeLineCloseIcon:hover{
+            color:#cc0000;
+        }        
+    }    
+}
+
+.counterTxt{
+    position: relative;
+    .countlabel{
+        margin-top: 0px;
+        text-align: right;
+        color: #fe7000;
+        font-size: 80%;
+        position: absolute;
+        bottom: 5px;
+        right: 20px;
+    }
+}
+
+
+
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: job-workflow-manage.component.scss
+    @Who: Renu
+    @When: 14-may-2021
+    @Why: ROST-1871
+    @What: You can add group details styles to this file, and also import other style files
+*/
+
+@import "../../../../../styles-var.scss";
+.childCountBox {
+  left: 0;
+  bottom: -29px;
+  position: absolute;
+  width: 100%;
+  text-align: left;
+  padding-left: 20px;
+  .childCount {
+    text-align: center;
+    display: inline-block;
+    background: #4caf50;
+    padding: 6px 20px;
+    border-radius: 0px 0px 10px 10px;
+    color: #fff;
+    box-shadow: 0px 0px 8px 0px rgb(0 0 0 / 42%);
+    min-width: 100px;
+    font-weight: 500;
+    font-size: 14px;
+    margin-right: 7px;
+  }
+  .subchildCount {
+    text-align: center;
+    display: inline-block;
+    background: #ffc107;
+    padding: 6px 20px;
+    border-radius: 0px 0px 10px 10px;
+    color: #fff;
+    box-shadow: 0px 0px 8px 0px rgb(0 0 0 / 42%);
+    min-width: 100px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+.workflowSec {
+  overflow-x: hidden;
+  padding: 0px 2px;
+}
+.color-picker {
+  z-index: 999999;
+}
+.addNewStage {
+  position: relative;
+  top: 8px;
+  margin: 0px;
+  padding: 0px 8px;
+}
+.hidden {
+  display: none;
+}
+.visible-hidden {
+  visibility: hidden;
+}
+.visible {
+  visibility: visible;
+}
+.statusBar {
+  .indicator {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 24px;
+    padding-right: 10px;
+    .mat-icon {
+      width: 15px;
+      height: 15px;
+      line-height: 14px;
+      font-size: 16px;
+      position: relative;
+      top: 3px;
+    }
+    .green {
+      color: #7fb734;
+    }
+    .red {
+      color: #f44336;
+    }
+  }
+  .editButton {
+    border: 1px solid $default-bg-color;
+    padding: 2px 4px;
+    padding-right: 7px;
+    color: $default-bg-color;
+    border-radius: 15px;
+    position: relative;
+    top: -1px;
+    cursor: pointer;
+    .mat-icon {
+      position: relative;
+      top: 4px;
+    }
+  }
+}
+.cdk-drag-placeholder {
+  background: rgba(33, 150, 243, 0.1);
+  border: dotted 3px rgba(33, 150, 243, 1);
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  .expandCollapseContent.mat-card {
+    display: none;
+  }
+}
+.parent-placeholder {
+  background: rgba(33, 150, 243, 0.1);
+  border: dotted 3px rgba(33, 150, 243, 1);
+  margin-left: 0px;
+  margin-bottom: 15px;
+}
+.child-placeholder {
+  background: rgba(76, 175, 80, 0.1);
+  border: dotted 3px rgba(76, 175, 80, 1);
+  margin-left: 20px;
+  margin-top: 15px;
+}
+.subchild-placeholder {
+  background: rgba(255, 193, 7, 0.1);
+  border: dotted 3px rgba(255, 193, 7, 1);
+  margin-left: 20px;
+  margin-top: 15px;
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.unfold {
+  transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -webkit-transition: -webkit-transform 0.4s ease-in-out;
+  -ms-transition: -ms-transform 0.4s ease-in-out;
+  transition: transform 0.4s ease-in-out;
+}
+.fold {
+  transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  -webkit-transition: -webkit-transform 0.4s ease-in-out;
+  -ms-transition: -ms-transform 0.4s ease-in-out;
+  transition: transform 0.4s ease-in-out;
+}
+
+:host ::ng-deep {
+
+  .ngx-org-name {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .ngx-org-title {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    font-size: 13.5px;
+  }
+
+  .ngx-org-border {
+    border: 1px dashed #d4d5d6;
+  }
+
+  .ngx-org-self-vertical {
+    display: flex;
+    margin-top: 15px;
+  }
+
+  .ngx-org-box {
+    transition: transform ease-in-out 0.15s;
+    box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 8px !important;
+  }
+
+  .ngx-org-box {
+    box-shadow: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 16px;
+    width: 170px;
+    height: 50px;
+    justify-content: center;
+    border: 0;
+    border-left: 5px solid $primary-bg-color;
+    word-break: break-all;
+  }
+
+  .ngx-org-box:hover {
+    transition: transform ease-in-out 0.15s;
+    transition-timing-function: linear;
+    transform: scale(1.1);
+  }
+
+  .ngx-org-parent {
+    border-left: 5px solid #2196f3;
+  }
+  .ngx-org-child {
+    border-left: 5px solid #4caf50;
+  }
+  .ngx-org-subChild {
+    border-left: 5px solid #ffc107;
+  }
+}
+

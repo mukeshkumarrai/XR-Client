@@ -1,0 +1,164 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: bulk-edit.compenent.html
+  @Who:  Anup
+  @When: 02-Nov-2021
+  @Why: EWM-3132 EWM-3603.
+  @What: For Bulk Edit.
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="bulk-edit-mat-card-header">
+    <mat-card-title class="only-title">{{'label_bulkEdit' |translate}}</mat-card-title>
+    <div class="actionButton">
+      <button mat-raised-button color="warn" tabindex="13" id="btnCancel" (click)="onCancel($event)"
+        class="buttonForDesktopMobile">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+      </button>
+      <button mat-raised-button color="primary" tabindex="14" (click)="onSave(this.addForm.value)" type="button"
+        id="btnSave" [disabled]="!addForm.valid || !isSkillValidation" class="buttonForDesktopMobile">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save'|translate}}</span>
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-drawer-container class="xeople-container-with-one-card" autosize id="bulk-edit-drawer">
+    <mat-card id="bulk-edit-card" class="component-card mat-elevation-z2">
+      <form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data'>
+        <div class="row mb-0">
+          <div class="col l4 m5 s12" *ngIf="!isBulkEdit">
+            <div class="ng-slectBox">
+              <app-custom-dropdown [selectedIn]="selectedSkillTags" tabindex="3" (selectedOut)="onSkillTagschange($event)"
+                [config]="dropDownSkillTagsConfig">
+              </app-custom-dropdown>
+            </div>
+          </div>
+        </div>
+        <!---------name----------------->
+        <div class="row mb-0" *ngIf="isBulkEdit">
+          <div class="col l4 m6 s12 bulkEditChip">
+            <mat-form-field>
+              <mat-label [ngStyle]="!isSkillValidation && !isSkillValidation && {'color': '#f44336'}">{{'label_skillsName' | translate}}*</mat-label>
+                     <!-- @When: 1-05-2023 @who:Bantee @why: EWM-12139 @what: IsSys in functionality implemented -->   
+              <mat-chip-list #chipList tabindex="1" class="bulkEditChipContainer" id="bulkEdit-skill-chip">
+                <mat-chip *ngFor="let skill of Skills" [selectable]="selectable" [removable]="removable"
+                  (removed)="removeSkill(skill)">
+                 {{skill.SkillName}} 
+                 <button mat-icon-button class="edit-btn" [hidden]="skill?.IsSys=='1'" (click)="editSkill(skill)" mat-icon-button>
+                  <mat-icon>edit</mat-icon>
+                </button>
+                  <button mat-icon-button color="warn" [hidden]="skill?.IsSys=='1'" matChipRemove *ngIf="removable">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <input placeholder="{{'label_skillsName' |translate}} *" [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" readonly>
+              </mat-chip-list>
+            
+            </mat-form-field>
+            <mat-error class="chipError" *ngIf="!isSkillValidation">
+              {{'label_skillsName' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-icon class="infoIconStyle" tabindex="2" id="bulkEdit-skill-helpMsg" [matMenuTriggerFor]="SkillsHelp">
+              info_outline</mat-icon>
+            <mat-menu #SkillsHelp="matMenu" xPosition="before" class="infoIconContentBox">
+              <span class="material-icons headerDroupDownUp">
+                arrow_drop_up
+              </span>
+              <h4 class="helpHeading">{{'label_skillHelpMsgheading'|translate}}</h4>
+              {{'label_skillHelpMsg'|translate}}
+            </mat-menu>
+          </div>
+          
+          <div class="clear"></div>
+          <div class="col l4 m6 s12">
+            <div class="ng-slectBox">
+              <app-custom-dropdown [selectedIn]="selectedWeightage" tabindex="5" (selectedOut)="onWeightagechange($event)"
+                [config]="dropDownWeightageConfig">
+              </app-custom-dropdown>
+            </div>
+          </div>
+          <div class="clear"></div>
+          <div class="col l4 m6 s12">
+            <div class="ng-slectBox">
+              <app-custom-dropdown [selectedIn]="selectedIndustry" tabindex="6" (selectedOut)="onIndustrychange($event)"
+                [config]="dropDownIndustryConfig">
+              </app-custom-dropdown>
+            </div>
+          </div>
+          <div class="clear"></div>
+          <div class="col l4 m6 s12">
+            <div class="ng-slectBox">
+              <app-custom-dropdown [selectedIn]="selectedQualification" tabindex="7"
+                (selectedOut)="onQualificationchange($event)" [config]="dropDownQualificationConfig">
+              </app-custom-dropdown>
+            </div>
+          </div>
+          <div class="clear"></div>
+          <!---------status---->
+          <div class="col l4 m6 s12">
+            <div class="ng-slectBox">
+              <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data--->    
+              <ng-select placeholder="{{'label_industryStatus'|translate}}*" tabindex="8" [clearable]="false"
+                formControlName="StatusName" id="bulkEdit-skill-status" (change)="onchangeStatus($event)" required>
+                <!--<ng-option value="" disabled>{{'label_status'|translate}}</ng-option>-->
+                <ng-option *ngFor="let list of statusList" [value]="list">{{list.StatusName}}</ng-option>
+
+              </ng-select>
+              <mat-error
+                *ngIf="addForm.controls['StatusName'].hasError('required') && addForm.controls['StatusName'].touched">
+                {{'label_industryStatus'|translate}} {{'label_errorreqired'|translate}}
+              </mat-error>
+            </div>
+          </div>
+          <div class="clear"></div>
+          <mat-form-field class="col l4 m6 s12">
+            <input matInput formControlName="DisplaySequence" tabindex="9" id="bulkEdit-skill-displaySequnce" text="Name"
+              placeholder="{{'label_displaySequence'|translate}}">
+
+            <mat-error *ngIf="addForm.controls['DisplaySequence'].hasError('pattern')">
+              {{'label_displaySequence'|translate}} {{'label_errornumeric'|translate}}
+            </mat-error>
+            <mat-error *ngIf="this.addForm.controls['DisplaySequence'].hasError('maxlength')">
+              {{ 'label_displaySequence' |translate}} {{ 'label_errormaxlength8' |translate}}
+            </mat-error>
+            <mat-error *ngIf="this.addForm.controls['DisplaySequence'].hasError('min')">
+              {{ 'label_displaySequence' |translate}} {{ 'label_errorspecialcharNegative' |translate}}
+            </mat-error>
+
+          </mat-form-field>
+          <div class="clear"></div>
+          <!---hide externally-->
+
+          <div class="col l4 m6 s12 mb-10">
+            <mat-slide-toggle class="mr-10" formControlName="HideExternal" name="hideExternally" id="bulkEdit--hideExternally"
+              tabindex="10" (change)="setDefaultSignature($event)" color="primary">
+              {{'label_industryHideExternally' |translate}}
+            </mat-slide-toggle>
+          </div>
+          <div class="clear"></div>
+          <div class="col l4 m6 s12 mb-10">
+            <mat-slide-toggle class="mr-10" formControlName="Renewal" name="Renewal" id="bulkEdit--Renewal" tabindex="11"
+              (change)="setDefaultRenewal($event)" color="primary">
+              {{'label_Renewal' |translate}}
+            </mat-slide-toggle>
+          </div>
+          <div class="clear"></div>
+          <div class="col l4 m6 s12 mb-10">
+            <mat-slide-toggle class="mr-10" formControlName="DocumentRequired" name="DocumentRequired" id="bulkEdit--DocumentRequired"
+              tabindex="12" (change)="setDefaultDocumentRequired($event)" color="primary">
+              {{'label_DocumentRequired' |translate}}
+            </mat-slide-toggle>
+          </div>
+        
+
+        </div>
+      </form>
+    </mat-card>
+  </mat-drawer-container>

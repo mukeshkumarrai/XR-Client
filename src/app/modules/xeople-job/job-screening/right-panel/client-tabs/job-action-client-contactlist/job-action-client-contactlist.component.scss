@@ -1,0 +1,29 @@
+// who:Satya Prakash Gupta :what:EWM-13776 EWM-14274 : when:15 Sep 2023
+.right-tab-header{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  .right-box{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding-top: 7px;
+    .mat-stroked-button{
+      height: 36px;
+      position: relative;
+      top: -7px;
+    }
+    .mat-icon.info{
+      cursor: default;
+      position: relative;
+      top: -7px;
+    }
+  }
+}
+.contact-list{
+  height: calc(100% - 78px);
+  overflow: auto;
+  padding: 3px 4px;
+}
+
+  

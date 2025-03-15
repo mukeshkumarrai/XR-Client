@@ -1,0 +1,24 @@
+.outer-container{
+    position: relative;
+    z-index: 3;
+    padding: 0px 5px;
+    .kendo-grid-appearance .k-grid {
+      height: calc(100vh - 365px);
+      @media only screen and (max-width: 1060px) and (min-width: 481px){
+        height: calc(100vh - 418px);
+      }
+      @media only screen and (max-width: 480px) and (min-width: 240px){
+        height: calc(100vh - 545px);
+      }
+      tr td:first-child {
+        padding: 0px;
+      }
+      .k-grid-norecords{
+        td{
+          &:first-child{
+            padding-inline-start: 160px;
+          }
+        }
+      }
+    }
+}

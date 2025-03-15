@@ -1,0 +1,491 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: personal-information-form.component.html
+  @Who: Satya Prakash Gupta
+  @When: 12-May-2022
+  @Why:  EWM-6553 EWM-6710
+  @What: Personal information form page
+ -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<div class="application-fade-sec" *ngIf="!IsPersonalInfo"></div>
+<div class="configure-application-card-title">
+    <h3>{{'label_confiPersonal' |translate}}</h3>
+    <p>{{'label_chooseWhatInfo' |translate}}</p>
+</div>
+<div class="personal-information-form">
+    <form [formGroup]="personalInfoForm">
+        <mat-accordion multi class="personal-information--mat-accordion">
+            <mat-expansion-panel #expansionPanelPerInfo expanded="true"
+                hideToggle>
+                <mat-expansion-panel-header #panelPerInfo
+                    (click)="panelPerInfo._toggle()">
+                    <mat-panel-title>
+                        {{'label_personalConfig' |translate}}
+                    </mat-panel-title>
+                    <button mat-icon-button tabindex *ngIf="!expansionPanelPerInfo.expanded" id="btn_Expand"
+                        (click)="panelPerInfo._toggle()" [disabled]="activestate()">
+                        <mat-icon>expand_more</mat-icon>
+                    </button>
+                    <button mat-icon-button tabindex *ngIf="expansionPanelPerInfo.expanded" id="btn_collapse"
+                        (click)="panelPerInfo._toggle()" [disabled]="activestate()">
+                        <mat-icon>expand_less</mat-icon>
+                    </button>
+                </mat-expansion-panel-header>
+
+                <mat-panel-description>
+                    <i>{{'label_personalDesc' |translate}}</i>
+                </mat-panel-description>
+                <mat-card class="personal-information-form-box mat-elevation-z1"
+                    disabled>
+                    <div>
+                        <mat-checkbox color="primary" disabled formControlName="IsFirstNameApplicable"
+                            (change)="sendDataToParent()"></mat-checkbox> <span>{{'label_firstName'
+                            |translate}}</span>
+
+                    </div>
+                    <div>
+                        <button mat-icon-button color="primary" [disabled]="activestate()">
+                            <mat-icon matTooltip="{{'label_personalInfoFirstName'
+                                |translate}}">info</mat-icon>
+                        </button>
+                    </div>
+                    <div>
+                        <mat-slide-toggle color="warn" disabled formControlName="IsFirstNameRequired"
+                            (change)="sendDataToParent()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div>
+                        <mat-checkbox color="primary" disabled formControlName="IsLastNameApplicable"
+                            (change)="sendDataToParent()"></mat-checkbox> <span>{{'label_lastName'
+                            |translate}}</span>
+                    </div>
+                    <div>
+
+                        <button mat-icon-button color="primary" [disabled]="activestate()">
+                            <mat-icon matTooltip="{{'label_personalInfoFirstName'
+                                |translate}}">info</mat-icon>
+                        </button>
+                    </div>
+                    <div>
+                        <mat-slide-toggle color="warn" disabled formControlName="IsLastNameRequired"
+                            (change)="sendDataToParent()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div>
+                        <mat-checkbox color="primary" disabled
+                            formControlName="IsEmailApplicable"
+                            (change)="sendDataToParent()"></mat-checkbox>
+                        <span>{{'label_canEmail' |translate}}</span>
+                    </div>
+                    <div>
+                        <button mat-icon-button color="primary" [disabled]="activestate()">
+                            <mat-icon matTooltip="{{'label_personalInfoFirstName'
+                                |translate}}">info</mat-icon>
+                        </button>
+                    </div>
+                    <div>
+                        <mat-slide-toggle color="warn" disabled formControlName="IsEmailRequired"
+                            (change)="sendDataToParent()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div>
+                        <mat-checkbox color="primary" formControlName="IsPhoneApplicable" (change)="sendDataToParent()"
+                            [disabled]="activestate()">
+                        </mat-checkbox><span>{{'label_canPhone' |translate}}</span>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsPhoneRequired" (change)="sendDataToParent()"
+                            [disabled]="activestate()">
+                            {{'label_required' |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div>
+                        <mat-checkbox color="primary" formControlName="IsProfilePicApplicable"
+                            (change)="sendDataToParent()" [disabled]="activestate()"></mat-checkbox>
+                        <span>{{'label_profilePicture'
+                            |translate}}</span>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsProfilePicRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+            </mat-expansion-panel>
+            <mat-expansion-panel #expansionPanelAdd hideToggle class="custom-mat-expansion-panel">
+                <mat-expansion-panel-header #panelAdd (click)="panelAdd._toggle()">
+                    <mat-panel-title>
+                        {{'label_address' |translate}}
+                    </mat-panel-title>
+                    <div class="mat-panel-header-switch">
+                        <mat-slide-toggle color="warn" formControlName="IsAddressRequired" (change)="sendDataToParent()"
+                            [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
+            <mat-expansion-panel #expansionPanelSkill hideToggle class="custom-mat-expansion-panel">
+                <mat-expansion-panel-header #panelSkill (click)="panelSkill._toggle()">
+                    <mat-panel-title>
+                        {{'label_skill' |translate}}
+                    </mat-panel-title>
+                    <div class="mat-panel-header-switch">
+                        <mat-slide-toggle color="warn" formControlName="IsSkillsRequired" (change)="sendDataToParent()"
+                            [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel #expansionPanelAddiInfo hideToggle>
+                <mat-expansion-panel-header #panelAddiInfo
+                    (click)="panelAddiInfo._toggle()">
+                    <mat-panel-title>
+                        {{'candidate_additionalInformation' |translate}}
+                    </mat-panel-title>
+                    <button mat-icon-button tabindex *ngIf="!expansionPanelAddiInfo.expanded" id="btn_Expand"
+                        (click)="panelAddiInfo._toggle()" [disabled]="activestate()">
+                        <mat-icon>expand_more</mat-icon>
+                    </button>
+                    <button mat-icon-button tabindex *ngIf="expansionPanelAddiInfo.expanded" id="btn_collapse"
+                        (click)="panelAddiInfo._toggle()" [disabled]="activestate()">
+                        <mat-icon>expand_less</mat-icon>
+                    </button>
+                </mat-expansion-panel-header>
+
+                <mat-panel-description>
+                    <i>{{'label_personalDesc3' |translate}}</i>
+                </mat-panel-description>
+                <mat-card class="mat-elevation-z1 mb-10">
+                    <div class="personal-information-form-box">
+                        <div>
+                            <mat-checkbox color="primary" formControlName="CurrentSalary" (change)="sendDataToParent()"
+                                [disabled]="activestate()">
+                            </mat-checkbox><span>{{'label_expSalary'
+                                |translate}}</span>
+                        </div>
+                        <div>
+
+                        </div>
+                        <div>
+
+                            <mat-slide-toggle color="warn" formControlName="IsExpectedSalaryRequired"
+                                (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                                |translate}}</mat-slide-toggle>
+
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div>
+                        <mat-checkbox color="primary" formControlName="IsNoticePeriodApplicable"
+                            (change)="sendDataToParent()" [disabled]="activestate()"></mat-checkbox>
+                        <span>{{'label_canNoticePeriod'
+                            |translate}}</span>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsNoticePeriodRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+            </mat-expansion-panel>
+            <mat-expansion-panel #expansionPanelExp hideToggle
+                class="custom-mat-expansion-panel">
+                <mat-expansion-panel-header #panelExp
+                    (click)="panelExp._toggle()">
+                    <mat-panel-title>
+                        {{'label_experience' |translate}}
+                    </mat-panel-title>
+                    <div class="mat-panel-header-switch">
+                        <!-- who:maneesh,what:ewm-10743 change form control name IsExperienceApplicable into IsExperienceRequired ,when:13/03/2023 -->
+                        <mat-slide-toggle color="warn" formControlName="IsExperienceRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()"></mat-slide-toggle>
+                    </div>
+                    <div>
+                        <button mat-icon-button tabindex *ngIf="!expansionPanelExp.expanded" id="btn_Expand"
+                            (click)="panelExp._toggle()" [disabled]="activestate()">
+                            <mat-icon>expand_more</mat-icon>
+                        </button>
+                        <button mat-icon-button tabindex *ngIf="expansionPanelExp.expanded" id="btn_collapse"
+                            (click)="panelExp._toggle()" [disabled]="activestate()">
+                            <mat-icon>expand_less</mat-icon>
+                        </button>
+                    </div>
+                </mat-expansion-panel-header>
+
+                <mat-panel-description>
+                    <i>{{'label_personalDesc3' |translate}}</i>
+                </mat-panel-description>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1" disabled>
+                   
+                    <div> <span>{{'label_candidatePositionName'|translate}}</span>
+                    </div>
+                    <div> </div>
+                    <div>
+                    
+                        <mat-slide-toggle color="warn" disabled formControlName="IsPositionNameRequired"
+                            (change)="sendDataToParent()" >{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1" disabled>
+                    <div> <span>{{'label_candidateEmployer'|translate}}</span>
+                    </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" disabled formControlName="IsEmployerRequired"
+                            (change)="sendDataToParent()" >{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_Currency'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsCurrencyRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'quickjob_salary'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsSalaryRequired" (change)="sendDataToParent()"
+                            [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'quickjob_salaryUnit'|translate}}</span>
+                    </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsSalaryUnitRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1" disabled>
+                    <div> <span>{{'label_startDate'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" disabled formControlName="IsStartDateExpRequired"
+                            (change)="sendDataToParent()" >{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_endDate'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsEndDateExpRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_CL_Location'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsLocationExpRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_can_employment_description'|translate}}</span>
+                    </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsDescriptionExpRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+
+            </mat-expansion-panel>
+            <mat-expansion-panel #expansionPanelEdu hideToggle
+                class="custom-mat-expansion-panel">
+                <mat-expansion-panel-header #panelEdu
+                    (click)="panelEdu._toggle()">
+                    <mat-panel-title>
+                        {{'candidate_education' |translate}}
+                    </mat-panel-title>
+
+                    <div class="mat-panel-header-switch">
+                        <!-- who:maneesh,what:ewm-10743 change form control name IsEducationApplicable into IsEducationRequired ,when:13/03/2023 -->
+                        <mat-slide-toggle color="warn" formControlName="IsEducationRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()"></mat-slide-toggle>
+                    </div>
+                    <div>
+                        <button mat-icon-button tabindex *ngIf="!expansionPanelEdu.expanded" id="btn_Expand"
+                            (click)="panelEdu._toggle()" [disabled]="activestate()">
+                            <mat-icon>expand_more</mat-icon>
+                        </button>
+                        <button mat-icon-button tabindex *ngIf="expansionPanelEdu.expanded" id="btn_collapse"
+                            (click)="panelEdu._toggle()" [disabled]="activestate()">
+                            <mat-icon>expand_less</mat-icon>
+                        </button>
+                    </div>
+                </mat-expansion-panel-header>
+                <mat-panel-description>
+                    <i>{{'label_personalDesc3' |translate}}</i>
+                </mat-panel-description>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_degreeType'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsDegreeTypeRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_degreeTitle'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsDegreeTitleRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_institute'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsNameInstituteRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_university'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsNameUniversityRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1" disabled>
+                    <div> <span>{{'label_qualification'|translate}}</span>
+                    </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" disabled formControlName="IsQualificationRequired"
+                            (change)="sendDataToParent()" >{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_startDate'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsStartDateEduRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_endDate'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsEndDateEduRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1" disabled>
+                    <div> <span>{{'label_CL_Location'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" disabled formControlName="IsEndDateEduRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_scoreType'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsScoreTypeRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_finalScore'|translate}}</span> </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsFinalScoreRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+
+                <mat-card class="personal-information-form-box
+                    mat-elevation-z1">
+                    <div> <span>{{'label_can_employment_description'|translate}}</span>
+                    </div>
+                    <div> </div>
+                    <div>
+                        <mat-slide-toggle color="warn" formControlName="IsDescriptionEduRequired"
+                            (change)="sendDataToParent()" [disabled]="activestate()">{{'label_required'
+                            |translate}}</mat-slide-toggle>
+                    </div>
+                </mat-card>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </form>
+</div>

@@ -1,0 +1,45 @@
+ /* 
+@(C): Entire Software
+@Type: File, <css>
+@Who:  Adarsh singh
+@When: 09-09-2023
+@Why: EWM-13814 EWM-13877
+@What: style structure change
+*/
+
+.latLongDistance{
+    .map-mat-card{
+        overflow: inherit;
+        max-height: initial;
+        .distanceIcon{
+            margin:0px;
+            text-align: center;
+            .import-export{
+                background: #f5f5f5;
+                .mat-icon{
+                    color: #333;
+                }
+            }
+        }
+        .distanceTotal{
+            text-align: center;
+            margin: 10px 0px 0px 0px;
+
+            .distanceTotalLbl{
+              padding: 10px 30px;
+             font-weight: 500;
+            font-size: 16px;
+            color: #f44336;
+            border: 1px solid rgba(0,0,0,0.15);
+            cursor: pointer;
+            }
+        }
+    }    
+}
+.googleMaps{
+    height: 35vh;
+    margin-bottom: 35px;
+}
+.agm-map {
+    height: 100%;
+}

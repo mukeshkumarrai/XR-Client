@@ -1,0 +1,22 @@
+<ng-container applyTabIndexes>
+<div class="modal-header" id="modal-header" *ngIf="!candidateScreening">
+<h2 matDialogTitle class="mb-5"><img src="{{EOHLogo}}">{{'pushCandidateToEoh_pushCandidate' | translate}} </h2>
+
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content [ngClass]="!selectedMemberStatus? '' : 'member-dialog-content'">
+<app-applicant-member [candidateScreening]="candidateScreening" [publishedStatus]="publishedStatus" (sendPushApplicantMemberStatus)="sendPushApplicantMemberStatus($event)" [candidateInfoAction]="candidateInfo"></app-applicant-member>
+</mat-dialog-content>
+<mat-divider *ngIf="!selectedMemberStatus"></mat-divider>
+<div mat-dialog-actions class="eoh-dialog-footer" *ngIf="!selectedMemberStatus && !candidateScreening">
+  <div class="alert-message" *ngIf="publishedStatus==='apl'">{{'pushCandidateToEoh_CandidateAlreadyPushed'|translate}}</div>
+    <div class="button-group">
+      <button mat-stroked-button color="warn" tabindex type="button" id="btnCancel" (click)="onDismiss()">
+        {{'button_cancel'|translate}}</button>
+      <button mat-stroked-button class="eoh-bg-button" tabindex color="primary" type="button" id="btnSave"  [disabled]="isFormValid" (click)="onSubmit()">
+        <img src="{{EOHLogo}}">{{'pushCandidateToEoh_pushCandidate'|translate}}</button>
+    </div>
+</div>
+</ng-container>

@@ -1,0 +1,91 @@
+/* 
+ @(C): Entire Software
+ @Type: File, <css>
+  @Who: maneesh
+  @When: 31-jan-2023
+  @Why: EWM-10304-EWM-9378
+ @What: You can add this page styles on same file, and also import other style files
+*/
+
+
+
+@import "../../../../../../mixinStyle.scss";
+
+.nodata{
+  display: flex;
+  height: calc(100% - 60px);
+  justify-content: center;
+  align-items: center;
+}
+.candidate-job-maped-data{
+  display: grid;
+  gap: 10px;
+  max-height: calc(100% - 74px);
+  overflow: auto;
+  padding: 10px;
+  grid-template-columns: repeat(2, calc(50% - 5px));
+  @include for-small-smartphones{
+    grid-template-columns: repeat(1, calc(100% - 0px));
+  }
+  @include for-smartphones {
+    grid-template-columns: repeat(1, calc(100% - 0px));
+  }
+}
+
+.addJobCandidate{
+  .candidateJobBox{
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      height: 122px;
+      .candidate-card{
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 10px;
+      }
+      .minHeightTxtBox{
+        height: 77px;
+        width: calc(100% - 60px);
+      }
+        
+    .txtValueStyle{
+      display: block;
+      margin: 5px 0px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .candidateImg{
+      width: 50px;
+      height: 50px;
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 50%;
+      margin:10px 0px;
+      float: right;
+    }
+    .connectedBtn {
+      background: #7FB734;
+    }
+  }
+  .candidateJobBox:hover{
+    transform: scale(1.02);
+    border-radius: 10px;
+    animation-duration: 0.30s;
+    box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+  }
+}
+.inputSearch{
+  right: 50px;
+}
+:host ::ng-deep {
+  .autocomplete-container .input-container input{
+    padding: 0px 35px 0px 15px;
+    height: 36px;
+  }
+  .autocomplete-container{
+    height: 36px;
+  }
+  .searchGreyBgBox{
+    z-index: 3;
+    gap: 10px;
+  }
+}

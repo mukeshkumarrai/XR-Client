@@ -1,0 +1,196 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 10-Mar-2021
+    @Why: EWM-1021 EWM 1114
+    @What:  This page wil be use only for the Access Levels Component HTML
+-->
+<!-- Entire Software : Naresh Singh : 10-Mar-2021 : Contact info : EWM-1021 EWM 1114 -->
+<!-- @When: 31-05-2024 @who:Amit @why: EWM-17251 @what: structure modified -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+  <mat-card-header class="page-header" id="access-level-mat-card-header">
+    <mat-card-title class="only-title ml-5">{{'label_accessLevels' |translate}}</mat-card-title>
+    <div class="header-action-button" id="access-levels-actionButton" *ngIf="formtitle=='grid'">
+      <div class="header-form">
+        <mat-form-field class="searchInput" floatLabel="never">
+          <mat-label>{{'label_search'|translate}}</mat-label>
+          <input  matInput id="access-searchBox"  placeholder="Search" (input)="onFilter($event.target.value)" [(ngModel)]="searchVal" >
+          <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+          <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" id="btnClearFilterId" (click)="onFilterClear()"
+            (click)="searchVal=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+      </div>
+      <div class="group-header-button">
+          <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+          matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+          <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+            {{animationVar?.BarRotateButton?.iconName}}
+          </mat-icon>
+          </button>
+        <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+          (click)="switchListMode('listMode')" id="access-viewModeInactive"
+          matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+          <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+            class="{{animationVar?.ListButton?.isAnimClass}}">
+            {{animationVar?.ListButton?.iconName}}
+          </span>
+        </button>
+        <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+          (click)="switchListMode('cardMode')" id="access-viewModeActive"
+          matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+          <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+            class="{{animationVar?.GridButton?.isAnimClass}}">
+            {{animationVar?.GridButton?.iconName}} 
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="header-action-button" id="access-levels-actionButton-new" *ngIf="formtitle=='Add'">
+      <button mat-raised-button class="buttonForDesktopMobile" tabindex="4" color="warn" (click)="onCancel($event)" id="btnCancel">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+    </button>
+    </div>
+    </mat-card-header>
+
+<!-- <mat-drawer-container class="xeople-container-listing-without-breadCrumb" autosize id="access-level-drawer">     -->
+<mat-drawer-container autosize id="card-view-container" [ngClass]="viewMode === 'cardMode'?'page-container-cardview':'page-container-listcard'">
+<mat-card class="mat-elevation-z2 listmode-card" id="component-card">    
+    <div class="list-container" infinite-scroll
+    [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" 
+    [scrollWindow]="false">        
+        <!-- Entire Software : Naresh Singh : 10-Mar-2021 : Contact info : EWM-1021 EWM 1114 -->
+        <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+            <div class="row mb-0 listHeader" id="listHeader" [class.hide]="isvisible" >
+
+                    <div class="col col-4 listActionBox"><strong>&nbsp;</strong></div>
+
+                    <div class="col col-1" (click)="onSort('Name')">
+                        <button mat-button [disableRipple]="true" id="access-name"><strong>{{'label_accessLevels'|translate}}
+                            </strong>
+                            <mat-icon *ngIf="sortedcolumnName === 'Name' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                            <mat-icon *ngIf="sortedcolumnName === 'Name' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                        </button>
+                        
+                    </div>
+                     <div class="col col-2" (click)="onSort('Description')">
+                        <button mat-button [disableRipple]="true" id="access-description"><strong>{{'label_dataType'|translate}}
+                        </strong>
+                        <mat-icon *ngIf="sortedcolumnName === 'Description' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                        <mat-icon  *ngIf="sortedcolumnName === 'Description' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                    </button>
+                    </div>                     
+               
+            </div>
+        </div>
+        <div class="listCardView" id="listCardView"
+            [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']" *ngIf="viewMode === 'listMode'">
+            <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+                <div class="row">
+                    <div class="col nodata" *ngIf="this.gridData==undefined ||this.gridData.length==0">
+                        <span>{{'label_noRecordAvailable'|translate}}</span>
+                      </div>
+                    <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+                        *ngFor="let gridDataList of gridData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+                        <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                            <mat-card-content class="listcardContent" [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+
+                    <!-- list data start-->
+                        <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+
+                          <div class="col" 
+                          [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-4']">
+
+                        <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+
+                        <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                            <button  mat-menu-item id="access-managegrupsList" *ngIf="formtitle=='grid'" 
+                              [routerLink]="['/client/core/user-management/access-levels/manage-view/' + gridDataList.Id ]">
+                              <mat-icon>settings</mat-icon>
+                              {{'label_settings'|translate}}
+                          </button>
+                        </mat-menu>  
+                          </div>
+
+                            <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                                <strong>{{'label_accessLevels'|translate}}</strong>
+                            </div>
+                            <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']"><span
+                                matTooltip= "{{gridDataList.Name}}" class="cardListTxt" matTooltipClass="custom-tooltip">
+                                {{ gridDataList.Name }}
+                              </span></div>
+                              <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                            <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                                <strong>{{'label_dataType'|translate}}</strong>
+                            </div>
+                            <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']"><span
+                                    class="cardListTxt" matTooltip= "{{gridDataList.Description}}" matTooltipClass="custom-tooltip">
+                                    {{ gridDataList.Description }}
+                                </span>
+                            </div>
+                            <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                            
+
+                            
+                        </div>
+                    <!-- list data End-->
+                            </mat-card-content>
+                          </mat-card>
+                    </div>
+                </div>
+                <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+            </div>
+        </div>
+        <!-- Entire Software : Naresh Singh : 10-Mar-2021 : Contact info : EWM-1021 EWM 1114 -->
+  </div>
+</mat-card>
+
+<div class="cardview-container"  *ngIf="viewMode === 'cardMode'" id="cardview-container" infinite-scroll [infiniteScrollDistance]="pageOption"
+[infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false"
+[ngClass]="[ this.gridData==undefined ||this.gridData.length==0 ? 'cardview-no-record' : '']">
+  <div class="cardview-norecord" id="cardview-norecord" *ngIf="this.gridData==undefined ||this.gridData.length==0">
+    <span>{{'label_noRecordAvailable'|translate}}</span>
+  </div>
+  <mat-card class="grid-card-mode" id="grid-card-mode" *ngFor="let gridDataList of gridData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+      <div class="grid-card-half-data" id="grid-card-half-data">
+      <div class="card-half-data">
+        <small>{{'label_accessLevels'|translate}}</small>
+        <span class="cardListTxt word-wrap" matTooltip="{{gridDataList.Name}}"
+          matTooltipClass="custom-tooltip">{{gridDataList.Name}}
+        </span>
+      </div>
+      <div class="card-half-data">
+        <small>{{'label_dataType'|translate}}</small>
+        <span class="cardListTxt word-wrap" matTooltip="{{gridDataList.Description}}"
+            matTooltipClass="custom-tooltip">{{gridDataList.Description}}
+          </span>
+      </div>
+      </div>
+      <div class="grid-card-mode-footer without-person-user" id="grid-card-mode-footer">
+        <div class="button-group" id="button-group">
+          <button mat-icon-button color="primary" matTooltip="{{'label_manageuser_grups'|translate}}"
+              id="access-managegrupsList" *ngIf="formtitle=='grid'" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+              [routerLink]="['/client/core/user-management/access-levels/manage-view/' + gridDataList.Id ]">
+              <mat-icon>settings</mat-icon>
+          </button>
+        </div>
+      </div>
+  </mat-card>
+</div>
+</mat-drawer-container>

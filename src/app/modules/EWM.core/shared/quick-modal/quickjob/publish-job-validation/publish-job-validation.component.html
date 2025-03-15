@@ -1,0 +1,31 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 06-June-2022
+    @Why: EWM-6871
+    @What: This component is used for publish job validation templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<form [formGroup]="addForm" id="addCandidateFolderId" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_publishJob' |translate}}</h2>
+    </div>
+    <mat-dialog-content class="publish-dialog-content" id="publish-dialog-content">
+       <div class="configure-application-text-area label-with-radio">
+            <label class="textarea-lavel">
+                <span>{{'label_jobPublishvalidation'|translate}}</span>
+            </label>
+           </div>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button"
+            (click)="onSave()" id="btnSave"> {{'label_continue'|translate}}</button>
+    </div>
+</form>

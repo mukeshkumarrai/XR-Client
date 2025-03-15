@@ -1,0 +1,22 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Naresh Singh
+    @When: 05-Sep-2021
+    @Why: EWM-2511 EWM-2707
+    @What: You can add this page styles on same file, and also import other style files
+*/
+.email-box-header {
+  padding: 0px 10px;
+}
+.email-container {
+  .emaillist {
+    width: 100%;
+  }
+  .email-card-view {
+    width: 260px;
+    @media (width <= 1024px){
+      width: 0px;
+    }
+  }
+}

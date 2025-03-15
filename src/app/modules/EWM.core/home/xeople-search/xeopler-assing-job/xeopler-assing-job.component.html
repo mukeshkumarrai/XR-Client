@@ -1,0 +1,230 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: candidate-list.component.html
+  @Who: maneesh
+  @When: 31-jan-2023
+  @Why: EWM-10305-EWM-9378
+  @What: This page wil be use only for the xeople search grid candidate list page Component HTML
+ -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<div class="outer-container">
+  <div class="kendo-grid-appearance xeople-assign-appearance" id="candidate-list-kendo-table-container">
+    <ng-template #template let-anchor>
+      <span>{{anchor.nativeElement.innerText}}</span>
+    </ng-template>
+    <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+      (mouseover)="showTooltip($event)">
+      <kendo-grid [data]="data" [pageable]="{buttonCount: 3,
+            info: true,
+            type: 'numeric',
+            pageSizes: true,
+            previousNext: true,
+            responsive: true}" [pageSize]="state.take" [skip]="state.skip" [sortable]="true" [sort]="state.sort"
+        [filterable]="true" [columnMenu]="menuSettings" [filter]="state.filter"
+        (dataStateChange)="dataStateChange($event)" [selectable]="true" [resizable]="true"
+         (selectedKeysChange)="selectionChange($event)"  [kendoGridSelectBy]="selectedCallback"  [(selectedKeys)]="canidatedata" [selectable]="selectableSettings">
+
+         <kendo-grid-checkbox-column [columnMenu]="false" [showSelectAll]="true"></kendo-grid-checkbox-column>
+        <ng-template ngFor [ngForOf]="OutputFieldsColumns" let-column>
+          <kendo-grid-column  [minResizableWidth]="80" field="{{column?.DBColumnName}}" [selectable]="false"
+            title="{{column?.OutputFieldName}} {{column?.OutputFieldName.toLowerCase()=='proximity'?'('+distanceUnit+')':''}}"  [filterable]="column?.Filterable"
+            [headerStyle]="column?.Alignment=='R'?{'text-align': 'right'}:''" [width]="column?.Width"
+            [style]="{'padding':column?.DBColumnName.toLowerCase()=='ProfileStatus'.toLowerCase()?'0px':'',
+            'text-align':column?.Alignment=='R'?'right':'left' }"
+            [sortable]="column?.DBColumnName.toLowerCase()=='ProfileImageUrl'.toLowerCase() ||
+                         column?.DBColumnName.toLowerCase()=='Resume'.toLowerCase()?false:true"
+                         [hidden]="hiddenColumns.indexOf(column?.DBColumnName) > -1">
+
+            <div *ngIf="dataItem===null || dataItem===undefined || dataItem==='' " class="not-data">
+              {{'label_noRecordFound'| translate}}</div>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='ProfileStatus'">
+                <span [style.background-color]="dataItem.StatusColorCode" class="cell-color">{{dataItem.ProfileStatus}}</span>
+              </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='ProfileImageUrl'">
+              <div class="userAvtaarAndName tooltip tooltip-bottom">
+                  <img class="tooltip-trigger" *ngIf="dataItem?.ProfileImageUrl!==''" src="{{dataItem?.ProfileImageUrl}}" />
+                  <span class="tooltip-trigger" *ngIf="dataItem?.ProfileImageUrl==''" [style.background]="getBackgroundColor(dataItem?.ShortName)">{{dataItem.ShortName}}</span>
+              </div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='Name'">
+              <a target="_blank" [routerLink]="['/client/cand/candidate/candidate']"
+                [queryParams]="{CandidateId:dataItem.Id, Type: 'CAND'}" id="btnViewCandiateName">
+                {{dataItem.Name}}
+              </a>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='Name'">
+              <a target="_blank" [routerLink]="['/client/cand/candidate/candidate']"
+                [queryParams]="{CandidateId:dataItem.Id, Type: 'CAND'}" id="btnViewCandiateName">
+                {{dataItem.Name}}
+              </a>
+            </ng-template>
+            <ng-template id="PrimaryMobileNo" kendoGridCellTemplate let-dataItem *ngIf="column.DBColumnName=='PrimaryMobileNo'"  class="p-0">
+              <div [hidden]= "dataItem?.PrimaryMobileNo == null || dataItem?.PrimaryMobileNo ==''">
+                  <div *ngIf="dataItem?.PrimaryMobileNo != null || dataItem?.PrimaryMobileNo != undefined || dataItem?.PrimaryMobileNo != blank" class="callAction">
+                  <a href="tel:{{dataItem?.PrimaryMobileNo}}" mat-icon-button matTooltip="{{'label_call' | translate}} - {{dataItem?.PrimaryMobileNo}}"
+                  matTooltipClass="custom-tooltip"><mat-icon   id="{{animationVar?.CallButton?.id}}"
+                  class="{{animationVar?.CallButton?.isAnimClass}}">call</mat-icon>
+                  </a>
+                  {{dataItem?.PrimaryMobileNo}}
+                </div>
+            </div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.DBColumnName=='Skills'">
+              <div class="grid-chips">
+                <mat-chip-list #chipList aria-label="skill selection">
+                  <ng-container *ngFor="let skillList of dataItem.Skills, let i = index;">
+                    <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false">
+                      <span>{{skillList}}</span>
+                    </mat-chip>
+                  </ng-container>
+                </mat-chip-list>
+                <button mat-button color="primary" *ngIf="dataItem.Skills?.length>2" class="more-owner-show"
+                  [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                  +{{dataItem.Skills?.length-2}}
+                </button>
+
+                <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                  <ng-container *ngFor="let skillList of dataItem?.Skills, let i = index;">
+                    <button mat-button *ngIf="i>=2">
+                      {{skillList}}
+                    </button>
+                  </ng-container>
+                </mat-menu>
+              </div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.DBColumnName=='Qualification'">
+              <div class="grid-chips">
+                <mat-chip-list #chipList aria-label="qualification selection">
+                  <ng-container *ngFor="let qualificationList of dataItem.Qualification, let i = index;">
+                    <mat-chip *ngIf="i<2"  id="Qualification-list" [disabled]="readOnly" [removable]="false">
+                      <span>{{qualificationList}}</span>
+                    </mat-chip>
+                  </ng-container>
+                </mat-chip-list>
+                <button mat-button color="primary" *ngIf="dataItem.Qualification?.length>2" class="more-owner-show"
+                  [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                  +{{dataItem.qualificationList?.length-2}}
+                </button>
+
+                <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                  <ng-container *ngFor="let skillList of dataItem?.qualificationList, let i = index;">
+                    <button mat-button *ngIf="i>=2">
+                      {{qualificationList}}
+                    </button>
+                  </ng-container>
+                </mat-menu>
+              </div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='Resume'">
+              <div class="resume-view">
+                <button mat-mini-fab color="primary" id="descBtn" [disabled]="dataItem.Resume =='NO'" (click)="showResume(dataItem.Id)"
+                matTooltip="{{'label_view_resume' | translate}}" matTooltipClass="custom-tooltip">
+                  <mat-icon>description</mat-icon>
+                </button>
+                <button mat-mini-fab color="accent" id="shareBtn" [disabled]="dataItem.Resume =='NO'"
+                  (click)="confirmShareDocument(dataItem.Id, dataItem.Name)"
+                  matTooltip="{{'label_share' | translate}}" matTooltipClass="custom-tooltip">
+                  <mat-icon id="{{animationVar?.ShareButton?.id}}"
+                    class="{{animationVar?.ShareButton?.isAnimClass}}">share</mat-icon>
+                </button>
+              </div>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='Email'"
+              let-rowIndex="rowIndex">
+              <div class="copy-content" id="newEmail">
+                <button mat-icon-button color="primary" type="button" id="url-copy-btn__{{i}}"
+                  matTooltipClass="custom-tooltip" matTooltip="copy" (click)="copyCandidateEmailId(dataItem.Email,rowIndex);">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+                <span class="email-text" (click)="openNewEmailModal(undefined,'',dataItem?.Email,dataItem?.Id)">
+                  {{dataItem.Email}}
+                </span>
+                <div class="copyMessage email-hide" id="autoHide{{rowIndex}}">
+                  <div class="alert-primary alert-green">
+                    <mat-icon>check</mat-icon>
+                    <span>{{'label_emailAddressCipied'| translate }}</span>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
+            <!---------@When: 30-03-2023 @who:Bantee @why: EWM-11492 --------->
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='LastActivitydate'">
+              <span class="textRight">
+                {{dataItem.LastActivitydate|
+                date:userpreferences.timeformate:userpreferences.timezone}}</span>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='CreatedDate'">
+              <span class="textRight">
+                {{dataItem.CreatedDate|
+                date:userpreferences.timeformate:userpreferences.timezone}}</span>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='Address'">
+              <a color="primary" id="addressBtn" class="address pointer" >
+                <span class="buttonTxt systemAuditEyeIcon"  style="cursor: pointer;" (click)="openNewTabForClientGoogleMapLocation(dataItem.Latitude,dataItem.Longitude,dataItem.Address)">
+                {{dataItem.Address}}
+                </span>
+              </a>
+            </ng-template>
+
+            <!---------@When: 16-05-2023 @who:Renu @why: EWM-10970 EWM-11195  --------->
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='Inotherjobs'">
+              <a class="newEmailBtn" style="cursor: pointer;" color="primary" id="newEmail"
+                matTooltipClass="custom-tooltip">
+                <span class="buttonTxt systemAuditEyeIcon pointer"
+                  (click)="openTimelinePopup(dataItem)">{{dataItem.Inotherjobs}}</span>
+              </a>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='CvParsed'">
+              <span class="textRight" >{{dataItem.CVParsed}}</span>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.DBColumnName=='FolderCount'">
+              <div class="resume-view">
+                <button mat-mini-fab color="primary" class="cursor mr-10" id="folderBtn"
+                  (click)="openQuickFolderModal(dataItem.Id)"
+                  matTooltip="{{'candidate_folders' | translate}}" matTooltipClass="custom-tooltip">
+                  <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.ViewResumeButton?.id}}"
+                    class="{{animationVar?.ViewResumeButton?.isAnimClass}}"
+                    matBadge="{{dataItem.Folder}}" matBadgeColor="accent">folder</mat-icon>
+                </button>
+              </div>
+            </ng-template>
+
+           <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.FilterableDataType=='text'">
+              <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="startswith">
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              </kendo-grid-string-filter-cell>
+            </ng-template>
+            <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.FilterableDataType=='numeric'">
+              <kendo-grid-numeric-filter-cell	 [column]="column" [filter]="filter" operator="eq">
+                <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                <kendo-filter-lte-operator></kendo-filter-lte-operator>
+            </kendo-grid-numeric-filter-cell>
+         </ng-template>
+          </kendo-grid-column>
+        </ng-template>
+        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+          <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+          <kendo-pager-info></kendo-pager-info>
+          <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+        </ng-template>
+      </kendo-grid>
+    </div>
+  </div>
+</div>

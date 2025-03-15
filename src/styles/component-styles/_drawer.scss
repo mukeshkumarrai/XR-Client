@@ -1,0 +1,1623 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: drawer.scss
+    @Who: Satya Prakash Gupta
+    @When: 22-Dec-2021
+    @Why:
+    @What: You can add style for drawer only
+*/
+@import "../../mixinStyle.scss";
+@import "../../styles-var.scss";
+
+.drawer-icon-button.mat-raised-button{
+  padding: 0px 0px;
+  min-width: 35px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  .mat-icon{
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 20px;
+  }
+}
+.drawer-button-tooltip-top-bottom-end{
+  margin-bottom: 0px !important;
+}
+.drawer-button-tooltip-top{
+  margin-right: 5px !important;
+  overflow: visible !important;
+  word-break: break-word;
+  &:after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    top: 100%;
+  }
+  &:after {
+    left: calc(100% - 0px);
+    top: calc(50% - 8px);
+    border-color: transparent transparent transparent rgba(97,97,97,.9) ;
+    border-width: 8px;
+  }
+}
+
+/*******notes year filter drawer start here*******/
+.mat-drawer-side.notes-yearfilter-drawer {
+  background: #eceff1;
+  box-shadow: none !important;
+  .yearsFilter {
+    padding: 46px 10px 10px 10px;
+    display: block;
+    .mat-expansion-panel-body {
+      padding: 0px 0px 16px;
+    }
+    .monthWithData {
+      display: flex;
+      align-items: center;
+      width: 220px;
+      margin: 0px 15px;
+      padding: 3px 5px;
+      font-size: 12px;
+      cursor: pointer;
+      .month-name {
+        width: 60px;
+        text-align: right;
+      }
+      .notes-ammount {
+        text-align: left;
+      }
+      .mat-progress-bar {
+        margin: 0px 10px;
+      }
+      &:hover {
+        background: #eceff1;
+      }
+    }
+    .monthWithData.active {
+      background: #cfd8dc;
+    }
+  }
+}
+/*******notes year filter drawer end here*******/
+
+/*******notes add edit drawer start here*******/
+.notes-addEdit-drawer {
+  .drawerFooter {
+    height: 40px;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    bottom: 0px;
+    background: $white-bg;
+    z-index: 9;
+  }
+  .drawerFooter.mat-card {
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: calc(100% - 20px);
+    left: 0px;
+    padding: 0px 10px;
+    border-radius: 0px;
+  }
+}
+
+.notes-addEdit-drawer{
+  .add-notes-footer{
+    align-items: inherit;
+    height: auto;
+    width: calc(100% - 30px);
+    position: absolute;
+    z-index: 9999;
+    .mat-divider{
+      top:0px;
+    }
+  }
+}
+
+/*******notes add edit drawer end here*******/
+
+/*******custom filter start here*******/
+.customFilter-drawer {
+  width: 100%;
+  max-width: 345px;
+  padding: 0px;
+  background: transparent;
+  box-shadow: none !important;
+  display: flex;
+  .flex {
+    display: flex;
+  }
+  .drawerTitleSec {
+    width: 40px;
+    h4 {
+      background: $primary-bg-color;
+      color: $primary-txt-color;
+      transform: translateY(57px) translateX(-57px) rotate(-90deg);
+      border-radius: 4px 0px 0px 4px;
+      padding-right: 50px;
+      padding-left: 15px;
+      text-align: left;
+      width: 90px;
+      margin: 0px;
+      height: 40px;
+      line-height: 40px;
+      .closeDrawerIcon {
+        border-radius: 4px 0px 0px 0px;
+        transform: rotate(90deg);
+        right: 0px;
+        position: absolute;
+        padding: 0px;
+        min-width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  .mat-card {
+    width: calc(100% - 0px);
+    padding: 10px;
+    overflow: auto;
+    border-radius: 0px;
+    height: calc(100vh - 194px);
+    @media only screen and (max-width: 1060px) and (min-width: 1025px) {
+      height: calc(100vh - 174px);
+    }
+    @media only screen and (max-width: 1024px) and (min-width: 581px) {
+      height: calc(100vh - 214px);
+    }
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100vh - 274px);
+    }
+  }
+}
+.myActivityContainer{
+  .home-create-activity.mat-card{
+    padding: 0px;
+    border-radius: 0px;
+    width: 100%;
+    overflow: hidden;
+    .my-activity{
+      padding: 0px;
+      height: calc(100% - 0px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      .drawer-footer{
+        width: calc(100% - 20px);
+        position: absolute;
+        background: #fff;
+        height: 50px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        z-index: 9;
+        padding: 0px 10px;
+        right: 0px;
+        bottom: 0px;
+      }
+    }
+  }
+}
+/*******custom filter end here*******/
+
+/*******career site type selection start here*******/
+.careerSiteContainer{
+  .innerpage-full-drawer-container{
+    height: 100%;
+    display: flex;
+    .create-type-section.mat-card{
+      padding: 0px;
+      border-radius: 0px;
+      width: 100%;
+      overflow: hidden;
+      .career-site-type{
+        padding: 15px;
+        height: calc(100% - 75px);
+        overflow: auto;
+        .drawer-footer{
+          position: absolute;
+          bottom: 0;
+          z-index: 2;
+          height: 45px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          width: calc(100% - 20px);
+          left: 0px;
+          padding: 0px 10px;
+          border-radius: 0px;
+        }
+      }
+    }
+  }
+}
+/*******career site type selection end here*******/
+
+/*******activity category toggle start here*******/
+.my-activity{
+  .mat-button-toggle-group{
+    flex-wrap: wrap;
+    margin:3px 0px 15px;
+    border-radius: 8px;
+    width: fit-content;
+    .mat-button-toggle{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; 
+      .mat-button-toggle-button{
+        display: flex;
+        .mat-button-toggle-label-content{
+          padding: 0px 7px;
+          line-height: 30px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis; 
+          .act-icon{
+            border-radius: 50px;
+            margin-right: 5px;
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            font-size: 16px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+   // my activity drawer time format bg change start here  
+  .mat-button-toggle-checked{
+    background: $primary-bg-color;
+    .mat-button-toggle-button{
+      .mat-button-toggle-label-content{
+        color: $primary-txt-color; 
+      }
+    }
+  }
+   // my activity drawer time format bg change end here  
+  .schedule-assistance{
+    .mat-button-toggle-group {
+      .mat-button-toggle-appearance-standard{
+        .mat-button-toggle-label-content{
+          line-height: 10px;
+          padding: 0px 7px;
+          padding: 5px 10px 3px;
+          font-weight: 500;
+          font-size: 11px;
+          .hour{
+            font-size:10px;
+          }
+        }
+      } 
+    }
+  }
+}
+
+/*******activity category toggle end here*******/
+
+// separate drawer full page
+.job-details-overlay-sidebar.mat-drawer-container {
+  z-index: 9999;
+  position: fixed;
+  .mat-drawer-backdrop{
+    position: fixed;
+  }
+  .drawerSidenav {
+    padding: 0px;
+    width: 100%;
+    background: transparent;
+    height: 100%;
+    box-shadow: none;
+    overflow: hidden;      
+    .closePanel{
+      width: 40px;
+      position: absolute;
+      height: 100%;
+      top: 0px;
+      z-index: 3;
+      background: transparent;
+      box-shadow: none;
+      z-index: 10;
+      background-color: transparent;
+      .closeDrawerIcon{
+          min-width: 40px;
+          margin: 0px;
+          background: #ffffff;
+          padding: 0px;
+          border-radius: 4px 0px 0px 0px;    
+          box-shadow: none;  
+      }
+      .sidebarSectionName{
+          transform: rotate(270deg);
+          position: relative;
+          background: $primary-bg-color;
+          color: $primary-txt-color;
+          padding: 2px 10px;
+          border-radius: 4px 0px 0px 0px;    
+          box-shadow: none;   
+          text-align: left;     
+      }
+      .sidebarSectionName::after{
+        background: transparent !important;          
+      }
+      .configure-title {
+        left: -58px;
+        top: 50px;
+        width: 140px;
+        text-align: left;
+      }
+      .knockout-configure-title {
+        left: -114px;
+        top: 106px;
+        width: 252px;
+        min-width: 252px;
+      }
+      .thanku-configure-title{
+        left: -89px;
+        top: 81px;
+        width: 202px;
+        min-width: 202px;
+      }
+    }
+    h2{
+      margin: 0px;
+      font-size: 18px;
+      font-weight: 500;
+      padding: 15px 10px;
+    }
+    .mat-drawer-inner-container{
+      overflow: hidden !important;
+    }
+    .canidate-card.mat-card-content{
+      height: calc(100vh - 60px) !important;
+    }
+  }
+  // candidate job maped
+  .addJobCandidateSummarySidebar{
+    max-width: 750px;
+    position: fixed;
+  } 
+  .panelSidebarInformation{
+    height: 100%;
+    width: calc(100% - 40px);
+    margin-left: 40px;
+    .mat-card.drawer-mat-card{
+      height: 100%;
+      border-radius: 0px;
+      .candidate-job-maped-sec{
+        height: 100%;
+        form, .map-application-card{
+          width: calc(100% - 0px);
+          height: calc(100% - 40px);
+          padding: 0px;
+          .searchGreyBgBox{
+            display: flex;
+            width: calc(100% - 20px);
+            align-items: center;
+            padding: 10px 10px;
+            padding-top: 0px;
+            justify-content: space-between;
+            background: #f5f5f5;
+            position: sticky;
+            top: 0px;
+            .searchInput{
+              max-width: 340px;
+              margin-bottom: 0px;
+              @media only screen and (max-width: 460px) and (min-width: 320px){
+                max-width: 195px;
+              }
+            }
+            .button-with-clear{
+              top: 5px;
+            }
+            .searchcandidate{
+              width: 100%;
+              top: 4px;
+              position: relative;
+              .inputSearch{
+                top: 18px;
+              }
+            }
+          }
+          .candidate-job-maped-data{
+            .candidateJobBox.mat-card{
+              border-radius: 4px;
+              border: 1px solid rgba(103, 58, 183, 0.15);
+              &:hover{
+                box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+              }
+              .candidateImg{
+                border:1px solid rgba(103,58,183,.15);
+              }
+              .shortName{
+                background: #f9f9f9;;
+                color:$primary-bg-color;
+                border:1px solid rgba(0, 0, 0, 0.15);
+              }
+              .addToJobBtnBox{
+                color: $primary-bg-color;
+                position: relative;
+                display: flex;
+                justify-content: flex-end;
+                padding: 5px 5px;
+                height: 35px;
+                align-items: center;
+                &::before{
+                  content: "";
+                  position: absolute;
+                  height: 100%;
+                  width: 100%;
+                  opacity: 0.1;
+                  background: currentColor;
+                  left: 0px;
+                }
+                .mat-icon-button{
+                  color:#9a9a9a;
+                }
+                @include mat-icon-button-size(35px, "");
+                @include mat-raised-button-height(35px);
+              }
+            }
+          }
+        }
+        .map-application-card{
+          height: calc(100% - 0px);
+        }
+        .actionBoxFooter.mat-card{
+          position: sticky;
+          height: 40px;
+          padding: 0px 10px;
+          bottom: 0px;
+          width: calc(100% - 20px);
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+      }
+    } 
+  }
+  // candidate job maped
+
+  // candidate job maped
+  .canidate-card .candidate-summry .mat-card{
+    padding: 0px;
+    .mat-card-header {
+      padding: 15px;
+      padding-bottom: 0px;
+    }
+  }
+}
+
+// separate drawer full page
+
+// quick filter
+.quickFiltr-mat-drawer{
+  width: 220px;
+  border-radius: 0px 0px 4px 4px;
+  h4{
+    padding: 0px 10px; 
+    margin: 10px 0px;
+  }
+  .mat-icon-button{
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+  }
+  .quick-filter{
+    padding: 10px;
+    height: calc(100% - 58px);
+    overflow: auto;
+    overflow-x: hidden;
+    .mat-stroked-button{
+      margin: 3px 3px;
+      margin-left: 0px;
+      border-radius: 20px;
+      border-color: $primary-bg-color;
+      font-size: 13px;
+      overflow: hidden;
+      height: 30px;
+      line-height: 28px;
+      width: 100%;
+    }
+    .active{
+      background-color: $primary-bg-color;
+      color: $primary-txt-color;
+    }
+  }
+}
+// quick filter
+
+//sms history drawer
+.sms-history-drawer.mat-drawer, .sms-history-drawer{
+  width: 390px;
+  background-color: transparent;
+  box-shadow: none;
+  @media screen and (min-width:320px) and (max-width: 430px) {
+    width: 300px;
+  }
+  .searchGreyBgBox{
+    display: flex;
+    width: calc(100% - 20px);
+    align-items: center;
+    padding: 0px 10px;
+    padding-top: 0px;
+    background: #f5f5f5;
+    position: sticky;
+    height: 40px;
+    top: 0px;
+    z-index: 2;
+    gap: 5px;
+  }
+  .closePanel{
+    width: 40px;
+    position: absolute;
+    height: 100%;
+    top: 0px;
+    z-index: 3;
+    background: transparent;
+    box-shadow: none;
+    z-index: 10;
+    background-color: transparent;
+    .closeDrawerIcon{
+        min-width: 40px;
+        margin: 0px;
+        background: #ffffff;
+        padding: 0px;
+        border-radius: 4px 0px 0px 0px;    
+        box-shadow: none;  
+    }
+    .sidebarSectionName{
+        transform: rotate(270deg);
+        position: relative;
+        background: $primary-bg-color;
+        color: $primary-txt-color;
+        padding: 2px 10px;
+        border-radius: 4px 0px 0px 0px;    
+        box-shadow: none;   
+        margin-inline-start: 8px;     
+    }
+    .sidebarSectionName::after{
+      background: transparent !important;          
+    }
+  }
+  .panelSidebarInformation{
+    height: 100%;
+    width: calc(100% - 40px);
+    margin-left: 40px;
+    .mat-card.drawer-mat-card{
+      height: 100%;
+      border-radius: 0px;
+    }
+    // @When: 23-09-2023 @who:Amit @why: EWM-14293 @what:drawer space
+    .mat-card.drawer-mat-card.candidate-sms-drawer{
+      height: 100%;
+    }
+    .mat-card.drawer-mat-card.profile-sms-drawer{
+      height: calc(100% - 10px);
+    }
+  }
+  .drawerFooter.mat-card{
+    position: sticky;
+    height: 40px;
+    padding: 0px 10px;
+    bottom: 0px;
+    width: calc(100% - 20px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 2;
+  }
+}
+.contact-summary-container{
+  .sms-history-drawer.sms-contact-detail{
+    width: 100%;
+    height: calc(100vh - 281px);
+    .sms-history-sec{
+      height: calc(100% - 40px);
+      .sms-history{
+        grid: inherit;
+        display: flex;
+        justify-content: flex-end;
+        .chat{
+          max-width: 75%;
+          min-width: 250px;
+        }
+      }
+    }
+  }
+}
+//sms history drawer
+
+//job action drawer
+.job-action-left-panel{
+  .drawerMinimizeSec{
+    display: none;
+  }
+}
+.drawerMinimize{
+  .grabber-left{
+    display: none;
+  }
+  .job-action-container{
+      display: none;
+  }
+  .drawerMinimizeSec{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5px;
+    .mat-icon-button{
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      margin-top: 10px;
+      &::before{
+        content: "";
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        background: currentColor;
+        opacity: 0.05;
+      }
+      .mat-icon{
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        font-size: 16px;
+      }
+    }
+  }
+}
+//job action drawer
+
+// new drawe style
+.innerpage-full-drawer.mat-drawer,
+.innerpage-full-drawer.mat-sidenav{
+  width: calc(100% - 200px);
+  max-width: 890px;
+  background: transparent;
+  box-shadow: none;
+  @media screen and (min-width:320px) and (max-width: 1024px) {
+    width: calc(100% - 15px);
+  }
+  .innerpage-full-drawer-container {
+    display: flex;
+    height: 100%;
+    .drawerTitleSec {
+      width: 40px;
+      h4 {
+        background: $primary-bg-color;
+        color: $primary-txt-color;
+        transform: translateY(97px) translateX(-97px) rotate(-90deg);
+        border-radius: 4px 0px 0px 4px;
+        padding-right: 50px;
+        padding-left: 15px;
+        text-align: left;
+        width: 170px;
+        margin: 0px;
+        height: 40px;
+        line-height: 40px;
+        .closeDrawerIcon {
+          border-radius: 4px 0px 0px 0px;
+          transform: rotate(90deg);
+          right: 0px;
+          position: absolute;
+          padding: 0px;
+          min-width: 40px;
+          height: 40px;
+          background-color: #fff;
+          color: rgba($black-color, 0.87);
+        }
+      }
+      .gdpr-overflow{
+        width: 220px;
+        transform: translateY(122px) translateX(-122px) rotate(-90deg);
+      }
+    }
+    .drawer-data-continer{
+      height: calc(100% - 65px);
+      padding: 0px 10px;
+      padding-bottom: 55px;
+      overflow: auto;
+      margin-top: 10px;
+      .mat-tab-header {
+        position: sticky;
+        top: 0px;
+        background: #fff;
+        z-index: 2;
+        .mat-tab-label{
+          padding: 0px 10px;
+          height: 35px;
+          min-width: 130px;
+          opacity: 1;
+          font-size: 14px;
+          .mat-icon{
+            height: 35px;
+            font-size: 20px;
+            line-height: 35px;
+            text-align: center;
+            margin-right: 3px;
+          }
+        }
+        .mat-tab-label-active {
+          color: $primary-bg-color;
+          background: rgba(0, 0, 0, 0.05);
+        }
+      }
+      .mat-tab-body-content{
+        padding: 10px 5px;
+        height: calc(100% - 20px);
+      }
+      .mailediter{
+        height:350px;
+        @media screen and (min-width:320px) and (max-width: 767px) {
+          height:700px;
+        }
+      }
+      .category-button-group{
+        .full-size{
+          display: flex;
+        }
+        .mat-button-toggle-group{
+          flex-wrap: wrap;
+          margin:7px 5px 0px;
+          border-radius: 30px;
+          @media screen and (min-width:320px) and (max-width: 1299px) {
+              border-radius: 8px;
+          }
+          .mat-button-toggle{
+            @media screen and (min-width:320px) and (max-width: 571px) {
+              width: 100%;
+          }
+          .mat-button-toggle-button{
+            @media screen and (min-width:320px) and (max-width: 571px) {
+              text-align: left;
+            }
+          }
+          .mat-button-toggle-label-content{
+            padding: 0px 10px;
+          }
+          .act-icon{
+              border-radius:50px;
+              margin-right: 5px;
+              color:#fff;
+              width: 28px;
+              height: 28px;
+              line-height: 28px;
+              font-size: 20px;
+              @media screen and (min-width:320px) and (max-width: 571px) {
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+      .mat-button-toggle-checked{
+        background: $highlight-bg-color;
+        .mat-button-toggle-label-content{
+          color:$highlight-txt-color;
+        }
+      }
+      .mat-form-field .mat-chip-list-wrapper .mat-standard-chip{
+        max-width: 208px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 3px;
+      }
+      .addContactBtnStyle{
+        font-size: 12px;
+        padding: 0px;
+        height: 25px;
+        width: 25px;
+        min-width: auto;
+        line-height: 25px;
+        border-radius: 25px;
+        position: absolute;
+        right: 0px;
+        bottom: 2px;
+      }
+      .drawer-data-continer-footer.mat-card{
+        position: absolute;
+        bottom: 0;
+        z-index: 2;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: calc(100% - 20px);
+        left: 0px;
+        padding: 0px 10px;
+        border-radius: 0px;
+        .mat-raised-button{
+          margin-inline-start: 8px;
+        }
+      }
+    }   
+  }
+  .drawerDataSec.mat-card {
+    border-radius: 0px;
+    overflow: hidden;
+    width: 100%;
+  }
+}
+
+// new mail drawer start here
+.newEmailStyle{
+  .actionBoxFooter{
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: calc(100% - 20px);
+    left: 0px;
+    padding: 0px 10px;
+    border-radius: 0px;
+  }
+}
+// new mail drawer end here
+
+/*******screening view notes inside add new note drawer start here*******/
+.screening-container{
+  .notes-addEdit-drawer{
+    .mat-card.add-new-note{
+      @media screen and (min-width:320px) and (max-width: 580px) {
+        height:calc(100% - 55px);
+      }
+    }
+  }
+}
+/*******screening view notes inside add new note drawer end here*******/
+
+/*******screening view recent activities inside add activity drawer start here*******/
+.screening-container{
+  .notes-addEdit-drawer{
+    .mat-card.add-new-activity{
+      @media screen and (min-width:320px) and (max-width: 580px) {
+        height:calc(100% - 55px);
+      }
+    }
+  }
+}
+/*******screening view recent activities inside add activity drawer end here*******/
+
+/*******client detail drawer style start here*******/
+.client-details-overlay-sidebar{
+  z-index: 9999;
+  position: fixed;
+  .mat-drawer-backdrop{
+    position: fixed;
+  }
+  .client-detail-drawer{
+    max-width: 850px;
+    position: fixed;
+    padding: 0px;
+    width: 100%;
+    background: transparent;
+    height: 100%;
+    box-shadow: none;
+    overflow: hidden;
+    .mat-drawer-inner-container{
+      overflow: hidden !important;
+      .closePanel{
+        width: 40px;
+        position: absolute;
+        height: 100%;
+        top: 0px;
+        background: transparent;
+        box-shadow: none;
+        z-index: 10;
+        background-color: transparent;
+        .closeDrawerIcon{
+          min-width: 40px;
+          margin: 0px;
+          background: #ffffff;
+          padding: 0px;
+          border-radius: 4px 0px 0px 0px;    
+          box-shadow: none;  
+        }
+        .sidebarSectionName{
+          transform: rotate(270deg);
+          position: relative;
+          background: $primary-bg-color;
+          color: $primary-txt-color;
+          padding: 2px 10px;
+          border-radius: 4px 0px 0px 0px;    
+          box-shadow: none;   
+          text-align: left;     
+        }
+        .sidebarSectionName::after{
+          background: transparent !important;          
+        }
+      }
+      .panelSidebarInformation{
+        height: 100%;
+        width: calc(100% - 40px);
+        margin-left: 40px;
+        .client-mat-card{
+          border-radius: 0px;
+          padding: 0px;
+          /* summary big layout style start here */
+          .client-detail-container{
+            padding: 0px !important;
+            /* summary tab start */
+            .client-detail-card{
+              padding: 0px;
+              .client-summary{
+                .summary-cards{
+                  .mat-card{
+                    padding: 0px;
+                    .mat-card-header{
+                      padding: 15px 15px 0px;
+                    }
+                  }
+                }
+              }
+            }
+            /* summary tab end */
+            /* jobs tab start */
+            .client-jobs-list.kendo-table-container{
+              .k-grid {
+                height: calc(100vh - 221px);
+                @media only screen and (max-width: 1024px) and (min-width: 581px){
+                  height: calc(100vh - 239px);
+                }
+                @media only screen and (max-width: 580px) and (min-width: 320px){
+                  height: calc(100vh - 221px);
+                }
+              }
+            }
+            /* jobs tab end */
+            /* recent activities tab start */
+            .notes-details-sec{
+              height: calc(100vh - 154px);
+              @media only screen and (max-width: 1024px) and (min-width: 581px){
+                height: calc(100vh - 173px);
+              }
+            }
+            /* recent activities tab end */
+            /* documents tab start */
+            .document-sidenav-content{
+              height: calc(100vh - 151px);
+              @media only screen and (max-width: 1024px) and (min-width: 581px){
+                height: calc(100vh - 174px);
+              }
+              @media screen and (min-width: 320px) and (max-width: 580px){
+                height: calc(100vh - 155px);
+              }
+            }
+            /* documents tab end */
+
+          }
+          /* summary big layout style end here */
+          
+          /* summary small layout start here */
+          .summary-small-layout.client-detail-container{
+            /* jobs tab start */
+            .client-jobs-list.kendo-table-container{
+              .k-grid {
+                height: calc(100vh - 167px);
+              }
+            }
+            /* jobs tab end */
+            /* recent activities tab start */
+            .notes-details-sec{
+              height: calc(100vh - 101px);
+            }
+            /* recent activities tab end */
+            /* documents tab start */
+            .document-sidenav-content{
+              height: calc(100vh - 102px);
+            }
+            /* documents tab end */
+          }
+          /* summary small layout style end here */
+        }
+      }
+    }
+  }
+}
+/*******client detail drawer style end here*******/
+
+/*******Activity drawer style end here*******/
+.schedule-assistance::-webkit-scrollbar-thumb {
+  background-color: rgba($black-color, 0.07);
+}
+.schedule-assistance::-webkit-scrollbar-track {
+  background-color: rgba($black-color, 0.02);
+}
+.schedule-assistance::-webkit-scrollbar {
+  width: 8px;
+  background-color: rgba($black-color, 0.02);
+}
+.recording-url{
+  border-radius: 10px;
+  border: 1px solid #e4e4e4;
+  display: inline-flex;
+  align-items: center;
+  .mat-icon.title{
+    background-color: #f1f1f1;
+    border-radius: 8px 0px 0px 8px;
+    height: 30px;
+    line-height: 30px;
+    width: 30px;
+    padding: 0px 0px;
+    text-align: center;
+  }
+  .all-buttons{
+    padding: 0px 10px;
+    .mat-icon-button,
+    a.mat-icon-button{
+      font-size: 18px !important;
+      height: 30px;
+      line-height: 30px;
+      width: 30px;
+      color: $primary-bg-color !important;
+      .mat-icon{
+        font-size: 18px !important;
+        height: 30px;
+        line-height: 27px;
+        width: 30px;
+      }
+    }
+    .mat-icon-button.mat-primary.mat-button-disabled,
+    a.mat-icon-button.mat-primary.mat-button-disabled{
+      color: rgba(0, 0, 0, 0.26) !important;
+    }
+  }
+} 
+.activitydrawer:not(.mat-drawer-side){
+  box-shadow: none;
+}
+.activitydrawer{
+  max-width: calc(1050px - 15px);
+  width: calc(100% - 15px);
+  background: transparent;
+  @media only screen and (max-width: 1024px) and (min-width: 240px){
+    max-width: calc(100% - 10px);
+    width: 100%;
+  }
+  &-innercontainer{
+    display: flex; 
+    height: 100%;
+    &-drawerTitleSec {
+      width: 40px;
+      h4 {
+        background: $primary-bg-color;
+        color: $primary-txt-color;
+        transform: translateY(82px) translateX(-82px) rotate(-90deg);
+        border-radius: 4px 0px 0px 4px;
+        padding-right: 50px;
+        padding-left: 15px;
+        text-align: left;
+        width: 140px;
+        margin: 0px;
+        height: 40px;
+        line-height: 40px;
+        .closeDrawerIcon {
+          border-radius: 4px 0px 0px 0px;
+          transform: rotate(90deg);
+          right: 0px;
+          position: absolute;
+          padding: 0px;
+          min-width: 40px;
+          height: 40px;
+          background-color: #fff;
+          color: rgba($black-color, 0.87);
+        }
+      }
+      // small title style
+      h4.sm-text{
+        width: 80px;
+        transform: translateY(52px) translateX(-52px) rotate(-90deg);
+      }
+    }
+    &-mat-card.mat-card{
+      margin-bottom: 0px;
+      padding: 0px;
+      border-radius: 0px;
+      width: 100%;
+      overflow: hidden;
+      .my-activity{
+        padding: 0px;
+        height: calc(100% - 0px);
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        overflow: hidden;
+        form{
+          height: 100%;
+        }
+        .full-size{
+          font-weight: 500;
+          color: rgba(0,0,0,0.54);
+          font-size: 12px;
+        }
+        .availability-calender{
+          min-width: 3rem;
+          padding: 3px 6px;
+          text-align: left;
+          font-size: 12px;
+          line-height: 15px;
+          border-radius: 4px;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          background-color: rgb(26 158 93 / 14%);
+          color: #17732b;
+          text-transform: capitalize;
+          margin-bottom: 5px;
+          display: flex;
+          flex-direction: column;
+          strong{
+            display: block;
+          }
+          i{
+            color: $primary-bg-color;
+          }
+        }
+        .email-sent-checkbox{
+          display: grid;
+          gap: 15px;
+          grid-template-columns: repeat(2, calc(50% - 8px));
+          margin-bottom: 10px;
+          margin-top: 5px;
+          @media only screen and (max-width: 1024px) and (min-width: 240px){
+            grid-template-columns: repeat(1, calc(100% - 0px));
+          }
+          .mat-checkbox{
+            background: #f1f1f1;
+            padding: 10px 10px;
+            border-radius: 4px;
+            .mat-checkbox-inner-container{
+              margin: 0px;
+            }
+            .mat-checkbox-layout {
+              align-items: flex-start;
+              width: 100%;
+              .mat-checkbox-label{
+                white-space: normal;
+                line-height: 15px;
+                width: 100%;
+              }
+            }
+          }
+        }
+        .mailediter.my-activity-editor{
+          height: 300px;
+          min-height: 450px;
+          @media only screen and (min-height: 1110px) {
+              height: calc(100vh - 1163px);
+          }
+          @media (min-width: 768px) and (max-width: 1024px){
+            min-height: 550px;
+          }
+          @media (min-width: 320px) and (max-width: 767px){
+            min-height: 750px;
+          }
+        }
+        .mat-form-field{
+          .mat-raised-button{
+            min-width: 35px;
+            padding: 0px 5px;
+            line-height: 30px;
+            border-radius: 3px;
+            .mat-icon{
+              font-size:16px;
+              line-height: 20px;
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+        .activityLabel{
+          .mat-form-field-appearance-legacy {
+            .mat-form-field-label{
+              position: relative;
+              top: 0px;
+            }
+          }
+          .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float{
+            .mat-form-field-label{
+              position: relative;
+              top: 6px;
+            }
+          }
+        }
+        .multiselectChip{
+          .multiselectChip-close.mat-fab{
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            .mat-button-wrapper{
+              padding: 0px;
+              line-height: 16px;
+            }
+            .mat-icon{
+              width: 16px;
+              height: 16px;
+              line-height: 15px;
+              font-size: 14px;
+            }
+          }
+        }
+        .date-and-time{
+          display: flex;
+          gap: 10px;
+          .date, .time{
+            width: 50%;
+          }
+          .time{
+            .kendo-input-box{
+              position: relative;
+              .k-input{
+                color: $black-color;
+              }
+              .k-input::placeholder{
+                color: rgba(0, 0, 0, 0.54);
+              }
+              p{
+                color: $warn-bg;
+                margin-bottom: 0px;
+                font-size: 75%;
+                margin-top: 0.4616666667em;
+                position: absolute;
+              }
+              // @When: 16-06-2023 @who:Amit @what:kendo time picker cross icon style
+              .mat-icon-button{
+                width: 21px;
+                height: 21px;
+                line-height: 21px;
+                position: absolute;
+                right: 32px;
+                top: 17px;
+                .mat-icon{
+                  width: 21px;
+                  height: 21px;
+                  line-height: 21px;
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/*******Activity detail drawer style end here*******/
+
+/*******drawer RTL mode start here*******/
+[dir="rtl"]{
+  .drawer-footer{
+    right: inherit !important;
+    left: 0px;
+  }
+  .activitydrawer{
+    &-innercontainer{
+      &-drawerTitleSec {
+        h4 {
+          transform: translateY(82px) translateX(82px) rotate(-90deg);
+          border-radius: 0px 4px 4px 0px;
+          .closeDrawerIcon{
+            border-radius: 0px 4px 0px 0px;
+          }
+        }
+      }
+      &-mat-card.mat-card{
+        .my-activity{
+          .mat-button-toggle-group{
+            .mat-button-toggle{
+              .mat-button-toggle-button{
+                .mat-button-toggle-label-content{
+                  .act-icon{
+                    margin-right: inherit;
+                    margin-left: 5px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .customFilter-drawer {
+    .drawerTitleSec {
+      h4 {
+        transform: translateY(57px) translateX(57px) rotate(90deg);
+        padding-left: 50px;
+        padding-right: 15px;
+        text-align: right;
+        .closeDrawerIcon {
+          transform: rotate(90deg);
+          right: inherit;
+          left: 0px;
+        }
+      }
+    }
+  }
+
+  .innerpage-full-drawer.mat-drawer{
+    .innerpage-full-drawer-container {
+      .drawerTitleSec {
+        h4 {
+          transform: translateY(122px) translateX(122px) rotate(90deg);
+          border-radius: 0px 4px 4px 0px;
+          padding-left: 50px;
+          padding-right: 15px;
+          text-align: right;
+          .closeDrawerIcon {
+            border-radius: 4px 0px 0px 0px;
+            transform: rotate(90deg);   
+            right: inherit;
+            left: 0px;
+            position: absolute;
+          }
+        }
+      }
+      .drawer-data-continer{
+        .addContactBtnStyle{
+          position: absolute;
+          right: inherit;
+          left: 0px;
+          bottom: 2px;
+          margin-left: 0px;
+          margin-right: 8px;
+        }
+        .drawer-data-continer-footer.mat-card{
+          .mat-raised-button{
+            margin-left: 0px;
+            margin-right: 8px;
+          }
+        }
+      }   
+    }
+  }
+}
+/*******drawer RTL mode end here*******/
+
+/*******drawer dark mode end here*******/
+
+.dark-theme {
+  /*******Activity drawer style end here*******/
+  .activitydrawer:not(.mat-drawer-side){
+    box-shadow: none;
+  }
+  .schedule-assistance::-webkit-scrollbar-thumb {
+    background-color: $dark-primary;
+  }
+  .schedule-assistance::-webkit-scrollbar-track {
+    background-color: rgba($black-color, 0.20);
+  }
+  .schedule-assistance::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgba($black-color, 0.02);
+  }
+  .recording-url{
+    border: 1px solid #e4e4e4;
+    .mat-icon.title{
+      background-color: #626262;
+    }
+    .all-buttons{
+      .mat-icon-button,
+      a.mat-icon-button{
+        color: $dark-primary !important;
+      }
+      .mat-icon-button.mat-primary.mat-button-disabled{
+        color: rgba(255, 255, 255, 0.26) !important;
+      }
+    }
+  } 
+  .activitydrawer{
+    background: transparent;
+    &-innercontainer{
+      &-drawerTitleSec {
+        h4 {
+          background: $dark-primary;
+          color: $white-color;
+          border-radius: 0px 4px 4px 0px;
+          .closeDrawerIcon {
+            background-color: #fff;
+            color: rgba($black-color, 0.87);
+          }
+        }
+      }
+      &-mat-card.mat-card{
+        .my-activity{
+          .full-size{
+            color: rgba(255,255,255,0.54);
+          }
+          .availability-calender{
+            color: $white-color;
+            i{
+              color: $dark-primary;
+            }
+          }
+          .email-sent-checkbox{
+            .mat-checkbox{
+              background: #515151;
+            }
+          }
+        }
+      }
+    }
+  }
+  /*******Activity detail drawer style end here*******/
+  .innerpage-full-drawer.mat-drawer{
+    background: transparent;
+    box-shadow: none;
+    .innerpage-full-drawer-container {
+      .drawerTitleSec {
+        h4 {
+          background: $dark-primary-bg;
+          color: $white-bg;
+        }
+      }
+      .drawer-data-continer{
+        .mat-tab-header {
+          background: #424242;
+          .mat-tab-label-active {
+            color: $dark-primary;
+            background: rgba(255, 255, 255, 0.05);
+          }
+        } 
+      }
+    }
+  }
+  .sms-history-drawer.mat-drawer{
+    .closePanel{
+      .closeDrawerIcon{
+          background: #789aab;
+      }
+      .sidebarSectionName{
+        background: #789aab;
+      }
+    }
+    .searchGreyBgBox{
+      background: #1c1c1c;
+    }
+  }
+  // separate drawer full page
+  // quick filter
+  .quickFiltr-mat-drawer{
+    .quick-filter{
+      .mat-stroked-button{
+        border-color: $dark-primary;
+      }
+      .active{
+        background-color:  $dark-primary;
+        color: $white-color;
+      }
+    }
+  }
+  // quick filter
+  .job-details-overlay-sidebar{
+
+    background: rgba(0, 0, 0, 0.25);
+    .drawerSidenav {
+      background: transparent;
+      box-shadow: none;
+      .closePanel{
+        .closeDrawerIcon{
+            background: #789aab;
+        }
+        .sidebarSectionName{
+          background: #789aab;
+      }
+    }
+  }
+  // candidate job maped
+  .panelSidebarInformation{
+    .mat-card.drawer-mat-card{
+      .candidate-job-maped-sec{
+        form, .map-application-card{
+          .searchGreyBgBox{
+            background: #1c1c1c;
+          }
+          .candidate-job-maped-data{
+            .candidateJobBox.mat-card{
+              border: 1px solid 1px solid rgb(232 232 232 / 13%);
+              .candidateImg{
+                border:1px solid rgba(103,58,183,.15);
+              }
+              .addToJobBtnBox{
+                background: rgba(120,154,171,0.1);
+              }
+              .shortName{
+                background: #3a3a3a;
+                color:#789aab;
+                border:1px solid #789aab;
+              }
+              .addToJobBtnBox{
+                color: $dark-primary;
+                .mat-icon-button{
+                  color:#9a9a9a;
+                }
+              }
+            }
+          }
+        }
+      }
+    } 
+  }
+  // candidate job maped
+}
+
+// separate drawer full page
+
+  .myActivityContainer{
+    .home-create-activity.mat-card{
+      .my-activity{
+        .drawer-footer{
+          background: $dark-primary-bg;
+        }
+      }
+    }
+  }
+  .notes-addEdit-drawer {
+    .drawerFooter {
+      background: $dark-primary-bg;
+    }
+  }
+  .customFilter-drawer{
+    background: transparent;
+    .drawerTitleSec{
+      h4{
+        background-color: $dark-primary;
+        color: $white-color;
+      }
+    }
+  }
+
+  // @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: time color start here
+  .activitydrawer-innercontainer-mat-card.mat-card{
+    .my-activity{
+      .date-and-time{
+        .time{
+          .kendo-input-box{
+            .k-input{
+              color: $white-color;
+            }
+          }
+        } 
+      }
+    } 
+  } 
+  // @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: time color end here
+
+  .notes-yearfilter-drawer{
+    .yearsFilter{
+      .monthWithData{
+        &:hover{
+          background: $gray-txt !important;
+        }
+      }
+    }
+  }
+
+  .mat-drawer-side.notes-yearfilter-drawer {
+    background: #202020;
+  }
+
+}
+/*******drawer dark mode end here*******/

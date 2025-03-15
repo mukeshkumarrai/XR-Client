@@ -1,0 +1,200 @@
+
+@use "../../../colors";
+@mixin icon-image-size($width:25px,$height:25px,$line-height:25px){
+    width: $width;
+    height: $height;
+    line-height: $line-height;
+}
+.dashboard-mat-card-header.mat-card-header.my-inbox-header{
+    .mat-card-header-text{
+        @media (1061px <= width ){
+            width: auto;
+        }
+    }
+    .actionButton{
+        @media (width <= 1060px){
+            width: 100%;
+        }
+        .email-conection-status{
+            padding-inline-end: 5px;
+            span.red, span.green{
+                padding: 1px 4px;
+                border-radius: 4px;
+                font-size: 13px;
+                display: inline-flex;
+            }
+            span.red{
+                background-color: rgba(244, 67, 54, 0.2);
+                color: #f44336;
+            }
+            span.green{
+                background-color: rgba(26, 158, 93, 0.5);
+                color: #17732b;
+            }
+        }
+        .mat-stroked-button{
+            min-width: 85px;
+        }
+    }
+}
+.email-box-header.main-inbox-header{
+    .email-box-header-actions{
+        @media (993px <= width){
+            min-width: 160px;
+        }
+    }
+}
+.main-inbox{
+    & > .mat-card-content {
+        .mat-tab-group {
+            flex-direction: row;
+            margin: 0px 10px;
+            height: calc(100% - 51px);
+            @media (width <= 992px){
+                flex-direction: column;
+            }
+            .mat-tab-header {
+                border-bottom: none;
+                border-top: 1px solid rgba(0, 0, 0, 0.15);
+                .mat-ink-bar{
+                    @media (993px <= width){
+                        display: none;
+                    }
+                }
+                .mat-tab-labels {
+                    flex-direction: column;
+                    position: relative;
+                    min-width: 180px;
+                    @media only screen and (max-width: 992px) and (min-width: 320px) {
+                        flex-direction: row;
+                    }
+                    .mat-tab-label {
+                        padding: 10px 10px;
+                        opacity: 1;
+                        color: #1a1a1a;
+                        border: 1px solid rgba(0, 0, 0, 0.10);
+                        border-top: 0px;
+                        @media only screen and (max-width: 875px) and (min-width: 320px) {
+                            min-width: auto;
+                        }
+                        @media only screen and (max-width: 875px) and (min-width: 320px) {
+                            border-right: 1px solid rgba(0, 0, 0, 0.15);
+                        }
+                        .mat-tab-label-content {
+                            width: 100%;
+                            gap: 5px;
+                            .emailCount {
+                                border-radius: 4px;
+                                padding: 1px 4px;
+                                font-size: 12px;
+                                background: colors.$primary-bg-color;
+                                color:colors.$primary-txt-color;
+                                max-width: 52px;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;                            
+                            }
+                            .mat-icon{
+                                font-size: 20px;
+                                @include icon-image-size(20px, 20px, 20px);
+                            }
+                            .mailLableTxtName {
+                                @media only screen and (max-width: 875px) and (min-width: 320px) {
+                                    display: none;
+                                }
+                            }
+                        }
+                        &:hover {
+                            background-color: #f1f1f2;
+                        }
+                    }
+                    .mat-tab-disabled{
+                        opacity: 0.6;
+                    }
+                    .mat-tab-label.mat-tab-label-active {
+                        color: colors.$primary-bg-color;
+                        background-color:#f1f1f2;
+                        border-right: 0px;
+                        @media (993px <= width){
+                            border-left:1px solid colors.$primary-bg-color;
+                        }
+                        .mat-tab-label-content{
+                            .mat-icon{
+                                color: colors.$primary-bg-color;
+                            }
+                        }
+                    }
+                }
+            }
+            .email-container{
+                height: 100%;
+            }
+            .mat-tab-body-wrapper {
+                flex-grow: 1;
+                padding: 5px;
+                .mat-tab-body {
+                    background:#f1f1f2;
+                }
+            }
+            .mat-tab-list {
+                @media (width <= 992px){
+                    display: block;
+                }
+            }
+        }
+    }
+}
+.dark-theme{
+    .dashboard-mat-card-header.mat-card-header.my-inbox-header{
+        .actionButton{
+            .email-conection-status{
+                span.green{
+                    background-color: rgba(26, 158, 93, 0.2);
+                    color: #0eb231;
+                }
+            }
+        }
+    }
+    .main-inbox{
+        & > .mat-card-content{
+            .mat-tab-group{
+                .mat-tab-header {
+                    border-top: 1px solid rgba(0, 0, 0, 0.15);
+                    .mat-tab-labels {
+                        .mat-tab-label {
+                            color: #ffffff;
+                            border: 1px solid rgba(0, 0, 0, 0.10);
+                            @media (width <= 875){
+                                border-right: 1px solid rgba(255, 255, 255, 0.15);
+                            }
+                            .mat-tab-label-content {
+                                .emailCount {
+                                    background: colors.$dark-primary;
+                                    color:colors.$white-color;
+                                }
+                            }
+                            &:hover {
+                                background-color: #39393c;
+                            }
+                        }
+                        .mat-tab-label.mat-tab-label-active {
+                            color: colors.$dark-primary;
+                            background-color:#060606;
+                            border-left:1px solid colors.$dark-primary;
+                            .mat-tab-label-content{
+                                .mat-icon{
+                                    color: colors.$dark-primary;
+                                }
+                            }
+                        }
+                    }
+                } 
+                .mat-tab-body-wrapper {
+                    .mat-tab-body {
+                        background:#060606;
+                    }
+                }
+            }
+        }
+    }
+}

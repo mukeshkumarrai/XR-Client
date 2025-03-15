@@ -1,0 +1,68 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 09-Feb-2022
+    @Why: EWM-4674 EWM-5115
+    @What:  This page wil be use only for autometic consent request Component HTML
+-->
+<!---
+    @Modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash
+    @When: 17-Mar-2022
+    @Why: EWM-5456 EWM-5564
+    @What:  Bug
+-->
+<div id="gdprAutomaticConsentRequest" class="drawer-data-continer">
+<div class="hederConsent">
+    <h3> {{'label_gdprAutomaticConsentRequest' | translate}}</h3>
+    <p>{{'label_drawerConsentRequestTitlemsg' |translate}}</p>
+</div>
+<mat-tab-group id="autometic-tabGroup" dir="{{positionMatTab}}">
+    <mat-tab id="candidate-tab">
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">group</mat-icon>
+            {{'label_Candidate' | translate}}
+        </ng-template>
+
+        <div class="autometic-slde-toggle smallSlideToggle">
+            <h4>{{'label_formCandidate' |translate}}</h4>
+            <mat-slide-toggle [(ngModel)]="IsFormCandidateEnaledToggle" (change)="onChangeformCandidate($event)"
+                id="gdprformCandidate-toggleSlide" tabindex="2" color="primary">
+            </mat-slide-toggle>
+        </div>
+        <p>{{'label_formCandidateMsg' |translate}}</p>
+
+
+        <div class="autometic-slde-toggle smallSlideToggle">
+            <h4>{{'label_applyCandidate' |translate}}</h4>
+            <mat-slide-toggle [(ngModel)]="IsAppliedCandidateEnaledToggle" (change)="onChangeApplyCandidate($event)"
+                    id="gdprApplyCandidate-toggleSlide" tabindex="2" color="primary">
+            </mat-slide-toggle>
+        </div>
+        <p>{{'label_applyCandidateMsg' |translate}}</p>
+
+
+
+    </mat-tab>
+
+    <mat-tab id="employee-tab">
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">group</mat-icon>
+            {{'label_Employee' | customTranslate}}
+        </ng-template>
+
+        <div class="autometic-slde-toggle smallSlideToggle">
+
+            <h4>{{'label_Employee' |customTranslate}}</h4>
+            <mat-slide-toggle [(ngModel)]="IsFormEmployeeEnaledToggle" (change)="onChangeFormEmployee($event)"
+                    id="gdprFormEmployee-toggleSlide" tabindex="2" color="primary">
+            </mat-slide-toggle>
+        </div>       
+        <p>{{'label_employeeMsg' |translate}}</p>
+
+    </mat-tab>
+</mat-tab-group>
+</div>

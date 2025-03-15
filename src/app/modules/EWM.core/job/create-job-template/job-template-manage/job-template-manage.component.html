@@ -1,0 +1,289 @@
+<!--- 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Anup Singh
+  @When: 13-july-2021
+  @Why: EWM-2001 EWM-2070
+  @What:  This page will be use for the manage job template Component html file
+ --->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="job-template-manage-mat-card-header">
+        <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_jobTemplateCreate' |translate}}</mat-card-title>
+        <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_jobTemplateEdit' |translate}}</mat-card-title>
+        <div class="actionButton">
+            <button mat-raised-button tabindex="13" color="warn" id="btnCancel" (click)="onCancel()"
+                class="buttonForDesktopMobile">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+            </button>
+
+            <button mat-raised-button tabindex="14" color="primary" (click)="onSave(this.jobTemplateForm.value)"
+                type="button" id="btnSave" [disabled]="!jobTemplateForm.valid" class="buttonForDesktopMobile">
+                <mat-icon>check</mat-icon>
+                <span class="buttonTxt">{{'label_save'|translate}}</span>
+            </button>
+        </div>
+    </mat-card-header>
+   
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="job-template-manage-drawer">
+    <mat-card id="user-contact-type" class="component-card" style="overflow-x: hidden;">
+            <div class="row mb-0">
+                <mat-card-subtitle class="col s12 m12 l12 subTitle"></mat-card-subtitle>
+            </div>
+            <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+            <div class="addEditSec">
+                <ng-template #template let-anchor>
+                    <span>{{ anchor.nativeElement.innerText }}</span>
+                </ng-template>
+                <form novalidate [formGroup]="jobTemplateForm" (ngSubmit)="onSave(this.jobTemplateForm.value)"
+                    accept-charset="utf-8" enctype='multipart/form-data' id="jobTemplate-form">
+                
+                    <div class="kendodialof-body col">
+
+                        <div class="row">
+                        <mat-form-field class="col l4 m6 s12">
+                                <mat-label>{{'label_jobTemplateName'|translate}}</mat-label>
+                                <input type="hidden" formControlName="Id" id="Id">
+                                <input matInput formControlName="Name" tabindex="1" id="jobTemplate-Name" text="Name"
+                                    placeholder="" required (blur)="duplicacyCheckTemplateName()">
+                                <mat-icon matPrefix class="select-matPrefix-icon">account_box</mat-icon>
+
+                                <mat-error
+                                    *ngIf="jobTemplateForm.controls['Name'].hasError('required') && jobTemplateForm.controls['Name'].touched">
+                                    {{'label_jobTemplateName'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                                <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('maxlength') &&!jobTemplateForm.controls['Name'].hasError('whitespace')">
+                                    {{'label_jobTemplateName' |translate}} {{'label_errormaxlength100' |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('minlength') && !jobTemplateForm.controls['Name'].hasError('whitespace')">
+                                    {{'label_jobTemplateName' |translate}} {{'label_errorminlength2' |customTranslate}}
+                                </mat-error>
+                                <!-- <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('pattern')">
+                                    {{'label_jobTemplateName' |translate}} {{'label_errorspecialchar' |translate}}
+                                </mat-error> -->
+                                <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('codeTaken')">
+                                    {{'label_jobTemplateName'|customTranslate}} {{'label_areadyExists' |customTranslate}}
+                                </mat-error>
+                                <!-- who:maneesh,what:ewm.9961,when:27/12/2022 -->
+                                <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('whitespace') && !jobTemplateForm.controls['Name'].hasError('required')">
+                                    {{'label_jobTemplateName' |translate}} {{'label_nameValidation' |translate}}
+                                  </mat-error>
+                            </mat-form-field>
+
+                            <div class="clear"></div>
+                            <div class="col l4 m6 s12 ng-select-withicon ng-slectBox">
+                                <mat-icon matPrefix class="select-matPrefix-icon">business</mat-icon>
+                                 <!-----who:maneesh,@EWM-11860 EWM-11860  when:23-10-2023 for close and open dropdown when click on field ---->
+                                <ng-select placeholder="{{ 'label_ModifyClient' | customTranslate }}" id="jobTemplate-companyName"
+                                    formControlName="ClientId" class="dropdown-body" appendTo="body" tabindex="2" (change)="onClientChange($event)" [searchable]="false">
+                                    <ng-option value="" disabled>{{'label_select' | customTranslate}} {{ 'label_ModifyClient' | customTranslate}}</ng-option>
+                                    <ng-option *ngFor="let list of clientList" [value]="list.ClientId">
+                                        {{list.ClientName}}</ng-option>
+                                </ng-select>
+                                <!-- <mat-error
+                                    *ngIf="jobTemplateForm.controls['ClientId'].hasError('required') && jobTemplateForm.controls['ClientId'].touched">
+                                    {{'label_clientName'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error> -->
+                            </div>
+                            <div class="clear"></div>
+                            <mat-form-field class="col l4 m6 s12">
+                                <mat-label>{{'label_jobTitle'|translate}}</mat-label>
+                                <input matInput formControlName="JobTitle"
+                                    tabindex="3" id="jobTemplate-title" text="Name" placeholder="" required>
+                                <mat-icon matPrefix class="select-matPrefix-icon">subtitles</mat-icon>
+                                <!-- who:maneesh,what:ewm.9961,when:27/12/2022 -->
+                                <mat-error
+                                    *ngIf="jobTemplateForm.controls['JobTitle'].hasError('required') && jobTemplateForm.controls['JobTitle'].touched">
+                                    {{'label_jobTitle'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                                <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('maxlength')&& !jobTemplateForm.controls['JobTitle'].hasError('whitespace') ">
+                                    {{'label_jobTitle' |translate}} {{'label_errormaxlength100' |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('minlength')&& !jobTemplateForm.controls['JobTitle'].hasError('whitespace')">
+                                    {{'label_jobTitle' |translate}} {{'label_errorminlength2' |translate}}
+                                </mat-error>
+                                <!-- <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('pattern')">
+                                    {{'label_jobTitle' |translate}} {{'label_errorspecialchar' |translate}}
+                                </mat-error> -->
+                                <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('codeTaken')">
+                                    {{'label_jobTitle'|translate}} {{'label_areadyExists' |translate}}
+                                </mat-error>
+                                <!-- who:maneesh,what:ewm.9961,when:27/12/2022 -->
+                                <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('whitespace') && !jobTemplateForm.controls['JobTitle'].hasError('required')">
+                                    {{'label_jobTitle' |translate}} {{'label_nameValidation' |translate}}
+                                  </mat-error> 
+                            </mat-form-field>
+
+
+                            <div class="clear"></div>
+                            <div class="col l4 m6 s12 ng-select-withicon ng-slectBox">
+                                <mat-icon matPrefix class="select-matPrefix-icon">work</mat-icon>
+                                 <!-----who:maneesh,@EWM-11860 EWM-11860  when:23-10-2023 for close and open dropdown when click on field ---->
+                                <ng-select placeholder="{{'quickjob_jobCategory' | translate}} "
+                                    id="jobTemplate-jobCategory" tabindex="4" formControlName="JobCategoryId"
+                                    class="dropdown-body" appendTo="body" [searchable]="false" 
+                                    (change)="onChangeJobCategory($event)">
+                                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_jobCategory'
+                                        |
+                                        translate}}</ng-option>
+                                    <ng-option *ngFor="let list of categoryList" [value]="list.Id">
+                                        {{list.JobCategory}}</ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="col l4 m6 s12 ng-select-withicon ng-slectBox">
+                                <mat-icon matPrefix class="select-matPrefix-icon">domain</mat-icon>
+                                 <!-----who:maneesh,@EWM-11860 EWM-11860  when:23-10-2023 for close and open dropdown when click on field ---->
+                                <ng-select placeholder="{{'quickjob_industry' | translate}} " id="jobTemplate-industry"
+                                    tabindex="5" formControlName="IndustryId" class="dropdown-body" appendTo="body" [searchable]="false"
+                                    (change)="onChangeIndustry($event)">
+                                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_industry' |
+                                        translate}}</ng-option>
+                                    <ng-option *ngFor="let list of industryList" [value]="list.Id">
+                                        {{list.Description}}</ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="col l4 m6 s12 ng-select-withicon ng-slectBox">
+                                <mat-icon matPrefix class="select-matPrefix-icon">work_outline</mat-icon>
+                                 <!-----who:maneesh,@EWM-11860 EWM-11860  when:23-10-2023 for close and open dropdown when click on field ---->
+                                <ng-select placeholder="{{'quickjob_experience' | translate}} " id="jobTemplate-industry"
+                                    tabindex="6" formControlName="ExperienceId" class="dropdown-body" appendTo="body" [searchable]="false"
+                                    (change)="onChangeExperience($event)">
+                                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_experience' |
+                                        translate}}</ng-option>
+                                    <ng-option *ngFor="let list of experienceList" [value]="list.Id">
+                                        {{list.Name}}</ng-option>
+                                </ng-select>
+                            </div>
+
+
+                            <div class="clear"></div>
+                            <div class="col l4 m6 s12 ng-select-withicon ng-slectBox">
+                                <mat-icon matPrefix class="select-matPrefix-icon">insert_invitation</mat-icon>
+                                 <!-----who:maneesh,@EWM-11860 EWM-11860  when:23-10-2023 for close and open dropdown when click on field ---->
+                                <ng-select placeholder="{{'quickjob_jobType' | translate}}" id="jobTemplate-jobType"
+                                    class="dropdown-body" appendTo="body" tabindex="7" formControlName="JobTypeId" [searchable]="false"
+                                    (change)="onChangeJobtype($event)">
+                                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_jobType' |
+                                        translate}}</ng-option>
+                                    <ng-option *ngFor="let list of jobTypeList" [value]="list.Id">
+                                        {{list.JobType}}</ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="col l4 m6 s12 common_dropdown_v2 dropdown-with-icon">
+                                <mat-icon matPrefix class="before-icon">photo_size_select_small</mat-icon>
+                                 <!-----who:maneesh,@EWM-11860 EWM-11860  when:23-10-2023 for close and open dropdown when click on field 
+                                <ng-select placeholder="{{'quickjob_jobWorkflow' | translate}} *" class="dropdown-body"
+                                    appendTo="body" id="jobTemplate-jobWorkflow" formControlName="WorkFlowId" tabindex="8"
+                                    required [searchable]="false"
+                                    (change)="onChangeWorkflow($event)">
+                                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_jobWorkflow'
+                                        |
+                                        translate}}</ng-option>
+                                    <ng-option *ngFor="let list of workFlowList" [value]="list.Id">
+                                        {{list.WorkflowName}}</ng-option>
+                                </ng-select>---->
+                                 <!--Who:Ankit Rawat, Replace workflow control with new dropdown, When:09Apr2024-->
+                                 <dropdown [configuration]="workFlowDropdownConfig"
+                                 (selectedOut)="onWorkFlowchange($event)" 
+                                 [getSelectedItem]="selectedJobWorkflow"
+                                 [showMoreOptionsNum]="maxMoreLengthForWorkFlow" tabindex="8"></dropdown>
+ 
+                                <!-- <mat-error
+                                    *ngIf="jobTemplateForm.controls['WorkFlowId'].hasError('required') && jobTemplateForm.controls['WorkFlowId'].touched">
+                                    {{'quickjob_jobWorkflow'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error> -->
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="col l4 m6 s12 ng-select-withicon ng-slectBox">
+                                <mat-icon matPrefix class="select-matPrefix-icon">account_balance_wallet</mat-icon>
+                                 <!-----who:maneesh,@EWM-11860 EWM-11860  when:23-10-2023 for close and open dropdown when click on field ---->
+                                <ng-select placeholder="{{'quickjob_salaryBand' | translate}}" id="jobTemplate-salaryBand"
+                                    class="dropdown-body" appendTo="body" formControlName="SalaryBandId" tabindex="9" [searchable]="false"
+                                    (change)="onChangeSalaryBand($event)">
+                                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_salaryBand' |
+                                        translate}}</ng-option>
+                                    <ng-option *ngFor="let list of salaryBandList" [value]="list.Id">
+                                        {{list.SalaryRange}}</ng-option>
+                                </ng-select>
+                            </div>
+
+                            <!-- /*-@Who: Bantee,@When: 15-May-2023,@Why: EWM-12407,@What:salary unit name is going while creating job until change salary unit--*/ -->
+
+
+                            <div class="clear"></div>
+                            <div class="col l4 m6 s12 ng-select-withicon ng-slectBox">
+                                <mat-icon matPrefix class="select-matPrefix-icon">payment</mat-icon>
+                                 <!-----who:maneesh,@EWM-11860 EWM-11860  when:23-10-2023 for close and open dropdown when click on field ---->
+                                <ng-select placeholder="{{'quickjob_salaryUnit' | translate}}" id="jobTemplate-salaryUnit" [searchable]="false"
+                                    class="dropdown-body" appendTo="body" formControlName="SalaryUnitId" tabindex="10" (change)="onJobSalaryUnitchange($event)">
+                                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_salaryUnit'
+                                        |
+                                        translate}}</ng-option>
+                                    <ng-option *ngFor="let list of salaryList" [value]="list.Id">
+                                        {{list.Name}}</ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="col l4 m6 s12 ng-select-withicon ng-slectBox">
+                                 <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data---->
+                                <mat-icon matPrefix class="select-matPrefix-icon">military_tech</mat-icon>
+                                 <!-----who:maneesh,@EWM-11860 EWM-11860  when:23-10-2023 for close and open dropdown when click on field ---->
+                                <ng-select placeholder="{{'quickjob_status' | translate}}" tabindex="11"  [clearable]="false"
+                                    class="dropdown-body show-required" appendTo="body" id="jobTemplate-status" formControlName="Status"
+                                    required [searchable]="false">
+                                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_status' |
+                                        translate}}
+                                    </ng-option>
+                                    <ng-option *ngFor="let list of statusList" [value]="list.StatusId">
+                                        {{list.StatusName}}</ng-option>
+                                </ng-select>
+                                <mat-error
+                                    *ngIf="jobTemplateForm.controls['Status'].hasError('required') && jobTemplateForm.controls['Status'].touched">
+                                    {{'quickjob_status'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                            </div>
+
+
+                            <div class="clear"></div>
+
+                            <!-- -------@When: 17-03-2023 @who:Amit @why: EWM-11248 @what: add editor class & column change-------
+                            <div class="col l4 m12 s12 job-template-editor">
+                            <app-custom-html-editor [config]="descrpConfigData" [descrpValueIn]="selectedDescription" (descrpValueOut)="getDescription($event)"
+                            tabindex="12">
+                        </app-custom-html-editor>
+                        <mat-error class="matErrorDesc"
+                                    *ngIf="jobTemplateForm.controls['JobDescription'].hasError('required') && jobTemplateForm.controls['JobDescription'].touched">
+                                    {{'quickjob_jobDescription'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                                </div> -->
+
+                                <div class="col l12 m12 s12">
+                                    <!--@When: 09-04-2024 @who:Amit @why: EWM-16609 @what: add class-->
+                                    <div class="html-editor-kendo desc-popup-editor" tabindex id="kendoHTMLEditer">
+                                            <mat-label  [ngStyle]="jobTemplateForm.controls['JobDescription'].hasError('required') &&
+                                            this.jobTemplateForm.controls['JobDescription'].touched?{'color': '#f44336'}:''">{{'quickjob_jobDescription' |translate}} <span class="required-show">*</span></mat-label>
+                                    <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal"
+                                          (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)"
+                                          [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()">
+                                    </app-mention-editor>   
+                                  </div>
+                                </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </mat-card>
+</mat-drawer-container>

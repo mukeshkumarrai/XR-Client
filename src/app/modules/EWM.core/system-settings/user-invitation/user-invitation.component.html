@@ -1,0 +1,1109 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Vipul Bansal
+    @When: 25-Jan-2021
+    @Why: EWM-762
+    @What:  This page wil be use only for the user invitation listing
+    @modified By: Priti Srivastava
+    @when:26-May-2021
+    @Why:EWM-1640
+-->
+
+<!-- @When: 03-05-2024 @who:Amit @why: EWM-16934 @what: structure modified -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="user-invitation-mat-card-header">
+  <mat-card-title class="only-title ml-5">
+    {{'label_userInvitation' |translate}}
+  </mat-card-title>
+
+  <div class="header-action-button" id="user-invitation-actionButton">
+
+    <div class="group-header-button">
+        <a mat-raised-button class="header-button" id="user-invitation-btnViewAudit"
+        [routerLink]="['../../system-settings/system-audit-log/',auditParameter]"
+        matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+        </a>
+
+        <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+        matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+        <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+          {{animationVar?.BarRotateButton?.iconName}}
+        </mat-icon>
+        </button>
+        
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('listMode')" id="userInvitaion-btnList"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('cardMode')" id="userInvitaion-btnCard"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}} 
+        </span>
+      </button>
+      
+
+      <!-- <button mat-raised-button [matMenuTriggerFor]="mobileViewButtonsMenu" class="header-button mobile-view-button">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #mobileViewButtonsMenu="matMenu" class="mobile-view-header-menu">
+        <ng-container *ngTemplateOutlet="buttonRef"></ng-container>
+      </mat-menu> -->
+
+   
+    </div>
+
+  </div>
+  
+</mat-card-header>
+
+<mat-drawer-container class="advancedsearch-container p-10 userInvitaion" autosize id="dashboard-drawer">
+<mat-card id="userInvitaion" class="bg-hide component-card mat-elevation-z0">
+  <mat-card-content class="breadcrumb-card-content tab-card-content overflow-hidden pt-0">
+
+    <div class="row mb-0">
+      <div class="col l6 m12 s12 offset-l6 invite-andeportall">
+        <a mat-raised-button tabindex="4" class="buttonForDesktopMobile" color="primary"
+          id="userInvitaion-btnInviteUser" type="button" (click)="openForm('Invite', '',false)">
+          <mat-icon>person_add</mat-icon>
+          <span class="buttonTxt">{{'label_InviteUser' |translate}}</span>
+        </a>
+        <a mat-raised-button tabindex="5" class="buttonForDesktopMobile" color="primary" disabled="true" type="button"
+          id="userInvitaion-btnExportUsers">
+          <mat-icon>system_update_alt</mat-icon>
+          <span class="buttonTxt">{{'label_ExportUser' |translate}}</span>
+        </a>
+      </div>
+    </div>
+    <div class="user-invitaion tab-user-invitation tab-container">
+      <mat-tab-group id='userinvitation-mtg' [selectedIndex]='selectedTabIndex' (selectedTabChange)="ActiveTab($event)">
+
+        <!-- people tab start -->
+        <mat-tab>
+          <ng-template mat-tab-label matRippleDisabled="disabled">
+            {{'label_people'|translate}}
+          </ng-template>
+          <div class="tabInfinoteScroll" infinite-scroll [infiniteScrollDistance]="pageOption"
+            [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false" 
+            [ngClass]="[ userTypeValue==1 || userTypeValue==2  ? 'with-invite-people' : 'without-invite-people']">
+            <!-- people tab list sticky header start -->
+            <div class="sticky" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+              <div class="row mb-0 ml-5">
+                <div class="col l6 m12 s12 mb-0">
+                  <div class="row mb-0">
+                    <form id="userinvitation-frmfilter" [formGroup]="ListFilterForm">
+                      <div class="col l6 m6 s12 pl-0">
+                        <div #search>
+                          <ng-select tabindex="1" [multiple]="true" formControlName="ddlListAccessLevel"
+                            id="userinvitation-ddlUserAccessSearch" [clearable]="true"
+                            placeholder="{{'label_user'|translate}} {{'label_accesslevel'|translate}}"
+                            (change)="getSelectedUserListType($event)" [items]="accessLevels" bindLabel="Name"
+                            bindValue="Id">
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                              <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                                <span class="ng-value-label"> {{item.Name}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                              </div>
+                              <div class="ng-value" *ngIf="items.length > 2">
+                                <span class="ng-value-label">{{items.length - 2}} more...</span>
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                        </div>
+                      </div>
+                      <div class="col l6 m6 s12 pl-0">
+                        <ng-select tabindex="2" [multiple]="true" placeholder="{{'label_userRoles'|translate}}"
+                          [clearable]="true" formControlName="ddlListRoles" id="userinvitation-ddlUserRole"
+                          (change)="getSelectedUserRoleList($event)" [items]="userRoles" bindLabel="Name"
+                          bindValue="RoleCode">
+                          <!-- <ng-option [value]="0">{{'label_UserRoleAnyRole' |translate}}</ng-option>
+                          <ng-option *ngFor="let userRole of userRoles" [value]="userRole.RoleCode">
+                            {{userRole.Name}}
+                          </ng-option> -->
+                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                              <span class="ng-value-label"> {{item.Name}}</span>
+                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 2">
+                              <span class="ng-value-label">{{items.length - 2}} more...</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="col offset-l2 l4 m12 s12">
+                  <div #search>
+                    <mat-form-field style="margin-bottom: 0px;">
+                      <mat-label>{{'label_search'|translate}}</mat-label>
+                      <input matInput id="userInvitaion-searchBox" tabindex="3" placeholder="Search"
+                        (input)="onFilter($event.target.value)" [(ngModel)]="searchValue">
+                      <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                      <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()" (click)="searchValue=''">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                      <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <!-- people tab list header start -->
+              <div class="row mb-0 listHeader" id="userinvitation-listHeader" [class.hide]="isvisible">
+
+                <div class="col col-7 listActionBox">
+                  <strong>&nbsp;</strong>
+                </div>
+                <div class="col col-8" (click)="onSort('Email')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnEmailSort"><strong>{{'label_colUser'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'Email' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'Email' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                  </button>
+                </div>
+                <div class="col col-2" (click)="onSort('PeopleType')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnPeopleSort"><strong>{{'label_people'|translate}}
+                      {{'label_templatetype'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'PeopleType' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'PeopleType' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-3" (click)="onSort('Role')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnRollSort"><strong>{{'label_ddlRole'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'Role' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'Role' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-6" (click)="onSort('AccessLevel')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnAccessLevelSort"><strong>{{'label_accesslevel'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'AccessLevel' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'AccessLevel' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-10" (click)="onSort('SiteAccess')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnSiteAccessSort"><strong>{{'label_siteAccess'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'SiteAccess' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'SiteAccess' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-4  right-align" (click)="onSort('LastSignIn')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnLastSigninSort"><strong>{{'label_colLastActivity'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'LastSignIn' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'LastSignIn' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+
+                
+              </div>
+              <!-- people tab list header end -->
+            </div>
+            <!-- people tab list sticky header end -->
+            <!-- people tab list view start -->
+            <div class="listCardView card-lock-unlock" id="userinvitation-listCardView"
+              [ngClass]="[ viewMode === 'cardMode' ? '' : 'listcardContentMaxData']" *ngIf="viewMode === 'listMode'">
+              <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+                <div class="row">
+                  <div class="col nodata" *ngIf="this.gridData==undefined ||this.gridData.length==0">
+                    <span>{{'label_NoData'|translate}}</span>
+                  </div>
+                  <!-- <div *ngIf="loadingPopup" class="list"></div> -->
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+                    *ngFor="let listDataList of gridData;let i =index"
+                    [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+                    <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'hide' : '']">
+                      <mat-card-content class="listcardContent"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+
+                        <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+                          <div class="col"
+                            [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-7']">
+                            <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                              <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                              <a mat-menu-item (click)="openForm('Details',listDataList.Id,true)"
+                                id="userInvitaion-btnShowCard" *ngIf="listDataList.SiteAccess == 1"
+                                class="mat-menu-item">
+                                <mat-icon class="mat-icon-no-color">subject</mat-icon>
+                                {{'label_view_user' | translate}}
+                              </a>
+                              <a mat-menu-item *ngIf="listDataList.EmployeeTag!=2"
+                                (click)="openForm('Details',listDataList.Id,false)" id="userInvitaion-btnEdit"
+                                class="mat-menu-item">
+                                <mat-icon class="mat-icon-no-color">edit</mat-icon>
+                                {{'label_edit' | translate}}
+                              </a>
+                              <!-- who:maneesh,what:ewm-16921 for fixed reinvite coloum when:20/05/2024 -->
+                              <a mat-menu-item  *ngIf="listDataList?.LastSignIn == 0 && (userTypeValue==1 || userTypeValue==2)" 
+                              (click)="UserInvite(listDataList?.Email,listDataList?.UserId,listDataList?.UserName)" id="btnReinvite1">
+                              <mat-icon class="mat-icon-no-color" fontSet="material-icons-outlined">person_add_alt</mat-icon>
+                              {{'label_usersPage_Reinvite' | translate}}
+                             </a>
+                            </mat-menu>
+                          </div>
+                          <div class="col list-lock-unlock" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-8']">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Email }}"
+                              matTooltipClass="custom-tooltip">
+                              <div class="text-overflow">
+                              <span class="badge white"
+                                *ngIf="!(listDataList.EmployeeTag==0)">{{eEmployeeType[listDataList.EmployeeTag]}}</span>
+                              <span class="list-name">{{listDataList.UserName}}</span>
+                            </div>
+                              <span class="emailTxt text-overflow">{{ listDataList.Email}}</span>
+                            </span>
+
+                            <button mat-icon-button id="UnlockUserthree" class="lock-btn" *ngIf="listDataList?.IsLocked==1 && (userTypeValue==1 || userTypeValue==2)"
+                            (click)="resetUser(listDataList?.UserId)" matTooltipClass="custom-tooltip"
+                              matTooltip="{{'label_UsersInvite_UnlockUserAccount'|translate}}">
+                              <svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0 -1028.4)"><path d="m12 1031.4c-2.7614 0-5 2.6-5 6v1c0 0.5 0.3731 1 0.8333 1 0.4603 0 0.8334-0.5 0.8334-1v-1c0-2.4 1.4923-4.3 3.3333-4.3s3.333 1.9 3.333 4.3v1c0 0.5 0.373 1 0.834 1 0.46 0 0.833-0.5 0.833-1v-1c0-3.4-2.239-6-5-6z" fill="#7f8c8d"/><path d="m6 1037.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f1c40f"/><path d="m12 1029.9c-3.3137 0-6 2.7-6 6v1c0 0.6 0.4477 1 1 1s1-0.4 1-1v-1c0-2.3 1.7909-4.2 4-4.2 2.209 0 4 1.9 4 4.2v1c0 0.6 0.448 1 1 1s1-0.4 1-1v-1c0-3.3-2.686-6-6-6z" fill="#bdc3c7"/><path d="m6 1039.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f39c12"/><path d="m6.327 1037.4c-0.3403 0-0.6569 0.1-0.9375 0.2 0.222 0.9 1.0056 1.5 1.9375 1.5 1.0193 0 1.845-0.8 1.9688-1.7h-2.9688z" fill="#7f8c8d"/><path d="m17.792 1037.3c0.34 0 0.657 0.1 0.937 0.3-0.222 0.8-1.005 1.5-1.937 1.5-1.02 0-1.845-0.8-1.969-1.8h2.969z" fill="#7f8c8d"/><path d="m12 1030.4c-3.3137 0-6 2.6-6 6v1c0 0.5 0.4477 1 1 1s1-0.5 1-1v-1c0-2.4 1.7909-4.3 4-4.3 2.209 0 4 1.9 4 4.3v1c0 0.5 0.448 1 1 1s1-0.5 1-1v-1c0-3.4-2.686-6-6-6z" fill="#95a5a6"/><g fill="#e67e22"><rect height="1" width="12" x="6" y="1041.4"/><rect height="1" width="12" x="6" y="1043.4"/><rect height="1" width="12" x="6" y="1045.4"/><rect height="1" width="12" x="6" y="1047.4"/></g></g></svg>
+                            </button>
+                            
+                          </div>
+                          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.PeopleType }}"
+                              matTooltipClass="custom-tooltip">
+                              {{ listDataList.PeopleType }}
+                            </span>
+                          </div>
+                          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Role }}"
+                              matTooltipClass="custom-tooltip">
+                              {{ listDataList.Role }}
+                            </span>
+                          </div>
+                          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-6']">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.AccessLevel}}"
+                              matTooltipClass="custom-tooltip">
+                              {{ listDataList.AccessLevel}}
+                            </span>
+                          </div>
+                          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-10']">
+                            <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip">
+                              <mat-slide-toggle class="maxWidth155" [checked]="listDataList.SiteAccess == 1"
+                                [disabled]="listDataList.EmployeeTag==2"
+                                (change)="revokeAccess(listDataList.Id,$event.checked)" color="primary">
+                              </mat-slide-toggle>
+                            </span>
+                          </div>
+                          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-4 right-align']">
+                            <span class="cardListTxt word-wrap" *ngIf="listDataList.LastSignIn != 0" matTooltip="{{ listDataList.LastSignIn == 0 ? '' : listDataList.LastSignIn |
+                              date:userpreferences.timeformate:userpreferences.timezone }}"
+                              matTooltipClass="custom-tooltip">{{ listDataList.LastSignIn == 0 ? ''
+                              :listDataList.LastSignIn |
+                              date:userpreferences.timeformate:userpreferences.timezone }}
+                            </span>
+                          </div>
+                        </div>
+
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+                </div>
+                <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+              </div>
+            </div>
+            <!-- people tab list view end -->
+            <!-- people tab card view start -->
+            <mat-drawer-container autosize class="page-container-cardview" id="card-view-container" *ngIf="viewMode === 'cardMode'">
+              <div class="cardview-container" id="cardview-container" infinite-scroll [infiniteScrollDistance]="pageOption"
+              [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false"
+              [ngClass]="[ this.gridData==undefined ||this.gridData.length==0 ? 'cardview-no-record' : '']">
+              <div class="cardview-norecord" id="cardview-norecord" *ngIf="this.gridData==undefined ||this.gridData.length==0">
+                <span>{{'label_noRecordAvailable'|translate}}</span>
+              </div>
+                <mat-card class="grid-card-mode" id="grid-card-mode" *ngFor="let listDataList of gridData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+                    <div class="grid-card-access-data" [ngClass]="[ listDataList?.IsLocked==1 && (userTypeValue==1 ||userTypeValue==2) ? 'unlock-user' : '']">
+                          <button mat-icon-button id="UnlockUserthree" class="lock-btn" *ngIf="listDataList?.IsLocked==1 && (userTypeValue==1 || userTypeValue==2)"
+                          (click)="resetUser(listDataList?.UserId)" matTooltipClass="card-tooltip-left" matTooltipPosition="after" 
+                            matTooltip="{{'label_UsersInvite_UnlockUserAccount'|translate}}">
+                            <svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0 -1028.4)"><path d="m12 1031.4c-2.7614 0-5 2.6-5 6v1c0 0.5 0.3731 1 0.8333 1 0.4603 0 0.8334-0.5 0.8334-1v-1c0-2.4 1.4923-4.3 3.3333-4.3s3.333 1.9 3.333 4.3v1c0 0.5 0.373 1 0.834 1 0.46 0 0.833-0.5 0.833-1v-1c0-3.4-2.239-6-5-6z" fill="#7f8c8d"/><path d="m6 1037.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f1c40f"/><path d="m12 1029.9c-3.3137 0-6 2.7-6 6v1c0 0.6 0.4477 1 1 1s1-0.4 1-1v-1c0-2.3 1.7909-4.2 4-4.2 2.209 0 4 1.9 4 4.2v1c0 0.6 0.448 1 1 1s1-0.4 1-1v-1c0-3.3-2.686-6-6-6z" fill="#bdc3c7"/><path d="m6 1039.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f39c12"/><path d="m6.327 1037.4c-0.3403 0-0.6569 0.1-0.9375 0.2 0.222 0.9 1.0056 1.5 1.9375 1.5 1.0193 0 1.845-0.8 1.9688-1.7h-2.9688z" fill="#7f8c8d"/><path d="m17.792 1037.3c0.34 0 0.657 0.1 0.937 0.3-0.222 0.8-1.005 1.5-1.937 1.5-1.02 0-1.845-0.8-1.969-1.8h2.969z" fill="#7f8c8d"/><path d="m12 1030.4c-3.3137 0-6 2.6-6 6v1c0 0.5 0.4477 1 1 1s1-0.5 1-1v-1c0-2.4 1.7909-4.3 4-4.3 2.209 0 4 1.9 4 4.3v1c0 0.5 0.448 1 1 1s1-0.5 1-1v-1c0-3.4-2.686-6-6-6z" fill="#95a5a6"/><g fill="#e67e22"><rect height="1" width="12" x="6" y="1041.4"/><rect height="1" width="12" x="6" y="1043.4"/><rect height="1" width="12" x="6" y="1045.4"/><rect height="1" width="12" x="6" y="1047.4"/></g></g></svg>
+                          </button>
+                          <span class="badge light-green">
+                            <strong>{{'label_accesslevel'|translate}}</strong> :
+                            {{ listDataList.AccessLevel}}
+                          </span>
+                    </div>
+
+                    <div class="grid-card-mode-data" id="grid-card-mode-data">
+                      <div class="full-data">
+                        <small>{{'label_colUser'|translate}}</small>
+                        <div class="admin-with-name">
+                        <span class="badge white"
+                        *ngIf="!(listDataList.EmployeeTag==0)">{{eEmployeeType[listDataList.EmployeeTag]}}</span>
+                        <span>{{listDataList.UserName}}</span>
+                        </div>
+                        <span matTooltip="{{ listDataList.Email }}"
+                        matTooltipClass="custom-tooltip">{{ listDataList.Email}}</span>
+                        </div>
+                    </div>
+
+                    <div class="grid-card-half-data" id="grid-card-half-data">
+                    <div class="card-half-data" *ngIf="listDataList?.LastSignIn != 0">
+                      <small>{{'label_colLastActivity'|translate}}</small>
+                      <span *ngIf="listDataList.LastSignIn != 0" class="cardListTxt word-wrap" matTooltip="{{ listDataList.LastSignIn == 0 ? '' : listDataList.LastSignIn |
+                        date:userpreferences.timeformate:userpreferences.timezone }}"
+                        matTooltipClass="custom-tooltip">{{ listDataList.LastSignIn |
+                          date:userpreferences.timeformate:userpreferences.timezone }}
+                      </span>
+                  </div>
+                  <div class="card-half-data">
+                    <small>{{'label_siteAccess'|translate}}</small>
+                    <span class="cardListTxt word-wrap smallSlideToggle" matTooltipClass="custom-tooltip">
+                      <mat-slide-toggle class="maxWidth155" [checked]="listDataList.SiteAccess == 1"
+                        [disabled]="listDataList.EmployeeTag==2"
+                        (change)="revokeAccess(listDataList.Id,$event.checked)" color="primary">
+                      </mat-slide-toggle>
+                    </span>
+                  </div>
+                  <div class="card-half-data">
+                    <small>{{'label_people'|translate}}</small>
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.PeopleType }}"
+                      matTooltipClass="custom-tooltip">
+                      {{ listDataList.PeopleType }}
+                    </span>
+                  </div>
+                  <div class="card-half-data">
+                    <small>{{'label_ddlRole'|translate}}</small>
+                    <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip">
+                      <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Role }}"
+                        matTooltipClass="custom-tooltip">
+                        {{ listDataList.Role }}
+                      </span>
+                    </span>
+                  </div>
+                    </div>
+
+                    <div class="grid-card-mode-footer footer-fix" id="grid-card-mode-footer" [ngClass]="[ listDataList.LastSignIn == 0 &&  ( userTypeValue==1 || userTypeValue==2) ? 'person-user' : 'without-person-user']">
+                     
+
+                      <div class="button-group" id="button-group">
+                        <button mat-icon-button color="primary" (click)="openForm('Details',listDataList.Id,true)"
+                          id="userInvitaion-btnShowCard" *ngIf="listDataList.SiteAccess == 1"
+                          matTooltip="{{'label_view'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>subject</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" *ngIf="listDataList.EmployeeTag!=2"
+                          (click)="openForm('Details',listDataList.Id,false)" id="userInvitaion-btnEdit"
+                          matTooltip="{{'label_edit'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" tabindex type="button" 
+                        *ngIf="listDataList?.LastSignIn == 0 && (userTypeValue==1 || userTypeValue==2)" (click)="UserInvite(listDataList?.Email,listDataList?.UserId,listDataList?.UserName)" id="btnCancel"
+                        matTooltip="{{'label_usersPage_Reinvite'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>person_add_alt</mat-icon>
+                        </button>
+                      </div>
+
+                    </div>
+                </mat-card>
+              </div>
+            </mat-drawer-container>
+            <!-- people tab card view end -->
+          </div>
+        </mat-tab>
+        <!-- people tab end -->
+
+        <!-- shop tab start -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            {{ 'label_ModifyClient' | customTranslate }}
+          </ng-template>
+          <div class="tabInfinoteScroll" infinite-scroll [infiniteScrollDistance]="pageOption"
+            [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false"
+            [ngClass]="[ userTypeValue==1 || userTypeValue==2 ? '' : 'without-invite-shop']">
+
+            <!-- shop tab list sticky header start -->
+            <div class="sticky" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+
+              <div class="row mb-0 ml-5">
+                <div class="col l6 m12 s12 mb-0">
+                  <div class="row mb-0">
+                    <form id="userinvitation-frmfilter" [formGroup]="ListFilterForm">
+                      <div class="col l6 m6 s12 pl-0">
+                        <div #search>
+                          <ng-select tabindex="1" [multiple]="true" formControlName="ddlListAccessLevel"
+                            id="userinvitation-ddlUserAccessSearch" [clearable]="true"
+                            placeholder="{{'label_user'|translate}} {{'label_accesslevel'|translate}}"
+                            (change)="getSelectedUserListType($event)" [items]="accessLevels" bindLabel="Name"
+                            bindValue="Id">
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                              <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                                <span class="ng-value-label"> {{item.Name}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                              </div>
+                              <div class="ng-value" *ngIf="items.length > 2">
+                                <span class="ng-value-label">{{items.length - 2}} more...</span>
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                        </div>
+                      </div>
+                      <div class="col l6 m6 s12 pl-0">
+                        <ng-select tabindex="2" [multiple]="true" placeholder="{{'label_userRoles'|translate}}"
+                          [clearable]="true" formControlName="ddlListRoles" id="userinvitation-ddlUserRole"
+                          (change)="getSelectedUserRoleList($event)" [items]="userRoles" bindLabel="Name"
+                          bindValue="RoleCode">
+                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                              <span class="ng-value-label"> {{item.Name}}</span>
+                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 2">
+                              <span class="ng-value-label">{{items.length - 2}} more...</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="col offset-l2 l4 m12 s12">
+                  <div #search>
+                    <mat-form-field style="margin-bottom: 0px;">
+                      <mat-label>{{'label_search'|translate}}</mat-label>
+                      <input matInput id="userInvitaion-searchBox" tabindex="3" placeholder="Search"
+                        (input)="onFilter($event.target.value)" [(ngModel)]="searchValue">
+                      <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <!-- shop tab list header start -->
+              <div class="row mb-0 listHeader" id="userinvitation-listHeader" [class.hide]="isvisible">
+
+                <div class="col col-7 listActionBox">
+                  <strong>&nbsp;</strong>
+                </div>
+
+                <div class="col col-8" (click)="onSort('Email')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnEmeilSort"><strong>{{'label_colUser'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'Email' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'Email' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                  </button>
+                </div>
+                
+                <div class="col col-1" (click)="onSort('Role')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnRoleSort"><strong>{{'label_ddlRole'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'Role' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'Role' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-2" (click)="onSort('AccessLevel')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnAccessLavelSort"><strong>{{'label_accesslevel'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'AccessLevel' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'AccessLevel' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-2" (click)="onSort('SiteAccess')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnSiteAccessSort"><strong>{{'label_siteAccess'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'SiteAccess' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'SiteAccess' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-9  right-align" (click)="onSort('LastSignIn')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnLastSigninSort"><strong>{{'label_colLastActivity'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'LastSignIn' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'LastSignIn' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+
+              </div>
+              <!-- shop tab list header end -->
+            </div>
+            <!-- shop tab list sticky header end -->
+            <!-- shop tab list view start -->
+            <div class="listCardView card-lock-unlock" id="userinvitation-listCardView"
+              [ngClass]="[ viewMode === 'cardMode' ? '' : 'listcardContentMaxData']" *ngIf="viewMode === 'listMode'">
+              <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+                <div class="row">
+                  <div class="col nodata" *ngIf="this.gridViewClient==undefined ||this.gridViewClient.length==0">
+                    <span>{{'label_NoData'|translate}}</span>
+                  </div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+                    *ngFor="let listDataList of gridViewClient;let i =index"
+                    [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+                    <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                      <mat-card-content class="listcardContent"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                        <!-- shop tab list view data start -->
+                        <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+
+                          <div class="col listActionBox col-7 pl-0">
+
+                            <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                              <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+
+                              <a mat-menu-item (click)="openForm('Details',listDataList.Id,true)"
+                                id="userInvitaion-btnShowButtonId" *ngIf="listDataList.SiteAccess == 1"
+                                class="mat-menu-item">
+                                <mat-icon class="mat-icon-no-color">subject</mat-icon>
+                                {{'label_view_users' | translate}}
+                              </a>
+
+
+                              <a mat-menu-item *ngIf="listDataList.EmployeeTag!=2"
+                                (click)="openForm('Details',listDataList.Id,false)" id="userInvitaion-btnEditId"
+                                class="mat-menu-item">
+                                <mat-icon class="mat-icon-no-color">edit</mat-icon>
+                                {{'label_edit' | translate}}
+                              </a>
+                              <!-- who:maneesh,what:ewm-16921 for fixed reinvite coloum when:20/05/2024 -->
+                              <a mat-menu-item  *ngIf="listDataList?.LastSignIn == 0 && (userTypeValue==1 || userTypeValue==2)" 
+                              (click)="UserInvite(listDataList?.Email,listDataList?.UserId,listDataList?.UserName)" id="btnReinvite3">
+                              <mat-icon class="mat-icon-no-color" fontSet="material-icons-outlined"
+                              >person_add_alt</mat-icon>
+                              {{'label_usersPage_Reinvite' | translate}}
+                             </a>
+                            </mat-menu>
+                          </div>
+                          <div class="col col-8 list-lock-unlock" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : '']">
+
+                              <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Email }}"
+                              matTooltipClass="custom-tooltip">
+                              
+                              <div class="text-overflow">
+                              <span class="badge white"
+                                *ngIf="!(listDataList.EmployeeTag==0)">{{eEmployeeType[listDataList.EmployeeTag]}}</span>
+                                <span class="list-name">{{listDataList.UserName}}</span>
+                          </div>   
+                          <span class="emailTxt text-overflow">{{ listDataList.Email}}</span>
+                        </span> 
+
+                            <button mat-icon-button id="UnlockUserthree" class="lock-btn" *ngIf="listDataList?.IsLocked==1 && (userTypeValue==1 || userTypeValue==2)"
+                            (click)="resetUser(listDataList?.UserId)" matTooltipClass="custom-tooltip"
+                              matTooltip="{{'label_UsersInvite_UnlockUserAccount'|translate}}">
+                              <svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0 -1028.4)"><path d="m12 1031.4c-2.7614 0-5 2.6-5 6v1c0 0.5 0.3731 1 0.8333 1 0.4603 0 0.8334-0.5 0.8334-1v-1c0-2.4 1.4923-4.3 3.3333-4.3s3.333 1.9 3.333 4.3v1c0 0.5 0.373 1 0.834 1 0.46 0 0.833-0.5 0.833-1v-1c0-3.4-2.239-6-5-6z" fill="#7f8c8d"/><path d="m6 1037.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f1c40f"/><path d="m12 1029.9c-3.3137 0-6 2.7-6 6v1c0 0.6 0.4477 1 1 1s1-0.4 1-1v-1c0-2.3 1.7909-4.2 4-4.2 2.209 0 4 1.9 4 4.2v1c0 0.6 0.448 1 1 1s1-0.4 1-1v-1c0-3.3-2.686-6-6-6z" fill="#bdc3c7"/><path d="m6 1039.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f39c12"/><path d="m6.327 1037.4c-0.3403 0-0.6569 0.1-0.9375 0.2 0.222 0.9 1.0056 1.5 1.9375 1.5 1.0193 0 1.845-0.8 1.9688-1.7h-2.9688z" fill="#7f8c8d"/><path d="m17.792 1037.3c0.34 0 0.657 0.1 0.937 0.3-0.222 0.8-1.005 1.5-1.937 1.5-1.02 0-1.845-0.8-1.969-1.8h2.969z" fill="#7f8c8d"/><path d="m12 1030.4c-3.3137 0-6 2.6-6 6v1c0 0.5 0.4477 1 1 1s1-0.5 1-1v-1c0-2.4 1.7909-4.3 4-4.3 2.209 0 4 1.9 4 4.3v1c0 0.5 0.448 1 1 1s1-0.5 1-1v-1c0-3.4-2.686-6-6-6z" fill="#95a5a6"/><g fill="#e67e22"><rect height="1" width="12" x="6" y="1041.4"/><rect height="1" width="12" x="6" y="1043.4"/><rect height="1" width="12" x="6" y="1045.4"/><rect height="1" width="12" x="6" y="1047.4"/></g></g></svg>
+                            </button>
+                           
+                          </div>
+                          <div class="col col-1">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Role }}"
+                              matTooltipClass="custom-tooltip">{{ listDataList.Role }}</span>
+                          </div>
+                          <div class="col col-2">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.AccessLevel}}"
+                              matTooltipClass="custom-tooltip">{{ listDataList.AccessLevel}}</span>
+                          </div>
+                          <div class="col col-2">
+                            <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip">
+                              <mat-slide-toggle class="maxWidth155" [disabled]="listDataList.EmployeeTag==2"
+                                [checked]="listDataList.SiteAccess == 1"
+                                (change)="revokeAccess(listDataList.Id,$event.checked)" color="primary">
+                              </mat-slide-toggle>
+                            </span>
+                          </div>
+                          <div class="col col-9  right-align">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.LastSignIn == 0 ? '' : listDataList.LastSignIn |
+                              date:userpreferences.timeformate:userpreferences.timezone }}"
+                              matTooltipClass="custom-tooltip">{{ listDataList.LastSignIn == 0 ? '' :
+                              listDataList.LastSignIn |
+                              date:userpreferences.timeformate:userpreferences.timezone }}</span>
+                              
+                          </div>
+
+                        </div>
+                        <!-- shop tab list view data end -->
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+                </div>
+                <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+              </div>
+            </div>
+            <!-- shop tab list view end -->
+            <!-- shop tab card view start -->
+            <mat-drawer-container autosize class="page-container-cardview" id="card-view-container" *ngIf="viewMode === 'cardMode'">
+              <div class="cardview-container" id="cardview-container" infinite-scroll [infiniteScrollDistance]="pageOption"
+              [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false"
+              [ngClass]="[ this.gridViewClient==undefined ||this.gridViewClient.length==0 ? 'cardview-no-record' : '']">
+              <div class="cardview-norecord" id="cardview-norecord" *ngIf="this.gridViewClient==undefined ||this.gridViewClient.length==0">
+                <span>{{'label_noRecordAvailable'|translate}}</span>
+              </div>
+                <mat-card class="grid-card-mode shop-card-mode" id="grid-card-mode" *ngFor="let listDataList of gridViewClient;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+                  
+                  <div class="grid-card-access-data" [ngClass]="[ listDataList?.IsLocked==1 && ( userTypeValue==1 || userTypeValue==2) ? 'unlock-user' : '']">
+                          <button mat-icon-button id="UnlockUserthree" class="lock-btn" *ngIf="listDataList?.IsLocked==1 && (userTypeValue==1 || userTypeValue==2)"
+                          (click)="resetUser(listDataList?.UserId)" matTooltipClass="card-tooltip-left" matTooltipPosition="after" 
+                            matTooltip="{{'label_UsersInvite_UnlockUserAccount'|translate}}">
+                            <svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0 -1028.4)"><path d="m12 1031.4c-2.7614 0-5 2.6-5 6v1c0 0.5 0.3731 1 0.8333 1 0.4603 0 0.8334-0.5 0.8334-1v-1c0-2.4 1.4923-4.3 3.3333-4.3s3.333 1.9 3.333 4.3v1c0 0.5 0.373 1 0.834 1 0.46 0 0.833-0.5 0.833-1v-1c0-3.4-2.239-6-5-6z" fill="#7f8c8d"/><path d="m6 1037.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f1c40f"/><path d="m12 1029.9c-3.3137 0-6 2.7-6 6v1c0 0.6 0.4477 1 1 1s1-0.4 1-1v-1c0-2.3 1.7909-4.2 4-4.2 2.209 0 4 1.9 4 4.2v1c0 0.6 0.448 1 1 1s1-0.4 1-1v-1c0-3.3-2.686-6-6-6z" fill="#bdc3c7"/><path d="m6 1039.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f39c12"/><path d="m6.327 1037.4c-0.3403 0-0.6569 0.1-0.9375 0.2 0.222 0.9 1.0056 1.5 1.9375 1.5 1.0193 0 1.845-0.8 1.9688-1.7h-2.9688z" fill="#7f8c8d"/><path d="m17.792 1037.3c0.34 0 0.657 0.1 0.937 0.3-0.222 0.8-1.005 1.5-1.937 1.5-1.02 0-1.845-0.8-1.969-1.8h2.969z" fill="#7f8c8d"/><path d="m12 1030.4c-3.3137 0-6 2.6-6 6v1c0 0.5 0.4477 1 1 1s1-0.5 1-1v-1c0-2.4 1.7909-4.3 4-4.3 2.209 0 4 1.9 4 4.3v1c0 0.5 0.448 1 1 1s1-0.5 1-1v-1c0-3.4-2.686-6-6-6z" fill="#95a5a6"/><g fill="#e67e22"><rect height="1" width="12" x="6" y="1041.4"/><rect height="1" width="12" x="6" y="1043.4"/><rect height="1" width="12" x="6" y="1045.4"/><rect height="1" width="12" x="6" y="1047.4"/></g></g></svg>
+                          </button>
+                          <span class="badge light-green">
+                            <strong>{{'label_accesslevel'|translate}}</strong> :
+                            {{ listDataList.AccessLevel}}
+                          </span>
+                    </div>
+
+                    <div class="grid-card-mode-data" id="grid-card-mode-data">
+                      <div class="full-data">
+                        <small>{{'label_colUser'|translate}}</small>
+                        <div class="admin-with-name">
+                        <span class="badge white"
+                        *ngIf="!(listDataList.EmployeeTag==0)">{{eEmployeeType[listDataList.EmployeeTag]}}</span>
+                        <span>{{listDataList.UserName}}</span>
+                        </div>
+                        <span matTooltip="{{ listDataList.Email }}"
+                        matTooltipClass="custom-tooltip">{{ listDataList.Email}}</span>
+                        </div>
+                    </div>
+
+                    <div class="grid-card-half-data" id="grid-card-half-data">
+                      <div class="card-half-data" *ngIf="listDataList?.LastSignIn != 0">
+                        <small>{{'label_colLastActivity'|translate}}</small>
+                        <span *ngIf="listDataList.LastSignIn != 0" class="cardListTxt word-wrap" matTooltip="{{ listDataList.LastSignIn == 0 ? '' : listDataList.LastSignIn |
+                          date:userpreferences.timeformate:userpreferences.timezone }}"
+                          matTooltipClass="custom-tooltip">{{ listDataList.LastSignIn |
+                            date:userpreferences.timeformate:userpreferences.timezone }}
+                        </span>
+                      </div>
+
+                      <div class="card-half-data">
+                        <small>{{'label_siteAccess'|translate}}</small>
+                        <span class="cardListTxt word-wrap smallSlideToggle" matTooltipClass="custom-tooltip">
+                          <mat-slide-toggle class="maxWidth155" [checked]="listDataList.SiteAccess == 1"
+                            [disabled]="listDataList.EmployeeTag==2"
+                            (change)="revokeAccess(listDataList.Id,$event.checked)" color="primary">
+                          </mat-slide-toggle>
+                        </span>
+                      </div>
+
+                      <div class="card-half-data">
+                        <small>{{'label_ddlRole'|translate}}</small>
+                        <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip">
+                          <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Role }}"
+                            matTooltipClass="custom-tooltip">
+                            {{ listDataList.Role }}
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="grid-card-mode-footer footer-fix" id="grid-card-mode-footer" [ngClass]="[ listDataList.LastSignIn == 0 && ( userTypeValue==1 || userTypeValue==2) ? 'person-user' : 'without-person-user']">
+
+                      <div class="button-group" id="button-group">
+                        <button mat-icon-button color="primary" (click)="openForm('Details',listDataList.Id,true)"
+                          id="userInvitaion-btnShowCard" *ngIf="listDataList.SiteAccess == 1"
+                          matTooltip="{{'label_view'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>subject</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" *ngIf="listDataList.EmployeeTag!=2"
+                          (click)="openForm('Details',listDataList.Id,false)" id="userInvitaion-btnEdit"
+                          matTooltip="{{'label_edit'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" tabindex type="button" 
+                        *ngIf="listDataList?.LastSignIn == 0 && (userTypeValue==1 || userTypeValue==2)" (click)="UserInvite(listDataList?.Email,listDataList?.UserId,listDataList?.UserName)" id="btnCancel"
+                        matTooltip="{{'label_usersPage_Reinvite'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>person_add_alt</mat-icon>
+                        </button>
+                      </div>
+
+                    </div>
+                </mat-card>
+              </div>
+            </mat-drawer-container>
+            <!-- shop tab card view end -->
+          </div>
+        </mat-tab>
+        <!-- shop tab end -->
+
+
+        <!-- supplier tab start -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            {{'label_supplier'|translate}}
+          </ng-template>
+          <div class="tabInfinoteScroll" infinite-scroll [infiniteScrollDistance]="pageOption"
+            [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false"
+            [ngClass]="[ userTypeValue==1 || userTypeValue==2 ? '' : 'without-invite-shop']">
+
+            <!-- supplier tab list sticky header start -->
+            <div class="sticky" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+
+              <div class="row mb-0 ml-5">
+                <div class="col l6 m12 s12 mb-0">
+                  <div class="row mb-0">
+                    <form id="userinvitation-frmfilter" [formGroup]="ListFilterForm">
+                      <div class="col l6 m6 s12 pl-0">
+                        <div #search>
+                          <ng-select tabindex="1" [multiple]="true" formControlName="ddlListAccessLevel"
+                            id="userinvitation-ddlUserAccessSearch" [clearable]="true"
+                            placeholder="{{'label_user'|translate}} {{'label_accesslevel'|translate}}"
+                            (change)="getSelectedUserListType($event)" [items]="accessLevels" bindLabel="Name"
+                            bindValue="Id">
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                              <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                                <span class="ng-value-label"> {{item.Name}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                              </div>
+                              <div class="ng-value" *ngIf="items.length > 2">
+                                <span class="ng-value-label">{{items.length - 2}} more...</span>
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                        </div>
+                      </div>
+                      <div class="col l6 m6 s12 pl-0">
+                        <ng-select tabindex="2" [multiple]="true" placeholder="{{'label_userRoles'|translate}}"
+                          [clearable]="true" formControlName="ddlListRoles" id="userinvitation-ddlUserRole"
+                          (change)="getSelectedUserRoleList($event)" [items]="userRoles" bindLabel="Name"
+                          bindValue="RoleCode">
+                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                              <span class="ng-value-label"> {{item.Name}}</span>
+                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 2">
+                              <span class="ng-value-label">{{items.length - 2}} more...</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="col offset-l2 l4 m12 s12">
+                  <div #search>
+                    <mat-form-field style="margin-bottom: 0px;">
+                      <mat-label>{{'label_search'|translate}}</mat-label>
+                      <input matInput id="userInvitaion-searchBox" tabindex="3" placeholder="Search"
+                        (input)="onFilter($event.target.value)" [(ngModel)]="searchValue">
+                      <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-0 listHeader" id="userinvitation-listHeader" [class.hide]="isvisible">
+
+                <div class="col col-7 listActionBox">
+                  <strong>&nbsp;</strong>
+                </div>
+
+                <div class="col col-8" (click)="onSort('Email')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnEmeilSort"><strong>{{'label_colUser'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'Email' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'Email' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+                  </button>
+                </div>
+
+                <div class="col col-1" (click)="onSort('Role')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnRoleSort"><strong>{{'label_ddlRole'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'Role' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'Role' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-2" (click)="onSort('AccessLevel')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnAccessLavelSort"><strong>{{'label_accesslevel'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'AccessLevel' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'AccessLevel' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-2" (click)="onSort('SiteAccess')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnSiteAccessSort"><strong>{{'label_siteAccess'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'SiteAccess' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'SiteAccess' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+                <div class="col col-9  right-align" (click)="onSort('LastSignIn')">
+                  <button mat-button [disableRipple]="true"
+                    id="userInvitaion-btnLastSigninSort"><strong>{{'label_colLastActivity'|translate}}
+                    </strong>
+                    <mat-icon *ngIf="sortedcolumnName === 'LastSignIn' && sortDirection === 'asc'">{{ascIcon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="sortedcolumnName === 'LastSignIn' && sortDirection === 'desc'">{{descIcon}}
+                    </mat-icon>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+            <!-- supplier tab list sticky header end -->
+
+            <!-- supplier tab list view start -->
+            <div class="listCardView card-lock-unlock" id="userinvitation-listCardView"
+              [ngClass]="[ viewMode === 'cardMode' ? '' : 'listcardContentMaxData']" *ngIf="viewMode === 'listMode'">
+              <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+                <div class="row">
+                  <div class="col nodata" *ngIf="this.gridViewSupplier==undefined ||this.gridViewSupplier.length==0">
+                    <span>{{'label_NoData'|translate}}</span>
+                  </div>
+                  <!-- <div *ngIf="loadingPopup" class="list"></div> -->
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+                    *ngFor="let listDataList of gridViewSupplier;let i =index"
+                    [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+                    <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                      <mat-card-content class="listcardContent"
+                        [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                        <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+
+                          <div class="col listActionBox col-7 pl-0">
+
+                            <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                              <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+
+                              <a mat-menu-item (click)="openForm('Details',listDataList.Id,true)"
+                                id="userInvitaion-btnShowButtonId" *ngIf="listDataList.SiteAccess == 1"
+                                class="mat-menu-item">
+                                <mat-icon class="mat-icon-no-color">subject</mat-icon>
+                                {{'label_view_users' | translate}}
+                              </a>
+
+
+                              <a mat-menu-item *ngIf="listDataList.EmployeeTag!=2"
+                                (click)="openForm('Details',listDataList.Id,false)" id="userInvitaion-btnEditId"
+                                class="mat-menu-item">
+                                <mat-icon class="mat-icon-no-color">edit</mat-icon>
+                                {{'label_edit' | translate}}
+                              </a>
+                               <!-- who:maneesh,what:ewm-16921 for fixed reinvite coloum when:20/05/2024 -->
+                               <a mat-menu-item  *ngIf="listDataList?.LastSignIn == 0 && (userTypeValue==1 || userTypeValue==2)" 
+                               (click)="UserInvite(listDataList?.Email,listDataList?.UserId,listDataList?.UserName)" id="btnReinvite2">
+                               <mat-icon class="mat-icon-no-color" fontSet="material-icons-outlined">person_add_alt</mat-icon>
+                               {{'label_usersPage_Reinvite' | translate}}
+                              </a>
+                            </mat-menu>
+                          </div>
+                          <div class="col col-8 list-lock-unlock" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : '']">
+
+                              <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Email }}"
+                              matTooltipClass="custom-tooltip">
+                              
+                              <div class="text-overflow">
+                              <span class="badge white"
+                                *ngIf="!(listDataList.EmployeeTag==0)">{{eEmployeeType[listDataList.EmployeeTag]}}</span>
+                                <span class="list-name">{{listDataList.UserName}}</span>
+                          </div>   
+                          <span class="emailTxt text-overflow">{{ listDataList.Email}}</span>
+                        </span> 
+
+                            <button mat-icon-button id="UnlockUserthree" class="lock-btn" *ngIf="listDataList?.IsLocked==1 && (userTypeValue==1 || userTypeValue==2)"
+                            (click)="resetUser(listDataList?.UserId)" matTooltipClass="custom-tooltip"
+                              matTooltip="{{'label_UsersInvite_UnlockUserAccount'|translate}}">
+                              <svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0 -1028.4)"><path d="m12 1031.4c-2.7614 0-5 2.6-5 6v1c0 0.5 0.3731 1 0.8333 1 0.4603 0 0.8334-0.5 0.8334-1v-1c0-2.4 1.4923-4.3 3.3333-4.3s3.333 1.9 3.333 4.3v1c0 0.5 0.373 1 0.834 1 0.46 0 0.833-0.5 0.833-1v-1c0-3.4-2.239-6-5-6z" fill="#7f8c8d"/><path d="m6 1037.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f1c40f"/><path d="m12 1029.9c-3.3137 0-6 2.7-6 6v1c0 0.6 0.4477 1 1 1s1-0.4 1-1v-1c0-2.3 1.7909-4.2 4-4.2 2.209 0 4 1.9 4 4.2v1c0 0.6 0.448 1 1 1s1-0.4 1-1v-1c0-3.3-2.686-6-6-6z" fill="#bdc3c7"/><path d="m6 1039.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f39c12"/><path d="m6.327 1037.4c-0.3403 0-0.6569 0.1-0.9375 0.2 0.222 0.9 1.0056 1.5 1.9375 1.5 1.0193 0 1.845-0.8 1.9688-1.7h-2.9688z" fill="#7f8c8d"/><path d="m17.792 1037.3c0.34 0 0.657 0.1 0.937 0.3-0.222 0.8-1.005 1.5-1.937 1.5-1.02 0-1.845-0.8-1.969-1.8h2.969z" fill="#7f8c8d"/><path d="m12 1030.4c-3.3137 0-6 2.6-6 6v1c0 0.5 0.4477 1 1 1s1-0.5 1-1v-1c0-2.4 1.7909-4.3 4-4.3 2.209 0 4 1.9 4 4.3v1c0 0.5 0.448 1 1 1s1-0.5 1-1v-1c0-3.4-2.686-6-6-6z" fill="#95a5a6"/><g fill="#e67e22"><rect height="1" width="12" x="6" y="1041.4"/><rect height="1" width="12" x="6" y="1043.4"/><rect height="1" width="12" x="6" y="1045.4"/><rect height="1" width="12" x="6" y="1047.4"/></g></g></svg>
+                            </button>
+                           
+                          </div>
+                         
+                          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-12']" *ngIf="userTypeValue==1 || userTypeValue==2">
+                            <button mat-raised-button class="invite-user-btn" color="primary" tabindex type="button" 
+                            *ngIf="listDataList?.LastSignIn == 0 &&  (userTypeValue==1 || userTypeValue==2)" (click)="UserInvite(listDataList?.Email,listDataList?.UserId,listDataList?.UserName)" id="btnCancel">
+                            {{'label_usersPage_Reinvite'|translate}}
+                            </button>
+
+                          </div>
+                          <div class="col col-1">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Role }}"
+                              matTooltipClass="custom-tooltip">{{ listDataList.Role }}</span>
+                          </div>
+                          <div class="col col-2">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.AccessLevel}}"
+                              matTooltipClass="custom-tooltip">{{ listDataList.AccessLevel}}</span>
+                          </div>
+                          <div class="col col-2">
+                            <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip">
+                              <mat-slide-toggle class="maxWidth155" [disabled]="listDataList.EmployeeTag==2"
+                                [checked]="listDataList.SiteAccess == 1"
+                                (change)="revokeAccess(listDataList.Id,$event.checked)" color="primary">
+                              </mat-slide-toggle>
+                            </span>
+                          </div>
+                          <div class="col col-9  right-align">
+                            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.LastSignIn == 0 ? '' : listDataList.LastSignIn |
+                              date:userpreferences.timeformate:userpreferences.timezone }}"
+                              matTooltipClass="custom-tooltip">{{ listDataList.LastSignIn == 0 ? '' :
+                              listDataList.LastSignIn |
+                              date:userpreferences.timeformate:userpreferences.timezone }}</span>
+                              
+                          </div>
+
+                        </div>
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+                </div>
+                <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+              </div>
+            </div>
+            <!-- supplier tab list view end -->
+
+            <!-- supplier tab card view start -->
+            <mat-drawer-container autosize class="page-container-cardview" id="card-view-container" *ngIf="viewMode === 'cardMode'">
+              <div class="cardview-container" id="cardview-container" infinite-scroll [infiniteScrollDistance]="pageOption"
+              [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false"
+              [ngClass]="[ this.gridViewSupplier==undefined ||this.gridViewSupplier.length==0 ? 'cardview-no-record' : '']">
+              <div class="cardview-norecord" id="cardview-norecord" *ngIf="this.gridViewSupplier==undefined ||this.gridViewSupplier.length==0">
+                <span>{{'label_noRecordAvailable'|translate}}</span>
+              </div>
+                <mat-card class="grid-card-mode shop-card-mode" id="grid-card-mode" *ngFor="let listDataList of gridViewSupplier;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+                    
+                  <div class="grid-card-access-data" [ngClass]="[ listDataList?.IsLocked==1 &&  ( userTypeValue==1 || userTypeValue==2) ? 'unlock-user' : '']">
+                          <button mat-icon-button id="UnlockUserthree" class="lock-btn" *ngIf="listDataList?.IsLocked==1 && (userTypeValue==1 || userTypeValue==2)"
+                          (click)="resetUser(listDataList?.UserId)" matTooltipClass="card-tooltip-left" matTooltipPosition="after" 
+                            matTooltip="{{'label_UsersInvite_UnlockUserAccount'|translate}}">
+                            <svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0 -1028.4)"><path d="m12 1031.4c-2.7614 0-5 2.6-5 6v1c0 0.5 0.3731 1 0.8333 1 0.4603 0 0.8334-0.5 0.8334-1v-1c0-2.4 1.4923-4.3 3.3333-4.3s3.333 1.9 3.333 4.3v1c0 0.5 0.373 1 0.834 1 0.46 0 0.833-0.5 0.833-1v-1c0-3.4-2.239-6-5-6z" fill="#7f8c8d"/><path d="m6 1037.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f1c40f"/><path d="m12 1029.9c-3.3137 0-6 2.7-6 6v1c0 0.6 0.4477 1 1 1s1-0.4 1-1v-1c0-2.3 1.7909-4.2 4-4.2 2.209 0 4 1.9 4 4.2v1c0 0.6 0.448 1 1 1s1-0.4 1-1v-1c0-3.3-2.686-6-6-6z" fill="#bdc3c7"/><path d="m6 1039.4c-1.1046 0-2 0.9-2 2v7c0 1.1 0.8954 2 2 2h12c1.105 0 2-0.9 2-2v-7c0-1.1-0.895-2-2-2h-12z" fill="#f39c12"/><path d="m6.327 1037.4c-0.3403 0-0.6569 0.1-0.9375 0.2 0.222 0.9 1.0056 1.5 1.9375 1.5 1.0193 0 1.845-0.8 1.9688-1.7h-2.9688z" fill="#7f8c8d"/><path d="m17.792 1037.3c0.34 0 0.657 0.1 0.937 0.3-0.222 0.8-1.005 1.5-1.937 1.5-1.02 0-1.845-0.8-1.969-1.8h2.969z" fill="#7f8c8d"/><path d="m12 1030.4c-3.3137 0-6 2.6-6 6v1c0 0.5 0.4477 1 1 1s1-0.5 1-1v-1c0-2.4 1.7909-4.3 4-4.3 2.209 0 4 1.9 4 4.3v1c0 0.5 0.448 1 1 1s1-0.5 1-1v-1c0-3.4-2.686-6-6-6z" fill="#95a5a6"/><g fill="#e67e22"><rect height="1" width="12" x="6" y="1041.4"/><rect height="1" width="12" x="6" y="1043.4"/><rect height="1" width="12" x="6" y="1045.4"/><rect height="1" width="12" x="6" y="1047.4"/></g></g></svg>
+                          </button>
+                          <span class="badge light-green">
+                            <strong>{{'label_accesslevel'|translate}}</strong> :
+                            {{ listDataList.AccessLevel}}
+                          </span>
+                    </div>
+
+                    <div class="grid-card-mode-data" id="grid-card-mode-data">
+                      <div class="full-data">
+                        <small>{{'label_colUser'|translate}}</small>
+                        <div class="admin-with-name">
+                        <span class="badge white"
+                        *ngIf="!(listDataList.EmployeeTag==0)">{{eEmployeeType[listDataList.EmployeeTag]}}</span>
+                        <span>{{listDataList.UserName}}</span>
+                        </div>
+                        <span matTooltip="{{ listDataList.Email }}"
+                        matTooltipClass="custom-tooltip">{{ listDataList.Email}}</span>
+                        </div>
+                    </div>
+
+                    <div class="grid-card-half-data" id="grid-card-half-data">
+                      <div class="card-half-data" *ngIf="listDataList?.LastSignIn != 0">
+                        <small>{{'label_colLastActivity'|translate}}</small>
+                        <span *ngIf="listDataList.LastSignIn != 0" class="cardListTxt word-wrap" matTooltip="{{ listDataList.LastSignIn == 0 ? '' : listDataList.LastSignIn |
+                          date:userpreferences.timeformate:userpreferences.timezone }}"
+                          matTooltipClass="custom-tooltip">{{ listDataList.LastSignIn |
+                            date:userpreferences.timeformate:userpreferences.timezone }}
+                        </span>
+                      </div>
+
+                      <div class="card-half-data">
+                        <small>{{'label_siteAccess'|translate}}</small>
+                        <span class="cardListTxt word-wrap smallSlideToggle" matTooltipClass="custom-tooltip">
+                          <mat-slide-toggle class="maxWidth155" [checked]="listDataList.SiteAccess == 1"
+                            [disabled]="listDataList.EmployeeTag==2"
+                            (change)="revokeAccess(listDataList.Id,$event.checked)" color="primary">
+                          </mat-slide-toggle>
+                        </span>
+                      </div>
+
+                      <div class="card-half-data">
+                        <small>{{'label_ddlRole'|translate}}</small>
+                        <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip">
+                          <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Role }}"
+                            matTooltipClass="custom-tooltip">
+                            {{ listDataList.Role }}
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="grid-card-mode-footer footer-fix" id="grid-card-mode-footer" [ngClass]="[ listDataList.LastSignIn == 0 && ( userTypeValue==1 || userTypeValue==2) ? 'person-user' : 'without-person-user']">
+
+                      <div class="button-group" id="button-group">
+                        <button mat-icon-button color="primary" (click)="openForm('Details',listDataList.Id,true)"
+                          id="userInvitaion-btnShowCard" *ngIf="listDataList.SiteAccess == 1"
+                          matTooltip="{{'label_view'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>subject</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" *ngIf="listDataList.EmployeeTag!=2"
+                          (click)="openForm('Details',listDataList.Id,false)" id="userInvitaion-btnEdit"
+                          matTooltip="{{'label_edit'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" tabindex type="button" 
+                        *ngIf="listDataList?.LastSignIn == 0 && (userTypeValue==1 || userTypeValue==2)" (click)="UserInvite(listDataList?.Email,listDataList?.UserId,listDataList?.UserName)" id="btnCancel"
+                        matTooltip="{{'label_usersPage_Reinvite'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>person_add_alt</mat-icon>
+                        </button>
+                      </div>
+
+                    </div>
+                </mat-card>
+              </div>
+            </mat-drawer-container>
+            <!-- supplier tab card view end -->
+
+          </div>
+        </mat-tab>
+        <!-- supplier tab end -->
+
+      </mat-tab-group>
+    </div>
+  </mat-card-content>
+</mat-card>
+</mat-drawer-container>

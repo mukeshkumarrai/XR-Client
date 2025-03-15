@@ -1,0 +1,30 @@
+<!--
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:otp-verification.component.html
+    @Who: Renu
+    @When: 01-July-2022
+    @Why: EWM-1732 EWM-7404
+    @What: There are all HTML genrate otp components
+    
+-->
+<div class="document-page-container">
+    <mat-card class="center-align" id="document-otp-genrate">
+        <mat-card-content>
+            <div id="document-enterOtpBox" >
+                <mat-icon class="unlock">{{lock}}</mat-icon>
+                <p>{{'label_otpmsg' | translate}}</p>
+                
+                <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)"  [config]="{length:6}"></ng-otp-input>
+                
+                <mat-error *ngIf="errorMessage">{{errorMsg | translate}}</mat-error>
+                <button mat-raised-button color="primary" [disabled]="!otpEnable" class="mt-10" (click)="validateOtpCode()"  id="document-open">{{'lebel_verify_otp' | translate}}</button>
+                
+                <p class="mb-0">{{'label_didntReceiveCode' | translate}}</p>
+                <div class="timer" *ngIf="!showResendButton">{{display}}</div>
+                <button mat-button color="primary" [disabled]="!showResendButton"  (click)="resendOtpCode()" class="mt-10" id="document-open">{{'lebel_resend_otp' | translate}}</button>
+                <p *ngIf="otpSendMessage">{{'lebel_otp_send' | translate}}</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,237 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+  <div class="loading-text">{{'label_EOHLoaderMsg'|translate}}</div>
+</div>
+
+<div class="outer-container" id="outer-container">
+  <div class="kendo-card-appearance" id="candidate-list-kendo-table-container"
+    [ngClass]="totalRecords==0?'noRecord':''">
+    <kendo-grid [data]="results" [filterable]="true" [skip]="skip" [pageable]="{buttonCount: 3,
+      info: true,
+      type: 'numeric',
+      pageSizes: true,
+      previousNext: true,
+      responsive: true}" [pageSize]="pageSize" (pageChange)="handlePageChange($event)">
+      
+      <ng-template kendoGridToolbarTemplate *ngIf="viewMembers?.length!=0">
+        <div class="kendo-serach-box" id="kendo-serach-box">
+          <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+          <input #search placeholder="{{'label_xeopleSearch_searchCandidatesPage'|translate}}"
+          kendoTextBox (input)="onsearchByFilter($event.target.value)" />
+          <mat-icon>search</mat-icon>
+        </div>
+      </ng-template>
+     
+      <ng-template kendoGridNoRecordsTemplate *ngIf="filterData?.length==0 || totalRecords==0">
+        <div class="xeople-card-norecords">{{'label_noRecordAvailable'|translate}}</div>
+        
+      </ng-template>
+      <kendo-grid-messages noRecords="">
+      </kendo-grid-messages>
+      <kendo-grid-column>
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex"> 
+          <div class="content_wrapper">
+          
+            <mat-checkbox color="primary" tabindex matTooltip="" [checked]="dataItem?.checked?dataItem?.checked:false"
+              matTooltipClass="custom-tooltip" (change)="onMemeberCheck($event,dataItem,rowIndex)">
+            </mat-checkbox>
+            <div class="left">
+              <div class="userAvtaarAndName">
+                <img *ngIf="dataItem?.Base64Photo && (dataItem?.Base64Photo!==null||dataItem?.Base64Photo!=='')"
+                  class="tooltip-trigger" alt="user" [src]="dataItem?.Base64Photo  | base64 " />
+                <span *ngIf="dataItem?.Base64Photo==null||dataItem?.Base64Photo==''"
+                  [style.background]="getBackgroundColor(dataItem?.ShortName)">{{dataItem?.ShortName}}</span>
+              </div>
+              <div class="socail">
+                <button mat-stroked-button type="button" color="primary" id="xeople-resumeView"
+                  matTooltip="{{'label_View' | translate}} {{'candidate_resume' | translate}}"
+                  [disabled]="dataItem?.Resume!==null && dataItem?.Resume!==''?false:true"
+                  matTooltipClass="custom-tooltip" (click)="viewResumeByCandidateId(dataItem.Resume)">
+                  <mat-icon>description</mat-icon>
+                </button>
+                <a mat-stroked-button href="{{dataItem?.LinkedinURL}}" id="xeople-linkdInProfile"
+                  matTooltip="{{'label_linkedin' | translate}}" matTooltipClass="custom-tooltip"
+                  [disabled]="(dataItem?.LinkedinURL && dataItem?.LinkedinURL!='')?false:true" target="_blank">
+                  <img alt="{{'label_linkedin' | translate}}" src="/assets/linkedinicon.png" />
+                </a>
+              </div>
+            </div>
+            <div class="right">
+              <div class="header">
+                <div class="name-add text-overflow">
+                  <div class="name text-overflow"><span [highlight]="searchTerm"
+                    [caseSensitive]="false" [innerHTML]="dataItem?.CandidateName">{{dataItem?.CandidateName}}</span> 
+                     <span [highlight]="searchTerm" [caseSensitive]="false" [innerHTML]="dataItem?.CandidateId?'('+dataItem?.CandidateId+')':''" class="last-child">{{dataItem?.CandidateId?+'('+dataItem?.CandidateId+')':''}}</span></div>
+                  <div class="add text-overflow" [highlight]="searchTerm"
+                  [caseSensitive]="false" [innerHTML]="dataItem?.MemberAddress">{{dataItem?.MemberAddress}}</div>
+                </div>
+                <div class="actions">
+                  <button mat-stroked-button type="button" color="primary" id="xeople-eoh-extraxt"
+                    (click)="OnClickExtractMap(dataItem,rowIndex,'Extract')">{{'label_xeopleEOH_Extract'|translate}}</button>
+                  <button mat-stroked-button type="button" color="primary" id="xeople-eoh-extraxtmap"
+                    [disabled]="extractMapArr['a']" (click)="OnClickExtractMap(dataItem,rowIndex,'ExtractMap')">
+                    {{'label_xeopleEOH_ExtractMap'|translate}}</button>
+                  <button mat-button type="button" color="primary" id="xeople-eoh-phoneEnable"
+                    [matMenuTriggerFor]="phoneMenu">
+                    <mat-icon>phone</mat-icon>
+                    <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+                  </button>
+                  <mat-menu #phoneMenu="matMenu" class="eoh-phone-menu">
+                    <div class="phone-box">
+                      <div class="phone-no" [highlight]="searchTerm"
+                      [caseSensitive]="false" [innerHTML]="dataItem?.PhoneNo">{{dataItem?.PhoneNo}}</div>
+                      <div class="btn-group">
+                        <a mat-icon-button type="button" color="primary" id="xeople-eoh-phone"
+                        href="tel:{{dataItem.PhoneNo}}"
+                          matTooltip="{{'label_call'|translate}}" matTooltipClass="card-list-tooltip"
+                          matTooltipPosition="before">
+                          <mat-icon>phone</mat-icon>
+                      </a>
+                      <!-- @When: 10-06-2024 @who:Amit @why: EWM-14654 @what: phone no copy -->
+                        <div (click)="$event.stopPropagation();">
+                          <button mat-icon-button type="button" color="primary" id="xeople-eoh-phone-copy"
+                          matTooltip="Copy:  {{dataItem?.PhoneNo}}" matTooltipClass="card-list-tooltip"
+                          matTooltipPosition="before" (click)="copyPhoneNumber(dataItem?.PhoneNo)">
+                          <mat-icon>content_copy</mat-icon>
+                        </button>
+                        </div>
+                        <div class="copyMessage" *ngIf="isCopied">
+                          <div class="alert-primary alert-green">
+                              <mat-icon>check</mat-icon>
+                              <span>{{'label_copied'| translate }}</span>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                  </mat-menu>
+                  <button mat-button type="button" color="primary" id="xeople-eoh-smsEnable"
+                    [matMenuTriggerFor]="smsMenu" [disabled]="true">
+                    <mat-icon>chat</mat-icon>
+                    <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+                  </button>
+                  <mat-menu #smsMenu="matMenu" class="eoh-phone-menu">
+                    <div class="phone-box">
+                      <div class="phone-no">{{dataItem?.PhoneNo}}</div>
+                      <div class="btn-group">
+                        <button mat-icon-button type="button" color="primary" id="xeople-eoh-smsid_{{rowIndex}}"
+                          (click)="openJobBulkSMSForCandidate(dataItem)" matTooltip="{{'label_SMS'|translate}}"
+                          matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>chat</mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" color="primary" id="xeople-eoh-sms-copy_{{rowIndex}}"
+                          (click)="copySMSId(dataItem.PhoneNo,rowIndex);" matTooltip="{{'label_copy'|translate}}"
+                          matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                          <mat-icon>content_copy</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </mat-menu>
+                </div>
+              </div>
+              <div class="data-sec">
+                <div class="data-point">
+                  <div class="point">
+                    <mat-icon matTooltip="{{'label_xeopleEOH_Email'|translate}}" matTooltipClass="card-tooltip-left"
+                      matTooltipPosition="after">email</mat-icon>
+                  </div>
+                  <div class="data email">
+                    <button mat-icon-button type="button" color="primary" type="button" id="url-copy-btn__{{rowIndex}}"
+                      matTooltipClass="custom-tooltip" matTooltip="{{'label_copy' |translate}}"
+                      (click)="copyCandidateEmailId(dataItem.Email,rowIndex);">
+                      <mat-icon>content_copy</mat-icon>
+                    </button>
+                    <span class="text" (click)="openNewEmailModal(undefined,'',dataItem.Email)" [highlight]="searchTerm"
+                    [caseSensitive]="false" [innerHTML]="dataItem?.Email">
+                      {{dataItem.Email}}
+                    </span>
+                    <div class="copyMessage email-hide" id="autoHide{{rowIndex}}">
+                      <div class="alert-primary alert-green">
+                        <mat-icon>check</mat-icon>
+                        <span>{{'label_emailAddressCipied'| translate }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="data-point">
+                  <div class="point">
+                    <mat-icon matTooltip="{{'label_xeopleEOH_MemberStatus'|translate}}"
+                      matTooltipClass="card-tooltip-left" matTooltipPosition="after">account_circle</mat-icon>
+                  </div>
+                  <div class="data"><span [highlight]="searchTerm"
+                    [caseSensitive]="false" [innerHTML]="dataItem?.MemberStatus">{{dataItem?.MemberStatus}}</span></div>
+                </div>
+                <div class="data-point">
+                  <div class="point">
+                    <mat-icon matTooltip="{{'label_xeopleEOH_Office'|translate}}" matTooltipClass="card-tooltip-left"
+                      matTooltipPosition="after">apartment</mat-icon>
+                  </div>
+                  <div class="data"><span [highlight]="searchTerm"
+                    [caseSensitive]="false" [innerHTML]="dataItem?.Office">{{dataItem?.Office}}</span></div>
+                </div>
+                <div class="data-point">
+                  <div class="point">
+                    <mat-icon fontSet="material-icons-outlined" matTooltip="{{'label_xeopleEOH_DateOfHire'|translate}}"
+                      matTooltipClass="card-tooltip-left" matTooltipPosition="after">date_range</mat-icon>
+                  </div>
+                  <div class="data"><span [highlight]="searchTerm"
+                    [caseSensitive]="false" [innerHTML]="dataItem?.DateOfHire">{{dataItem?.DateOfHire | date: 'dd/MM/YYYY'}}</span></div>
+                </div>
+                <div class="data-point">
+                  <div class="point">
+                    <mat-icon matTooltip="{{'label_xeopleEOH_Experience'|translate}}"
+                      matTooltipClass="card-tooltip-left" matTooltipPosition="after">work_outline</mat-icon>
+                  </div>
+                  <div class="data"><span [highlight]="searchTerm"
+                    [caseSensitive]="false" [innerHTML]="dataItem?.Experience">{{dataItem?.Experience}}</span></div>
+                </div>
+                <div class="data-point">
+                  <div class="point">
+                    <mat-icon matTooltip="{{'label_xeopleEOH_Qualification'|translate}}"
+                      matTooltipClass="card-tooltip-left" matTooltipPosition="after">school</mat-icon>
+                  </div>
+                  <div class="data"><span [highlight]="searchTerm"
+                    [caseSensitive]="false" [innerHTML]="dataItem?.Qualification">{{dataItem?.Qualification}}</span></div>
+                </div>
+                <div class="data-point">
+                  <div class="point">
+                    <mat-icon matTooltip="{{'label_xeopleEOH_Proximity'|translate}}" matTooltipClass="card-tooltip-left"
+                      matTooltipPosition="after">share_location</mat-icon>
+                  </div>
+                  <div class="data"><span [highlight]="searchTerm"
+                    [caseSensitive]="false" [innerHTML]="dataItem?.Proximity">{{dataItem?.Proximity | number}} {{(dataItem?.Proximity)?'KMS':'' }}</span></div>
+                </div>
+                <div class="data-point">
+                  <div class="point">
+                    <mat-icon matTooltip="{{'label_xeopleEOH_Priority'|translate}}" matTooltipClass="card-tooltip-left"
+                      matTooltipPosition="after">card_membership</mat-icon>
+                  </div>
+                  <div class="data"><span [highlight]="searchTerm"
+                    [caseSensitive]="false" [innerHTML]="dataItem?.Priority">{{dataItem?.Priority}}</span></div>
+                </div>
+                <div class="data-point skills">
+                  <div class="point">
+                    <mat-icon matTooltip="{{'label_xeopleEOH_Skills'|translate}}" matTooltipClass="card-tooltip-left"
+                      matTooltipPosition="after">military_tech</mat-icon>
+                  </div>
+                  <div class="data">
+                    <mat-chip-list class="xeople-chips">
+                      <mat-chip *ngFor="let skill of dataItem?.Skills?.split(',')"><p [highlight]="searchTerm"
+                        [caseSensitive]="false" [innerHTML]="skill">{{skill}}</p></mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+      <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+        <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+        <kendo-pager-info></kendo-pager-info>
+        <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+      </ng-template>
+    </kendo-grid>
+  </div>
+</div>

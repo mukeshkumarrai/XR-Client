@@ -1,0 +1,307 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: states.component.html
+  @Who:maneesh
+  @When: 25-Aug-2022
+  @Why: EWM-8055
+  @What: states data
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="state-mat-card-header">
+  <mat-card-title>
+      <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_add'|translate}} {{'label_state'|translate}}" 
+      matTooltipClass="custom-tooltip" color="primary"  id="btnAdd" [routerLink]="['state-manage']"
+      [queryParams]="{V:viewMode}"  *appHasPermission="['Add']"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <mat-icon id="{{animationVar?.CreateButton?.id}}"
+        class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+    </button>
+    <div class="sub-title">
+    <span>{{'label_states' |translate}}</span><br>
+    <app-breadcrumb [pageLabel]="pageLabel" class="bread-crumb"></app-breadcrumb>
+  </div>
+   
+  </mat-card-title>
+
+  <div class="header-action-button" id="states-actionButton" *ngIf="formtitle=='grid'">
+
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="states-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal">
+        <mat-icon matPrefix style="position: relative; top: 7px;" >search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()" (click)="searchVal=''" id="clear-searchBox">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+   
+
+    <div class="group-header-button">
+
+      <!-- @When: 19-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+      <a mat-raised-button class="header-button" *ngIf="formtitle=='grid'" id="user-invitation-btnViewAudit"
+        [routerLink]="['../../system-settings/system-audit-log/',auditParameter]"
+        matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+      </a>
+
+     <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+     matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+     (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+     <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+        {{animationVar?.BarRotateButton?.iconName}}
+     </mat-icon>
+    </button>
+
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('listMode')" id="states-viewcardInactive"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('cardMode')" id="states-viewcardActive"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}} 
+        </span>
+      </button>
+    </div>
+
+</div>
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-listing-with-breadCrumb" autosize id="states-drawer">
+<mat-card class="component-card mat-elevation-z2" id="component-card">
+  <div class="list-container" id="contentdata">
+ <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+        
+      <div class="row mb-0 listHeader" id="listHeader" [class.hide]="isvisible">
+
+        <div class="col col-7 listActionBox">
+          <strong>&nbsp;</strong>
+        </div>
+
+
+        <div class="col col-3" (click)="onSort('StateName')">
+          <button mat-button [disableRipple]="true" id="statesMaster-StateName">
+              <strong>{{'label_stateName'|translate}} {{'label_name'|translate}}
+            </strong>
+            <mat-icon *ngIf="sortedcolumnName === 'StateName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'StateName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>  
+        </div>
+
+        <div class="col col-2" (click)="onSort('StateCode')">
+          <button mat-button [disableRipple]="true" id="statesMaster-StateCode"><strong>{{'label_stateCode'|translate}}
+            </strong>
+            <mat-icon *ngIf="sortedcolumnName === 'StateCode' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'StateCode' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>  
+        </div>
+
+        <div class="col col-1" (click)="onSort('CountryName')">
+            <button mat-button [disableRipple]="true" id="statesMaster-CountryCode"> <strong>{{'label_countryName'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'CountryName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'CountryName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+            </button>
+          </div>
+
+        <div class="col col-5" (click)="onSort('StatusName')">
+            <button mat-button [disableRipple]="true" id="statesMaster-StateName">
+              <strong>{{'label_status'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+            </button>
+          </div>
+
+      </div>
+    </div>
+    <div class="listCardView" id="listCardView"
+      [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']"
+      *ngIf="formtitle=='grid'" infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pagesize"
+      (scrolled)="onScrollDown()" [scrollWindow]="false">
+      <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+        <div class="row">
+          <div *ngIf="loadingPopup" class="list"></div>
+          <div class="col nodata" *ngIf="this.gridViewList==undefined || this.gridViewList==null ||this.gridViewList.length==0">
+            <span>{{'label_noRecordAvailable'|translate}}</span>
+          </div>
+          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+            *ngFor="let statesObj of gridViewList;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+            <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+              <mat-card-content class="listcardContent"
+                [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                <!-----list data start------------>
+                <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+                   <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-7']">
+                  <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                      <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                    <a mat-menu-item id="btnEdit" [routerLink]="['state-manage']"
+                    [queryParams]="{groupId: groupId,Id:statesObj.Id,V:viewMode}" [disabled]="statesObj.IsSys==1"
+                    *appHasPermission="['Edit']">
+                    <mat-icon>edit</mat-icon>
+                    {{'label_edit'|translate}}
+                  </a>
+                    <button mat-menu-item id="btnDelete"
+                      (click)=deleteState(statesObj,viewMode)  [disabled]="statesObj.IsSys==1"
+                      *appHasPermission="['Delete']">
+                     
+                      <mat-icon>delete</mat-icon>
+                      {{'label_delete'|translate}}
+                    </button>
+                  </mat-menu>
+                  </div>
+                  
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{statesObj.StateName}}"
+                      matTooltipClass="custom-tooltip">
+                      {{statesObj.StateName}}
+                    </span>
+                  </div>
+
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{statesObj.StateCode}}"
+                      matTooltipClass="custom-tooltip">
+                      {{statesObj.StateCode}}
+                    </span>
+                  </div>
+
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{statesObj.CountryName}}"
+                      matTooltipClass="custom-tooltip">
+                      {{statesObj.CountryName}}
+                    </span>
+                  </div>
+
+                  <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_status'|translate}}</strong>
+                  </div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-5']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{statesObj.StatusName}}"
+                      matTooltipClass="custom-tooltip">
+                      {{statesObj.StatusName}}
+                    </span>
+                  </div>
+                </div>
+                <!-----list data end------------>
+                <!-- card mode -->
+                <div [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+                  <div class="cardModeLine">
+                    <span class="spacer"></span>
+                   
+                    <span class="badge red cursor" id="Qualification-status">
+                      <strong>{{'label_status'|translate}}</strong> :
+                      {{statesObj.StatusName}} 
+                    </span>
+                  </div>
+
+
+                  <div class="row mb-5 mt-15">
+                    <div class="col l6 m6 s12">
+                      <div class="col card-header">
+                        <strong>{{'label_state'|translate}} {{'label_name'|translate}}</strong>
+                      </div>
+                      <div class="col card-data" id="label-shortdesc"
+                        matTooltip="{{statesObj.StateName}}" matTooltipClass="custom-tooltip">
+                        <span class="cardListTxt word-wrap cursor">
+                          {{statesObj.StateName}}
+                        </span>  
+                      </div>
+                    </div>
+                    <div class="col l6 m6 s12">
+                      <div class="col card-header">
+                        <strong>{{'label_stateCode'|translate}}</strong>
+                      </div>
+                      <div class="col card-data" id="label-disseq">
+                        <span class="cardListTxt word-wrap cursor" matTooltip="{{statesObj.StateCode}}"
+                          matTooltipClass="custom-tooltip">
+                          {{statesObj.StateCode}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-5 mt-15">
+                    <div class="col l6 m6 s12">
+                      <div class="col card-header">
+                        <strong>{{'label_countryName'|translate}}</strong>
+                      </div>
+                      <div class="col card-data" id="label-code">
+                        <span class="cardListTxt word-wrap cursor" matTooltip=" {{statesObj.CountryName }}"
+                          matTooltipClass="custom-tooltip">
+                          {{statesObj.CountryName }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col l6 m6 s12">
+                      <div class="col card-header">
+                        <strong>{{'label_status'|translate}}</strong>
+                      </div>
+                      <div class="col card-data" id="label-disseq">
+                        <span class="cardListTxt word-wrap cursor" matTooltip="{{statesObj.StatusName}}"
+                          matTooltipClass="custom-tooltip">
+                          {{statesObj.StatusName}}
+                        </span>
+                      </div>
+                    </div> -->
+                  </div>
+
+               
+                  <div class="go-corner">
+                   <!-- <button mat-icon-button color="primary" [routerLink]="['states-manage']"
+                      [queryParams]="{Id:statesObj.Id,V:viewMode}" id="btnEdit" matTooltipClass="custom-tooltip"
+                      matTooltip="{{'label_edit'|translate}}">
+                      <mat-icon>edit</mat-icon>
+                    </button> -->
+                    <!-- Anchor tag for edit and add button by Piyush Singh -->
+                    <a mat-icon-button color="primary" [routerLink]="['state-manage']"
+                      [queryParams]="{Id:statesObj.Id,V:viewMode}" id="btnEdit" matTooltipClass="custom-tooltip"
+                      matTooltip="{{'label_edit'|translate}}" [disabled]="statesObj.IsSys==1"*appHasPermission="['Edit']">
+                      <mat-icon>edit</mat-icon>
+                    </a>
+                    <button mat-icon-button color="warn" id="btnDelete"
+                      (click)=deleteState(statesObj,viewMode) matTooltipClass="custom-tooltip"
+                      matTooltip="{{'label_delete'|translate}}" [disabled]="statesObj.IsSys==1" *appHasPermission="['Delete']" >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <!-- card mode -->
+              </mat-card-content>
+
+            </mat-card>
+          </div>
+        </div>
+        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>   
+      </div>
+    </div>
+
+  </div>
+</mat-card>
+</mat-drawer-container>

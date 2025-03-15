@@ -1,0 +1,434 @@
+@import "../../../../mixinStyle.scss";
+@import "../../../../styles-var.scss";
+
+.k-grid tbody td {
+  white-space: nowrap;
+  line-height: 20px;
+  padding: 8px 12px;
+}
+@media only screen and (max-width: 470px) and (min-width: 320px){
+  .sticky{
+    position: relative;
+  }
+}
+.textRight{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.k-grid td{
+  padding:0px 12px !important;  
+  overflow: hidden;  
+  white-space: nowrap !important;
+}
+#btnActionView{
+  position: relative !important;
+  .mat-icon{
+    position: absolute !important;
+    top:-10px !important;
+  }
+}
+
+.kendocardData {
+  height: calc(100vh - 218px);
+  overflow: auto;
+  padding: 10px 0px;
+  @media only screen and (max-width: 1060px) and (min-width: 684px) {
+    height: calc(100vh - 217px);
+  }
+  @media only screen and (max-width: 683px) and (min-width: 320px) {
+    height: calc(100vh - 302px);
+  }
+}
+.scrollloading {
+  position: absolute;
+  height: 75px;
+  bottom: 0;
+  width:calc(100% - 6px);
+}
+.leftAlignTxt{
+  display: block;
+  text-align: left;
+  padding: 0px 10px;
+}
+.rightAlignTxt{
+  display: block;
+  text-align: right;
+  padding: 0px 10px;
+}
+.buttonForDesktopMobile{
+  top:0px !important;
+}
+#list-header{
+  position: relative;
+  top:-10px;
+}
+.add-manage {
+    display: flex;
+    background: #f5f5f5;
+    align-items: center;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .ng-dropdown-panel .scroll-host {
+      margin-top: -15px;
+    }
+  }
+  .no-bottom {
+    margin-bottom: -1.25em !important;
+  }
+  .dropdowm-barloader {
+    position: absolute;
+  }
+  .rotate-loader {
+    animation: rotate-animation 0.8s infinite linear;
+  }
+  @keyframes rotate-animation {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+.companyNameInitial{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  line-height: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+}   
+.cardHeightWithImage{
+  padding:10px;
+}
+.cardListTxt{
+  .cardMatIconStyle {
+    font-size: 18px;
+    vertical-align: sub;
+  }    
+}
+.ImageCursor{
+  border-radius: 50% !important;
+  width: 36px;
+  padding: 2px;
+  height: 36px !important; 
+  margin-right: 10px;
+}
+
+.card-header-data {
+    width: calc(100% - 60px);
+    .cardListTxt {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      max-width: 100%;
+    }
+  }
+
+  .advancedsearch-container {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .mat-card .mat-card-content.advancedsearch-mat-card-content {
+    margin-top: 0px;
+    padding-bottom: 0px;
+    height: auto;
+    .filterButton {
+      cursor: inherit;
+      margin: 0px 10px;
+      min-width: auto;
+      .mat-icon.clearFilter {
+        margin-left: 0px;
+        font-size: 15px;
+        position: absolute;
+        top: 2px;
+        height: 16px;
+        width: 18px;
+        right: 0px;
+      }
+      .badge {
+        margin-left: 5px;
+        min-width: 30px;
+        max-width: 36px;
+        padding-right: 20px;
+        display: inline-block;
+        line-height: 12px;
+        top: 1px;
+        position: relative;
+      }
+      .filterTxt {
+        padding-top: 5px;
+        cursor: pointer;
+        padding-bottom: 5px;
+      }
+    }
+    .createjob.mat-raised-button {
+      position: relative;
+      .mat-icon {
+        display: inline-block;
+      }
+      .buttonTxt {
+        margin-right: 8px;
+      }
+    }
+  }
+  
+  .advancedsearchDrawer {
+    width: 100%;
+    max-width: 345px;
+    padding: 0px;
+    background: transparent;
+    box-shadow: none !important;
+    display: flex;
+    .drawerTitleSec {
+      width: 40px;
+      h4 {
+        width: 140px;
+        margin: 0px;
+        height: 40px;
+        line-height: 40px;
+        .closeDrawerIcon {
+          position: absolute;
+          padding: 0px;
+          min-width: 40px;
+          height: 40px;
+        }
+      }
+    }
+    .advancedsearchDrawerData {
+      padding: 10px;
+      overflow: auto;
+      border-radius: 0px;
+      width: 100%;
+      height: calc(100vh - 270px);
+      @media only screen and (max-width: 1060px) and (min-width: 581px) {
+        height: calc(100vh - 251px);
+      }
+      @media only screen and (max-width: 580px) and (min-width: 320px) {
+        height: calc(100vh - 251px);
+      }
+    }
+  }
+  .candidate-data-header {
+    display: flex;
+    align-items: baseline;
+    padding: 5px 10px;
+    justify-content: space-between;
+    .filter-refresh {
+      display: flex;
+      button {
+        margin-left: 0px;
+        margin-right: 5px;
+      }
+    }
+    .search-viewicon {
+      display: flex;
+      align-items: baseline;
+      @media only screen and (max-width: 980px) and (min-width: 320px) {
+        display: inline-block;
+        white-space: nowrap;
+      }
+      .mat-stroked-button {
+        min-width: 55px;
+        @media only screen and (min-width: 320px) and (max-width: 434px) {
+          padding: 0px 5px;
+          min-width: 85px;
+        }
+      }
+      .advancedsearchButton {
+        min-width: 50px;
+        padding: 0px;
+        cursor: pointer;
+        .two-icons {
+          font-size: 24px;
+          .mat-icon {
+            font-size: 38px;
+            position: absolute;
+            top: -18px;
+            left: -18px;
+            height: 36px;
+            width: 36px;
+          }
+        }
+        .buttonTxt {
+          display: none;
+        }
+      }
+      .searchInput {
+        margin-bottom: 0px;
+        max-width: 280px;
+        margin-right: 10px;
+        margin-left: 10px;
+        @media only screen and (max-width: 980px) and (min-width: 320px) {
+          display: block;
+          margin-bottom: 5px;
+          margin-left: 0px;
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 740px) and (min-width: 320px) {
+    .buttonForDesktopMobile.mat-raised-button .buttonTxt {
+      display: none;
+    }
+  }
+
+  span.green{
+    position: absolute;
+    left: -75px;
+    line-height: 17px;
+    top: 11px;
+    width: 60px;
+    .material-icons{
+      font-size: 12px;
+      position: relative;
+      top: 2px;
+    }
+  }
+
+.pageContainer{
+  .mat-card.candidate-list-card{
+  .mat-card-header .mat-card-header-text {
+     width: auto;
+     }
+   } 
+ }
+
+    .main-loading{
+      left:0px;
+      top:0px;
+      right:0px;
+      bottom:0px;
+    }
+    .leftMnuButton.mat-mini-fab.mat-primary{
+      z-index: 4;
+    }
+    .mat-card .mat-card-header .mat-card-header-text .mat-card-title{
+      margin-bottom:0px;
+      span{
+        font-size:20px;
+        @media only screen and (max-width: 1175px) and (min-width: 320px) {
+          font-size:16px;
+        }
+      }
+    }
+
+  .listCardView .cardContent {
+      padding-top: 0px;
+  }
+  .callAction{
+    .mat-button-disabled{
+      background: #c1c1c1;
+    }
+    // @When: 23-09-2023 @who:Amit @why: EWM-14293 @what:sms button
+    a.mat-icon-button{
+      margin-inline-end: 2px;
+      &:last-child{
+        background: transparent;
+        .mat-icon{
+          color: $primary-bg-color;
+          font-size: 20px;
+        }
+      }
+    }
+    a.mat-icon-button.mat-button-disabled{
+      &:last-child{
+        .mat-icon{
+          color: $gray-button;
+        }
+      }
+    }
+   
+  }
+  
+::ng-deep{
+  .k-grid-content-locked {
+    height: calc(100vh - 240px) !important;
+    overflow: auto;
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100vh - 275px);
+    }
+  }
+
+  .k-grid-content-locked::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
+}
+.sms-view{
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  margin: 0px 6px 0px 2px;
+ .mat-mini-fab{
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  .mat-icon{
+     width: 22px;
+     height: 22px;
+     line-height: 15px;
+     font-size: 16px;
+     color: $white-color;
+    }
+  }
+}
+// @When: 11-10-2023 @who:Amit @why: EWM-14609 @what: group skill style 
+.group-btn-skill{
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  .mat-icon-button{
+    height: 20px;
+    line-height: 20px;
+    position: relative;
+    z-index: 2;
+    width: min-content;
+    min-width: 8px;
+    max-width: 100%;
+    padding: 0px 4px;
+    font-size: 11px;
+    &::after{
+      @include color-bg-after;
+      opacity: 0.09;
+      border-radius: 3px;
+    }
+    .mat-icon{
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+      font-size: 18px;
+    }
+  }
+  .mat-chip-list{
+    .mat-chip{
+      max-width: 190px;
+      margin-inline-end: 0px;
+      padding: 3px 6px;
+      font-size: 13px;
+      line-height: 13px;
+      display: inline-block;
+      margin-bottom: 0px;
+    }
+  }
+} 
+// @When: 12-10-2023 @who:Amit @why: EWM-14757 @what: header space manage
+:host ::ng-deep{
+  .kendo-grid-appearance.without-column-popup{
+    .k-grid{
+        .k-grid-header, .k-grid-footer{
+            .k-header{
+                .k-link {
+                    padding-inline-end: 12px;
+                }
+            }
+        }
+    }
+  }   
+}

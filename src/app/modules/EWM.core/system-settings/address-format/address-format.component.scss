@@ -1,0 +1,143 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: address.format.scss
+    @Who: Satya Prakash
+    @When: 26-Nov-2020
+    @Why: ROST-370 ROST-427
+    @What: You can add address format component styles to this file, and also import other style files
+*/
+.col .row {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.addressPreview {
+  padding: 5px 10px;
+  border: 1px solid #949494;
+  margin-bottom: 10px;
+  background-color: #E7E7E7;
+  p {
+    margin: 0px;
+    line-height: 20px;
+  }
+}
+.section-heading {
+  height: 45px;
+  display: table-cell;
+  vertical-align: middle;
+}
+.mat-slide-toggle{
+  margin-left: 5px;
+}
+.drag-container {
+  border: dotted #ccc 2px;;
+  padding: 5px;
+}
+.todoKey{
+  min-height: 32px;
+}
+.item-list {
+  min-height: 30px;
+  border-radius: 4px;
+  display: block;
+}
+.mat-chip.mat-standard-chip .mat-chip-remove {
+  opacity: 1;
+}
+.item-box {
+  cursor: move;
+}
+.cdk-drag-preview {
+  cursor: move;
+}
+.mat-standard-chip {
+  cursor: move;
+}
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.item-list.cdk-drop-list-dragging .item-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.paraHeading {
+  margin-top: 0px;
+}
+.cardSubTitle {
+  margin-top: 0px;
+}
+.withoutButton .mat-standard-chip {
+  background-color: #D1C4E9;
+}
+.closebtn {
+  padding-left: 10px;
+  color: #888;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+.closebtn:hover {
+  color: #000;
+}
+.chip {
+  display: inline-block;
+  padding: 0 15px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+}
+.address-checkbox {
+  margin: -5px 0px 0px 0px;
+}
+.address-checkbox .custom-control.overflow-checkbox .overflow-control-indicator::before {
+  border-right: 5px solid #d1c4e9;
+}
+
+[data-tip]:before {
+  content: '';
+  /* hides the tooltip when not hovered */
+  display: none;
+  content: '';
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #1a1a1a;
+  position: absolute;
+  top: 30px;
+  left: 35px;
+  z-index: 8;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  height: 0;
+}
+
+[data-tip]:after {
+  display: none;
+  content: attr(data-tip);
+  position: absolute;
+  top: 35px;
+  left: 0px;
+  padding: 5px 8px;
+  background: #1a1a1a;
+  color: #fff;
+  z-index: 9;
+  font-size: 0.75em;
+  height: 18px;
+  line-height: 18px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+[data-tip]:hover:before,
+[data-tip]:hover:after {
+  display: block;
+}

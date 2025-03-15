@@ -1,0 +1,54 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @Who: Nitin Bhati
+    @When: 18-may-2022
+    @Why: EWM-6678
+    @What:  This component is used for add knockout question templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<form [formGroup]="addForm" id="addCandidateFolderId" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0" *ngIf="activestatus=='Add'">{{'label_addKnockoutQuestion' |translate}}</h2>
+        <h2 matDialogTitle class="mb-0" *ngIf="activestatus=='Edit'">{{'label_editKnockoutQuestion' |translate}}</h2>
+    </div>
+    <mat-dialog-content>
+        <mat-form-field>
+            <mat-label>{{'label_enterQuestion'|translate}}*</mat-label>
+            <input type="hidden" formControlName="Id" id="Id">
+            <textarea matInput formControlName="Question" id="knockout-question" tabindex
+                placeholder="{{'lable_question'|translate}}" (blur)="duplicayCheck(addForm.controls['Question'].value)"
+                tabindex></textarea>
+            <mat-error *ngIf="addForm.controls['Question'].hasError('codeTaken')">
+                {{'lable_question'|translate}} {{'label_errorreqiredAlready'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['Question'].hasError('required')">
+                {{'lable_question'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['Question'].hasError('maxlength')">
+                {{'lable_question'|translate}} {{'label_errormaxlength250'|translate}}
+            </mat-error>
+        </mat-form-field>
+        <div class="configure-application-text-area label-with-radio">
+            <label class="textarea-lavel">
+                <span>{{'label_desiredResponse'|translate}}*</span>
+            </label>
+            <mat-radio-group aria-label="Select an option" formControlName="Answer" color="primary"
+                id="knockout-desiredId" tabindex>
+                <mat-radio-button [value]="1" class="pt-0 pb-10">Yes</mat-radio-button>
+                <mat-radio-button [value]="0" class="pt-0 pb-10">No</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid"
+            (click)="onSave(this.addForm.value)" id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+</form>

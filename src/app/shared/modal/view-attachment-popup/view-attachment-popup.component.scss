@@ -1,0 +1,234 @@
+// @(C): Entire Software @Who: Satya Prakash Gupta @When: 23-Aug-2023 @Why: EWM-13772 EWM-13939 @What:  scss page
+.documents-dialog-content{
+    min-height: 280px;
+    .documents-container{
+        height: 100%;
+        .mat-icon-button{
+            overflow: hidden;
+        }
+        .right-tab-header{
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            height: 50px;
+            .right-box{
+                display: flex;
+                gap: 5px;
+                align-items: center;
+                .mat-stroked-button{
+                    height: 36px;
+                }
+                .mat-icon.info{
+                    cursor: default;
+                }
+            }
+        }
+        .breadcrumb-backbutton{
+            display: flex;
+            justify-content: space-between;
+            height: 30px;
+            margin-bottom: 5px;
+            align-items: center;
+            background: #fff;
+            padding: 0px 6px;
+            padding-inline-end: 3px;
+            border-radius: 4px;
+            .breadcrumb{
+                display: flex;
+                gap: 2px;
+                .mat-icon{
+                    font-size: 18px;
+                    height: 18px;
+                    line-height: 18px;
+                    width: 18px;
+                    color: #a5a5a5;
+                }
+                .breadcrumb-link{
+                    display: flex;
+                    align-items: center;
+                    font-size: 12px;
+                    color: #636363;
+                    cursor: pointer;
+                    .mat-icon{
+                        color: #636363;
+                    }
+                }
+            }
+            .mat-stroked-button{
+                padding: 0px;
+                min-width: 24px;
+                height: 24px;
+                line-height: 24px;
+                .mat-icon{
+                    font-size: 20px;
+                }
+            }
+        }
+        .folders-documents{
+            display: flex;
+            width: calc(100% - 0px);
+            max-height: calc(100% - 95px);
+            overflow: auto;
+            padding: 0px;
+            flex-direction: column;
+            .nodata{
+                text-align: center;
+                padding: 15px;
+            }
+            .document-folder-sec{
+                display: grid;
+                grid-template-columns: repeat(3, calc(33.33% - 11px));
+                gap: 15px;
+                width: 100%;
+                padding: 5px;
+                box-sizing: border-box;
+                @media only screen and (max-width: 500px) and (min-width: 400px){
+                    grid-template-columns: repeat(2, calc(50% - 11px));
+                }
+                @media only screen and (max-width: 399px) and (min-width: 240px){
+                    grid-template-columns: repeat(1, calc(100% - 5px))
+                }
+                .mat-card{
+                    margin-bottom: 0px;
+                    text-align: center;
+                    cursor: pointer;
+                    .mat-icon{
+                        font-size: 60px;
+                        height: 60px;
+                        width: 60px;
+                        line-height: 60px;
+                        color: #C9D1DB;
+                        position: relative;
+                    }
+                    .folder-icon{
+                        color: #ffc107;
+                    }
+                    .document-icon{
+                        color: #03a9f4;
+                    }
+                    .file-name{
+                        margin-bottom: 3px;
+                        color: #1e293b;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        position: relative;
+                    }
+                    .format,
+                    .files{
+                        color: #9ea7b3;
+                        font-size: 13px;
+                    }
+                    .format{
+                        position: absolute;
+                        top: 45px;
+                        color: #fff;
+                        padding: 1px 5px;
+                        border-radius: 4px;
+                        left: calc(50% - 43px);
+                        text-transform: uppercase;
+                        box-shadow: 0px 0px 4px 0px #00000085;
+                    }
+                }
+                .opened{
+                    position: relative;
+                    &::before{
+                        content: "";
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        background: rgb(3 169 244 / 15%);
+                        left: 0px;
+                        top: 0px;
+                    }
+                }
+            }
+            .actions{
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                width: calc(100% - 0px);
+                transition: bottom 0.2s ease 0s;
+                .actions-container{
+                    width: 100%;
+                    max-width: 245px;
+                    display: flex;
+                    justify-content: space-between;
+                    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 8px;
+                    border-radius: 10px 10px 0px 0px;
+                    background: #fff;
+                    padding: 5px 10px 2px 10px;
+                    .mat-icon-button{
+                        height: 30px;
+                        line-height: 30px;
+                        width: 30px;  
+                        border-radius: 4px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        .two-icons {
+                            transition: top 0.2s ease 0s;; 
+                            top: 0px;
+                            position: relative;
+                            .mat-icon.secondIcon {
+                                font-size: 14px;
+                                position: relative;
+                                width: 11px;
+                                height: 11px;
+                                line-height: 11px;
+                                border-radius: 100%;
+                                position: absolute;
+                                left: 11px;
+                                top: 11px;
+                                margin-right: 0px;
+                                font-weight: 600;
+                            }
+                        }
+                        &:hover{
+                            .two-icons{
+                                top: -4px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .with-actions{
+            max-height: calc(100% - 135px);
+        }
+        .view-files-sec{
+            display: flex;
+            width: calc(100% - 0px);
+            height: calc(100% - 20px);
+            flex-direction: column;
+            .view-files-header{
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 5px;
+                gap: 5px;
+                .mat-icon-button{
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    background: #0d197c1a;
+                    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.1), 0px 2px 2px 0px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+                    .mat-icon{
+                        font-size: 20px;
+                    }
+                }
+            }
+            .view-files{
+                height: calc(100% - 30px);
+                overflow: auto;
+                .image{
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+            }
+        }
+        // :host ::ng-deep
+    }
+}

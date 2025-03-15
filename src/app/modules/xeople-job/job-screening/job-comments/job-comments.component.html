@@ -1,0 +1,269 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: comments.component.html
+  @Who: Nitin Bhati
+  @When: 15-June-2023
+  @Why: EWM-12266
+  @What: comments data
+ -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<form applyTabIndexes class="job-comments-form" id="job-comments-form" [formGroup]="jobCommentsForm">
+  <div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'heading_comment_popup'|translate}} {{commentsList?.length || 0}}</h2>      
+    <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-dialog-content #scrollContainer class="comments-data">
+    <div class="candidate-data-header">
+      <div class="search-viewicon">
+        <mat-form-field class="searchInput" floatLabel="never">
+          <mat-label>{{'label_search'|translate}}</mat-label>
+          <input matInput id="btnSearch" tabindex placeholder="Search" (input)="onSearch($event.target.value)"
+            [(ngModel)]="searchVal" [ngModelOptions]="{standalone: true}">
+          <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+          <button *ngIf="searchVal" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+            (click)="onSearchClear()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+        </mat-form-field>
+        <div class="button-with-clear">
+          <button mat-raised-button id="more-filter_Btn" class="more-filter" (click)="openDialogJobComments()"
+            [ngClass]="[ filterCountRecuiter!=0 ? 'addFilter' : 'blankFilter']"
+            matTooltip="{{'label_filters'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+            (mouseenter)="mouseoverAnimation(animationVar?.FilterPopupButton?.id, animationVar?.FilterPopupButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.FilterPopupButton?.id, animationVar?.FilterPopupButton?.animation)" [disabled]="(!commentsList || commentsList.length === 0) && filterCountRecuiter==0">
+            <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.FilterPopupButton?.id}}"
+              class="{{animationVar?.FilterPopupButton?.isAnimClass}}">filter_alt</mat-icon>
+          </button>
+          <div class="clear-with-data" *ngIf="filterCountRecuiter!=0">
+            <span class="text-overflow filterCount">{{filterCountRecuiter}}</span>
+            <button mat-icon-button color="warn" id="btnclose" (click)="onClearFilter()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <button mat-raised-button class="asc-desc-btn" *ngIf="ascending" [disabled]="!commentsList || commentsList.length === 0" (click)="sorting('asc')"
+          matTooltip="{{'label_ascending'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          id="ascending">
+          <svg width="19" height="19" class="asc-desc-svg" version="1.0" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 980.000000 980.000000" preserveAspectRatio="xMidYMid meet">
+  
+            <g transform="translate(0.000000,980.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+              <path d="M4625 9790 c-690 -41 -1310 -210 -1945 -531 -966 -486 -1697 -1225
+                -2174 -2194 -267 -542 -416 -1055 -483 -1665 -24 -223 -24 -763 0 -990 68
+                -617 214 -1121 487 -1675 424 -859 1030 -1523 1835 -2010 600 -363 1280 -602
+                1947 -685 357 -44 817 -48 1123 -10 44 5 122 14 173 19 139 15 215 61 270 166
+                22 42 27 63 27 130 0 67 -5 88 -27 130 -49 93 -137 153 -237 162 -31 3 -111
+                -2 -177 -11 -570 -74 -1211 -23 -1754 139 -530 159 -1074 444 -1510 791 -164
+                130 -502 467 -620 617 -443 565 -747 1213 -879 1872 -58 286 -72 432 -78 780
+                -6 354 6 541 53 820 242 1436 1227 2665 2595 3238 746 313 1591 402 2419 256
+                816 -144 1616 -557 2224 -1149 247 -241 410 -437 591 -709 445 -672 676 -1373
+                714 -2166 7 -154 10 -175 33 -220 31 -59 76 -104 138 -136 67 -35 186 -34 255
+                3 90 47 144 123 164 230 20 112 -21 547 -80 843 -185 931 -645 1810 -1294
+                2474 -429 439 -856 740 -1450 1022 -515 245 -1092 400 -1660 448 -176 15 -520
+                21 -680 11z" />
+              <path d="M4797 7586 c-89 -37 -136 -83 -167 -164 -11 -29 -20 -73 -20 -99 0
+                -25 68 -467 150 -982 83 -515 159 -990 170 -1055 10 -66 16 -124 12 -130 -3
+                -6 -294 -411 -646 -901 -352 -490 -718 -999 -813 -1131 -95 -133 -180 -259
+                -189 -279 -8 -21 -15 -67 -15 -107 -1 -271 327 -406 512 -211 41 43 1666 2302
+                1676 2330 4 10 17 32 29 48 37 49 64 117 64 162 0 23 -65 439 -144 925 -80
+                486 -163 998 -186 1138 -46 287 -62 334 -136 399 -49 43 -145 81 -203 81 -20
+                0 -62 -11 -94 -24z" />
+              <path d="M7243 4565 c-88 -24 -133 -53 -238 -154 -502 -482 -1179 -1151 -1203
+                -1189 -49 -78 -65 -142 -60 -246 3 -77 9 -101 37 -159 82 -171 275 -272 457
+                -238 129 23 156 43 434 311 l255 247 3 -106 c1 -58 6 -486 10 -951 l7 -845 32
+                -68 c131 -275 473 -341 692 -132 41 39 68 77 92 128 l34 72 -2 944 -2 944 21
+                -19 c12 -11 127 -121 256 -246 142 -136 255 -237 285 -253 223 -122 491 -35
+                601 195 29 61 31 72 31 175 0 105 -2 114 -34 180 -38 80 6 35 -827 845 -545
+                530 -560 543 -675 569 -61 14 -144 12 -206 -4z" />
+            </g>
+          </svg>
+        </button>
+        <button mat-raised-button class="asc-desc-btn" *ngIf="descending" [disabled]="!commentsList || commentsList.length === 0" (click)="sorting('desc')"
+          matTooltip="{{'label_descending'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          id="descending">
+          <svg width="19" height="19" version="1.0" class="asc-desc-svg" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 980.000000 980.000000" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(0.000000,980.000000) scale(0.100000,-0.100000)" stroke="none">
+              <path d="M4625 9790 c-690 -41 -1310 -210 -1945 -531 -966 -486 -1697 -1225
+             -2174 -2194 -267 -542 -416 -1055 -483 -1665 -24 -223 -24 -763 0 -990 68
+             -617 214 -1121 487 -1675 424 -859 1030 -1523 1835 -2010 600 -363 1280 -602
+             1947 -685 357 -44 817 -48 1123 -10 44 5 122 14 173 19 139 15 215 61 270 166
+             22 42 27 63 27 130 0 67 -5 88 -27 130 -49 93 -137 153 -237 162 -31 3 -111
+             -2 -177 -11 -570 -74 -1211 -23 -1754 139 -530 159 -1074 444 -1510 791 -164
+             130 -502 467 -620 617 -443 565 -747 1213 -879 1872 -58 286 -72 432 -78 780
+             -6 354 6 541 53 820 242 1436 1227 2665 2595 3238 746 313 1591 402 2419 256
+             816 -144 1616 -557 2224 -1149 247 -241 410 -437 591 -709 445 -672 676 -1373
+             714 -2166 7 -154 10 -175 33 -220 31 -59 76 -104 138 -136 67 -35 186 -34 255
+             3 90 47 144 123 164 230 20 112 -21 547 -80 843 -185 931 -645 1810 -1294
+             2474 -429 439 -856 740 -1450 1022 -515 245 -1092 400 -1660 448 -176 15 -520
+             21 -680 11z" />
+              <path d="M4797 7586 c-89 -37 -136 -83 -167 -164 -11 -29 -20 -73 -20 -99 0
+             -25 68 -467 150 -982 83 -515 159 -990 170 -1055 10 -66 16 -124 12 -130 -3
+             -6 -294 -411 -646 -901 -352 -490 -718 -999 -813 -1131 -95 -133 -180 -259
+             -189 -279 -8 -21 -15 -67 -15 -107 -1 -271 327 -406 512 -211 41 43 1666 2302
+             1676 2330 4 10 17 32 29 48 37 49 64 117 64 162 0 23 -65 439 -144 925 -80
+             486 -163 998 -186 1138 -46 287 -62 334 -136 399 -49 43 -145 81 -203 81 -20
+             0 -62 -11 -94 -24z" />
+              <path d="M7270 4571 c-120 -24 -246 -125 -301 -244 l-34 -72 2 -944 2 -944
+             -21 19 c-12 11 -127 121 -256 246 -142 136 -255 237 -285 253 -223 122 -491
+             35 -601 -195 -29 -61 -31 -72 -31 -175 0 -105 2 -114 34 -180 38 -80 -6 -35
+             827 -845 545 -530 560 -543 675 -569 94 -22 210 -6 302 40 48 25 54 31 779
+             737 299 292 550 544 566 570 49 78 65 142 60 246 -3 77 -9 101 -37 159 -82
+             171 -275 272 -457 238 -129 -23 -156 -43 -434 -311 l-255 -247 -3 106 c-1 58
+             -6 486 -10 951 l-7 845 -32 68 c-88 186 -285 287 -483 248z" />
+            </g>
+          </svg>
+        </button>
+        <button mat-raised-button class="icon-button" id="refreshComment" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before" (click)="reloadComment()">
+          <mat-icon>rotate_right</mat-icon>
+      </button>
+      </div>
+    </div>
+    <div class="comment-bg">
+      <div   class="comment-sec" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50"
+      (scrolled)="onScrollDown()" [scrollWindow]="false">
+        <div class="multiple-no-data" *ngIf="this.commentsList==undefined ||this.commentsList.length==0">
+          <p>{{'label_noRecordAvailable'|translate}}</p>
+        </div>
+        <mat-card class="comment-box" *ngFor="let commentsData of commentsList; let i = index;">
+          <mat-card-content class="comment-card-content">
+              <div class="comment-msg-data">
+                <div class="comment-top-text">
+                  <div class="main-comment-profile">
+                    <div class="userAvtaarAndName">
+                      <img class="tooltip-trigger" *ngIf="commentsData?.PreviewURL!=''" src="{{commentsData?.PreviewURL}}">
+                      <span class="tooltip-trigger" [style.background]="getBackgroundColor(commentsData?.ShortName)"
+                        *ngIf="commentsData?.PreviewURL==''">{{commentsData?.ShortName  | uppercase}}</span>
+                    </div>
+                    <div>
+                      <h5>{{commentsData?.CandidateName | titlecase}}</h5>
+                      <p>
+                        <span class="green-text">{{commentsData?.RecuirterName| titlecase}}</span><span
+                          class="grey-text"><i>{{commentsData?.Event}} comment on</i></span>
+                        <span class="warn-text">{{commentsData?.CreatedDate |
+                          date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                        <span class="info-text">{{commentsData?.ParentStageName}} <mat-icon>keyboard_double_arrow_right
+                          </mat-icon> {{commentsData?.ChildStageName}}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="btn-group">
+                    <button *ngIf="commentsData?.RecuirterId===userId" type="button" mat-icon-button color="primary" class="comment-group-btn" id="candidateActionBtn"
+                      matTooltip="{{'label_edit'|translate}}" matTooltipClass="custom-tooltip"
+                      (click)="editJobActionComments(commentsData?.Id,i)">
+                      <mat-icon color="primary">edit</mat-icon>
+                    </button>
+                    <button type="button" mat-icon-button color="warn" class="comment-group-btn" id="candidateActionBtn"
+                      *ngIf="commentsData?.RecuirterId===userId" matTooltip="{{'label_delete'|translate}}"
+                      matTooltipClass="custom-tooltip" (click)=deleteComments(commentsData)>
+                      <mat-icon color="warn">delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="comment-bottom-text">
+                  <mat-divider></mat-divider>
+
+                  <div *ngIf="selectedItem[i]!=i" class="user-main-data close" id="user-notes-data{{commentsData?.Id}}"
+                    [ngClass]="{'user-notes-desc': selectedItemListForActiveClass === i}">
+                    <div class="user-notes-data gradient dark-gradient"
+                      [ngClass]="commentsData?.Comment.length>150?'':'withoutShadow'"
+                      [innerHTML]="(isReadMore[i]) ? commentsData?.Comment : commentsData?.Comment | safeHtml">
+                    
+                    </div>
+                    <button mat-mini-fab class="addClientButton clps-button" color="green" id="btnCreate"
+                      *ngIf="commentsData?.Comment.length>150" [ngClass]="commentsData?.Comment.length>150?'user-notes-desc':''"
+                      (click)="selectedItemListForActiveClass != i ? selectedItemListForActiveClass = i: selectedItemListForActiveClass = null;">
+                      <mat-icon>expand_more</mat-icon>
+                    </button>
+                  </div>
+                  <!-- who:maneesh,what: for fixed new editor,when:20/03/2024  and discuss with mukesh sir remove insert image icon-->
+                  <!-- who:maneesh,what: for fixed new editor,when:20/03/2024  and discuss with mukesh sir remove insert image icon-->
+                  <div *ngIf="selectedItem[i]===i">
+                    <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+                      <mat-label   [ngStyle]="jobCommentsForm.controls['JobCommentsEdit'].hasError('required') &&
+                      jobCommentsForm.controls['JobCommentsEdit'].touched &&
+                      {'color': '#f44336'}">{{ 'label_comments' | translate}} <span class="required-show">*</span></mat-label>
+                    <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorValForEdit"
+                          (editorValueEmit)="getEditorFormInfoJobCommentsEdit($event)" [otherInputIcon]="false" (editorImageValueEmit)="editImageFormInfo($event)">
+                    </app-mention-editor>   
+                  </div>
+                  <!-- @When: 20-03-2024 @who:Amit @why: EWM-16524 @what: btn changes -->
+                  <div class="btn-group">
+                    <button mat-raised-button color="warn" tabindex type="button"
+                    id="btnCancel" matTooltip="{{'button_cancel'|translate}}" matTooltipClass="custom-tooltip"
+                    (click)="closeJobActionComments()">
+                    {{'button_cancel'|translate}}
+                    </button>
+                    <button mat-raised-button color="primary" tabindex type="button" id="btnSave" matTooltip="{{'label_save'|translate}}" 
+                    [disabled]="jobCommentsForm.controls['JobCommentsEdit'].hasError('required') &&
+                      jobCommentsForm.controls['JobCommentsEdit'].touched"
+                      matTooltipClass="custom-tooltip" (click)="updateJobActionComments(this.jobCommentsForm.value)">
+                      {{'label_save'|translate}}
+                    </button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            <!-- </div> -->
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="ng-slectBox more-selectBox">
+        <ng-select tabindex #relatedToSelect [multiple]="true" formControlName="RelatedTo" class="dropdown-body show-required"
+          appendTo="body" id="client-companyContacts" placeholder="{{'label_Relatedto'|customTranslate}}"
+          [items]="candidateListOfArray" bindLabel="CandidateId" [searchable]="false" [clearable]="false"
+          (change)="getRelatedTo()">
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value" *ngFor="let item of items | slice:0:maxMoreLength"
+              [ngClass]="notesObj && notesObj[item.CandidateId] > 0?'green':'grey'">
+              <span class="ng-value-label">
+                {{item?.CandidateName}}</span>
+              <span class="ng-value-icon right" *ngIf="!isSingle"
+                (click)="relatedToSelect.close();remove(item.CandidateId)" aria-hidden="true">×</span>
+            </div>
+
+            <button mat-flat-button class="max-count-box mt-0" *ngIf="items.length > maxMoreLength"
+             matTooltip="{{items.length - maxMoreLength}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above">+{{items.length - maxMoreLength}}</button>
+
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            <div (click)="updateSelectedCandidate(relatedToSelect, item.CandidateId)">
+              {{item.CandidateName}}
+            </div>
+          </ng-template>
+        </ng-select>
+        <mat-error *ngIf="jobCommentsForm.controls['RelatedTo'].hasError('required')">
+            {{ 'label_Relatedto' |translate}} {{ 'label_errorreqired' |translate}}
+        </mat-error>
+      </div>
+      <!-- who:maneesh,what: for fixed new editor,when:20/03/2024  and discuss with mukesh sir remove insert image icon-->
+      <div>
+        <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+          <mat-label   [ngStyle]="jobCommentsForm.controls['JobComments'].hasError('required') &&
+          jobCommentsForm.controls['JobComments'].touched ?
+          {'color': '#f44336'}:''">{{ 'label_comments' | translate}} <span class="required-show">*</span></mat-label>
+          <div *ngIf="!IsShowComment" (click)="showEditor()" class="box-comment">
+              {{'placeholder_div_comment'|translate}}
+          </div>
+          <app-mention-editor *ngIf="IsShowComment"  [configuration]="editorConfig" [getEditorVal]="getEditorVal" (editorImageValueEmit)="getEditorImageFormInfo($event)"
+                (editorValueEmit)="getEditorFormInfo($event)" [otherInputIcon]="false" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()">
+          </app-mention-editor>   
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="primary" tabindex type="button" id="btnSave"
+      (click)="addJobActionComments(this.jobCommentsForm.value)"
+      [disabled]="!jobCommentsForm.valid || !IsShowComment">{{'label_save'|translate}}</button>
+  </div>
+</form>
+<!-- comments tab data end -->

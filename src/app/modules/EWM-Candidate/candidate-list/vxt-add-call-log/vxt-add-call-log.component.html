@@ -1,0 +1,15 @@
+<!-- @When: 05-02-2025 @who:Amit @why: EWM-19623 @what: manual call popup HTML -->
+<form id="vxt-call-log" applyTabIndexes>
+    <mat-dialog-content class="call-section">
+        <div class="call-section-move">
+            <a class="select-call-log" id="zoom-call-select" tabindex="1" id="zoom-select-call" href="tel:{{candidatePhone}}">
+                <mat-icon class="rounded-icon" svgIcon="zoom"></mat-icon>
+                <label>{{'label_Zoom' |translate}}</label>
+            </a> 
+            <a class="select-call-log" id="vxt-call-select" tabindex="2" id="vxt-select-call" href="tel:{{candidatePhone}}">
+                <mat-icon class="rounded-icon" svgIcon="vxt"></mat-icon>
+                <label>{{'label_VXT' |translate}}</label>
+            </a>
+        </div>
+    </mat-dialog-content>
+</form>

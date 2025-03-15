@@ -1,0 +1,28 @@
+// @When: 03-08-2023 @who:Amit @why: EWM-13667 @what:style changes
+// new listing
+.question-list-sec{
+    overflow-y: hidden;
+    height: 100%;
+    margin-bottom: 0px;
+    .new-data-list-header{
+      grid:auto/40px calc(60% - 240px) 20% 20% 200px;
+    }
+    .new-data-list-content{
+      overflow-y: auto;
+      overflow-x: hidden;
+      min-height: 200px;
+      .new-data-list-list{
+        grid:auto/40px calc(60% - 238px) 20% 20% 198px;
+        .new-data{
+          &:first-child{
+            padding:0px;
+            text-align: center;
+          }
+          .material-icons{
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+  }
+

@@ -1,0 +1,80 @@
+/* 
+ @Type: File, <ts>
+ @Name: css 
+ @Who: Suika
+ @When: 13-May-2021
+ @Why: ROST-1506
+*/
+
+/*
+  modified
+  @(C): Entire Software
+  @Type: File, <css>
+  @Name: checklist.component.scss
+  @Who: Amit Rajput
+  @When: 17-Aug-2022
+  @Why: EWM-7893 EWM-8246
+  @What: Header structure change
+*/
+
+@import "../../../../../mixinStyle.scss";
+
+.col-1 {
+  width: 18%;
+}
+.col-2 {
+  width: 28%;
+}
+.col-3 {
+  width: 10%;
+}
+.col-4 {
+  width: 11%;
+}
+.col-5 {
+  width: 9%;
+}
+.col-6 {
+  width: 12%;
+}
+.col-7 {
+  width: 11%;
+}
+.col-8 {
+  width: 17%;
+}
+.col-9 {
+  width: 3%;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.customBtnWidth .mat-icon-button{
+  width:30px;
+}
+.xeople-container-listing-with-breadCrumb.mat-drawer-container{
+  .component-card.mat-card{
+    @media only screen and (max-width: 429px) and (min-width: 320px) {
+      height: calc(100% - 54px);
+    }
+  }
+}
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 73px;
+  }
+}

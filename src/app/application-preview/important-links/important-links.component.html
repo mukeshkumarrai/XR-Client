@@ -1,0 +1,65 @@
+
+
+<!--
+@(C): Entire Software
+@Type: File, <html>
+@Name: important-links.component.ts
+@Who: Adarsh singh
+@When: 31-Oct-2022
+@Why: EWM-8897 EWM-9270
+-->
+
+<!-- <form [formGroup]="uploadDocsForm" id="uploadDocsForm" applyTabIndexes> -->
+    <div *ngIf="loading" class="logo-loader" id="logo-loader">
+        <div class="logo-loading"></div>
+      </div>
+    <div class="header" id="header">
+        <div class="title" id="title">
+            <h1>{{'label_documentname' |translate}}</h1>
+        </div>
+        <div align="end" class="actionBoxFooter" id="actionBoxFooter">
+            <button mat-stroked-button color="warn" tabindex type="button" id="btnPrevious" cdkStepperPrevious>
+            Previous</button>
+            <button mat-stroked-button *ngIf="!submitActive" color="primary" tabindex type="button"
+            id="btnSave" cdkStepperNext (click)="onConfirm()"> {{'label_saveAndContinue'|translate}}</button>
+            
+            <button *ngIf="submitActive" mat-stroked-button color="primary" [routerLink]="['../success']"
+             tabindex type="button" 
+            id="btnSave" (click)="saveApplicationInfo()"> {{'label_submit'|translate}}</button>
+        </div>
+    </div>
+    
+    <mat-card-title class="stepper-title">{{lableTitleName}} </mat-card-title>
+    <div class="upload-card-content" id="upload-card-content" >
+    <div class="upload-document" id="upload-document"> 
+        <mat-card class="document-name" class="document-name" *ngFor="let data of importantLinksList; let i=index">
+
+            <!-- <mat-icon color="primary">{{data?.IconPath}}</mat-icon> -->
+            <mat-icon color="primary">{{data?.IconPath?data?.IconPath: 'link'}}</mat-icon>
+
+            <div class="right-section" id="right-section">
+                <div class="mb-5">
+                    <div class="heading"><div class="bg-color"></div>{{data?.Heading}}</div>
+                    <p>{{data?.SubHeading}}</p>
+                </div>
+                <div class="mb-10">{{data?.Description}}</div>
+
+                <div class="url-data">
+                    <div class="url">
+                        <div class="bg-color"></div>
+                        <h3>{{'label_URL'|translate}}</h3>
+                        <div class="url-link">
+                            <a (click)="socialURL(data?.URL)" style="cursor: pointer;">{{data?.URL}}</a>
+                                <button mat-stroked-button color="primary" type="button" id="url-copy-btn" 
+                                matTooltip="{{message}}" matTooltipClass="custom-tooltip"
+                                 (click)="copyJobApplicationUrl(data?.URL)">
+                                 <span>{{'label_copy'|translate}}</span>
+                              </button> 
+                        </div>
+                    </div>
+                </div>
+            </div>              
+        </mat-card>
+    </div>
+    </div>
+    <!-- </form> -->

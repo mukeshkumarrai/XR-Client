@@ -1,0 +1,229 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: custom-filter.component.html
+    @Who: Anup Singh
+    @When: 08-Dec-2021
+    @Why: EWM-3959 EWM-3614
+    @What:  This page wil be used for common filter based on given endpoint
+-->
+
+  <div *ngIf="loading" class="k-i-loading assignJobLoaderFix"></div>
+
+  <div id="remove-job" class="addJobCandidate">
+   
+    <form [formGroup]="filterForm" id="filterForm-filter" applyTabIndexes>
+      <ng-container formArrayName="filterInfo">
+          <div class="col l12 m12 s12">
+              <mat-accordion class="filterData" *ngFor="let filterData of filterInfo().controls; let i=index"
+                  [formGroupName]="i">
+                  <mat-expansion-panel [expanded]="true" tabindex (opened)="panelOpenState = true"
+                      (closed)="panelOpenState = false" hideToggle="true" class="mb-5">
+                      <mat-expansion-panel-header>
+                          <mat-panel-title>
+                              <mat-icon tabindex *ngIf="!panelOpenState">expand_more</mat-icon>
+                              <mat-icon tabindex *ngIf="panelOpenState">expand_less</mat-icon>
+                              {{'label_filterCon'|translate}}
+                              <button id="mat-dialog-closeAcc-{{i}}" *ngIf="i!==0" type="button" mat-icon-button
+                                  class="closebutton" matTooltip="{{'label_remove'|translate}}"
+                                  matTooltipClass="custom-tooltip" (click)="removeRow(i)" tabindex>
+                                  <mat-icon>close</mat-icon>
+                              </button>
+                          </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <mat-divider class="mb-5"></mat-divider>
+                      <div class="ng-slectBox">
+                          <ng-select [clearable]="true" appendTo="body" class="dropdown-body" tabindex
+                              [clearable]="true" placeholder="{{'label_filter' | translate}}*" bindLabel="Title"
+                              formControlName="filterParam" id="filter-param{{i}}"
+                              (change)="filterConditionType($event,i)" [compareWith]="compareFn">
+
+                              <ng-option *ngFor="let col of gridConfigArr" [value]="col">
+                                  {{col.Title |customTranslate}}</ng-option>
+
+                          </ng-select>
+                          <mat-error
+                              *ngIf="filterData.get('filterParam').errors?.required && filterData.get('filterParam').touched">
+                              {{ 'label_filter' |translate}} {{ 'label_errorreqired' |translate}}
+                          </mat-error>
+                          <mat-error
+                              *ngIf="filterData.get('filterParam').errors?.unique && filterData.get('filterParam').touched">
+                              {{ 'label_selectModule' |translate}} {{ 'label_errorunique' |translate}}
+                          </mat-error>
+
+                      </div>
+                      <div class="ng-slectBox">
+                          <ng-select [clearable]="true" appendTo="body" class="dropdown-body" tabindex
+                              placeholder="{{'label_filterCondition' | translate}}*" formControlName="condition"
+                              id="filter-param{{i}}" [clearable]="true" (change)="getValue($event,i)">
+                              <ng-option *ngFor="let con of filterOptionsFilter[i]" value="{{con.name}}">
+                                  {{con.name}}</ng-option>
+                          </ng-select>
+                          <mat-error
+                              *ngIf="filterData.get('condition').errors?.required && filterData.get('condition').touched">
+                              {{ 'label_filterCondition' |translate}} {{ 'label_errorreqired' |translate}}
+                          </mat-error>
+                      </div>
+                      <div class="row mb-0" *ngIf="IsEmptyNotEmpty">
+                          <div class="col l12 m12 s12" *ngIf="filterData.get('filterParam').value!='OpenDate' && inputTypedata[i] != 'Date' + i
+                           && inputTypedata[i] !='DropDown' + i">
+                              <mat-form-field>
+                                  <mat-label>{{'label_filterValue' | translate}}</mat-label>
+                                  <input type="text" matInput tabindex formControlName="ParamValue"
+                                      id="ParamValue{{i}}" placeholder="{{'label_filterValue' | translate}}" required>
+                                  <mat-error
+                                      *ngIf="filterData.get('ParamValue').errors?.required && filterData.get('ParamValue').touched">
+                                      {{ 'label_filterValue' |translate}} {{ 'label_errorreqired' |translate}}
+                                  </mat-error>
+                                  <mat-error
+                                      *ngIf="filterData.get('ParamValue').errors?.pattern && filterData.get('ParamValue').touched">
+                                      {{ 'label_filterValue' |translate}} {{ 'label_numericerr' |translate}}
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="col l6 m10 s12" *ngIf="filterData.get('filterParam').value=='OpenDate'">
+                              <mat-form-field>
+                                  <mat-label>{{'label_filterValue' | translate}}</mat-label>
+                                  <input matInput [matDatepicker]="picker1" tabindex id="ParamValue{{i}}"
+                                      [min]="today" formControlName="ParamValue" required readonly>
+                                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker1></mat-datepicker>
+
+                                  <mat-error
+                                      *ngIf="filterData.get('ParamValue').errors?.required && filterData.get('ParamValue').touched">
+                                      {{ 'label_filterValue' |translate}} {{ 'label_errorreqired' |translate}}
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="col l6 m10 s12" *ngIf="inputTypedata[i]=='Date' + i">
+                              <mat-form-field>
+                                  <mat-label>{{'label_filterValue' | translate}}</mat-label>
+                                  <input matInput [matDatepicker]="picker1" tabindex id="ParamValue{{i}}"
+                                      [min]="today" formControlName="ParamValue" required readonly>
+                                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker1></mat-datepicker>
+
+                                  <mat-error
+                                      *ngIf="filterData.get('ParamValue').errors?.required && filterData.get('ParamValue').touched">
+                                      {{ 'label_filterValue' |translate}} {{ 'label_errorreqired' |translate}}
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+
+                          <div class="col l12 m12 s12" *ngIf="inputTypedata[i]=='DropDown' + i">
+                              <div class="ng-slectBox">
+                                  <!--For Multiple selection DropDwon By Anup Singh-->
+                                  <span *ngIf="isMultiple">
+                                      <ng-select tabindex [multiple]="true" formControlName="DropDwonName"
+                                          class="dropdown-body" #select [searchable]="false" appendTo="body"
+                                          [clearable]="true" (change)="onDropdownDatachange($event,i)"
+                                          [(ngModel)]="multiDropDownData[i]"
+                                          placeholder="{{config[i].Label |customTranslate}}" [items]="dropList[i]"
+                                          [bindLabel]="keyValue[i]">
+                                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                              <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                                  <span class="ng-value-label"> {{item[keyValue[i]]}}</span>
+                                                  <span class="ng-value-icon right" (click)="clear(item)"
+                                                      aria-hidden="true">×</span>
+                                              </div>
+                                              <div class="ng-value" *ngIf="items.length > 1">
+                                                  <span class="ng-value-label">{{items.length - 1}}
+                                                      {{'label_more'|translate}}...</span>
+                                              </div>
+                                          </ng-template>
+                                          <ng-template ng-header-tmp>
+                                              <ng-container>
+                                                  <div class="add-manage">
+                                                      <span class="spacer"></span>
+                                                      <button mat-icon-button color="primary"
+                                                          (click)="getUpdateOptions(config[i],i)"
+                                                          [ngClass]="loader?'rotate-loader':''" type="button">
+                                                          <mat-icon>refresh</mat-icon>
+                                                      </button>
+                                                  </div>
+                                              </ng-container>
+                                              <ng-container>
+                                                  <div class="pl-15 pr-15">
+                                                      <mat-form-field class="no-bottom">
+                                                          <input matInput class="selectSearch" autocomplete="off"
+                                                              placeholder="{{'label_search' |translate}} {{ config.placeholder!=''&& config.placeholder!=undefined ?(config.placeholder|translate):''}}"
+                                                              type="text"
+                                                              (input)="select.filter($event.target.value)" />
+                                                      </mat-form-field>
+                                                  </div>
+                                              </ng-container>
+                                          </ng-template>
+                                      </ng-select>
+                                  </span>
+
+
+                                  <!--For Single selection DropDwon By Anup Singh-->
+                                  <span *ngIf="!isMultiple">
+                                      <ng-select class="dropdown-body" appendTo="body" [searchable]="false"
+                                          [clearable]="true" 
+                                          formControlName="DropDwonName" #select
+                                          placeholder="{{config[i].Label |translate}} *" id="ParamValue{{i}}"
+                                          (change)="onDropdownDatachange($event,i);">
+                                          <ng-template ng-header-tmp>
+                                              <ng-container>
+                                                  <div class="add-manage">
+
+                                                      <span class="spacer"></span>
+                                                      <button mat-icon-button color="primary" type="button"
+                                                          (click)="getUpdateOptions(config[i],i)"
+                                                          [ngClass]="loader?'rotate-loader':''">
+                                                          <mat-icon>refresh</mat-icon>
+                                                      </button>
+                                                  </div>
+                                              </ng-container>
+                                              <ng-container>
+                                                  <div class="pl-15 pr-15">
+                                                      <mat-form-field class="no-bottom">
+                                                          <input matInput class="selectSearch" autocomplete="off"
+                                                              placeholder="{{'label_search' |translate}}" type="text"
+                                                              (input)="select.filter($event.target.value)" />
+                                                      </mat-form-field>
+                                                  </div>
+
+                                              </ng-container>
+                                          </ng-template>
+                                          <ng-option [value]="" disabled>{{'label_select'| translate}} </ng-option>
+                                          <ng-option [value]="item" *ngFor="let item of dropList[i]">
+                                              {{item[keyValue[i]]}}
+                                          </ng-option>
+
+                                      </ng-select>
+                                  </span>
+
+                              </div>
+                          </div>
+                      </div>
+                  </mat-expansion-panel>
+              </mat-accordion>
+          </div>
+      </ng-container>
+      <button mat-raised-button color="primary" id="filter-add-btn" type="button" class="ml-0 mb-5" [disabled]="!filterForm.valid" 
+          (click)="showFilter()">{{'label_Addfilters'|translate}}
+          <span class="material-icons">
+              add_circle
+          </span>
+      </button>
+
+
+  </form>
+  
+  
+  <mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter">
+    <button mat-raised-button color="warn" class="ml-0" type="button" tabindex id="btnCancel"
+        [disabled]="clearFilterBtnEnable" (click)="onReset()">
+        {{'label_resetJobLanding'|translate}}</button>
+    <span class="popup-footer-spacer"></span>
+    <!-- <button mat-stroked-button color="warn" type="button" tabindex id="btnCancel" (click)="onDismiss()">
+         {{'label_cancel'|translate}}</button> -->
+    <button mat-stroked-button color="primary" type="button" tabindex id="btnSave"
+        [disabled]="!filterForm.valid || isSaveForClearBtn" (click)="onConfirm()"> {{'label_save'|translate}}</button>
+</div>
+  
+  </div>
+  

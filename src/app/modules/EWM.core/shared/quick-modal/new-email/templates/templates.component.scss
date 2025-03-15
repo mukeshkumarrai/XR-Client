@@ -1,0 +1,95 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <css>
+  @Name: folder.component.scss
+  @Who: Renu
+  @When: 29-Sep-2021
+  @Why: ROST-2641 ROST-3073
+  @What:  This component is used for add  templates for compose mail.
+*/
+@import "../../../../../../../styles-var.scss";
+// Xeople : Satya Prakash Gupta : 20-Jul-2022 : Alignment issue : EWM-7686 EWM-7892 
+::ng-deep{
+  .mat-checkbox-temp{
+    .mat-checkbox-layout {
+      display: flex;
+      .mat-checkbox-label{
+        width: 100%;
+        display: flex;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+.insert-email-template{
+  height: 65vh;
+  overflow: hidden;
+  .listcardContentMaxData,
+  .sticky-width{
+    min-width: 855px;
+  }
+  .listcardContentMaxData{
+    height: calc(65vh - 156px);
+    overflow: auto;
+  }
+  .tabInfinoteScroll{
+    overflow: hidden;
+    overflow-x: auto;
+  }
+  .preview-btn{
+    padding: 8px 0px;
+    cursor: pointer;
+  }
+}
+.col-1{
+  width: 30%;
+}
+.col-2{
+  width: 30%;
+}
+.col-3{
+  width: 20%;
+}
+.col-4{
+  width: 20%;
+}
+.col-5{
+  width: 10%;
+}
+.custom-checkbox{
+  margin:0px;
+  position: relative;
+  top:-2px;
+}
+// @When: 08-08-2023 @who:Amit @why: EWM-13733 @what:add opacity
+.numbers{
+  position: relative;
+  background: $primary-bg-color;
+  color: $primary-txt-color;
+  border-radius: 3px;
+  padding: 0px 4px;
+  font-size: 11px;
+  font-weight: 400;
+  margin-inline-start: 5px;
+  width: min-content;
+  height: 16px;
+  line-height: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 8px;
+  max-width: 26px;
+}
+
+// @When: 08-08-2023 @who:Amit @why: EWM-13733 @what:add opacity
+:host ::ng-deep{
+  .template-tab{
+    .mat-tab-header{
+      .mat-tab-label{
+        opacity: 1;
+      }
+    }
+  }
+}

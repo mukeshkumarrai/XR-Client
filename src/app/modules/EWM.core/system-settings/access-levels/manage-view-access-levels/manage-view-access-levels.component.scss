@@ -1,0 +1,157 @@
+.k-grid tbody td {
+    white-space: nowrap;
+    line-height: 20px;
+    padding: 8px 12px;
+  }
+
+.addFolderBtn{
+    font-size: 24px !important;
+}
+
+.filterButton{
+    margin-left: 8px;
+    min-width: 120px;
+    cursor: none;
+    .mat-icon{
+        margin-left: 0px;
+        font-size: 15px;
+        position: relative;
+        top: 3px;
+        height: 16px;
+        width: 18px;
+    }
+    .badge{
+        cursor: pointer;
+        margin-left: 10px;
+        min-width: auto;
+        color: #fff;
+        line-height: 12px;
+        top: -3px;
+        position: relative;
+    }
+    .filterTxt{
+        padding-top: 5px;
+        cursor: pointer;
+        padding-bottom: 5px;
+    }
+}
+
+.addFolderBtn{
+    min-width: 40px;
+}
+
+@media only screen and (max-width: 470px) and (min-width: 320px){
+   .sticky{
+       position: relative;
+   }
+}
+
+.tabLinkBtn:hover::after {
+    border-radius: 20px;
+}
+.createjob.mat-raised-button {
+    position: relative;
+    top: -8px;
+    margin-right: 5px;
+    .mat-icon {
+        display: inline-block;
+    }
+    .buttonTxt {
+        margin-right: 8px;
+    }
+}
+
+.gridCustomFilter{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.textRight{
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
+
+#btnViewCandiateName{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.k-grid td{
+    padding:0px 12px !important;  
+    overflow: hidden;  
+    white-space: nowrap !important;
+}
+#btnActionView{
+    position: relative !important;
+    .mat-icon{
+        position: absolute !important;
+        top:-10px !important;
+    }
+}
+
+// @When: 22-03-2023 @who:Amit @why: EWM-11250 @what:add media
+.xeople-container-with-one-card.mat-drawer-container{
+    .component-card.mat-card{
+        @media only screen and (max-width: 480px) and (min-width: 386px) {
+        height: calc(100% - 55px);
+        }
+    }
+}
+
+    
+.kendo-table-container .k-grid {
+    height: calc(100vh - 269px);
+    @media only screen and (max-width: 930px) and (min-width: 481px){        
+       height: calc(100vh - 280px); 
+    }
+    @media only screen and (max-width: 480px) and (min-width: 240px){        
+       height: calc(100vh - 315px); 
+    }
+}
+.scrollloading {
+    position: absolute;
+    height: 75px;
+    bottom: 0;
+    width:calc(100% - 6px);
+}
+.kendo-table-container{
+    position: relative;
+}
+
+.leftAlignTxt{
+    display: block;
+    text-align: left;
+    padding: 0px 10px;
+}
+
+.rightAlignTxt{
+    display: block;
+    text-align: right;
+    padding: 0px 10px;
+}
+
+.buttonForDesktopMobile{
+    top:0px !important;
+}
+
+#list-header{
+    position: relative;
+    top:-10px;
+}
+
+::ng-deep {
+    .k-grid.access-kendo-grid{
+        .k-grid-content-locked{
+            td{
+                &:first-child{
+                    text-align: left;
+                    padding: 0px 12px;
+                }
+            }
+        }
+    }
+}

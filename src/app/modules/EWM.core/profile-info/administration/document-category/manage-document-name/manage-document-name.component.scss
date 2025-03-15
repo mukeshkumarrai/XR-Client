@@ -1,0 +1,41 @@
+@import "../../../../../../../styles-var.scss";
+
+.ng-select-with-info-icon{
+    .infoStyle{
+        right: 10px;
+        color: $warn-bg;
+    }
+}
+.document-form{
+    display: grid;
+    grid: auto/33.33%;
+    @media only screen and (max-width: 1024px) and (min-width: 641px) {
+        grid: auto/50%;
+    }
+    @media only screen and (max-width: 640px) and (min-width: 240px) {
+        grid: auto/1fr;
+    }
+    .mat-card-subtitle{
+        margin-top: 10px;
+        margin-bottom: 15px;
+        font-size: 12px;
+    }
+    .document-form-field{
+        .mat-card-subtitle{
+            margin:-5px 0px 5px;
+            font-size: 11px;
+            line-height: 13px;
+        }
+        .label-toggle{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+}
+.ng-select-with-info-icon {
+    .infoStyle{
+    color:  #9a9a9a;
+    right: 0px;
+    }
+} 

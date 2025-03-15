@@ -1,0 +1,21 @@
+// @When: 06-12-2023 @who:Amit @why: EWM-15314 @what: style modified
+.main-landing-outer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 50px - 50px);
+  padding-top: 50px;
+  padding-bottom: 50px;
+  .inner-landing-loader{
+    display: block;
+    text-align: center;
+    .preloader{
+      display: inline-block;
+    }
+    p{
+      margin: 10px 0px 0px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+}  

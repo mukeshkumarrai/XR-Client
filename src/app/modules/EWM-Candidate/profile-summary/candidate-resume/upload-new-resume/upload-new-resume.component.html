@@ -1,0 +1,39 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 16-June-2021
+    @Why: EWM-1450 EWM-1865
+    @What:  This component is used for Quick add Company templates.
+-->
+<form [formGroup]="UploadResumeForm" id="UploadResumeForm">
+  <div class="quick-dialog">
+    <h2 mat-dialog-title>
+      {{'label_uploadNewResume' | translate}}
+    </h2>
+    <mat-dialog-content class="col">
+      <div class="row mb-0">
+        <mat-form-field class="col l12 m12 s12">
+          <mat-label>{{'label_comment' |translate}}</mat-label>
+          <textarea matInput formControlName="CommentField" rows="2" id="CommentField" tabindex="1"
+            placeholder="{{'label_comment'|translate}}"></textarea>
+        </mat-form-field>
+      </div>
+      <!-- who:maneesh,what:ewm.9777 change the formate of upload resume,when:04-01-2023; -->
+      <div class="row mb-0">
+        <div class="col l12 m12 s12">
+            <app-file-upload [docRequiredStatus]="true" [activestatus]="activestatus"
+             [filestatus]="filestatus" [fileInfo]="fileInfo" [fileViewstatus]="fileViewstatus"
+              (informDocumentParent)="documentDataFetchFromChild($event)"></app-file-upload>
+        </div>
+    </div>
+    </mat-dialog-content>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" type="button" (click)="onDismiss()" id="btnCancel" tabindex="3">
+      {{'button_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" type="button" id="btnSave" [disabled]="!UploadResumeForm.valid || isSubmit"
+      tabindex="4" (click)="onConfirm()"> {{'label_save'|translate}}</button>
+  </div>
+</form>

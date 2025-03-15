@@ -1,0 +1,19 @@
+<!-- @(C): Entire Software
+@Type: File, <ts>
+@Who: maneesh
+@When: 25-may-2022
+@Why: -EWM-5839-EWM-5872
+@What:  open popup and close popup  -->
+<!-- <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div> -->
+
+<!-- @bantee @whn 27-05-2023 @whyEWM-12535 to show corresponding tab name; -->
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{showTabName?showTabName:'Resume'}}</h2>
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<ngx-doc-viewer *ngIf="docStatus" [url]="url" [viewer]="viewer" (loaded)="isLoading=false" style="height:93%;" id="FilePreviwerPopup"></ngx-doc-viewer>
+<img *ngIf="!docStatus" style="width: 100%;" src="{{url}}"/>

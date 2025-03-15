@@ -1,0 +1,350 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: personal-info.component.ts
+  @Who: Renu
+  @When: 24-May-2022
+  @Why: EWM-6558 EWM-6782
+  @What: personal info component
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<!-- <div class="knock-out right-align" *ngIf="!IsKnockoutSuccess">
+    <img src="../../../../../../assets/knock-out.png">
+</div>   -->
+<div class="main-view-application">
+<!-- who:Nitin Bhati,what:ewm.11578,@why:if IsKnockoutSuccess==0?true:false, @when:18-05-2023-->
+<div class="knock-out-text" *ngIf="IsKnockoutSuccess">
+    <h1>KNOCK<br><span>OUT</span></h1>
+</div>
+
+<div class="search-bar">
+        <!-- who:maneesh,what:ewm.10018 fixed cross icon,search when:16/01/2023 -->
+<mat-form-field class="search-input" floatLabel="never">
+        <!-- <mat-label>{{'label_search'|translate}}</mat-label> -->
+        <input matInput id="personal-searchBox"  [(ngModel)]="textToSearch" placeholder="Search" (keyup)="highligthSearchTextVal($event)">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <!-- who:maneesh,what:ewm.10018 fixed cross icon, when:27/12/2022 -->
+        <button  *ngIf="textToSearch" matSuffix mat-icon-button id="btnCancel"  (click)="clearSearch()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+    </mat-form-field>
+</div>
+<div id="scrolltop">
+<div #target class="personal-info" applyTabIndexes [ngClass]="resDataConfig?.IsProfilePicApplicable ==1?'profile-show':'profile-hide'">
+    <div class="profileDetail" id="profileDetail"  *ngIf="resDataConfig?.IsProfilePicApplicable ==1">
+
+        <div class="profile">
+            <div class="profileName" id="profileName" [ngStyle]="personalInfoForm.controls['profilePic'].hasError('required')
+                &&
+                personalInfoForm.controls['profilePic'].touched &&
+                {'color': '#f44336'}">
+                <h2 class="inputval">{{ 'label_profilePicture' | translate}}</h2>
+            </div>
+            <div class="profilePic" id="profilePic">
+                <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+                <img src="{{profileImagePreview}}" tabindex (click)="openDialog(profileImagePreview)" />
+                <input (click)="croppingImage()" id="profile-cropImage" matInput readonly required>
+
+            </div>
+        </div>
+    </div>
+
+    <form [formGroup]="personalInfoForm" id="personalInfoForm" class="profile-info-scroll">
+
+        <mat-card class="info-mat-card mat-elevation-z2" id="info-mat-card">
+            <h2 class="cardSubTitle inputval" id="cardSubTitle">{{'label_personalInfo'
+                |translate}}</h2>
+            <div class="top-info" id="top-info">
+                <mat-form-field class="personal-info-style" floatLabel="always">
+                    <mat-label class="inputval">{{'label_firstName' |translate}}</mat-label>
+                    <input matInput style="display: none;" placeholder="" tabindex id="personal-firstName"
+                        formControlName="FirstName" required >
+                    <span class="inputval">{{(resData?.FirstName)?(resData?.FirstName):'--'}}</span>
+                    <mat-icon matTooltip="{{'label_personalName' |translate}}" class="infoStyle" color="primary">info
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="personal-info-style" floatLabel="always">
+                    <mat-label class="inputval">{{'label_lastName' |translate}}</mat-label>
+                    <input matInput style="display: none;" placeholder="" tabindex id="personal-lastName"
+                        formControlName="LastName" required>
+                    <span class="inputval">{{(resData?.LastName)?(resData?.LastName):'--'}}</span>
+                    <mat-icon matTooltip="{{'label_personalName' |translate}}" class="infoStyle" color="primary">info
+                    </mat-icon>
+                </mat-form-field>
+
+
+
+                <div class="activityLabel input-with-info-icon
+                    person-input-info-icon">
+                    <mat-form-field class="personal-info-style" floatLabel="always" tabindex>
+                        <mat-label class="inputval">{{'label_emailAddressInput' | translate}}</mat-label>
+                        <input matInput placeholder="" style="display: none;" tabindex id="personal-email"
+                            formControlName="email" required>
+                        <span class="inputval">{{(resData?.Email)?(resData?.Email):'--'}}</span>
+                    </mat-form-field>
+                    <mat-icon matTooltip="{{'label_personalName' |translate}}" class="infoStyle " color="primary">info
+                    </mat-icon>
+                </div>
+
+
+                <div class="activityLabel input-with-info-icon person-input-info-icon" *ngIf="resDataConfig?.IsPhoneApplicable ==1">
+                    <mat-form-field class="personal-info-style" floatLabel="always" tabindex>
+                        <mat-label class="inputval">{{'label_canPhone' | translate}}</mat-label>
+                        <input matInput placeholder="" style="display: none;" tabindex id="personal-phone"
+                            formControlName="phone" required>
+                        <span class="inputval">{{(resData?.Phone)?(resData?.Phone):'--'}}</span>
+                    </mat-form-field>
+                   
+                   
+                </div>
+
+            </div>
+        </mat-card>
+
+        <mat-card class="info-mat-card mat-elevation-z2" id="info-mat-card">
+            <h2 class="cardSubTitle inputval" id="cardSubTitle">{{'candidate_additionalInformation'
+                |translate}}</h2>
+
+            <div class="bottom-info" id="bottom-info">
+                <mat-form-field floatLabel="always">
+                    <mat-label class="inputval">{{'label_ApplicationRefNum' |translate}}</mat-label>
+                    <input matInput placeholder="{{'label_ApplicationRefNum'|translate}}" style="display: none;"
+                        tabindex formControlName="applicationRefNumber" id="personal-salary">
+                    <span class="inputval">{{(resData?.ApplicationReferenceNo)?(resData?.ApplicationReferenceNo):'--'}}</span>
+                 
+                </mat-form-field>
+            </div>
+
+            <div class="middle-info" id="middle-info" formGroupName="address" *ngIf="resDataConfig?.IsAddressApplicable == 1">
+                <mat-form-field floatLabel="always">
+                    <mat-label class="inputval">{{'label_address' |translate}}</mat-label>
+                    <input matInput placeholder="" tabindex formControlName="AddressLinkToMap" style="display:
+                        none;" readonly id="profile-address"
+                        [required]="personalInfoForm.controls['AddressLinkToMap']?.errors?.required">
+                    <span class="inputval">{{(resData?.Address[0]?.AddressLinkToMap)?(resData?.Address[0]?.AddressLinkToMap):'--'}}</span>
+                 
+                </mat-form-field>
+            </div>
+
+            <div class="bottom-info" id="bottom-info" *ngIf="resDataConfig?.CurrentSalary == 1">
+                <mat-form-field floatLabel="always">
+
+                    <input matInput placeholder="{{'label_currentSalary'|translate}}" style="display: none;" tabindex
+                        formControlName="salary" id="personal-salary">
+                    <span class="inputval">{{(resData?.CurrentSalary)?(resData?.CurrentSalary):'--'}}</span>
+                 
+                </mat-form-field>
+
+
+                <div class="ng-slectBox">               
+                    <span class="inputval">{{resData?.Currency}}</span>
+                </div>
+
+
+                <div class="ng-slectBox">                   
+                    <span class="inputval">{{resData?.SalaryUnit}}</span>
+                </div>
+
+            </div>
+            <div class="bottom-info" id="bottom-info" *ngIf="resDataConfig?.IsExpectedSalaryRequired
+            == 1">
+                <mat-form-field floatLabel="always">
+
+                    <input matInput placeholder="{{'label_ExpectedSalary'|translate}}" style="display: none;" tabindex
+                        formControlName="salary" id="personal-salary">
+                    <span class="inputval">{{(resData?.IsExpectedSalaryRequired
+                        )?(resData?.IsExpectedSalaryRequired
+                        ):'--'}}</span>
+                 
+                </mat-form-field>
+
+
+                <div class="ng-slectBox">               
+                    <span class="inputval">{{resData?.Currency}}</span>
+                </div>
+
+
+                <div class="ng-slectBox">                   
+                    <span class="inputval">{{resData?.SalaryUnit}}</span>
+                </div>
+
+            </div>
+            <div class="bottom-info" id="bottom-info" *ngIf="resDataConfig?.IsNoticePeriodApplicable == 1">
+                <mat-form-field floatLabel="always">
+                    <mat-label class="inputval">{{'candidate_noticePeriodDays' |translate}}
+                    </mat-label>
+                    <input style="display: none;" matInput placeholder="{{'candidate_noticePeriodDays'
+                        |translate}}" formControlName="NoticePeriod" tabindex id="profile-notice-period"
+                        [required]="personalInfoForm.controls['NoticePeriod']?.errors?.required">
+                    <span class="inputval">{{(resData?.NoticePeriod)?(resData?.NoticePeriod):'--'}}</span>                 
+                </mat-form-field>
+            </div>
+        </mat-card>
+
+        <!-------skills data  ----->
+        <mat-card class="info-mat-card mat-elevation-z2" id="info-mat-card">
+            <ng-container *ngIf="resDataConfig?.IsSkillsApplicable == 1">
+
+
+                <div class="personal-main-flow" id="personal-main-flow">
+                    <h2 class="cardSubTitle inputval" id="cardSubTitle">{{'label_skills'
+                        |translate}}</h2>
+                </div>
+
+                <div class="mat-chip-align" id="mat-chip-align">
+                    <mat-chip color="primary" selected *ngFor="let skilldata of
+                        resData?.Skills">
+                        <span class="number cursor inputval">{{skilldata?.Weightage}}</span>
+                        <span class="cursor inputval">{{skilldata?.SkillName}}</span>
+                        <div class="btnActioncolor ml-10">                       
+                        </div>
+                    </mat-chip>
+
+                </div>
+            </ng-container>
+        </mat-card>
+<!--------experience-------->
+        <mat-card class="info-mat-card mat-elevation-z2" id="info-mat-card">
+            <ng-container *ngIf="resDataConfig?.IsExperienceApplicable == 1">
+                <div class="personal-main-flow" id="personal-main-flow">
+                    <h2 class="cardSubTitle inputval" id="cardSubTitle">{{'label_Experience'
+                        |translate}}</h2>
+                </div>
+
+                <div class="experience" id="experience">
+                    <div class="experience-info mat-elevation-z1" id="experience-info" *ngFor="let experiencesData of
+                        resData?.Experiences">
+                        <div class="experience-created-by-action
+                            screening-notes-drawer" id="experience-created-by-action">
+                            <div class="notes-created-header" id="notes-created-header">
+                                <div>
+                                    <div class="notes-created" id="notes-created">
+                                        <i><b class="inputval">{{experiencesData?.PositionName}}</b></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!-- who:maneesh,why:ewm.9590,when:08/12/2022,what:fixed -- experience and education -->
+           <mat-card class="mat-elevation-z0 mb-5">
+                  <p class="inputval">
+                      <span>
+                                  {{ experiencesData?.Employer==null ? '--' : experiencesData?.Employer }}
+                        </span>
+                  </p>
+               <p class="inputval">
+                   <span>
+                      {{ experiencesData?.Salary==0 ? '' : experiencesData?.Salary }}
+                    </span>
+                     <span *ngIf=" (experiencesData?.Salary ==0 || experiencesData?.Salary!=null) && (experiencesData?.SalaryUnit =='' || experiencesData?.SalaryUnit !=null)">
+                                /                        
+                     </span>
+                            <span>
+                                        {{ experiencesData?.SalaryUnit==null ||  experiencesData?.SalaryUnit==0 ? '' : experiencesData?.SalaryUnit }}
+                                     </span>
+                </p>
+  <!-- <p *ngIf="experiencesData.IsCurrent=='0'" class="inputval"> {{data?.DateStarted
+    | date:userpreferences.dateformate}} -
+    {{experiencesData?.DateEnded |
+    date:userpreferences.dateformate}} :
+    {{experiencesData?.TotalExperience|numbertomonth:'M'}}</p> -->
+                <p *ngIf="experiencesData.IsCurrent=='0'" class="inputval">  
+                     <span *ngIf="experiencesData?.DateStarted!=0">
+                        {{experiencesData?.DateStarted==0 ? '' : experiencesData?.DateStarted | date:userpreferences.dateformate }} - 
+                        {{experiencesData?.DateEnded==0 ? '' : experiencesData?.DateEnded| date:userpreferences.dateformate }}
+                    </span>
+
+                          <!-- {{data?.DateStarted
+                              | date:userpreferences.dateformate}} -
+                                   {{experiencesData?.DateEnded | date:userpreferences.dateformate}} --> 
+                </p>
+                    <p *ngIf="experiencesData.IsCurrent=='1'" class="inputval">
+                        {{experiencesData?.DateStarted==0 ? '' : experiencesData?.DateStarted | date:userpreferences.dateformate }}
+                     </p>
+                       <!-- who :maneesh i am comment this line for ewm.9590 and there  TotalExperience isnot comming from api -->
+                        <!-- <p *ngIf="experiencesData.IsCurrent=='1'" class="inputval">
+                      {{experiencesData?.DateStarted| date:userpreferences.dateformate}} -
+                    Present :{{experiencesData?.TotalExperience|numbertomonth:'M'}}</p> -->
+           </mat-card>
+                    </div>
+                </div>
+            </ng-container>
+        </mat-card>
+
+        <!--------educations--------->
+        <mat-card class="info-mat-card mat-elevation-z2" id="info-mat-card">
+            <ng-container *ngIf="resDataConfig?.IsEducationApplicable == 1">
+
+
+                <div class="personal-main-flow" id="personal-main-flow">
+                    <h2 class="cardSubTitle inputval" id="cardSubTitle">{{'label_education'
+                        |translate}}</h2>
+
+
+                </div>
+
+                <div class="experience" id="experience">
+                    <div class="experience-info mat-elevation-z1" id="experience-info" *ngFor="let educationData of
+                        resData?.Educations">
+                        <div class="experience-created-by-action
+                            screening-notes-drawer" id="experience-created-by-action">
+                            <div class="notes-created-header" id="notes-created-header">
+                                <div>
+                                    <div class="notes-created" id="notes-created">
+                                        <i><b class="inputval">
+                                            <span>
+                                              {{ educationData?.DegreeType==null ? '--' : educationData?.DegreeType }}
+                                           </span>
+                                    <span *ngIf=" (educationData?.DegreeType !=null ) && (educationData?.DegreeTitle !=null )">
+                                      ,
+                                    </span>
+                                    <span>
+                                        {{ educationData?.DegreeTitle==null  ? '--' : educationData?.DegreeTitle }}
+                                    </span>
+                                            
+                                        </b></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <mat-card class="mat-elevation-z0 mb-5">
+                        
+                            <p *ngIf="educationData?.Description && educationData.University== '' || educationData?.Description && educationData.University == null">--</p>
+                            <p class="inputval"> 
+                                 <span>
+                                               {{ educationData?.Institute==null ? '' : educationData?.Institute }}
+                                   </span>
+                                   <span *ngIf=" (educationData?.Institute !=null ) && (educationData?.University !=null )">
+                                              ,
+                                    </span>
+                                   <span>
+                                        {{ educationData?.University==null  ? '' : educationData?.University }}
+                                   </span>
+                                
+                            </p>
+                            <p class="inputval">
+                                 <span>
+                                    {{ educationData?.Location==null  ? '' : educationData?.Location }}
+                               </span>
+                            </p>
+                           <p class="inputval"> 
+                             <span>
+                               {{ educationData?.Description==null  ? '' : educationData?.Description }}
+                             </span>
+                            </p>
+                            <!-- <p class="inputval">{{educationData?.Description}}</p> -->
+                        </mat-card> 
+                    </div>
+                </div>
+            </ng-container>
+        </mat-card>
+
+    </form>
+</div>
+</div>
+</div>

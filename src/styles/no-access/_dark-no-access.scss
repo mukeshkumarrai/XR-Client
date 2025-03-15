@@ -1,0 +1,21 @@
+@use "../../colors";
+.dark-theme{
+  .no-access{
+    background: colors.$gray-txt;
+    svg{
+      .first-path{
+        fill: #696969;
+      }
+      .white-path{
+        fill: #424242;
+      }
+      .light-grey-path{
+        fill: #696969;
+      }
+    }
+    span{
+      background: colors.$dark-primary-bg;
+      border: 1px solid colors.$gray-txt;
+    }
+  }
+}

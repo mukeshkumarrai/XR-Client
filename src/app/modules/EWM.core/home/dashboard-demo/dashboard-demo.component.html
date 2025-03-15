@@ -1,0 +1,116 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 2-May-2023
+    @Why: EWM-11814 EWM-12300
+    @What:  This page wil be use only for the dashboard demo Component HTML
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="dashboard-mat-card-header" id="dashboard-mat-card-header" *ngIf="isButtonActive">
+    <mat-card-title class="only-for-title">{{'label_dashboard' |customTranslate}} </mat-card-title>
+  </mat-card-header>
+  <!-- <mat-divider class="mgTop0"></mat-divider> -->
+  
+  <mat-card-header class="dashboard-mat-card-header" id="dashboard-mat-card-header" *ngIf="!isButtonActive">
+    <mat-card-title class="only-for-title">{{'label_dashboard' |customTranslate}}</mat-card-title>
+  </mat-card-header>
+  <mat-drawer-container class="xeople-container-without-header-buttons" autosize id="qualification-drawer">
+  
+    <mat-drawer-content *ngIf="isButtonActive">
+        <div class="centerBox vertical-center-align-createjob">
+            <div class="vertical-center-align-createjob singleAddJobButton">
+                <mat-card class="mat-card-container add-mat-card-container" (click)="customizeDashboard()">
+                    <div class="row">
+                        <div class="col s12 m12 l12 animate__zoomIn animate__animated center-align">
+                            <mat-card class="selectTemplateOrCreatejob" tabindex="1" id="createJob-routerAddJob">
+                                <div class=" center-align">
+                                    <div class="tenantBox">
+                                        <div class="cltImgBox">
+                                            <mat-icon class="companyIcon">
+                                                widgets
+                                            </mat-icon>
+                                        </div>
+                                        <label (click)="customizeDashboard()">{{'label_dashboardcustomization'
+                                            |customTranslate}}</label>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-drawer-content>
+  
+    <mat-drawer-content *ngIf="!isButtonActive">
+        <div class="dashboard-sec" id="dashboard-sec">
+            <div class="dashboardColBox" id="left">
+                <mat-card class="dashboardCardBox mat-elevation-z2" *ngFor="let item of leftGridData">
+                    <mat-card-header>
+                        <mat-card-title>
+                            <mat-icon class="matIcon" *ngIf="!buttonArrayList.includes(item.Id)">add</mat-icon>
+                            {{item.WidgetName}}
+  
+                        </mat-card-title>
+                        <div class="actionButton">
+                            <a class="viewAllLink">
+                                View All
+                            </a>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content class="cardContent">
+                        <div class="cardContentBox">
+                            <label class="cardCenterTxt">{{'label_youDontHaveAny' |customTranslate}}
+                                {{item.WidgetName}}</label>
+                        </div>
+                    </mat-card-content>
+                    <div class="matCardFooter">
+                        <span class="footerSpanTxt">
+                            {{'label_myNotificationssPara' | customTranslate}}
+                        </span>
+                    </div>
+                    <div class="resizeBarSec">
+                        <div class="resizeBar"></div>
+                        <div class="resizeBar"></div>
+                    </div>
+                </mat-card>
+            </div>
+            <div class="dashboardColBox" id="right">
+                <mat-card class="dashboardCardBox mat-elevation-z2" *ngFor="let item of rightGridData">
+                    <mat-card-header>
+                        <mat-card-title>
+                            <mat-icon class="matIcon" *ngIf="!buttonArrayList.includes(item.Id)">add</mat-icon>
+                            {{item.WidgetName}}
+                        </mat-card-title>
+                        <div class="actionButton">
+                            <a class="viewAllLink">
+                                View All
+                            </a>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content class="cardContent moreHeight">
+                        <div class="cardContentBox">
+                            <label class="cardCenterTxt">{{'label_youDontHaveAny' |customTranslate}}
+                                {{item.WidgetName}}</label>
+                        </div>
+                    </mat-card-content>
+                    <div class="matCardFooter">
+                        <span class="footerSpanTxt">
+                            {{'label_myActivityStartPlan' | customTranslate}}
+                        </span>
+                    </div>
+  
+                    <div class="resizeBarSec">
+                        <div class="resizeBar"></div>
+                        <div class="resizeBar"></div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-drawer-content>
+  
+  </mat-drawer-container>

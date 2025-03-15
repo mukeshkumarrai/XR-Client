@@ -1,0 +1,73 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Anup Singh
+  @When: 15-May-2021
+  @Why: EWM-1448 EWM-1495
+  @What:  This page will be use for the People Master Component scss file
+*/
+
+@import "../../../../../../mixinStyle.scss";
+
+.listcardContentMaxData{
+  min-width: 850px;
+}
+.sticky-width{
+  min-width: 850px;
+}
+.addEyeSearch{
+  min-width: 100%;
+}
+.data-accordian-body{
+  max-height: 200px;
+  overflow-y: auto;
+}
+.col-1 {
+  width: 35%;
+}
+.col-2 {
+  width: 20%;
+}
+.col-3 {
+  width: 30%;
+}
+.col-4 {
+  width: 15%;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.search-results {
+  height: 300px;
+  overflow: auto;
+}
+
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+    height: 70px;
+}
+.maxData:hover {
+    height: 70px;
+}
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 370px){
+    height: 73px;
+  }
+  @media only screen and (max-width: 369px) and (min-width: 240px){
+    height: 97px;
+  }
+}

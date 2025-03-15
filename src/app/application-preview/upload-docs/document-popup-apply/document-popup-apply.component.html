@@ -1,0 +1,42 @@
+
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: upload-idocsnfo.component.ts
+  @Who: Adarsh singh
+  @When: 17-10-2022
+  @Why: EWM-9123
+  @What: document upload component
+-->
+
+<!-- <div *ngIf="loading" class="k-i-loading"></div> && fileViewstatus && activestatus!='view' -->
+<mat-card>
+    <mat-card-header *ngIf="filestatus  && fileViewstatus && activestatus!='view'"> 
+        <mat-card-title *ngIf="!docRequiredStatus" class="matTitleDocument">{{'lebel_uploadDocument' | translate}} </mat-card-title>
+        <mat-card-title *ngIf="docRequiredStatus" class="matTitleDocument">{{'lebel_uploadDocument' | translate}} *</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="documentUploadRoundBox" *ngIf="filestatus  && fileViewstatus && activestatus!='view'">
+            <div *ngIf="loading" class="k-i-loading inputSearch"></div>
+            <div class="circleCreateDocFileUpload">
+                <input type="file" #fileInput accept="{{fileType}}" (change)="Uploadfile($event)" required/>
+                <mat-icon>cloud_upload</mat-icon>
+            </div>
+            <span class="fileInstructions">
+                {{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}}
+                </span>
+        </div>
+        <div class="documentUploadRoundBox" *ngIf="!filestatus" (click)="openDoc(filePathOnServer)">
+            <div class="circleCreateDocFileUpload solidBorderFileUploadBox">
+                <mat-icon>{{iconFileType}}</mat-icon>
+            </div>
+            <span class="fileInstructions cursor text-overflow">
+                {{fileInfo}}
+            </span>
+            <!-- <mat-icon class="closeIconCreateDoc cursor" *ngIf="fileViewstatus" color="warn" (click)="removeImage(filePathOnServer)">cancel</mat-icon> -->
+            <button mat-icon-button class="closeIconCreateDoc cursor" *ngIf="fileViewstatus" tabindex type="button" color="warn" (click)="removeImage(filePathOnServer)">
+                <mat-icon>cancel</mat-icon>
+              </button>
+        </div>  
+    </mat-card-content>
+</mat-card>

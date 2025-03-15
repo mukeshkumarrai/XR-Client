@@ -1,0 +1,57 @@
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<form [formGroup]="employmentForm" id="employmentForm-EOH" applyTabIndexes>
+<div class="screening-action-main">
+    <div class="screening-action">
+        <p class="italic">{{'label_NoteEmploymentStatus'|translate}}:</p>
+        <div class="main-recruiter-name">
+        <div class="recruiter-name">
+        <mat-form-field class="form-column">
+            <input matInput tabindex (click)="picker?.open()" formControlName="DateOfHired" [matDatepicker]="picker" id="pushEoh-DOB"
+            placeholder="{{'label_HiredDate'|translate}}" [max]="today" required>
+                <!-- <button *ngIf="employmentForm.controls['DateOfHired'].hasError('matDatepickerParse') || employmentForm.value.DateOfHired" type="button" id="clearBtn" matSuffix mat-icon-button aria-label="Clear" (click)="onClearHired()"> 
+                    <mat-icon>close</mat-icon> 
+                 </button>-->
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="employmentForm.controls['DateOfHired'].hasError('invalidDate') && employmentForm.controls['DateOfHired'].touched"> {{'label_invalidDate' | translate}} </mat-error>
+              <mat-error *ngIf="employmentForm.controls['DateOfHired'].hasError('matDatepickerParse') && !employmentForm.controls['DateOfHired'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+        </mat-form-field>
+        </div>
+        <div class="recruiter-name">
+            <div class="common_dropdown_v2">
+                <dropdown [configuration]="employeeType_DropdownC_Config" tabindex
+                    [resetConfiguration]="resetrecruiterDrp.asObservable()" (selectedOut)="onEmpTypeChange($event)"
+                    [getSelectedItem]="selectedRecruiter" [initialize]="dropdownInitilize" [showMoreOptionsNum]="5">
+                </dropdown>
+            </div>
+        </div>
+        <div class="recruiter-name">
+            <div class="common_dropdown_v2">
+                <dropdown [configuration]="priority_DropdownC_Config" tabindex
+                [resetConfiguration]="resetTemplateDrp.asObservable()" (selectedOut)="onMemberPriorityChange($event)"
+                [getSelectedItem]="selectedTemplate" [initialize]="dropdownInitilize" [showMoreOptionsNum]="5">
+            </dropdown>
+            </div>
+        </div>
+        </div>
+
+       <div class="applicant-com">
+              <div class="checkbox-select">
+                <mat-checkbox color="primary" id="EmployeeStatus-Sendemail" tabindex formControlName="IsCheckedSendEmail">{{'label_SendWorkforceAppLoginDetails'|translate}}</mat-checkbox>
+            </div>
+        </div>
+    
+    </div>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <div class="alert-message" *ngIf="candidateInformation?.IsXRCandidatePushedToEOH === 1 && showWarningAlert && candidateInformation?.MemberId!==null">{{'pushCandidateToEoh_CandidateAlreadyPushed'|translate}}</div>
+
+        <!-- <button mat-stroked-button color="warn" tabindex type="button" [disabled]="!employmentForm.valid" id="btnSaveExit">{{'label_saveProceed'|translate}}</button> -->
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!employmentForm.valid" id="btnSaveNext"  (click)="onNextClick()">{{'label_next'|translate}}</button>
+    </div>
+</div>
+</form>
+

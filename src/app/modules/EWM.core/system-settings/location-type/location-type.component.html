@@ -1,0 +1,240 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 15-Dec-2020
+    @Why: ROST-487
+    @What:  This page wil be use only for the Sms template Component HTML
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{'label_locationTypes' |translate}}</mat-card-title>
+
+    
+    <div class="actionButton listGridButton" *ngIf="formtitle=='grid'">
+      <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="listButton"
+        (click)="switchListMode('listMode')">
+        <span class="material-icons">
+          format_list_bulleted
+        </span>
+      </button>
+      <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? 'active' : '']" class="gridButton"
+        (click)="switchListMode('cardMode')">
+        <span class="material-icons">
+          view_module
+        </span>
+      </button>
+    </div>
+    <div class="actionButton" *ngIf="formtitle=='Add'">
+      <button mat-raised-button class="buttonForDesktopMobile" tabindex="8" color="warn" (click)="onCancel($event)"
+        id="submit">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+      </button>
+
+      <button mat-raised-button class="buttonForDesktopMobile" color="primary" tabindex="7"
+        (click)="onSave(this.addUserSmsForm.value,this.activestatus)" type="button" id="saveBtnId"
+        [disabled]="!addUserSmsForm.valid">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save'|translate}}</span>
+      </button>
+
+    </div>
+  </mat-card-header>
+  <app-breadcrumb [pageLabel]="pageLabel"></app-breadcrumb>  
+  <mat-divider></mat-divider>
+  <mat-card-content infinite-scroll
+  [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" [scrollWindow]="false">
+    <!-- Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 -->
+    
+    <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']"> 
+      <div class="row mb-0">
+        <mat-card-subtitle class="col s10 m10 l11 subTitle">{{ (('label_locationTypeSubHead' |translate).length>maxCharacterLengthSubHead)? (('label_locationTypeSubHead' |translate) | slice:0:maxCharacterLengthSubHead)+'...':(('label_locationTypeSubHead' |translate)) }}</mat-card-subtitle>
+        <div class="actionButton matEyeIcon" *ngIf="this.idSms">
+          <a [routerLink]="['../../system-audit-log/',auditParameter]">
+            <mat-icon>visibility</mat-icon>
+          </a>
+       </div>
+       <div class="actionButton matEyeIcon" *ngIf="!this.idSms">
+        <a [routerLink]="['../system-audit-log/',auditParameter]">
+          <mat-icon>visibility</mat-icon>
+        </a>
+     </div>
+       
+      </div> 
+    <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? ' pb-15 mb-0' : 'mb-10']">
+      <div #revAdd #revAdd1  class="listCardViewButtonroup col l8 m6 s4">
+        <button mat-raised-button class="buttonForDesktopMobile" color="primary" (click)="openForm('Add','')"
+          id="usergroupAdd">
+          <mat-icon>add</mat-icon>
+          <span class="buttonTxt">{{'label_add' |translate}}</span>
+        </button>
+      </div>
+      <div #search class="col l4 m6 s8">
+        <mat-form-field class="searchInput">
+          <mat-label>{{'label_search'|translate}}</mat-label>
+          <input matInput id="searchBox" (keyup)="userSmsListSearch($event)" placeholder="Search" [(ngModel)]="searchValue">
+          <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+          <!-- <div *ngIf="loadingPopup" class="k-i-loading inputSearch"></div> -->
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row mb-0 listHeader" id="listHeader" [class.hide]="isvisible" >
+      <div class="col col-1" (click)="onSort('Title')">
+        <button mat-button [disableRipple]="true">
+          <strong>{{'label_userGrpDescription'|translate}}</strong>
+          <mat-icon *ngIf="sortedcolumnName === 'Title' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+          <mat-icon *ngIf="sortedcolumnName === 'Title' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+        </button>
+      </div>
+      <div class="col col-2" (click)="onSort('ModuleName')">
+        <button mat-button [disableRipple]="true">
+          <strong>{{'label_builtIn'|translate}}</strong>
+          <mat-icon *ngIf="sortedcolumnName === 'ModuleName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+          <mat-icon *ngIf="sortedcolumnName === 'ModuleName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+        </button>
+      </div>
+      <div class="col col-3" (click)="onSort('Status')">
+        <button mat-button [disableRipple]="true">
+          <strong>{{'label_templateStatus'|translate}}</strong>
+          <mat-icon *ngIf="sortedcolumnName === 'Status' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+          <mat-icon *ngIf="sortedcolumnName === 'Status' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+        </button>
+      </div>
+      <div class="col col-4">
+        <strong>{{'label_actions'|translate}}</strong>
+      </div>
+    </div>
+    </div>
+    <div class="listCardView" id="listCardView" [ngClass]="[ viewMode === 'cardMode' ? '' : 'listcardContentMaxData']"
+      *ngIf="formtitle=='grid'">
+      <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+        <div class="row">
+          <div *ngIf="loadingPopup" class="list"></div>
+          <div class="col nodata" *ngIf="this.listData==undefined ||this.listData.length==0">
+            <span>No data</span>
+          </div>
+          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+            *ngFor="let listDataList of listData;let i =index">
+
+            <mat-card [ngClass]="[ viewMode === 'cardMode' ? '' : '']">
+              <mat-card-content class="listcardContent" [ngClass]="[ viewMode === 'cardMode' ? '' : 'pt-0 pb-0']">
+                <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData' : '']">
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_userGrpDescription'|translate}}</strong>
+                  </div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Title }}" matTooltipClass="custom-tooltip">
+                      {{listDataList.Title}}
+                    </span>
+                  </div>
+                  <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_builtIn'|translate}}</strong>
+                  </div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.ModuleName }}" matTooltipClass="custom-tooltip">
+                      {{listDataList.ModuleName}}
+                    </span>
+                  </div>
+                  <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_templateStatus'|translate}}</strong>
+                  </div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Status }}" matTooltipClass="custom-tooltip">
+                      {{listDataList.Status}}
+                    </span>
+                  </div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-4']">
+                    <button mat-icon-button color="primary" (click)="openForm('Add',listDataList.Id)" id="editButtonId">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" id="editId" (click)="DeleteSmsInfo(listDataList.Id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </mat-card-content>
+              <div class="" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox' : 'hide']">
+                <button mat-icon-button color="primary" (click)="openForm('Add',listDataList.Id)" id="editButtonId">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" id="editId" (click)="DeleteSmsInfo(listDataList.Id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+      </div>
+    </div>
+    <!-- Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 -->
+    <div class="addEditSec slideInRight" *ngIf="active">
+      <ng-template #template let-anchor>
+        <span>{{ anchor.nativeElement.innerText }}</span>
+      </ng-template>
+      <form novalidate [formGroup]="addUserSmsForm"  *ngIf="formtitle=='Add'" accept-charset="utf-8"
+        enctype='multipart/form-data' class="col">
+        <div class="row mb-0">
+          <!-- <div class="col l4 m6 s12">
+            <div class="ng-slectBox">
+              <ng-select [clearable]="true"   placeholder="{{'label_moduleName'|translate}}" tabindex="1"
+                formControlName="moduleId" id="moduleId" (change)="onChangeModule($event)" >
+                <ng-option [value]="0">{{'label_selectModule'|translate}}</ng-option>
+                <ng-option *ngFor="let module of moduleArray"  [value]="module.ModuleId">{{module.ModuleName}}</ng-option>
+              </ng-select>
+             
+            </div>
+          </div>
+          <div class="clear"></div> -->
+          <mat-form-field class="col l4 m6 s12">
+            <mat-label>{{'label_smsTitle' |translate}}</mat-label>
+            <input type="hidden" formControlName="id" id="smsId" name="smsId">
+            <input matInput formControlName="name" tabindex="1" text="regionName" id="Name" (blur)="onTitleChanges()" required>
+            <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('required')">
+              {{'label_smsTitle' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('maxlength')">
+              {{'label_smsTitle' |translate}} {{'label_errormaxlength50' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('minlength')">
+              {{'label_smsTitle' |translate}} {{'label_errorminlength2' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('pattern')">
+              {{'label_smsTitle' |translate}} {{'label_errorspecialchar' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('codeTaken')">
+              {{'label_smsTitle' |translate}} {{'label_areadyExists' |translate}}
+          </mat-error>
+          </mat-form-field>
+          <div class="clear"></div>
+           <div class="col l4 m6 s12">
+            <div class="ng-slectBox">
+              <ng-select [clearable]="true" placeholder="{{'label_templateStatus'|translate}}*" tabindex="8"
+                formControlName="statusId" id="ddlStatus" required>
+                <ng-option [value]="0">{{'label_templateStatus'|translate}}</ng-option>
+                <ng-option [value]="1">{{'label_statusActive'|translate}}</ng-option>
+                <ng-option [value]="2">{{'label_statusInactive'|translate}}</ng-option>
+              </ng-select>
+              <mat-error *ngIf="this.addUserSmsForm.controls['statusId'].hasError('required') ">
+                {{ 'label_templateStatus' |translate}} {{ 'label_errorreqired' |translate}}
+              </mat-error>
+            </div>
+          </div>
+          <div class="">
+            <div class="custom-checkbox">
+                <span class="overflow-control-description">{{'label_builtIn'|translate}}: </span>
+                <span class="overflow-control-indicator"></span>
+                    <mat-slide-toggle color="primary" #toggleElement></mat-slide-toggle> 
+                </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

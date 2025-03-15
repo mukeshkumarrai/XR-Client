@@ -1,0 +1,350 @@
+
+/* @When: 21-08-2023 @who:Amit @why: EWM-13866 @what: ehr-integration style page */
+@import "../broadbean-integration/broadbean-integration.component.scss"; 
+
+.integration-contentsection.ehr-contentsection{
+    //@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: structure style change
+    .ehr-card{
+        margin-top: 15px;
+        display: inline-block;
+        width: 100%;
+        .ehr-card-main{
+            box-shadow: $gray-button 0px 0px 0px 1px, $gray-button 0px 0px 0px 0.4px, 
+            rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+            border-bottom: 2px solid $gray-button;
+            border-radius: 4px;
+            .ehr-card-main-header{
+                background: rgba(127, 183, 52, 0.03);
+                border-bottom-right-radius: 0px;
+                border-bottom-left-radius: 0px;
+                padding: 5px 15px;
+                border-bottom: 1px solid rgb(193 193 193 / 30%);
+                .title-description{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    @media only screen and (max-width: 580px) and (min-width: 240px) {
+                        flex-direction: column;
+                        align-items: inherit;
+                    }
+                    .card-header-title{
+                        flex-direction: column;
+                        h3{
+                            margin: 0px;
+                            font-size: 16px;
+                            font-weight: 500;
+                        }
+                        p{
+                            font-size: 13px;
+                        }
+                    }
+                    .card-header-description{
+                        justify-content: flex-end;
+                        margin-inline-end: 0px;
+                        @media only screen and (max-width: 580px) and (min-width: 240px) {
+                            align-items: flex-end;
+                        }
+                        .mat-stroked-button{
+                            color: $gray-txt;
+                            min-width: 120px;
+                        }
+                    }
+                }
+            }
+            .ehr-card-main-content{
+                padding: 5px 15px 8px;
+                p{
+                    font-size: 13px;
+                }
+                .footer-btn{
+                    display: flex;
+                    justify-content: flex-end;
+                }
+            }
+        }
+        .ehr-card-main.green-panel{
+            box-shadow: $green-color 0px 0px 0px 1px, $green-color 0px 0px 0px 0.4px, 
+            rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+            border-bottom: 2px solid $green-color;
+            .ehr-card-main-header{
+                background:rgb(127, 183, 52, 0.03);
+                border-bottom: 1px solid rgb(127 183 52 / 30%);
+                .title-description{
+                    .card-header-description{
+                        .mat-stroked-button{
+                            color: $green-color;
+                        }
+                    } 
+                } 
+            }
+        }
+        .ehr-card-main.red-panel{
+            box-shadow: $warn-bg 0px 0px 0px 1px, $warn-bg 0px 0px 0px 0.4px, rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, 
+            rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+            border-bottom: 2px solid $warn-bg;
+            .ehr-card-main-header{
+                background:rgba(244, 67, 54, 0.03);
+                border-bottom: 1px solid rgb(244 67 54 / 30%);
+                .title-description{
+                    .card-header-description{
+                        .mat-stroked-button{
+                            color: $warn-bg;
+                        }
+                    } 
+                } 
+            }
+        }
+    }
+    // @When: 17-10-2023 @who:Amit @why: EWM-14847 @what: add disable style
+    .ehr-card.panel-disabled{
+        .ehr-card-main{
+            box-shadow: $gray-button 0px 0px 0px 1px, $gray-button 0px 0px 0px 0.4px, 
+            rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+            border-bottom: 2px solid $gray-button;
+            .ehr-card-main-header{
+                background: rgb(149, 149, 149, 0.03);
+                border-bottom: 1px solid rgb(193 193 193 / 30%);
+                .title-description{
+                    .card-header-title{
+                        h3{
+                            color: rgba(0, 0, 0, 0.26);
+                        }
+                        p{
+                            color: rgba(0, 0, 0, 0.26);
+                        }
+                    }
+                    .card-header-description{
+                        .mat-stroked-button{
+                            color: rgba(0, 0, 0, 0.26);
+                        }
+                    }
+                }
+            }
+            .ehr-card-main-content{
+                p{
+                    color: rgba(0, 0, 0, 0.26);
+                }
+            }
+        }
+    }  
+}
+.integration{
+    .subTitle.mat-card-subtitle{
+        font-size:15px;
+        font-weight: 500;
+    }
+    &-header{
+        display: flex;
+        align-items:flex-end;
+        gap: 10px;
+        @media only screen and (max-width: 767px) and (min-width: 240px) {
+            flex-wrap: wrap;
+        }
+        &-image{
+            width:150px;
+            border-radius: 4px;
+            padding: 4px;
+            border: 1px solid rgba(120,130,140,.13);
+            img{
+                width:100%;
+            }
+        }
+        &-data{
+            p{
+                margin: 0px;
+                margin-bottom: 8px;
+            }
+            button{
+                margin-inline-end: 5px;
+                margin-bottom: 5px;
+                padding: 0px 5px;
+                line-height: 28px;
+                height: 30px;
+                font-size: 13px;
+                position: relative;
+                &::after{
+                    content: "";
+                    background: currentColor;
+                    opacity: 0.08;
+                    pointer-events: none;
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    left: 0px;
+                    right: 0px;
+                    top: 0px;
+                    bottom: 0px;
+                    z-index: 0;
+                    border-radius: 4px;
+                    transition: opacity .2s ease-in-out;    
+                }
+            }
+            .warnColorBtn{
+                color: $warn-bg;
+            }
+            .defaultColorBtn{
+                color: $default-bg-color;
+            }
+            button.active{
+                &::after{
+                    opacity: 0.30; 
+                }
+            }
+            //@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add style
+            .greenColorBtn{
+                color: $green-color;
+                position: relative;
+                &::after{
+                    content: "";
+                    background: currentColor;
+                    opacity: 0.11;
+                    pointer-events: none;
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    left: 0px;
+                    right: 0px;
+                    top: 0px;
+                    bottom: 0px;
+                    z-index: 0;
+                    border-radius: 4px;
+                    transition: opacity .2s ease-in-out;    
+                    }
+            }
+            .greenColorBtn.btn-active{
+                background: $green-color;
+                color: $white-color;
+            }
+            .primaryColorBtn.btn-active{
+                background: $primary-bg-color;
+                color: $white-color;
+            }
+            .profileBuildBtn{
+                position: relative;
+                margin-left: 10px;
+                display: inline-block;
+                @media only screen and (max-width: 815px) and (min-width: 320px) {
+                    margin-top: 10px;
+                }
+                .mat-icon{
+                    width: 18px;
+                    height: 18px;
+                    font-size: 16px;
+                    color: $warn-bg;
+                    vertical-align: middle;
+                }
+        
+            }
+        }
+    }
+    &-contentsection{
+        margin: 10px 0px;
+        p{
+            line-height: 20px;
+            margin: 0px;
+        }
+        .tab-container{
+            margin: 10px 0px 0px 0px;
+        }
+        .seekDetails{
+            width: 33.33%;
+            @media only screen and (max-width: 1060px) and (min-width: 481px) {
+                width: 50%;
+            }
+            @media only screen and (max-width: 480px) and (min-width: 320px) {
+                width: 100%;
+            }
+            .actionButton{
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+                gap: 8px;
+            }
+        }
+        .kendo-table-container .k-grid{
+            height: auto;
+            min-width:auto;
+        }
+        .add-new-user-broadbean{
+            position: fixed;
+            bottom: 60px;
+            right: 23px;
+            z-index: 2;
+            overflow: hidden;
+        }
+        .stageListItems {
+            padding: 0px 25px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @media only screen and (max-width: 767px) and (min-width: 481px){
+                height: 300px;
+            }
+            @include for-small-smartphones{
+                height: 200px;
+            }
+            img{
+                max-width: 100%;
+                max-height: 400px;
+            }
+            video{
+                width: auto;
+                height: 400px;
+                max-width: 100%;
+                max-height: 100%;
+                @media only screen and (max-width: 767px) and (min-width: 481px){
+                    height: 300px;
+                }
+                @include for-small-smartphones{
+                    height: 200px;
+                }
+            }
+        }
+        .contactDetailsSection{
+            max-width: 500px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            .contact-details{
+                display: grid;
+                grid-template-columns: 140px calc(100% - 150px);
+                gap: 10px;
+                @include for-small-smartphones{
+                  grid-template-columns: 1fr;
+                  gap:inherit;
+                }
+                p{
+                    margin:8px 0px;
+                    width: 130px;
+                    font-weight: 500;
+                }
+                .spnStyle{
+                    display:block;
+                    font-weight: 400;
+                    margin:8px 0px;
+                }
+            }
+        }
+    }
+    //@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add style
+    .icon-withchip{
+        .mat-raised-button{
+            min-width: 35px;
+            padding: 0px 5px;
+            line-height: 30px;
+        }
+    }
+}
+//@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add style
+.validate-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+.showAccessSection{
+    .interfaceBoardContainer{
+        padding: 10px;
+    }
+}
+
+

@@ -1,0 +1,22 @@
+<!-- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: Logut and session expires component
+    @Who: Adarsh singh
+    @When: 10-July-2023
+    @Why: common service for toast
+-->
+
+<!--  @When: 12-07-2023 @who:Amit @why: EWM-12776 @what:add logout toast message start here -->
+<mat-progress-bar mode="determinate" [ngClass]="isLoggedOutMode ? 'scusess' : 'warn'" [value]="progressbarValue"></mat-progress-bar>
+
+<div class="check-data" id="check-data">
+    <div class="logout-msg">
+        <mat-icon fontSet="material-icons-outlined" class="checked" [ngClass]="isLoggedOutMode ? '' : 'red'">{{isLoggedOutMode ? 'logout' : 'priority_high'}}</mat-icon>
+        <span [ngClass]="isLoggedOutMode ? '' : 'expiry' ">{{data.html | translate}}</span>
+    </div>
+    <button mat-icon-button id="btncloseinfo" color="warn" (click)="snackBar.dismiss()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<!-- End  -->

@@ -1,0 +1,424 @@
+/* @When: 23-01-2024 @who:Amit @why: EWM-15813 @what: card view */
+@use "dark-job-landing-card";
+@use "../../../colors";
+@mixin for-small-smartphones{
+    @media (min-width : 320px) and (max-width : 480px) { @content; }
+}
+.job-landing-card-sec{
+  display: grid;
+  grid-template-columns: repeat(3, calc(33.33% - 10px));
+  row-gap: 30px;
+  column-gap: 15px;
+  padding: 25px 8px 8px 8px;
+  height: calc(100vh - 373px);
+  align-items: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-bottom: 5px;
+  background: #eef5f9;
+  border-radius: 8px 0px 0px 8px;
+  @media only screen and (max-width: 900px) and (min-width: 481px){
+    grid-template-columns: repeat(2, calc(50% - 8px));
+  }
+  @media only screen and (max-width: 580px) and (min-width: 320px){
+    height: calc(100vh - 377px);
+  }
+  @include for-small-smartphones{
+    grid-template-columns: calc(100% - 0px);
+  }
+  .mat-card.job-landing-card{
+    background: colors.$white-bg;
+    border-radius: 5px;
+    border-bottom: 2px solid colors.$primary-bg-color;
+    box-shadow: colors.$primary-bg-color 0px 0px 0px 0.4px, colors.$primary-bg-color 0px 0px 0px 0.4px, 
+    rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+    .card-header{
+      margin: -15px 10px 5px;
+      display: flex;
+      align-items: center;
+      padding: 3px 10px 3px 5px;
+      gap: 7px;
+      font-size: 16px;
+      position: relative;
+      background:  linear-gradient(90deg, rgba(226,226,226,1) 27%, rgba(255,255,255,1) 100%);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: colors.$gray-button 0px 0px 0px 0.4px, colors.$gray-button 0px 0px 0px 0.4px, 
+      rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+      .text-overflow{
+        font-size: 14px;
+        padding-inline-end: 25px;
+      }
+      .userAvtaarAndName{
+        height: 28px;
+        width: 28px;
+        span{
+          height: 28px;
+          width: 28px;
+          font-size: 14px;
+        }
+        .candidateStatus{
+          text-shadow: 1px 0px 1px rgba(0, 0, 0, 0.9);
+          box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+        }
+      }
+    }
+    .card-data-sec{
+      display: grid;
+      grid: auto/calc(50% - 5px) calc(50% - 5px);
+      row-gap: 5px;
+      padding: 10px;
+      column-gap: 7px;
+      .card-data-grid{
+        display: flex;
+        min-height: 40px;
+        .card-data{
+          display: flex;
+          font-size: 13px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          flex-direction: column;
+          .mat-icon{
+            font-size: 18px;
+            height: 18px;
+            width: 18px;
+            line-height: 18px;
+          }
+          h3{
+            margin: 0px;
+            font-size: 12px;
+            margin-bottom: 2px;
+          }
+          .cardListTxt{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .more-owner-show{
+            width: 20px;
+            height: 20px;
+            line-height: 16px;
+            .mat-icon{
+              font-size: 18px;
+              height: 27px;
+              width: 27px;
+              line-height: 24px;
+            }
+            .three-dot{
+              line-height: 27px;
+            }
+          }
+          .mat-icon-button{
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            z-index: 2;
+            span{
+              width: 18px;
+              height: 18px;
+              line-height: 18px;
+              font-size: 10px;
+            }
+            .mat-icon{
+              font-size: 18px;
+              height: 18px;
+              width: 18px;
+              line-height: 18px;
+              font-size: 14px;
+            }
+          }
+          .mat-icon-button.max-owner{
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            z-index: 2;
+            border: none;
+            box-shadow: 0px 0px 0px 1px colors.$white-color;
+            margin-inline-start: 0px;
+            span{
+              width: 24px;
+              height: 24px;
+              line-height: 24px;
+              font-size: 10px;
+            }
+            .mat-icon{
+              font-size: 18px;
+              height: 18px;
+              width: 18px;
+              line-height: 18px;
+              font-size: 14px;
+            }
+          }
+          .company-contacts{
+            display: flex;
+            align-items: center;
+            .company-contacts-btn-groups{
+              display: flex;
+              gap: 3px;
+              border-radius: 4px;
+              align-items: center;
+              color: colors.$primary-bg-color;
+              position: relative;
+              padding: 2px 3px;
+              &:after{
+                content: "";
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                border-radius: 4px;
+                background-color: currentColor;
+                opacity: 0.18;
+                left: 0px;
+                top: 0px;
+              }
+              .userAvtaarAndName {
+                width: 16px;
+                height: 16px;
+                z-index: 2;
+                span{
+                  width: 18px;
+                  height: 18px;
+                  line-height: 18px;
+                  font-size: 10px;
+                  color: colors.$white-color;
+                }
+              }
+            }
+          }
+          .card-data-info{
+            display: flex;
+            align-items: center;
+            gap: 3px;
+          }
+          .multiple-owner-sec{
+            .multiple-owner{
+              margin-inline-start: 2px;
+              vertical-align: middle;
+              .userAvtaarAndName{
+                width: 24px;
+                height: 24px;
+                margin-inline-end: 1px;
+                span,img{
+                  width: 24px;
+                  height: 24px;
+                  line-height: 24px;
+                  font-size: 10px;
+                  color: colors.$white-color;
+                  border: none;
+                  box-shadow: 0px 0px 0px 1px colors.$white-color;
+                }
+              }
+            }
+          }
+        }
+        .card-data-multiple-owner{
+          overflow: visible;
+          .multiple-owner-sec{
+            height: inherit;
+            .multiple-owner{
+              margin-left: inherit;
+            }
+          }
+        }
+        .multiple-owner-sec .multiple-owner .userAvtaarAndName span, .multiple-owner-sec .multiple-owner .userAvtaarAndName img {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+    .card-footer{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 10px;
+      gap: 5px;
+      border-radius: 0px 0px 5px 5px;
+      background: colors.$gray-bg-color;
+      .card-data{
+        display: flex;
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-direction: column;
+        h3{
+          margin: 0px;
+          font-size: 12px;
+          margin-bottom: 2px;
+          font-weight: normal;
+          .cardListTxt{
+            font-weight: 500;
+          }
+        }
+        .mat-icon{
+          font-size: 24px;
+          height: 24px;
+          width: 24px;
+          line-height: 24px;
+        }
+        .cardListTxt{
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .more-owner-show{
+          width: 20px;
+          height: 20px;
+          line-height: 16px;
+          .mat-icon{
+            font-size: 18px;
+            height: 27px;
+            width: 27px;
+            line-height: 24px;
+          }
+          .three-dot{
+            line-height: 27px;
+          }
+        }
+        .mat-icon-button{
+          width: 24px;
+          height: 24px;
+          line-height: 24px;
+          z-index: 2;
+          border: none;
+          box-shadow: 0px 0px 0px 1px colors.$white-color;
+          margin-inline-start: 0px;
+          span{
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            font-size: 10px;
+          }
+          .mat-icon{
+            font-size: 18px;
+            height: 18px;
+            width: 18px;
+            line-height: 18px;
+            font-size: 14px;
+          }
+        }
+        .primary-owner{
+          color: colors.$primary-bg-color;
+          font-size: 12px;
+          font-weight: 500;
+          padding-top: 2px;
+        }
+
+        .multiple-owner-sec{
+          .multiple-owner{
+            margin-inline-start: 2px;
+            vertical-align: middle;
+            .userAvtaarAndName{
+              width: 24px;
+              height: 24px;
+              margin-inline-end: 1px;
+              span,img{
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                font-size: 10px;
+                color: colors.$white-color;
+                border: none;
+                box-shadow: 0px 0px 0px 1px colors.$white-color;
+                &:hover{
+                  margin-top: 0px;
+                }
+              }
+            }
+          }
+        }
+        .company-contacts{
+          display: flex;
+          align-items: center;
+          .company-contacts-btn-groups{
+            display: flex;
+            gap: 3px;
+            border-radius: 4px;
+            align-items: center;
+            color: colors.$primary-bg-color;
+            position: relative;
+            padding: 2px 3px;
+            &:after{
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+              border-radius: 4px;
+              background-color: currentColor;
+              opacity: 0.18;
+              left: 0px;
+              top: 0px;
+            }
+            .userAvtaarAndName {
+              width: 16px;
+              height: 16px;
+              z-index: 2;
+              span{
+                width: 18px;
+                height: 18px;
+                line-height: 18px;
+                font-size: 10px;
+                color: colors.$white-color;
+              }
+            }
+          }
+        }
+        .card-data-info{
+          display: flex;
+          align-items: center;
+          gap: 3px;
+        }
+      }
+      .card-data-multiple-owner{
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-direction: inherit;
+        .multiple-owner-sec{
+          height: inherit;
+          .multiple-owner{
+            margin-left: inherit;
+          }
+        }
+        .owner-details{
+          display: flex;
+          flex-direction: column;
+          gap: 1px;
+          h3{
+            font-weight: normal;
+            margin-bottom: 0px;
+            font-size: 10px;
+          }
+          .cardListTxt{
+            font-size: 11px;
+            font-weight: 500;
+          }
+        }
+      }
+      .card-btn-group{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        .mat-icon-button{
+          height: 24px;
+          width: 24px;
+          line-height: 24px;
+          border-radius: 5px;
+          background: colors.$white-bg;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+          .mat-icon{
+            font-size: 18px;
+            height: 20px;
+            width: 20px;
+            line-height: 20px;
+            margin-left: inherit;
+          }
+        }
+      }
+    }
+    &:last-child{
+      margin-bottom: 0px;
+    }
+  }
+}

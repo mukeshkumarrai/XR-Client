@@ -1,0 +1,28 @@
+
+.matErrorDesc{
+    font-size: 11px;
+    position: relative;
+    top: -15px;
+}
+// @When: 10-April-2023 @who:Satya Prakash Gupta @why: EWM-11707 EWM-11772 @what: change editor height 
+.job-dialog-content{
+    height: 74vh;
+    max-height: 100%;
+}
+.job-description-editor{
+    .k-editor{
+        height: 71vh;
+        @media only screen and (max-width: 767px) and (min-width: 320px) {
+            height: 700px;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+
+
+
+
+
+
+

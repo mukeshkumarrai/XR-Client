@@ -1,0 +1,60 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Adarsh singh
+    @When: 12-06-22
+    @Why: EWM-6970 EWM-7196
+    @What:  This page is creted for  map-applicarion from 
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<div id="remove-Candidate" class="addJobCandidate candidate-job-maped-sec">
+  <div class="map-application-card">
+    <div class="searchGreyBgBox" id="searchGreyBgBox">
+      <mat-form-field class="searchInput">
+        <!-- <mat-label>{{'label_search'|translate}}</mat-label> -->
+        <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)"
+          placeholder="{{'label_searchApplicationformByName'|translate}}" [(ngModel)]="searchVal"
+          [ngModelOptions]="{standalone: true}">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+          (click)="searchVal=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+    <div class="col nodata" *ngIf="this.gridListData==undefined ||this.gridListData.length==0">
+      <span>{{'label_noRecordAvailable'|translate}}</span>
+    </div>
+    <div class="candidate-job-maped-data" id="candidate-job-maped-data" infinite-scroll [infiniteScrollDistance]="1"
+      [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" [scrollWindow]="false">
+      <mat-card class="candidateJobBox mat-elevation-z2 p-0" *ngFor="let data of gridListData; let i = index">
+        <div class="candidate-card">
+          <div class="minHeightTxtBox">
+            <span class="txtValueStyle">{{data?.Name}}</span>
+            <span class="txtValueStyle">{{data?.CountryName}}</span>
+            <span class="txtValueStyle">{{'label_default'|translate}}: {{data?.IsDefault == 1 ? 'Yes' : 'No'}}</span>
+          </div>
+
+        </div>
+        <div class="addToJobBtnBox">
+          <!-- open for drawer  candidateMapApplication.toggle();openDrawerWithBg(true,data?.Id) -->
+          <button mat-icon-button (click)="getCandidateMapAppId(data?.Id);" id="btn-summary" matTooltipClass="custom-tooltip"
+          matTooltip="{{'label_view'|translate}}">
+            <mat-icon>subject</mat-icon>
+          </button>
+
+          <mat-slide-toggle color="primary" tabindex="4" [checked]="data?.IsMapped == 1"
+            id="checkMappingApplication_{{i}}" type="checkbox" (change)="onApplicationJobMapping(data,$event)">
+          </mat-slide-toggle>
+        </div>
+      </mat-card>
+      <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+    </div>
+  </div>
+  <div>
+  </div>

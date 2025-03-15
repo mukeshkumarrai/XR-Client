@@ -1,0 +1,69 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 24-Nov-2021
+    @Why: EWM-3913
+    @What: This component is used for update Business Registration details templates.
+-->
+<form [formGroup]="addForm" id="addCompanyFormId" applyTabIndexes>
+  <h2 mat-dialog-title>
+    {{'label_edit' |translate}} {{'label_bussinessRegistrationDetails' | customTranslate}}
+  </h2>
+  <mat-dialog-content class="col">
+    <mat-form-field>
+      <mat-label>{{'label_registeredName' | customTranslate}}</mat-label>
+      <input type="text" tabindex formControlName="RegisteredName" matInput readonly placeholder="" id="registeredName" required>
+      <mat-error *ngIf="this.addForm.controls['RegisteredName'].hasError('required')">
+        {{ 'label_registeredName' |customTranslate}} {{ 'label_errorreqired' |translate}}
+      </mat-error>
+      <mat-error *ngIf="this.addForm.controls['RegisteredName'].hasError('minlength')">
+        {{'label_registeredName' |customTranslate}} {{ 'label_errorminlength2' |translate}}
+      </mat-error>
+      <mat-error *ngIf="this.addForm.controls['RegisteredName'].hasError('maxlength')">
+        {{ 'label_registeredName' |customTranslate}} {{ 'label_errormaxlength100' |translate}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'label_tradingName' | customTranslate}}</mat-label>
+      <input type="text" tabindex formControlName="TradingName" matInput placeholder="" id="tradingName">
+      <mat-error *ngIf="this.addForm.controls['TradingName'].hasError('maxlength')">
+        {{ 'label_tradingName' |customTranslate}} {{ 'label_errormaxlength100' |translate}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'label_registrationNumber' | customTranslate}}</mat-label>
+      <input type="text" tabindex formControlName="RegistrationNumber" matInput placeholder="" id="registrationNumber">
+      <mat-error *ngIf="this.addForm.controls['RegistrationNumber'].hasError('maxlength')">
+        {{ 'label_registrationNumber' |customTranslate}} {{ 'label_errormaxlength30' |translate}}
+      </mat-error>
+      <mat-error *ngIf="this.addForm.controls['RegistrationNumber'].hasError('pattern')">
+        {{ 'label_registrationNumber' |customTranslate}} {{ 'label_numericerr' |translate}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'label_companyNumber' | customTranslate}}</mat-label>
+      <input type="text" tabindex formControlName="CompanyNumber" matInput placeholder="" id="companyNumber">
+      <mat-error *ngIf="this.addForm.controls['CompanyNumber'].hasError('maxlength')">
+        {{ 'label_companyNumber' |customTranslate}} {{ 'label_errormaxlength30' |translate}}
+      </mat-error>
+      <mat-error *ngIf="this.addForm.controls['CompanyNumber'].hasError('pattern')">
+        {{ 'label_companyNumber' |customTranslate}} {{ 'label_numericerr' |translate}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'label_businessType' | customTranslate}}</mat-label>
+      <input type="text" tabindex formControlName="BusinessType" matInput placeholder="" id="businessType" readonly>
+      <mat-error *ngIf="this.addForm.controls['BusinessType'].hasError('maxlength')">
+        {{ 'label_companyNumber' |customTranslate}} {{ 'label_errormaxlength100' |translate}}
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()"
+      id="btnCancel">{{'button_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid"
+      (click)="onUpdate(this.addForm.value)" id="btnSave"> {{'label_save'|translate}}</button>
+  </div>
+</form>

@@ -1,0 +1,205 @@
+@use "../../colors";
+@import "../../mixinStyle.scss";
+.myDialogCroppingImage {
+    width: calc(100% - 60px) !important;
+    max-height:85%;
+    max-width: 600px !important;
+    @include for-small-smartphones{
+        width: calc(100% - 30px);
+        max-height:calc(100% - 30px);
+    }
+    .mat-dialog-container{
+        position: relative;
+        .mat-dialog-content{
+            min-height: 347px;
+            .imageupload-container{
+                display: flex;
+                justify-content: space-between;
+                gap: 20px;
+                @media only screen and (max-width: 768px) and (min-width: 240px){
+                    flex-direction: column;
+                    gap: 10px;
+                    margin-bottom: 7px;
+                }
+                .upload-container{
+                    width: 100%;
+                    position: relative;
+                    .uploadImgBox {
+                        background: #f6f5fb;
+                        color: #696969;
+                        border: 1px solid #e1e1e2;
+                        width:100%;
+                        min-height: 321px;
+                        text-align: center;
+                        display: flex;
+                        align-items: center;
+                        flex-direction: column;
+                        justify-content: center;
+                        gap: 20px;
+                        div .underLineCursor{
+                            cursor:pointer;
+                            text-decoration:underline;
+                            font-weight: 500;
+                            position:relative;
+                            z-index: 5;
+                            position: relative;
+                            text-align: center;
+                            margin-top: 30px;
+                            margin-bottom: 30px;
+                            .uploadHiddenButton {
+                                opacity: 0;
+                                position: absolute;
+                                z-index: 9;
+                                height: 20px;
+                                cursor: pointer;
+                                left: 0px;
+                                max-width: 45px;
+                            }
+                        }
+                        .ngx-file-drop__drop-zone {
+                            border: none !important;
+                            border-radius: unset !important;
+                            height: unset !important;
+                            margin: 0px !important;
+                        }
+                        .ngx-file-drop__content {
+                            color: unset !important;
+                            height: 320px !important;
+                            position: absolute;
+                            top: 0px;
+                            width: 390px;
+                        }
+                        .ngx-file-drop__content {
+                            @media only screen and (max-width: 599px) and (min-width: 240px){
+                                width: 100%;
+                                top: -5px;
+                            }
+                        }
+                    }
+                    .imageCrpperSec{
+                        position: absolute;
+                        top: 4px;
+                        background: white;
+                        height: 310px;
+                        left: 1px;
+                        right: 0;
+                        bottom: 0;
+                        align-items: center;
+                        border: 2px solid transparent;
+                        display: flex;
+                        z-index: 9;
+                    }  
+                    .cropImageClose {
+                        position: absolute;
+                        top: 2px;
+                        right: 0px;
+                        cursor: pointer;
+                        z-index: 999;
+                    }
+                }
+                .upload-instruction{
+                    min-width: 170px;
+                    display: flex;
+                    justify-content: space-between;
+                    flex-direction: column;
+                    @media only screen and (max-width: 768px) and (min-width: 440px){
+                        justify-content: flex-start;
+                        flex-direction: initial;
+                        gap: 20px;
+                    }
+                    @media only screen and (max-width: 439px) and (min-width: 320px){
+                        justify-content: flex-start;
+                        flex-direction: column;
+                        gap: 10px;
+                    }
+                    h5.heading{
+                        margin:0px;
+                        margin-top: 10px;
+                        &:first-child{
+                          margin-top: 0px;
+                        }
+                    }
+                    .imgDimensionBox {
+                        width: calc(100% - 8px);
+                        background: #f6f5fb;
+                        border: 1px solid #eee8f6;
+                        text-align: center;
+                        line-height: 25px;
+                        margin: 5px 0px 0px 0px;
+                        padding: 0px 4px;
+                        display: grid;
+                        grid: auto/ calc(50% - 4px) calc(50% - 4px);
+                        gap: 8px;
+                        &>div{
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                        .imgLblColor {
+                            color: #1a1a1a;
+                            font-size: 84%;
+                        }
+                        .imgTxtValueColor {
+                            color: colors.$primary-bg-color;
+                            font-size: 20px;
+                        }
+                    }
+                    .imageTypeBox {
+                        font-size: 75%;
+                        color: #7a7a7a;
+                        line-height: 15px;
+                        margin-top: 9px;
+                    }
+                }
+            }
+        }
+        .mat-dialog-actions{
+            padding: 0px;
+        }
+    }
+}
+.dark-theme{
+    .myDialogCroppingImage {
+        width: calc(100% - 60px) !important;
+        max-height:85%;
+        max-width: 600px !important;
+        @include for-small-smartphones{
+            width: calc(100% - 30px);
+            max-height:calc(100% - 30px);
+        }
+        .mat-dialog-container{
+            .mat-dialog-content{
+                .imageupload-container{
+                    .upload-container{
+                        .uploadImgBox {
+                            background: #424242;
+                            color: white;
+                            border: 1px solid rgba(255, 255, 255, 0.12);
+                            .fileUploadIcon {
+                                filter: brightness(0) invert(1)
+                            }
+                        }
+                        .imageCrpperSec{
+                            background: white;
+                        }  
+                    }
+                    .upload-instruction{
+                        .imgDimensionBox {
+                            background: #424242;
+                            border: 1px solid rgba(255, 255, 255, 0.1);
+                            .imgLblColor {
+                                color: #d1d1d2;
+                            }
+                            .imgTxtValueColor {
+                                color: #ffffff;
+                            }
+                        }
+                        .imageTypeBox {
+                            color: #7a7a7a;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

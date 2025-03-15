@@ -1,0 +1,77 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 06-April-2022
+    @Why: EWM-5580 EWM-6098
+    @What:  This page wil be use only for generate-token Component HTML
+-->
+<!---
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 14-April-2022
+    @Why: EWM-5580 EWM-6100
+    @What:  This page wil be use only for generate-token Component HTML
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+<form id="generateToken" [formGroup]="generateTokenForm" applyTabIndexes>
+    <div id="generate-token-header" class="modal-header">
+      <h2 mat-dialog-title>{{'label_generateToken' |translate}}</h2>
+    </div>
+    <mat-dialog-content>
+    <mat-icon class="token" color="primary">generating_tokens</mat-icon>
+    <p>{{'label_generatePopupText' |translate}}</p>
+          <mat-form-field>
+              <mat-label>{{'label_tokenName' | translate}} </mat-label>
+              <input matInput #tokenName="matInput" autofocus
+                  placeholder="{{'label_tokenName' | translate}}" tabindex formControlName="TokenName"
+                  id="generateToken-Name" required>
+              <mat-error
+                  *ngIf="generateTokenForm.controls['TokenName'].hasError('required') && generateTokenForm.controls['TokenName'].touched">
+                  {{'label_tokenName'|translate}} {{'label_errorreqired'|translate}}
+              </mat-error>
+              <mat-error *ngIf="generateTokenForm.controls['TokenName'].hasError('maxlength')">
+                  {{'label_tokenName' |translate}} {{'label_errormaxlength50' |translate}}
+              </mat-error>
+          </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{'label_expiryDate' | translate}}</mat-label>
+            <input matInput [matDatepicker]="picker2" tabindex
+                id="newApiToken-expiryDate"   [placeholder]="getDateFormat"  [min]="today" [max]="maxDate"
+                formControlName="ExpiryDate">
+                <button *ngIf="generateTokenForm.controls['ExpiryDate'].hasError('matDatepickerParse') || generateTokenForm.value.ExpiryDate" type="button" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                (click)="clearExpiredDate()"> 
+                <mat-icon>close</mat-icon>
+                </button>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <!---------@When: 17-03-2023 @who:Adarsh singh @why: EWM-11180 --------->
+            <mat-error *ngIf="generateTokenForm.controls['ExpiryDate'].hasError('invalidDate')">{{'label_invalidDate' | translate}}</mat-error>
+            <mat-error
+                *ngIf="generateTokenForm.controls['ExpiryDate'].hasError('matDatepickerMax') && !generateTokenForm.controls['ExpiryDate'].hasError('invalidDate')">
+                {{'label_expiryDate' | translate}} {{'label_shouldNot90days' | translate}}
+            </mat-error>
+            <mat-error *ngIf="generateTokenForm.controls['ExpiryDate'].hasError('matDatepickerParse')">
+                {{'label_invalidDate' | translate}}
+            </mat-error>
+            <mat-error
+                *ngIf="generateTokenForm.controls['ExpiryDate'].hasError('matDatepickerMin') && !generateTokenForm.controls['ExpiryDate'].hasError('invalidDate')">
+                {{'label_expiryDate' | translate}} {{'label_shoulNotLessThan' | translate}}
+            </mat-error>
+            <!-- End  -->
+        </mat-form-field>
+    
+    </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+      {{'button_cancel'|translate}}</button>
+
+    <button mat-stroked-button color="primary" tabindex type="button" (click)="OnSubmit(this.generateTokenForm.value)" 
+      id="btnGenerate" [disabled]="!generateTokenForm.valid">  {{'label_generate' |translate}}</button>
+
+  </div>
+</form>

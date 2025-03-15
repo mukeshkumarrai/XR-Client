@@ -1,0 +1,95 @@
+<!--
+  @Type: File, <ts>
+  @Name: manage-salaryunit.component.ts
+  @Who: Priti Srivastava
+  @When: 24-May-2021
+  @Why:EWM-1607
+  @What: salary unit master add and uupdate
+  -->
+
+  <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+ 
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-salary-unit-mat-card-header">
+        <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_add'|translate}} {{'label_salaryunit' |translate}}</mat-card-title>
+        <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_edit'|translate}} {{'label_salaryunit' |translate}}</mat-card-title>
+        <div class="actionButton">
+            <button mat-raised-button tabindex="4" color="warn" id="btnCancel" (click)="onCancel()"
+                class="buttonForDesktopMobile">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+            </button>
+
+            <button mat-raised-button tabindex="3" color="primary" (click)="onSave()" type="button"
+                id="btnSave" [disabled]="!addForm.valid && !submitted" class="buttonForDesktopMobile">
+                <mat-icon>check</mat-icon>
+                <span class="buttonTxt">{{'label_save'|translate}}</span>
+            </button>
+        </div>
+    </mat-card-header>
+  
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-salary-unit-drawer">    
+<mat-card id="user-contact-type" class="component-card mat-elevation-z2">  
+        <div class="row mb-0">
+            <mat-card-subtitle class="col s12 m12 l12 subTitle"></mat-card-subtitle>
+        </div>
+        <div class="addEditSec">
+            <form novalidate [formGroup]="addForm"  accept-charset="utf-8" enctype='multipart/form-data' id="salary-form">
+                <!-- <div *ngIf="loading" class="k-i-loading loadercustom"></div> -->
+                <div class="kendodialof-body">
+
+
+                    <div class="row">
+                        <mat-form-field class="col l4 m6 s12">
+                            <mat-label>{{'label_salaryunit'|translate}}</mat-label>
+                            <input type="hidden" formControlName="Id" id="Id">
+                              <!--  @Who: maneesh, @When: 20-june-2023,for when duplicate value enter then save btn disabel (keyup)="onNameChanges(false)" -->
+                            <input matInput formControlName="Name" tabindex="1" id="salary-Name" text="Name" placeholder=""
+                                required (keyup)="onNameChanges(false)">
+                            <mat-error
+                                *ngIf="addForm.controls['Name'].hasError('required') && addForm.controls['Name'].touched">
+                                {{'label_salaryunit'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['Name'].hasError('maxlength') && !addForm.controls['Name'].hasError('whitespace')">
+                                {{'label_salaryunit' |translate}} {{'label_errormaxlength50' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['Name'].hasError('minlength') && !addForm.controls['Name'].hasError('whitespace')">
+                                {{'label_salaryunit' |translate}} {{'label_errorminlength2' |translate}}
+                            </mat-error>
+                            <!-- <mat-error *ngIf="addForm.controls['Name'].hasError('pattern')">
+                                {{'label_salaryunit' |translate}} {{'label_errorspecialchar' |translate}}
+                            </mat-error> -->
+                            <mat-error *ngIf="addForm.controls['Name'].hasError('codeTaken') && !addForm.controls['Name'].hasError('whitespace')">
+                                {{'label_salaryunit'|translate}} {{'label_areadyExists' |translate}}
+                            </mat-error>
+                              <!--  @Who: maneesh, @When: 21-dec-2022,@Why: EWM-9959 addnoWhitespaceValidator -->
+
+             <mat-error *ngIf="addForm.controls['Name'].hasError('whitespace') && !addForm.controls['Name'].hasError('required')">
+                {{'label_salaryunit' |translate}} {{'label_nameValidation' |translate}}
+              </mat-error>
+                        </mat-form-field>
+
+                        <div class="clear"></div>
+                        <div class="ng-slectBox col l4 m6 s12">
+                             <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data--->
+                            <ng-select placeholder="{{'label_tagStatus'|translate}}" class="show-required" tabindex="2" [clearable]="false"
+                                formControlName="IsActive" id="salary-Status" required>
+                                <ng-option value="" disabled>{{'label_tagStatus'|translate}}</ng-option>
+                                <ng-option *ngFor="let status of statusList" [value]="status.StatusId">
+                                    {{status.StatusName}}
+                                </ng-option>
+
+                            </ng-select>
+                            <mat-error
+                                *ngIf="addForm.controls['IsActive'].hasError('required') && addForm.controls['IsActive'].touched">
+                                {{'label_tagStatus'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+</mat-card>
+</mat-drawer-container>

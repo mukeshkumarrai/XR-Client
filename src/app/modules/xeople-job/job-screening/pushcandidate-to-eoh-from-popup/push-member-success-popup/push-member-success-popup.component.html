@@ -1,0 +1,15 @@
+<mat-card-content class="push-member-app" id="push-Candidate" applyTabIndexes [class.alert]="httpstatus!=200">
+    <h2 *ngIf="httpstatus===200">Success</h2>
+    <h2 *ngIf="httpstatus===400 || httpstatus===402">Failure</h2>
+    <p *ngIf="httpstatus===200"><strong>{{candidatePushedInfo?.CandidateInfo?.FirstName}}
+            {{candidatePushedInfo?.CandidateInfo?.FamilyName}} {{'pushCandidateToEohMember_SucessMsg'|translate}}
+            {{candidatePushedInfo?.MemberId}}
+        </strong></p>
+        <p *ngIf="httpstatus===400 || httpstatus===402">{{message}}</p>
+        <!-- <p><button mat-button type="button" tabindex color="primary" (click)="generatePushCandidateExcel()">{{'pushCandidateToEoh_ViewMore'|translate}}</button></p> -->
+    </mat-card-content>
+    <mat-divider ></mat-divider>
+    <div mat-dialog-actions class="push-member-app-footer" >
+        <button mat-stroked-button color="primary" tabindex id="pushCandidate_btncancel" cdkFocusInitial
+            (click)="onDismiss()">{{'label_ok'|translate}}</button>
+    </div>

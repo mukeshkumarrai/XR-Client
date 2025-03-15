@@ -1,0 +1,25 @@
+<!--- 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: description-popup.component.html
+  @Who: Ankit Rawat
+  @When: 10-Jul-2024
+  @Why: EWM-17469
+  @What:  This page will be use for the description html
+ --->
+<mat-dialog-content>
+    <form [formGroup]="jobDesc">
+        <div class="ng-select-with-info-icon textarea-with-info-icon textarea-space">
+            <mat-form-field>
+                <mat-label>{{'heading_task_comment_popup' | translate}}</mat-label>
+                <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" id="Description" formControlName="Description" [(ngModel)]="taskComments"></textarea>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" id="btnCancel" (click)="onDismiss()">{{'button_cancel' | translate}}</button>
+    <button mat-stroked-button color="primary" id="btnSave" (click)="onSave()">{{'label_save' | translate}}</button>
+</mat-dialog-actions>
+

@@ -1,0 +1,223 @@
+// @import "../../../../../job-styles.scss";
+@import "../../../../../mixinStyle.scss";
+@import "../../../../../styles-var.scss";
+
+.job-status-form{
+  height: 100%;
+  position: relative;
+  .status-data{
+    padding: 10px;
+    position: relative;
+    height: calc(100% - 50px);
+    overflow: auto;
+    box-sizing: border-box;
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+      padding: 10px 5px;
+    }
+    .related-chip-list{
+      .mat-chip-list,.multiselectChip{
+        .mat-chip{
+          padding: 0px 7px;
+          margin-top: 5px;
+          max-width: 140px;
+          width: 120px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+          line-height: 21px;
+          font-size: 12px;
+          font-weight: 500;
+        }
+      }
+      .multiselectChip{
+        .mat-icon-button{
+          margin-top: 0px;
+        }
+      }
+    }
+    .new-status{
+      display: grid;
+      grid-template-columns: repeat(3, calc(33.33% - 10px));
+      gap: 15px;
+      @media only screen and (max-width: 991px) and (min-width: 240px){
+        grid-template-columns: 1fr;
+        gap: 5px; 
+      }
+    }
+    // Xeople: Satya Prakash Gupta : 29-June-2023 : align date field with checkbox : EWM-12845 
+    .restrict-candidate{
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        @media only screen and (max-width: 991px) and (min-width: 240px){
+          flex-wrap: wrap;
+        }
+      .mat-form-field{
+        width: 150px;
+        margin-bottom: 0px;
+        .mat-raised-button{
+          min-width: 35px;
+          padding: 0px 5px;
+          line-height: 30px;
+          border-radius: 3px;
+        }
+      }
+    }
+    .html-editor-kendo{
+      .editor-label{
+        margin: 5px 0px 3px;
+        display: block;
+      }
+      .matErrorDesc{
+        font-size: 75%;
+        position: relative;
+        top: 0px;
+      }
+      .btns-group{
+        display: flex;
+        justify-content: flex-end;
+        .mat-raised-button{
+          margin-inline-start: 8px;
+        }
+      }
+    }
+    .mailediter.configure-same-editor{
+        height: 250px;
+        margin-top: 3px;
+        margin-bottom: 10px;
+    }
+    .add-manage{
+        display: flex;
+    }
+  }
+  .actionBoxFooter{
+    position: absolute;
+    bottom: 24px;
+    background: #fff;
+    width: 100%;
+    height: 50px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    min-height: 40px;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+  }
+}
+.multiselectChip{
+  display: flex;
+  gap: 2px;
+  &-chip{
+    display: grid;
+    grid: auto/ calc(100% - 20px)16px;
+    gap: 5px;
+    background-color: #e0e0e0;
+    color: rgba(0, 0, 0, 0.87);
+    border-radius: 16px;
+    height: 20px;
+    line-height: 17px;
+    padding: 2px 4px;
+    width: 135px;
+    cursor: default;
+    @media (min-width : 1024px) and (max-width : 1365px){
+      width: 120px;
+    }
+    &-text{
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  &-morechips{
+    width: 65px;
+    grid: initial;
+  }
+}
+:host ::ng-deep {
+  .multiselectChip-close.mat-fab{
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    .mat-button-wrapper{
+      padding: 0px;
+      line-height: 16px;
+    }
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 15px;
+      font-size: 14px;
+    }
+  }
+}
+.add-manage {
+  display: flex;
+  align-items: center;
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .ng-dropdown-panel .scroll-host {
+    margin-top: -15px;
+  }
+}
+.no-bottom {
+  margin-bottom: -1.25em !important;
+}
+.dropdowm-barloader {
+  position: absolute;
+}
+
+.rotate-loader {
+  animation: rotate-animation 0.8s infinite linear;
+}
+@keyframes rotate-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.ngselect-tag{
+  .text-overflow{
+    max-width: 110px; 
+    display: inline-block;
+    @media (min-width : 320px) and (max-width : 992px){
+      max-width: 95px;
+    }
+    @media (min-width : 993px) and (max-width : 1250px){
+      max-width: 65px;
+    }
+    @media (min-width : 1251px) and (max-width : 1550px){
+      max-width: 70px;
+    }
+  }
+}
+
+ // adarsh singh for 13005 16-08-2023 
+ #loading {
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  margin: 4px 0;
+  border: 3px solid rgb(229 232 239);
+  border-radius: 50%;
+  border-top-color: #002060;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+  // End 

@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": [ "node", "googlemaps"],
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@asset/*": ["/assets/*"],
+      "@mainshared/*": ["src/app/shared/*"],
+      "@client/*": ["src/app/modules/EWM.core/client/*"],
+      "@job/*": ["src/app/modules/xeople-job/*"],
+      "jszip": [
+        "node_modules/jszip/dist/jszip.min.js"
+      ]
+    }
+  },
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
+}
+

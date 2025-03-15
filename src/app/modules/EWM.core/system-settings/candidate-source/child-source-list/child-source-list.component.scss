@@ -1,0 +1,25 @@
+.kendo-grid-section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.update-btn,.cancel-btn,.edit-btn{
+    font-size: 14px;
+    height: 30px;
+    line-height: 29px;
+    padding: 0px 10px;
+    text-transform: inherit;
+}
+.outer-textarea{
+    background: rgba(0, 0, 0, 0.07);
+    padding-block: 5px;
+    border-radius: 3px;
+    .text-area{
+        width: 100%;
+        min-height: 20px;
+        padding-inline: 5px;
+        max-height: 60px;
+        overflow: auto;
+        border-bottom: none;
+    }
+}

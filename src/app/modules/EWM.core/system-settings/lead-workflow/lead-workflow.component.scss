@@ -1,0 +1,38 @@
+/* @When: 20-12-2024 @who:Amit @why: EWM-18964 @what: lead workflow grid style */
+
+@import "../../../../../mixinStyle.scss";
+.page-header.mat-card-header{
+    @media only screen and (max-width: 1060px) and (min-width: 581px){
+        flex-direction: column;
+        height: 78px;
+        padding: 5px 10px 5px 15px;
+        align-items: inherit;
+    }
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+        height: 73px;
+    }
+    .mat-form-field-infix,
+    .mat-form-field {
+        width: 100%;
+    }
+} 
+.xeople-container-listing-without-breadCrumb{
+    .component-card{
+        .kendo-grid-appearance{
+            .k-grid{
+                @media (width <= 1060px){
+                    height: calc(100vh - 278px);
+                }
+                @media (width <= 580px){
+                    height: calc(100vh - 278px);
+                }
+                .smallSlideToggle{
+                    .mat-slide-toggle{
+                        padding-inline-end: 10px;
+                        padding-inline-start: 5px;
+                    }
+                } 
+            }
+        }
+    }
+}

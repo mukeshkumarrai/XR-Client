@@ -1,0 +1,46 @@
+.k-dialog-wrapper{
+    .k-dialog-titlebar{
+        padding: 2px 24px;
+        .k-window-title{
+            margin-top: 0px;
+        }
+        .k-window-actions {
+            display: none;
+        }
+    }
+    .k-window-content{
+        .k-editor-dialog{
+            padding: 0px;
+            .k-edit-form-container{
+                padding: 0px;
+                & > form{
+                    padding: 0px !important;
+                    height: auto !important;
+                    .mat-form-field {
+                        margin-bottom: 5px;
+                    }
+                    .kendodialof-body {
+                        width: 100%;
+                        min-height: 200px;
+                        max-height: 425px;
+                        overflow: auto;
+                        h2.cardSubTitle {
+                            font-weight: 500 !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .k-dialog-buttongroup, .k-actions.k-actions-stretched {
+        .k-button{
+            flex-grow: inherit;
+            text-transform: capitalize;
+            background: transparent;
+            border: 1px solid #ccc;
+        }
+    }
+}
+.dark-theme{
+    
+}

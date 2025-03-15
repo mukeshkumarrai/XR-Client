@@ -1,0 +1,140 @@
+<!-- <span  style="float: right;cursor: pointer;" 
+    class="material-icons closeModal animate__animated">
+    close
+  </span> -->
+  <!-- <h2 mat-dialog-title>
+    <span class="closeModal" style="float: right; cursor: pointer;" id="btnCloseId" (click)="onNoClick()">
+      <mat-icon>close</mat-icon>
+  </span>
+    {{'label_systemAuditlog'|translate}} {{'label_details'|translate}}
+</h2> -->
+
+<!---------@When: 22-03-2023 @who:Amit @why: EWM-11249 RTL work @what:Modal header structure change --------->
+<div class="modal-header" id="modal-header">
+  <h2 matDialogTitle class="mb-0">{{'label_systemAuditlog'|translate}} {{'label_details'|translate}}</h2>      
+  <button mat-icon-button  id="btncloseinfo" (click)="onNoClick()" color="warn">
+      <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+  <mat-dialog-content class="mat-typography modal-body">
+    <div class="row mb-0">
+      <div class="col l6 m12 s12">
+        <div class="row">
+          <div class="col l12 m12 s12 systemAuditRowBorder">
+            <div class="systemAuditPopUpLblTxt">
+              {{'label_systemAuditDate' |translate}}          
+            </div>
+            <div class="systemAudiPopUpValTxt">
+              {{ dataItem.Created |
+                date:userpreferences.timeformate:userpreferences.timezone}}
+            </div>
+          </div>
+          <div class="col l12 m12 s12 systemAuditRowBorder">
+            <div class="systemAuditPopUpLblTxt">
+              {{'label_systemAuditUsername' |translate}}          
+            </div>
+            <div class="systemAudiPopUpValTxt">
+              {{dataItem.UserName}}
+            </div>
+          </div>
+          <div class="col l12 m12 s12 systemAuditRowBorder">
+            <div class="systemAuditPopUpLblTxt">
+              {{'label_systemAuditEventName' |translate}}          
+            </div>
+            <div class="systemAudiPopUpValTxt">
+              {{dataItem.EventName}}
+            </div>
+          </div>
+          <div class="col l12 m12 s12 systemAuditRowBorder">
+            <div class="systemAuditPopUpLblTxt">
+              {{'label_systemAuditChanegdsummary' |translate}}          
+            </div>
+            <div class="systemAudiPopUpValTxt">
+              {{dataItem.ChangeSummary}}
+            </div>
+          </div> 
+        </div>
+      </div>
+      <div class="col l6 m12 s12">
+        <div class="row">
+          <div class="col l12 m12 s12 systemAuditRowBorder">
+            <div class="systemAuditPopUpLblTxt">
+              {{'label_systemAuditIpAddress' |translate}}          
+            </div>
+            <div class="systemAudiPopUpValTxt">
+              {{dataItem.IpAddress}}
+            </div>
+          </div>
+          <div class="col l12 m12 s12 systemAuditRowBorder">
+            <div class="systemAuditPopUpLblTxt">
+              {{'label_eventDescription' |translate}}          
+            </div>
+            <div class="systemAudiPopUpValTxt">
+              {{dataItem.EventDescription}}
+            </div>
+          </div>
+          <div class="col l12 m12 s12 systemAuditRowBorder">
+            <div class="systemAuditPopUpLblTxt">
+              {{'label_moduleNames' |translate}}          
+            </div>
+            <div class="systemAudiPopUpValTxt">
+              {{dataItem.ModuleName}}
+            </div>
+          </div>
+          <div class="col l12 m12 s12 systemAuditRowBorder">
+            <div class="systemAuditPopUpLblTxt">
+              {{'label_pageName' |translate}}          
+            </div>
+            <div class="systemAudiPopUpValTxt">
+              {{dataItem.PageName}}
+            </div>
+          </div> 
+        </div>
+      </div>           
+    </div>
+
+    <div class="clear"></div>
+
+
+    <mat-accordion class="quick-job">
+      <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  {{'quickjob_general' | translate}}
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row mb-0">
+              <div class="col l12 m12 s12">
+                <div class="row kendoGridDetailTemplate" id="kendo-grid-detail-template">
+                  <div class="col l6 12 s12 systemAuditBorderBgBox" id="old-data">
+                    <label class="oldDataLbl">{{'label_oldData' |translate}}</label>
+                    <ngx-json-viewer [json]="oldchangeObject"></ngx-json-viewer>
+                  </div>
+                  <div class="col l6 12 s12 systemAuditBorderBgBox" id="new-data">
+                    <label class="oldDataLbl">{{'label_newData' |translate}}</label>
+                    <ngx-json-viewer [json]="changeObject"></ngx-json-viewer>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </mat-expansion-panel>
+  </mat-accordion>
+
+
+    
+
+    <!-- <mat-divider class="mgDivider"></mat-divider>
+    <section class="row kendoGridDetailTemplate" id="kendo-grid-detail-template">
+      <div class="col l6 m6 s6" id="old-data">
+        <h4>{{'label_oldData' |translate}}</h4>
+        <mat-divider></mat-divider>
+         <ngx-json-viewer [json]="oldchangeObject"></ngx-json-viewer>
+      </div>
+      <div class="col l6 m6 s6" id="new-data">
+        <h4>{{'label_newData' |translate}}</h4>
+        <mat-divider></mat-divider>
+         <ngx-json-viewer [json]="changeObject"></ngx-json-viewer>
+       </div>
+    </section> -->
+  </mat-dialog-content>

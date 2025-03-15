@@ -1,0 +1,64 @@
+@import "../../../../../styles-var.scss";
+.pin-unpin-button{
+  display: flex;
+  align-items: center;
+  .pin-unpin{
+    position: relative;
+    left: -3px;
+    .mat-icon{
+      font-size: 20px;
+      transform: rotate(45deg);
+      margin: 0px;
+      width: 28px;
+      top: 3px;
+      position: relative;
+    }
+    .two-icons{
+      .mat-icon{
+        color: $warn-bg;
+      }
+      .secondIcon{
+        position: absolute;
+        left: 4px;
+        top: 12px;
+      }
+    }
+  }
+} 
+.menu-pin{
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  .pin-unpin{
+    position: relative;
+    top: 1px;
+    .mat-icon{
+      font-size: 20px;
+      transform: rotate(45deg);
+      top: 4px;
+      position: relative;
+      cursor: pointer;
+    }
+    .two-icons{
+      .secondIcon{
+        position: absolute;
+        left: 6px;
+        top: 2px;
+      }
+    }
+  }
+  .pin-unpin.div-disabled{
+    .mat-icon{
+      color: rgba(0, 0, 0, 0.36);
+    }
+  }
+} 
+.unread{
+  font-weight: bold;
+}
+.systemAuditEyeIcon.span-disabled{
+  color: rgba(0, 0, 0, 0.48);
+}
+.kendo-link.button-disabled{
+  color: rgba(0, 0, 0, 0.48);
+}

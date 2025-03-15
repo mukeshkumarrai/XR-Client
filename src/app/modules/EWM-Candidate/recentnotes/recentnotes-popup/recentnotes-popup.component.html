@@ -1,0 +1,65 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Suika
+    @When: 11-August-2021
+    @Why: EWM-2376 EWM-2214
+    @What:  This component is used for dependent templates.
+-->
+<form [formGroup]="addNotesForm" applyTabIndexes>
+    <div class="quick-dialog" >
+        <h2 mat-dialog-title>
+            {{'label_recentnotes' | translate}}
+        </h2>
+        <mat-dialog-content class="col">
+            <div class="row mb-0">
+               <input type ="hidden" name="noteId" id="noteId" formControlName="noteId"/>
+                <div class="col l12 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_recentnotestitle' | translate}}</mat-label>
+                        <input type="text" tabindex formControlName="name" matInput placeholder="" id="people-name" required>
+                        <mat-error
+                        *ngIf="this.addNotesForm.controls['name'].hasError('required')">
+                        {{ 'label_recentnotestitle' |translate}} {{ 'label_errorreqired' |translate}}
+                      </mat-error>
+                      <mat-error
+                      *ngIf="this.addNotesForm.controls['name'].hasError('pattern')">
+                      {{ 'label_recentnotestitle' |translate}} {{ 'label_errorName' |translate}}
+                    </mat-error>
+                    <mat-error
+                    *ngIf="this.addNotesForm.controls['name'].hasError('maxlength')">
+                    {{ 'label_recentnotestitle' |translate}} {{ 'label_errormaxlength100' |translate}}
+                  </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col l12 m12 s12">
+                    <mat-form-field >
+                        <mat-label>{{'label_recentnotesdescription'|translate}}</mat-label>
+                        <textarea matInput formControlName="description" id="description"
+                            tabindex="1" placeholder="{{'label_recentnotesdescription'|translate}}" required></textarea>
+
+                        <mat-error *ngIf="addNotesForm.controls['description'].hasError('required')">
+                            {{'label_recentnotesdescription'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                        <!-- <mat-error *ngIf="addNotesForm.controls['description'].hasError('maxlength')">
+                            {{'label_recentnotesdescription'|translate}} {{'label_errormaxlength100'|translate}}
+                        </mat-error> -->
+                        <mat-error
+                        *ngIf="this.addNotesForm.controls['description'].hasError('maxlength')">
+                        {{ 'label_recentnotesdescription' |translate}} {{ 'label_errormaxlength500' |translate}}
+                      </mat-error>
+                    </mat-form-field>
+                </div>
+                
+            </div>
+           
+           
+        </mat-dialog-content>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel"> {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex  type="button"  [disabled]="!addNotesForm.valid" (click)="onConfirm(this.addNotesForm.value)" id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+</form>

@@ -1,0 +1,117 @@
+<!-- @Type: File, <html> ,@Who: Adarsh singh, @When: 31-Oct-2023, @Why: EWM-14995 -->
+<div class="dropdown dark-dropdown" (mouseenter)="state = 0" (mouseleave)="state = 1">
+  <mat-form-field [style.pointerEvents]="isDisabled ? 'none' : 'auto'" class="full-width" [ngClass]="(configuration?.REQUIRED) ? 'show-required' : ''" (click)="showMenu = !showMenu; openDropdown(showMenu)">
+    <!-- single selection view  -->
+    <mat-chip-list *ngIf="configuration?.SINGLE_SELECETION;" #chipList [formControl]="selectedItemsFormControl">
+      <ng-container *ngIf="selectedArr[0] && selectedArr[0][BIND_By]">
+        <mat-chip *ngFor="let selected of selectedArr | slice : 0 : showMoreOptionsNum;" [removable]="removable"
+           >
+          <img *ngIf="selected[configuration?.IMG_BIND_VALUE]" src="{{selected[configuration?.IMG_BIND_VALUE] }}"
+            class="mr-5" width="20" />
+          <span>{{ selected[BIND_By] }}</span>
+          <mat-icon (click)="remove(selected, $event)" matChipRemove title="{{ selected[BIND_By] }}" *ngIf="removable"
+            [disabled]="isDisabled">cancel</mat-icon>
+        </mat-chip>
+      </ng-container>
+      <input placeholder=" {{ (configuration?.REQUIRED) ? (configuration?.PLACEHOLDER | customTranslate) + '' : (configuration?.PLACEHOLDER |
+          customTranslate) }}" readonly [matChipInputFor]="chipList">
+    </mat-chip-list>
+    <!-- single selection view End -->
+
+    <!-- multiple selection view  -->
+    <!-- @When: 18-04-2024 @who:Amit @why: EWM-16629 @what: space manage -->
+    <mat-chip-list *ngIf="!configuration?.SINGLE_SELECETION;" #chipList [formControl]="selectedItemsFormControl" class="space-chip">
+      <ng-container *ngIf="selectedArr[0] && selectedArr[0][BIND_By]">
+        <mat-chip *ngFor="let selected of selectedArr | slice : 0 : showMoreOptionsNum;" [removable]="removable">
+          <span>{{ selected[BIND_By] }}</span>
+          <mat-icon (click)="remove(selected, $event)" title="{{ selected[BIND_By] }}" matChipRemove *ngIf="removable"
+            [disabled]="isDisabled">cancel</mat-icon>
+        </mat-chip>
+      </ng-container>
+    
+    
+      <!--===== selected more item ======= -->
+      <div class="selected-more-items" *ngIf="selectedArr?.length > showMoreOptionsNum">
+        <div (click)="$event.stopPropagation();" class="moreOptions"
+          (click)="showMoreItem = !showMoreItem; showMenu = false"
+          matTooltip="{{(selectedArr | slice : showMoreOptionsNum : selectedArr?.length)?.length}}"
+          matTooltipClass="custom-tooltip-top" matTooltipPosition="above"> +{{(selectedArr | slice :
+          showMoreOptionsNum : selectedArr?.length)?.length}}
+        </div>
+        <div (click)="$event.stopPropagation();" class="moreOptionFiled" *ngIf="showMoreItem && !showMenu">
+          <ul>
+            <li *ngFor="let moreObj of selectedArr | slice : showMoreOptionsNum : selectedArr?.length;  let i = index">
+              {{moreObj[BIND_By]}}
+              <mat-icon color="warn" (click)="remove(moreObj, $event)" title="{{ moreObj[BIND_By] }}" class="cursor"
+                id="iconCancel_{{i}}">cancel</mat-icon>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--===== selected more item End ======= -->
+    
+      <input placeholder=" {{ (configuration?.REQUIRED) ? (configuration?.PLACEHOLDER | customTranslate) + '' : (configuration?.PLACEHOLDER |
+          customTranslate) }}" readonly [matChipInputFor]="chipList">
+    </mat-chip-list>
+    <!-- multiple selection view End -->
+
+    <!-- loader and removed button -->
+    <div class="dropdownbtn vs__dropdown-toggle">
+      <div class="actionsBtn" [ngClass]="{ 'opened': showMenu }">
+        <span (click)="onRemoveAllHandler($event)" *ngIf="selectedArr[0] && selectedArr[0][BIND_By] && !configuration?.SINGLE_SELECETION;" class="crossButton clearAbleButton" title="Clear all">×</span>
+        <div *ngIf="!isSpinner" class="vs__open-indicator"></div>
+        <div class="vs__spinner" [ngClass]="{ 'visible': isSpinner }">Loading...</div>
+      </div>
+    </div>
+
+    <!-- required error message  -->
+    <mat-error *ngIf="selectedItemsFormControl.hasError('required') ">{{configuration?.PLACEHOLDER | customTranslate}}
+      {{'label_errorreqired' | customTranslate}}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- dropdown list  -->
+  <div id="dropdown-content_{{index}}" class="dropdown-content" [ngClass]="{ 'show': showMenu }">
+    <div class="drpMainOptions" id="main-option">
+      <!-- manage and refresh button  -->
+        <div class="common-manage" id="dropdown-manage">
+            <a target="_blank" *ngIf="configuration?.MANAGE !== '' " (click)="redirect()" mat-icon-button id="manage-btn" 
+            class="dropdown-manage" color="primary" matTooltip="{{'label_Manage'|translate}}" 
+            matTooltipClass="custom-tooltip-top" matTooltipPosition="above">
+              <div class="two-icons">
+              <mat-icon>subject</mat-icon>
+              <mat-icon class="secondIcon">settings</mat-icon>
+            </div>
+            </a>
+            <button mat-icon-button class="dropdown-reload" (click)="refreshAPI()"  color="primary" type="button"
+            matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above">
+              <mat-icon>rotate_right</mat-icon>
+            </button>
+        </div>
+        <!-- input for search  -->
+        <!--Who:Ankit Rawat, What:EWM-16842, Why: Added ngModelOptions attribute (when a user opens the dropdown again, the searched name is still displayed in the dropdown), When:25Apr24 -->
+      <div class="searchBox" id="search-box">
+        <input type="text" class="myInput" autocomplete="off" matInput id="searchInput_{{index}}"
+          placeholder="Search..." (input)="getInputVal($event.target.value)" [(ngModel)]="searchVal" [ngModelOptions]="{standalone: true}" />
+        <button *ngIf="searchVal" class="closeBtn" (click)="Clear();">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <ul class="dropdown-menu" *ngIf="dropListData?.length > 0">
+        <li (click)="valueChange(data)" [ngClass]="{'list': true,'data-selected': data.IsSelected}" *ngFor="let data of dropListData">
+          <div class="avatar--wrapper" *ngIf="data?.ShortName || configuration?.SHORTNAME_SHOW"
+            [ngStyle]="{ 'background-color': data?.ShortNameColor }">
+            <span *ngIf="!data[configuration?.IMG_BIND_VALUE]">{{ data?.ShortName }}</span>
+            <!-- @Who: Ankit Rawat,@Why: EWM-17853, @When: 09Aug24, @What:Added image size pipe-->
+            <img class="tooltip-trigger" *ngIf=" data[configuration?.IMG_BIND_VALUE]"
+              [src]="data[configuration?.IMG_BIND_VALUE] | imageSize:'ICON'">
+          </div>
+          {{ data[BIND_By] }} {{(data[anotherBindValue])?'('+data[anotherBindValue]+')':''}}
+        </li>
+      </ul>
+      <div *ngIf="!dropListData || dropListData?.length == 0" class="noDataFound">
+        <p> {{isSpinner ? 'Please wait...' : 'No data found'}}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Suika
+    @When: 163May-2022
+    @Why: EWM-6605 EWM-6720
+    @What:  This component is used for Quick add Company templates.
+-->
+<form [formGroup]="UploadResumeForm" id="UploadCoverPageForm" (ngSubmit)="onConfirm()">
+  <div class="quick-dialog">
+    <h2 mat-dialog-title>
+      {{'label_uploadNewCoverPage' | translate}}
+    </h2>
+    <mat-dialog-content class="col">
+      <div class="row mb-0">
+        <mat-form-field class="col l12 m12 s12">
+          <mat-label>{{'label_cover_letter_name' |translate}}</mat-label>
+          <!-- who:maneesh,what:ewm-10733 for two times duplicate data show and duplicasy issu then apply (keyup)="checkDuplicity(false),when:23/03/2023  -->
+          <input matInput formControlName="CoverPageField" rows="2" id="cover_letter_name" tabindex="1"
+            placeholder="{{'label_cover_letter_name'|translate}}" required (blur)="checkDuplicity(false)">
+          <mat-error *ngIf="UploadResumeForm.controls['CoverPageField'].hasError('required')">
+            {{'label_cover_letter_name'|translate}} {{'label_errorreqired'|translate}}
+          </mat-error>
+          <mat-error *ngIf="UploadResumeForm.controls['CoverPageField'].hasError('codeTaken')">
+            {{'label_cover_letter_name'|translate}} {{'label_errorreqiredAlready'|translate}}
+          </mat-error>
+          <mat-error *ngIf="UploadResumeForm.controls['CoverPageField'].hasError('maxlength')">
+            {{'label_cover_letter_name'|translate}} {{'label_errormaxlength150'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col l4 m4 s4">
+        <div class="ng-slectBox mb-0">
+          <ng-select placeholder="{{'label_cover_job_title'|translate}}" appendTo="body" [clearable]="true" tabindex
+            formControlName="JobTittile" id="cover-job-title" (change)="OnJobChange($event);">
+            <ng-option value="" disabled>{{'label_select_job_title'|translate}}</ng-option>
+            <ng-option *ngFor="let JobTittile of JobTitleList" [value]="JobTittile">
+              {{JobTittile.Name}}
+            </ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="row mb-0" *ngIf="isJobDetails && jobReferenceIdData!=undefined">
+        <mat-form-field class="col l12 m12 s12">
+          <mat-label>{{'label_job_reference_Id' |translate}}</mat-label>
+          <input matInput disabled formControlName="JobReferenceId" rows="2" id="cover_referenceId" tabindex="1"
+            placeholder="{{'label_job_reference_Id'|translate}}">
+        </mat-form-field>
+      </div>
+      <div class="row mb-0" *ngIf="isJobDetails && clientNameData!=''">
+        <mat-form-field class="col l12 m12 s12">
+          <mat-label>{{'label_cover_client_name' |translate}}</mat-label>
+          <input matInput disabled formControlName="clientName" rows="2" id="cover_client_name" tabindex="1"
+            placeholder="{{'label_cover_client_name'|translate}}">
+        </mat-form-field>
+      </div>
+      <div class="row mb-0">
+        <div class="col l12 m12 s12">
+          <app-file-upload [docRequiredStatus]="true" [activestatus]="activestatus" [filestatus]="filestatus"
+            [fileInfo]="fileInfo" [fileViewstatus]="fileViewstatus"
+            (informDocumentParent)="documentDataFetchFromChild($event)"></app-file-upload>
+        </div>
+      </div>
+    </mat-dialog-content>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" type="button" (click)="onDismiss()" id="btnCancel" tabindex="3">
+      {{'button_cancel'|translate}}</button>
+      <!-- //who:bantee,what:ewm-12878 Unable to upload the cover letter if Job Title field is blank,when:04/07/2023 -->
+    <button mat-stroked-button color="primary" type="submit" id="btnSave" [disabled]="!UploadResumeForm.valid || UploadFileName===''"
+      tabindex="4"> {{'label_save'|translate}}</button>
+  </div>
+</form>

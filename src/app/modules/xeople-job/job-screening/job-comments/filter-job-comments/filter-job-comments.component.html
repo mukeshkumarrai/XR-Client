@@ -1,0 +1,64 @@
+<!--*
+  @Type: File, <ts>
+  @Name: Filter-job-comments.component.ts
+  @Who: Nitin Bhati
+  @When: 15-June-2023
+  @Why: EWM-12640
+  @What: popup component for job comments filter
+  -->
+  <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<mat-dialog-content class="col">
+    <p>{{'label_searchByCandidateRecuiter'|translate}}</p>
+    <form [formGroup]="addForm" id="clientNote">
+      <div class="row mb-0">
+        <div class="col l12 m12 s12">
+          <div class="col nodata" *ngIf="this.gridListData==undefined ||this.gridListData.length==0">
+            <span>{{'label_noRecordAvailable'|translate}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- @When: 28-08-2024 @who:Amit @why: EWM-17966 @whats: structure change -->
+      <p>{{'label_recuiters'|translate}}</p>
+      <div class="area-selection">
+        <div class="area-selection-box" *ngFor="let data of gridListData" [ngClass]="data.IsSelected==0 ?'':'area-selection-box-selected'" (click)="clickevent(data.Id,data.IsSelected)">
+            <div class="area-selection-box-data" tabindex="3" id="addToJobBtn">
+              <div class="userAvtaarAndName">
+                <img *ngIf="data?.PreviewURL!=''" src="{{data?.PreviewURL}}">
+                <span [style.background]="data?.ShortNameColor" *ngIf="data?.PreviewURL==''">{{data?.ShortName}}</span>
+              </div>
+              <div class="buttonTxt">{{data.Name}}</div>
+            </div>
+            <svg class="check-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+              <circle class="check-mark-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="check-mark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+          </div>
+        </div>  
+
+      <p>{{'label_candidates'|translate}}</p>
+      <div class="area-selection">
+        <div class="area-selection-box" *ngFor="let data of gridListCandidateData" [ngClass]="data.IsSelected==0 ?'':'area-selection-box-selected'" (click)="clickeCandidatevent(data.CandidateId,data.IsSelected)">
+            <div class="area-selection-box-data" tabindex="3" id="addToJobBtn">
+              <div class="userAvtaarAndName">
+                <img *ngIf="data?.PreviewUrl!=''" src="{{data?.PreviewUrl}}">
+                <span [style.background]="data?.ShortNameColor" *ngIf="data?.PreviewUrl==''">{{data?.ShortName}}</span>
+              </div>
+                <div class="buttonTxt">{{data.CandidateName}}</div>
+            </div>
+            <svg class="check-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+              <circle class="check-mark-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="check-mark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button color="warn" id="btnClose" (click)="onDismiss()"> {{'button_close' | translate}}</button>
+    <button mat-stroked-button color="primary" id="btnAdd" [disabled]="saveStatus"
+      (click)="onSave(addForm.value)">{{'label_apply' |translate}}</button>
+  </mat-dialog-actions>

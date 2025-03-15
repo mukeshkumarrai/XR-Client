@@ -1,0 +1,22 @@
+// @When: 31-08-2023 @who:Amit @why: EWM-13874 @what: style modified
+
+@import "../../../../../../styles-var.scss";
+
+.candidate-job-resume{
+  min-height: 75vh;
+  .parse-resume-btn{
+    display: flex;
+    justify-content: flex-end;
+    margin: 3px 0px;
+    .mat-raised-button{
+      padding: 0px 12px;
+      line-height: 30px;
+      font-size: 13px;
+    }
+  }
+  .PDFViewer{
+    height: calc(100vh - 262px);
+  }
+}
+
+

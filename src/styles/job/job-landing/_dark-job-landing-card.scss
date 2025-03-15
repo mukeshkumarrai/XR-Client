@@ -1,0 +1,25 @@
+@use '../../../colors';
+.dark-theme {
+  .job-landing-card-sec{
+    background: #4a4a4a;
+    .mat-card.job-landing-card{
+      background: #282828;
+      border-bottom: 2px solid colors.$dark-primary;
+      box-shadow: colors.$dark-primary 0px 0px 0px 0.4px, colors.$dark-primary 0px 0px 0px 0.4px, 
+    rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px; 
+      .card-header{
+        background:  linear-gradient(90deg, rgba(66,66,66,1) 27%, rgba(0,0,0,1) 100%);
+        box-shadow: colors.$gray-txt 0px 0px 0px 0.4px, colors.$gray-txt 0px 0px 0px 0.4px, 
+      rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+      }
+      .card-footer{
+        background: #1d1d1d;
+        .card-btn-group{
+          .mat-icon-button{
+            background:#282828;
+          }
+        }
+      }
+    }
+  }
+}

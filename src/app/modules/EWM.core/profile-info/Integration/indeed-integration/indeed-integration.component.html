@@ -1,0 +1,279 @@
+<!---
+    @(C): Entire Software
+    @Type: ehr-integration.component.html File, <html>
+    @Who: maneesh
+    @When: 08-11-2023
+    @Why: EWM-14477 
+    @What:  This page is creted for indeed feature integration Integration UI Component HTML
+-->
+
+<div *ngIf="loading" class="logo-loader" id="eoh-logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="page-header" id="eoh-integration-mat-card-header">
+    <mat-card-title class="only-title ml-5">{{'label_partners' |translate}} </mat-card-title>
+    <div class="header-action-button" id="eoh-tenant-feature-actionButton">
+        <div class="group-header-button" id="group-header-button">
+            <button mat-raised-button id="eoh-backtointegrations" class="header-button"
+                matTooltip="{{'label_backtointegrations'|translate}}" matTooltipClass="card-list-tooltip"
+                matTooltipPosition="before" (click)="backToJob()">
+                <mat-icon>keyboard_backspace</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-card-header>
+
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="eoh-integration-drawer">
+    <mat-card class="seek-mat-card component-card mat-elevation-z2" id="eoh-mat-card">
+        <div class="showAccessSection" id="eoh-showAccessSection">
+            <mat-card class="interfaceBoardContainer mat-elevation-z0" id="eoh-interfaceBoardContainer">
+                <div class="row seekIntegrationSection" id="eoh-IntegrationSection">
+                    <div class="seekbox mb-15" id="ehr-seekbox">
+                        <div class="seekButtonBox" id="ehr-integration-box">
+                            <div class="integration-header" id="integration-header">
+                                <div class="integration-header-image" id="integration-header-image">
+                                    <img src="{{gridViewListdata?.LogoUrl}}" />
+                                </div>
+                                <div class="integration-header-data" id="integration-header-data">
+
+                                    <button mat-stroked-button *ngIf="isCreateMode" id="eoh-getStartedId"
+                                        class="greenColorBtn" (click)="openEohFormData('Add')">
+                                        <span class="buttonTxt">{{'label_getStarted' |translate}}</span>
+                                    </button>
+                                    <button mat-stroked-button *ngIf="visibilityStatus" id="eoh-getDisconnectId"
+                                    class="warnColorBtn" (click)="disconnectPopUp()">
+                                    {{'label_emailDisconnect' |translate}}
+                                </button>
+                                    <button mat-stroked-button [ngClass]="[ activeUpdatebtn==true ? 'btn-active' : '']"
+                                        *ngIf="visibilityStatus" id="eoh-getUpdateId" class="greenColorBtn"
+                                        (click)="openEohFormData('edit')">
+                                        {{'label_updateSettings' |translate}}
+                                    </button>
+                                    <span class="profileBuildBtn" *ngIf="isCreateMode" id="eoh-tenantFeatureTag">
+                                        <mat-icon>local_offer</mat-icon>
+
+                                    </span>
+
+
+                                </div>
+
+                            </div>
+                            <div *ngIf="showEohFormData==true">
+                                <h4>{{'info_marketplace_Indeed_Configuration' |translate}}</h4>
+                                <p>{{'info_marketplace_Indeed_ValidationKeys' |translate}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div *ngIf="showTabData">
+                        <div id="eoh-ContentSectionBox" class="seekContentSectionBox">
+                            <p class="mb-0">{{gridViewListdata?.Description}}</p>
+                        </div>
+                        <div class="integration-contentsection" id="integration-contentsection">
+                            <div class="user-invitaion tab-container margin0" id="user-invitaion-eoh">
+                                <mat-tab-group id='eoh-tenantFeature-userinvitation-mtg' class="seekTab">
+                                    <mat-tab class="seek-tab" id="eoh-tenantFeature-Snap">
+                                        <ng-template mat-tab-label matRippleDisabled="disabled">
+                                            {{'label_snaps' | translate}}
+                                        </ng-template>
+                                        <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0"
+                                            [navigation]="true" id="eoh-tenantFeature-swipperSnap"
+                                            [ngClass]="screenPreviewClass" class="urOrderList">
+                                            <ng-template class="carousel-cell"
+                                                *ngFor="let images of gridViewListdata?.IntegrationImages" swiperSlide>
+                                                <div id="eoh-tenantFeature-image" class="stageListItems">
+                                                    <img src="{{images?.ImageUrl}}" />
+                                                </div>
+                                            </ng-template>
+                                        </swiper>
+                                    </mat-tab>
+                                    <mat-tab id="eoh-tenantFeature-Video">
+                                        <ng-template mat-tab-label matRippleDisabled="disabled">
+                                            {{'label_video' | translate}}
+                                        </ng-template>
+                                        <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0"
+                                            [navigation]="true" id="eoh-tenantFeature-swipperVideo"
+                                            [ngClass]="screenPreviewClass" class="urOrderList">
+                                            <ng-template class="carousel-cell" swiperSlide>
+                                                <div class="stageListItems" id="eoh-tenantFeature-swipperVideoUrl">
+                                                    <video class="videoHeight" width="100%" controls>
+                                                        <source src="{{gridViewListdata?.VideoUrl}}" type="video/mp4">
+                                                        <source src="{{gridViewListdata?.VideoUrl}}" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
+                                            </ng-template>
+                                        </swiper>
+                                    </mat-tab>
+                                    <mat-tab id="eoh-tenantFeature-contactDetail">
+                                        <ng-template mat-tab-label matRippleDisabled="disabled">
+                                            {{'label_contactDetails' |translate}}
+                                        </ng-template>
+                                        <mat-card class="contactDetailsSection">
+
+                                            <div id="eoh-tenantFeature-locationName" class="contact-details">
+                                                <p>{{'label_locationName' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewListdata?.IntegrationLocations?.LocationName?gridViewListdata?.IntegrationLocations?.LocationName:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div id="eoh-tenantFeature-locationType" class="contact-details">
+                                                <p>{{'label_locationType' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewListdata?.IntegrationLocations?.LocationType?gridViewListdata?.IntegrationLocations?.LocationType:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div id="eoh-tenantFeature-country" class="contact-details">
+                                                <p>{{'label_country' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewListdata?.IntegrationLocations?.LocationCountryName?gridViewListdata?.IntegrationLocations?.LocationCountryName:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div id="eoh-tenantFeature-addressLine1" class="contact-details">
+                                                <p>{{'label_addressLine1' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewListdata?.IntegrationLocations?.AddressLine1?gridViewListdata?.IntegrationLocations?.AddressLine1:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div class="contact-details" id="eoh-tenantFeature-addressLine2">
+                                                <p>{{'label_addressLine2' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewListdata?.IntegrationLocations?.AddressLine2?gridViewListdata?.IntegrationLocations.AddressLine2:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                            <div class="contact-details" id="eoh-tenantFeature-districtSuburb">
+                                                <p>{{'label_districtSuburb' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewListdata?.IntegrationLocations?.District?gridViewListdata?.IntegrationLocations?.District:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div class="contact-details" id="eoh-tenantFeature-city">
+                                                <p>{{'label_city' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewListdata?.IntegrationLocations?.TownCity?gridViewListdata?.IntegrationLocations?.TownCity:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div class="contact-details" id="eoh-tenantFeature-state">
+                                                <p>{{'label_state' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewListdata?.IntegrationLocations?.StateId!=0 || gridViewListdata?.IntegrationLocations?.StateId!= null || gridViewListdata?.IntegrationLocations?.StateId!=' ' ? gridViewListdata?.IntegrationLocations?.StateId:'--'}}</span>
+                                            </div>
+
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div class="contact-details" id="eoh-tenantFeature-zipcode">
+                                                <p>{{'label_zipCode' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewListdata?.IntegrationLocations?.PostalCode?gridViewListdata?.IntegrationLocations?.PostalCode:'--'}}</span>
+                                            </div>
+                                        </mat-card>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="showEohFormData" id="eoh-tenantFeature-form" class="integration-contentsection">
+                        <div class="seekDetails" id="eoh-tenantFeature-detail">
+                            <form [formGroup]="indeedIntegrationForm" class="p-0">
+                                <mat-form-field>
+                                    <mat-label>{{'label_clientId' |translate}}</mat-label>
+                                    <input matInput tabindex="3" formControlName="ClientId" text="APIKey"
+                                        id="eoh-ClientId" required (input)="resetValidateForm()">
+
+                                    <mat-error *ngIf="indeedIntegrationForm.controls['ClientId'].hasError('required')">
+                                        {{'label_clientId' |translate}} {{'label_errorreqired'
+                                        |translate}}
+                                    </mat-error>
+
+                                    <mat-error
+                                        *ngIf="indeedIntegrationForm.controls['ClientId'].hasError('whitespace') && !indeedIntegrationForm.controls['ClientId'].hasError('required')">
+                                        {{'label_nameValidation' |translate}}
+                                    </mat-error>
+
+                                    <mat-error *ngIf="indeedIntegrationForm.controls['ClientId'].hasError('maxlength') && !indeedIntegrationForm.controls['ClientId'].hasError('whitespace')">
+                                        {{'label_clientId' |translate}} {{ 'label_errormaxlength100' |translate}}
+                                    </mat-error>
+
+
+                                    <mat-icon matSuffix color="warn" id="indeed-inf0-ClientId"
+                                        matTooltip="{{'label_indeedClientIdHelpIconText' |translate}}"
+                                        matTooltipPosition="left" matSuffix>info_outline
+                                    </mat-icon>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{'lable_secretKey' |translate}}
+                                    </mat-label>
+                                    <input matInput tabindex="3" formControlName="ClientSecret" text="APISecretKey"
+                                        id="eoh-ClientSecret" required (input)="resetValidateForm()">
+                                    <mat-error *ngIf="indeedIntegrationForm.controls['ClientSecret'].hasError('required')">
+                                        {{'lable_secretKey' |translate}}
+                                        {{'label_errorreqired' |translate}}
+                                    </mat-error>
+
+                                    <mat-error
+                                        *ngIf="indeedIntegrationForm.controls['ClientSecret'].hasError('whitespace') && !indeedIntegrationForm.controls['ClientSecret'].hasError('required')">
+                                        {{'label_nameValidation' |translate}}
+
+                                    </mat-error>
+
+                                    <mat-error *ngIf="indeedIntegrationForm.controls['ClientSecret'].hasError('maxlength') && !indeedIntegrationForm.controls['ClientSecret'].hasError('whitespace')">
+                                        {{'lable_secretKey' |translate}} {{ 'label_errormaxlength100' |translate}}
+                                    </mat-error>
+                                    <mat-icon matSuffix color="warn" id="eoh-info-secretKey"
+                                        matTooltip="{{'label_indeedSecretClientIddHelpIconText' |translate}}"
+                                        matTooltipPosition="left" matSuffix>info_outline
+                                    </mat-icon>
+
+                                </mat-form-field>
+                                <div>
+                                    <mat-error
+                                        *ngIf="indeedIntegrationForm.controls['ClientId'].hasError('invalid') || indeedIntegrationForm.controls['ClientSecret'].hasError('invalid')">
+                                        {{'label_ehr_validmsg'|translate}}
+                                    </mat-error>
+                                </div>
+                                <mat-form-field class="read-disable-field">
+                                    <mat-label>{{'lable_marketplace_ehr_OrganizationName' |translate}}
+                                    </mat-label>
+                                    <input matInput tabindex="3" formControlName="OrganizationName" text="APISecretKey"
+                                        id="eoh-OrganizationName" readonly>
+
+                                </mat-form-field>
+
+                                <div class="actionButton">
+                                    <button mat-raised-button tabindex="11" color="warn" (click)="onCancel()"
+                                        id="eoh-btnCancel" class="buttonForDesktopMobile">
+                                        <mat-icon>close</mat-icon>
+                                        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+                                    </button>
+
+                                    <button mat-raised-button *ngIf="activestatus=='Add'" color="primary"
+                                        (click)="onSave(this.indeedIntegrationForm.getRawValue())" type="button"
+                                        id="eoh-btnSave" tabindex="10" class="buttonForDesktopMobile"
+                                        [disabled]=" isResponseGet || !indeedIntegrationForm.valid">
+                                        <mat-icon>check</mat-icon>
+                                        <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_save'|translate}}</span>
+                                        <div *ngIf="isResponseGet" id="loading"></div>
+                                    </button>
+                                    <button mat-raised-button *ngIf="activestatus=='Edit'" color="primary"
+                                        (click)="onSave(this.indeedIntegrationForm.getRawValue())"
+                                         type="button" id="eoh-btnUpdate" [disabled]=" isResponseGet || !indeedIntegrationForm.valid"
+                                        tabindex="10" class="buttonForDesktopMobile">
+                                        <mat-icon>check</mat-icon>
+                                        <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_update'|translate}}</span>
+                                        <div *ngIf="isResponseGet" id="loading"></div>
+
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+
+
+    </mat-card>
+</mat-drawer-container>
+

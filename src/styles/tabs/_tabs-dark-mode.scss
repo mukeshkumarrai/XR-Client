@@ -1,0 +1,41 @@
+@use "../../colors";
+.dark-theme{
+  .share-calender{
+    .summary-tabs{
+      .mat-tab-header{
+        background: transparent;
+        .mat-tab-label{
+          background: #303030;
+          .center{
+            .mat-icon-button{
+              .mat-icon{
+                color: colors.$white-color;
+              }
+              .two-icons{
+                .mat-icon.secondIcon{
+                  background: #303030;
+                }
+              }
+            } 
+          }	
+        }
+        .mat-tab-label-active{
+          .mat-tab-label-content{
+            .center{
+              .mat-icon-button{
+                .two-icons{
+                  .mat-icon{
+                    color: colors.$dark-primary;
+                  }
+                }
+              } 
+            }
+          }
+        }
+      }
+      .mat-tab-body-wrapper{
+        background: #303030;
+      }
+    }
+  }
+}

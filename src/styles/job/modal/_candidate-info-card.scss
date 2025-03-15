@@ -1,0 +1,241 @@
+/* 
+    @(C): Entire Software @Type: File, <css> @Name: screening-and-interview.component.scss @Who: Satya Prakash @When: 17-Oct-2023 @Why: EWM-14828 EWM-14832 EWN-14833 @What: 
+*/
+@use "../../../colors";
+.xeople-candidate-info-card{
+    width: calc(100% - 60px);
+    max-height:85%;
+    max-width: 590px !important;
+}
+.candidate-profile-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 2px 0px;
+    $user-img-span-width-height: 170px;
+    @media (570px >=  width ) {
+        flex-direction: column;
+    }
+    .profile {
+        width: $user-img-span-width-height;
+        height: $user-img-span-width-height;
+        min-width: $user-img-span-width-height;
+        min-height: $user-img-span-width-height;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        transition: 0.4s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 0px 0px 2px #f1f1f1;
+        @media (570px >=  width ) {
+            margin: 0px auto;
+        }
+        span{
+            border-radius: 8px;
+            background-color: colors.$primary-bg-color;
+            color: colors.$primary-txt-color;
+            width: $user-img-span-width-height;
+            height: $user-img-span-width-height;
+            font-size: 62px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        img {
+            max-width: $user-img-span-width-height;
+            max-height: $user-img-span-width-height;
+            overflow: hidden;
+            width: auto;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .profile-details {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        h5 {
+            margin: 0px;
+            font-size: 16px;
+            span{
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+        .profile-actions {
+            margin-top: 5px;
+            color: colors.$orange-color;
+            position: relative;
+            z-index: 1;
+            padding: 5px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            &:after {
+                content: "";
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                border-radius: 4px;
+                background-color: currentColor;
+                opacity: 0.09;
+                left: 0px;
+                top: 0px;
+                z-index: -1;
+            }
+            p {
+                font-size: 13px;
+                margin: 0px;
+                word-break: break-word;
+            }
+            .last-activity {
+                display: flex;
+                align-items: center;
+                .time {
+                    color: colors.$primary-bg-color;
+                    font-size: 12px;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+}
+.candidate-details-main {
+    position: relative;
+    color: colors.$primary-bg-color;
+    z-index: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+    .candidate-details {
+        display: grid;
+        align-items: center;
+        justify-content: space-between;
+        grid: auto/30px calc(100% - 93px) 60px;
+        padding: 7px 5px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        &:after {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            border-radius: 4px;
+            background-color: currentColor;
+            opacity: 0.09;
+            left: 0px;
+            top: 0px;
+            z-index: -1;
+        }
+        .mat-icon {
+            font-size: 20px;
+            line-height: 20px;
+            height: 18px;
+        }
+        a {
+            font-size: 13px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 5px;
+            position: relative;
+            justify-content: flex-end;
+            .mat-icon-button {
+                position: relative;
+                width: 28px;
+                height: 28px;
+                line-height: 28px;
+                overflow: hidden;
+                &::before {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 100%;
+                    background-color: currentColor;
+                    opacity: 0.10;
+                    left: 0px;
+                    top: 0px;
+                }
+                .mat-icon {
+                    width: 28px;
+                    height: 28px;
+                    line-height: 28px;
+                    font-size: 16px;
+                }
+            }
+            .mat-icon-button.orange-color {
+                color: colors.$orange-color;
+            }
+            .mat-icon-button.primary-color {
+                color: colors.$default-bg-color;
+            }
+            .mat-icon-button.primary-color.mat-button-disabled,
+            .mat-icon-button.orange-color.mat-button-disabled,
+            .mat-button-disabled{
+                color: colors.$disabled-color;
+            }
+            .copyMessage {
+                position: absolute;
+                z-index: 3;
+                top: 0px;
+                right: 0px;
+                .alert-primary {
+                    gap: 5px;
+                    padding: 6px 18px;
+                    color: #7fb734;
+                    background: #fff;
+                    border-radius: 4px;
+                    .mat-icon {
+                        width: 16px;
+                        height: 16px;
+                        line-height: 16px;
+                        font-size: 18px;
+                    }
+                    span {
+                        font-size: 12px;
+                        width: auto;
+                    }
+                }
+                &::after {
+                    position: inherit;
+                }
+            }
+        }
+    }
+    .calls {
+        grid: auto/24px calc(100% - 130px) 98px;
+    }
+}
+.dark-theme{
+    .candidate-profile-header{
+        .profile-details{
+            .profile-actions{
+                .last-activity {
+                    .time {
+                        color: colors.$white-color;
+                    }
+                }
+            }
+        }
+    }    
+    .candidate-details-main{
+        color: colors.$dark-primary;
+        .candidate-details{
+            .btn-group{
+                .mat-icon-button.primary-color.mat-button-disabled,
+                .mat-icon-button.orange-color.mat-button-disabled,
+                .mat-button-disabled{
+                    color: colors.$dark-disabled-color;
+                }
+            }
+        }
+    }
+}

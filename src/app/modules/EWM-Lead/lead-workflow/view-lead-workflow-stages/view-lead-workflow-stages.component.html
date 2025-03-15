@@ -1,0 +1,14 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_View' | translate}} {{'label_Workflow' | translate}}</h2>
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content class="ml-0 mr-0">
+    <ngx-org-chart [nodes]="nodes" direction="vertical"></ngx-org-chart>
+</mat-dialog-content>

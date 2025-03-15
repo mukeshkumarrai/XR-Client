@@ -1,0 +1,55 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: job-candidate.cover-page.component.html
+    @Who: Bantee Kumar
+    @When: 26-May-2023
+    @Why: EWM-11776 EWM-12534
+    @What:  This page wil be use only for the candidate coverpage Component HTML
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+<div id="candidate-summry" class="candidate-resume-summry">
+
+  <div class="progress-loader-box" *ngIf="loaderAddInfo">
+    <div class="progress-loader">
+      <div class="loaderBar"></div>
+    </div>
+  </div>
+  <!-- <mat-divider class="mt-0 mb-0"></mat-divider> -->
+  <ng-conatiner *ngIf="showUploadedCover" class="resumeDownloadBtn-cover">
+    <button target="_blank" mat-icon-button [hidden]="FileName==undefined" id="descBtn" class="resume"
+      (click)="showCoverletter(PreviewUrl,FileName)">
+      <mat-icon>fullscreen</mat-icon>
+    </button>
+
+
+    <button *ngIf="showUploadedCover" class="resumeDownloadBtn-cover" type="button" mat-icon-button
+      class="buttonForDesktopMobile" [hidden]="disableDownloadBtn" color="primary" id="downloadResumeBtn"
+      (click)="onDownloadCoverPage(DemoDocCover,UploadFileName)">
+      <mat-icon class="matIconDownload">file_download</mat-icon>
+    </button>
+  </ng-conatiner>
+  <!--First Section when No Resume Added yet starts from here-->
+  <div class="tab-no-data" *ngIf="coverInfoData === null">
+    <div class="center-align">
+      <p class="mb-15">{{'label_NoCoverLetter' | translate}}</p>
+      <button type="button" (click)="openUploadCovePage()" color="primary" mat-raised-button
+        matTooltipClass="custom-tooltip">
+        {{'label_UploadCoverLetter' | translate}}
+      </button>
+    </div>
+  </div>
+
+  <div class="PDFViewer candidate-screening-tab" *ngIf="coverInfoData">
+
+    <!-- <div *ngIf="isLoading" class="logo-loader">
+      <div class="logo-loading"></div>
+    </div> -->
+
+    <ngx-doc-viewer [url]="DemoDocCover" [viewer]="viewer" (loaded)="isLoading=false" style="width:100%;height:99%;"
+      class="PDF-viewer-box">
+    </ngx-doc-viewer>
+  </div>
+  <!--Second Section when PDF Viewer Resume ends here-->
+
+</div>

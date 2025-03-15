@@ -1,0 +1,325 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: header.component.html
+  @Who: Renu
+  @When: 22-Dec-2020
+  @Why: For implementing the common  Header
+  @What: This page wil be use for common  header section
+-->
+<global-config></global-config>
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<mat-toolbar color="primary" class="header">
+  <!-- Entire Software : Satya Prakash Gupta : 15-Sep-2020 : header logo and left menu start here -->
+  <div class="mainMenu" id="mainMenu">
+    <button mat-mini-fab (click)="toggleSidenav()" class="mobileMenuToggle">
+      <mat-icon svgIcon="menu_open"></mat-icon>
+    </button>
+    <a class="logoBox" id="logoBox" [routerLink]="['/client/core/home/dashboard']"><img src="{{logoImage}}"
+        class="logoImage" alt="">
+    </a>
+    <button mat-raised-button id="addMenu_Btn" class="quick-add-button" [matMenuTriggerFor]="headerAddGroup">
+      <mat-icon svgIcon="add"></mat-icon>
+      <mat-icon svgIcon="arrow_drop_down"></mat-icon>
+    </button>
+    <mat-select [(value)]="OrganizationId" class="companyInfo" (selectionChange)="openConfrmDialog($event)">
+      <mat-option *ngFor="let orgName of organizationData" value="{{orgName.OrganizationId}}">
+        {{orgName.OrganizationName}}
+      </mat-option>
+    </mat-select>
+    <div class="header-main-menu">
+      <ng-container *ngIf="largeScreenTag">
+        <a mat-button *ngFor="let topMenuData of largeScreenMenuData" (click)="topMenuActive(topMenuData.Name)"
+          [ngClass]="topMenuData.Name==ActiveTopMenu ? 'active' : ''"
+          [routerLink]="topMenuData.Router ? topMenuData.Router : null">
+          {{topMenuData.MenuLabel |customTranslate}}
+        </a>
+      </ng-container>
+      <ng-container *ngIf="mobileScreenTag">
+        <a mat-button *ngFor="let topMenuData of MobileMapMenuSelected" (click)="topMenuActive(topMenuData.Name)"
+          [ngClass]="topMenuData.Name==ActiveTopMenu ? 'active' : ''"
+          [routerLink]="topMenuData.Router ? topMenuData.Router : null">
+          {{topMenuData.MenuLabel |customTranslate}}
+        </a>
+      </ng-container>
+      <!--Nitin Bhati Start: 7th Sep 2021: EWM-2488-->
+      <button mat-button [matMenuTriggerFor]="headerAddGroup1"
+        *ngIf="((this.topMenu != undefined)&&(this.topMenu != null)&&(this.topMenu.length>7)) || mobileScreenTag">
+        {{'label_more' | translate | titlecase }} <mat-icon svgIcon="arrow_drop_down"></mat-icon>
+      </button>
+      <mat-menu #headerAddGroup1="matMenu" xPosition="after" class="header-dropdown-menu" id="headerAddGroup1">
+        <span class="material-icons DroupDownUp">
+          arrow_drop_up
+        </span>
+        <a mat-button *ngFor="let topMenuData of smallScreenMenuData" (click)="topMenuActive(topMenuData.Name)"
+          [ngClass]="topMenuData.Name==ActiveTopMenu ? 'active' : ''"
+          [routerLink]="topMenuData.Router ? topMenuData.Router : null">
+          <ng-container>
+            {{topMenuData.MenuLabel |customTranslate}}
+          </ng-container>
+        </a>
+      </mat-menu>
+      <!--Nitin Bhati End: 7th Sep 2021: EWM-2488-->
+    </div>
+    <mat-menu #headerAddGroup="matMenu" xPosition="after" class="header-dropdown-menu" id="headerAddGroup">
+      <span class="material-icons DroupDownUp">
+        arrow_drop_up
+      </span>
+      <button mat-button id="candidateBtn" (click)="openQuickCandidateModal()">
+        {{'label_Candidate' | customTranslate}}
+      </button>
+      <!-- <button mat-button id="menuClientBtn" (click)="openQuickCompanyModal()">
+        {{'label_MenuClient' | customTranslate}}/{{'label_MenuLeads' | customTranslate}}
+      </button> -->
+      <button mat-button id="menuClientBtn" (click)="quickCompanyChoose()">
+        {{'label_MenuClient' | customTranslate}}/{{'label_lead_master' | customTranslate}}
+      </button>
+      <button mat-button id="contactBtn" (click)="openQuickAddContactModal()">
+        {{'label_contact' | customTranslate}}
+      </button>
+       <button mat-button id="jobBtn" (click)="openQuickjobModal()">
+        {{'label_job' | customTranslate}}
+      </button>
+      <button mat-button id="menuemployeeBtn" (click)="openCompaniesModal()">
+        {{'label_Menuemployee' | customTranslate}}
+      </button>
+      <button mat-button id="quickAddActivty" (click)="openQuickAddActivity()">
+        {{'label_MenuActivity' | customTranslate}}
+      </button>
+    </mat-menu>
+  </div>
+  <!-- Entire Software : Satya Prakash Gupta : 15-Sep-2020 : header logo and left menu end here -->
+  <!-- Entire Software : nitin bhati : 08-Oct-2020 : Header Section Flip with Logo Icon -->
+  <span class="spacer"></span>
+  <div class="header-right" id="header-right">
+    <button mat-button id="fullscreenBtn" *ngIf="!isFullScreen" (click)="openFullscreen()" color="basic">
+      <mat-icon svgIcon="fullscreen"></mat-icon>
+    </button>
+    <button mat-button id="fulls_exitBtn" *ngIf="isFullScreen" (click)="closeFullscreen()" color="basic">
+      <mat-icon svgIcon="fullscreen_exit"></mat-icon>
+    </button>
+    <button mat-button id="help_outlineBtn" color="basic" #helptrigger="matMenuTrigger"
+      [matMenuTriggerFor]="helpMenu" *ngIf="OptionalMenu==1">
+      <mat-icon svgIcon="help_outline"></mat-icon>
+      <mat-icon svgIcon="arrow_drop_down"></mat-icon>
+    </button>
+    <button mat-button id="settingsBtn" color="basic" #settingtrigger="matMenuTrigger"
+      [matMenuTriggerFor]="settingMenu">
+      <mat-icon svgIcon="settings"></mat-icon>
+      <mat-icon svgIcon="arrow_drop_down"></mat-icon>
+    </button>
+    <button mat-button class="notification-button" color="basic" (click)="getClickNotification()"
+      [matMenuTriggerFor]="notification" id="header-notification">
+        <mat-icon matBadge="{{totalNotificationCount}}" [matBadgeHidden]="totalNotificationCount===0?true:false" matBadgeColor="warn" svgIcon="notifications_none"></mat-icon>
+    </button>
+    <mat-menu #helpMenu="matMenu" xPosition="before" class="header-dropdown-menu">
+      <span class="material-icons headerDroupDownUp">
+        arrow_drop_up
+      </span>
+        <a mat-button id="settings_Roadmap"
+            target="_blank" [href]="RoadMapMenuLink" [disabled]="RoadMapMenuLink===''?true:false">
+          <span class="material-icons">route</span> {{'label_Roadmap'|translate}}
+        </a>
+        <a mat-button id="settings_api"
+          target="_blank" [href]="APIMenuLink" [disabled]="APIMenuLink===''?true:false">
+          <span class="material-icons">api</span> {{'label_API'|translate}}
+        </a>
+        <a mat-button id="settings_documentCenter"
+          target="_blank" [href]="DocumentCentreMenuLink" [disabled]="DocumentCentreMenuLink===''?true:false">
+          <span class="material-icons">plagiarism</span> {{'label_DocumentCenter'|translate}}
+        </a>
+        <a mat-button id="settings_Support"
+        [href]="SupportMenuLink ? SupportMenuLink : null" [disabled]="SupportMenuLink===''?true:false">
+          <span class="material-icons">contact_support</span> {{'label_Support'|translate}}
+        </a>
+        <!-- //by maneesh redirect dashboard -->
+        <!-- <a mat-button id="dash_board" (click)="openDoc(dashboard)"
+         [disabled]="dashboard===''?true:false">
+          <span class="material-icons">contact_support</span> {{'label_dashboard'|translate}}
+        </a> -->
+    </mat-menu>
+    <mat-menu #settingMenu="matMenu" xPosition="before" class="header-dropdown-menu">
+      <span class="material-icons headerDroupDownUp">
+        arrow_drop_up
+      </span>
+      <a mat-button id="settingMenu__{{i}}" *ngFor="let settingMenu of setting; let i = index"
+        (click)="topMenuActive(settingMenu.Name)" [ngClass]="settingMenu.Name==ActiveTopMenu ? 'active' : ''"
+        [routerLink]="settingMenu.Router ? settingMenu.Router : null">
+        <span class="material-icons">
+          {{settingMenu.Icon}}
+        </span> {{settingMenu.MenuLabel|customTranslate}}
+      </a>
+    </mat-menu>
+    <mat-menu #notification="matMenu" class="web-notification" id="header-notificationBox">
+      <span class="material-icons headerDroupDownUp">
+        arrow_drop_up
+      </span>
+      <div class="web-header" (click)="$event.stopPropagation()">
+        <h4>{{'label_notification' | customTranslate}}</h4>
+
+        <!--@When: 06-03-2024 @who:Amit @why: EWM-16178 @what: label change-->
+        <mat-slide-toggle color="primary" labelPosition="before" [ngModel]="isUnreadEnable"
+            id="show-unread" (change)="onChangeUnreadNotification($event)" tabindex>
+            {{'label_Notification_ShowOnlyUnread' | customTranslate}}
+        </mat-slide-toggle>
+
+      </div>
+
+      <mat-divider (click)="$event.stopPropagation()"></mat-divider>
+
+      <!-- @When: 14-03-2024 @who:Amit @why: EWM-16364 @what: style remove -->
+      <mat-form-field class="searchInput mb-0" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="notification-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal" (click)="$event.stopPropagation()">
+        <mat-icon matPrefix class="search-icon">search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+          (click)="searchVal=''" (click)="$event.stopPropagation()" id="clearSearchId">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+      <mat-divider (click)="$event.stopPropagation()"></mat-divider>
+      <div class="nodata" *ngIf="userNotificationsList==undefined || userNotificationsList.length==0 || userNotificationsList==null">
+        <span>{{notificationLoading | translate}}</span>
+      </div>
+      <!--@When: 06-03-2024 @who:Amit @why: EWM-16178 @what: class add-->
+      <cdk-virtual-scroll-viewport id="viewportId" class="main-web-comment" itemSize="50" (scrolledIndexChange)="scrolled($event)">
+        <div *ngIf="loadingNotification" class="logo-loader" id="logo-loader">
+          <div class="logo-loading"></div>
+        </div>
+        <div class="web-comment" id="web-comment-client" *cdkVirtualFor="let list of userNotificationsList" (click)="getNavigationURL(list?.NavigationURL,list?.NotificationId)">
+          <div class="user-main-data" id="user-main-client" *ngIf="list?.NotificationType !='CandidateMappedJobExternal'">
+            <div class="profile-and-name" id="user-avtaar-name">
+              <img alt="user" *ngIf="list?.ActorProfileImage != ''" src="{{list?.ActorProfileImage}}">
+              <span *ngIf="list?.ActorProfileImage==''">{{list?.ActorShortName}}</span>
+            </div>
+            <div class="user-data">
+              <div class="user-data-bottom">
+                <div class="user-details">
+                  <span class="first-name">{{list?.ActorName}}</span><span class="mention">{{list?.NotificationMessage}}</span>
+                  <span class="last-name">{{list?.RelatedToName}}</span>
+                </div>
+                <div class="time">{{list?.NotificationDateTime | dateAgo}}</div>
+              </div>
+            </div>
+            <button mat-icon-button class="mark" id="readCircleId" *ngIf="list?.IsRead==0">
+              <mat-icon>circle</mat-icon>
+            </button>
+          </div>
+          <div class="user-bottom-data" *ngIf="list?.NotificationType !='CandidateMappedJobExternal'">
+            <div class="url-box">
+              <a (click)="getNavigationURL(list?.NavigationURL,list?.NotificationId)" id="redirectNotificationId">
+              <span class="forward">{{list?.NotificationEvent}}</span> 
+              </a>
+              <!-- <span class="url-text">notes</span> -->
+              <div class="action" (click)="$event.stopPropagation()">
+                <button mat-icon-button class="mark" [disabled]="list?.IsRead==1?true:false" matTooltip="{{'label_Notification_Markasread'|translate}}" 
+                matTooltipClass="card-list-tooltip" matTooltipPosition="before" (click)="readNotification(list?.NotificationId)" id="doneNotificationId">
+                  <mat-icon>done_all</mat-icon>
+                </button>
+                <button mat-icon-button class="delete" matTooltip="{{'label_delete'|translate}}" 
+                matTooltipClass="card-list-tooltip" matTooltipPosition="before" (click)="deleteNotification(list?.NotificationId)" id="deleteNotificationId">
+                  <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="user-main-data" id="user-main-client" *ngIf="list?.NotificationType==='CandidateMappedJobExternal'">
+            <div class="profile-and-name" id="user-avtaar-name">
+              <span class="bell-show"><mat-icon svgIcon="notifications_none"></mat-icon></span>
+            </div>
+            <div class="user-data">
+              <div class="user-data-bottom">
+                <div class="user-details">
+                  <span > {{'label_webnotifications_job_title' | customTranslate}} </span><span class="last-name">{{list?.RelatedToName}} </span>
+                  <span> {{'label_webnotifications_job_for' | customTranslate}} </span>
+                  <span class="last-name">{{list?.OptionalField1}}</span>
+                  <span> {{'label_webnotifications_job_via' | customTranslate}} </span>
+                  <span class="last-name">{{list?.GenerateSource}}</span>
+                </div>
+                <div class="time">{{list?.NotificationDateTime | dateAgo}}</div>
+              </div>
+            </div>
+            <button mat-icon-button class="mark" id="readCircleId" *ngIf="list?.IsRead==0">
+              <mat-icon>circle</mat-icon>
+            </button>
+          </div>
+          <div class="user-bottom-data" *ngIf="list?.NotificationType ==='CandidateMappedJobExternal'">
+            <div class="url-box">
+              <a (click)="getNavigationURL(list?.NavigationURL,list?.NotificationId)" id="redirectNotificationId">
+              <span class="forward">{{list?.NotificationEvent}}</span> 
+              </a>
+              <!-- <span class="url-text">notes</span> -->
+              <div class="action" (click)="$event.stopPropagation()">
+                <button mat-icon-button class="mark" [disabled]="list?.IsRead==1?true:false" matTooltip="{{'label_Notification_Markasread'|translate}}" 
+                matTooltipClass="card-list-tooltip" matTooltipPosition="before" (click)="readNotification(list?.NotificationId)" id="doneNotificationId">
+                  <mat-icon>done_all</mat-icon>
+                </button>
+                <button mat-icon-button class="delete" matTooltip="{{'label_delete'|translate}}" 
+                matTooltipClass="card-list-tooltip" matTooltipPosition="before" (click)="deleteNotification(list?.NotificationId)" id="deleteNotificationId">
+                  <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+    </cdk-virtual-scroll-viewport>
+        <div class="notification-footer" id="notification-mark" (click)="$event.stopPropagation()">
+          <button mat-flat-button *ngIf="userNotificationsList?.length>0" id="mark-all-unread" class="mark-unread" (click)="readNotification('00000000-0000-0000-0000-000000000000')">
+            <mat-icon>done_all</mat-icon>
+            <span class="text">{{'label_Notification_MarkAllAsRead' | customTranslate}}</span>
+          </button>
+        </div>
+    </mat-menu>
+  </div>
+  <!-------profile menu menu start-->
+  <div class="header-profile userAvtaarAndName tooltip tooltip-bottom-for-header" #profiletrigger="matMenuTrigger"
+  [matMenuTriggerFor]="profileMenu" (mouseenter)="showTooltip()" (mouseleave)="hideTooltip()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+    <img *ngIf="ProfileUrl!=''" class="tooltip-trigger" src="{{ProfileUrl}}" />
+    <span *ngIf="ProfileUrl==''" [style.background]="getBackgroundColor(profileShortName)">{{profileShortName}}</span>
+    <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="headerTooltip">
+    <div class="tooltip-drop tooltip-drop-for-header">
+      <img *ngIf="ProfileUrl!=''" class="short-image" src="{{ProfileUrl}}" />
+      <span *ngIf="ProfileUrl==''" class="short-image" [style.background]="getBackgroundColor(profileShortName)">{{profileShortName}}</span>
+      <div class="user-name">
+        <div>{{userName}}</div>
+        <small>{{userEmail}}</small>
+      </div>
+    </div>
+    </ng-template>
+  </div>
+  <mat-menu #profileMenu="matMenu" xPosition="before" class="header-dropdown-menu">
+    <span class="material-icons headerDroupDownUp">
+      arrow_drop_up
+    </span>
+    <div class="p-15">
+      <mat-slide-toggle id="darkModeBtn" color="primary" [checked]="isEnable" (click)="$event.stopPropagation()"
+        (change)="onChangeTheme($event)">{{'label_darkMode' | customTranslate}}</mat-slide-toggle>
+    </div>
+    <mat-divider></mat-divider>
+    <a mat-button id="userProfileMenu_{{i}}" *ngFor="let profileMenu of profile; let i = index"
+      (click)="topMenuActive(profileMenu.Name)" [ngClass]="profileMenu.Name==ActiveTopMenu ? 'active' : ''"
+      [routerLink]="profileMenu.Router ? profileMenu.Router : null">
+      <span class="material-icons">
+        {{profileMenu.Icon}}
+      </span> {{profileMenu.MenuLabel|customTranslate}}
+    </a>
+    <button [disabled]="inviteTeammate==1" id="group_addBtn" mat-button (click)="openDialogforteammate()" *ngIf="inviteTeammate!=0">
+      <span class="material-icons">
+        group_add
+      </span> {{'profileMenu_MenuLabel_InviteTeammate'|customTranslate}}</button>
+    <mat-divider></mat-divider>
+    <div class="signOut">
+      <button mat-button id="logoutBtn" class="signOutButton" (click)="logout()"> <span class="material-icons">
+          exit_to_app
+        </span> {{'label_signout'|customTranslate}}</button>
+    </div>
+  </mat-menu>
+</mat-toolbar>

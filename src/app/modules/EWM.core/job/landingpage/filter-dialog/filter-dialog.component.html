@@ -1,0 +1,283 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: filter-dilaog.component.html
+  @Who: renu
+  @When: 19-July-2021
+  @Why: EWM-2003 EWM-2086
+  @What: This page wil be use only for the job filter dilaog box page Component HTML
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_filters'|translate}}</h2>
+</div>
+<mat-dialog-content #target class="filter-modal-content" id="filter-modal-content">
+    <form [formGroup]="filterForm" id="filterForm-filter" applyTabIndexes>
+        <ng-container formArrayName="filterInfo">
+            <div class="col l12 m12 s12">
+                <mat-accordion class="filterData" *ngFor="let filterData of filterInfo().controls; let i=index"
+                    [formGroupName]="i">
+                    <mat-expansion-panel [expanded]="true" tabindex (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = false" hideToggle="true" class="mb-5">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon tabindex *ngIf="!panelOpenState">expand_more</mat-icon>
+                                <mat-icon tabindex *ngIf="panelOpenState">expand_less</mat-icon>
+                                {{'label_filterCon'|translate}}
+                                <button id="mat-dialog-closeAcc-{{i}}" *ngIf="i!==0" type="button" mat-icon-button
+                                    class="closebutton" matTooltip="{{'label_remove'|translate}}"
+                                    matTooltipClass="custom-tooltip" (click)="removeRow(i)" tabindex>
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-divider class="mb-5"></mat-divider>
+                        <div class="ng-slectBox">
+                            <ng-select [clearable]="true" appendTo="body" class="dropdown-body show-required" tabindex
+                                [clearable]="true" placeholder="{{'label_filter' | translate}}" bindLabel="Title"
+                                formControlName="filterParam" id="filter-param1_{{i}}"
+                                (change)="filterConditionType($event,i)" [compareWith]="compareFn">
+
+                                <ng-option *ngFor="let col of gridConfigArr| orderTranslate" [value]="col">
+                                    {{col.Title |customTranslate}}</ng-option>
+
+                            </ng-select>
+                            <mat-error
+                                *ngIf="filterData.get('filterParam').errors?.required && filterData.get('filterParam').touched">
+                                {{ 'label_filter' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                            <mat-error
+                                *ngIf="filterData.get('filterParam').errors?.unique && filterData.get('filterParam').touched">
+                                {{ 'label_selectModule' |translate}} {{ 'label_errorunique' |translate}}
+                            </mat-error>
+
+                        </div>
+                        <div class="ng-slectBox">
+                            <ng-select [clearable]="true" appendTo="body" class="dropdown-body show-required" tabindex
+                                placeholder="{{'label_filterCondition' | translate}}" formControlName="condition"
+                                id="filter-param2_{{i}}" [clearable]="true" (change)="getValue($event,i)">
+                                <ng-option *ngFor="let con of filterOptionsFilter[i]" value="{{con.name}}">
+                                    {{con.label}}</ng-option>
+                            </ng-select>
+                            <mat-error
+                                *ngIf="filterData.get('condition').errors?.required && filterData.get('condition').touched">
+                                {{ 'label_filterCondition' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                        </div>
+                        <div class="row mb-0" *ngIf="IsEmptyNotEmpty[i]">
+                            <div class="col l12 m12 s12" *ngIf="filterData.get('filterParam').value!='OpenDate' && inputTypedata[i] != 'Date' + i
+                             && inputTypedata[i] !='DropDown' + i">
+                                <mat-form-field>
+                                    <mat-label>{{'label_filterValue' | translate}}</mat-label>
+                                    <input type="text" matInput tabindex formControlName="ParamValue"
+                                        id="ParamValue{{i}}" placeholder="{{'label_filterValue' | translate}}" required>
+                                    <mat-error
+                                        *ngIf="filterData.get('ParamValue').errors?.required && filterData.get('ParamValue').touched">
+                                        {{ 'label_filterValue' |translate}} {{ 'label_errorreqired' |translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="filterData.get('ParamValue').errors?.maxlength && filterData.get('ParamValue').touched">
+                                        {{ 'label_filterValue' |translate}} {{ 'label_errormaxlength50' |translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="filterData.get('ParamValue').errors?.pattern && filterData.get('ParamValue').touched">
+                                        {{ 'label_filterValue' |translate}} {{ 'label_numericerr' |translate}}
+                                    </mat-error>
+
+                                </mat-form-field>
+                            </div>
+                            <div class="col l12 m12 s12" *ngIf="filterData.get('filterParam').value=='OpenDate'">
+                                <mat-form-field>
+                                    <!-- //by maneesh,what:as discuss with mukesh sir  for fixed read only,when:27/05/2024 -->
+                                    <mat-label>{{'label_filterValue' | translate}}</mat-label>
+                                    <input matInput [matDatepicker]="picker1" tabindex id="ParamValue{{i}}" readonly
+                                        [min]="today" formControlName="ParamValue"    [placeholder]="getDateFormat"  required >
+                                    <button *ngIf="filterData.controls['ParamValue'].value || filterData.controls['ParamValue'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button
+                                        aria-label="Clear" (click)="clearEndDate(filterData)">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+
+                            <!-- @bantee @whn 24-03-2023 @whyEWM-11181  dynamic date filter validation -->
+
+                            <mat-error *ngIf="filterData.controls['ParamValue'].hasError('required') && filterData.controls['ParamValue'].touched && !filterData.controls['ParamValue'].hasError('matDatepickerParse')"> {{ 'label_filterValue' |translate}} {{'label_errorreqired'|translate}} vbnvbnv </mat-error>
+                            <mat-error *ngIf="filterData.controls['ParamValue'].hasError('invalidDate') && !filterData.controls['ParamValue'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                            <mat-error *ngIf="filterData.controls['ParamValue'].hasError('matDatepickerParse')"> {{'label_invalidDate' | translate}}</mat-error>
+
+                                </mat-form-field>
+                            </div>
+                            <div class="col l12 m12 s12" *ngIf="inputTypedata[i]=='Date' + i">
+                                <mat-form-field>
+                                    <!-- //by maneesh,what:as discuss with mukesh sir  for fixed read only,when:27/05/2024 -->
+                                    <mat-label>{{'label_filterValue' | translate}}</mat-label>
+                                    <input matInput [matDatepicker]="picker1" tabindex id="ParamValue{{i}}" readonly
+                                        [min]="today" formControlName="ParamValue"    [placeholder]="getDateFormat"  required>
+                                    <button *ngIf="filterData.controls['ParamValue'].value || filterData.controls['ParamValue'].hasError('matDatepickerParse') " id="clearBtn" matSuffix mat-icon-button
+                                        aria-label="Clear" (click)="clearEndDate(filterData)">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+
+                                    <!-- @bantee @whn 24-03-2023 @whyEWM-11181  dynamic date filter validation -->
+
+                                    <mat-error *ngIf="filterData.controls['ParamValue'].hasError('required') && filterData.controls['ParamValue'].touched && !filterData.controls['ParamValue'].hasError('matDatepickerParse')"> {{ 'label_filterValue' |translate}} {{'label_errorreqired'|translate}}</mat-error>
+                                    <mat-error *ngIf="filterData.controls['ParamValue'].hasError('invalidDate') && !filterData.controls['ParamValue'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                                    <mat-error *ngIf="filterData.controls['ParamValue'].hasError('matDatepickerParse')"> {{'label_invalidDate' | translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col l12 m12 s12" *ngIf="inputTypedata[i]=='DropDown' + i">
+                                <div class="ng-slectBox">
+                                    <!--For Multiple selection DropDwon By Anup Singh-->
+                                    <span *ngIf="isMultiple">
+                                         <!-- @When: 03-11-2023 @who:Amit @why: EWM-15047 @what: chip fixed -->
+                                        <ng-select tabindex [multiple]="true" formControlName="DropDwonName" (blur)="fireValidator(filterData)"
+                                            class="dropdown-body chip-fixed" #select [searchable]="false" appendTo="body"
+                                            [clearable]="true" placeholder="{{config[i].Label |customTranslate}}*"
+                                            [items]="dropList[i]" [bindLabel]="keyValue[i]"
+                                            [(ngModel)]="multiDropDownData[i]"
+                                            (change)="onDropdownDatachange($event,i)">
+                                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                                                    <span class="ng-value-label" matTooltip="{{item[keyValue[i]]}}" matTooltipClass="custom-tooltip"> {{item[keyValue[i]]}}</span>
+                                                    <span class="ng-value-icon right" (click)="clear(item)"
+                                                        aria-hidden="true">×</span>
+                                                </div>
+                                                <div class="ng-value more-value" *ngIf="items?.length > 2">
+                                                    <span class="ng-value-label">{{items?.length - 2}}
+                                                        {{'label_more'|translate}}...</span>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template ng-header-tmp>
+                                                <ng-container>
+                                                    <div class="add-manage">
+                                                        <span class="spacer"></span>
+                                                        <a mat-icon-button *ngIf="isStatus" class="dropdown-manage"
+                                                            id="favIcon" (click)="redirect()" color="primary"
+                                                            (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                                                            (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                                                            matTooltip="{{'label_Manage'|translate}}"
+                                                            matTooltipClass="custom-tooltip-top"
+                                                            matTooltipPosition="above">
+                                                            <div class="two-icons"
+                                                                id="{{animationVar?.ManageButton?.id}}"
+                                                                class="{{animationVar?.ManageButton?.isAnimClass}}">
+                                                                <mat-icon>subject</mat-icon>
+                                                                <mat-icon class="secondIcon">settings</mat-icon>
+                                                            </div>
+                                                        </a>
+
+
+
+                                                        <button mat-icon-button class="dropdown-reload"
+                                                            (click)="getUpdateOptions(config[i],i)" color="primary"
+                                                            type="button" [ngClass]="loader?'rotate-loader':''"
+                                                            matTooltip="{{'label_refreshBtn'|translate}}"
+                                                            matTooltipClass="custom-tooltip-top"
+                                                            matTooltipPosition="above"
+                                                            (mouseenter)="mouseoverAnimation(animationVar?.CustomBarRotateButton?.id, animationVar?.CustomBarRotateButton?.animation)"
+                                                            (mouseleave)="mouseleaveAnimation(animationVar?.CustomBarRotateButton?.id, animationVar?.CustomBarRotateButton?.animation)">
+                                                            <mat-icon id="{{animationVar?.CustomBarRotateButton?.id}}"
+                                                                class="{{animationVar?.CustomBarRotateButton?.isAnimClass}}">
+                                                                rotate_right</mat-icon>
+                                                        </button>
+
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container>
+                                                    <div class="pl-15 pr-15">
+                                                        <mat-form-field class="no-bottom">
+                                                            <input matInput class="selectSearch" autocomplete="off"
+                                                                placeholder="{{'label_search' |translate}} {{ config.placeholder!=''&& config.placeholder!=undefined ?(config.placeholder|translate):''}}"
+                                                                type="text"
+                                                                (input)="searchdropdown($event.target.value,config,i)" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-template>
+                                        </ng-select>
+                                        <mat-error
+                                        *ngIf="filterData.get('DropDwonName').errors?.required && filterData.get('DropDwonName').touched">
+                                        {{ 'label_filterCondition' |translate}} {{ 'label_errorreqired' |translate}}
+                                    </mat-error>
+                                    </span>
+
+
+                                    <!--For Single selection DropDwon By Anup Singh-->
+                                    <span *ngIf="!isMultiple">
+                                        <ng-select class="dropdown-body" appendTo="body" [searchable]="false" (blur)="fireValidator(filterData)"
+                                            [clearable]="true" formControlName="DropDwonName" #select
+                                            placeholder="{{config[i].Label |customTranslate}}*" id="ParamValue{{i}}"
+                                            (change)="onDropdownDatachange($event,i);" (blur)="fireValidator(filterData)">
+                                            <ng-template ng-header-tmp>
+                                                <ng-container>
+                                                    <div class="add-manage">
+                                                        <span class="spacer"></span>
+                                                        <button mat-icon-button color="primary" type="button"
+                                                            (click)="getUpdateOptions(config[i],i)"
+                                                            [ngClass]="loader?'rotate-loader':''">
+                                                            <mat-icon>refresh</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container>
+                                                    <div class="pl-15 pr-15">
+                                                        <mat-form-field class="no-bottom">
+                                                            <input matInput class="selectSearch" autocomplete="off"
+                                                                placeholder="{{'label_search' |translate}}" type="text"
+                                                                (input)="searchdropdown($event.target.value,config,i)" />
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-option disabled>{{'label_select'| translate}} </ng-option>
+                                            <ng-option [value]="item" *ngFor="let item of dropList[i]">
+                                                {{item[keyValue[i]]}}
+                                            </ng-option>
+
+                                        </ng-select>
+                                        <mat-error
+                                        *ngIf="filterData.get('DropDwonName').errors?.required && filterData.get('DropDwonName').touched">
+                                        {{ 'label_filterCondition' |translate}} {{ 'label_errorreqired' |translate}}
+                                    </mat-error>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </ng-container>
+    </form>
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter">
+    <button mat-mini-fab color="primary" id="filter-add-btn" type="button" class="add-filter"
+        [disabled]="!filterForm.valid" (click)="showFilter(target)" matTooltip="{{'label_Addfilters'|translate}}"
+        matTooltipPosition="left"
+        (mouseenter)="mouseoverAnimation(animationVar?.AddFilterButtonDialog?.id, animationVar?.AddFilterButtonDialog?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.AddFilterButtonDialog?.id, animationVar?.AddFilterButtonDialog?.animation)">
+        <mat-icon id="{{animationVar?.AddFilterButtonDialog?.id}}"
+            class="{{animationVar?.AddFilterButtonDialog?.isAnimClass}}">
+            {{animationVar?.AddFilterButtonDialog?.iconName}}</mat-icon>
+    </button>
+    <button mat-raised-button color="warn" class="ml-0 clear-all-filter" type="button" tabindex id="btnCancel"
+        [disabled]="clearFilterBtnEnable" (click)="onReset()">
+        {{'label_resetJobLanding'|translate}}</button>
+    <span class="popup-footer-spacer"></span>
+    <button mat-stroked-button color="warn" type="button" tabindex id="btnCancel" (click)="onDismiss()">
+        {{'label_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" type="button" tabindex id="btnSave" *ngIf="!isFilter"
+        [disabled]="!filterForm.valid || isSaveForClearBtn" (click)="onConfirm()"> {{'label_save'|translate}}</button>
+
+    <button mat-stroked-button color="primary" type="button" tabindex id="btnSave" *ngIf="isFilter"
+        [disabled]="!filterForm.valid || isSaveForClearBtn" (click)="onConfirm()"> {{'label_apply'|translate}}</button>
+</div>

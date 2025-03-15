@@ -1,0 +1,26 @@
+
+::ng-deep {
+    .mat-dialog-container{
+        background: hwb(0deg 0% 100% / 76%);
+        box-shadow: none;
+        .mat-dialog-content {
+            color: #fff;
+            .mat-icon{
+                color: #FFD700;
+                font-size: 55px;
+                height: 55px;
+                line-height: 55px;
+                width: 55px;   
+            }
+            p{
+                font-size: 18px;
+                line-height: 22px;
+            }
+        }
+    }
+    .mat-dialog-actions {
+        .mat-mini-fab{
+           overflow: hidden; 
+        }
+    }
+}

@@ -1,0 +1,49 @@
+
+// @(C): Entire Software
+// @Type: File, <html>
+// @Who:  ANUP
+//@When: 07-oct-2021
+//@Why: EWM-3088 EWM-3181
+
+
+.latLongDistance{
+    .quick-dialog{
+        h2{
+            margin-bottom: 0px;
+        }
+        span.timeLineCloseIcon{
+            float: right;
+            position: relative;
+             z-index: 999;
+             cursor: pointer;
+             right:0px;
+             color:#c1c1c1;
+        }
+        span.timeLineCloseIcon:hover{
+            color:#cc0000;
+        }
+        .lineHeightFix{
+            line-height: 65px;
+        }
+        .distanceIcon{
+            margin:0px;
+            text-align: center;
+        }
+        .distanceTotal{
+            text-align: center;
+            margin: 30px 0px 0px 0px;
+
+            .distanceTotalLbl{
+              padding: 10px 30px;
+             font-weight: 500;
+            font-size: 16px;
+    color: #f44336;
+    border: 1px solid rgba(0,0,0,0.15);
+            }
+        }
+    }    
+}
+
+.agm-map {
+    height: 400px;
+}

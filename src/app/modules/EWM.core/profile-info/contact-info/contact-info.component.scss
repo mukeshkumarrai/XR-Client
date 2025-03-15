@@ -1,0 +1,96 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: contact-info.component.scss
+    @Who: Satya Prakash
+    @When: 16-Nov-2020
+    @Why: ROST-365 ROST-396
+    @What: You can add contact-info styles to this file, and also import other style files
+*/
+
+.mat-form-field{
+    margin-bottom: 3px !important;
+}
+@media only screen and (max-width: 1000px) and (min-width: 479px) {
+    .mat-form-field{margin-bottom: 10px !important;}
+}
+.matErrorFix{
+    position: relative;
+    top:-12px;
+    font-size: 75%;
+}
+.sticky{
+    top:-15px;
+}
+.contact-info{
+    .contact-full-part{
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 10px;
+        h2.cardSubTitle{
+            text-align: left;
+            font-size: 16px;
+            margin: 0px;
+            margin-bottom: 5px;
+            font-weight: 500;
+            .mat-raised-button.mat-primary{
+                float: right;
+                position: relative;
+                top: -8px;
+            }
+        }
+        .mat-divider-horizontal{
+            position: relative;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        } 
+        .contact-section{
+            display: grid;
+            grid: auto/calc(33.33% - 10px) calc(33.33% - 10px) calc(33.33% - 10px);
+            gap: 15px;
+            @media only screen and (min-width:641px) and (max-width:1060px){
+                grid: auto/calc(50% - 10px) calc(50% - 10px);
+            }
+            @media only screen and (min-width:320px) and (max-width:640px){
+                grid: auto/calc(100% - 0px);
+            }
+        }
+        .contact-section.contact-section-next{
+            grid-template-columns:calc(33.33% - 10px) calc(33.33% - 10px) calc(33.33% - 10px);
+            @media only screen and (min-width:641px) and (max-width:1060px){
+                grid: auto/calc(50% - 10px) calc(50% - 10px);
+            }
+            @media only screen and (min-width:320px) and (max-width:640px){
+                grid: auto/calc(100% - 0px);
+            }
+            .next-kin-data{
+                grid-template-columns: 95px calc(100% - 110px);
+                display: grid;
+                gap: 15px;
+            }
+        }
+        .contact-section.contact-section-number{
+            grid-template-columns: auto/calc(33.33% - 10px) calc(33.33% - 10px);
+            @media only screen and (min-width:641px) and (max-width:1060px){
+                grid: auto/calc(100% - 0px);
+            }
+            .next-kin-data{
+                grid-template-columns: 95px calc(100% - 110px);
+                display: grid;
+                gap: 15px;
+                @media only screen and (min-width:320px) and (max-width:1060px){
+                    grid-template-columns: 150px calc(100% - 165px);
+                }
+            }
+        }
+    }
+}
+// @When: 12-04-2023 @Who:Satya Prakash Gupta @Why: EWM-11863 @What: copy address checkbox stle
+.copy-full-address{
+    position: relative;
+    .mat-checkbox{
+        position: absolute;
+        bottom: -5px;
+        left: 0px;
+    }
+}

@@ -1,0 +1,136 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 12-Jul-2021
+    @Why: EWM-2009 EWM-2049
+    @What:  This page wil be use only for the Customizing Widgets Component HTML
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="customizing-mat-card-header">
+  <mat-card-title class="only-title">{{'label_dashboardWidgets' |translate}}</mat-card-title>
+  <div class="actionButton">
+    <button mat-raised-button color="primary" [disabled]="isResponseGet" tabindex="9" (click)="onSave()" type="button" id="btnSave"
+      class="buttonForDesktopMobile">
+      <mat-icon>check</mat-icon>
+                      <!-- who:maneesh,what:ewm-14059 for fixed loader when click on save,when:26/09/2023 -->
+      <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_save'|translate}}</span>
+      <div *ngIf="isResponseGet" id="loading"></div>
+    </button>
+  </div>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-button" autosize id="customizing-drawer">
+  <mat-card-content class="customize-section">
+
+    <mat-card-subtitle class="subTitle">{{ 'label_widgetsSubTitle' |translate }}</mat-card-subtitle>
+
+    <form id="userEmailIntegrationForm-form" class="mt-10">
+      <div cdkDropListGroup id="product-feature-mapping-cdkDropfeatures" class="widget-section">
+
+        <mat-card id="product-feature-mapping-cdkDrop-col" class="drag-area">
+          <div id="action-dialog-mapping-cdkDroplist">
+            <div class="left-scroll-area" cdkDropList #leftGridDataList="cdkDropList" [cdkDropListData]="leftGridData"
+              [cdkDropListConnectedTo]="[rightGridDataList]" (cdkDropListDropped)="drop($event,'L')">
+              
+              <!-- @When: 28-09-2023 @who:Amit @why: EWM-13977 @what: cursor remove --> 
+              <div id="action-dialog-mapping-cdkDroplistadd" class="custWidgetCols mat-elevation-z2"
+                *ngFor="let item of leftGridData" cdkDrag>
+                <div id="action-dialog-mapping-cdkDroplistadd" class="custWidgetCols-preview mat-elevation-z2" *cdkDragPreview>
+
+                  <div class="drag-name">
+                    <button mat-icon-button color="primary" tabindex mat-icon-button cdkDragHandle
+                      class="moveCurson"><mat-icon>drag_indicator</mat-icon></button>
+                    <span class="textSpan">{{item.WidgetName}}</span>
+                  </div>
+  
+                  <div class="threeDotIconPadding">
+                    <mat-slide-toggle [checked]="item.IsEnabled==1" (change)="makeEnabled(item.Id,item.IsEnabled,'L')"
+                      color="primary"></mat-slide-toggle>
+                      <!-- who:maneesh,what: comment this and remove threedot when click on threedot there is no functnality as discuss with mukesh sr and satya sr,when:26/09/2023 -->
+                    <!-- <mat-icon [ngClass]="item.IsEnabled==0 ? 'matIcon' : 'matIcon activeStarIcon'"
+                      (click)="showActionList()">more_vert</mat-icon> -->
+                  </div>
+                  <div *ngIf="!isShowActionList" class="actionBtnListBox">
+                    dropdown data coming soon...
+                  </div>
+  
+                </div>
+                <div class="drag-name">
+                  <button mat-icon-button color="primary" tabindex mat-icon-button cdkDragHandle
+                    class="moveCurson"><mat-icon>drag_indicator</mat-icon></button>
+                  <span class="textSpan">{{item.WidgetName}}</span>
+                </div>
+
+                <div class="threeDotIconPadding">
+                  <mat-slide-toggle [checked]="item.IsEnabled==1" (change)="makeEnabled(item.Id,item.IsEnabled,'L')"
+                    color="primary"></mat-slide-toggle>
+                      <!-- who:maneesh,what: comment this and remove threedot when click on threedot there is no functnality as discuss with mukesh sr and satya sr,when:26/09/2023 -->
+                  <!-- <mat-icon [ngClass]="item.IsEnabled==0 ? 'matIcon' : 'matIcon activeStarIcon'"
+                    (click)="showActionList()">more_vert</mat-icon> -->
+                </div>
+                <div *ngIf="!isShowActionList" class="actionBtnListBox">
+                  dropdown data coming soon...
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </mat-card>
+
+        <mat-card id="product-feature-mapping-cdkDrop-col" class="drag-area">
+          <div id="action-dialog-mapping-cdkDroplist" cdkDropList #rightGridDataList="cdkDropList"
+            [cdkDropListData]="rightGridData" [cdkDropListConnectedTo]="[leftGridDataList]"
+            (cdkDropListDropped)="drop($event,'R')" class="left-scroll-area">
+
+            <!-- @When: 28-09-2023 @who:Amit @why: EWM-13977 @what: cursor remove --> 
+            <div class="custWidgetCols mat-elevation-z2" id="selected-grid-mapping-cdkDroplistadd"
+              *ngFor="let item of rightGridData" cdkDrag>
+              <div id="action-dialog-mapping-cdkDroplistadd" class="custWidgetCols-preview mat-elevation-z2" *cdkDragPreview>
+
+                <div class="drag-name">
+                  <button mat-icon-button color="primary" tabindex mat-icon-button cdkDragHandle
+                    class="moveCurson"><mat-icon>drag_indicator</mat-icon></button>
+                  <span class="textSpan">{{item.WidgetName}}</span>
+                </div>
+
+                <div class="threeDotIconPadding">
+                  <mat-slide-toggle [checked]="item.IsEnabled==1" (change)="makeEnabled(item.Id,item.IsEnabled,'L')"
+                    color="primary"></mat-slide-toggle>
+                      <!-- who:maneesh,what: comment this and remove threedot when click on threedot there is no functnality as discuss with mukesh sr and satya sr,when:26/09/2023 -->
+                  <!-- <mat-icon [ngClass]="item.IsEnabled==0 ? 'matIcon' : 'matIcon activeStarIcon'"
+                    (click)="showActionList()">more_vert</mat-icon> -->
+                </div>
+                <div *ngIf="!isShowActionList" class="actionBtnListBox">
+                  dropdown data coming soon...
+                </div>
+
+              </div>
+              
+              <div class="drag-name">
+                <button mat-icon-button tabindex color="primary" cdkDragHandle
+                  class="moveCurson"><mat-icon>drag_indicator</mat-icon></button>
+                <span class="textSpan">{{item.WidgetName}}</span>
+              </div>
+              <div class="threeDotIconPadding">
+                <mat-slide-toggle [checked]="item.IsEnabled==1" (change)="makeEnabled(item.Id,item.IsEnabled,'R')"
+                  color="primary"></mat-slide-toggle>
+                      <!-- who:maneesh,what: comment this and remove threedot when click on threedot there is no functnality as discuss with mukesh sr and satya sr,when:26/09/2023 -->
+                <!-- <mat-icon [ngClass]="item.IsEnabled==0 ? 'matIcon' : 'matIcon activeStarIcon'"
+                  (click)="showActionList()">more_vert</mat-icon> -->
+              </div>
+              <div *ngIf="!isShowActionList" class="actionBtnListBox">
+                dropdown data coming soon...
+              </div>
+
+            </div>
+
+          </div>
+        </mat-card>
+
+      </div>
+    </form>
+  </mat-card-content>
+</mat-drawer-container>

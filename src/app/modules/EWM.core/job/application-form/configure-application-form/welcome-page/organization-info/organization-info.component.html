@@ -1,0 +1,109 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: organization-Info.component.html
+  @Who: Renu
+  @When: 04-Oct-2022
+  @Why:  EWM-8902 EWM-9111
+  @What: Organization Info data
+ -->
+
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+ <div class="org-header">
+    <h2 matDialogTitle class="mb-0">{{'label_organizationDetails'|translate}}</h2>      
+    <!-- <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button> -->
+    <div>
+        <!-- who:maneesh, what:ewm.9571   (click)="redirect()" when:16/01/2023 -->
+    <a mat-icon-button matSuffix class="dropdown-manage" 
+    target="_blank" color="primary"   (click)="redirect()" id="ManageBtn" matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip"
+    (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+    (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+    <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+        class="{{animationVar?.ManageButton?.isAnimClass}}">
+        <mat-icon>subject</mat-icon>
+        <mat-icon class="secondIcon">settings</mat-icon>
+    </div>
+    </a>
+
+    <button mat-icon-button matSuffix class="refreshBtn radius-call" (click)="refreshComponent()" 
+    id="btnRefresh" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip"
+    matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip"
+    (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+    (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+        <mat-icon color="primary" id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">rotate_right</mat-icon>
+    </button>
+    </div>
+
+</div>
+
+<mat-dialog-content class="info-box">
+    <mat-card class="info-Data mt-5">
+        <div class="info-title">
+            {{'label_addressLine1'|translate}}
+        </div>
+        <div class="info-details">
+          {{orgInfo?.Address1}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_addressLine2'|translate}}
+        </div>
+        <div class="info-details">
+            {{orgInfo?.Address2}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_city'|translate}}
+        </div>
+        <div class="info-details">
+            {{orgInfo?.City}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_state'|translate}}
+        </div>
+        <div class="info-details">
+            {{orgInfo?.State}}
+        </div>
+    </mat-card>
+    
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_zipCodePostalCode'|translate}}
+        </div>
+        <div class="info-details">
+            {{orgInfo?.Zip}}
+        </div>
+    </mat-card>
+
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_email'|translate}}
+        </div>
+        <div class="info-details">
+            <span *ngFor="let email of emailArr;let last = last">{{email.EmailId}} <i *ngIf="!last">,</i> </span>
+        </div>
+    </mat-card>
+   
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_phone'|translate}}
+        </div>
+        <div class="info-details">
+            <span *ngFor="let phone of phoneArr;let last = last;">{{phone.PhoneCode}} {{phone.PhoneNumber}}<i *ngIf="!last">,</i></span>
+        </div>
+    </mat-card>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+       
+    </div>

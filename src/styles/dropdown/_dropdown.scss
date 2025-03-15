@@ -1,0 +1,389 @@
+@use "../../colors";
+.mat-chip.mat-standard-chip.mat-chip-disabled{
+    opacity: 0.6;
+}
+.dropdown-body{
+    .ng-select-container{
+        .dropdown-value-box{
+            display: flex;
+            .second-value{
+                padding-inline-start: 5px;
+                &::before{
+                    content: " (";
+                }
+                &::after{
+                    content: ")";
+                }
+            }
+        }
+        .with-owners{
+            .second-value{
+                .job-owners{
+                    display: none;
+                }
+            }
+        }
+    }
+}
+.ng-dropdown-panel.ng-select-bottom.dropdown-body{
+    margin-top: -15px;
+    .dropdown-search{
+        margin-bottom: 0px;
+        height: 28px;
+        margin-inline-start: 15px;
+        margin-inline-end: 15px;
+        width: calc(100% - 30px);
+        .mat-form-field-wrapper{
+            padding-bottom: 0px;
+            .mat-form-field-flex{
+                .mat-form-field-infix{
+                    border-top: 0px;
+                    padding: 7px 0px;
+                    height: 14px;
+                    input.mat-input-element{
+                        line-height: 22px;
+                    }
+                }
+            }
+            .mat-form-field-underline{
+                bottom: 0px;
+            }
+        }
+    }
+    .scroll-host{
+        .dropdown-value-box{
+            display: flex;
+            flex-direction: column;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            min-height: 40px;
+            justify-content: center;
+            width: 100%;
+            .value{
+                height: 20px;
+                line-height: 20px;
+            }
+            .second-value{
+                display: flex;
+                min-height: 15px;
+                .refid{
+                    display: inline-block;
+                    line-height: 16px;
+                    position: relative;
+                    color: colors.$info-color;
+                    font-size: 11px;
+                    height: 16px;
+                    padding: 0px 3px;
+                    &::before{
+                        content: "";
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 4px;
+                        background-color: currentColor;
+                        opacity: 0.10;
+                        left: 0px;
+                        top: 0px;
+                        z-index: 0;
+                    }
+                }
+                .link{
+                    display: inline-block;
+                    line-height: 16px;
+                    position: relative;
+                    color: colors.$info-color;
+                    font-size: 11px;
+                    min-height: 16px;
+                    padding: 0px 3px;
+                    word-wrap: break-word;
+                    max-width: 100%;
+                    white-space: initial;
+                    &::before{
+                        content: "";
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 4px;
+                        background-color: currentColor;
+                        opacity: 0.10;
+                        left: 0px;
+                        top: 0px;
+                        z-index: 0;
+                    }
+                }
+            }
+        }
+        // Who: Satya Prakash Gupta : What:EWM-14571 EWM-14606 : Add owners ,when:04/Oct/2023
+        .with-owners{
+            .second-value{
+                justify-content: space-between;
+                gap: 5px;
+                .job-owners{
+                    display: flex;
+                    align-items: center;
+                    gap: 1px;
+                    $ownersize:14px;
+                    .userAvtaarAndName{
+                        width: $ownersize;
+                        height: $ownersize;
+                        img, span{
+                            width: $ownersize;
+                            height: $ownersize;
+                            line-height: $ownersize;
+                            font-size: 8px;
+                        }
+                    }
+                    .more-owners{
+                        width: auto;
+                        height: $ownersize;
+                        line-height: $ownersize;
+                        min-width: auto;
+                        padding: 0px 1px;
+                        font-size: 9px;
+                    }
+                }
+            }
+
+        }
+    }
+}
+.dark-dropdown{
+    .full-width{
+        .mat-chip-list{
+            .mat-chip-list-wrapper{
+                // flex-direction: inherit;
+                // flex-wrap: nowrap;
+                // width: calc(100% - 30px);
+                .mat-chip{
+                    span{
+                        width: max-content;
+                    }
+                }
+            }
+        }
+    }
+}
+// new select option css
+.common_dropdown_v2{
+    .loaderAnimation {
+        border-bottom: thin solid rgba(0, 0, 0, 0.22);
+        height: 30px;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .vs__open-indicator {
+        fill: rgba(60, 60, 60, 0.5);
+        transform: scale(1);
+        transition: transform .3s ease-in-out;
+    }
+    .default_indicator{
+        margin-top: 10px;
+    }
+}
+.common_dropdown_v2{
+    .mat-form-field-infix{
+        min-height: 13px;
+        .mat-chip.mat-standard-chip{
+            height: 20px;
+            z-index: 2;
+            span{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            img{
+                width: 17px;
+                height: 17px;
+                border-radius: 100%;
+            }
+        }
+        .mat-chip-input{
+            position: absolute;
+            width: calc(100% - 25px);
+            top: 0px;
+            bottom: 0px;
+        }
+    }
+}
+.common_dropdown_v2.profile-remove{
+    .mat-form-field-infix{
+        .mat-chip.mat-standard-chip{
+            img{
+                display: none;
+            }
+        }
+    }
+}
+.common_dropdown_v2.dropdown-with-icon{
+    width: 100%;
+    position: relative;
+    .before-icon{
+        position: absolute;
+        top: 15px;
+    }
+    .mat-chip-list{
+        .mat-chip.mat-standard-chip{
+            min-height: 21px;
+            max-width: 175px;
+            @media only screen and (min-width:240px) and (max-width:480px) {
+                max-width: 115px;
+            }
+            span{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+        input.mat-chip-input{
+            @media only screen and (min-width:240px) and (max-width:480px){
+                width: 88px;
+                flex: 1 0 88px;
+            }
+        }
+    }
+    .dropdown.dark-dropdown{
+        .mat-form-field{
+            .mat-form-field-infix{
+                padding-inline-start: 25px;
+                .mat-form-field-label{
+                    padding-inline-start: 25px;
+                    width: calc(100% - 25px);
+                }
+            }
+        }
+        .mat-form-field.mat-form-field-should-float{
+            .mat-form-field-label {
+                transform: translateY(-1.2em) scale(0.7) perspective(95px) translateZ(0.001px) translateX(-1.8em);
+            }
+        }
+    }
+}
+
+.common-manage{
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.searchBox{
+    position: relative;
+    .searchBox {
+        .myInput {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: none;
+            border-left: none;
+            outline: none;
+            margin: 0;
+            padding: 8px 5px 8px 15px;
+            background: none;
+            max-width: 100%;
+            color: #424242;
+            width: calc(100% - 20px);
+            border-bottom: 1px solid #c3c3c3;
+        }
+    }
+    .drpMainOptions .dropdown-menu {
+        margin: 0px 0;
+        overflow-y: auto;
+        max-height: 222px;
+        list-style: none;
+
+        li {
+          // display: flex;
+          // align-items: center;
+          // padding: 6px 10px 6px 10px;
+          // cursor: pointer;
+
+          display: flex;
+          align-items: center;
+          padding: 0px 16px;
+          cursor: pointer;
+          line-height: 3em;
+          min-height: 3em;
+        }
+
+        li:hover {
+          // background: #2744cc;
+          // color: #fff;
+          color: #1D4ED8;
+          background: rgba(59, 130, 246, 0.24);
+          cursor: pointer;
+          background: rgba(0,0,0,0.04);
+          color: rgba(0,0,0,0.87);
+        }
+      }
+}
+
+.light-hover-dropdown.mat-menu-panel {
+    max-width: 220px;
+    min-width: 150px;
+    max-height: 430px;
+    .material-icons{
+        margin-right: 7px;
+    }
+    .mat-icon{
+        margin-right: 7px;
+    }
+    .light-hover.mat-button:hover{
+        background: transparent;
+        color: #000;
+        cursor: default;
+    }
+}
+
+.dropdown-data-wrap{
+    .ng-dropdown-panel-items{
+        .scrollable-content{
+            .ng-option{
+                display: flex;
+                align-items: center;
+                .ng-option-label{
+                    word-break: break-word;
+                    white-space: normal;
+                    line-height: 18px;
+                    padding: 3px 0px;
+                }
+            }
+        }
+    }
+}
+
+.show-required{
+    .mat-form-field-label-wrapper{
+        .mat-form-field-label{
+            span{
+                &:after {
+                    content: ' *';
+                    color: colors.$warn-bg;
+                }
+            }
+        }
+    }
+}
+
+.dark-theme{
+    .common-manage{
+        background: #343434;
+    }
+    .ng-dropdown-panel.ng-select-bottom.dropdown-body{
+        .scroll-host{
+            .dropdown-value-box{
+                .second-value{
+                    .refid{
+                        color: #ffffff;
+                    }
+                    .link{
+                        color: colors.$dark-primary;
+                    }
+                }
+            }
+        }
+    }
+    .light-hover-dropdown.mat-menu-panel {
+        .light-hover.mat-button{
+            color: colors.$white-color;
+        }
+    }
+}

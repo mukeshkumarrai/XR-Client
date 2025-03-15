@@ -1,0 +1,462 @@
+<!---------@When: 07-09-2023 @who:Amit @why: EWM-13897 @what: close job HTML--------->
+
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_close' | translate}} {{'label_job' | translate}}</h2>
+</div>
+
+<form [formGroup]="closeJobForm" class="close-job-form" id="close-job-form-apply" #target>
+    <mat-dialog-content id="job-mat-dialog">
+        <!-- @When: 16-10-2023 @who:Amit @why: EWM-14822 @what: class add -->
+        <p class="note" *ngIf="selectedCandidateList?.length==0 && selectedCandidateList?.length!=undefined">{{
+            'label_closejob_nocandidate_msg' | translate }}</p>
+        <p class="note" *ngIf="selectedCandidateList?.length>1">{{ 'label_closejob_Note' | translate }}:
+            {{selectedCandidateList?.length}} {{ 'label_closejob_selectedcandidate_msg' | translate }}</p>
+
+            <p class="note" *ngIf="selectedCandidateList?.length==1">{{ 'label_closejob_Note' | translate }}:
+                {{selectedCandidateList?.length}} {{ 'label_closejob_selectedcandidatemsg' | translate }}</p>
+
+        <div class="ng-box-select" id="ng-box-select">
+
+            <div id="Status">
+                <!-- @When: 20-09-2023 @who:Amit @why: EWM-13899 @what: ng select add -->
+                <div class="ng-slectBox ng-select-with-info-icon" id="ng-select-with-info-status">
+                  <app-custom-dropdown [selectedIn]="selectedJobStatus" tabindex="1"
+                        (selectedOut)="onJobStatuschange($event)" [config]="dropDownJobStatusConfig">
+                    </app-custom-dropdown>
+                   
+                    <mat-error class="status-error" *ngIf="closeJobForm.controls['StatusId'].hasError('currentStatus')">
+                        {{'label_closejob_current_status_err' |translate}}
+                    </mat-error>
+                    <mat-icon matTooltip="{{'label_closejob_status_info'|translate}}" class="infoStyle" matTooltipClass="card-tooltip-left"
+                    matTooltipPosition="after" fontSet="material-icons-outlined" id="mat-info-icon">info</mat-icon>
+                </div>
+            </div>
+
+            <div id="Reason">
+                <div class="ng-slectBox">
+                    <app-custom-dropdown [selectedIn]="selectedReason"  tabindex="2" (selectedOut)="onManageReasonchange($event)"
+                        [resetFormSubject]="resetFormselectedReason.asObservable()" [config]="dropDownReasonConfig">
+                    </app-custom-dropdown>
+                </div>
+            </div>
+          
+            <!--------------------------------------------------------------------------------------------->
+      
+        <div class="ng-slectBox" id="selectboxcandidate">
+            <ng-select tabindex="3" [multiple]="true" class="dropdown-body" #select [searchable]="false"  formControlName="selectedCandidates" appendTo="body" [clearable]="false"
+                            [closeOnSelect]="true" [(ngModel)]="selectedCandidatesObj"  [compareWith]="compareFn"  groupBy="selectedAllGroup" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            placeholder="{{ 'label_closejob_select_candidates' | translate }}"
+                            id="ddl_skills" [items]="selectedCandidateList" bindLabel="CandidateName"  (change)="selectCandidates($event,selectedCandidatesObj)">
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">                                                                 
+                                    <div class="ng-value ngselect-tag ng-select-name" *ngFor="let item of items | slice:0:maxMoreLength">
+                                        <span class="ng-value-label text-overflow" matTooltip=" {{item.CandidateName}}" 
+                                        matTooltipClass="custom-tooltip-top" matTooltipPosition="above">  {{item.CandidateName}}</span>
+                                        <span class="ng-value-icon right" (click)="clear(item)"
+                                            aria-hidden="true">×</span>
+                                    </div>
+
+                                    <button mat-flat-button class="max-count-box mt-0" *ngIf="items.length > maxMoreLength"
+                                        matTooltip="{{items.length - maxMoreLength}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above">+{{items.length - maxMoreLength}}</button>
+
+                                    <!-- <div class="ng-value" *ngIf="items.length > maxMoreLength">
+                                        <span class="ng-value-label">{{items.length - maxMoreLength}}</span>
+                                    </div>                                 -->
+                            </ng-template>
+                            <ng-template ng-optgroup-tmp let-item="item" let-items="items" let-index="index">           
+                                    Select All
+                                </ng-template>                               
+                <ng-template ng-header-tmp>
+                    <div class="pl-15 pr-15">
+                    <mat-form-field class="no-bottom" floatLabel="never">
+                        <input matInput class="selectSearch" autocomplete="off" placeholder="{{'label_search' |translate}}" type="text"   (input)="select.filter($event.target.value)" />
+                    </mat-form-field>
+                    </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <div class="skills-name">
+                  {{item.CandidateName}}                  
+                </div>
+              </ng-template>
+            </ng-select>
+                  </div>
+        <!----------------------------------------------------------------------->
+        </div>
+
+        <h3>{{'label_jobDetailsCloseJob_PerformActionCandidatesJob' | translate}}
+            <mat-icon matTooltip="{{'label_perform_action_err'|translate}}" matTooltipClass="card-tooltip-left"
+            matTooltipPosition="after"  fontSet="material-icons-outlined" id="mat-info-icon">info</mat-icon>
+        </h3>
+        <div class="selected-candidate" id="selected-candidate">
+            <div class="action-candidate" id="action-move-candidate">
+                <mat-checkbox color="primary" id="move-candidate" formControlName="MoveCandidate"
+                    [disabled]="!isSelectedCandidates" tabindex="4" (change)="onMoveSelectedCandidates($event)">
+                    {{'label_jobDetailsCloseJob_MoveSelectedCandidates'|translate}}</mat-checkbox>
+
+                <!-- @When: 28-09-2023 @who:Amit @why: EWM-14524 @what: error space -->    
+                <div class="ng-slectBox mt-5" id="workflow-stages">
+                    <div class="ng-slectBox">
+                            <ng-select placeholder="{{ 'label_jobDetailsCloseJob_WorkflowStage' | translate }}"
+                            id="workflow-stage" formControlName="WorkflowStageObj" class="dropdown-body show-required" required
+                            appendTo="body" tabindex="5" [clearable]="false" (change)="onWorkFlowStageChanges($event)">
+                            <ng-option [value]="data" *ngFor="let data of parentStagesList">{{data.StageName}}</ng-option>                            
+                              </ng-select>
+                            <mat-error *ngIf="closeJobForm.controls['WorkflowStageObj'].hasError('required') && closeJobForm.controls['WorkflowStageObj'].touched">
+                                {{ 'label_jobDetailsCloseJob_WorkflowStage' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-candidate" id="action-delink-candidate">
+
+                <mat-checkbox color="primary" id="delink-candidate" formControlName="DelinkCandidate" tabindex="6"
+                    [disabled]="!isSelectedCandidates" (change)="onDeLinkSelectedCandidates($event)">
+                    {{'label_jobDetailsCloseJob_DelinkJob'|translate}}</mat-checkbox>
+
+                <div id="CanStatus">
+                    <div class="ng-slectBox">
+                        <app-custom-dropdown [selectedIn]="selectedCanJobStatus" tabindex="7"
+                            (selectedOut)="onManageCanStatuschange($event)" [config]="dropDownCanStatusConfig"
+                            [resetFormSubject]="resetFormCanselectedStatus.asObservable()">
+                        </app-custom-dropdown>
+                    </div>
+                </div>
+
+                <div id="CanReason">
+                    <div class="ng-slectBox">
+                        <app-custom-dropdown [selectedIn]="selectedCanReason"  tabindex="8"
+                            (selectedOut)="onManageCanReasonchange($event)"
+                            [resetFormSubject]="resetFormCanselectedReason.asObservable()"
+                            [config]="dropDownCanReasonConfig">
+                        </app-custom-dropdown>
+                    </div>
+                </div>
+
+                <div class="close-job-comment quick-job" id="close-job-comment">
+                    <mat-form-field>
+                    <mat-label class="divTextAreaLavel">{{'label_comment' | translate}}
+                    </mat-label>
+                    <textarea matInput formControlName="Comment" id="description"
+                        [disabled]="!isDeLinkSelectedCandidates" tabindex="9"   (keyup)="onMessage($event.target.value)" ></textarea>
+                        <mat-error *ngIf="closeJobForm.controls['Comment'].hasError('maxlength')">
+                            {{'label_comment' |translate}} {{'label_errormaxlength300' |translate}}
+                          </mat-error>
+                        </mat-form-field>
+                        <span class="countlabel" color="warn">
+                            {{'label_balance' |translate}}:{{maxMessage}} {{'label_characters' |translate}}
+                        </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="send-email mb-15" id="send-email">
+            <mat-checkbox color="primary" id="send-email-check"  [disabled]="!isSelectedCandidates" formControlName="SendEmail" tabindex="10"
+                (change)="isSendEmailSelectedInfo($event)">{{'label_jobDetailsCloseJob_SendCandidates'|translate}}
+            </mat-checkbox>
+            <mat-icon  matTooltip="{{'label_closejob_sendmail_info'|translate}}" matTooltipClass="card-tooltip-left"
+            matTooltipPosition="after"  fontSet="material-icons-outlined" fontSet="material-icons-outlined" id="info-icon">info</mat-icon>
+        </div>
+        <div *ngIf="isSendEmailSelected">
+            <!-- @When: 20-09-2023 @who:Amit @why: EWM-13899 @what: space add -->
+            <button type="button" class="mb-10" tabindex="11" mat-stroked-button color="primary" (click)="openTemplateModal()"
+                id="newEmail-template">
+                {{'label_insertTemplate' |translate}}
+            </button>
+
+            <div class="email-details" id="email-details">
+                <div id="HeadCount">
+                    <mat-form-field>
+                        <mat-label>{{'label_fromEmails' | translate}}</mat-label>
+                        <input type="hidden" formControlName="From" id="email-UserId" name="From">
+                        <input matInput readonly tabindex="12" placeholder="{{'label_enterEmailID' |translate}}"
+                            id="email-EmailFrom" formControlName="FromEmail">
+                    </mat-form-field>
+                    <!-- <mat-icon class="infoStyle" id="infoStyle" fontSet="material-icons-outlined">info</mat-icon> -->
+                </div>
+
+
+                <!-------------------------------->
+
+                <div class="col l6 m6 s12">
+                    <!-- @When: 20-09-2023 @who:Amit @why: EWM-13899 @what: add class -->
+                    <div class="ng-slectBox ng-slectBox-email" id="selectTocandidate">
+                        <ng-select tabindex="13" [multiple]="true" class="dropdown-body show-required" #selectTo [searchable]="false"  formControlName="To" appendTo="body" [clearable]="false"
+                                        [closeOnSelect]="true" [required]="isSendEmailSelected"  [compareWith]="compareFn"  groupBy="selectedAllGroup" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        placeholder="{{ 'label_to' | translate }}"
+                                        id="ddl_skills" [items]="selectedToCandidates" bindLabel="EmailId">
+                                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">  
+                                                <!-- @When: 21-09-2023 @who:Amit @why: EWM-13899 @what: ng select email -->                                                               
+                                                <div class="ng-value ngselect-tag ng-select-email" *ngFor="let item of items | slice:0:maxMoreLengthEmail">
+                                                    <span class="ng-value-label text-overflow" matTooltip=" {{item.EmailId}}" 
+                                                    matTooltipClass="custom-tooltip-top" matTooltipPosition="above">  {{item.EmailId}}</span>
+                                                    <span class="ng-value-icon right" (click)="clear(item)"
+                                                        aria-hidden="true">×</span>
+                                                </div>
+
+
+                                                <button mat-flat-button class="max-count-box mt-0" *ngIf="items.length > maxMoreLengthEmail"
+                                                    matTooltip="{{items.length - maxMoreLengthEmail}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above">+{{items.length - maxMoreLengthEmail}}</button>
+            
+                                                
+                                                
+                                        </ng-template>
+                                        <ng-template ng-optgroup-tmp let-item="item" let-items="items" let-index="index">           
+                                                Select All
+                                            </ng-template>                               
+                            <ng-template ng-header-tmp>
+                                <div class="pl-15 pr-15">
+                                <mat-form-field class="no-bottom" floatLabel="never">
+                                    <input matInput class="selectSearch" autocomplete="off" placeholder="{{'label_search' |translate}}" type="text"   (input)="selectTo.filter($event.target.value)" />
+                                </mat-form-field>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                              <div class="candidate-name">
+                             {{item.CandidateName}} ({{item.EmailId}})                  
+                            </div>
+                          </ng-template>
+                        </ng-select>
+
+                        <mat-error *ngIf="this.closeJobForm.controls['To'].hasError('required')">
+                            {{ 'label_toerrorreqired' |translate}}
+                        </mat-error>
+
+                        <!-- @When: 20-09-2023 @who:Amit @why: EWM-13899 @what: group email btns -->
+                        <div class="group-email">
+                            <button matSuffix mat-icon-button tabindex type="button" color="primary"
+                            (click)="showCCBtn()">{{'label_ccEmails' |translate}}</button>
+                            <button matSuffix mat-icon-button tabindex type="button" color="primary"
+                            (click)="showBCCBtn()">{{'label_bccEmails' |
+                            translate}}</button>
+                        </div>
+
+                    </div>
+             <!-------------------------------------------------------------------------------->
+
+                </div>
+                <!-------------------------------------------CC--------------------------------------------------------------->
+                <mat-form-field class="col l12 m12 s12 example-chip-list email-chip-list-group" floatLabel="always" *ngIf="showCC">
+                    <mat-label>{{'label_ccEmails' |translate}}</mat-label>
+                    <mat-chip-list #chipListcc formControlName="EmailCC">
+                        <mat-chip tabindex="14" [color]="(item.invalid) ? 'warn' : ''" selected
+                            *ngFor="let item of ccEmailList| slice:0:this.emailListLengthccMore; let i=index"
+                            [selectable]="true" [removable]="removable" (removed)="removeccEmail(item)" required
+                            name="CC Email-ID">
+                            {{item.value}}
+                            <mat-icon matChipRemove  *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <mat-chip *ngIf="ccEmailList.length > this.emailListLengthccMore">
+
+                            <span (click)="clickForccMoreRecord(ccEmailList)"
+                                class="ng-value-label">{{ccEmailList.length -
+                                this.emailListLengthccMore}} more...</span>
+                        </mat-chip>
+                        <input tabindex="15" placeholder="{{'label_enterEmailID' |translate}}" [matChipInputFor]="chipListcc"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                            (matChipInputTokenEnd)="addCC($event)" [matAutocomplete]="auto" >
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete">
+                    </mat-autocomplete>
+                    <button matSuffix mat-icon-button color="primary" (click)="getUserContactInfo('CC')"
+                        class="ccBccEmailBtn" tabindex="16">
+                        <mat-icon class="addContactIcon">add</mat-icon>
+                    </button>
+
+                    <mat-error *ngIf="this.closeJobForm.controls['EmailCC'].hasError('incorrectEmail')">
+                        {{ 'label_emailIncorrect' |translate}}
+                    </mat-error>
+                </mat-form-field>
+                <!-------------------------------------BCC-------------------------------------------------------------->
+                <mat-form-field class="col l12 m12 s12 example-chip-list email-chip-list-group" floatLabel="always" *ngIf="showBCC">
+                    <mat-label>{{'label_bccEmails' |translate}}</mat-label>
+                    <mat-chip-list #chipListBcc formControlName="EmailBCC">
+                        <mat-chip tabindex="17" [color]="(item.invalid) ? 'warn' : ''" selected
+                            *ngFor="let item of bccEmailList| slice:0:this.emailListLengthMore; let i=index"
+                            [selectable]="true" [removable]="removable" (removed)="removeBccEmail(item)" required
+                            name="BCC Email-ID">
+                            {{item.value}}
+                            <mat-icon  matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <mat-chip *ngIf="bccEmailList.length > this.emailListLengthMore">
+
+                            <span (click)="clickForMoreRecord(bccEmailList)"
+                                class="ng-value-label">{{bccEmailList.length -
+                                this.emailListLengthMore}} more...</span>
+                        </mat-chip>
+                        <input tabindex="18" placeholder="{{'label_enterEmailID' |translate}}"
+                            [matChipInputFor]="chipListBcc" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addBcc($event)"
+                            [matAutocomplete]="auto" >
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete">
+                    </mat-autocomplete>
+                    <button matSuffix mat-icon-button tabindex="19" color="primary" (click)="getUserContactInfo('BCC')"
+                        class="ccBccEmailBtn">
+                        <mat-icon class="addContactIcon">add</mat-icon>
+                    </button>
+                    <mat-error *ngIf="this.closeJobForm.controls['EmailBCC'].hasError('required')">
+                        {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.closeJobForm.controls['EmailBCC'].hasError('incorrectEmail')">
+                        {{ 'label_emailIncorrect' |translate}}
+                    </mat-error>
+                </mat-form-field>
+
+                <!---------------------------------------------BCC--------------------------------------------------------------------->
+                <div class="col l12 m12 s12">
+                        <mat-form-field>
+                            <input matInput #titleActivity="matInput" value="" readonly formControlName="JobTitle" required="isSendEmailSelected"
+                                placeholder="{{'label_job' | translate}}" tabindex="20" id="job-title">
+                        </mat-form-field>
+                </div>
+
+                <mat-form-field>
+                    <input matInput #titleActivity="matInput" formControlName="Subject" required="isSendEmailSelected"
+                        placeholder="{{'label_subject' | translate}}" tabindex="21" id="subject-title">
+                        <mat-error *ngIf="closeJobForm.controls['Subject'].hasError('required')">
+                            {{'label_subject' |translate}} {{'label_errorreqired' |translate}}
+                          </mat-error>                        
+                          <mat-error *ngIf="closeJobForm.controls['Subject'].hasError('maxlength')">
+                            {{'label_subject' |translate}} {{'label_errormaxlength500' |translate}}
+                          </mat-error>
+                </mat-form-field>
+
+                <div class="html-editor-kendo"  id="endoHTMLEditer">
+                    <mat-label class="desc-label">{{ 'label_description' | translate}} <span class="required-show">*</span></mat-label>
+                    <kendo-editor #editor tabindex="22" formControlName="Description" class="overlay-editor"
+                        id="activity-editor" [iframe]="false" required="isSendEmailSelected">
+                        <kendo-toolbar [overflow]="false" tabindex="23">
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorStrikethroughButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorSuperscriptButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAlignCenterButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAlignRightButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAlignJustifyButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+                            <kendo-toolbar-dropdownlist kendoEditorFontSize>
+                            </kendo-toolbar-dropdownlist>
+                            <kendo-toolbar-dropdownlist kendoEditorFontFamily>
+                            </kendo-toolbar-dropdownlist>
+                            <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+                            <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+                            </kendo-toolbar-colorpicker>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorCreateLinkButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+                            <kendo-toolbar-button kendoEditorCleanFormattingButton>
+                            </kendo-toolbar-button>
+                            <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAddRowBeforeButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorAddRowAfterButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-buttongroup>
+                                <kendo-toolbar-button kendoEditorDeleteColumnButton>
+                                </kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+                                <kendo-toolbar-button kendoEditorDeleteTableButton>
+                                </kendo-toolbar-button>
+                            </kendo-toolbar-buttongroup>
+                            <kendo-toolbar-separator></kendo-toolbar-separator>
+                            <kendo-toolbar-splitbutton *ngFor="let item of (toolButtons$ | async)" [text]="item.text"
+                                [icon]="item.icon" [data]="item.data"> </kendo-toolbar-splitbutton>
+                            <kendo-toolbar-button text="Upload Image" (click)="openImageUpload()"
+                                [style]="{'padding': '2px 7px', 'font-size': '12px'}"></kendo-toolbar-button>
+                        </kendo-toolbar>
+                    </kendo-editor>
+                    <mat-error *ngIf="closeJobForm.controls['Description'].hasError('required') && closeJobForm.controls['Description'].touched">
+                        {{'label_description' |translate}} {{'label_errorreqired' |translate}}
+                      </mat-error>
+
+                </div>
+
+                <!-- @When: 20-09-2023 @who:Amit @why: EWM-13899 @what: attachment structure -->
+                <div class="file-attachment" *ngIf="!filestatus">
+                    <div *ngFor="let files of fileAttachments">
+                        <mat-card class="mb-0">
+                            <div class="email-attachment">
+                                <div class="file-detail">
+                                    <span matTooltipClass="custom-tooltip" matTooltip="{{files.Name}}">{{files.Name}}</span>
+                                    <span class="fileSize">{{files.Size | fileSize}}</span>
+                                </div>
+                                <mat-icon class="matCloseIcon"  (click)="removeAttachment(files)">cancel
+                                </mat-icon>
+                            </div>
+                            <div class="progress-loader-box" *ngIf="filestatus">
+                                <div class="progress-loader">
+                                    <div class="loaderBar"></div>
+                                </div>
+                            </div>
+
+                        </mat-card>
+                    </div>
+                </div>
+
+                <mat-divider></mat-divider>
+                <div class="attach-size">
+                    <button mat-icon-button color="primary" tabindex="24" class="fileUpload attachFileBtn">
+                        <input id="singleFile" type="file" (change)="Uploadfile($event)" />
+                        <mat-icon>attach_file</mat-icon>
+                    </button>
+                    <mat-error *ngIf="isfileAttachments">Please select file first</mat-error>
+                    <small class="file-size">{{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}}</small>
+                </div>
+
+            </div>
+        </div>
+    </mat-dialog-content>
+
+
+    <mat-divider></mat-divider>
+
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+       
+
+           <div>
+            <button mat-stroked-button color="warn" tabindex="25" type="button" id="candidate-btnCancel"
+                (click)="onDismissphone(false)">
+                {{'button_cancel'|translate}}</button>
+            <button mat-stroked-button color="primary" tabindex="26" id="close-job-btn" [disabled]="closeJobForm.invalid || isResponseGet" (click)="confirmDialog(this.closeJobForm.value)">
+                <span *ngIf="!isResponseGet">{{'label_close' | translate}} {{'label_job' | translate}}</span>
+                <div *ngIf="isResponseGet" id="loading"></div>
+            </button>
+        </div>
+    </div>
+</form>

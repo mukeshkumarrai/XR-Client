@@ -1,0 +1,19 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_morejobowner' | translate}}</h2>
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content>
+    <div class="multiple-owner-sec">
+        <div *ngFor="let ownerList of ownerList, let i = index;" class="multiple-owner">
+            <div class="userAvtaarAndName" matTooltipClass="custom-tooltip" matTooltip="{{ownerList.OwnerName}}">
+                <img src="{{ownerList.OwnerProfileImageUrl}}" tabindex *ngIf="ownerList.OwnerProfileImageUrl!='' ">
+                <span *ngIf="ownerList.OwnerProfileImageUrl==''" tabindex>{{sortName(ownerList.OwnerName,'')}}</span>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

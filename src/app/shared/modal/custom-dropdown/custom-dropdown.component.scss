@@ -1,0 +1,98 @@
+@import '../../../../mixinStyle.scss';
+.multiselectChip{
+  display: flex;
+  gap: 2px;
+  &-chip{
+    display: grid;
+    grid: auto/ calc(100% - 20px)16px;
+    gap: 5px;
+    background-color: #e0e0e0;
+    color: rgba(0, 0, 0, 0.87);
+    border-radius: 16px;
+    height: 20px;
+    line-height: 17px;
+    padding: 2px 4px;
+    width: 115px;
+    cursor: default;
+    @media (min-width : 1024px) and (max-width : 1365px){
+      width: 114px;
+    }
+    &-text{
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  &-morechips{
+    width: 65px;
+    grid: initial;
+  }
+}
+:host ::ng-deep {
+  .multiselectChip-close.mat-fab{
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    .mat-button-wrapper{
+      padding: 0px;
+      line-height: 16px;
+    }
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 15px;
+      font-size: 14px;
+    }
+  }
+}
+.add-manage {
+  display: flex;
+  align-items: center;
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .ng-dropdown-panel .scroll-host {
+    margin-top: -15px;
+  }
+}
+.no-bottom {
+  margin-bottom: -1.25em !important;
+}
+.dropdowm-barloader {
+  position: absolute;
+}
+
+.rotate-loader {
+  animation: rotate-animation 0.8s infinite linear;
+}
+@keyframes rotate-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.ngselect-tag{
+  .text-overflow{
+    max-width: 110px; 
+    display: inline-block;
+    @media (min-width : 320px) and (max-width : 992px){
+      max-width: 95px;
+    }
+    @media (min-width : 993px) and (max-width : 1250px){
+      max-width: 65px;
+    }
+    @media (min-width : 1251px) and (max-width : 1550px){
+      max-width: 70px;
+    }
+  }
+}

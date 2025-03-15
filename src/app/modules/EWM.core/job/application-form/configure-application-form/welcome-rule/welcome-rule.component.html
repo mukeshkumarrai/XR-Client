@@ -1,0 +1,104 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: welcome-rule.component.html
+  @Who: Satya Prakash Gupta
+  @When: 16-Dec-2022
+  @Why:  EWM-9629 EWM-9900
+  @What: welcome rule page
+ -->
+ 
+ <!-- <div *ngIf="loading" class="k-i-loading"></div>  -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<div class="welcome-rules configure-rule-accordian" id="welcome-rules">
+    <h2 *ngIf="pageLabel=='Welcome_Page'">{{'label_configureRulePageLabel' | translate}}</h2>
+    <div class="candidate-status" *ngIf="pageLabel=='Welcome_Page'">
+        <mat-chip-list aria-label="Fish selection" multiple>
+            <mat-chip [selected]="status.isSelected==1?true:false"  [ngClass]="status.isSelected==1?'mat-chip-selected':''"
+                *ngFor="let status of statusList;let i=index" (click)="selectStatus(status)">
+                <mat-icon color="warn" *ngIf="status.isSelected==1">cancel</mat-icon>{{status.ShortDescription}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+    <mat-accordion *ngIf="isStatusSelected && this.pageLabel=='Welcome_Page'" class="mt-15" multi>
+        <mat-expansion-panel tabindex  #matExpansionPanelEmailSection [(expanded)]="isCanStatusOpen">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{'label_selectEmailTemplate'| translate}}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="isTemplateActive">
+                <app-configure-rule-email-template [configureRuleList]="configureRuleList"
+                    [configureRuleTemplateData]="configureRuleTemplateData" [canTagData]="canTagData" [jobTagData]="jobTagData"
+                    [isStatusSelected]="isStatusSelected"  (closeEmailSection)="closeEmailSection($event)" (emailDetails)="emailDetails($event)">
+                </app-configure-rule-email-template>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel #matExpansionPanelMsgSection [(expanded)]="isCanStatusMsgOpen">
+            <mat-expansion-panel-header>
+                <!-- who:maneesh;what: Asterisk Mark ewm-10341, when:31/01/2023 -->
+                <mat-panel-title>
+                    {{'label_alert_msg'| translate}} *
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-alert-message  *ngIf="isStatusSelected"  [pageLabel]="pageLabel" [defaultCandStatus]="defaultCandStatus"    [canTagData]="canTagData" [jobTagData]="jobTagData"          
+                [isStatusSelected]="isStatusSelected" (closeMsgSection)="closeMsgSection($event)" (alertDetails)="alertDetails($event)"></app-alert-message>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <h2 *ngIf="pageLabel=='Welcome_Page'">{{'label_welcomepage_title'| translate}}</h2>
+    <h2 *ngIf="pageLabel=='Knockout_Questions'">{{'label_knockout_title'| translate}}</h2>
+    <h2 *ngIf="pageLabel=='Thank_You'">{{'label_thankyou_title'| translate}}</h2>
+    <!--------------start for same job--------------->
+    <mat-accordion multi>
+        <mat-expansion-panel  [(expanded)]="isSameJobOpen" #matExpansionPanelSameJobEmailSection>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{'label_selectEmailTemplate'| translate}}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="isTemplateActive">
+                <app-configure-rule-same-email-template  [configureRuleList]="configureRuleList" [canTagData]="canTagData" [jobTagData]="jobTagData"
+                    [configureRuleTemplateSameJobData]="configureRuleTemplateSameJobData"
+                    [isStatusSelected]="isStatusSelected"  (closeSameJobEmailSection)="closeSameJobEmailSection($event)" (emailSameJobDetails)="emailSameJobDetails($event)">
+                </app-configure-rule-same-email-template>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="pageLabel=='Welcome_Page' || pageLabel=='Knockout_Questions'" [(expanded)]="isSameJobMsgOpen" #matExpansionPanel>
+            <mat-expansion-panel-header>
+                <!-- who:maneesh;what: Asterisk Mark ewm-10341, when:31/01/2023 -->
+                <mat-panel-title>{{'label_alert_msg'| translate}} <span class="required-show">*</span></mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-alert-message-same-job *ngIf="isTemplateActive" [pageLabel]="pageLabel" [canTagData]="canTagData" [jobTagData]="jobTagData"
+                [defaultMsgForSameJob]="defaultMsgForSameJob" [defaultMsgForKnockOut]="defaultMsgForKnockOut"
+               [isSameJobAlertMsg]="true" (closeSameJobMsgSection)="closeSameJobMsgSection($event)" (alertDetails)="alertDetails($event)" (alertMsgSameJobDetails)="alertMsgSameJobDetails($event)" (alertMsgKnockOutDetails)="alertMsgKnockOutDetails($event)"></app-alert-message-same-job>
+           </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="configure-application-text-area label-with-radio mt-15" *ngIf="pageLabel=='Thank_You'">
+        <label class="textarea-lavel">
+            <span>Send candidate's application as an attachment</span>
+        </label>
+        <mat-radio-group aria-label="Select an option" color="primary" id="ResumeRequiredId">
+            <mat-radio-button (click)="getValue(1)" [checked]="readioSelected==1" value="1" class="pt-0 pb-0">Yes</mat-radio-button>
+            <mat-radio-button (click)="getValue(0)" [checked]="readioSelected==0" value="0" class="pt-0 pb-0">No</mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+
+</div>
+<mat-card class="full-screen-footer">
+    <button mat-raised-button color="warn" id="btnCancel" (click)="onCancel()">
+        {{'button_exit'|translate}}
+    </button>
+    <!-- //by maneesh fixed alertMessageValue for disable save btn,when:16/04/2024 -->
+    <button mat-raised-button color="primary" id="btnSave" [disabled]="alertMessageValue" (click)="configureRule()">
+        {{'label_save'|translate}}
+    </button> 
+</mat-card>

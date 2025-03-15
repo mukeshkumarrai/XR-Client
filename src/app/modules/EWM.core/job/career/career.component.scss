@@ -1,0 +1,129 @@
+@import '../../../../../mixinStyle.scss';
+
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: organization-details.component.scss
+    @Who: Satya Prakash
+    @When: 25-Nov-2020
+    @Why: ROST-370 ROST-427
+    @What: You can add organization details styles to this file, and also import other style files
+*/
+
+.col-1{
+    width: 40%;
+}
+.col-2{
+    width: 20%;
+}
+.col-3{
+    width: 17%;
+}
+.col-4{
+    width: 3%;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.search-results {
+  height: 300px;
+  overflow: auto;
+}
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+  height: 70px;
+}
+.maxData:hover {
+  height: 70px;
+}
+.dropdownwithbutton{
+  .mat-raised-button{
+    margin-top: 7px;
+    min-width: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 0px;
+  }
+  .s3{
+    text-align: center;
+  }   
+}
+
+.counterTxt{margin-top: -20px; text-align: right; color:#fe7000; font-size: 80%;}
+.k-toolbar{justify-content:flex-end;}
+.matEyeIcon{float:right; margin-right:20px}
+
+// new listing
+.question-list-sec{
+  overflow-y: hidden;
+  height: 100%;
+  .new-data-list-header{
+    grid:auto/40px calc(60% - 240px) 20% 20% 200px;
+  }
+  .new-data-list-content{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - 40px);
+    .new-data-list-list{
+      grid:auto/40px calc(60% - 238px) 20% 20% 198px;
+      .new-data{
+        &:first-child{
+          padding:0px;
+          text-align: center;
+        }
+        .material-icons{
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}
+
+.dashboard-mat-card-header.mat-card-header{
+  .listGridButton{
+    .mat-raised-button{
+      border-radius: 4px;
+    }
+  }
+} 
+
+.xeople-container-with-one-card-no-buttons.mat-drawer-container{
+  .component-card.mat-card{
+    @include for-small-smartphones {
+      height: calc(100% - 53px);
+    }
+  }
+} 
+
+.question-list-sec{
+  .new-data-list-content{
+    .new-data-list-list{
+      .new-data{
+        .info-icon{
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          font-size: 20px;
+        }
+      }
+    }
+  } 
+}
+
+
+
+
+
+
+
+
+
+

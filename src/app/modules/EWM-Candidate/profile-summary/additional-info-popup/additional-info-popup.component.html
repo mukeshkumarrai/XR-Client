@@ -1,0 +1,205 @@
+
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup singh
+    @When: 21-Aug-2021
+    @Why: EWM-2191 EWM-2586
+    @What:  This component is used for add additional popup and edit.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<form novalidate [formGroup]="additionalInfoForm"
+accept-charset="utf-8" enctype='multipart/form-data' id="additionalInfoForm-form" applyTabIndexes>
+    <div class="quick-dialog">
+        <h2 mat-dialog-title >{{'label_editAddInfo' | translate}} </h2>
+        <!-- <h2 mat-dialog-title *ngIf="actionType=='edit'">{{'label_editSkill' | translate}} </h2> -->
+
+        <mat-dialog-content class="col">
+          
+            <div class="row mb-0">
+                <div class="col l12 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_CurrentDepartment' | translate}}</mat-label>
+                        <input matInput type="text" tabindex formControlName="CurrentDepartment" name="CurrentDepartment" 
+                            id="Addinfo-current_Department" placeholder="" >
+
+                            <mat-error *ngIf="additionalInfoForm.controls['CurrentDepartment'].hasError('maxlength')">
+                                {{'label_CurrentDepartment' |translate}} {{'label_errormaxlength100' |translate}}
+                            </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="clear"></div>
+                <div class="col l12 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_Industry' | translate}}</mat-label>
+                        <input matInput type="text" tabindex formControlName="Industry" name="Industry" 
+                            id="Addinfo-Industry" placeholder="" >
+                            <mat-error *ngIf="additionalInfoForm.controls['Industry'].hasError('maxlength')">
+                                {{'label_Industry' |translate}} {{'label_errormaxlength100' |translate}}
+                            </mat-error>
+                     </mat-form-field>
+                </div>
+
+                <div class="clear"></div>
+                <div class="col l12 m12 s12">
+                    <mat-form-field>
+   <!--   who:maneesh,what:ewm-13199 for apply  decimalFilter,when:14/08/2023 --> 
+                        <mat-label>{{'label_CurrentBenefits' | translate}}</mat-label>
+                        <input matInput type="text" tabindex formControlName="CurrentBenifits" name="CurrentDepartment" 
+                            id="Addinfo-currentBenefits" placeholder=""  (keypress)="decimalFilter($event)">
+                            <mat-error *ngIf="additionalInfoForm.controls['CurrentBenifits'].hasError('maxlength')">
+                                {{'label_CurrentBenefits' |translate}} {{'label_errormaxlength100' |translate}}
+                            </mat-error>
+                     </mat-form-field>
+                </div>
+
+                <div class="clear"></div>
+                <div class="col l12 m12 s12">
+                            <ng-select placeholder="{{'label_Currency' | translate}}" id="Addinfo-Currency"
+                                formControlName="CurrencyId" class="dropdown-body" appendTo="body" tabindex>
+                                <!-- <ng-option [value]=0 disabled>{{'label_select' | translate}} {{'label_Currency' | translate}}</ng-option> -->
+                                <ng-option *ngFor="let list of currencyList" [value]="list.Id">
+                                    {{list.CurrencyName}} ({{list.Symbol}} - {{list.CurrencyCode}})</ng-option>
+                            </ng-select>
+                </div>
+                <div class="clear"></div>
+                <div class="col l12 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_ExpectedSalaryInfo' | translate}}</mat-label>
+                        <input matInput type="textbox" tabindex formControlName="ExpectedSalary" name="ExpectedSalary" 
+                            id="Addinfo-ExpectedSalary" placeholder=""  (keypress)="decimalFilter($event)">
+        <!--  who:maneesh,what:ewm-10635 for decimal value i am comment this error message and apply (keypress)="decimalFilter($event)" ,when:03/03/2023, -->
+                            <!-- <mat-error *ngIf="additionalInfoForm.controls['ExpectedSalary'].hasError('pattern')">
+                                {{'label_ExpectedSalaryInfo' |translate}} not allow more than two digit decimal 
+                            </mat-error> -->
+                     </mat-form-field>
+                </div>
+                <!--   who:maneesh,what:ewm-9865 for apply custome dropdown this.selectedSalaryUnit,when:02/05/2023 -->
+                <!-- <div class="clear"></div> -->
+                <!-- <div class="col l12 m12 s12">
+                    <ng-select placeholder="{{'label_SalaryUnit' | translate}}" id="Addinfo-SalaryUnit"
+                        formControlName="SalaryUnitId" class="dropdown-body" appendTo="body" tabindex>
+                        <ng-option  (click)="mangeSalary()"><mat-icon>settings</mat-icon><mat-icon>rotate_right</mat-icon></ng-option>
+                        <ng-option *ngFor="let list of salaryList" [value]="list.Id">
+                            {{list.Name}}</ng-option>
+                    </ng-select>
+              </div> -->
+           
+                <div  class="col l12 m12 s12">
+                    <div class="ng-slectBox">
+                        <app-custom-dropdown [selectedIn]="selectedSalaryUnit"
+                            (selectedOut)="onJobSalaryUnitchange($event)"
+                            [config]="dropDownSalaryUnitConfig" tabindex="25">
+                        </app-custom-dropdown>
+                    </div>
+                </div>
+           
+
+                <div class="clear"></div>
+                <div class="col l12 m12 s12">
+                    <mat-form-field>
+   <!--   who:maneesh,what:ewm-13199 for apply  decimalFilter,when:14/08/2023 --> 
+                        <mat-label>{{'label_ExpectedBenefits' | translate}}</mat-label>
+                        <input matInput type="text" tabindex formControlName="ExpectedBenifits" name="ExpectedBenifits" 
+                            id="Addinfo-ExpectedBenifits" placeholder=""  (keypress)="decimalFilter($event)">
+                            <mat-error *ngIf="additionalInfoForm.controls['ExpectedBenifits'].hasError('maxlength')">
+                                {{'label_ExpectedBenefits' |translate}} {{'label_errormaxlength100' |translate}}
+                            </mat-error>
+                     </mat-form-field>
+                </div>
+
+                <div class="clear"></div>
+                <div class="col l12 m12 s12">
+                    <ng-select placeholder="{{'label_Gender' | translate}}" id="Addinfo-Gender"
+                        formControlName="GenderId" class="dropdown-body" appendTo="body" tabindex>
+                        <!-- <ng-option [value]=0 disabled>{{'label_select' | translate}} {{'label_Gender' | translate}}</ng-option> -->
+                        <ng-option *ngFor="let list of genderList" [value]="list.Id">
+                            {{list.GenderName}}</ng-option>
+                    </ng-select>
+              </div>        
+               <div class="clear"></div>
+                <div class="col l12 m12 s12">
+                   <mat-form-field class="dateInput">
+                        <mat-label>{{'label_DateOfBirth' | translate}}</mat-label>
+                        <input readonly  matInput [matDatepicker]="picker2" tabindex id="Addinfo-DateBirth" 
+                        [min]="minDate" [max]="today"
+                        [(ngModel)]="dateStart" formControlName="DateBirth"    [placeholder]="getDateFormat" >
+                        <!--- @suika @EWM-11024 @EWM- 11233 handle date picker parsing issue and cross icon handling--->
+                        <button *ngIf="additionalInfoForm.controls['DateBirth'].hasError('matDatepickerParse') || additionalInfoForm.value.DateBirth" type="button" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="clearEndDate()"> 
+                        <mat-icon>close</mat-icon>
+                    </button>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                         <!---------@When: 20-03-2023 @who:Adarsh singh @why: EWM-10688 @Desc- Added date validation--------->
+                        <mat-error *ngIf="additionalInfoForm.controls['DateBirth'].hasError('required') && additionalInfoForm.controls['DateBirth'].touched && !additionalInfoForm.controls['DateBirth'].hasError('matDatepickerParse')"> {{'label_DateOfBirth'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                        <mat-error *ngIf="additionalInfoForm.controls['DateBirth'].hasError('invalidDate') && !additionalInfoForm.controls['DateBirth'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                        <mat-error *ngIf="additionalInfoForm.controls['DateBirth'].hasError('matDatepickerParse') && !additionalInfoForm.controls['DateBirth'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                        <mat-error *ngIf="additionalInfoForm.controls['DateBirth'].hasError('matDatepickerMax') && !additionalInfoForm.controls['DateBirth'].hasError('invalidDate')"> {{'label_DateOfBirth' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error>
+                        <mat-error *ngIf="additionalInfoForm.controls['DateBirth'].hasError('matDatepickerMin') && !additionalInfoForm.controls['DateBirth'].hasError('invalidDate')"> {{'label_DateOfBirth' | translate}} {{'label_mustbeStartDate' | translate}} </mat-error>
+                        <!-- End  -->
+                    
+                    </mat-form-field>
+                </div>
+
+                <div class="clear"></div>
+                <div class="col l12 m12 s12">
+                    <ng-select tabindex [multiple]="true"
+                    class="dropdown-body" appendTo="body" id="Addinfo-Nationalities" [clearable]="true"
+                    formControlName="Nationalities" class="dropdown-body"
+                    placeholder="{{'label_Nationalities'|translate}}" [items]="nationalitiesList"
+                    bindLabel="NationalityName">
+                </ng-select>
+                </div>
+            
+
+                <div class="clear"></div>
+                <div class="col l12 m12 s12">
+                    <ng-select tabindex [multiple]="true"
+                    class="dropdown-body" appendTo="body" id="Addinfo-LanguageList" [clearable]="true"
+                    formControlName="LanguageList" class="dropdown-body"
+                    placeholder="{{'label_Languages'|translate}}" [items]="languageList"
+                    bindLabel="LanguageName">
+                </ng-select>
+               </div>
+
+               
+
+                <div class="clear"></div>
+                <!-- <div class="col l12 lm12 s12">
+                   <app-custom-html-editor [config]="descrpConfigData"  [descrpValueIn]="selectedDescription"  
+                   (descrpValueOut)="getDescription($event)" tabindex>
+                   </app-custom-html-editor>
+                    <mat-error class="matErrorDesc"
+                        *ngIf="additionalInfoForm.controls['Description'].hasError('maxLength')">
+                        {{'label_CandidateDescription'|translate}} {{'label_errormaxlength'|translate}} {{descrpConfigData?.TextLength}}
+                    </mat-error>
+                   </div> -->
+                  
+  <!-- who:maneesh,what:ewm-16207 ewm-16677 for fixed new editor,when:08/04/2024 -->
+  <div class="col l12 m12 s12 mb-10">
+    <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+        <mat-label>{{labelForDiscription}} {{ 'label_desc' | translate}}</mat-label>
+    <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal" [ValidationMessageReset]="ValidationMessage.asObservable()"
+          (editorValueEmit)="getEditorFormInfo($event)" [maxlengthValidation]="maxLengthEditorValue.asObservable()"
+          (editorImageValueEmit)="getEditorImageFormInfo($event)">
+    </app-mention-editor>   
+  </div>
+</div>
+            </div>
+</mat-dialog-content>
+
+       
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!additionalInfoForm.valid || showMaxlengthError"
+            (click)="onConfirm()" id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+</form>

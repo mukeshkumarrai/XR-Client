@@ -1,0 +1,147 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: candidate-resume.component.html
+    @Who: Renu
+    @When: 12-Aug-2021
+    @Why: EWM-2241 EWM-2493
+    @What:  This page wil be use only for the candidate resume Component HTML
+-->
+
+<div class="candidate-resume-summary" id="candidate-summry">
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)" class="resumeTab tab-container" dir="{{positionMatTab}}">
+    <mat-tab label="{{'label_resume' | translate}}">
+      <div class="resumeHeader">
+        <div>
+          <h2>{{'label_resume' | translate}} </h2>
+        </div>
+        <div *ngIf="showUploadedResume || showVersionHistory">
+          <button mat-raised-button class="buttonForDesktopMobile" color="primary" tabindex="7" type="button"
+            id="upalodResume" (click)="openUploadResumeBox()">
+            <mat-icon matTooltip="{{'label_uploadNewResume'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">upload_file</mat-icon>
+            <span class="buttonTxt">{{'label_uploadNewResume'|translate}}</span>
+          </button>
+          <button mat-raised-button class="buttonForDesktopMobile" color="primary"
+            (click)="fetchVersionHistory('onClick')" tabindex="7" type="button" id="viewVersionBtn">
+            <mat-icon matTooltip="{{'label_viewVersionHistory'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">history</mat-icon>
+            <span class="buttonTxt">{{'label_viewVersionHistory'|translate}}</span>
+          </button>
+          <button mat-raised-button class="buttonForDesktopMobile" color="primary" [disabled]="isNewResumeLoading"
+            tabindex="7" type="button" id="parseResumeBtn" (click)="parseResume()">
+            <mat-icon matTooltip="{{'label_parseResume'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">description</mat-icon>
+            <span class="buttonTxt">{{'label_parseResume'|translate}}</span>
+          </button>
+        </div>
+      </div>
+      <mat-divider class="mt-0 mb-0"></mat-divider>
+      <ng-conatiner *ngIf="showUploadedResume || showNoResumeBox" class="resumeDownloadBtn">
+        <button type="button" mat-raised-button class="buttonForDesktopMobile" [disabled]="disableDownloadBtn"
+          tabindex="8" color="primary" id="downloadResumeBtn" (click)="onDownloadResume(UploadFileName,FilePath)">
+          <mat-icon class="matIconDownload" matTooltip="{{'label_cover_Download'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">file_download</mat-icon>
+          <span class="buttonTxt">{{'label_download' |translate}}</span>
+        </button  >
+      </ng-conatiner>
+      <!--First Section when No Resume Added yet starts from here-->
+        <div class="center-align" *ngIf="showNoResumeBox">
+          <p class="mb-15">{{'label_resumeNotAddedYet' | translate}}</p>
+          <button type="button" (click)="openUploadResumeBox()" color="primary" mat-raised-button matTooltipClass="custom-tooltip">
+            <mat-icon>add</mat-icon> {{'label_add' | translate}}
+          </button>
+        </div>
+      <!--First Section when No Resume Added yet Ends here-->
+
+      <!--Second Section when PDF Viewer Resume starts from here-->
+      <div class="PDFViewer" *ngIf="showUploadedResume">
+        <div *ngIf="isLoading" class="logo-loader">
+          <div class="logo-loading"></div>
+        </div>
+        <ngx-doc-viewer [url]="DemoDoc" [viewer]="viewer" (loaded)="isLoading=false" style="width:100%;height:100%;">
+        </ngx-doc-viewer>
+      </div>
+      <!--Second Section when PDF Viewer Resume ends here-->
+
+      <!--Third Section for Resume Version History starts from here-->
+      <div class="question-list-sec" *ngIf="showVersionHistory">
+        <div *ngIf="loading" class="logo-loader">
+          <div class="logo-loading"></div>
+        </div>
+        <div class="new-data-list-header" id="cover-page-listHeader" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+          <div class="listActionBox">
+            <strong>&nbsp;</strong>
+          </div>
+          <div class="new-data" id="candidate-resume-version">
+            {{'candidate_resumeVersion'|translate}}
+          </div>
+          <div class="new-data right-align" id="candidate-resume-date">
+            {{'candidate_resumeDate'|translate}}
+          </div>
+          <div class="new-data"id="candidate-resume-uploadedBy">
+            {{'candidate_resumeUploadedBy'|translate}}
+          </div>
+          <div class="new-data" id="candidate-resume-comments">
+            {{'candidate_resumeComment'|translate}}
+          </div>
+        </div>
+        <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView.length==0">
+          <span>{{'label_noRecordAvailable'|translate}}</span>
+        </div>
+        <div class="listCardView new-data-list-content" id="listCardView" [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']" *ngIf="formtitle=='grid'"  infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pageSize"
+        (scrolled)="onScrollDown()" [scrollWindow]="false">
+      <div class="new-data-list-list" *ngFor="let listDataList of gridView;let i =index">
+              <div class="new-data">
+                <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                  <button mat-menu-item id="btnView" (click)="showResume(listDataList?.ResumeUrl,listDataList?.UploadFileName)">
+                    <mat-icon>subject</mat-icon>
+                    {{'label_view' | translate}}
+                  </button>
+                  <button mat-menu-item id="btndownload"
+                    (click)="onDownloadResume(listDataList.ResumeUrl,listDataList.UploadFileName)">
+                    <mat-icon>file_download</mat-icon>
+                    {{'candidate_downloadResume' | translate}}
+                  </button>
+                </mat-menu>
+              </div>
+              <div class="new-data" id="version">
+                <span class="cardListTxt word-wrap" matTooltip="{{listDataList.Version}}"
+                matTooltipClass="custom-tooltip">
+                {{listDataList.Version}}
+                </span>
+              </div>
+              <div class="new-data right-align" id="upload-date">
+                <span class="cardListTxt word-wrap"
+                  matTooltip="{{listDataList.UploadDate  | date:userpreferences.timeformate:userpreferences.timezone}}"
+                  matTooltipClass="custom-tooltip">
+                  ({{listDataList.UploadDate | dateAgo}}) {{listDataList.UploadDate |
+                  date:userpreferences.timeformate:userpreferences.timezone}}
+                </span>
+              </div>
+              <div class="new-data" id="upload-by">
+                <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.UploadedBy }}"
+                  matTooltipClass="custom-tooltip">
+                  {{ listDataList.UploadedBy }}
+                </span>
+              </div>
+              <div class="new-data" id="list-comment">
+                <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Comment }}"
+                  matTooltipClass="custom-tooltip">
+                  {{ listDataList.Comment }}
+                </span>
+              </div>  
+        </div>
+      </div>
+      </div>
+      <!--Third Section for Resume Version History ends here-->
+    </mat-tab>
+    <mat-tab label="{{'label_parseResume'|translate}}">
+      <app-candidate-resume-parse *ngIf="isParse" [candidateId]="candidateId" [DemoDoc]="DemoDoc" [FileName]="FileName" [FilePath]="FilePath" [UploadFileName]="UploadFileName" [isNewResumeLoading]="isNewResumeLoading"
+        (docFileUrlEmit)="getResumeInfo($event)">
+      </app-candidate-resume-parse>
+    </mat-tab>
+    <mat-tab label="{{'label_coverpage'|translate}}" id="cover-page">
+      <app-cover-page  *ngIf="isCoverPage" [candidateId]="candidateId"> </app-cover-page>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,0 +1,61 @@
+@import "../../../../../../../styles-var.scss";
+@import "../../../../../../../mixinStyle.scss";
+
+.welcome-page{
+    .configure-application-text-area{
+        .textarea-lavel{
+            display: flex;
+            padding-bottom: 5px;
+            .sub-ttile{
+                font-weight: 500;
+            }
+        }
+        .matErrorDesc{
+            font-size: 11px;
+        }
+    }
+    .label-with-switch{
+        display: flex;
+        align-items: center;
+        .mat-slide-toggle{
+            margin: 0px 30px;
+        }
+    }
+    .counterTxt{
+        position: relative;
+        .textarea-form-field{
+            .textarea-lavel{
+                display: flex;
+                margin-bottom: 10px;
+                flex-direction: column;
+                span{
+                    font-weight: 500;
+                    padding-bottom: 5px;
+                }
+            }
+        }
+        .countlabel{
+            right: 0px;
+        }
+    }
+}
+
+.welcome-page{
+    .configure-application-text-area{
+        .mailediter{
+            min-height: 380px;
+            // editor small size min height start here
+            @media only screen and (max-width: 767px) and (min-width: 481px) {
+                min-height: 450px;
+            }
+            @include for-small-smartphones{
+                min-height: 550px;
+            }
+            // editor small size min height end here
+        }
+    }
+}
+
+
+
+

@@ -1,0 +1,38 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 15-Feb-2023
+    @Why: EWM-9377 EWM-10167
+    @What:  This component is used for save filter for xeoplers
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div id="manageAccessId" class="xeople-filter-list" applyTabIndexes>
+    <div class="modal-header" id="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_AllFilters'|translate}} </h2>
+    </div>
+    <mat-dialog-content>
+        <!-- <div *ngFor="let filter of filterlist">
+        <mat-checkbox color="primary" tabindex matTooltip="" (change)="onCheck($event,filter)" matTooltipClass="custom-tooltip">
+        </mat-checkbox>
+        {{filter.FilterName}}
+       </div> -->
+        <mat-list>
+            <mat-list-item *ngFor="let filter of filterlist">
+                <mat-checkbox  [disabled]="(filter?.Delete==1 && filter?.IsAdminFilter==0) ? false : true" color="primary" tabindex matTooltip="" (change)="onCheck($event,filter)"
+                    matTooltipClass="custom-tooltip">
+                    {{filter.FilterName}}
+                </mat-checkbox>
+            </mat-list-item>
+        </mat-list>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()"
+            id="btnRemoveAccessId">{{'label_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" [disabled]="delFilterArr.length==0" tabindex type="button" id="btnSave" (click)="onDeleteFilter()">
+            {{'label_delete'|translate}}</button>
+    </div>
+</div>

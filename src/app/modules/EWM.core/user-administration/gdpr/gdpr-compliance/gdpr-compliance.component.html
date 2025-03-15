@@ -1,0 +1,142 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 09-Feb-2022
+    @Why: EWM-4674 EWM-5115
+    @What:  This page wil be use only for gdpr compliance Component HTML
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header" id="activity-header">
+    <mat-card-title class="only-for-title">
+        <span> {{'label_gdprCompliance' |translate}} </span>
+    </mat-card-title>
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card-no-buttons" autosize id="gpdr-drawer">
+
+    <mat-drawer #gdprDrawer class="innerpage-full-drawer" id="innerpage-full-drawer" position="end"
+        mode="over" disableClose="true">
+        <div class="innerpage-full-drawer-container" id="innerpage-full-drawer-container">
+            <div class="drawerTitleSec">
+                <h4 class="text-overflow gdpr-overflow">
+                    <span *ngIf="isConsentRequest">{{'label_gdprConsentRequest' |translate}}</span>
+                    <span *ngIf="isPageTemplate">{{'gdprConsentRequestPageTemplate' |translate}}</span>
+                    <span *ngIf="isEmailTemplate">{{'gdprConsentRequestEmailTemplate' |translate}}</span>
+
+                    <button class="closeDrawerIcon" mat-stroked-button id="consentReq-DrawerClose"
+                        (click)="gdprDrawer.toggle();closeDrawerConsentRequest()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </h4>
+
+            </div>
+            <mat-card class="mat-elevation-z2 drawerDataSec p-0 mb-0" *ngIf="isConsentRequest">
+                <app-autometic-consent-request [GDPRCompliance]="GDPRCompliance"
+                    (consentReqValue)="getConsentReqValue($event)"></app-autometic-consent-request>
+            </mat-card>
+
+            <mat-card class="mat-elevation-z2 drawerDataSec p-0 mb-0" *ngIf="isPageTemplate">
+                <app-consent-req-page-template (consentReqPageTemp)="consentReqPageTempCancelBtn($event)">
+                </app-consent-req-page-template>
+            </mat-card>
+
+            <mat-card class="mat-elevation-z2 drawerDataSec p-0 mb-0" *ngIf="isEmailTemplate">
+                <app-consent-req-email-template (consentReqEmailTemp)="consentReqEmailTempCancelBtn($event)">
+                </app-consent-req-email-template>
+            </mat-card>
+        </div>
+    </mat-drawer>
+
+    <mat-card class="component-card mat-elevation-z2" id="gdprCompliance-container">
+        <div id="gdprCompliance">
+            <p class="mt-0">{{'label_gdprComplianceMsg' |translate}} </p>
+
+            <div class="gdpr-slde-toggle">
+                <mat-label>{{'label_enableGdpr' |translate}}</mat-label>
+                <mat-slide-toggle [(ngModel)]="IsGDPREnabledToggle"
+                    (change)="onChangeGdprComplianceStatus($event)" id="gdprCompliance-toggleSlide" tabindex="1"
+                    color="primary">
+                </mat-slide-toggle> 
+            </div>
+        </div>
+
+        <div id="gdprConsentSettings" *ngIf="isGdprSettings">
+            <h3>{{'label_gdprConsentSettings' |translate}}</h3>
+            <p class="para-gdpr">{{'label_gdprConsentSettingsMsg' |translate}}</p>
+
+            <div class="gdpr-slde-toggle" id="gdpr-slde-toggle">
+                <mat-label>{{'label_enableGdpr' |translate}} {{'label_settings' |translate}}</mat-label>
+                <mat-slide-toggle [(ngModel)]="IsConsentSettingEnaledToggle"
+                        (change)="onChangeGdprConsentSettings($event)" id="gdprConsentSettings-toggleSlide"
+                        tabindex="2" color="primary">
+                    </mat-slide-toggle>
+            </div>
+        </div>
+
+
+
+        <div id="gdprAutomaticConsentRequest" *ngIf="isGdprConsent">
+            <div class="gdpr-slde-toggle" id="gdpr-slde-toggle">
+                <mat-label>{{'label_gdprAutomaticConsentRequest' |translate}}</mat-label>
+                <div>
+                    <mat-slide-toggle class="toggleStyle" (change)="onChangeGdprAutomaticConsentRequest($event)"
+                        [(ngModel)]="IsConsentRequestEnableToggle" id="gdprAutomaticConsentRequest-toggleSlide"
+                        tabindex="3" color="primary">
+                    </mat-slide-toggle>
+                    <mat-icon class="infoIconStyle ml-5 mr-5" tabindex="2" id="gdprAutomaticConsentRequest-helpMsg"
+                        [matMenuTriggerFor]="autoConsentReqHelp">info_outline
+                    </mat-icon>
+                    <mat-menu #autoConsentReqHelp="matMenu" xPosition="after" class="infoIconContentBox">
+                        <span class="material-icons headerDroupDownUp">
+                            arrow_drop_up
+                        </span>
+                        <small>{{'label_autoConsentReqHelpMsgMsg'|translate}}</small>
+                    </mat-menu>
+                </div>
+
+                <div class="iconForword" id="iconForword" *ngIf="IsConsentRequestEnableToggle">
+                    <button mat-icon-button color="primary" id="gdprAutomaticConsentRequest-DrawerOpen"
+                    (click)="openDrawerConsentRequest()">
+                        <mat-icon class="material-icons-outlined">
+                        arrow_forward_ios
+                        </mat-icon>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="gdpr-slde-toggle smallSlideToggle" id="gdpr-consentRequestPageTemplate">
+                <mat-label>{{'gdprConsentRequestPageTemplate' |translate}}</mat-label>
+                <mat-label> {{'gdprAddEditConsentForm' |translate}}</mat-label>
+                <div class="iconForword">
+                    <button mat-icon-button color="primary" id="pageTemp-DrawerOpen"
+                    (click)="openDrawerPageTemplate()">
+                        <mat-icon class="material-icons-outlined">
+                        arrow_forward_ios
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="gdpr-slde-toggle smallSlideToggle" id="gdpr-consentRequestEmailTemplate">
+                <mat-label>{{'gdprConsentRequestEmailTemplate' |translate}}</mat-label>
+                <mat-label>{{'gdprSelectGDPRConsentEmailTemplate' |translate}}</mat-label>
+                <div class="iconForword ">
+                    <button mat-icon-button color="primary" id="emailTemp-DrawerOpen"
+                    (click)="openDrawerEmailTemplate()">
+                        <mat-icon class="material-icons-outlined">
+                        arrow_forward_ios
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </mat-card>
+</mat-drawer-container>

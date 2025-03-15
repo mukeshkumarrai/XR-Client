@@ -1,0 +1,83 @@
+@import '../../styles-var.scss';
+.button-with-clear{
+    position: relative;
+    max-width: 85px;
+    .more-filter.mat-stroked-button.mat-primary{
+        min-width: 30px !important;
+    }
+    .addFilter.more-filter.mat-stroked-button.mat-primary{
+        padding-left: 5px;
+        padding-right: 55px;
+    }
+    .clear-with-data{
+        position: absolute;
+        right: 5px;
+        top: 6px;
+        background: $primary-bg-color;
+        color: $primary-txt-color;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+        width: 45px;
+        justify-content: center;
+        cursor: pointer;
+        span.filterCount{
+            width: 18px;
+            text-align: center;
+            display: inline-block;
+        }
+        .mat-icon-button{
+            width: 22px;
+            height: 25px;
+            line-height: 14px;
+            .mat-icon{
+                font-size: 20px;
+                height: 19px;
+                line-height: 21px;
+            }
+        }
+    }
+    .clear-with-data.blank-text{
+        width: 25px;
+        .mat-icon-button{
+            width: 25px;
+        }
+    }
+}
+@mixin calllog-filter-button-style{
+    .filterButton,.filterButton,.header-button{
+        margin: 0px;
+        padding: 0px;
+        min-width: 36px;
+    }
+    .addFilter{
+        padding-inline-end: 52px;
+        padding-inline-start: 5px;
+    }
+    .blankFilter{
+        padding: 0px;
+        min-width: 36px;
+    }
+}
+.calllog-header.candidate-data-header, .calllog-header.page-header{
+    .search-viewicon{
+        gap: 8px;
+        .searchInput{
+            margin: 0px;
+        }
+        @include calllog-filter-button-style;
+    }
+    .group-header-button{
+        @include calllog-filter-button-style; 
+    }
+}
+
+.dark-theme{
+    .button-with-clear{
+        .clear-with-data{
+            background: $dark-primary;
+            color: $white-color;
+        }
+    }   
+}

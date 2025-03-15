@@ -1,0 +1,121 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: landing.component
+    @Who: Satya Prakash Gupta
+    @When: 24-Feb-2021
+    @Why: EWM-892 EWM-1029
+    @What: You can add landing page styles to this file, and also import other style files
+*/
+// (C): Entire Software @Type: File, <scss> @Who: Satya Prakash Gupta @When: 07-Dec-2023  @Why: EWM-15045 EWM-15046  @What: Login page design
+@import "../../../styles-var.scss";
+.organization-container{
+  padding-top: 100px;
+  padding-bottom: 47px;
+  .organization-welcome-messege{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 5px 0px;
+    gap: 10px;
+    margin-bottom: 20px;
+    .user-image {
+      display: flex;
+      justify-content: center;
+      img {
+          width: calc(80px - 4px);
+          height: calc(80px - 4px);
+          border-radius: 100%;
+          overflow: hidden;
+          box-shadow: 0px 0px 1px 0px #000000;
+          padding: 2px;
+      }
+
+      span {
+          width: 80px;
+          height: 80px;
+          border-radius: 100%;
+          overflow: hidden;
+          background: #5844DA;
+          color: #fff;
+          font-size: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+    }
+    .matCardTitle {
+      color: #CE0086;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0px 0px 5px 0px;
+      text-align: center;
+    }
+    .matCardSubTitle {
+      font-size: 18px;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+  .organization-selection {
+    display: grid;
+    gap: 30px;
+    padding: 10px 40px;
+    max-width: 1430px;
+    margin: 0px auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    .organization-box{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-direction: column;
+      background: #fff;
+      padding: 20px 0px;
+      width: calc(33.33% - 20px);
+      border-radius: 16px;
+      transition: 0.2s;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      cursor: pointer;
+      @media only screen and (max-width: 1024px) and (min-width: 768px){
+        width: calc(50% - 20px);
+      }
+      @media only screen and (max-width: 767px) and (min-width: 240px){
+        width: calc(100% - 0px);
+      }
+      &:hover{
+        box-shadow: rgba(0, 0, 0, 0.45) 0px 35px 20px -20px;
+        transition: 0.2s;
+        transform: scale(1.06);
+      }
+      h3{
+        font-size: 20px;
+        font-weight: normal;
+        margin: 20px 0px;
+        color: #CE0086;
+        background: #ce008609;
+        width: 100%;
+        padding: 8px 0px;
+        text-align: center;
+        border-top: 1px solid #ce008621;
+        border-bottom: 1px solid #ce008621;
+        margin-bottom: 0px;
+      }
+      img{
+        max-width: 90%;
+        height: 100px;
+        margin: 0px 20px;
+      }
+      .mat-icon{
+        height: 100px;
+        line-height: 100px;
+        width: 100px;
+        font-size: 100px;
+      }
+    }
+  }
+}

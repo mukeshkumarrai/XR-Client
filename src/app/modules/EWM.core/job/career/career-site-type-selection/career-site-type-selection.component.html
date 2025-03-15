@@ -1,0 +1,142 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Adarsh Singh
+ @When: 26-Feb-2022
+ @Why: EWM-6224 EWM-6369
+    @What: This page wil be use only career site type selection
+-->
+
+<!---
+    Modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 27-April-2022
+    @Why: EWM-6224 EWM-6371
+    @What: This page wil be use only career site type selection
+-->
+ 
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<div id="pageTempalate" class="career-site-type">
+  <!-- <div class="hederConsent">
+      <h3 class="m-0"> {{'label_careerTypeSlection' | translate}}</h3>
+  </div> -->
+   
+  <!-- <div class="row">
+      <div class="col col-1">
+          <mat-radio-button color="primary" id="advancedCustomized" type="checkbox"
+               (click)="isCareerSelection($event,'Advance & Customized')"
+               [checked]="true" 
+               value="Advance & Customized">{{'label_Advance&Customized'|translate}}
+          </mat-radio-button>
+          
+          <div><b>{{'label_recommend'|translate}}</b></div>
+          <p>{{'label_careerTypeSelecetionDesc1'|translate}}</p>
+        </div>
+        <div class="col col-1">
+          <mat-radio-button color="primary" id="List" type="checkbox"
+          [checked]="careerType == 2" 
+          (click)="isCareerSelection($event,'Job Listing')" value="Job Listing"> {{'label_JobListing'|translate}}</mat-radio-button>
+        </div>
+        <p>{{'label_careerTypeSelecetionDesc2'|translate}}</p>
+
+  </div> -->
+
+  <mat-label>{{'label_careerTypeSlection' | translate}}*</mat-label>
+  <div class="career-selection" id="career-selection">
+    <mat-card class="mt-10 mat-elevation-z2 cursor" id="advance-customized-card" [ngClass]="{'active': careerType == 1} ">
+      <mat-radio-button color="primary" class="mat-checkbox" id="advancedCustomized" type="checkbox"
+               (click)="isCareerSelection($event,'Advance & Customized')"
+               [checked]="careerType == 1" 
+               value="Advance & Customized">
+      <mat-card-title>{{'label_Advance&Customized' | translate}}</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-subtitle class="subTitle">{{'label_careerTypeSelecetionDesc1' | translate}}</mat-card-subtitle>
+        <mat-icon>task_alt</mat-icon>
+      <div class="advance-section">
+        <div class="header-simple-layout" id="header-simple-layout">
+          <div class="header-column-logo" id="header-column-logo">
+            <div class="dark-box">
+            </div>
+          </div>
+          <div class="header-menu-box" id="header-menu-box">
+            <div class="header-menu-part">
+              <div class="menu"></div>
+              <div class="menu"></div>
+              <div class="menu"></div>
+            </div>
+            <div class="layout-column-buttons" id="layout-column-buttons">
+              <div class="btn"></div>
+            </div>
+          </div>
+        </div>
+        <div class="blank-box white"></div>
+        <div class="blank-box lightblue">
+          <div class="white-bar"></div>
+          <div class="white-bar"></div>
+        </div>
+        <div class="blank-box white"></div>
+        <div class="blank-box gray"></div>
+        <div class="blank-box white"></div>
+        <div class="blank-box lightgray"></div>
+        <div class="blank-box blue"></div>
+      </div>
+    </mat-radio-button>
+    
+    </mat-card>
+
+    <mat-card class="mt-10 mat-elevation-z2 cursor" id="job-listing-card" [ngClass]="{'active': careerType == 2}">
+      <mat-radio-button color="primary" class="mat-checkbox" id="List" type="checkbox"
+          [checked]="careerType == 2" 
+          (click)="isCareerSelection($event,'Job Listing')" value="Job Listing">
+      <mat-card-title>{{'label_JobListing' | translate}}</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-subtitle class="subTitle">{{'label_careerTypeSelecetionDesc2' | translate}}</mat-card-subtitle>
+      <mat-icon>task_alt</mat-icon>
+      <div class="advance-section job-section">
+        <div class="header-simple-layout" id="header-simple-layout">
+          <div class="header-column-logo" id="header-column-logo">
+            <div class="dark-box">
+            </div>
+          </div>
+          <div class="header-menu-box" id="header-menu-box">
+            <div class="header-menu-part">
+              <div class="menu"></div>
+              <div class="menu"></div>
+              <div class="menu"></div>
+            </div>
+            <div class="layout-column-buttons" id="layout-column-buttons">
+              <div class="btn"></div>
+            </div>
+          </div>
+        </div>
+        <div class="blank-box white"></div>
+        <div class="blank-box lightblue">
+          <div class="white-bar"></div>
+          <div class="white-bar"></div>
+        </div>
+        <div class="blank-box bigwhite"></div>
+        <div class="blank-box darkgray"></div>
+      </div>
+    </mat-radio-button>
+    </mat-card>
+
+  </div>
+
+  <mat-card class="drawer-footer mat-elevation-z2" id="drawer-data-continer-footer">
+      <button mat-stroked-button color="warn" tabindex="3" type="button" id="btnCancel"
+      (click)="onDismiss()">{{'button_cancel'|translate}}</button>
+
+      <span>
+          <button mat-raised-button color="primary" tabindex="4" type="button" id="btnActivitySave" 
+          (click)="onConfirm()" >
+              {{'label_save'|translate}}
+          </button>
+      </span>
+     
+  </mat-card>
+
+</div>

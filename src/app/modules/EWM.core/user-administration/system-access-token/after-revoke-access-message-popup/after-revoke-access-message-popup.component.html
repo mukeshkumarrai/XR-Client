@@ -1,0 +1,32 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 13-April-2022
+    @Why: EWM-5580 EWM-6098
+    @What:  This page wil be use only for after revoke access message box Component HTML
+-->
+
+<!---
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 14-April-2022
+    @Why: EWM-5580 EWM-6100
+    @What:  This page wil be use only for generate-token Component HTML
+-->
+
+<form id="afterRevokeAccess-ComfirmBox" applyTabIndexes>
+      <div id="after-revoke-header" class="modal-header">
+        <h2 mat-dialog-title>{{'label_revokeAccess' |translate}}</h2>
+        <button mat-icon-button id="btnClose" tabindex (click)="onClose()" color="warn">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <mat-dialog-content>
+          <mat-icon class="token" color="warn">block</mat-icon>
+        <p>{{'lebel_revokeAccessConfirmMsg1' |translate}} {{name}}</p>
+        <p>{{'lebel_revokeAccessConfirmMsg2' |translate}}</p>
+    </mat-dialog-content> 
+  </form>

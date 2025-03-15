@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Xeople</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preload stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,600,600italic,700,700italic,900italic,900" />
+  <link rel="preload stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" />
+  <link rel="icon" id="favIcon" type="image/png" href="assets/fab.png" />
+  <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1976d2">
+  <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAX0SSqOIIsjEzIiex9leWz5e-vrr8lyHY&libraries=places&language=en&callback=Function.prototype"></script> -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <!-- Start of HubSpot Embed Code -->
+<!-- <script type="text/javascript" id="hs-script-loader" async defer src="//js-na1.hs-scripts.com/22591863.js"></script> -->
+<!-- End of HubSpot Embed Code -->
+</head>
+
+<body>
+  <app-root id="main-comp">
+    <!-- @Who: Satya Prakash Gupta ,@When: 22-Nov-2023, @Why: EWM-15198 ,What: add blank page loader -->
+
+  </app-root>
+
+  <noscript>
+    <style>
+      .header {
+        height: 70px;
+        background-color: #5844DA;
+        padding: 0px;
+        display: block;
+        max-width: 1601px;
+        margin: 0px auto;
+      }
+
+      .main-container {
+        background-color: #FAFAFA;
+        overflow: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: calc(100vh - 70px);
+      }
+
+      .link-expire {
+        padding: 25px;
+        text-align: center;
+        display: inline-block;
+        margin: 45px 15px;
+        background: #ffffff;
+        border-radius: 4px;
+        max-width: 450px;
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+      }
+
+      .material-icons {
+        font-size: 70px;
+        color: #F44336;
+      }
+
+      .logoBox {
+        top: 20px;
+      }
+
+      .logoImage {
+        height: 33px;
+      }
+    </style>
+    <mat-toolbar color="primary" class="header">
+      <div class="container">
+        <div class="row mb-0 header_left">
+          <div class="col l6 m6 s6">
+            <div class="mainMenu">
+              <a class="logoBox" id="logoBox">
+                <img src="assets/logo.png" class="logoImage" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-toolbar>
+    <div class="main-container">
+      <mat-drawer-container class="main-container-login">
+        <div class="link-expire">
+          <span class="material-icons">
+            block
+          </span>
+          <h2>Javascript Disabled !</h2>
+          <p>Please enable JavaScript in your web browser and <a target="_top" href="">refresh</a> this page to continue
+            using the application.</p>
+        </div>
+      </mat-drawer-container>
+    </div>
+  </noscript>
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+      //do work
+      if (navigator.cookieEnabled != true) {
+
+        document.getElementById("cookies").style.display = "flex";
+        document.getElementById("headercookies").style.display = "flex";
+
+      } else {
+        document.getElementById("cookies").style.display = "none";
+        document.getElementById("headercookies").style.display = "none";
+      }
+      function reload() {
+        window.reload();
+      }
+
+    });
+
+  </script>
+
+  <style>
+    .headercookies {
+      height: 70px;
+      background-color: #5844DA;
+      padding: 0px;
+      display: block;
+      max-width: 1601px;
+      margin: 0px auto;
+    }
+
+    .main-container.cookies {
+      background-color: #FAFAFA;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 70px);
+    }
+
+    .main-container.cookies .link-expire {
+      padding: 25px;
+      text-align: center;
+      display: inline-block;
+      margin: 45px 15px;
+      background: #ffffff;
+      border-radius: 4px;
+      max-width: 450px;
+      box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+    }
+
+    .main-container.cookies .material-icons {
+      font-size: 70px;
+      color: #F44336;
+    }
+
+    .headercookies .logoBox {
+      top: 20px;
+    }
+
+    .headercookies .logoImage {
+      height: 33px;
+    }
+  </style>
+
+</body>
+<mat-toolbar color="primary" class="headercookies" id="headercookies" style="display: none;">
+  <div class="container">
+    <div class="row mb-0">
+      <div class="col l6 m6 s6 header_left">
+        <div class="mainMenu">
+          <a href="" class="logoBox" id="logoBox">
+            <img src="/assets/logo.png" class="logoImage" alt="">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>
+<div class="main-container cookies" id="cookies" style="display: none;">
+  <mat-drawer-container class="main-container-login">
+    <div class="link-expire">
+      <span class="material-icons">
+        block
+      </span>
+      <h2>Cookies Disabled !</h2>
+      <p>Please enable Cookies in your web browser and <a target="_top" href="">refresh</a> this page to continue
+        using the
+        application.</p>
+    </div>
+  </mat-drawer-container>
+</div>
+
+</html>

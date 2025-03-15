@@ -1,0 +1,30 @@
+/* @When: 11-10-2023 @who:Amit @why: EWM-14609 @what: This page will be use for the contact detail scss file */
+.mat-mini-fab {
+  overflow: hidden;
+}
+.profile-summary-container{
+  height: calc(100% - 60px);
+  @media screen and (min-width: 581px) and (max-width: 1024px){
+    height: calc(100% - 70px);
+  }
+  .mat-card.profile-summary-card{
+    height: calc(100% - 10px);
+    overflow: auto;
+    @media only screen and (max-width: 1024px) and (min-width: 581px){
+      height: calc(100% - 0px);
+    }
+    .mat-card-content.profile-summary-card-content{
+      height: 100%;
+      border: 0px;
+      padding: 0px; 
+    }
+  }
+}
+.summary-small-layout.profile-summary-container{
+  height: calc(100% - 50px);
+  .mat-card.profile-summary-card{
+    @media only screen and (max-width: 1024px) and (min-width: 581px){
+      height: calc(100% - 10px);
+    }
+  }
+}

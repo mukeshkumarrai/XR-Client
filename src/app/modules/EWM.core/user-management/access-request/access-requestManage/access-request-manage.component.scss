@@ -1,0 +1,19 @@
+
+@media only screen and (max-width: 798px) and (min-width: 320px){
+    .buttonForDesktopMobile.mat-raised-button{
+        min-width: 37px;
+        padding: 0px 0px;
+        .buttonTxt{
+        display: none;
+        }
+        .mat-icon{
+        display: inline-block;
+        }
+    }
+    .buttonForDesktop.mat-raised-button, .buttonForDesktop{
+        display: none !important;
+    }
+    .buttonForMobile.mat-raised-button, .buttonForMobile{
+        display: block !important;
+    }
+}

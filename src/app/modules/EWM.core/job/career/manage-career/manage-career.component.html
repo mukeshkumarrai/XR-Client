@@ -1,0 +1,95 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+     @Who: Adarsh Singh
+ @When: 26-Feb-2022
+ @Why: EWM-6224 EWM-6369
+    @What:  This component is used for add career site type
+-->
+<div *ngIf="loading" class="logo-loader" id="loader">
+    <div class="logo-loading"></div>
+  </div>
+
+<form [formGroup]="careerPageForm" id= "careerPageFormId" applyTabIndexes>
+        <div class="modal-header" id="modal-header">
+         <h2 *ngIf="actionStatus == 'create' ">{{ "label_create" | translate }}  {{'label_careerBrandSite' | translate}}</h2>
+        <h2 *ngIf="actionStatus == 'update' ">{{ "label_update" | translate }}  {{'label_careerBrandSite' | translate}}</h2>    
+            <!-- <button mat-icon-button  id="btnclosemap" (click)="onDismiss()" color="warn">
+                <mat-icon>close</mat-icon>
+            </button> -->
+        </div>
+       
+        
+        <mat-dialog-content class="career-dialog-content">
+                <div id="manageCareer">                 
+                    <mat-form-field>
+                        <mat-label>{{'label_careerPage' | customTranslate}} {{'label_name' | customTranslate}} *</mat-label>
+                        <input type="text" tabindex formControlName="CareerPageName" name="CareerPageName" matInput placeholder="" id="CareerPageName"
+                        (blur)="checkDuplicacy(false)">
+                        <mat-error
+                        *ngIf="this.careerPageForm.controls['CareerPageName'].hasError('required')">
+                        {{'label_careerPage' | customTranslate}} {{'label_name' | customTranslate}} {{ 'label_errorreqired' |translate}}
+                      </mat-error>
+                       <mat-error *ngIf="careerPageForm.controls['CareerPageName'].hasError('maxlength')">
+                        {{'label_careerPage' | customTranslate}} {{'label_name' | customTranslate}} {{'label_errormaxlength50'|translate}}
+                    </mat-error>
+                      <mat-error *ngIf="careerPageForm.controls['CareerPageName'].hasError('codeTaken')" >
+                        {{'label_careerPage' | customTranslate}} {{'label_name' | customTranslate}} {{'label_areadyExists' |translate}}
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                <div id="manageCareer">
+                    <mat-card-title class="mb-5">{{'label_careerSite' | customTranslate}} {{'label_name' | customTranslate}} *</mat-card-title>
+                    <div>{{'descriptionCareerPage' | customTranslate}}</div>
+                    <mat-form-field floatLabel="never">
+                        <!-- <mat-label></mat-label> -->
+                        <input type="text" tabindex formControlName="CareerSiteName" name="CareerSiteName" matInput placeholder="{{'label_careerSite' | customTranslate}} {{'label_name' | customTranslate}} *" id="addTeam-CareerSiteName">
+                        <span matPrefix class="fixSiteName">{{baseUrl}}</span>
+                        <mat-error
+                        *ngIf="careerPageForm.controls['CareerSiteName'].hasError('required')  && careerPageForm.controls['CareerSiteName'].touched">
+                        {{'label_careerSite' | customTranslate}} {{'label_name' | customTranslate}} {{ 'label_errorreqired' |translate}}
+                      </mat-error>
+                    <mat-error *ngIf="careerPageForm.controls['CareerSiteName'].hasError('pattern')">
+                       {{'label_careerSite' | customTranslate}} {{'label_name' | customTranslate}} {{'label_notSpecialchar'|translate}}
+                    </mat-error>
+                     
+                    <mat-error *ngIf="careerPageForm.controls['CareerSiteName'].hasError('maxlength')">
+                        {{'label_careerSite' | customTranslate}} {{'label_name' | customTranslate}} {{'label_errormaxlength50'|translate}}
+                    </mat-error>
+                    </mat-form-field>
+                    <div>{{'subDescriptionCareerPage' | customTranslate}}</div>
+                </div>
+                
+
+                <!-- <div class="col l12 m12 s12  ng-slectBox">
+                    <ng-select placeholder="{{'label_Brand'|translate}} *" appendTo="body" tabindex [clearable]="true"
+                    formControlName="BrandId" name="BrandId"  id="addTeam-Status">
+                    <ng-option *ngFor="let data of gridView" [value]="data.Id">
+                        {{data.Brand}}
+                    </ng-option>
+                  </ng-select>
+                <mat-error
+                    *ngIf="careerPageForm.controls['BrandId'].hasError('required') && careerPageForm.controls['BrandId'].touched">
+                    {{'label_Brand'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+              
+                   </div> -->
+                   <div class="ng-slectBox">
+                    <app-custom-dropdown [selectedIn]="selectedBrand"
+                    (selectedOut)="onBrandchange($event)" [config]="dropDownBrandConfig" tabindex>
+                    </app-custom-dropdown>
+
+                </div>
+        </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" type="button" tabindex id="btnCancel" (click)="onDismiss()">
+            {{'label_cancel'|customTranslate}}</button>
+          <button mat-raised-button id="nextToConfirmEmail" color="primary" 
+          (click)="onConfirm(this.careerPageForm.value)"  [disabled]="!careerPageForm.valid || isBtnDisabled || isDisabled" id="btnContinue">
+          {{'label_mfa_continueBtn'|translate}}</button>
+
+    </div>
+</form>
+
+

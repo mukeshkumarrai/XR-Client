@@ -1,0 +1,72 @@
+<!--
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:cover-letter-popup.component.html
+    @Who: Renu
+    @When: 01-July-2022
+    @Why: EWM-1732 EWM-7404
+    @What: for uploading coverletter
+-->
+<form [formGroup]="UploadResumeForm" id="UploadCoverPageForm" (ngSubmit)="onConfirm()" applyTabIndexes>
+    <div class="quick-dialog">
+      <h2 mat-dialog-title>
+        {{'label_uploadNewCoverPage' | translate}}
+      </h2>
+      <mat-dialog-content class="col">
+
+        <div class="row mb-0">
+          <div class="col l12 m12 s12">             
+              <app-cover-letter-upload [docRequiredStatus]="true" [activestatus]="activestatus"  [filestatus]="filestatus" [fileInfo]="fileInfo" [fileViewstatus]="fileViewstatus" (informDocumentParent)="documentDataFetchFromChild($event)"></app-cover-letter-upload>
+          </div>
+         </div>
+        <div class="row mb-0">
+          <mat-form-field class="col l12 m12 s12">
+            <mat-label>{{'label_cover_letter_name' |translate}}</mat-label>
+  
+            <input matInput formControlName="CoverPageField" rows="2" id="cover_letter_name" tabindex
+              placeholder="{{'label_cover_letter_name'|translate}}" (blur)="checkDuplicity()" required >
+            <mat-error *ngIf="UploadResumeForm.controls['CoverPageField'].hasError('required')">
+                      {{'label_cover_letter_name'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                    <mat-error *ngIf="UploadResumeForm.controls['CoverPageField'].hasError('codeTaken')">
+                      {{'label_cover_letter_name'|translate}} {{'label_errorreqiredAlready'|translate}}
+                  </mat-error>
+                  <mat-error *ngIf="UploadResumeForm.controls['CoverPageField'].hasError('maxlength')">
+                      {{'label_cover_letter_name'|translate}} {{'label_errormaxlength150'|translate}}
+                  </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row mb-0">
+          <mat-form-field class="col l12 m12 s12">
+            <mat-label>{{'label_cover_job_title' |translate}}</mat-label>    
+            <input matInput disabled formControlName="JobTittile" rows="2" id="cover-job-title" tabindex
+              placeholder="{{'label_cover_job_title'|translate}}">
+          </mat-form-field>
+        </div>
+
+        <div class="row mb-0">
+          <mat-form-field class="col l12 m12 s12">
+            <mat-label>{{'label_job_reference_Id' |translate}}</mat-label>    
+            <input matInput disabled formControlName="JobReferenceId" rows="2" id="cover_referenceId" tabindex
+              placeholder="{{'label_job_reference_Id'|translate}}">
+          </mat-form-field>
+        </div>
+
+          <div class="row mb-0" >
+            <mat-form-field class="col l12 m12 s12">
+              <mat-label>{{'label_cover_client_name' |translate}}</mat-label>
+              <input matInput disabled formControlName="clientName" rows="2" id="cover_client_name" tabindex
+              placeholder="{{'label_cover_client_name'|translate}}">
+            </mat-form-field>
+          </div>
+          </mat-dialog-content>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+      <button mat-stroked-button color="warn" type="button" (click)="onDismiss()" id="btnCancel" tabindex>
+        {{'button_cancel'|translate}}</button>
+      <button mat-stroked-button color="primary" type="submit" id="btnSave" [disabled]="!UploadResumeForm.valid"
+        tabindex> {{'label_save'|translate}}</button>
+    </div>
+  </form>

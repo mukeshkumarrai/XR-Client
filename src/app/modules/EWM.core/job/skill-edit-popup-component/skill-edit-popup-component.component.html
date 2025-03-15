@@ -1,0 +1,48 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 07-Oct-2022
+    @Why: EWM-9027
+    @What:  This component is used for view skills.
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'candidate_skils' | translate}}</h2>
+    <button mat-icon-button id="btnclosemap" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50"
+    (scrolled)="onScrollDown()" [scrollWindow]="false" id="contentdata">
+    <mat-chip-list>
+        <mat-chip class="skill" *ngFor="let data of skillsData">
+            <div class="text-overflow skill-box">
+                <span class="number">{{data?.Weightage}}</span>
+                <span class="text-overflow" (click)="openQuickSkillEdidModal(data,'view')">{{data?.SkillName}}</span>
+            </div>
+            <button type="button" id="btnDelete4" mat-icon-button color="warn" *ngIf="type==='View'"
+                matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}"
+                (click)="deleteConfirmskills(data)">
+                <mat-icon>
+                    delete
+                </mat-icon>
+            </button>
+            <span *ngIf="type==='Edit'">
+                <button type="button"
+                    *ngIf="(this.skillsData != undefined)&&(this.skillsData != null)&&(this.skillsData.length>0) && (data?.Renewal==1 || data?.DocumentRequired==1)"
+                    id="btnEdit" mat-icon-button color="primary" matTooltipClass="custom-tooltip"
+                    matTooltip="{{'label_edit'|translate}}" (click)="openQuickSkillEdidModal(data,'edit')">
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+                </button>
+            </span>
+        </mat-chip>
+
+    </mat-chip-list>
+
+    <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+</mat-dialog-content>

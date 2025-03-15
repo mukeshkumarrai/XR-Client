@@ -1,0 +1,190 @@
+
+/* @When: 22-05-2024 @who:Amit @why: EWM-17156 @what: review final summary style */
+@use "../../../../colors";
+@use "dark-final-summary";
+.final-summary-main{
+    height: 100%;
+    position: relative;
+    .final-inner-summary{
+        position: relative;
+        height: calc(100% - 50px);
+        overflow: auto;
+        background: colors.$gray-bg-color;
+        .final-summary.mat-card{
+            padding: 0px;
+            margin: 10px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            border: 1px solid #ebebeb;
+            border-radius: 8px;
+            .mat-divider-horizontal{
+                position: inherit;
+            }
+            .final-main-header{
+                padding: 10px;
+                border-radius: 0px;
+                border-radius: 8px 8px 0px 0px;
+                border-bottom: 1px solid rgba(60, 64, 67, 0.3);
+                .mat-card-header-text{
+                    .mat-card-title{
+                        font-size: 16px;
+                        font-weight: 500;
+                        margin-bottom: 0px;
+                    }
+                }
+            }
+            .final-main-content{
+                padding: 10px;
+                border-radius: 0px 0px 4px 4px;
+                p{
+                    margin: 0px; 
+                    span{
+                        font-weight: 500;
+                    }
+                }
+                .action-show{
+                    font-size: 13px;
+                }
+                .final-summary-data{
+                    display: flex;
+                    justify-content: space-between;
+                    flex-direction: column;
+                    gap: 10px;
+                    margin: 10px 0px;
+                    .mat-card{
+                        padding: 0px;
+                        width: 100%;
+                        box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+                        margin-bottom: 0px;
+                        .mat-card-header{
+                            background: #fbfbfb;
+                            border-radius: 4px 4px 0px 0px;
+                            padding: 8px 12px;
+                            .mat-card-header-text{
+                                .mat-card-title{
+                                    margin-bottom: 0px;
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                        .mat-card-content{
+                            padding: 10px;
+                            .final-info-data{
+                                display: flex;
+                                flex-wrap: wrap;
+                                column-gap: 8px;
+                                row-gap: 3px;
+                                margin-bottom: 10px;
+                                font-size: 13px;
+                                p{
+                                    word-break: break-word;
+                                    span{
+                                        font-weight: 500;
+                                        .mark-mandatory{
+                                            color: colors.$warn-bg;
+                                        }
+                                    }
+                                }
+                                .field-name{
+                                    width: 130px;
+                                }
+                                .show-text{
+                                    p{
+                                        span{
+                                            color: #4ab304;
+                                            font-weight: 500;
+                                            background: rgb(74 179 4 / 8%);
+                                            font-size: 12px;
+                                            padding: 2px 5px;
+                                            border-radius: 4px;
+                                            text-transform: uppercase;
+                                        }
+                                    }
+                                }
+                                &:last-child{
+                                    margin-bottom: 0px;
+                                }
+                            }
+                        }
+                    }
+                    &:last-child{
+                        margin-bottom: 0px;
+                    }
+                    @media only screen and (max-width: 625px) {
+                        flex-direction: column;
+                    }
+                }
+
+                .final-summary-data.final-screening-action{
+                    border-radius: 4px;
+                    background: colors.$white-bg;
+                    box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+                    .mat-card{
+                        box-shadow: none;
+                        .mat-card-content{
+                            .final-info-data{
+                                .field-name{
+                                    width: 180px;
+                                }
+                            }
+                            .orange-text{
+                                color: colors.$orange-color;
+                                font-size: 13px;
+                            }
+                        }
+                    }
+                    @media only screen and (max-width: 625px) {
+                        flex-direction: column;
+                        row-gap: 0px;
+                    }
+                }
+                .final-summary-data.final-screening-notes{
+                    .mat-card{
+                        box-shadow: none;
+                        .mat-card-content{
+                            box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+                            border-radius: 4px;
+                            .final-info-data{
+                                @media only screen and (max-width: 625px) {
+                                    flex-direction: column;
+                                }
+                                .field-name{
+                                    width: 140px;
+                                }
+                                .show-text{
+                                    width: calc(100% - 148px);
+                                    @media only screen and (max-width: 625px) {
+                                        width: 100%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .actionBoxFooter{
+        position: absolute;
+        bottom: 24px;
+        background: #fff;
+        width: 100%;
+        height: 50px;
+        padding: 0px 5px !important;
+        box-sizing: border-box;
+        min-height: 40px;
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+        gap: 5px;
+        p{
+            margin: 0px;
+            color: colors.$warn-bg;
+            font-size: 12px;
+        }
+        .mat-raised-button{
+            .push-candidate-button-icon{
+                fill: colors.$white-color;
+            }
+        }
+    }
+}
+    

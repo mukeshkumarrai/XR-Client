@@ -1,0 +1,43 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:Email-confirm-dialog.component.html
+    @Who: Naresh Singh
+    @When: 16-Sep-2021
+    @Why: EWM-2512 EWM-2857
+    @What: This page wil be use only for the email confirm Component HTML
+-->
+<!-- <div mat-dialog-content class="center-align confirm-dialog disConnectEmailPopUP">
+    <mat-icon class="closeIcon" (click)="onNoClick()">close</mat-icon>
+    <div class="syncImgStyle material-icons animate__animated ">
+        <mat-icon class="matIconEmail">cancel_schedule_send</mat-icon>
+       
+    </div>
+    <h2 mat-dialog-title>
+        {{'label_yourEmailDisconnected' |translate}}
+    </h2>
+    <p> {{'label_weWillNotReceiveEmail' |translate}}</p>
+    <p> {{'label_thankYou' |translate}}</p>
+</div> -->
+
+
+<div mat-dialog-content class="center-align error-dialog">
+    <div class="draft-cancel">
+        <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+            drafts
+        </span>
+        <mat-icon class="animate__animated animate__heartBeat animate__repeat-2">cancel</mat-icon>
+    </div>  
+    <h2 mat-dialog-title>
+        {{'label_yourEmailDisconnected' |translate}}
+    </h2>
+    <p> {{'label_weWillNotReceiveEmail' |translate}}</p>
+
+    <p> {{'label_do_Note_emails_calendars_synchronized' |translate}}</p>
+
+    <!-- <p> {{'label_thankYou' |translate}}</p> -->
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter inform-dialog-footer">
+    <button mat-stroked-button color="warn" (click)="onNoClick()"> {{'button_close'|translate}}</button>
+</div>

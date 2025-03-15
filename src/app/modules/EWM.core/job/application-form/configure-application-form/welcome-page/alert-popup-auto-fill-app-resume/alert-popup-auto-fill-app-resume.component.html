@@ -1,0 +1,25 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:alert-popup-auto-fill-app-resume.component.html
+    @Who: Anup singh
+    @When: 18-05-2022
+    @Why: EWM-6554 EWM-6678
+    @What: This page wil be use only for the confirm Component HTML
+-->
+<div mat-dialog-content class="center-align confirm-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        warning
+    </span>
+    <h2 mat-dialog-title>
+        {{'label_alert'|translate}}
+    </h2>
+    <p>{{'label_welcomeAlert1'|translate}} <span>
+        <a [routerLink]="['./client/core/administrators/integration-interface-board']" target="_blank" id="welcomeAlert-navigate-integration-interface-board">
+            {{'label_clickHere'|translate}}</a>
+    </span> {{'label_welcomeAlert2'|translate}}</p>  
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter center-align">
+    <button mat-stroked-button color="warn" (click)="onDismiss()" id="btnClose"> {{'label_ok'| translate}}</button>
+</div>

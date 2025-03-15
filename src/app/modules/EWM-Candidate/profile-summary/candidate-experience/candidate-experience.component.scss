@@ -1,0 +1,110 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Satya Prakash Gupta
+    @When: 21-May-2021
+    @Why: EWM-1449 EWM-1583
+    @What: You can add this page styles on same file, and also import other style files
+*/
+.quick-dialog{
+    .row{
+        margin-bottom: 10px;
+    }
+    h4{
+        margin: 0px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+        border-radius: 4px;
+        .mat-icon{
+            margin-right: 5px;
+        }
+    }
+    &:first-child{
+        margin-top: 0px;
+    }
+    .ng-select-withicon{
+        display: inline-flex;
+        align-items: baseline;
+        box-sizing: border-box;
+        width: 100%;
+        .ng-select{
+            font-size: 14px;
+            width: 100%;
+        }
+    }
+    .select-matPrefix-icon{
+        top: 4px;
+        position: relative;
+        width: 1.215em; 
+    }
+    .matPrefix-icon{
+        top: 4px;
+        position: relative;
+        width: 1.215em;
+    }
+    .matSuffix-icon{
+        position: relative;
+        bottom: 0px;
+        font-size: 12px;
+        padding: 3px 10px;
+        line-height: 25px;
+        height: 30px;
+        min-width: 35px;
+    }
+    .mat-form-field-should-float{
+        .matPrefix-icon{
+            top: 8px;
+        }
+    }
+}
+
+
+.mgBottom5{
+    margin-bottom: 5px;
+}
+.ng-slectBox{
+    font-size: 14px !important;
+}
+// .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label{
+//     transform: ;
+// }
+
+.mat-chip.mat-standard-chip .mat-chip-remove {
+     color: #f44336;
+    opacity: 1;
+  }
+
+  ::ng-deep {
+    .icon-withchip .mat-form-field-label-wrapper .mat-form-field-label {
+        top: 1.28125em;
+        left: 0px;
+    }
+}
+
+// @When: 21-07-2023 @who:Amit @why: EWM-13192 @what: add height style
+.candidate-dialog-content{
+    min-height: 66vh;
+    .mat-form-field{
+        textarea{
+            min-height: 60px;
+        }
+    }
+}
+
+.counterTxt{
+    position: relative;
+  .countlabel{
+    margin-top: 0px;
+    text-align: right;
+    color: #fe7000;
+    font-size: 80%;
+    position: absolute;
+    bottom: 5px;
+    right: 0px;
+  }
+}
+

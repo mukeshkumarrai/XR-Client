@@ -1,0 +1,33 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: broadbean-integration.component.scss
+    @Who: Satya Prakash Gupta
+    @When: 02-Aug-2023
+    @Why: EWM-13290 EWM-13309
+    @What: You can add seek integration styles to this file, and also import other style files
+*/
+@import "../broadbean-integration/broadbean-integration.component.scss"; 
+.addPlanType{
+    min-width: 40px;
+    padding: 0px 5px;
+    border-radius: 50px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #7fb734;
+    margin-bottom: 10px;
+}
+.btn-group{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    .mat-raised-button{
+        height: 28px;
+        line-height: 28px;
+        padding: 0px 5px;
+        min-width: auto;
+        margin: 0px;
+        font-size: 13px;
+    }
+}

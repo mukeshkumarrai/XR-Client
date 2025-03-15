@@ -1,0 +1,41 @@
+<!---
+    @(C): Xeople
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 06-Oct-2021
+    @Why: EWM-3088 EWM-2549
+    @What:  This page is creted for Common Component HTML of Upload Documents
+-->
+<mat-card>
+    <mat-card-header *ngIf="filestatus  && fileViewstatus && activestatus!='view'"> 
+        <mat-card-title *ngIf="!docRequiredStatus" class="matTitleDocument">{{'lebel_uploadDocument' | translate}} </mat-card-title>
+        <mat-card-title *ngIf="docRequiredStatus" class="matTitleDocument">{{'lebel_uploadDocument' | translate}} <span class="required-show">*</span></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="documentUploadRoundBox" *ngIf="filestatus  && fileViewstatus && activestatus!='view'">
+            <div *ngIf="loading" class="k-i-loading inputSearch"></div>
+            <div class="circleCreateDocFileUpload">
+                <input type="file" #fileInput accept="{{fileType}}" (change)="Uploadfile($event)" required/>
+                <mat-icon>cloud_upload</mat-icon>
+            </div>
+            <span class="fileInstructions">
+                {{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}} 
+                </span>
+        </div>
+        <div class="documentUploadRoundBox" *ngIf="!filestatus" (click)="openDoc(filePathOnServer)"
+        [ngStyle]="filePathOnServer == undefined  && {'cursor': 'auto'}">
+            <div class="circleCreateDocFileUpload solidBorderFileUploadBox"
+            [ngStyle]="filePathOnServer == undefined  && {'cursor': 'auto'}">
+                <mat-icon>{{iconFileType}}</mat-icon>
+            </div>
+            <span class="fileInstructions cursor text-overflow"
+            [ngStyle]="filePathOnServer == undefined  && {'cursor': 'auto'}">
+                {{fileInfo}}
+            </span>
+            <mat-icon class="closeIconCreateDoc cursor" *ngIf="fileViewstatus" color="warn" (click)="removeImage(filePathOnServer)">cancel</mat-icon>
+            <!---------@When: 31-07-2023 @who:Amit @why: EWM-13617 @what: add class--------->
+            <span *ngIf="isVersion && duplicateName" class="already-file">{{'label_filename'|translate}} {{'label_errorreqiredAlready'|translate}}</span> 
+        </div>
+        <!---- @suika @EWM-13293,@EWM-13617 @whn 28-07-2023 ---->
+    </mat-card-content>
+</mat-card>

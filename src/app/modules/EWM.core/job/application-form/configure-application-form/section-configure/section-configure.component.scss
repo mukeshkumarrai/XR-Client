@@ -1,0 +1,76 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <scss>
+  @Who: Satya Prakash Gupta
+  @When: 06-Oct-2021
+  @Why: EWM-8902 EWM-9111
+  @What:  This page will be use for the section configure Component scss file
+
+*/
+
+.candidateColumnList{
+    max-height: calc(100vh - 338px);
+    // overflow: auto;
+    // padding-right: 5px;
+  }
+  .col.s12{
+    .candidateColumnList{
+      max-height: none;
+    }
+  }
+
+.configure-dialog-content{
+  display: grid;
+  grid: auto/calc(50% - 10px) calc(50% - 10px);
+  gap: 20px;
+  min-height: 390px;
+  @media only screen and (max-width: 767px) and (min-width: 240px){        
+    grid: auto/1fr;
+  }
+  .candidateColumnList-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 0px;
+    padding-right: 10px;
+    cursor: default;
+    margin: 10px 0px;
+    border-radius: 8px;
+    box-shadow: 0 0px 6px 0px rgb(0 0 0 / 22%);
+    box-sizing: border-box;
+  }
+  .candidateColumnList-box.edit-input {
+    padding: 5px 8px;
+    border-left: none;
+    height: 58px;
+    .searchInput{
+      margin-bottom: 15px;
+    }
+  }
+}
+  
+  .candidateColumnList-custom-placeholder {
+    min-height: 40px;
+    border-radius: 8px;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  .cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  .candidateColumnList.cdk-drop-list-dragging
+    .candidateColumnList-box:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+
+  ::ng-deep{
+  .candidateColumnList-box.edit-input{
+    .searchInput.mat-form-field-appearance-legacy{
+      .mat-form-field-subscript-wrapper{
+        margin-top: 1px;
+      }
+    }
+  }
+}
+  
+  

@@ -1,0 +1,138 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="sms-template-mat-card-header">
+  
+    <mat-card-title class="icon-with-title">
+      <div class="sub-title">
+      <span *ngIf="activestatus =='Add'">{{'label_add' |translate}} {{'label_smsTemplate' |translate}}</span>
+      <span *ngIf="activestatus =='Edit' ">{{'label_edit' |translate}} {{'label_smsTemplate' |translate}}</span>
+    </div>
+    
+    </mat-card-title>
+     
+    <div class="actionButton">
+      <button mat-raised-button class="buttonForDesktopMobile" tabindex="8" color="warn" [routerLink]="['../']"
+        id="btnCancel">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+      </button>
+  
+      <button mat-raised-button class="buttonForDesktopMobile" color="primary" tabindex="7"
+        (click)="onSave(this.addUserSmsForm.value,this.activestatus)" type="button" id="btnSave"
+        [disabled]="!addUserSmsForm.valid || isResponseGet">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt" *ngIf="!isResponseGet">{{'label_save'|translate}}</span>
+        <div *ngIf="isResponseGet" id="loading"></div>
+      </button>
+  
+    </div>
+  </mat-card-header>
+
+<!-- Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 -->
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="administrator-drawer">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+        <div class="kendo-table-container">
+            <ng-template #template let-anchor>
+                <span>{{ anchor.nativeElement.innerText }}</span>
+            </ng-template>
+            <form novalidate [formGroup]="addUserSmsForm" accept-charset="utf-8" enctype='multipart/form-data' id="sms-form">
+                <div class="row mb-0">
+                    <div class="col l4 m6 s12">
+                        <div class="ng-slectBox">
+                            <ng-select [clearable]="true" placeholder="{{'label_moduleName'|translate}}"
+                                tabindex="1" formControlName="moduleId" id="sms-moduleId"
+                                (change)="onChangeModule($event)">
+                                <!--<ng-option value="0" disabled>{{'label_selectModule'|translate}}</ng-option>-->
+                                <ng-option *ngFor="let module of moduleArray" [value]="module.ModuleId">
+                                    {{module.ModuleName}}</ng-option>
+                            </ng-select>
+
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <mat-form-field class="col l4 m6 s12">
+                        <mat-label>{{'label_smsTitle' |translate}}</mat-label>
+                        <input type="hidden" formControlName="id" id="smsId" name="smsId">
+                        <!-- who:maneesh,what:ewm-11920 for titel already exit dispaly when enter duplicate titel data (blur)="onTitleChanges(),when:03/05/2023 -->
+                        <textarea matInput formControlName="name" tabindex="1" text="regionName" id="sms-Name"
+                              required (keyup)="onTitleChanges()"></textarea>
+                        <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('required')">
+                            {{'label_smsTitle' |translate}} {{'label_errorreqired' |translate}}
+                        </mat-error>
+           <!-- // who:maneesh,what:ewm-15173 for change max length,when:01/12/2023 -->
+                        <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('maxlength')">
+                            {{'label_smsTitle' |translate}} {{'label_errormaxlength75' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('minlength')">
+                            {{'label_smsTitle' |translate}} {{'label_errorminlength2' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('pattern')">
+                            {{'label_smsTitle' |translate}} {{'label_errorspecialchar' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addUserSmsForm.controls['name'].hasError('codeTaken')">
+                            {{'label_smsTitle' |translate}} {{'label_areadyExists' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="clear"></div>
+                    
+                    <!-- @When: 04-10-2023 @who:Amit @why: EWM-14465 @what: class remove -->
+                    <div class="col l12 m12 s12 mb-5">
+                      <label>{{'label_smsDescription' |translate}} <span class="required-show">*</span></label>
+                      <kendo-editor #editor tabindex="6" formControlName="smsbody"
+                          [pasteCleanupSettings]="pasteCleanupSettings"  required>
+                          <kendo-toolbar [overflow]="false" tabindex="7">                        
+                          <kendo-toolbar-splitbutton *ngFor="let item of (toolButtons$ | async)" [text]="item.text"
+                              [icon]="item.icon" [data]="item.data">
+                          </kendo-toolbar-splitbutton>
+                           <!---------@When: 31-07-2023 @who:Adarsh singh @why: EWM-13233 @Desc- Added image upload button --------->
+                           <!-- <kendo-toolbar-button text="Upload Image" (click)="openImageUpload()" [style]="{'padding': '2px 7px', 'font-size': '12px'}"></kendo-toolbar-button>                                -->
+                           <!-- End  -->
+                          </kendo-toolbar>
+                           
+                      </kendo-editor>
+                           <!---------@When: 01-11-2023 @who:maneesh ,why:15015 @Desc- fixed validation --------->
+                      <mat-error *ngIf="addUserSmsForm.controls['smsbody'].hasError('minlength')">
+                        {{'label_smsDescription' |translate}} {{'label_errorminlength2' |translate}}
+                      </mat-error>
+                      <mat-error *ngIf="addUserSmsForm.controls['smsbody'].hasError('required') && this.addUserSmsForm.controls['smsbody'].touched">
+                        {{'label_smsDescription' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="addUserSmsForm.controls['smsbody'].hasError('maxlength')">
+                        {{ 'label_smsDescription' |translate}} {{ 'label_errormaxlength612' |translate}}
+                    </mat-error>
+                      </div>
+                      <div class="clear"></div>
+                 
+
+                    <div class="clear"></div>
+                    <div class="col l4 m6 s12">
+                        <div class="ng-slectBox">
+                            <ng-select placeholder="{{'label_tagStatus'|translate}}" appendTo="body" class="dropdown-body show-required" tabindex [clearable]="true"
+                            formControlName="StatusId" name="StatusName"  id="addTeam-Status" required>
+                            <ng-option *ngFor="let status of statusList" [value]="status.StatusId">
+                                {{status.StatusName}}
+                            </ng-option>
+                          </ng-select>
+                            <mat-error *ngIf="this.addUserSmsForm.controls['StatusId'].hasError('required') && this.addUserSmsForm.controls['StatusId'].touched">
+                                {{ 'label_templateStatus' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="">
+                        <div class="custom-checkbox">
+                            <label class="custom-control overflow-checkbox">
+                                <input type="checkbox" formControlName="shareTag" class="overflow-control-input" id="sms-sharedtag">
+                                <span class="overflow-control-indicator"></span>
+                                <span class="overflow-control-description">{{'label_smsSharedTag'|translate}}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </mat-card>
+</mat-drawer-container>

@@ -1,0 +1,27 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:group skill.component.html
+    @Who: Nitin Bhati
+    @When: 15-Sep-2021
+    @Why: EWM-2756
+    @What: This page wil be use only for the confirm Component HTML
+-->
+<div mat-dialog-content class="center-align confirm-dialog">   
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        handyman
+    </span>
+    
+    <h2 mat-dialog-title>
+        {{'label_skillMultipleNamePopup'|translate}} 
+        <mat-chip-list class="skillsNameBox">
+            <mat-chip *ngFor="let skill of candidateIdData">{{skill.SkillName}}</mat-chip>
+          </mat-chip-list>
+    </h2>
+    <p> {{'label_addSkillContent'|translate}} </p>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" (click)="onDismiss()"> {{'label_noBtn'|translate}}</button>
+    <button mat-stroked-button color="primary" (click)="onConfirm()"> {{'label_yesBtn'|translate}}</button>
+</div>

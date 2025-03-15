@@ -1,0 +1,267 @@
+<!-- by maneesh creat component for add vxt call log -->
+<form [formGroup]="addCallForm" id= "addTeamFormId" applyTabIndexes class="call-log-modal">
+    <mat-dialog-content>
+                <div class="save-section">
+                    <mat-label class="sub-title">Save To <span class="required-show">*</span></mat-label>
+                    <div class="save-section-inner"  >
+                        <!-- [disabled]="IsActive=='Edit'" -->
+                        <div class="ng-slectBox" readonly>
+                            <ng-select
+                                id="activity-ModifyClient" formControlName="RelatedUserTypeName" class="dropdown-body" required
+                                appendTo="body" tabindex="4" [clearable]="false"
+                                (change)="checkRelatedType($event);onChangeActivityRelatedTo($event);">
+                                <ng-option value="JOB">Job</ng-option>
+                                <ng-option value="CAND">Candidate</ng-option>
+                                <ng-option value="CLIE">Client</ng-option>
+                                <ng-option value="CONT">Contact</ng-option>
+    
+                            </ng-select>
+                            
+                            <mat-error
+                                *ngIf="addCallForm.controls['RelatedUserTypeName'].hasError('required') && addCallForm.controls['RelatedUserTypeName'].touched">
+                                {{ 'Save To' | translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                        </div>
+
+                        <dropdown  [configuration]="common_DropdownC_Config" (selectedOut)="onRelatedUserchange($event)"
+                        [resetConfiguration]="resetRelattedUserDrp.asObservable()" [getSelectedItem]="selectedRelatedUser">
+                    </dropdown>
+                    </div>
+                </div>
+
+                <div class="save-action-group">
+                    <div class="call-outer">
+                        <div class="call-details">
+                            <div class="data-receive">
+                                <div class="data-text"  *ngIf="showOutGoingCallData" >
+                                    <mat-icon>phone_callback</mat-icon> 
+                                    <span class="in-out">{{callType}}</span>
+                                </div>
+                                <div class="data-text outgoing-text" *ngIf="showIncommingCallData"> 
+                                    <mat-icon>phone_forwarded</mat-icon>
+                                    <span class="in-out">{{callType}}</span>
+                                </div>
+                            </div>
+                            <button mat-stroked-button tabindex type="button" *ngIf="showIncommingCallData" class="swap-call" (click)="CallHistrydata('Incoming')" id="call-swap">  
+                                <mat-icon>swap_horiz</mat-icon>
+                            </button>
+                            <button mat-stroked-button tabindex type="button" *ngIf="showOutGoingCallData" class="swap-call" (click)="CallHistrydata('Outgoing')" id="call-swap">  
+                                <mat-icon>swap_horiz</mat-icon>
+                            </button>
+                        </div>
+                        <mat-slide-toggle [checked]="ShowEditor" (change)="ShowOnlyImportantFilter($event)" (click)="$event.stopPropagation()"
+                        color="primary" labelPosition="before">Notes
+                        </mat-slide-toggle>
+                    </div>
+                    <div class="outer-call-details">
+
+                    <button [disabled]="gridList==null || gridList=='' || gridList==undefined " mat-stroked-button color="primary" (click)="openDynamicFilterArea()"  tabindex type="button" class="view-last-button" [matMenuTriggerFor]="menu" id="view-last-Call">  
+                        <span>View last Call details <mat-icon svgIcon="keyboard_arrow_down"></mat-icon></span>
+                    </button>
+
+                    <mat-menu #menu="matMenu" class="call-filter-area mat-elevation-z3">
+                        <div class="arrow-corner">
+                            <mat-icon class="arrow_left">arrow_drop_up</mat-icon>
+                        </div>
+
+                        <div class="outer-profile">
+                            <div class="inner-profile">
+                                <mat-label class="small-title">To</mat-label>
+                                <div class="user-avtaar-name">
+                                    <div class="userAvtaarAndName tooltip tooltip-bottom">
+                                        <img class="tooltip-trigger" *ngIf="lastcallToProfileImageUrl!=null && lastcallToProfileImageUrl!='' && lastcallToProfileImageUrl!=undefined" src="{{lastcallToProfileImageUrl}}" />
+                                        <span class="tooltip-trigger" *ngIf="lastcallToProfileImageUrl==null || lastcallToProfileImageUrl=='' || lastcallToProfileImageUrl==undefined"
+                                         [style.background]="getBackgroundColor(LastCallToSortName)">{{LastCallToSortName}}</span>
+                                    
+                                    </div>
+                                    <span class="label-text text-overflow" matTooltip="{{lastcallToName}}" matTooltipClass="custom-tooltip">{{lastcallToName}}</span>
+                                </div>
+                            </div>
+                            <div class="inner-profile">
+                                <mat-label class="small-title">From</mat-label>
+                                <div class="user-avtaar-name">
+                                    <div class="userAvtaarAndName tooltip tooltip-bottom">
+                                        <img class="tooltip-trigger" *ngIf="lastcallToFromProfileImageUrl!=null && lastcallToFromProfileImageUrl!='' && lastcallToFromProfileImageUrl!=undefined" src="{{lastcallToFromProfileImageUrl}}" />
+                                        <span class="tooltip-trigger" *ngIf="lastcallToFromProfileImageUrl==null || lastcallToFromProfileImageUrl=='' || lastcallToFromProfileImageUrl==undefined"
+                                        [style.background]="getBackgroundColor(lastcallFromSortName)">{{lastcallFromSortName}}</span>
+                                    </div>
+                                    <span class="label-text text-overflow" matTooltip="{{lastcallFromName}}" matTooltipClass="custom-tooltip">{{lastcallFromName}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="notes-area">
+                            <mat-label class="small-title">Notes</mat-label>
+                            <span class="notes-box">{{lastcallNotesDiscription}}</span>
+                        </div>
+
+                        <div class="date-time-show">
+                            <h3>Date</h3>
+                            <p>
+                                <span>{{lastcallDate}}</span>          
+                                <span>{{lastcallTime | kendoDate:'hh:mm a'}}</span>          
+                            </p>
+                        </div>
+                    </mat-menu>
+                    </div>
+
+                </div>
+   <div *ngIf="ShowEditor" class="mb-15">
+    <!-- <div class="ng-slectBox">
+        <app-custom-dropdown [selectedIn]="selectedCategory" tabindex
+        (selectedOut)="onCategorychange($event)" [config]="dropDoneConfig">
+    </app-custom-dropdown>
+    </div> -->
+    <div class="ng-slectBox">
+        <app-custom-dropdown [selectedIn]="selectedCategory"
+          [resetFormSubject]="resetFormSubjectStatus.asObservable()" (selectedOut)="onCategorychange($event)"
+          [config]="dropDownStatusConfig"></app-custom-dropdown>
+      </div>
+  </div>
+
+   
+     <div *ngIf="ShowEditor">
+        <div class="html-editor-kendo mb-15" tabindex id="kendoHTMLEditer">
+            <mat-label [ngStyle]="this.addCallForm.controls['NotesDiscription'].hasError('required') &&
+            this.addCallForm.controls['NotesDiscription'].touched &&
+             {'color': '#f44336'}">{{ 'Notes' | translate}} <span class="required-show">*</span></mat-label>
+            <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal"
+            (editorValueEmit)="getEditorFormInfo($event)" [otherInputIcon]="true"
+            (editorImageValueEmit)="getEditorImageFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()">
+      </app-mention-editor>   
+      </div>
+    </div>
+
+    <div class="date-time-Section" id="DateAndTime">
+
+        <div class="date-and-time">
+            <div class="date">
+                <mat-form-field>
+                    <mat-label>{{'quickjob_filledDate' | translate}}</mat-label>
+                    <input type="hidden" formControlName="Id">
+                    <input matInput [matDatepicker]="picker2" tabindex [placeholder]="getDateFormat" 
+                        id="quickjob-filledDate" [(ngModel)]="currentStartDate" formControlName="DateStart"
+                        required>
+                    <button
+                        *ngIf="addCallForm.value.DateStart || addCallForm.controls['DateStart'].hasError('matDatepickerParse')"
+                        id="clearBtn" matSuffix mat-icon-button aria-label="Clear" (click)="clearEndDate()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error
+                        *ngIf="addCallForm.controls['DateStart'].hasError('invalidDate')  && !addCallForm.controls['DateStart'].hasError('required')">
+                        {{'label_invalidDate' | translate}} </mat-error>
+                    <mat-error
+                        *ngIf="addCallForm.controls['DateStart'].hasError('matDatepickerParse') && !addCallForm.controls['DateStart'].hasError('matDatepickerMax')">
+                        {{'label_invalidDate' | translate}}</mat-error>
+                    <mat-error
+                        *ngIf="addCallForm.controls['DateStart'].hasError('required') && addCallForm.controls['DateStart'].touched && !addCallForm.controls['DateStart'].hasError('matDatepickerParse')">
+                        {{'quickjob_filledDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                </mat-form-field>
+               
+            </div>
+            <div class="time">
+                <div class="kendo-input-box">
+                    <!-- format="hh:mm a" -->
+                    <kendo-floatinglabel text="{{ 'Time' | translate }}" class="show-label-required">
+                        <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" 
+                            [value]="TimeStartValue" (valueChange)="handleChangeStartTime($event)" >
+                        </kendo-timepicker>
+                    </kendo-floatinglabel>
+                    <button *ngIf="TimeStartValue!=''" id="cleartimeBtn" matSuffix mat-icon-button
+                        aria-label="Clear" (click)="clearStartTime()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <p *ngIf="isStartTmeRequired" style="color:red">{{ 'label_startTime' | translate }}
+                        {{'label_errorreqired' | translate}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="show-hide">   
+        <button mat-stroked-button color="primary"  tabindex type="button"  (click)="onHideMoreField('target')" id="btnHideShow"> 
+            <span *ngIf="!hideMoreFields">More Details <mat-icon> expand_more </mat-icon></span>
+            <span *ngIf="hideMoreFields">Less Details <mat-icon> expand_less </mat-icon></span>
+        </button>
+    </div>
+
+    <div class="bottom-data" *ngIf="(showReferenceId===true || showStartDate===true || showExpiryDate===true)||(hideMoreFields===true)">
+       
+        <div class="haff-section">
+            <div class="ng-slectBox">
+                <ng-select placeholder="{{ 'Related To' | translate }}"
+                id="activity-ModifyClient" formControlName="SecondRelatedUserType" class="dropdown-body" 
+                appendTo="body" tabindex="4" [clearable]="true"
+                (change)="SecondcheckRelatedType($event);onChangeActivityRelatedToSecond($event);">
+                <!-- <ng-option value="JOB">Job</ng-option> -->
+                <ng-option value="CAND">Candidate</ng-option>
+                <ng-option value="CLIE">Client</ng-option>
+                <ng-option value="CONT">Contact</ng-option>
+
+            </ng-select>
+            <!-- <mat-error
+            *ngIf="addCallForm.controls['SecondRelatedUserType'].hasError('required') && addCallForm.controls['SecondRelatedUserType'].touched">
+            {{ 'label_activityRelatedTo' | translate}} {{ 'label_errorreqired' |translate}}
+        </mat-error> -->
+            </div>
+            <!-- *ngIf="CallUserType!= true" -->
+            <div class="common_dropdown_v2" >
+                <dropdown [configuration]="common_DropdownC_Config_Details" (selectedOut)="SecondOnRelatedUserchange($event)"
+                    [resetConfiguration]="SecondresetRelattedUserDrp.asObservable()" [getSelectedItem]="SecondselectedRelatedUser"></dropdown>
+        
+                </div>
+        </div>
+
+        <div class="duration">
+            <mat-label class="sub-title">Duration</mat-label>
+            <div class="min-sec">
+                <div class="ng-slectBox ng-select-with-info-icon">
+                    <span class="infoStyle">mins</span>
+                    <ng-select id="Second_number" floatLabel="never"  formControlName="mins"
+                    name="number" class="dropdown-body" (change)="onChangeminut($event,'minut')" 
+                   appendTo="body" [clearable]="true" tabindex  (clear)="resetForm();">
+                        <ng-option *ngFor="let item of timeValue" value="{{item?.number}}">{{item?.number}}</ng-option>
+                    </ng-select>
+                </div>
+                <div class="ng-slectBox ng-select-with-info-icon">
+                    <span class="infoStyle">secs</span>
+                    <ng-select id="Second_number" floatLabel="never" formControlName="Second"
+                    name="number" class="dropdown-body" (change)="onChangeminut($event,'second')" 
+                   appendTo="body" [clearable]="true" tabindex  (clear)="resetForm();">
+                        <ng-option *ngFor="let item of timeValueForSecond" value="{{item?.number}}">{{item?.number}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+
+    <div class="source">
+        <mat-form-field class="source-textarea" floatLabel="always">
+            <mat-label>Source</mat-label>
+            <!-- <textarea type="text" tabindex formControlName="SourcDescription" matInput
+                (keyup)="onMessage($event.target.value)" id="document-comment"></textarea> -->
+                <input type="text" tabindex formControlName="SourcDescription" matInput
+                (keyup)="onMessage($event.target.value)" id="document-comment">
+            <mat-error *ngIf="this.addCallForm.controls['SourcDescription'].hasError('maxlength')">
+                {{ 'Sourc Description' |translate}} {{ 'should not exceed 25 charecter' |translate}}
+            </mat-error>
+        </mat-form-field>
+        <!-- <span class="countlabel" color="warn">
+            {{'label_balance' |translate}}:{{maxMessage}} {{'label_characters' |translate}}
+        </span> -->
+    </div>
+
+    </div> 
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+           <span>
+                <button mat-stroked-button color="warn" tabindex type="button"   (click)="onDismiss()" id="btnCancel"> {{'button_cancel'|translate}}</button>
+           </span>
+            <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addCallForm.valid || reletedcatgry"
+          (click)="onConfirm(this.addCallForm.getRawValue())"  id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+</form>

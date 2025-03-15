@@ -1,0 +1,39 @@
+
+// @When: 05-12-2023 @who:Amit @why: EWM-15314 @what: style modified
+@import '../../../styles-var.scss';
+.document-page-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 50px - 50px);
+    padding-top: 50px;
+    padding-bottom: 50px;
+    .mat-card{
+        min-height: 160px;
+        width: 100%;
+        max-width: 320px;
+        margin-bottom: 0px;
+        .mailer-header{
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0px;
+            img{
+                display: inline-block;
+                max-width: 170px;
+            }
+        }
+        .mat-stroked-button,
+        .mat-raised-button{
+            margin: 0px 4px;
+        }
+        p{
+            margin-bottom: 20px;
+        }
+        .center-align{
+            margin-top: 10px;
+        }
+    }
+    .process{
+        color:$primary-bg-color;
+    }
+}

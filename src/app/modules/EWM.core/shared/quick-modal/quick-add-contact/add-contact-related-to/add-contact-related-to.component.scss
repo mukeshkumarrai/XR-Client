@@ -1,0 +1,102 @@
+/* 
+ @(C): Entire Software
+ @Type: File, <css>
+ @Who: Anup Singh
+ @When: 19-oct-2021
+ @Why:EWM-3039 EWM-3407
+ @What: You can add this page styles on same file, and also import other style files
+*/
+
+/* 
+ @Modified
+ @(C): Entire Software
+ @Type: File, <css>
+ @Who: Amit Rajput
+ @When: 03-Apr-2023
+ @What: scss modified
+*/
+
+@import "../../../../../../../mixinStyle.scss";
+.sticky{
+  z-index: inherit;
+  .searchGreyBgBox{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+}
+.nodata{
+  display: flex;
+  height: calc(100% - 60px);
+  justify-content: center;
+  align-items: center;
+  span {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.candidate-job-maped-data{
+  display: grid;
+  gap: 10px;
+  max-height: calc(100% - 74px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 4px;
+  grid-template-columns: repeat(2, calc(50% - 10px));
+  @include for-small-smartphones{
+    grid-template-columns: 100%;
+  }
+  @include for-smartphones {
+    grid-template-columns: 100%;
+  }
+  .candidateJobBox{
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      height: 122px;
+      padding: 0px;
+      margin-bottom: 0px;
+      .candidate-card{
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 10px;
+      }
+      .minHeightTxtBox{
+        height: 77px;
+        width: calc(100% - 60px);
+      }  
+      .txtValueStyle{
+        display: block;
+        margin: 5px 0px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .candidateImg{
+        width: 50px;
+        height: 50px;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 50%;
+        margin:10px 0px;
+        float: right;
+      }
+      .connectedBtn {
+        background: #7FB734;
+      }
+      .boxShadowSelected {
+        box-shadow: 0 11px 22px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
+      }
+  }
+  .candidateJobBox:hover{
+    transform: scale(1.02);
+    border-radius: 10px;
+    animation-duration: 0.30s;
+    box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+  }
+}

@@ -1,0 +1,15 @@
+<!-- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: snackbar.component.html
+    @Who: Mukesh Kumar Rai
+    @When: 10-Sep-2020
+    @Why: common service for toast
+    @What: There are all HTML common components 
+-->
+<!-- // @(C): Entire Software @Type: File, <css> @Name: @Who: Satya Prakash @When: 26-Oct-2023 @Why: EWM-14916 @What: hide snackbar progress -->
+<!-- <mat-progress-bar *ngIf="data?.snackbarType === 'warn'" mode="determinate" [value]="progressbarValue" color="warn"></mat-progress-bar>
+<mat-progress-bar *ngIf="data?.snackbarType === 'scusess'" class="scusess" mode="determinate" [value]="progressbarValue"></mat-progress-bar> -->
+<div [innerHTML]="data.html" class="offline-online"></div>
+<button mat-icon-button color="basic" class="snackbar-close" (click)="snackBar.dismiss()"><mat-icon>close</mat-icon></button>
+

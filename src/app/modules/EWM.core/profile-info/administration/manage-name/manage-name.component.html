@@ -1,0 +1,98 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 16-July-2021
+    @Why: EWM-2056
+    @What: This page wil be use only for the client manage name Component HTML
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="qualification-mat-card-header">
+    <mat-card-title class="only-title">{{'label_clientNameManage' |customTranslate:val | titlecase}}</mat-card-title>
+    <div class="actionButton">
+        <a mat-raised-button class="viewAuditlog" id="user-invitation-btnViewAudit"
+        [routerLink]="['/client/core/system-settings/system-audit-log/',auditParameter]">
+        <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+        </a>
+        <!-- <button mat-raised-button color="warn" [routerLink]="['/client/core/administrators/masterdata']"
+            id="btnBack" class="buttonForDesktopMobile backBtncolor" *ngIf="buttonStatus==true">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_back' |translate}}</span>
+        </button> -->
+        <!-- @Who: bantee ,@When: 6-04-2023, @Why: EWM-11742 ,What: name manage menu(back button and cancel button added) -->
+
+        <button mat-raised-button color="warn"  [routerLink]="['/client/core/administrators/masterdata']"
+                id="btnCancel">
+                {{buttonStatus==false?('label_back' |translate) : ('label_cancel' |translate)}}
+            </button>
+            <button mat-raised-button tabindex="4" color="primary" id="btnSave" *ngIf="buttonStatus==true"
+                [disabled]="!manageNameFrom.valid || isDirty==true"
+            (click)="updateClientManageName(this.manageNameFrom.getRawValue())">
+            {{'label_save' |translate}}
+        </button>
+    </div>
+</mat-card-header>
+
+    <mat-drawer-container class="xeople-container-with-one-card" id="manage-name-drawer"> 
+<mat-card class="component-card mat-elevation-z2" id="component-card">
+        <form novalidate [formGroup]="manageNameFrom" id="manageNameFrom">
+            <p class="mt-0">{{'label_ManageClientName'|customTranslate | titlecase}} {{'label_MasterReplace'|customTranslate}}{{'label_client'|customTranslate}}{{'label_SelectedNameAgencyDynamically'|customTranslate}}</p>
+            <div class="gdpr-slde-toggle">
+                <mat-label>{{'label_Enable' |translate}}</mat-label>
+                <mat-slide-toggle labelPosition="before" formControlName="Status" id="manageName-Status"
+                tabindex="1" (change)="setDefault($event)" color="primary">
+                </mat-slide-toggle>
+            </div>
+
+            <div class="ng-slectBox">
+                <ng-select placeholder="{{'label_clientname'|customTranslate}}" tabindex="2"
+                    [clearable]="true" formControlName="ClientNameId" (change)="clickClientNameID($event)"
+                    id="manageName-clientName" required>
+                   
+                    <ng-option *ngFor="let clientname of gridClientName" [value]="clientname.Id">
+                        {{clientname.Name}}</ng-option>
+                </ng-select>
+                <mat-error
+                    *ngIf="this.manageNameFrom.controls['ClientNameId'].hasError('required')  && manageNameFrom.controls['ClientNameId'].touched">
+                    {{ 'label_clientname' |customTranslate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+            </div>
+            <div class="row mb-0">
+
+                <div class="col l4 m6 s12">
+                    
+                </div>
+
+                <div class="clear"></div>
+                <div class="mgTop15">
+                    <div class="col l4 m6 s12">
+                        
+                    </div>
+                    <div class="clear"></div>
+                    <div hidden>
+                    <mat-form-field class="col l4 m6 s12">
+                        <mat-label>{{'label_singular'|translate}}</mat-label>
+                        <input type="hidden" formControlName="Id" id="Id">
+                        <input matInput formControlName="Singular" tabindex="3" id="manageName-Singular"
+                            placeholder="{{'label_singular'|translate}}">
+                    </mat-form-field>
+
+                    <div class="clear"></div>
+                    <mat-form-field class="col l4 m6 s12">
+                        <mat-label>{{'label_plural'|translate}}</mat-label>
+                        <input matInput formControlName="Plural" tabindex="4" id="manageName-Plural"
+                            placeholder="{{'label_plural'|translate}}">
+                    </mat-form-field>
+                </div>
+                </div>
+            </div>
+         
+        </form>
+         <!------table------->
+         <app-custom-table [gridData]="griddata"></app-custom-table>
+</mat-card>
+</mat-drawer-container>
+<!-- Entire Software : Nitin Bhati : 16 July 2021 : Client Manage Name : EWM-2056 -->

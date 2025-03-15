@@ -1,0 +1,31 @@
+@import "../../../../../../styles-var.scss";
+
+.checklist-document{
+    position: relative;
+    .document-error{
+        display: flex;
+        align-items: center;
+        position: absolute;
+        bottom: 3px;
+        left: 0px;
+        right: 0px;
+        padding: 0px 15px;
+        .document{
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            .mat-icon{
+                color: #fe7000;
+                width: 18px;
+                height: 18px;
+                line-height: 18px;
+                font-size: 18px;
+                text-align: center;
+            }
+            span{
+                color: #F44336;
+                font-size: 12px;
+            }
+        }
+    }
+}

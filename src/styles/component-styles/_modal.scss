@@ -1,0 +1,1183 @@
+// modal css 
+
+@import "../../mixinStyle.scss";
+@import "../../styles-var.scss";
+
+/* small smartphones (portrait and landscape) ----------- */
+@mixin for-small-smartphones{
+   @media (min-width : 320px) and (max-width : 480px) { @content; }
+ }
+/* Smartphones (portrait and landscape) ----------- */
+
+.chart-dashboard.client-dashnoard-expand-modal{
+   padding-left: 0px;
+   width: 60vw;
+   @media screen and (max-width: 1024px){
+      width: 95vw;
+   }
+}
+.modal-header{
+   margin-bottom: 10px;
+   position: relative;
+   display: flex;
+   justify-content: space-between;
+   h2{
+      .mat-icon{
+         position: relative;
+         top: 4px;
+      }
+   }
+   .mat-icon-button:not(.multiplefileuploadbtn){
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      color: $gray-button;
+      position: absolute;
+      right: -20px;
+      top: -20px;
+      .mat-icon{
+         width: 30px;
+         height: 30px;
+         line-height: 30px;
+      }
+      &:hover{
+         color: $primary-bg-color;
+      }
+   }
+   .multiplefileuploadbtn{
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      position: absolute;
+      right: -20px;
+      top: -20px;
+      .mat-icon{
+         width: 30px;
+         height: 30px;
+         line-height: 30px;
+      }
+   }
+   .mat-icon-button.mat-warn:hover{
+      color: $warn-bg;
+   }
+}
+.header-action-modal{
+   display: flex;
+   align-items: center;
+   column-gap: 15px;
+   .btn-group{
+      display: flex;
+      gap: 5px;
+      .refresh-button{
+         min-width: 36px;
+         padding: 0px;
+         .mat-icon{
+            font-size: 20px;
+            line-height: 24px;
+         }
+      }
+   }
+   .mat-form-field{
+      .mat-form-field-infix{
+         width: 100px;
+      }
+   }
+}
+.mat-dialog-content{
+   .calender-popover.mat-card{
+      width: 100%;
+      .flex{
+         padding-left: 0px;
+         padding-right: 0px;
+      }
+   }
+   .counterTxt .countlabel{
+      right: 0px;
+   }
+}
+.mat-dialog-actions.dialog-footer{
+   min-height: 35px;
+   margin-bottom: -10px;
+   .mat-stroked-button{
+      min-width: 45px;
+      padding: 0px;
+   }
+}
+.mat-dialog-actions.eoh-dialog-footer{
+   min-height: 35px;
+   margin-bottom: -10px;
+   padding-inline: 10px;
+   .mat-stroked-button.eoh-bg-button{
+      min-width: 45px;
+      padding-inline: 10px;
+      img{
+         width: 35px;
+         margin-inline-end: 3px;
+         background: #fff;
+         padding: 3px 5px;
+         border-radius: 2px;
+      }
+   }
+}
+// client dashboard expand modal start here
+.client-dashnoard-expand-modal.xeople-modal-full-screen{
+   .mat-dialog-content.mat-dialog-content-map{
+      height: calc(100vh - 130px);
+      max-height: calc(100vh - 130px);
+      agm-map.wolrdMap{
+         height: calc(100vh - 130px);
+      }
+   }
+   .mat-dialog-content{
+      height: calc(100vh - 130px);
+      max-height: calc(100vh - 130px);
+   }
+}
+// client dashboard expand modal start here
+
+.xeople-modal-sm{
+   width: calc(100% - 60px);
+   max-height:85%;
+   max-width: 480px !important;
+   @include for-small-smartphones{
+      width: calc(100% - 30px);
+      max-height:calc(100% - 30px);
+   }
+   .mat-dialog-container{
+      position: relative;
+      .k-i-loading:not(.inputSearch){
+         left: 0px;
+         right: 0px;
+         top: 0px;
+         bottom: 0px;
+      }
+      h2{
+         line-height: 24px;
+         @include for-small-smartphones{
+            font-size: 16px;
+            line-height: 16px;
+            margin-bottom: 10px;
+         }
+      }
+      .skill-list-popup.mat-dialog-content{
+         .mat-chip-list-wrapper{
+            margin:0px;
+         }
+      }
+      .mat-dialog-content.access-mat-dialog-content{
+         min-height: 225px;
+         .mat-form-field .mat-chip-list-wrapper .mat-standard-chip{
+            margin-bottom: 5px;
+            span{
+               max-width: 340px;
+               white-space: nowrap;
+               overflow: hidden;
+               text-overflow: ellipsis;
+            }
+         }
+      }
+
+      // cover letter rename popup min height start here
+      .mat-dialog-content.rename-mat-dialog-content{
+         min-height: 165px;
+      }
+      // cover letter rename popup min height end here
+
+      .mat-dialog-actions{
+         padding: 0px;
+      }
+      .mat-dialog-content{
+         .info-Data{
+            display: grid;
+            grid: auto/190px calc(100% - 190px);
+            grid-gap: 10px;
+            padding: 10px;
+            @media only screen and (min-width: 320px) and (max-width: 640px) {
+              grid: auto/100%;
+              grid-gap: 3px;
+            }
+            .info-title{
+               font-weight: 500;
+            }
+        }
+        // Entire Software : Amit Rajput : 14-April-2022 : Token icon design start here : EWM-5580 EWM-6100
+         .mat-icon.token{
+            font-size: 48px;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            margin: 0 auto 20px;
+            display: flex;
+         }
+         // Entire Software : Amit Rajput : 14-April-2022 : Token icon design end here : EWM-5580 EWM-6100
+      }
+      .usertype-modal.mat-dialog-content{
+         min-height: 350px;
+         .contact-list-chip{
+            max-width: 100%;
+            @include for-small-smartphones{
+               max-width: 230px;
+            }
+         }
+         // Xeople : Satya Prakash Gupta : 26-April-2022 : EWM-8717: remove and add some styling
+         .mat-checkbox{
+            .mat-checkbox-layout{
+               align-items: center;
+               .mat-checkbox-label{
+                  white-space: initial;
+                  word-wrap: break-word;
+                  line-height: 15px;
+                  font-size: 14px;
+               }
+               .mat-checkbox-inner-container{
+                  margin-top: 0px;
+               }
+            }
+         }
+      }
+      .add-contact-modal.mat-dialog-content{
+         min-height: 250px;
+         .userAvtaarAndName{
+            width: 25px;
+            height: 25px;
+            span, img{
+               width: 25px;
+               height: 25px; 
+               font-size: 12px;
+            }
+         }
+         span.text-overflow{
+            padding: 0px 3px;
+         }
+         .contact-list-chip{
+            max-width: 100%;
+            padding-left: 5px;
+            @include for-small-smartphones{
+               max-width: 230px;
+            }
+         }
+      }
+   }
+}
+.xeople-modal{
+   width: calc(100% - 60px);
+   max-height:85%;
+   max-width: 600px !important;
+   @include for-small-smartphones{
+      width: calc(100% - 30px);
+      max-height:calc(100% - 30px);
+   }
+   .mat-dialog-container{
+      position: relative;
+      .k-i-loading:not(.inputSearch){
+         left: 0px;
+         right: 0px;
+         top: 0px;
+         bottom: 0px;
+      }
+      h2{
+         line-height: 24px;
+         @include for-small-smartphones{
+            font-size: 16px;
+            line-height: 16px;
+            margin-bottom: 10px;
+         }
+      }
+      .skill-list-popup.mat-dialog-content{
+         .mat-chip-list-wrapper{
+            margin:0px;
+         }
+      }
+      .mat-dialog-content.access-mat-dialog-content{
+         min-height: 225px;
+         .mat-form-field .mat-chip-list-wrapper .mat-standard-chip{
+            margin-bottom: 5px;
+            span{
+               max-width: 340px;
+               white-space: nowrap;
+               overflow: hidden;
+               text-overflow: ellipsis;
+            }
+         }
+      }
+
+      // cover letter rename popup min height start here
+      .mat-dialog-content.rename-mat-dialog-content{
+         min-height: 165px;
+      }
+      // cover letter rename popup min height end here
+
+      .mat-dialog-actions{
+         padding: 0px;
+      }
+      .mat-dialog-content{
+         .info-Data{
+            display: grid;
+            grid: auto/190px calc(100% - 190px);
+            grid-gap: 10px;
+            padding: 10px;
+            @media only screen and (min-width: 320px) and (max-width: 640px) {
+              grid: auto/100%;
+              grid-gap: 3px;
+            }
+            .info-title{
+               font-weight: 500;
+            }
+        }
+        // Entire Software : Amit Rajput : 14-April-2022 : Token icon design start here : EWM-5580 EWM-6100
+         .mat-icon.token{
+            font-size: 48px;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            margin: 0 auto 20px;
+            display: flex;
+         }
+         // Entire Software : Amit Rajput : 14-April-2022 : Token icon design end here : EWM-5580 EWM-6100
+      }
+      .mat-dialog-content.contact-dialog-info{
+         .mat-form-field-should-float{
+            .matPrefix-icon{
+               top: 8px;
+               position: relative;
+               width: 1.215em;
+           }
+        }
+      }
+      .usertype-modal.mat-dialog-content{
+         min-height: 350px;
+         .contact-list-chip{
+            max-width: 100%;
+            @include for-small-smartphones{
+               max-width: 230px;
+            }
+         }
+         // Xeople : Satya Prakash Gupta : 26-April-2022 : EWM-8717: remove and add some styling
+         .mat-checkbox{
+            .mat-checkbox-layout{
+               align-items: center;
+               .mat-checkbox-label{
+                  white-space: initial;
+                  word-wrap: break-word;
+                  line-height: 15px;
+                  font-size: 14px;
+               }
+               .mat-checkbox-inner-container{
+                  margin-top: 0px;
+               }
+            }
+         }
+      }
+      .add-contact-modal.mat-dialog-content{
+         min-height: 250px;
+         .userAvtaarAndName{
+            width: 25px;
+            height: 25px;
+            span, img{
+               width: 25px;
+               height: 25px; 
+               font-size: 12px;
+            }
+         }
+         span.text-overflow{
+            padding: 0px 3px;
+         }
+         .contact-list-chip{
+            max-width: 100%;
+            padding-left: 5px;
+            @include for-small-smartphones{
+               max-width: 230px;
+            }
+         }
+      }
+      .mat-dialog-actions.eoh-dialog-footer{
+         justify-content: end;
+         padding-inline: 8px;
+         padding-block: 8px;
+      }
+      .mat-dialog-actions.eoh-dialog-footer.share-client-footer{
+         margin-bottom: 0px;
+      }
+   }
+}
+.xeople-modal.share-client-eoh,.xeople-modal.share-contact-eoh{
+   max-width: 615px !important;
+}
+.xeople-modal.share-contact-eoh{
+   max-height: 90%;
+}
+.xeople-modal.eoh-modal{
+   max-height: 90%;
+   max-width: 680px !important;
+   .mat-dialog-content{
+      max-height: 80vh;
+   }
+}
+.xeople-modal.push-candidate-to-eoh-modal{
+   max-height: 95%;
+   .mat-dialog-content{
+      max-height: 90vh;
+   }
+}
+.xeople-modal-md{
+   width: calc(100% - 60px);
+   max-height:85%;
+   max-width: 800px !important;
+   @include for-small-smartphones{
+      width: calc(100% - 30px);
+      max-height:calc(100% - 30px);
+   }
+   .mat-dialog-container{
+      position: relative;
+      .k-i-loading:not(.inputSearch){
+         left: 0px;
+         right: 0px;
+         top: 0px;
+         bottom: 0px;
+      }
+      h2{
+         line-height: 24px;
+         @include for-small-smartphones{
+            font-size: 16px;
+            line-height: 16px;
+            margin-bottom: 10px;
+         }
+      }
+      .skill-list-popup.mat-dialog-content{
+         .mat-chip-list-wrapper{
+            margin:0px;
+         }
+      }
+      .mat-dialog-content.access-mat-dialog-content{
+         min-height: 225px;
+         .mat-form-field .mat-chip-list-wrapper .mat-standard-chip{
+            margin-bottom: 5px;
+            span{
+               max-width: 340px;
+               white-space: nowrap;
+               overflow: hidden;
+               text-overflow: ellipsis;
+            }
+         }
+      }
+
+      // cover letter rename popup min height start here
+      .mat-dialog-content.rename-mat-dialog-content{
+         min-height: 165px;
+      }
+      // cover letter rename popup min height end here
+
+      .mat-dialog-actions{
+         padding: 0px;
+      }
+      .mat-dialog-actions.eoh-dialog-footer{
+         padding: 8px 0px;
+         justify-content: end;
+      }
+      .mat-dialog-content{
+         .info-Data{
+            display: grid;
+            grid: auto/190px calc(100% - 190px);
+            grid-gap: 10px;
+            padding: 10px;
+            @media only screen and (min-width: 320px) and (max-width: 640px) {
+              grid: auto/100%;
+              grid-gap: 3px;
+            }
+            .info-title{
+               font-weight: 500;
+            }
+        }
+        // Entire Software : Amit Rajput : 14-April-2022 : Token icon design start here : EWM-5580 EWM-6100
+         .mat-icon.token{
+            font-size: 48px;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            margin: 0 auto 20px;
+            display: flex;
+         }
+         // Entire Software : Amit Rajput : 14-April-2022 : Token icon design end here : EWM-5580 EWM-6100
+      }
+      .usertype-modal.mat-dialog-content{
+         min-height: 350px;
+         .contact-list-chip{
+            max-width: 100%;
+            @include for-small-smartphones{
+               max-width: 230px;
+            }
+         }
+         .mat-checkbox{
+            overflow: hidden;
+            display: flex;
+            .mat-checkbox-layout{
+               overflow: hidden;
+               .mat-checkbox-label{
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+               }
+            }
+         }
+      }
+      .add-contact-modal.mat-dialog-content{
+         min-height: 250px;
+         .userAvtaarAndName{
+            width: 25px;
+            height: 25px;
+            span, img{
+               width: 25px;
+               height: 25px; 
+               font-size: 12px;
+            }
+         }
+         span.text-overflow{
+            padding: 0px 3px;
+         }
+         .contact-list-chip{
+            max-width: 100%;
+            padding-left: 5px;
+            @include for-small-smartphones{
+               max-width: 230px;
+            }
+         }
+      }
+   }
+}
+.xeople-modal.AddContactRelatedType{
+   max-height: 180px;
+}
+.xeople-modal.add-calllog{
+   min-width: 60% !important;
+   .mat-dialog-container{
+      // position: relative;
+      // z-index: 1;
+      // padding-inline: 24px;
+      padding-block: 0px 24px;
+      border-radius: 18px !important;
+      // &::after{
+      //    @include color-bg-after;
+      //    opacity: 0.7;
+      //    border-radius: 8px;
+      //    background: #ffffff;
+      //    left: 4px;
+      //    right: 4px;
+      //    top: 4px;
+      //    bottom: 4px;
+      //    width: unset;
+      //    height: unset;
+      //    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 0px, rgb(0, 0, 0, 0.09) 0px 0px 0px 0.5px inset;
+      // }
+   }
+}
+.xeople-modal-lg{
+   width: calc(100% - 60px);
+   max-height:85%;
+   max-width: 1000px !important;
+   @include for-small-smartphones{
+      width: calc(100% - 30px);
+      max-height:calc(100% - 30px);
+   }
+   .mat-dialog-container{
+      h2{
+         line-height: 24px;
+         @include for-small-smartphones{
+            font-size: 16px;
+            line-height: 16px;
+            margin-bottom: 10px;
+         }
+      }
+      .mat-dialog-content{
+         // ng select styling
+         .ng-select-withicon{
+            display: inline-flex;
+            align-items: baseline;
+            box-sizing: border-box;
+            width: 100%;
+            .ng-select{
+                font-size: 14px;
+                width: 100%;
+            }
+        }
+        .select-matPrefix-icon{
+            top: 8px;
+            position: relative;
+            width: 1.215em; 
+        }
+        .matPrefix-icon{
+            top: 8px;
+            position: relative;
+            width: 1.215em;
+        }
+        .matSuffix-icon{
+            position: relative;
+            bottom: 0px;
+            font-size: 12px;
+            padding: 3px 10px;
+            line-height: 25px;
+            height: 30px;
+            min-width: 35px;
+        }
+        .mat-form-field-should-float{
+            .matPrefix-icon{
+                top: 8px;
+            }
+        }
+        .icon-withchip.mat-form-field {
+            .mat-chip-list-wrapper .mat-standard-chip{
+               margin-top: 3px;
+            }
+        }
+        .email-chip{
+           @include for-small-smartphones{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+            display: inline-block;
+           }
+        }
+         // ng select styling
+      }
+      // cover letter version history popup min height start here
+      .mat-dialog-content.version-dialog{
+         min-height: 165px;
+      }
+      // cover letter version history popup min height end here
+      .mat-dialog-actions{
+         padding: 0px;
+      }
+      .dialog-footer.mat-dialog-actions{
+         padding-top: 8px;
+         .mat-stroked-button{
+            padding: 0px 16px;
+         }
+      }
+      .mat-dialog-actions.eoh-dialog-footer{
+         padding: 8px 0px;
+         justify-content: end;
+      }
+   }
+}
+.xeople-modal-full-screen{
+   width: calc(100% - 40px);
+   height: calc(100% - 40px);
+   max-height:calc(100% - 00px);
+   max-width: calc(100% - 40px) !important;
+   .mat-dialog-content{
+      height: calc(100vh - 185px);
+      max-height: calc(100vh - 185px);
+      @include for-small-smartphones{
+         height: calc(100vh - 235px);
+         max-height: calc(100vh - 235px);
+      }
+      .ng-select-withicon{
+         display: inline-flex;
+         align-items: baseline;
+         box-sizing: border-box;
+         width: 100%;
+         .ng-select{
+             font-size: 14px;
+             width: 100%;
+         }
+     }
+     .select-matPrefix-icon{
+         top: 4px;
+         position: relative;
+         width: 1.215em; 
+     }
+     .matPrefix-icon{
+         top: 4px;
+         position: relative;
+         width: 1.215em;
+     }
+     .matSuffix-icon{
+         position: relative;
+         bottom: 0px;
+         font-size: 12px;
+         padding: 3px 10px;
+         line-height: 25px;
+         height: 30px;
+         min-width: 35px;
+     }
+     .mat-form-field-should-float{
+         .matPrefix-icon{
+             top: 8px;
+         }
+     }
+   }
+   .mat-dialog-content.candidate-dialog-content{
+      height: calc(100vh - 200px);
+      max-height: calc(100vh - 200px);
+      @media (width <= 940px) {
+         height: calc(100vh - 245px);
+         max-height: calc(100vh - 245px);
+      }
+      @media (width <= 595px) {
+         height: calc(100vh - 260px);
+         max-height: calc(100vh - 260px);
+      }
+      @media (width <= 445px) {
+         height: calc(100vh - 280px);
+         max-height: calc(100vh - 280px);
+      }
+      @media (width <= 410px) {
+         height: calc(100vh - 333px);
+         max-height: calc(100vh - 333px);
+      }
+      .ng-slectBox{
+         margin-bottom: 0px;
+      }
+   }
+   .mat-dialog-actions.eoh-dialog-footer{
+      padding: 8px 0px;
+      justify-content: end;
+   }
+   .candidate-overview{
+      .client-share-eoh{
+         .mat-dialog-actions.eoh-dialog-footer{
+            padding: 8px 10px 20px;
+         }
+      }
+   }
+   .mat-dialog-content.share-job-content{
+         height: calc(100vh - 125px);
+         max-height: calc(100vh - 125px);
+   }
+}
+// @When: 22-08-2023 @who:Amit @why: EWM-13922 @what: add modal media style
+.xeople-modal-full-screen.add_Quickjob-new{
+   .mat-dialog-content{
+      @include for-small-smartphones {
+         height: calc(100vh - 210px);
+         max-height: calc(100vh - 210px);
+      }
+   }
+}
+.welcomeModal{
+   min-width: 460px;
+   @include for-small-smartphones {
+      min-width: 300px;
+   }
+   .mat-dialog-container{
+      padding: 0px;
+      background: #ffffef;
+   }
+   .mat-dialog-content{
+      padding: 0px;
+      margin: 0px;
+      max-height: 100%;
+      position: relative;
+   }
+}
+
+.xeople-modal.manualCall{
+   .mat-dialog-container{
+      background: #e7e7e7;
+   }
+}
+
+// save filter modal
+.add_filterdialog{
+   width: calc(100% - 60px);
+   max-height:85%;
+   max-width: 400px !important;
+   @include for-small-smartphones{
+      width: calc(100% - 30px);
+      max-height:calc(100% - 30px);
+   }
+}
+.save-filter-modal{
+   width: calc(100% - 60px);
+   max-height:85%;
+   max-width: 530px !important;
+   @include for-small-smartphones{
+      width: calc(100% - 30px);
+      max-height:calc(100% - 30px);
+   }
+}
+// save filter modal
+.xeople-search-all-filters{
+   .mat-dialog-content {
+      min-height: 40vh;
+      .mat-list-base .mat-list-item, .mat-list-base .mat-list-option{
+         height: auto;
+         padding: 5px 0px;
+         .mat-checkbox-layout{
+            white-space: normal;
+            font-size: 14px;
+         }
+         .mat-list-item-content{
+            padding: 0px;
+         }
+      }
+   }
+}
+// Entire Software : Satya Prakash Gupta : 09-Mar-2023 : create common style : EWM-10656 EWM-11051
+.modal-search-email-name{
+   min-height: 330px;
+   .maxValue{
+      position: relative;
+      top: -25px;
+      font-size: 75%;
+  }
+  .searchContact{
+      .mat-input-element{
+         // @When: 17-05-2023 @who:Amit @why: EWM-12463 @what:input space manage
+          padding-inline-end: 40px;
+          width: calc(100% - 40px);
+      }
+      .mat-form-field-suffix .mat-icon-button{
+         width: 30px;
+         height: 30px;
+         line-height: 30px;
+         .mat-icon{
+             width: 30px;
+             height: 30px;
+             line-height: 30px;
+             font-size: 20px;
+         }
+     }
+  }
+  span.red{
+   text-transform: initial;
+   display: inline-flex;
+   align-items: center;
+   margin-top: 10px;
+   margin: 8px 0px 0px 0px;
+  }
+  .contactList{
+      top: -23px;
+      padding: 0px;
+      position: relative;
+      max-height: 180px;
+      overflow: auto;
+      .mat-list-item {
+          padding: 4px 0px;
+          height: auto;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          box-sizing: border-box;
+          font-size: 14px;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+          .mat-list-item-content{
+             width: 100%;
+             padding-inline-end: 7px;
+             .search-data{
+                 width: calc(100% - 30px);
+                 display: flex;
+                 cursor: pointer;
+                 gap: 2px;
+                 .email{
+                     color: $primary-bg-color;
+                 }  
+             }
+          }
+      }
+      .mat-icon-button{
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          .mat-icon{
+              width: 30px;
+              height: 30px;
+              line-height: 30px;
+              font-size: 20px;
+          }
+      }
+      .feature-box:hover{
+          background: rgba(153, 153, 153, 0.15);
+      }
+      img{
+          width: 30px;
+          height: 30px;
+          position: relative;
+          top:0px;
+          margin-right: 10px;
+      }
+      img:focus{
+          outline: none;
+      }
+  }
+  .addContatChip.mat-standard-chip{
+      min-height: 22px;
+      font-size: 12px;
+      padding: 0px 2px;
+      padding-inline-start: 8px;
+      max-width: 190px;
+      gap: 3px;
+      img{
+          width: 20px;
+          height: 20px;
+          margin-right: 5px;
+      }
+      img:focus{
+          outline: none;
+      }
+  }
+}
+// Entire Software : Satya Prakash Gupta : 09-Mar-2023 : create common style : EWM-10656 EWM-11051
+// Entire Software : Satya Prakash Gupta : 06-May-2023 : create common style : EWM-12258 EWM-12262
+.copy-job-modal-header{
+   flex-direction: column;
+   row-gap: 5px;
+   .subTitle{
+      margin: 0px;
+   }
+}
+.copy-job{
+   &-category{
+      border-left: 5px solid $primary-bg-color;
+      color: $primary-bg-color;
+      position: relative;
+      &::after{
+         content: "";
+         position: absolute;
+         left: 0px;
+         top: 0px;
+         border-radius: 4px;
+         background-color: currentColor;
+         width: 100%;
+         height: 100%;
+         opacity: 0.05;
+      }
+      .mat-checkbox{
+         position: relative;
+         z-index: 1;
+         .mat-checkbox-layout{
+            display: flex;
+            color: $primary-bg-color;
+            background: transparent;
+            border-top: 0px solid rgba(103, 58, 183, 0.15);
+            padding: 7px;
+            .mat-checkbox-label{
+               width: 100%;
+               white-space: break-spaces;
+            }
+         }
+      }
+   }
+   .active{
+      color: $highlight-bg-color;
+      &::after{
+         opacity: 0.15;
+      }
+   }
+}
+// Entire Software : Satya Prakash Gupta : 06-May-2023 : create common style : EWM-12258 EWM-12262
+.unsave-close-button.mat-icon-button{
+   width: 30px;
+   height: 30px;
+   line-height: 30px;
+   color: $gray-button;
+   position: absolute;
+   right: 7px;
+   top: 23px;
+   z-index: 3;
+   &:hover{
+      color: $warn-bg;
+   }
+   .mat-icon{
+      width: 30px;
+      font-size: 30px;
+      margin: 0px;
+   }
+}
+// @When: 28-08-2023 @who:Amit @why: EWM-13886 @what: add quick modal start here
+.xeople-modal-full-screen.quickAddActivity.quick-modal-full-screen{
+   max-width: 870px !important;
+   .mat-dialog-container{
+      overflow: hidden;
+      padding:0px;
+      .mat-dialog-content{
+         height: calc(100vh - 150px);
+         max-height: calc(100vh - 150px);
+         margin: 0px;
+         padding: 0px;
+         overflow: hidden;
+         @media only screen and (max-width: 580px) and (min-width: 320px){
+            height: calc(100vh - 200px);
+            max-height: calc(100vh - 200px);
+         } 
+      }
+   }
+}
+// @When: 28-08-2023 @who:Amit @why: EWM-13886 @what: add quick modal end here
+.xeople-modal-full-screen.quickAddActivity .mat-dialog-container{
+   padding: 10px;
+}
+// @When: 26-07-2023 @who:Amit @why: EWM-13527 @what: latitude section style start here
+.main-latitude{
+   border-radius: 3px;
+   margin-bottom: 30px;
+   padding: 5px 7px;
+   position: relative;
+   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+   .latitude{
+     @include flex-between;
+     .latitude-proximity{
+       color: #FFA000;
+       font-size: 13px;
+       padding-inline-end: 30px;
+     }
+     .mat-icon-button{
+       width: 26px;
+       height: 26px;
+       line-height: 23px;
+       padding: 0px;
+       min-width: 26px;
+       box-shadow: none;
+       border-radius: 0px 0px 0px 8px;
+       position: absolute;
+       right: -1px;
+       top: -1px;
+       cursor: pointer;
+       box-shadow: rgba(0, 0, 0, 0.15) -1.95px 1.95px 2.6px;
+       .mat-icon{
+         width: 20px;
+         height: 20px;
+         line-height: 20px;
+         font-size: 18px;
+         color: $dark-primary-bg;
+       }
+       &:hover{
+         background: #f2f2f2;
+       }
+     }
+   }
+   .divide{
+     display: flex;
+     gap: 25px;
+     @media screen and (min-width: 320px) and (max-width: 580px){
+       flex-direction: column;
+       gap: 5px;
+     }
+   }
+ }
+ // @When: 26-07-2023 @who:Amit @why: EWM-13527 @what: latitude section style end here
+/* drawer modal style */
+.xeople-drawer{
+   max-width: 580px !important;
+   width: 95%;
+   max-height: 100%;
+   height: 100%;
+}
+/* drawer modal large style */
+.xeople-drawer-lg{
+   max-width: 900px !important;
+   width: 95%;
+   max-height: 100%;
+   height: 100%;
+}
+/* drawer modal large style */
+// @When: 09-10-2023 @who:Amit @why: EWM-14638 @what: add activity drawer
+.xeople-drawer-lg.xeople-drawer-activity{
+   max-width: 960px !important;
+}
+.view_pushCandidate.xeople-modal{
+   max-width: 430px !important;
+   .mat-dialog-container{
+      .push-member-app{
+         text-align: center;
+         &::before{
+            content: "";
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            height: 20px;
+            width: 100%;
+            background: transparent linear-gradient(180deg, #558b2f 0%, #aaeb5f 100%) 0% 0% no-repeat padding-box;
+         }
+         h2{
+            color: #558b2f;
+            margin-top: 10px;
+         }
+      }
+      .push-member-app.alert{
+         &::before{
+            background: transparent linear-gradient(180deg, #fb8c00 0%, #ffc277 100%) 0% 0% no-repeat padding-box;
+         }
+         h2{
+            color: #fb8c00;
+         }
+      }
+   }
+}
+
+.custom-confirmation{
+   .mat-dialog-container{
+      @include for-small-smartphones{
+         padding: 24px 10px;
+      }
+      .mat-dialog-content{
+         @include for-small-smartphones{
+            margin: 0 -10px;
+            padding: 0 10px;
+         }
+      }
+   }
+}
+
+.dark-theme {
+   // Entire Software : Satya Prakash Gupta : 06-May-2023 : create common style : EWM-12258 EWM-12262
+   .copy-job{
+      &-category{
+         border-left: 5px solid $dark-primary;
+         color: $dark-primary;
+         .mat-checkbox{
+            .mat-checkbox-layout{
+               color: $dark-primary;
+            }
+         }
+         .mat-checkbox-checked.mat-primary .mat-checkbox-background:before {
+            border-right: 5px solid #4c5341;
+         }
+      }
+      .active{
+         color: $highlight-bg-color;
+      }
+   }
+   // Entire Software : Satya Prakash Gupta : 06-May-2023 : create common style : EWM-12258 EWM-12262
+   .modal-search-email-name{
+      .contactList{
+         .mat-list-item {
+             .mat-list-item-content{
+                .search-data{
+                    .email{
+                        color: $dark-primary;
+                    }  
+                }
+             }
+         }
+     }
+   }
+   .mat-dialog-content{
+      .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label{
+         color: rgb(255 255 255 / 87%);
+      }
+   }
+}
+
+
+.xeople-modal.fade-right-modal{
+   position: absolute !important;
+   right: -5px;
+   bottom: 170px;
+   width: 210px !important;
+   .mat-dialog-container{
+     border-radius: 100px 0px 0px 100px !important;
+     padding: 10px;
+     overflow: hidden;
+     border: 1px solid $primary-bg-color;
+   }
+ }
+
+[dir="rtl"] {
+   .xeople-modal-full-screen .mat-dialog-content .matSuffix-icon{
+      margin-left: 0px;
+   }
+}
+
+
+
+

@@ -1,0 +1,246 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Satya Prakash Gupta
+  @When: 04-Aug-2021
+  @Why: EWM-2240 EWM-2364
+  @What:  This page will be use for the candidate summary Component scss file
+
+*/
+
+@import '../../../../../../../mixinStyle.scss';
+@import '../../../../../../../styles-var.scss';
+
+.candidate-resume-summry{
+  height: calc(100vh - 255px);
+}
+
+.candidate-summry {
+    .mat-card {
+      padding-bottom: 30px;
+      margin-bottom: 10px;
+      transition: 0.3s;
+      border-radius: 0px;
+      overflow: hidden;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+      .mat-card-header {
+        flex-direction: inherit;
+        align-items: center;
+        .mat-card-title {
+          width: auto;
+          font-size: 16px;
+          font-weight: 500;
+        }
+        .summryeheader-spacer {
+          flex: 1 1 auto;
+        }
+        .mat-mini-fab {
+          margin-left: 5px;
+          position: relative;
+          width: 35px;
+          line-height: 35px;
+          height: 35px;
+          top: -8px;
+          box-shadow: none;
+          .mat-icon {
+            width: 20px;
+            height: 20px;
+            line-height: 16px;
+            font-size: 20px;
+          }
+        }
+      }
+      .mat-divider-horizontal {
+        margin-top: 0px;
+      }
+      .mat-card-content {
+        padding: 0px;
+        .d-flex{
+          .mat-divider{
+            position: relative;
+            margin-bottom: 10px;
+          }
+        }
+        strong {
+          font-weight: 500;
+        }
+        p {
+          margin: 0px;
+        }
+        .mat-chip.mat-standard-chip {
+          span.number {
+            border-radius: 10px;
+            padding: 3px 8px;
+          }
+        }
+        .candidateActionButton {
+          @media screen and (min-width: 993px) and (max-width: 1080px) {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+          }
+          @media screen and (min-width: 601px) and (max-width: 805px) {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+          }
+          .mat-icon-button {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            .mat-icon {
+              width: 30px;
+              height: 30px;
+              font-size: 20px;
+              line-height: 30px;
+            }
+          }
+        }
+      }
+      .pr-30 {
+        padding-right: 30px;
+      }
+      .resizeBarSec{
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+      }
+    }
+  }
+  
+  .cursor {
+    cursor: pointer !important;
+  }
+  
+  // @When: 11-05-2023 @who:Satya Prakash Gupta @why: EWM-11775 EWM-12376 @what: add search teaxt box
+  .candidate-summry.parse-resume-tab-container{
+    box-shadow: none;
+    margin: 7px 0px;
+    overflow: hidden;
+    height: calc(100vh - 265px);
+  }
+
+  .candidate-summry{
+    .resumeHeader.mat-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 0px;
+      margin-bottom: 0px !important;
+      position: sticky;
+      top: 0px;
+      z-index: 2;
+      padding: 5px 16px;
+      column-gap: 10px;
+      @media screen and (min-width:240px) and (max-width: 550px){
+        flex-direction: column;
+        position: relative;
+      }
+      &:hover{
+        box-shadow: none;
+      }
+      h2{
+        font-weight: 500;
+        margin: 0px;
+        padding: 0px;
+        font-size: 14px;
+        width: max-content;
+        max-width: 100%;
+        white-space: nowrap;
+        @media screen and (min-width:1025px) and (max-width: 1200px){
+          font-size: 14px;
+        }
+        @media screen and (min-width:240px) and (max-width: 550px){
+          width: 100%;
+          text-align: left;
+        }
+      }
+      .search-and-parsebutton{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        width: 100%;
+        @media screen and (min-width:240px) and (max-width: 550px){
+          justify-content: flex-end;
+        }
+        // @When: 17-09-2023 @who:Amit @why: EWM-13830 @what: btn group style
+        .btn-group{
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          .mat-icon-button{
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.1), 
+            0px 2px 2px 0px rgba(0, 0, 0, 0.1), 
+            0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+            &::after{
+              @include color-bg-after;
+              opacity: 0.05;
+              border-radius: 100%;
+            }
+            .mat-icon{
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+    .scrolltop{
+      height: 100%;
+      .mat-card{
+        overflow: auto;
+        padding: 12px 16px;
+        height: calc(100vh - 330px);
+        box-sizing: border-box;
+      }
+    }
+  }
+  
+  .highlight {
+    color: yellow;
+  }
+  :host ::ng-deep .info-title b {
+    background: yellow;
+  }
+.progress-loader-box{
+  top: -5px;
+}  
+
+:host ::ng-deep{
+  .candidate-summry{
+    .mat-card{
+      .mat-card-content{
+        .inner-html p{
+          &:first-child{
+            margin: 0px;
+          }
+        }
+      }
+    }
+  }
+  .candidate-summry{
+    .resumeHeader.mat-card{
+      .search-and-parsebutton{
+        .search-input.searchInput{
+          margin-bottom: 0px;
+          .mat-form-field-infix{
+            @media screen and (min-width:1025px) and (max-width: 1200px){
+              width: 125px;
+            }
+            @media screen and (min-width:240px) and (max-width: 480px){
+              width: 60px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+  
+  

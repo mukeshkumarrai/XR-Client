@@ -1,0 +1,37 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 07-Feb-2023
+    @Why: EWM-10420
+    @What:  This page wil be use  for tree checkbox
+-->
+<div class="mb-10">
+    <div class="panel-heading">
+      <mat-checkbox color="primary" [checked]="data?.IsChecked" [indeterminate]="someComplete()"
+        (change)="setAll($event.checked,false,0)" >{{data.GroupName|customTranslate}}</mat-checkbox>
+      <span class="accordian-spacer"></span>
+      <button mat-icon-button *ngIf="data.ListColumn.length>0" (click)="toggle.emit()" >
+        <mat-icon *ngIf="data.isCollapse">remove_circle_outline</mat-icon>
+        <mat-icon *ngIf="!data.isCollapse">add_circle_outline</mat-icon>
+      </button>
+    </div>
+    <div class="panel-body" *ngIf="opened">
+      <section>
+        <ul>
+          <li *ngFor="let subtask of data?.ListColumn">
+            <div class="panelWidth">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <mat-checkbox color="primary" [checked]="subtask?.IsChecked"
+                    (change)="setAll($event.checked,true,subtask)" [disabled]="subtask?.IsDefault===1?true:false">{{subtask.ColumnName|customTranslate}}</mat-checkbox>
+                  <span class="accordian-spacer"></span>
+                  <mat-icon *ngIf="subtask?.IsHelpEnabled===1" class="infoStyle" matTooltipPosition="left" matTooltip="{{subtask?.HelpCode |customTranslate}}">info</mat-icon> 
+                </div>                 
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+</div>

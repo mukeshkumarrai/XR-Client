@@ -1,0 +1,38 @@
+.group-list.mat-card {
+  .mat-card-content {
+    height: auto;
+    max-height: 270px;
+    overflow: auto;
+    .skillsNames {
+      display: flex;
+      height: 40px;
+      padding: 0px 15px;
+      margin-bottom: 2px;
+      align-items: center;
+      .spacer {
+        flex: 1 1 auto;
+      }
+    }
+  }
+}
+
+.skillGroupName {
+  margin-bottom: 15px;
+  .hiddenMenu {
+    min-width: 30px;
+    width: 40px;
+    padding: 0px 7px 0px 7px;
+    border-radius: 25px;
+    line-height: 27px;
+    height: 20px;
+    position: relative;
+    top: 3px;
+    margin-left: 5px;
+    overflow: hidden;
+    .mat-icon {
+      position: relative;
+      top: -3px;
+      transform: rotate(90deg);
+    }
+  }
+}

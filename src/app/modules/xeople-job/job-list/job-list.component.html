@@ -1,0 +1,1163 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: landingpage.component.html
+  @Who: Satya Prakash Gupta
+  @When: 12-July-2021
+  @Why: EWM-2003 EWM-2090
+  @What: This page wil be use only for the job landing page Component HTML
+ -->
+
+<!-- Xeople : Satya Prakash Gupta : 17-JUN-2022 : job landing : EWM-6875 EWM-7146 : CR -->
+<mat-card-header class="page-header" id="landingpage-mat-card-header">
+  <mat-card-title class="page-header-title-buttons" id="jobLandingTitle">
+    <!-- Xeople : Satya Prakash Gupta : 14-Dec-2023 : remove add job background color(green) : EWM-12581 -->
+    <button mat-mini-fab color="primary" class="mainAddButton" matTooltip="{{'label_addJob'|translate}}"
+      matTooltipClass="custom-tooltip" id="btnCreate" (click)="goToCreateJob()"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+      <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">
+        {{animationVar?.CreateButton?.iconName}}
+      </mat-icon>
+    </button>
+    <div class="page-header-title ml-5">
+      {{'label_JobLanding'|translate}}
+      <!-- Xeople : Satya Prakash Gupta : 03-Jul-2023 : Count move heare (In Header) : EWM-12842 EWM-12913 -->
+      <!-- Xeople : maneesh: 02-nov-2023 : change label : EWM-15017  -->
+      <span class="title-count" matTooltip="{{'label_totalJobs' |customTranslate}}" matTooltipClass="custom-tooltip">{{totalJobCount}}</span>
+    </div>
+          <!-- by maneesh show count ewm-17228 when:20/06/2024  -->
+    <!-- <div class="page-header-title ml-5">
+      {{'label_totalCandidate'|translate}}
+      <span class="title-count" matTooltip="{{'label_totalCandidate' |customTranslate}}" matTooltipClass="custom-tooltip">{{totalCandidate}}</span>
+    </div> -->
+  </mat-card-title>
+
+  <div class="header-action-button" id="client-dashboard-actionButton">
+    <div class="header-form">
+      <ng-select class="select-workflow pb-0" id="workflow-job" [(ngModel)]="workflowId" appendTo="body"
+        [clearable]="false" name="workflow-job" (change)="getWorkflowBasisList($event)">
+        <ng-option *ngFor="let wList of workflowList" [value]="wList.Id">{{wList.WorkflowName}}</ng-option>
+      </ng-select>
+    </div>
+
+    <div class="group-header-button">
+      <div class="desktop-view-header-menu">
+        <ng-container *ngTemplateOutlet="headerButtonSGroup"></ng-container>
+      </div>
+
+      <ng-template #headerButtonSGroup>
+        <div class="button-with-clear">
+          <button mat-raised-button class="filterButton header-button" id="moreFilter" (click)="openFilterModalDialog()"
+            [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" matTooltip="{{'label_filters'|translate}}"
+            matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+            (mouseenter)="mouseoverAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)">
+            <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.FilterButton?.id}}"
+              class="{{animationVar?.FilterButton?.isAnimClass}}">{{animationVar?.FilterButton?.iconName}}
+            </mat-icon>
+            <span class="text-for-mobile-view">{{'label_filters'|translate}}</span>
+          </button>
+          <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData(viewMode)">
+            <span class="text-overflow filterCount">{{filterCount}}</span>
+            <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <button mat-raised-button class="header-button" (click)="openActionModalDialog()" id="actionColumn"
+          matTooltip="{{'label_Actions'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)">
+          <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.ActionsButton?.id}}"
+            class="{{animationVar?.ActionsButton?.isAnimClass}}">
+            {{animationVar?.ActionsButton?.iconName}}
+          </mat-icon>
+          <span class="text-for-mobile-view">{{'label_Actions'|translate}}</span>
+        </button>
+
+        <button mat-raised-button class="header-button refreshBtn" (click)="refreshComponent()" id="btnRefresh"
+          matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+          <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+            {{animationVar?.BarRotateButton?.iconName}}
+          </mat-icon>
+          <span class="text-for-mobile-view">{{'label_refreshBtn'|translate}}</span>
+        </button>
+      </ng-template>
+
+      <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active-list-grid']" class="header-button"
+        (click)="switchListMode('listMode')" id="job-landing-viewModeInactive"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <mat-icon id="{{animationVar?.ListButton?.id}}" class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </mat-icon>
+      </button>
+
+      <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? 'active-list-grid' : '']" class="header-button"
+        (click)="switchListMode('cardMode')" id="job-landing-viewModeactive"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <mat-icon id="{{animationVar?.GridButton?.id}}" class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}}
+        </mat-icon>
+      </button>
+
+      <button mat-raised-button class="header-button mobile-view-button" id="mobile-view-button"
+        (mouseenter)="mouseoverAnimation(animationVar?.MobileViewButton?.id, animationVar?.MobileViewButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.MobileViewButton?.id, animationVar?.MobileViewButton?.animation)"
+        matTooltip="" matTooltipClass="custom-tooltip" [matMenuTriggerFor]="mobileViewButtonsMenu">
+        <mat-icon id="{{animationVar?.MobileViewButton?.id}}" class="{{animationVar?.MobileViewButton?.isAnimClass}}">
+          {{animationVar?.MobileViewButton?.iconName}}
+        </mat-icon>
+      </button>
+      <mat-menu #mobileViewButtonsMenu="matMenu" class="mobile-view-header-menu">
+        <ng-container *ngTemplateOutlet="headerButtonSGroup"></ng-container>
+      </mat-menu>
+    </div>
+  </div>
+</mat-card-header>
+<mat-drawer-container class="advancedsearch-container p-10" autosize id="landingpage-drawer">
+  <mat-card id="landingpage-card" class="landingpage-card">
+    <mat-drawer-container autosize class="quickFiltr-container" id="quickFiltr-container" (backdropClick)="cancelTreeview()">
+      <!--Start multilayer workflow EWM-7488 EWM-9044  -->
+      <mat-drawer #multilayerWorkflow [opened]="treeMatDrawer" [mode]="mobileQuery.matches ? 'over' : 'over'"
+        position="start" class="multilayer-workflow" id="multilayer-workflow">
+        <h4>{{'label_multilayerWorkflow' | translate}}
+          <button mat-icon-button color="primary" (click)="cancelTreeview()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </h4>
+        <mat-divider></mat-divider>
+        <div class="progress-loader-box" *ngIf="loadingTree">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+        <div class="tree-view-box">
+          <mat-tree *ngIf="view" [dataSource]="dataSource" [treeControl]="treeControl" class="multilayer-tree">
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle class="node-child-and-subchild">
+              <div class="multilayer-tree-node">
+                <button mat-icon-button disabled></button>
+                <div class="multilayer-tree-node-name child-and-subchild" [style.background-color]="node.ColorCode">
+                  {{node.StageName}}
+                  <span class="badge animate__animated cursor" matTooltip="{{node.Count}}"
+                    matTooltipClass="custom-tooltip">{{node.Count}}</span>
+                </div>
+              </div>
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild" class="node-parent">
+              <div class="multilayer-tree-node first-child">
+                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.StageName">
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                  </mat-icon>
+                </button>
+                <div class="multilayer-tree-node-name parent" [style.background-color]="node.ColorCode">
+                  {{node.StageName}}
+                  <span class="badge animate__animated cursor" matTooltip="{{node.Count}}"
+                    matTooltipClass="custom-tooltip">{{node.Count}}</span>
+                </div>
+              </div>
+              <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)" class="sub-child">
+                <ng-container matTreeNodeOutlet></ng-container>
+              </ul>
+            </mat-nested-tree-node>
+          </mat-tree>
+        </div>
+      </mat-drawer>
+      <!--End multilayer workflow  EWM-7488 EWM-9044 -->
+
+      <mat-drawer #LandingEnddrawer position="end" 
+      [mode]="sideMenuContext === 'applicant-section' ? 'over' :  mobileQuery.matches ? 'over' : 'side'"
+      id="applicant-drawer" [ngClass]="sideMenuContext === 'applicant-section'?'applicant-drawer':'quickFiltr-mat-drawer'" disableClose="true">
+      <ng-container *ngIf="sideMenuContext === 'applicant-section'">
+        <div class="applicant-list-header" id="applicant-list-header">
+          <h4>{{'label_ApplicantList'|translate}}  <span class="title-count" [style.background-color]="workflowStageList?.ColorCode">{{workflowStageList?.StageName}} ({{workflowStageList?.Count}})</span></h4>
+          <button id="close-quick-candidate-list" type="button" mat-icon-button
+          class="quick-button" (click)="LandingEnddrawer.toggle();closeDrawerApplicantList();qucikFilterClose();sideMenuContext = 'applicant-section'"
+            matTooltipPosition="left">
+            <mat-icon  fontSet="material-icons-outlined">close</mat-icon>
+          </button>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="applicant-list-grid">
+          <app-applicant-list *ngIf="applicantStatus" [workflowId]="workflowId" [WorkflowStageId]="WorkflowStageId" [filterConfig]="filterConfig" [CountFilter]="selectjobcatparam" [QuickFilter]="QuickFilter"></app-applicant-list>
+        </div>
+      </ng-container>
+      
+      <ng-container *ngIf="sideMenuContext === 'quickfilter-section'">
+        <h4>{{'label_quickFilter' | translate}} </h4>
+        <button mat-icon-button color="warn" (click)="LandingEnddrawer.toggle();qucikFilterClose()" *ngIf="mobileQuery.matches ? true : false">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-divider></mat-divider>
+        <div class="quick-filter" id="quick-filter">
+          <button mat-stroked-button id="btnActivePositionss" [ngClass]="isActive === 'ActivePositions' ? 'active' : ''"
+            (click)="JobFilter('ActivePositions')">{{'label_ActivePosition' | translate}}
+            ({{jobFilterCount?.ActivePositions?jobFilterCount?.ActivePositions:0}})</button>
+          <button mat-stroked-button id="btnExpireInaWeek" [ngClass]="isActive === 'ExpireInaWeek' ? 'active' : ''"
+            (click)="JobFilter('ExpireInaWeek')">{{'label_ExpireInaWeek' | translate}}
+            ({{jobFilterCount?.ExpireInaWeek?jobFilterCount?.ExpireInaWeek:0}})</button>
+          <button mat-stroked-button id="btnToFillInaWeek" [ngClass]="isActive === 'ToFillInaWeek' ? 'active' : ''"
+            (click)="JobFilter('ToFillInaWeek')">{{'label_ToFillInaWeek' | translate}}
+            ({{jobFilterCount?.ToFillInaWeek?jobFilterCount?.ToFillInaWeek:0}})</button>
+
+          <button mat-stroked-button id="btnNotPublishedJobs"
+            [ngClass]="isActive === 'NotPublishedJobs' ? 'active' : ''"
+            (click)="JobFilter('NotPublishedJobs')">{{'label_notpublished' | translate}}
+            ({{jobFilterCount?.NotPublishedJobs}})</button>
+          <button mat-stroked-button id="btnPublishedJobs" [ngClass]="isActive === 'PublishedJobs' ? 'active' : ''"
+            (click)="JobFilter('PublishedJobs')">{{'label_published' | translate}}
+            ({{jobFilterCount?.PublishedJobs?jobFilterCount?.PublishedJobs:0}})</button>
+          <button mat-stroked-button id="btnOverDue" [ngClass]="isActive === 'OverDue' ? 'active' : ''"
+            (click)="JobFilter('OverDue')">{{'label_OverDue' | translate}}
+            ({{jobFilterCount?.OverDue?jobFilterCount.OverDue:0}})</button>          
+             
+            <!--------------------@suika @whn 24-07-2023 @EWM-13179 @EWM-13294  ----------------------------------------->
+            <button mat-stroked-button id="btnClosed" [ngClass]="isActive === 'TotalJobs' ? 'active' : ''"
+            (click)="JobFilter('TotalJobs')">{{'label_totalJobs' | translate}}
+            ({{jobFilterCount?.TotalJobs?jobFilterCount.TotalJobs:0}})</button>
+
+            <button mat-stroked-button id="btnClosed"  [ngClass]="isActive === 'TotalExpiredJobs' ? 'active' : ''"
+            (click)="JobFilter('TotalExpiredJobs')">{{'label_expiredJobs' | translate}}
+            ({{jobFilterCount?.TotalExpiredJobs?jobFilterCount.TotalExpiredJobs:0}})</button>
+
+          <!-- <button mat-stroked-button id="btnOtherOwners" [ngClass]="isActive === 'OtherOwners' ? 'active' : ''"
+            (click)="JobFilter('OtherOwners')">{{'label_otherOwners' | translate}}
+            ({{jobFilterCount?.OtherOwners?jobFilterCount.OtherOwners:0}})</button> -->
+          <!-- <button mat-stroked-button id="btnInterviewInaWeek" [disabled]="true"
+            [ngClass]="isActive === 'InterviewInaWeek' ? 'active' : ''"
+            (click)="JobFilter('InterviewInaWeek')">{{'label_interviewinaweek' | translate}}
+            ({{jobFilterCount?.InterviewInaWeek?jobFilterCount.InterviewInaWeek:0}})</button> -->
+
+            <button mat-stroked-button id="btnActivePositionss" [ngClass]="isActive === 'ClosedJobs' ? 'active' : ''"
+            (click)="JobFilter('ClosedJobs')">{{'label_closejob' | translate}}
+            ({{jobFilterCount?.ClosedJobs?jobFilterCount?.ClosedJobs:0}})</button>
+        </div>
+      </ng-container>
+      </mat-drawer>
+
+      <div class="quickFiltr-sidenav-content" id="quickFiltr-sidenav-content">
+        <!---------@When: 28-Jul-2023 @who:Satya Prakash Gupta @why: EWM-13294 EWM-13497 @what: Icon and tooltip change--------->
+        <button id="close-quick-filters" *ngIf="drawerIconStatus" type="button" mat-stroked-button class="quick-filter-button" (click)="LandingEnddrawer.toggle();qucikFilterClose();"
+          (mouseenter)="mouseoverAnimation(animationVar?.SidenavRight?.id, animationVar?.SidenavRight?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.SidenavRight?.id, animationVar?.SidenavRight?.animation)"
+          matTooltip="{{'label_JobLanding_closeQuickFilters'|translate}}" matTooltipPosition="left">
+          <mat-icon id="{{animationVar?.SidenavRight?.id}}"
+            class="{{animationVar?.SidenavRight?.isAnimClass}}" fontSet="material-icons-outlined">filter_alt</mat-icon>
+        </button>
+        <button id="open-quick-filters" *ngIf="!drawerIconStatus" type="button" mat-stroked-button class="quick-filter-button" (click)="LandingEnddrawer.toggle();qucikFilterOpen()"
+          (mouseenter)="mouseoverAnimation(animationVar?.SidenavLeft?.id, animationVar?.SidenavLeft?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.SidenavLeft?.id, animationVar?.SidenavLeft?.animation)"
+          matTooltip="{{'label_JobLanding_openQuickFilters'|translate}}" matTooltipPosition="left">
+          <mat-icon id="{{animationVar?.SidenavLeft?.id}}"
+            class="{{animationVar?.SidenavLeft?.isAnimClass}}" fontSet="material-icons-outlined">filter_alt</mat-icon>
+        </button>
+        <div class="candidate-data-header" id="candidate-data-header">
+          <div class="filter-refresh">
+            <button mat-raised-button color="primary" id="open-dynamic-filter-area" (click)="openDynamicFilterArea()"
+              matTooltip="{{'label_dynamicFilter'|translate}}" matTooltipClass="custom-tooltip"
+              (mouseenter)="mouseoverAnimation(animationVar?.DynamicFilterButton?.id, animationVar?.DynamicFilterButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.DynamicFilterButton?.id, animationVar?.DynamicFilterButton?.animation)">
+              <mat-icon id="{{animationVar?.DynamicFilterButton?.id}}"
+                class="{{animationVar?.DynamicFilterButton?.isAnimClass}}">filter_list</mat-icon>
+            </button>
+
+            <div class="dynamic-filter-area mat-elevation-z3 animate__animated animate__headShake animate__repeat-3"
+              id="dynamic-filter-area" *ngIf="dynamicFilterArea">
+              <mat-icon class="arrow_left">arrow_left</mat-icon>
+              <div class="dynamic-filter-txt">
+                <mat-icon class="info" fontSet="material-icons-outlined">info</mat-icon>
+                <i>{{'label_hey' | translate}} {{loginUserName}},</i>
+                <button mat-icon-button (click)="closeDynamicFilterArea()" id="close-dynamic-filter-area">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+              <mat-divider></mat-divider>
+              <p>
+                {{'label_filterMessage' | translate}}
+              </p>
+              <mat-divider></mat-divider>
+              <div class="dynamic-filter-area-footer" id="dynamic-filter-area-footer">
+                <mat-checkbox color="primary" [checked]="filterAlert" (change)="setShowAlert($event)">
+                  {{'label_doNotShowAgain' | translate}}</mat-checkbox>
+              </div>
+            </div>
+          </div>
+
+          <div class="total-candidate" id="candidate-total">
+            <span>{{'label_totalCandidate'|translate}}</span>
+            <span class="candidate-count text-overflow" matTooltip="{{totalCandidate}}" matTooltipClass="custom-tooltip">{{totalCandidate}}</span>
+          </div>
+
+          <div class="search-viewicon" id="search-viewicon">
+            <mat-form-field class="searchInput" floatLabel="never">
+              <mat-label>{{'label_search'|translate}}</mat-label>
+              <input matInput type="text" id="btnSearch" (input)="onFilter($event.target.value)"
+                [(ngModel)]="searchValue" name="searchTextEWM" placeholder="{{'label_search'|translate}}"
+                [ngModelOptions]="{standalone: true}" />
+              <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+              <button *ngIf="searchValue" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                (click)="onFilterClear()" (click)="searchValue=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="stagecarousel workflow-stages" id="stagecarousel">
+          <div class="progress-loader-box" *ngIf="loadingStage">
+            <div class="progress-loader">
+              <div class="loaderBar"></div>
+            </div>
+          </div>
+          <div class="no-stages" *ngIf="stagesList?.length==0 || stagesList==null || stagesList==undefined">
+            {{'label_noStageFound' | translate}}
+          </div>
+          <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0" [navigation]="true" (swiper)="onSwiper($event)"
+            [ngClass]="screenPreviewClass" *ngIf="stagesList?.length>0">
+            <ng-template class="carousel-cell" *ngFor="let stage of stagesList" swiperSlide>
+              <div class="flowStage" [style.background-color]="stage.ColorCode?stage.ColorCode:stageColor">
+                <span (click)="openJobWorkflowSubStages(stage.InternalCode)" id="Stage-Name" class="flowStageTxt text-overflow" matTooltip="{{stage.StageName}}"
+                  matTooltipClass="custom-tooltip">{{stage.StageName}}</span>
+                <span class="arrow-left" [style.border-left-color]="stage.ColorCode?stage.ColorCode:stageColor"></span>
+              </div>
+              <!-- who:maneesh,what:ewm-13008,what:fixed redirect when click on stage name in card view and click on count then open left pannel,when:07/07/2023 -->
+              <a class="badge animate__animated cursor" id="openDrawerApplicantList" (click)="openDrawerApplicantList(stage)"
+               [disabled]="stage.Count=='0'?true:false"
+              [ngClass]="stage.StageId===addSlectedID? 'animate__zoomIn':''">{{stage.Count}}
+            </a>
+            </ng-template>
+          </swiper>
+        </div>
+        <div [ngClass]="[ viewMode === 'listMode' ? 'listMode' : 'hide']">
+          <!-- @Who: Satya Prakash Gupta ,@When: 19-April-2023, @Why: EWM-11966 EWM-11967 ,What: locked comumn false locked-column-by-css-->
+          <div class="kendo-grid-appearance without-column-popup column-resize-remove"
+            [ngClass]="[ viewMode === 'listMode' ? 'listMode' : 'hide']" style="position: relative;">
+            <div *ngIf="loading" class="logo-loader" id="logo-loader">
+              <div class="logo-loading"></div>
+            </div>
+            <ng-template #template let-anchor>
+              <span>{{ anchor.nativeElement.innerText }}</span>
+            </ng-template>
+            <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+              (mouseover)="showTooltip($event)">
+              <!-- @When: 05-07-2023 @who:Amit @why: EWM-12954 @what: add filter row -->
+              <!-- @When: 13-07-2023,@who:Nitin, @why: EWM-13108 @what: add [filter] -->
+              <kendo-grid #grid  [sortable]="true"
+              [sort]="state.sort" [filter]="state.filter" id="overflowCustom"
+              [reorderable]="false" [resizable]="true" (dataStateChange)="onDataStateChange($event)"
+              [filterable]="true" [data]="data" [selectable]="true" [pageable]="{buttonCount: 3,
+                  info: true,
+                  type: 'numeric',
+                  pageSizes: true,
+                  previousNext: true,
+                  responsive: true}" [pageSize]="state.take" [skip]="state.skip">
+         <!-- @When: 13-07-2023,@who:Nitin, @why: local sorting,search and filter on client side data -->
+                  <!-- <kendo-grid #grid  [sortable]="true"
+                  [sort]="state.sort" [filter]="filter" id="overflowCustom"
+                  (pageChange)="pageChanges($event)"
+                            [reorderable]="false" [resizable]="true" 
+                            [filterable]="true" [data]="data" [selectable]="true" [pageable]="{buttonCount: 3,
+                                info: true,
+                                type: 'numeric',
+                                pageSizes: true,
+                                previousNext: true,
+                                responsive: true}" [pageSize]="state.take" [skip]="state.skip"  (filterChange)="filterChange($event)"
+                                (sortChange)="sortChange($event)"> -->
+          <!--  who:maneesh,what:ewm-13417 for change width 170 to 40px fixed "column.width<40?150:column.width" when:19/07/2023 -->
+          <!-- [filter]="column?.Type?.toLowerCase()=='dropdown' || column?.Field=='DaysToExpire' ||column?.Field=='DaysToFill'?'text':column.Type|lowercase" -->
+                <kendo-grid-column  *ngFor="let column of columnsWithAction" [field]="column.Field"
+                [filter]="column?.Type?.toLowerCase()=='dropdown'?'text':column.Type|lowercase" 
+                  [title]="column.Title=='access_permission'?'':column.Title |customTranslate"  [width]="column.width<40?150:column.width"
+                  [headerStyle]="column.Type=='Action' ||column.Type=='Numeric' ||column.Type=='Date' ?{'text-align': 'right'}:''"
+                  [format]="column?.Type?.toLowerCase()=='date'?dateFormatKendo:column.Format" [reorderable]="column.Type=='Action'?false:true" [filterable]="column.Filterable">
+                    <!--  who:suika,what:EWM-13301 stop drag and drop for action column-- [reorderable]="column.Type=='Action'?false:true" -->
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Type=='Action'">
+                    <div class="job-closed" *ngIf="dataItem?.IsJobClosed==1">
+                      {{'label_closed'|translate}}
+                    </div>
+                    <span class="textRight">
+                    <button mat-flat-button [matMenuTriggerFor]="menu" id="dataActionBtn" class="dataActionButton">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                      <!-- @When: 22-09-2023 @who:maneesh @why: EWM-13861 @what:disabel close job btn add -->
+                    <mat-menu #menu="matMenu" class="dataActionButtonGroup mat-menu-svg">
+                      <a mat-menu-item [routerLink]="['/client/jobs/job/job-manage/manage']"
+                        [queryParams]="{jobId:dataItem?.Id, editForm:'editForm',filter:isActive}" id="btnEdit"
+                        [disabled]="dataItem.Edit=='0'?true:false || dataItem?.IsJobClosed==1">
+                        <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
+                        {{'quickjob_quickEditJob'|translate}}
+                      </a>
+                      <a mat-menu-item (click)="openCopyJobModalDialog(dataItem.Id)" id="btnCopy">
+                        <mat-icon fontSet="material-icons-outlined">file_copy</mat-icon>
+                        {{'label_clone'|translate}}
+                      </a>
+                      <a mat-menu-item id="btnView" [routerLink]="['/client/jobs/job/job-detail/detail']"
+                        (click)="onJobClick(dataItem)"
+                        [queryParams]="{jobId:dataItem?.Id,workflowId:dataItem?.WorkflowId,filter:isActive}">
+                        <mat-icon fontSet="material-icons-outlined">subject</mat-icon>
+                        {{'label_view_Job'|translate}}
+                      </a>
+
+                      <!-- @When: 21-09-2023 @who:Amit @why: EWM-13899 @what: close job btn add -->
+                      <!-- @When: 22-09-2023 @who:maneesh @why: EWM-13861 @what:disabel close job btn add -->
+
+                      <a mat-menu-item id="btnView" *ngIf="dataItem?.IsJobClosed==0"
+                      (click)="onOpenCloseJobModal(dataItem)" id="close-job-btn">
+                        <mat-icon svgIcon="job_close"></mat-icon>
+                        {{'label_close' | translate}} {{'label_job' | translate}}
+                      </a>
+
+                      <a mat-menu-item id="btnView" 
+                      *ngIf="dataItem?.IsJobClosed==1"
+                      (click)="onReopenJob(dataItem)" id="reopen-job-btn">
+                      <mat-icon svgIcon="job_reopen"></mat-icon>
+                      {{'label_reopenJob' | translate}}
+                    </a>
+                      
+                    </mat-menu>
+                    </span>
+                  </ng-template>
+                  <!-- /*--@who:@Bantee Kumar,@when:12-06-2023, @why:EWM-12635, To set tabindex=0 by default --*/ -->
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobTitle'">
+                    <a [routerLink]="['/client/jobs/job/job-detail/detail']" matTooltipClass="custom-tooltip"
+                      (click)="onJobClick(dataItem)"
+                      [queryParams]="{jobId:dataItem.Id,workflowId:dataItem.WorkflowId,filter:QuickFilter,selectjob:selectjobcatparam,tabIndex:0 }"
+                      id="btnViewCandiateName">
+                      {{dataItem.JobTitle|customTranslate}}
+                    </a>
+                      <!------------@suika @whn 28-07-2023 @EWM-13626---------------------------->
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobRank'">
+                    <div class="right-align">
+                      <span class="candidateStatus" matTooltipClass="custom-tooltip"
+                        [style.background-color]="dataItem.JobRankColorCode === null ? '#fff' : dataItem.JobRankColorCode "
+                        [style.color]="dataItem.JobRankColorCode === null ? '#000' : ''">{{dataItem.JobRank}}
+                      </span>
+                    </div>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='StatusName'">
+                    <span class="cell-color"
+                      [style.background-color]="dataItem.ColorCode == null ? '#fff' : dataItem.ColorCode "
+                      [style.color]="dataItem.ColorCode == null ? '#000' : '' "><span
+                        matTooltipClass="custom-tooltip">{{ dataItem.StatusName| titlecase}}</span>
+                      <mat-icon *ngIf="dataItem?.ReasonName" class="infoStyleKendo" matTooltipClass="custom-tooltip"
+                        matTooltip="{{dataItem?.ReasonName}}">info</mat-icon>
+                    </span>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='OwnerName'">  
+                    <div class="multiple-owner-sec">
+                      <ng-container *ngFor="let ownerList of dataItem.OwnersList, let i = index;">
+                        <div class="multiple-owner" *ngIf="i<3">
+                          <div class="userAvtaarAndName" matTooltipClass="custom-tooltip"
+                            matTooltip="{{ownerList.OwnerName | titlecase}}">
+                            <!-- @Who: Ankit Rawat,@Why: EWM-17853, @When: 09Aug24,@What:Show Owner image on grid-->
+                            <img *ngIf="ownerList?.OwnerProfileImageUrl!=''" [src]="ownerList?.OwnerProfileImageUrl | imageSize:'ICON'" tabindex>
+                            <span *ngIf="ownerList.OwnerProfileImageUrl==''"  [style.background]="getBackgroundColor(ownerList?.ShortName)"
+                              tabindex>{{ownerList?.ShortName}}</span>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <button mat-icon-button color="primary" *ngIf="dataItem.OwnersList?.length>3"
+                        class="more-owner-show" [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore">
+                        <span class="extra-more" *ngIf="dataItem.OwnersList?.length<=99">+{{dataItem.OwnersList?.length-3}}</span>
+                        <mat-icon *ngIf="dataItem.OwnersList?.length>99" matTooltipClass="custom-tooltip"
+                          matTooltip="99 {{'label_more' | translate}}..">more_horiz</mat-icon>
+                      </button>
+                      <mat-menu #showAllOwner="matMenu" class="all-owner-list" id="respinsiveSidebarDropdown"
+                        xPosition="before">
+                        <mat-list role="list">
+                          <ng-container *ngFor="let ownerList of dataItem.OwnersList, let i = index;">
+                            <mat-list-item *ngIf="i>2" matTooltipClass="custom-tooltip"
+                             >
+                              <div class="userAvtaarAndName mr-5">
+                                <img src="{{ownerList?.OwnerProfileImageUrl}}" tabindex
+                                  *ngIf="ownerList?.OwnerProfileImageUrl!='' ">
+                                   <!-- who:maneesh,what:ewm-13136 for background color in short name,when:13/07/2023  -->
+                                <span *ngIf="ownerList.OwnerProfileImageUrl==''"   [style.background]="getBackgroundColor(ownerList?.ShortName)"
+                                  tabindex>{{ownerList?.ShortName}}</span>
+                              </div>
+                              <span>{{ownerList.OwnerName | titlecase}}</span>
+                              <!-- </div> -->
+                            </mat-list-item>
+                          </ng-container>
+                        </mat-list>
+                      </mat-menu>
+                    </div>
+                  </ng-template>
+                  <!-- @Who: Ankit Rawat,@Why: EWM-17602,@When: 23Jul24,@What:Added Primary Owner -->
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='PrimaryOwner'">  
+                    <div class="multiple-owner-sec">
+                      <ng-container *ngFor="let primaryOwner of dataItem.PrimaryOwner, let i = index;">
+                        <!--@When: 29-07-2024 @who:Amit @why: EWM-17727 @what: full name show-->
+                        <div class="multiple-owner shortname-with-fullname">
+                          <div class="userAvtaarAndName" matTooltipClass="custom-tooltip"
+                            matTooltip="{{primaryOwner.OwnerName | titlecase}}">
+                            <span [style.background]="getBackgroundColor(primaryOwner?.ShortName)"
+                              tabindex>{{primaryOwner?.ShortName}}</span>
+                          </div>
+                          <div id="currentStatusData">{{dataItem.PrimaryOwner[0]?.OwnerName | titlecase}}</div>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='SalaryMin'">
+                    <span class="textRight" matTooltipClass="custom-tooltip">{{dataItem.SalaryMin |
+                      PipeCurrencyCustome}}</span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='SalaryMax'">
+                    <span class="textRight" matTooltipClass="custom-tooltip"
+                      *ngIf="dataItem.SalaryUnitName!='' && dataItem.SalaryMax!=''">{{dataItem.CurrencySymbol}}{{dataItem.SalaryMax
+                      | PipeCurrencyCustome}}/{{dataItem.SalaryUnitName }} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobTypeName'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.JobTypeName}} </span>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Location'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.Location}} </span>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobCategory'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.CategoryName}} </span>
+
+
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='TotalActivities'">
+                    <span class="textRight" matTooltipClass="custom-tooltip"> {{dataItem.TotalActivities}}</span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='OpenDate'">
+
+                    <a [routerLink]="['/client/jobs/job/job-detail/detail']"
+                      [queryParams]="{jobId:dataItem.Id,workflowId:dataItem.WorkflowId}">
+                      <span matTooltipClass="custom-tooltip" class="textRight">{{dataItem.OpenDate |
+                        date:userpreferences.dateformate}} </span>
+                    </a>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='FilledDate'">
+                    <span class="textRight" matTooltipClass="custom-tooltip">{{dataItem.FilledDate |
+                      date:userpreferences.dateformate}} </span>
+                  </ng-template>
+                  <!-- who:maneesh,what:ewm-17078 when:20/05/2024 -->
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CreatedDate'">
+                    <span class="textRight" matTooltipClass="custom-tooltip">{{dataItem?.CreatedDate |
+                      date:userpreferences.timeformate:userpreferences.timezone}} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='DaysToExpire'">
+                    <span  [ngClass]="[ dataItem.DaysToExpire<0 ? 'expired textRight' : 'textRight']" matTooltipClass="custom-tooltip">{{dataItem.DaysToExpire}} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='DaysToFill'">
+                    <span [ngClass]="[ dataItem.DaysToFill<0 ? 'expired textRight' : 'textRight']" matTooltipClass="custom-tooltip">{{dataItem.DaysToFill}} </span>
+                  </ng-template>
+
+
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='HeadCount'">
+                    <span class="textRight" matTooltipClass="custom-tooltip">{{dataItem.HeadCount}} </span>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Bonus'">
+                    <span class="textRight" matTooltipClass="custom-tooltip">{{dataItem.Bonus}} </span>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Equity'">
+                    <span class="textRight" matTooltipClass="custom-tooltip">{{dataItem.Equity}} </span>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobExpiryDays'">
+                    <span matTooltipClass="custom-tooltip" class="textRight" >{{dataItem.JobExpiryDays}} </span>
+                  </ng-template>
+
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ActivePipeline'">
+                    <span class="textRight" matTooltipClass="custom-tooltip">{{dataItem.ActivePipeline}} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='StateName'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.StateName}} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobReferenceId'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.JobReferenceId}} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CategoryName'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.CategoryName}} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='QualificationName'">
+                    <!-- <span matTooltipClass="custom-tooltip">{{dataItem.QualificationName}} </span> -->
+                    <div class="grid-chips" id="grid-chips">
+                      <mat-chip-list #chipList aria-label="tag selection">
+                        <ng-container *ngFor="let QualificationNameList of dataItem.QualificationName, let i = index;">
+                          <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false" class="text-overflow">
+                            <span>{{QualificationNameList}}</span>
+                          </mat-chip>
+                        </ng-container>
+                      </mat-chip-list>
+                      <button mat-icon-button color="primary" *ngIf="dataItem.QualificationName?.length>2" class="more-owner-show"
+                        [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                        +{{dataItem.QualificationName?.length-2}}
+                      </button>
+                      <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                        <ng-container *ngFor="let QualificationNameList of dataItem?.QualificationName, let i = index;">
+                          <button mat-button *ngIf="i>=2">
+                            {{QualificationNameList}}
+                          </button>
+                        </ng-container>
+                      </mat-menu>
+                    </div>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Experience'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.Experience}} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ProjectName'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.ProjectName}} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='BrandName'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.BrandName}} </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='IndustryName'">
+                    <!-- <span matTooltipClass="custom-tooltip">{{dataItem.IndustryName}} </span> -->
+                    <div class="grid-chips" id="grid-chips">
+                      <mat-chip-list #chipList aria-label="tag selection">
+                        <ng-container *ngFor="let IndustryNameList of dataItem.IndustryName, let i = index;">
+                          <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false" class="text-overflow">
+                            <span>{{IndustryNameList}}</span>
+                          </mat-chip>
+                        </ng-container>
+                      </mat-chip-list>
+                      <button mat-icon-button color="primary" *ngIf="dataItem.IndustryName?.length>2" class="more-owner-show"
+                        [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                        +{{dataItem.IndustryName?.length-2}}
+                      </button>
+                      <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                        <ng-container *ngFor="let IndustryNameList of dataItem?.IndustryName, let i = index;">
+                          <button mat-button *ngIf="i>=2">
+                            {{IndustryNameList}}
+                          </button>
+                        </ng-container>
+                      </mat-menu>
+                    </div>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='FunctionalExpertise'">
+                    <!-- <span matTooltipClass="custom-tooltip">{{dataItem.FunctionalExpertise}} </span> -->
+                    <div class="grid-chips" id="grid-chips">
+                      <mat-chip-list #chipList aria-label="tag selection">
+                        <ng-container *ngFor="let FunctionalExpertiseList of dataItem.FunctionalExpertise, let i = index;">
+                          <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false" class="text-overflow">
+                            <span>{{FunctionalExpertiseList}}</span>
+                          </mat-chip>
+                        </ng-container>
+                      </mat-chip-list>
+                      <button mat-icon-button color="primary" *ngIf="dataItem.FunctionalExpertise?.length>2" class="more-owner-show"
+                        [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                        +{{dataItem.FunctionalExpertise?.length-2}}
+                      </button>
+                      <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                        <ng-container *ngFor="let FunctionalExpertiseList of dataItem?.FunctionalExpertise, let i = index;">
+                          <button mat-button *ngIf="i>=2">
+                            {{FunctionalExpertiseList}}
+                          </button>
+                        </ng-container>
+                      </mat-menu>
+                    </div>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='AddressLine1'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.AddressLine1}} </span>
+                  </ng-template>  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='AddressLine2'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.AddressLine2}} </span>
+                  </ng-template>  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CityName'">
+                    <span matTooltipClass="custom-tooltip">{{dataItem.CityName}} </span>
+                  </ng-template>
+
+               <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CurrencyName'">
+                  <span matTooltipClass="custom-tooltip">{{dataItem.CurrencyName}} </span>
+                </ng-template>
+                 <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CountryName'">
+                  <span matTooltipClass="custom-tooltip">{{dataItem.CountryName}} </span>
+                </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ClientShortName'">
+                  <span matTooltipClass="custom-tooltip">{{dataItem.ClientShortName}} </span>
+                </ng-template>
+
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobSubTypeName'">
+                <span matTooltipClass="custom-tooltip">{{dataItem.JobSubTypeName}} </span>
+              </ng-template>
+             <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='SalaryUnitName'">
+                <span matTooltipClass="custom-tooltip">{{dataItem.SalaryUnitName}} </span>
+              </ng-template>
+             <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='SalaryBandName'">
+                <span matTooltipClass="custom-tooltip">{{dataItem.SalaryBandName}} </span>
+              </ng-template>
+
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='SubCategoryName'">
+                <!-- <span matTooltipClass="custom-tooltip">{{dataItem.SubCategoryName}} </span> -->
+                <div class="grid-chips" id="grid-chips">
+                  <mat-chip-list #chipList aria-label="tag selection">
+                    <ng-container *ngFor="let SubCategoryNameList of dataItem.SubCategoryName, let i = index;">
+                      <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false" class="text-overflow">
+                        <span>{{SubCategoryNameList}}</span>
+                      </mat-chip>
+                    </ng-container>
+                  </mat-chip-list>
+                  <button mat-icon-button color="primary" *ngIf="dataItem.SubCategoryName?.length>2" class="more-owner-show"
+                    [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                    +{{dataItem.SubCategoryName?.length-2}}
+                  </button>
+                  <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                    <ng-container *ngFor="let SubCategoryNameList of dataItem?.SubCategoryName, let i = index;">
+                      <button mat-button *ngIf="i>=2">
+                        {{SubCategoryNameList}}
+                      </button>
+                    </ng-container>
+                  </mat-menu>
+                </div>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ZipCode'">
+                <span matTooltipClass="custom-tooltip">{{dataItem.ZipCode}} </span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='WorkflowName'">
+                <span matTooltipClass="custom-tooltip">{{dataItem.WorkflowName}} </span>
+              </ng-template>
+
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ClientName'">
+                <span matTooltipClass="custom-tooltip">{{dataItem.ClientName}} </span>
+              </ng-template>
+                 <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastApplicationStatus'">
+                <span matTooltipClass="custom-tooltip">{{dataItem.LastApplicationStatus}} </span>
+              </ng-template>
+
+
+                  <!---------@When: 02-12-2022 @who:Adarsh @why: EWM-9665 des: compare into uppercase or lowercase for published field--------->
+                  <!-- @When: 12-Jul-2023 @who:Satya Prakash Gupta @why: EWM-13108 EWM-13078 Add new published field -->
+                  <ng-template kendoGridCellTemplate let-dataItem
+                  *ngIf="column.Field=='PublishValue'">
+                  <!---------@When: 27-06-2023 @who:maneesh @why: EWM-10956 when job expired then publish button disabel--------->
+                    <ng-container *ngIf="dataItem.Published=='0'">
+                        <!-- @When: 23-sep-2023 @who:maneesh @why: EWM-13861 EWM-13861 disable publish button -->
+                      <button mat-button [disabled]="!checkBothStatus || dataItem.DaysToExpire<=0 ||dataItem?.IsJobClosed==1" matTooltipClass="custom-tooltip"
+                        [routerLink]="['/client/jobs/job/job-publish-v1/publish', {jobId: dataItem.Id,jobRefId:dataItem.JobReferenceId,workId:dataItem.WorkflowId,pub:0}]"
+                        id="btnJobPublish"  [queryParams]="{filter:isActive}" (click)="clickPublish(dataItem)" class="job-publish">
+                        <!-- @When: 12-Jul-2023 @who:Satya Prakash Gupta @why: EWM-13108 EWM-13078 Show value from API -->
+                        {{dataItem.PublishValue}}
+                      </button>
+                    </ng-container>
+                        <!-- @When: 23-sep-2023 @who:maneesh @why: EWM-13861 EWM-13861 disable publish button -->
+                    <ng-container *ngIf="dataItem.Seekpublishstatus + dataItem.Broadbeanpublishstatus + dataItem.Indeedpublishstatus ==1 && dataItem?.IsJobClosed!=1">
+                      <button mat-button [disabled]="!checkBothStatus" (click)="clickPublish(dataItem)"
+                        [routerLink]="['/client/jobs/job/job-publish-v1/publish', {jobId: dataItem.Id,jobRefId:dataItem.JobReferenceId,workId:dataItem.WorkflowId}]"
+                        id="btnJobPublished" class="job-published" matTooltipClass="custom-tooltip">
+                        <!-- @When: 12-Jul-2023 @who:Satya Prakash Gupta @why: EWM-13108 EWM-13078 Show value from API -->
+                        {{dataItem.PublishValue}}
+                      </button>
+
+                    </ng-container>
+                    <ng-container *ngIf="dataItem.Seekpublishstatus + dataItem.Broadbeanpublishstatus + dataItem.Indeedpublishstatus >= 2">
+                      <button mat-button [disabled]="!checkBothStatus" (click)="clickPublish(dataItem)"
+                        [routerLink]="['/client/jobs/job/job-publish-v1/publish', {jobId: dataItem.Id,jobRefId:dataItem.JobReferenceId,workId:dataItem.WorkflowId}]"
+                        id="btnJobPublished" class="job-published" matTooltipClass="custom-tooltip">
+                        <!-- @When: 12-Jul-2023 @who:Satya Prakash Gupta @why: EWM-13108 EWM-13078 Show value from API -->
+                        {{dataItem.PublishValue}}
+                      </button>
+                    </ng-container>
+                  </ng-template>
+
+                    <!-- @When: 31-10-2023 @who:Amit @why: EWM-15004 @what: tags column -->
+                         <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='JobTagName'">
+                          <div class="grid-chips skill-grid-chips">
+                            <mat-chip-list #chipList aria-label="skill selection">
+                              <ng-container *ngFor="let JobTagNameList of dataItem?.JobTagName, let i = index;">
+                                <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false">
+                                  <span>{{JobTagNameList}}</span>
+                                </mat-chip>
+                              </ng-container>
+                            </mat-chip-list>
+                            <button mat-button color="primary" *ngIf="dataItem?.JobTagName?.length>2" class="more-owner-show"
+                              [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                              +{{dataItem.JobTagName?.length-2}}
+                            </button>
+
+                            <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                              <ng-container *ngFor="let JobTagNameList of dataItem?.JobTagName, let i = index;">
+                                <button mat-button *ngIf="i>=2">
+                                  {{JobTagNameList}}
+                                </button>
+                              </ng-container>
+                            </mat-menu>
+                          </div>
+                        </ng-template>
+
+                  <!-- /*--@who:@Bantee Kumar,@when:11-05-2023, @why:EWM-12369, To show icons on Access name --*/ -->
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='AccessName'">
+                    <ng-container *ngIf="dataItem.AccessName=='Public'">
+
+                      <!---------@When: 31-05-2023 @who:Amit @why: EWM-12370 @what: add icons--------->
+                      <div class="access-icons">
+                        <button mat-icon-button class="header-button" id="public-btn">
+                          <div class="two-icons public-icons" matTooltip="{{dataItem.AccessName}}"
+                            matTooltipClass="custom-tooltip">
+                            <mat-icon fontSet="material-icons-outlined">verified_user</mat-icon>
+                            <mat-icon class="secondIcon">groups</mat-icon>
+                          </div>
+                        </button>
+                      </div>
+
+                    </ng-container>
+                    <ng-container *ngIf="dataItem.AccessName=='Confidential'">
+
+                      <!---------@When: 31-05-2023 @who:Amit @why: EWM-12370 @what: add icons--------->
+                      <div class="access-icons">
+                        <button mat-icon-button class="header-button" id="confidential-btn">
+                          <div class="two-icons private" matTooltip="{{dataItem.AccessName}}" matTooltipClass="custom-tooltip">
+                            <mat-icon class="firstIcon" fontSet="material-icons-outlined">shield</mat-icon>
+                            <mat-icon class="secondIcon">lock</mat-icon>
+                          </div>
+                        </button>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="dataItem.AccessName=='Protected'">
+
+                      <!---------@When: 31-05-2023 @who:Amit @why: EWM-12370 @what: add icons--------->
+                      <div class="access-icons">
+                        <button mat-icon-button class="header-button" id="protected-btn"
+                          matTooltip="{{dataItem.AccessName}}" matTooltipClass="custom-tooltip">
+                          <mat-icon class="protected-icon">lock</mat-icon>
+                        </button>
+                      </div>
+                    </ng-container>
+                  </ng-template>
+                  <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='dropdown'">
+                    <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+                      <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                      <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                        <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                        <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+                    </kendo-grid-string-filter-cell>
+                    </ng-template>
+                     <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='text'">
+                      <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+                        <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                        <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                          <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                          <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+                      </kendo-grid-string-filter-cell>
+                      </ng-template>
+                     <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='numeric'">
+                    <kendo-grid-numeric-filter-cell    [column]="column" [filter]="filter" operator="eq">
+                      <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                      <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                      <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                      <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                      <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                    </kendo-grid-numeric-filter-cell>
+                </ng-template>
+                </kendo-grid-column>
+                <ng-template kendoPagerTemplate let-totalPages="totalPages"
+                let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+                <kendo-pager-info></kendo-pager-info>
+                <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+            </ng-template>
+ 
+          </kendo-grid>
+
+          <div *ngIf="loadingscroll" class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt"></div>
+
+              <div *ngIf="loadingscroll" class="k-i-loading scrollloading kendo-infinite-loader">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+          <div class="job-landing-card-sec" infinite-scroll [infiniteScrollDistance]="pageOption"
+          [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false" [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+            <div class="col nodata" *ngIf="this.gridListData==undefined ||this.gridListData?.length==0">
+              <span>{{'label_noRecordAvailable'|translate}}</span>
+            </div>
+            <mat-card class="job-landing-card" id="jobLandingBox_{{i}}"
+              *ngFor="let listDataList of gridListData;let i =index"
+              [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+                <div class="card-header">
+                  <div class="userAvtaarAndName">
+                    <span class="candidateStatus"
+                      [style.background-color]="listDataList.JobRankColorCode === null ? '#fff' : listDataList.JobRankColorCode "
+                      [style.color]="listDataList.JobRankColorCode === null ? '#000' : ''">{{listDataList.JobRank}}
+                    </span>
+                  </div>
+                  <div class="text-overflow">
+                      <!------------@suika @whn 28-07-2023 @EWM-13626---------------------------->
+                    <span class="cardListTxt word-wrap cursorTitle" matTooltip="{{ listDataList.JobTitle }}"
+                      matTooltipClass="custom-tooltip" [routerLink]="['/client/jobs/job/job-detail/detail']"
+                      [queryParams]="{jobId:listDataList.Id,workflowId:listDataList.WorkflowId,filter:QuickFilter,selectjob:selectjobcatparam,tabIndex:0 }">
+                      <strong>{{listDataList.JobTitle?listDataList.JobTitle:'--'}}</strong>
+                    </span>
+                  </div>
+                </div>
+              <div class="card-data-sec">
+                <div class="card-data-grid">
+                  <div class="card-data" id="job-ClientName">
+                    <h3>{{'label_Client' | customTranslate }}</h3>
+                    <span class="cardListTxt word-wrap" matTooltip="{{listDataList.ClientName}}"
+                      matTooltipClass="custom-tooltip">
+                      {{listDataList.ClientName?listDataList.ClientName:'--'}}
+                    </span>
+                  </div>
+                </div>
+                <div class="card-data-grid">
+                  <div class="card-data" id="job-JobExpiryDays">
+                    <h3>{{'label_expireIn' | customTranslate }}</h3>
+                    <!---------@When: 04-Mar-2023 @who:Adarsh singh @why: EWM-10721 --------->
+                    <span class="cardListTxt word-wrap"
+                      matTooltip="{{listDataList.ExpireIn|dayHoursMinutesFormat:'dayHoursMinutes'}}"
+                      matTooltipClass="custom-tooltip"
+                      [ngClass]="listDataList.DaysToExpire > 0 ?'' : 'reverseCounterred' ">
+                      {{listDataList.ExpireIn|dayHoursMinutesFormat:'dayHoursMinutes'}}
+                    </span>
+                    <!-- end  -->
+                  </div>
+                </div>
+                <div class="card-data-grid">
+                  <div class="card-data" id="job-ClientName">
+                    <h3>{{'label_location' | customTranslate }}</h3>  
+                      <!-- @When: 02-11-2023 @who:Amit @why: EWM-14964 @what: overflow use -->
+                    <div class="text-overflow"
+                      *ngIf="listDataList?.Location!=undefined||listDataList?.Location!=null||listDataList?.Location!=''">
+                      <span class="cardListTxt word-wrap" matTooltip="{{listDataList.Location}}"
+                        *ngIf="listDataList.Longitude!=null||listDataList.Location!=''||listDataList.Latitude!=null||listDataList.Location!=null"
+                        matTooltipClass="custom-tooltip">
+                        {{listDataList.Location?listDataList.Location:'--'}}
+                      </span>
+                      <button
+                        *ngIf="(listDataList.Latitude!=null && listDataList.Latitude!='' && listDataList.Latitude!=undefined ) && (listDataList.Location!=null && listDataList.Location!='' && listDataList.Location!=undefined ) "
+                        mat-icon-button color="primary" class="more-owner-show" id="Job-btn-ThreedotId"
+                        (click)="openNewTabForClientGoogleMapLocation(listDataList.Latitude,listDataList.Longitude,listDataList.Location)">
+                        <mat-icon>place</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-data-grid">
+                  <div class="card-data card-data-multiple-owner" id="job-ClientName">
+                      <h3>{{'quickjobcompany_Contacts' | customTranslate }}</h3> 
+                    <span *ngIf="listDataList.CompanyContactList==null || listDataList.CompanyContactList?.length<1">--</span>
+                    <div class="company-contacts">
+                      <div class="company-contacts-btn-groups" *ngFor="let ownerList of listDataList.CompanyContactList  | slice : 0 : 1">
+                        <!-- @When: 06-10-2023 @who:Amit @what: tooltip change -->
+                        <div *ngIf="(ownerList.OwnerName!='' && ownerList.OwnerName!=null&& ownerList.OwnerName!=undefined)"
+                          class="userAvtaarAndName tooltip tooltip-bottom-left">
+                           <!-- who:maneesh,what:ewm-13136 for background color in short name,when:13/07/2023  -->
+                          <!-- <span class="tooltip-trigger" [style.background]="getBackgroundColor(sortName(ownerList.FullName))" tabindex>{{sortName(ownerList.FullName)}}</span> -->
+                          <span class="tooltip-trigger" [style.background]="getBackgroundColor(ownerList?.ShortName)" tabindex>{{ownerList?.ShortName}}</span>
+
+                          <div class="tooltip-drop">
+                               <!-- who:maneesh,what:ewm-13136 for background color in short name,when:13/07/2023  -->
+                            <span class="short-name" [style.background]="getBackgroundColor(ownerList?.ShortName)">{{ownerList?.ShortName}}</span>
+                            <div class="user-name">{{ownerList?.OwnerName}}</div>
+                          </div>
+                        </div>
+
+                        <button mat-icon-button color="primary"
+                          (click)="confirmMailSync(ownerList,listDataList.WorkflowId,listDataList.Id)">
+                          <mat-icon>mail_outline</mat-icon>
+                        </button>
+                        <a mat-icon-button color="primary" type="button"
+                          href="tel:{{ownerList?.Phone}}">
+                          <mat-icon [ngStyle]="{'cursor':zoomCheckStatus === false ? 'auto' : 'pointer' }">phone
+                          </mat-icon>
+                        </a>
+
+                      </div>
+                      <button mat-icon-button color="primary"
+                        *ngIf="listDataList.CompanyContactList!= null && listDataList.CompanyContactList?.length>1"
+                        [matMenuTriggerFor]="showEmailsPhones" class="more-owner-show" id="btnMore">
+                        <span class="extra-more" *ngIf="listDataList.CompanyContactList?.length<=999"
+                          matTooltipClass="custom-tooltip"
+                          matTooltip="{{listDataList.CompanyContactList?.length-1}} {{'label_more' | translate}}..">
+                          <mat-icon class="three-dot">more_horiz</mat-icon>
+                        </span>
+                        <mat-icon *ngIf="listDataList.CompanyContactList?.length>999" matTooltipClass="custom-tooltip"
+                          matTooltip="999 {{'label_more' | translate}}..">Click</mat-icon>
+
+                      </button>
+                      <mat-menu #showEmailsPhones="matMenu" class="all-owner-list" id="respinsiveSidebarDropdown">
+                        <mat-list role="list">
+                          <ng-container *ngFor="let emailPhoneData of listDataList.CompanyContactList  | slice : 1 : listDataList.CompanyContactList.length, let i = index;">
+                            <mat-list-item class="contact-mat-list">
+                              <div class="company-contacts-btn-groups">
+                                <span class="text-overflow">{{emailPhoneData.OwnerName?emailPhoneData.OwnerName:'--'}}</span>
+                                <button mat-icon-button color="primary" (click)="confirmMailSync(emailPhoneData,listDataList.WorkflowId,listDataList.Id)" *ngIf="(emailPhoneData.EmailId!='' || emailPhoneData.EmailId!=null)">
+                                  <mat-icon>mail_outline</mat-icon>
+                                </button>
+                                <a mat-icon-button color="primary" type="button" href="tel:{{emailPhoneData?.Phone}}"> 
+                                  <mat-icon [ngStyle]="{'cursor':zoomCheckStatus === false ? 'auto' : 'pointer' }">phone</mat-icon>
+                                </a>
+                              </div>
+                            </mat-list-item>
+                          </ng-container>
+                        </mat-list>
+                      </mat-menu>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="card-data-grid">
+                  <div class="card-data" id="job-ClientName">
+                      <h3>{{'label_jb_status' | customTranslate }}</h3>
+                    <span class="cardListTxt word-wrap">
+                      <!-- @Who: Bantee Kumar,@Why: EWM-10666.EWM-10735,@When: 27-Feb-2023,@What:replace mattooltip position to matTooltipClass="custom-tooltip" -->
+                      <span matTooltip="{{listDataList.StatusName}}"
+                        matTooltipClass="custom-tooltip">{{listDataList.StatusName?listDataList.StatusName:'--'}}</span>
+                      <mat-icon *ngIf="listDataList?.ReasonName" class="infoStyle" matTooltipClass="custom-tooltip"
+                        matTooltip="{{listDataList?.ReasonName}}">info</mat-icon>
+                    </span>
+                  </div>
+                </div>
+                <div class="card-data-grid">
+                  <div class="card-data" id="job-ClientName">
+                    <h3>{{'label_JobType' | customTranslate }}</h3>
+                    <span class="cardListTxt word-wrap"
+                      matTooltip="{{listDataList.JobTypeName?listDataList.JobTypeName:'--'}}"
+                      matTooltipClass="custom-tooltip">
+                      {{listDataList.JobTypeName?listDataList.JobTypeName:'--'}}
+                    </span>
+                  </div>
+                </div>
+                <div class="card-data-grid">
+                  <div class="card-data" id="job-ClientName">
+                    <h3>{{'labelIndustryName' | customTranslate }}</h3>
+                    <span class="cardListTxt word-wrap" matTooltip="{{listDataList.IndustryName}}"
+                      matTooltipClass="custom-tooltip">
+                      {{listDataList.IndustryName?listDataList.IndustryName:'--'}}
+                    </span>
+                  </div>
+                </div>
+                <div class="card-data-grid">
+                  <!-- @Who: Ankit Rawat,@Why: EWM-17602,@When: 23Jul24,@What:Added Primary Owner -->
+                  <div class="card-data card-data-multiple-owner" id="job-ClientName">
+                    <h3>{{'quickjob_owners' | customTranslate }}</h3>
+                    <div class="multiple-owner-sec">
+                      <div *ngFor="let ownerList of listDataList.OwnersList, let i = index;">
+                        <div class="multiple-owner" *ngIf="i<3">
+                          <div class="userAvtaarAndName tooltip tooltip-bottom-left">
+                            <img class="tooltip-trigger" src="{{ownerList.OwnerProfileImageUrl}}" tabindex
+                              *ngIf="ownerList.OwnerProfileImageUrl!='' ">
+                            <!-- who:maneesh,what:ewm-13136 for background color in short name,when:13/07/2023  -->
+                            <!-- <span class="tooltip-trigger" *ngIf="ownerList.OwnerProfileImageUrl==''"   [style.background]="getBackgroundColor(ownerList?.ShortName)"
+                              tabindex>{{sortName(ownerList.OwnerName?ownerList.OwnerName:'--')}}</span> -->
+                              <span class="tooltip-trigger" *ngIf="ownerList.OwnerProfileImageUrl==''"   [style.background]="getBackgroundColor(ownerList?.ShortName)"
+                              tabindex>{{ownerList?.ShortName}}</span>
+                            <div class="tooltip-drop">
+                              <img class="short-image" src="{{ownerList.OwnerProfileImageUrl}}" tabindex
+                                *ngIf="ownerList.OwnerProfileImageUrl!='' " />
+                                 <!-- who:maneesh,what:ewm-13136 for background color in short name,when:13/07/2023  -->
+                              <span class="short-name" *ngIf="ownerList.OwnerProfileImageUrl==''"  [style.background]="getBackgroundColor(ownerList?.ShortName)"
+                                tabindex>{{ownerList?.ShortName}}</span>
+                              <div class="user-name">{{ownerList.OwnerName | titlecase}}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button mat-icon-button color="primary" *ngIf="listDataList.OwnersList?.length>3"
+                        class="more-owner-show max-owner" [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore">
+                        <span class="extra-more" *ngIf="listDataList.OwnersList?.length<=99"
+                          matTooltipClass="custom-tooltip"
+                          matTooltip="{{listDataList.OwnersList?.length-3}} {{'label_more' | translate}}..">+{{listDataList.OwnersList?.length-3}}</span>
+                        <mat-icon *ngIf="listDataList.OwnersList?.length>99" matTooltipClass="custom-tooltip"
+                          matTooltip="99 {{'label_more' | translate}}..">more_horiz</mat-icon>
+                      </button>
+                      <mat-menu #showAllOwner="matMenu" class="all-owner-list" id="respinsiveSidebarDropdown">
+                        <mat-list role="list">
+                          <ng-container *ngFor="let ownerList of listDataList.OwnersList, let i = index;">
+                            <mat-list-item *ngIf="i>2" matTooltipClass="custom-tooltip">
+                              <div class="userAvtaarAndName mr-5">
+                                <img src="{{ownerList.OwnerProfileImageUrl}}" tabindex
+                                  *ngIf="ownerList.OwnerProfileImageUrl!='' ">
+                                   <!-- who:maneesh,what:ewm-13136 for background color in short name,when:13/07/2023  -->
+                                <!-- <span *ngIf="ownerList.OwnerProfileImageUrl==''" [style.background]="getBackgroundColor(sortName(ownerList.OwnerName?ownerList.OwnerName:'--'))"
+                                  tabindex>{{sortName(ownerList.OwnerName?ownerList.OwnerName:'--')}}</span> -->
+                                  <span *ngIf="ownerList.OwnerProfileImageUrl==''" [style.background]="getBackgroundColor(ownerList?.ShortName)"
+                                  tabindex>{{ownerList?.ShortName}}</span>
+                              </div>
+                              <span>{{ownerList.OwnerName?ownerList.OwnerName:'--' | titlecase}}</span>
+                            </mat-list-item>
+                          </ng-container>
+                        </mat-list>
+                      </mat-menu>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="card-data card-data-multiple-owner" id="job-ClientName">
+                
+                  <div *ngFor="let primaryOwner of listDataList.PrimaryOwner, let i = index;">
+                    <div class="multiple-owner-sec">
+                      <div class="multiple-owner">
+                        <div class="userAvtaarAndName tooltip tooltip-bottom-left">
+                          <img src="{{primaryOwner.OwnerProfileImageUrl}}" tabindex
+                            *ngIf="primaryOwner.OwnerProfileImageUrl!='' ">
+                            <span class="tooltip-trigger" *ngIf="primaryOwner.OwnerProfileImageUrl==''"   [style.background]="getBackgroundColor(primaryOwner?.ShortName)"
+                            tabindex>{{primaryOwner?.ShortName}}</span>
+                          <!-- <div class="tooltip-drop">
+                            <img class="short-image" src="{{primaryOwner.OwnerProfileImageUrl}}" tabindex
+                              *ngIf="primaryOwner.OwnerProfileImageUrl!='' " />
+                            <span class="short-name" *ngIf="primaryOwner.OwnerProfileImageUrl==''"  [style.background]="getBackgroundColor(primaryOwner?.ShortName)"
+                              tabindex>{{primaryOwner?.ShortName}}</span>
+                            <div class="user-name">{{primaryOwner.OwnerName | titlecase}}</div>
+                          </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="owner-details">
+                    <h3>{{'label_JobOwners_Primary' | customTranslate }}</h3>
+                    <span class="cardListTxt word-wrap"
+                      matTooltip="{{listDataList?.PrimaryOwner[0]?.OwnerName | titlecase}}"
+                      matTooltipClass="custom-tooltip">
+                      {{listDataList?.PrimaryOwner[0]?.OwnerName | titlecase}} 
+                    </span>
+                  </div>
+
+                </div>
+                <div class="card-btn-group">
+                <a mat-icon-button color="primary" id="btnView" [routerLink]="['/client/jobs/job/job-detail/detail']"
+                  [queryParams]="{jobId:listDataList?.Id,workflowId:listDataList?.WorkflowId,filter:isActive,selectjob:selectjobcatparam,tabIndex:0 }"
+                  matTooltipClass="custom-tooltip" matTooltip="{{'label_View'|translate}}">
+                  <mat-icon>subject</mat-icon>
+                </a>
+
+                <a mat-icon-button color="primary" [routerLink]="['/client/jobs/job/job-manage/manage']"
+                  [queryParams]="{jobId:listDataList?.Id,editForm:'editForm',filter:isActive}" matTooltip="{{'label_edit'|translate}}"
+                  matTooltipClass="custom-tooltip" id="btnEdit" *appHasPermission="['Edit']">
+                  <mat-icon>edit</mat-icon>
+                </a>
+
+                <a mat-icon-button color="primary" (click)="openCopyJobModalDialog(listDataList.Id)"
+                  matTooltip="{{'label_clone'|translate}}" matTooltipClass="custom-tooltip" id="btnCopy">
+                  <mat-icon>file_copy</mat-icon>
+                </a>
+              </div>
+              </div>
+            </mat-card>
+            <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+          </div>
+    
+      </div>
+    </mat-drawer-container>
+  </mat-card>
+</mat-drawer-container>

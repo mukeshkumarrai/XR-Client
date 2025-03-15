@@ -1,0 +1,30 @@
+.counterTxt{
+    position: relative;
+    .countlabel{
+        margin-top: 0px;
+    text-align: right;
+    color: #fe7000;
+    font-size: 80%;
+    position: absolute;
+    bottom: 5px;
+    right: 20px;
+    }
+}
+
+// kendo editor height define start herer
+.custom-html-editor{
+  height: 370px;
+}
+// kendo editor height define end herer
+
+:host ::ng-deep{
+    .k-state-disabled{
+        pointer-events: all;
+        opacity: 1;
+        .k-editor-content > .ProseMirror{
+          p,span,div,h1,h2,h3,h4,h5,h6,img,i,u,li,a,mark,dfn,details,header,footer,del,pre,base,map,object,dl,dt,dd,b,strong{
+            opacity: 0.7;
+          }
+        }
+    }
+} 

@@ -1,0 +1,114 @@
+
+  /* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: Note Category.component.scss
+    @Who: Nitin Bhati
+    @When: 10-Dec-2021
+    @Why: EWM-4140
+    @What: You can Note category details styles to this file, and also import other style files
+*/
+
+.col-1{
+  width: 15%;
+}
+.col-2{
+  width: 17%;
+}
+.col-3{
+  width: 17%;
+}
+.col-4{
+  width: 20%;
+}
+.col-5{
+  width: 45%;
+}
+.col-6{
+  width: 3%;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.mat-form-field-infix, .mat-form-field{
+  width: 100%;
+} 
+.subTitle.mat-card-subtitle{
+    width:calc(100% - 60px) !important
+}
+.listGridButton .mat-raised-button{
+  min-width: 36px;
+  padding: 0px;
+    &:last-child{
+        border-radius: 4px;
+    }
+}
+  
+////  Styling For Back button and Breadcum BY Anup Singh //////
+.matCardTitleStyle{
+  margin-bottom: 0px !important;
+}
+    
+@media only screen and (max-width: 1150px) and (min-width: 850px) {
+  .matCardTitleStyle {
+    display: unset!important;
+  }
+  .mat-card .mat-divider-horizontal{
+    top:65px !important
+  }
+}
+  
+@media only screen and (max-width: 850px) and (min-width: 400px) {
+.matCardTitleStyle {
+    display: unset!important;
+  }
+  .mat-card .mat-divider-horizontal{
+    top:65px !important
+  }
+}
+  
+@media only screen and (max-width:400px) and (min-width: 150px) {
+.matCardTitleStyle {
+    display: unset!important;
+  }
+  .mat-card .mat-divider-horizontal{
+    top:65px !important
+  }
+}
+      
+.listContent .mat-card .col{height: auto;}
+.listContent .mat-card .col{
+  height: auto; 
+  padding:10px 15px;
+  .cardListTxt{
+    padding:0px;
+  }
+  .m-0{
+    margin:0px;
+    padding:7px 0px;
+  }
+}
+@media only screen and (max-width: 704px) and (min-width: 320px){
+  .dashboard-mat-card-header.title-and-btn.mat-card-header {
+      flex-direction: column;
+      .actionButton{
+        width: 100%;
+      }
+  }
+}
+
+@media only screen and (max-width: 704px) and (min-width: 320px){
+  .xeople-container-with-one-card.mat-drawer-container{
+    .component-card.mat-card {
+      height: calc(100% - 58px);
+    }
+  } 
+}

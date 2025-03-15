@@ -1,0 +1,71 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: genrate-otp.component
+    @Who: Satya Prakash Gupta
+    @When: 15-Sep-2021
+    @Why: EWM-2518 EWM-2848
+    @What: You can add genrate otp page styles to this file, and also import other style files
+*/
+
+.mat-error{
+    display: block;
+    margin-top: 4px;
+}
+.document-page-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 110px);
+    padding: 0px 15px;
+    @media only screen and (max-width: 1060px) and (min-width: 240px){        
+        height: calc(100vh - 90px);
+    }
+}
+.timer{
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+.verify-otp{
+    margin-top: 10px;
+}
+.mat-card{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    min-height: 200px;
+    width: 100%;
+    max-width: 450px;
+    .mat-icon{
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        font-size: 100px;
+    }
+    .lock{
+        color: #F44336;
+    }
+    .unlock{
+        color: #7fb734;
+    }
+    p{
+        margin-bottom: 20px;
+    }
+}
+
+
+.resendOtp{
+    margin:0px 5px;
+}
+
+.remainingTime{
+    display: block;
+    margin:15px auto 0px auto;
+}
+
+.errorMsg{
+    font-size: 12px;
+    color:#F44336;
+}

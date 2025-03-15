@@ -1,0 +1,51 @@
+@use "../../../colors";
+// map application form drawer start
+.view-map-application{
+    .candidate-job-maped-sec{
+        height: 100%;
+        .map-application-card{
+            height: 100%;
+            .searchGreyBgBox{
+                display: flex;
+                width: calc(100% - 20px);
+                align-items: center;
+                padding: 10px 10px;
+                padding-top: 0px;
+                justify-content: space-between;
+                background: #f5f5f5;
+                position: sticky;
+                top: 0px;
+                .searchInput{
+                    max-width: 340px;
+                    margin-bottom: 0px;
+                    @media only screen and (max-width: 460px) and (min-width: 320px){
+                        max-width: 195px;
+                    }
+                }
+            }
+        }
+    }
+}
+// map application form drawer end
+// share job application link drawer start
+.share-map-application{
+    .candidate-job-maped-sec{
+        height: 100%;
+        form{
+            width: calc(100% - 0px);
+            height: calc(100% - 40px);
+            padding: 0px;
+        }
+        .actionBoxFooter{
+            position: sticky;
+            height: 50px;
+            padding: 0px 10px;
+            bottom: 0px;
+            width: calc(100% - 20px);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+    }
+}
+// share job application link drawer end

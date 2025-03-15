@@ -1,0 +1,212 @@
+/* 
+ @Type: File, <ts>
+ @Name: css 
+ @Who: Suika
+ @When: 13-May-2021
+ @Why: ROST-1506
+*/
+
+@import "../../../../../mixinStyle.scss";
+
+.changeInfinitescroll{
+  .candidate-data-header {
+    display: flex;
+    align-items: baseline;
+    padding: 5px 0px;
+    justify-content: space-between;
+    @media only screen and (max-width: 885px) and (min-width: 320px){
+      flex-direction: column;
+    }
+    .filter-refresh {
+      display: flex;
+      button {
+        margin-left: 0px;
+        margin-right: 5px;
+      }
+      .mat-raised-button{
+        margin-left: 0px;
+      }
+      .refreshBtn.mat-raised-button{
+        margin: 0px 8px;
+      }
+    }
+    .search-viewicon {
+      display: flex;
+      align-items: baseline;
+      @media only screen and (max-width: 885px) and (min-width: 320px){
+        justify-content: flex-end;
+      }
+      .advancedsearchButton {
+        min-width: 50px;
+        padding: 0px;
+        cursor: pointer;
+        .two-icons{
+          font-size: 24px;
+          .mat-icon{
+            font-size: 38px;
+            position: absolute;
+            height: 36px;
+            width: 36px;
+          }
+          .secondIcon.mat-icon{
+            width: 11px;
+            height: 11px;
+            line-height: 11px;
+            font-size: 15px;
+          } 
+        }
+        .buttonTxt{
+          display: none;
+        }
+      }
+      .searchInput {
+        margin-bottom: 0px;
+        max-width: 280px;
+        margin-right: 10px;
+        margin-left: 10px;
+        @media only screen and (max-width: 980px) and (min-width: 320px){
+          display: block;
+          margin-bottom: 5px;
+          margin-left: 0px;
+        }
+      }
+      .filterButton {
+        cursor: inherit;
+        margin: 0px 10px;
+        // padding: 0px;
+        min-width: auto;
+        margin-right: 0px;
+        .mat-icon.clearFilter {
+          margin-left: 0px;
+          font-size: 15px;
+          position: absolute;
+          top: 2px;
+          height: 16px;
+          width: 18px;
+          right: 0px;
+        }
+        .badge {
+          // cursor: pointer;
+          margin-left: 5px;
+          min-width: 30px;
+          max-width: 36px;
+          padding-right: 20px;
+          display: inline-block;
+          line-height: 12px;
+          top: 1px;
+          position: relative;
+        }
+        .filterTxt {
+          padding-top: 5px;
+          cursor: pointer;
+          padding-bottom: 5px;
+        }
+      }
+    }
+  }
+  .sticky{
+    padding-left: 0px;
+    padding-right: 0px;
+    // min-width: 1020px;
+    min-width: 2200px;
+    .mat-button{
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .listCardView{
+    min-width: 2200px;
+  }
+  .change-list-infinite-scroll{
+    // height: calc(100vh - 275px);
+    height: 100%;
+    overflow: auto;
+    // @media only screen and (max-width: 1060px) and (min-width: 886px) {
+    //   height: calc(100vh - 265px);
+    // }
+    // @media only screen and (max-width: 885px) and (min-width: 581px) {
+    //   height: calc(100vh - 302px);
+    // }
+    // @media only screen and (max-width: 580px) and (min-width: 320px) {
+    //   height: calc(100vh - 352px);
+    // }
+  }
+}
+.col-1 {
+  width: calc(12% - 40px);
+}
+.col-2 {
+  width: calc(30% - 383px);
+}
+.col-3 {
+  width: 383px;
+}
+.col-4 {
+  width: 11%;
+}
+.col-5 {
+  width: 5%;
+}
+.col-6 {
+  width: 6%;
+}
+.col-7 {
+  width: 8%;
+}
+.col-8 {
+  width: 7%;
+}
+.col-9 {
+  width: 9%;
+}
+.col-10 {
+  width: 5%;
+}
+.col-11 {
+  width: 7%;
+}
+.listActionBox {
+  min-width: 40px !important;
+  width: 40px !important;
+}
+.list {
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.mat-form-field-infix,
+.mat-form-field {
+  width: 100%;
+}
+.customBtnWidth .mat-icon-button {
+  width: 30px;
+}
+.mat-snack-bar-container {
+  z-index: 9999 !important;
+}
+.xeople-container-listing-with-breadCrumb.mat-drawer-container{
+  .component-card.mat-card{
+    @media only screen and (max-width: 429px) and (min-width: 320px) {
+      height: calc(100% - 54px);
+    }
+  }
+}
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 73px;
+  }
+}

@@ -1,0 +1,154 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup
+    @When: Feb 04 2022
+    @Why: EWM-4063 EWM-4610
+    @What:  This page is creted for Other Integration UI Component HTML
+-->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="other-integration-mat-card-header">
+    <mat-card-title class="only-for-title">{{'label_otherIntegration' |translate}}</mat-card-title>   
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-without-header-buttons" autosize id="other-integration-drawer">
+    <mat-card-content class="mb-0">
+    <div class="showAccessSection">
+        <div class="tab-container">
+            <div class="interfaceBoardContainer">
+                <div class="marketplace-section">
+                    <div class="customBoxWidth" *ngFor="let data of otherIntegrationList">
+                        <mat-card class="selectTemplateOrCreatejob mat-elevation-z2" *ngIf="data.Name!=undefined && data.Name!=''"
+                            tabindex="1" id="otherIntegration">
+                            <label class="lblTxtHeading">{{data.Name}}</label>
+                            <div class="ImageFileBox" id="otherIntegration-logo">
+                                <img src="{{data.LogoUrl}}" />
+                            </div>
+                            <div class="jobInfobox">
+                              
+
+                                    <div class="jobinfodata">
+                                        <span class="boldTxtHeading">{{'label_category'|translate}}</span>
+                                        <span class="txtValueStyle">{{data.CategoryName}}</span>
+                                    </div>
+
+                                    <div class="jobinfodata">
+                                        <span class="boldTxtHeading">{{'label_moduleName'|translate}}</span>
+                                        <span class="txtValueStyle">--</span>
+                                    </div>
+
+                                    <div class="jobinfodata">
+                                        <span class="boldTxtHeading">{{'label_available'|translate}}</span>
+                                        <span class="txtValueStyle">{{data.BillingType}}</span>
+                                    </div>
+                           
+
+            
+                       <!-- FOR Zoom Meeting Invite -->
+                                <ng-container *ngIf="data.RegistrationCode==zoomMeetingInviteRegistrationCode">
+                                    <button mat-raised-button *ngIf="!ZoomMeetingStatus" id="getEnableZoomPhone"
+                                    color="primary" (click)="onclickSetRegCodeName(data)"
+                                    [routerLink]="['zoom-meeting-integration']">
+                                    <span class="buttonTxt">{{'label_Enable' |translate}}</span>
+                                </button>
+                                <button mat-raised-button *ngIf="ZoomMeetingStatus" id="getDisableZoomPhone"
+                                    class="green" (click)="onclickSetRegCodeName(data)"
+                                    [routerLink]="['zoom-meeting-integration']">
+                                    <span class="buttonTxt">{{'label_Enabled' |translate}}</span>
+                                </button>
+                                   <!-- <button mat-raised-button color="primary" disabled
+                                        id="btnOtherIntegration-letStart" [routerLink]="['zoom-call-integration']"
+                                        (click)="onclickSetRegCodeName(data)">
+                                        {{'label_Enable'|translate}}
+                                    </button> -->
+                                    </ng-container>
+                                <!-- FOR Zoom Meeting Invite -->
+
+                                <!-- FOR zoom phone call -->
+                                <ng-container *ngIf="data.RegistrationCode==zoomPhoneCallRegistrationCode">
+                                   <button mat-raised-button *ngIf="!ZoomPhoneStatus" id="getEnableZoomPhone"
+                                    color="primary" (click)="onclickSetRegCodeName(data)"
+                                    [routerLink]="['zoom-call-integration']">
+                                    <span class="buttonTxt">{{'label_Enable' |translate}}</span>
+                                </button>
+                                <button mat-raised-button *ngIf="ZoomPhoneStatus" id="getDisableZoomPhone"
+                                    class="green" (click)="onclickSetRegCodeName(data)"
+                                    [routerLink]="['zoom-call-integration']">
+                                    <span class="buttonTxt">{{'label_Enabled' |translate}}</span>
+                                </button>
+                              </ng-container>
+                                <!-- FOR zoom phone call -->
+
+                                 <!-- FOR MS Team -->
+                                <ng-container *ngIf="data.RegistrationCode==mSTeamMeetingInviteRegistrationCode">
+                                   <button mat-raised-button *ngIf="!MSTeamStatus" id="getEnableMSTeam"
+                                    color="primary" (click)="onclickSetRegCodeName(data)"
+                                    [routerLink]="['ms-team-integration']">
+                                    <span class="buttonTxt">{{'label_Enable' |translate}}</span>
+                                </button>
+                                <button mat-raised-button *ngIf="MSTeamStatus" id="getDisableMSTeam"
+                                    class="green" (click)="onclickSetRegCodeName(data)"
+                                    [routerLink]="['ms-team-integration']">
+                                    <span class="buttonTxt">{{'label_Enabled' |translate}}</span>
+                                </button>
+                              </ng-container>
+                                <!-- FOR MS Team -->
+
+                                  <!-- FOR Google Meet -->
+                                  <ng-container *ngIf="data.RegistrationCode==googleMeetMeetingInviteRegistrationCode">
+                                    <button mat-raised-button *ngIf="!GoogleMeetStatus" id="getEnableGoogleMeet"
+                                     color="primary" (click)="onclickSetRegCodeName(data)"
+                                     [routerLink]="['google-meet-integration']">
+                                     <span class="buttonTxt">{{'label_Enable' |translate}}</span>
+                                 </button>
+                                 <button mat-raised-button *ngIf="GoogleMeetStatus" id="getDisableGoogleMeet"
+                                     class="green" (click)="onclickSetRegCodeName(data)"
+                                     [routerLink]="['google-meet-integration']">
+                                     <span class="buttonTxt">{{'label_Enabled' |translate}}</span>
+                                 </button>
+                               </ng-container>
+                                 <!-- FOR Google Meet -->
+                                  <!-- FOR broad bean -->
+                                 <ng-container *ngIf="data.RegistrationCode==Broadbeanregistrationcode">
+                                 <button mat-raised-button *ngIf="!BroadbeanEnabelDesabelStatus" id="getEnableBroadbean"
+                                  color="primary" (click)="onclickSetRegCodeName(data)"
+                                  [routerLink]="['broadbeanenabel-integration']"
+                                  [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                  <span class="buttonTxt">{{'label_Enable' |translate}}</span>
+                                  </button>
+                                 <button mat-raised-button *ngIf="BroadbeanEnabelDesabelStatus" id="getDisableBroadbean"
+                                  class="green" (click)="onclickSetRegCodeName(data)"
+                                  [routerLink]="['broadbeanenabel-integration']"
+                                  [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                  <span class="buttonTxt">{{'label_Enabled' |translate}}</span>
+                                  </button>
+                                  </ng-container>
+
+                                  <!-- <ng-container *ngIf="data.RegistrationCode==Broadbeanregistrationcode">
+                                    <button mat-raised-button color="primary" *ngIf="BroadbeanEnabelDesabelStatus"
+                                        id="btnConnect" [routerLink]="['broadbeanenabel-integration']"
+                                        [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                        {{'label_Enable'|translate}}
+                                    </button>
+                                    <button mat-raised-button *ngIf="BroadbeanEnabelDesabelStatus" class="green"
+                                        id="btnConnected" [routerLink]="['broadbeanenabel-integration']"
+                                        [queryParams]="{code: data.RegistrationCode,name:data.Name}">
+                                        {{'label_Enabled'|translate}}
+                                    </button>
+                                </ng-container> -->
+                                 <!-- FOR broad bean -->
+
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+           </div>
+</div> 
+</mat-card-content>
+</mat-drawer-container>

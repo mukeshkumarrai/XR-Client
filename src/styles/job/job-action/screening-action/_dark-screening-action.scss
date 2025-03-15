@@ -1,0 +1,64 @@
+
+// who:Amit Rajput :what:Common Contact card style : when:15 Sep 2023
+@use "../../../../colors";
+
+.dark-theme{
+    .screening-action-main{
+        .screening-action{
+            p{
+                color: colors.$white-color;
+            }
+            .italic{
+                color: colors.$white-color;
+            }
+            .candidate-status-main{
+                width: clamp(260px, 350px, 100%);
+                .candidate-status{
+                    .mat-checkbox{
+                        .mat-checkbox-layout{
+                            .mat-checkbox-label{
+                                color: colors.$white-color;
+                                .mat-radio-label-content{
+                                    color: colors.$white-color;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .orange-text{
+                color: colors.$orange-color;
+            }
+            .applicant-com{
+                p{
+                    color: colors.$white-color;
+                }
+                .checkbox-select{
+                    .mat-checkbox{
+                        .mat-checkbox-layout{
+                            .mat-checkbox-label{
+                                color: colors.$white-color;
+                            }
+                        }
+                    }
+                }
+                .checkbox-select.read-only{
+                    &::before{
+                        background-color: rgba(0, 0, 0, 0.2);
+                    }
+                    .mat-checkbox{
+                        .mat-checkbox-layout{
+                            .mat-checkbox-label{
+                                color: #b9b9b9;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .actionBoxFooter{
+            background: #303030;
+        }
+    }
+}
+

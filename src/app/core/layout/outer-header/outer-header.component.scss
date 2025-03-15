@@ -1,0 +1,913 @@
+@import "../../../../styles-var.scss";
+.login-mat-drawer-container{
+    height: 100%;
+    .mat-drawer-content{
+      height: calc(100% - #{$header-height} - #{$footer-height});
+      padding-top: $header-height;
+      padding-bottom: $footer-height;
+      @media only screen and (max-width: 580px) and (min-width: 320px){
+        height: calc(100% - #{$header-height} - #{$footer-height});
+        padding-top: $header-height;
+      }
+    }
+  }
+  
+  .button-loading {
+    position: relative;
+    left: inherit;
+    right: -20px;
+    top: inherit;
+    bottom: inherit;
+    display: inline-block !important;
+    font-size: 22px;
+  }
+  .button-loading::before, .button-loading::after, .button-loading::before, .button-loading::after {
+    border-color: #ffffff;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    background-color: transparent;
+    border-width: 0.10em;
+  }
+  
+  .custom-checkbox.no-cursor{
+    cursor: inherit;
+    .custom-control{
+      cursor: inherit;
+    }
+    .custom-control.overflow-checkbox .overflow-control-indicator{
+      cursor: inherit;
+    }
+  }
+  
+   .login-overlay{
+    background: none;
+   }
+  
+   .login-overlay::before, .login-overlay::after, .login-overlay::before, .login-overlay::after {
+    display: none;
+   }
+  
+  .enterOTP {
+    padding-top: 80px;
+    text-align: center;
+  
+    p,
+    small {
+      max-width: 200px;
+      font-size: 16px;
+      line-height: 20px;
+      margin: 0px auto;
+      margin-bottom: 25px;
+    }
+  
+    small {
+      display: block;
+      font-size: 12px;
+    }
+  
+    .mat-raised-button {
+      margin-bottom: 25px;
+    }
+  
+    .custom-checkbox {
+      margin-bottom: 25px;
+    }
+  
+    a {
+      margin-bottom: 15px;
+      display: block;
+    }
+  }
+  button.ghost {
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0px;
+    width: auto;
+    cursor: pointer;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 600;
+    height: auto;
+  }
+  
+  button.ghost:focus {
+    outline: none;
+  }
+  
+  form {
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-size: 14px;
+    background: rgb(229 224 239);
+    box-shadow: 0px 0px 16px 0px #5844DA85 inset;
+  
+  }
+  
+  .mat-form-field-infix {
+    background-color: #eee;
+    width: 100%;
+  }
+  
+  .form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+  }
+  
+  .sign-in-container {
+    left: 0;
+    width: 40%;
+    z-index: 2;
+  }
+  
+  .sign-up-container {
+    left: 0;
+    width: 40%;
+    opacity: 0;
+    z-index: 1;
+  }
+  @keyframes show {
+  
+    0%,
+    49.99% {
+      opacity: 0;
+      z-index: 1;
+    }
+  
+    50%,
+    100% {
+      opacity: 1;
+      z-index: 5;
+    }
+  }
+  
+  .overlay-container {
+    position: absolute;
+    top: 0;
+    left: 40%;
+    width: 60%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 1;
+    .mat-card-title {
+      color: #565656;
+      width: 100%;
+    }
+  }
+  
+  .overlay {
+  
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #FFFFFF;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+  }
+  
+  .overlay-panel {
+    position: absolute;
+    flex-direction: column;
+    padding: 0px 30px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: calc(50% - 60px);
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+  }
+  
+  .overlay-left {
+    transform: translateX(0%);
+  }
+  
+  .overlay-right {
+    right: 0;
+    transform: translateX(0);
+  }
+  
+  .headerDroupDownUp {
+    position: absolute;
+    top: -14px;
+    right: 10px;
+  }
+  .login-form {
+    min-width: 150px;
+    width: calc(100% - 55px);
+    padding: 0px 30px;
+  }
+  .signup-box{
+    min-width: 150px;
+    width: calc(100% - 55px);
+    padding: 0px 30px;
+  
+  }
+  .mat-error {
+    font-size: 90%;
+  }
+  .login-full-width {
+    width: 100%;
+  }
+  
+  // .google-login {
+  //   width: 100%;
+  //   height: 40px;
+  // }
+  
+  // .google-login img {
+  //   display: inline-block;
+  //   position: relative;
+  //   top: -2px;
+  //   right: 5px;
+  // }
+  
+  // h1 {
+  //   text-align: center;
+  //   margin-bottom: 10px;
+  //   // margin-top: 62px;
+  // }
+  
+  .or {
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    margin: 0px 0px;
+    margin-bottom: 0px;
+  }
+  
+  .login-button {
+    width: 150px;
+    height: 40px;
+  }
+  
+  .mat-chip-list-stacked {
+  
+    position: relative;
+    border-radius: 4px;
+    margin: 5px 0px 10px;
+  }
+  
+  .mat-chip-list-stacked div {
+    display: inline-block;
+    background-color: #f44336;
+    color: #fff;
+    width: 100%;
+    padding: 10px 0px;
+  }
+  
+  .forgot-passwordBox h2 {
+    margin-top: 62px;
+  }
+  
+  .forgot-passwordBox span {
+    margin-top: 65px;
+    ;
+  }
+  
+  .forgot-passwordBox span {
+    margin-top: 40px;
+  }
+  
+  .forgot-input {
+    margin-bottom: 25px;
+  }
+  
+  // .headerDroupDownUp {
+  //   font-size: 24px;
+  // }
+  
+  .login-body {
+    // height: 250px;
+    display: block;
+  }
+  
+  .login-header {
+    display: block;
+  }
+  
+  .login-header h2,
+  .login-header h1 {
+    margin: 20px 0px 10px 0px;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  .login-footer {
+    display: block;
+    position: absolute;
+    left: 0px;
+    bottom: 10px;
+    width: 100%;
+    .log-in{
+      margin-bottom: 38px;
+    }
+    .next-btn{
+      bottom: 40px;
+      margin-bottom: 44px;
+    }
+  }
+  
+  .alert {
+    position: relative;
+    margin-bottom: 10px;
+    height: auto;
+    font-size: 14px;
+  }
+  
+  .alert-danger{
+    margin: 0px 0px;
+    margin-top: 15px;
+    padding: 0;
+    min-height: 45px;
+    margin-bottom: 0rem;
+    border: 1px solid rgb(0 0 0 / 16%);
+    border-radius: 0.25rem;
+    font-weight: 400;
+    border-radius: 4px;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #f44336;
+    background-color: #fff;
+    display: flex;
+    position: relative;
+    box-shadow: 0 0px 6px rgb(0 0 0 / 16%);
+    .content{
+      display: flex;
+      align-items: center;
+      padding: 10px 10px;
+      padding-right: 55px;
+    }
+    .icon{
+      background-color: #f44336;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0px 10px;
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      border-right: 0px;
+    }
+    .material-icons{
+      padding-right: 5px;
+    }
+    .alert-close{
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 12px);
+      color: #f44336;
+      color: rgb(0 0 0 / 32%);
+      color:rgba(255, 255, 255, 0.4);
+      color: rgba(0, 0, 0, 0.40);
+    }
+    .alert-close::after{
+      content: "";
+      width: 1px;
+      height: 23px;
+      position: absolute;
+      left: -10px;
+      background: rgba(0, 0, 0, 0.16);
+      box-shadow: 0 0px 6px rgb(0 0 0 / 16%);
+    }
+  }
+  
+  .alert-info{
+    margin: 0px 0px;
+    margin-top: 15px;
+    padding: 0;
+    min-height: 45px;
+    margin-bottom: 0rem;
+    border: 1px solid rgb(0 0 0 / 16%);
+    border-radius: 0.25rem;
+    font-weight: 400;
+    border-radius: 4px;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #f44336;
+    background-color: #fff;
+    display: flex;
+    position: relative;
+    box-shadow: 0 0px 6px rgb(0 0 0 / 16%);
+    .content{
+      display: flex;
+      align-items: center;
+      padding: 10px 10px;
+      padding-right: 55px;
+    }
+    .icon{
+      background-color:$default-bg-color;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0px 10px;
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      border-right: 0px;
+    }
+    .material-icons{
+      padding-right: 5px;
+    }
+    .alert-close{
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 12px);
+      color: #f44336;
+      color: rgb(0 0 0 / 32%);
+      color:rgba(255, 255, 255, 0.4);
+      color: rgba(0, 0, 0, 0.40);
+    }
+    .alert-close::after{
+      content: "";
+      width: 1px;
+      height: 23px;
+      position: absolute;
+      left: -10px;
+      background: rgba(0, 0, 0, 0.16);
+      box-shadow: 0 0px 6px rgb(0 0 0 / 16%);
+    }
+  }
+  .alert-login{
+    margin: 0px 0px;
+    margin-top: 25px;
+    padding: 0;
+    min-height: 45px;
+    margin-bottom: 0rem;
+    border: 1px solid rgb(0 0 0 / 16%);
+    border-radius: 0.25rem;
+    font-weight: 400;
+    border-radius: 4px;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    // background-color: #f44336;
+    // background-color: #fff;
+    display: flex;
+    position: relative;
+    margin-bottom: 15px;
+    // box-shadow: 0 0px 6px rgb(0 0 0 / 16%);
+    .content{
+      display: flex;
+      align-items: center;
+      padding: 10px 10px;
+      padding-right: 55px;
+    }
+    .icon{
+     // background-color: #f44336;
+      
+      display: flex;
+      align-items: center;
+      padding: 0px 10px;
+      // border: 1px solid rgba(0, 0, 0, 0.10);
+      // border-right: 0px;
+      .error{
+        color: #f44336;
+      }
+      .success{
+        color: #558b2f;
+      }
+    }
+    .material-icons{
+      padding-right: 5px;
+    }
+    .alert-close{
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 12px);
+      color: #f44336;
+      color: rgb(0 0 0 / 32%);
+      color:rgba(255, 255, 255, 0.4);
+      color: rgba(0, 0, 0, 0.40);
+    }
+    .alert-close::after{
+      content: "";
+      width: 1px;
+      height: 23px;
+      position: absolute;
+      left: -10px;
+      background: rgba(0, 0, 0, 0.16);
+      box-shadow: 0 0px 6px rgb(0 0 0 / 16%);
+    }
+  }
+  
+  .forgot-passwordBox .login-body {
+    padding-top: 60px;
+    display: block;
+  }
+  
+  .carousel-slide-content h2 {
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }
+  
+  .custom-checkbox {
+    margin: 0px;
+  }
+  
+  
+  // Entire Software : Satya Prakash Gupta : 23-Oct-2020 : login : ROST-232 ROST-271
+  .gobackToWebsite {
+    width: 100%;
+    display: inline-block;
+    button.ghost {
+      font-size: 14px;
+      color: #000000;
+    }
+  }
+  
+  .custom-control.overflow-checkbox {
+    .overflow-control-description {
+      font-size: 14px;
+    }
+  }
+  
+  .custom-control.overflow-checkbox.stay-check{
+    @media only screen and (max-width: 480px) and (min-width: 320px) {
+       padding-left: 24px;
+     }
+     .overflow-control-description{
+       @media only screen and (max-width: 480px) and (min-width: 320px) {
+         font-size: 11px;
+       }
+     }
+   }
+  
+  // Entire Software : Satya Prakash Gupta : 23-Oct-2020 : login : ROST-232 ROST-271
+  
+  // Entire Software : Satya Prakash : 26-Oct-2020 : Create Account form start  here : ROST-230 ROST-269
+  .login-header {
+    p {
+      font-size: 11px;
+      height: 28px;
+    }
+  }
+  
+  .or.orSignup {
+    padding-bottom: 5px !important;
+    padding-top: 10px !important;
+  }
+  
+  // .setPassword {
+  //   padding-top: 60px;
+  //   padding-bottom: 110px;
+  // }
+  
+  
+  .signup-footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    left: 0px;
+  }
+  
+  .mat-raised-button.mat-primary,
+  .mat-raised-button.mat-warn {
+    margin: 0px;
+  }
+  .forgot-password {
+    cursor: pointer;
+    @media only screen and (max-width: 480px) and (min-width: 320px) {
+      font-size: 11px;
+      vertical-align: bottom;
+    }
+  }
+  // sign in style
+  .showResetMes{
+    position: relative;
+    top: 80px;
+    span.badge{
+      height: auto;
+      margin-bottom: 20px;
+      display: inline-block;
+      background: transparent;
+      color: inherit;
+      text-transform: inherit;
+      line-height: 16px;
+      font-size: 14px;
+      text-align: center;
+      display: block;
+      .mat-icon.success{
+        position: relative;
+        top: 7px;
+        color: #17732b;
+      }
+      .mat-icon.cancel{
+        position: relative;
+        top: 7px;
+        color: #F44336;
+      }
+    }
+  }
+  .sign-in-container{
+    .signinwith-diff{
+      margin-top: 0px;
+      .user-name{
+        color: $default-bg-color;
+      }
+      .login-button{
+        font-weight: 500;
+        background: rgb(103 58 183 / 70%);
+        border-radius: 4px;
+        padding: 3px 5px;
+        color: $default-text-color;
+        &:hover{
+          border: 2px solid $dark-primary-bg;
+          background-color: $default-bg-color;
+          box-shadow: 0px 1px 4px 0px #000;
+        }
+      }
+    }
+    .sign-in{
+      font-size: 13px;
+      margin-top: 35px;
+    }
+    .welcomeUser{
+      padding-top: 20px;
+      margin-bottom: 10px;
+      strong{
+        display: block;
+        margin-bottom: 5px;
+      }
+     span.badge{
+       top: 5px;
+       position: relative;
+       padding: 0px 6px;
+       background-color: transparent;
+       color: #17732b;
+       border: 1px solid #17732b;
+       color: rgb(0 0 0 / 87%);
+       text-transform: lowercase;
+       height: auto;
+       display: inline-block;
+       line-height: 24px;
+       white-space: nowrap;
+       overflow: hidden;
+       text-overflow: ellipsis;
+       max-width: 319px;
+       margin-left: 0px;
+       @media only screen and (max-width: 415px) and (min-width: 320px){
+         max-width: 288px;
+       }
+       .mat-icon{
+         width: 18px;
+         height: 18px;
+         position: relative;
+         top: 4.5px;
+         font-size: 18px;
+       }
+       .mat-icon.close{
+         color: #F44336;
+         cursor: pointer;
+         position: absolute;
+         right: 5px;
+       }
+     }
+    }
+  }
+  // sign in style
+  
+  @media only screen and (max-width: 945px) and (min-width: 320px) {
+    .overlay-container {
+      left: 50%;
+      width: 50%;
+    }
+    .sign-in-container {
+      width: 50%;
+    }
+  }
+  
+  @media only screen and (max-width: 775px) and (min-width: 320px) {
+    .overlay-container {
+      display: none;
+    }
+  
+    .sign-in-container {
+      width: 100%;
+    }
+  
+    .sign-up-container {
+      width: 100%;
+    }
+  }
+  
+  @media only screen and (max-width: 450px) and (min-width: 320px) {
+    // .row .col.s5 {
+    //   width: 100%;
+    // }
+  
+    // .row .col.s7 {
+    //   text-align: left;
+    //   width: 100%;
+    // }
+  
+    .custom-checkbox {
+      margin: 0px 0px 20px 0px;
+    }
+  
+    .main-container-login .mat-drawer-content {
+      padding: 15px;
+    }
+  
+    // .main-container {
+    //   height: auto;
+    // }
+  
+    .login-header p {
+      height: auto;
+    }
+  
+    .forgot-passwordBox .login-body {
+      padding-top: 20px;
+    }
+  
+    .login-header h2,
+    .login-header h1 {
+      font-size: 20px;
+    }
+  }
+  
+  // @media only screen and (max-width: 1060px) and (min-width: 320px) {
+  //   .main-container {
+  //     height: calc(100vh - 90px);
+  //   }
+  // }
+  
+  
+  
+  // Entire Software : Satya Prakash Gupta : 10-Nov-2020 : header : ROST-375 ROST-401
+  @media only screen and (max-width: 945px) and (min-width: 320px) {
+    // .main-container {
+    //   height: calc(100vh - 90px);
+    // }
+  
+    .overlay-container {
+      left: 50%;
+      width: 50%;
+    }
+  
+    .sign-in-container {
+      width: 50%;
+    }
+  }
+  
+  @media only screen and (max-width: 775px) and (min-width: 320px) {
+    .overlay-container {
+      display: none;
+    }
+    .sign-in-container {
+      width: 100%;
+    }
+    .sign-up-container {
+      width: 100%;
+    }
+  }
+  
+  @media only screen and (max-width: 450px) and (min-width: 320px) {
+    .custom-checkbox {
+      margin: 0px 0px 20px 0px;
+    }
+  
+    .main-container-login .mat-drawer-content {
+      padding: 15px;
+    }
+  
+    .login-header p {
+      height: auto;
+    }
+  
+    .forgot-passwordBox .login-body {
+      padding-top: 20px;
+    }
+  
+    .login-header h2,
+    .login-header h1 {
+      font-size: 20px;
+    }
+  }
+  
+  // @media only screen and (max-width: 1060px) and (min-width: 320px) {
+  //   .main-container {
+  //     height: calc(100vh - 90px);
+  //   }
+  // }
+  
+  .resetPasswordFooter{
+    padding-top: 10px;
+  }
+  // Entire Software : Satya Prakash Gupta : 10-Nov-2020 : header : ROST-375 ROST-401
+  
+  
+  .overlay-container .overlay {
+    background: $default-bg-color;
+    background: #fff;
+  }
+  
+  @media only screen and (max-width: 450px) and (min-width: 320px){
+    .sign-in-container .sign-in {
+      margin-top: 45px;
+    }
+    .signup-footer{
+      position: relative;
+    }
+    .login-form{
+      border-radius: 0px;
+    }
+  }
+  @media only screen and (max-width: 415px) and (min-width: 320px){
+    .login-form{
+      width: calc(100% - 30px);
+      padding: 0px 15px;
+    }
+  }
+  
+  
+  .posRel{position: initial;}
+  .closeIconPswd{position: relative; float: right; right: 5px; z-index: 999; top: 5px; cursor:pointer;}
+  .passwordStrenth .infoStyle{position: absolute; top:45px;}
+  .passwordStrenth .greenColor,.passwordStrenth .redColor{position:absolute; right: 30px;}
+  .prgressBarColor{position:relative; top:-65px !important;}
+  
+  .swiper-container{
+    height: 100%;
+  }
+  
+  .mgtop5{margin-top: 5px;}
+  
+  .captchaMargin{margin:0px 0px 30px 0px;}
+  
+  @media only screen and (max-width: 1024px) and (min-width: 320px) {
+    .captchaMargin{margin:0px 0px 30px 0px;}
+  }
+  
+  .back-login{
+    position: absolute;
+    bottom: 10px;
+    left:0px;
+    width: 100%;
+  }
+  .text-with-image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 0px;
+    height: 100%;
+    padding: 0px 40px;
+    img {
+      max-width: 423px;
+      width: 100%;
+      height: 250px;
+    }
+  }
+  
+  .text-with-image{
+    .sign-up-mat-card{
+      margin-bottom: 65px;
+      .text-center{
+        .mat-raised-button{
+          height: 40px;
+          line-height: 40px;
+        }
+      }
+    }
+    .recruit-mat-card{
+      margin-bottom: 40px;
+    }
+  }
+  
+  .signupText{
+    .ghost{
+      font-weight: 500;
+      background: rgb(103 58 183 / 70%);
+      border-radius: 4px;
+      padding: 3px 5px;
+      color: $default-text-color;
+      margin: 5px 0px;
+      &:hover{
+        border: 2px solid $dark-primary-bg;
+        background-color: $default-bg-color;
+        box-shadow: 0px 1px 4px 0px #000;
+      }
+    }
+  }
+  
+  
+  
+  
+  
+::ng-deep{
+    .login-screen-section .mat-toolbar.mat-primary.header,
+    .login-screen-section .mat-toolbar.mat-primary.footer{
+        z-index: 2;
+    }
+}

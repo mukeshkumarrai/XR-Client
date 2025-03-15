@@ -1,0 +1,222 @@
+@import "../../../../mixinStyle.scss";
+@import './../../../../styles-var.scss';
+
+/* 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Anup Singh
+  @When: 16-july-2021
+  @Why: EWM-2003 EWM-2158
+  @What:  This page will be use for the jobs Component scss file
+*/
+.jobs-container{
+  width:100%;
+  display: inline-block;
+  .jobs-main-flow{
+    display: grid;
+    column-gap: 20px;
+    row-gap: 10px;
+    grid-template-columns: repeat(4, calc(25% - 15px));
+    @media only screen and (max-width: 1299px) and (min-width: 768px) {
+      grid-template-columns:repeat(3, calc(33.33% - 15px));
+    }
+    @media only screen and (max-width: 767px) and (min-width: 240px) {
+      grid-template-columns:1fr;
+    } 
+  }
+}
+.select-Workflow {
+  box-sizing: border-box;
+  transition: all 0.25s;
+  margin-top: 5px;
+  .heading-spacer {
+    flex: 1 1 auto;
+  }
+  .tenantBox {
+    display: flex;
+    align-items: center;
+    height: 60px;
+  }
+  .cltImgBox {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: 500;
+    .mat-icon {
+      font-size: 60px;
+      height: 60px;
+      width: 60px;
+      line-height: 60px;
+    }
+  }
+}
+
+.select-Workflow.job-select-workflow{
+  .tenant-Box{
+    .mat-card{
+      .merge-icons{
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        color: $warn-bg;
+        .secondIcon{
+          position: absolute;
+          bottom: 0px;
+          right: 1px;
+          font-size: 9.5px;
+          width: 10px;
+          height: 10px;
+          background: $white-bg;
+          border-radius: 50px;
+          top: inherit;
+          line-height: 10px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .select-Workflow.job-select-workflow{
+    border-radius: 15px;
+    border-bottom: 3px solid $primary-bg-color;
+    padding: 0px;
+    margin-bottom: 0px;
+    box-shadow: rgb(60 64 67 / 30%) 0px 1px 2px 0px, rgb(60 64 67 / 15%) 0px 1px 3px 1px;
+    .mat-card-title{
+      height: 38px;
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 0px;
+      padding: 10px 15px 5px;
+      position: relative;
+      border-radius: 15px 15px 0px 0px;
+      cursor: pointer;
+      .bg-color{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-color: #f8f9fc;
+        border-radius: 15px 15px 0px 0px;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+      }
+      // @Who: Satya Prakash Gupta | @When: 31-Jul-2023 | @Why: EWM-13294 EWM-13548 | Highlited work flow name and foter button
+      a{
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+        word-break: break-word;
+        text-decoration: underline;
+      }
+    }
+    .tenant-Box{
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      row-gap: 4px;
+      .mat-card{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        row-gap: 3px;
+        .icon-text{
+          display: flex;
+          align-items: center;
+          gap: 3px;
+          font-size: 12px;
+        }
+        .mat-icon{
+          height: 20px;
+          line-height: 20px;
+          font-size: 18px;
+          width: 20px;
+          font-weight: normal;
+          right: -11px;
+          top: -11px;
+        }
+        .total-active-job{
+          color: #00b050;
+        }
+        .total-candidates{
+          color: #4472c4;
+        }
+        .Jobs-with-candidates{
+          color: #bf9000;
+        }
+        .Jobs-without-candidates{
+          color: #c55a11;
+        }
+        .count{
+          cursor: pointer;
+          color: $primary-bg-color;
+          background: #fff;
+          line-height: 22px;
+          margin-left: 0px;
+          padding: 3px;
+          height: 22px;
+          font-size: 12px;
+          max-width: 45px;
+          min-width: 22px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          border-radius: 4px;
+          text-align: center;
+          box-shadow: 0px -2px 4px 0px #e5dddd inset;
+          &:hover{
+            box-shadow: 0px 2px 4px 0px #e5dddd inset;
+          }
+          .k-i-loading{
+            right: 14px;
+            bottom: 14px;
+            font-size: 20px;
+          }
+        }
+      }
+    }
+    // @Who: Satya Prakash Gupta | @When: 21-Mar-2023 | @Why: EWM-11006 | remove icon and add test button
+    .tenant-footer{
+      display: flex;
+      justify-content: flex-end;
+      height: 30px;
+      align-items: center;
+      padding: 0px 3px;
+      overflow: hidden;
+      color: $primary-bg-color;
+      position: relative;
+      &::before{
+        content: "";
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        background: currentColor;
+        opacity: 0.03;
+        position: absolute;
+      }
+      // @Who: Satya Prakash Gupta | @When: 31-Jul-2023 | @Why: EWM-13294 EWM-13548 | Highlited work flow name and foter button
+      .mat-stroked-button{
+        height: 25px;
+        line-height: 23px;
+        padding: 0px 5px;
+        font-size: 13px;
+        border-bottom-right-radius: 13px;
+      }
+    }
+    &:hover{
+      transform: scale(1.03);
+      box-shadow: rgb(60 64 67 / 30%) 0px 1px 2px 0px, rgb(60 64 67 / 15%) 0px 1px 3px 1px, rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+    }
+  }
+}
+
+.page-header.mat-card-header{
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 63px;
+  }
+}

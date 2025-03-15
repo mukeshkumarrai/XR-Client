@@ -1,0 +1,131 @@
+@use "../../../colors";
+.client-detail-summary{
+  .client-detail-container{
+    padding: 0px;
+    .client-detail-card{
+      padding: 0px;
+      margin-bottom: 0px;
+      height: calc(100% - 0px);
+      .client-summary{
+        .summary-cards{
+          .mat-card{
+            padding: 0px;
+            .mat-card-header{
+              padding: 8px 15px;
+            }
+          } 
+        } 
+      } 
+      .addSection{
+        height: calc(100vh - 155px);
+      }
+    }
+    .client-jobs-list.kendo-grid-appearance{
+      .k-grid{
+        height: calc(100vh - 220px);
+      }
+    }
+    .kendo-table-container.client-jobs-list{
+      .k-grid{
+        height: calc(100vh - 220px);
+      }
+    }
+    .kendo-grid-appearance.contact-grid{
+      .k-grid{
+        height: calc(100vh - 208px);
+      }
+      .sms-history-drawer.mat-drawer{
+        .panelSidebarInformation{
+          .mat-card.drawer-mat-card, 
+            .sms-history-drawer{
+              padding: 0px;
+              .panelSidebarInformation{
+                .mat-card.drawer-mat-card{
+                padding: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .candidate-history-container{
+      height: calc(100vh - 155px);
+      .floating-menu.mat-fab{
+        bottom: 20px;
+      }
+    }
+    .email-container{
+      height: calc(100vh - 205px);
+    }
+    .common-notes-sec{
+      height: calc(100vh - 155px);
+      .topToBottom.mat-fab{
+        bottom: 20px;
+      }
+    }
+    .notes-details-sec{
+      height: calc(100vh - 155px);
+      .activitydrawer{
+        .activitydrawer-innercontainer{
+          .activitydrawer-innercontainer-mat-card{
+            .my-activity{
+              .drawer-footer{
+                margin-bottom: 0px;
+              }
+            }
+          }
+        }
+      }
+      .topToBottom.mat-fab{
+        bottom: 20px;
+      }
+    }
+    .document-sidenav-content{
+      height: calc(100vh - 155px);
+      .floating-menu.mat-fab{
+        bottom: 35px;
+      }
+    }
+    .sms-history-drawer.sms-contact-detail{
+      height: calc(100vh - 156px);
+    }
+  }
+  .summary-small-layout.client-detail-container{
+    .mat-card.client-detail-card{
+      height: calc(100% - 15px);
+    }
+    .client-jobs-list.kendo-grid-appearance{
+      .k-grid{
+        height: calc(100vh - 172px);
+      }
+    }
+    .kendo-table-container.client-jobs-list{
+      .k-grid{
+        height: calc(100vh - 172px);
+      }
+    }
+    .kendo-grid-appearance.contact-grid{
+      .k-grid{
+        height: calc(100vh - 158px);
+      }
+    }
+    .candidate-history-container{
+      height: calc(100vh - 106px);
+    }
+    .email-container{
+      height: calc(100vh - 158px);
+    }
+    .common-notes-sec{
+      height: calc(100vh - 102px);
+    }
+    .notes-details-sec{
+      height: calc(100vh - 107px);
+    }
+    .document-sidenav-content{
+      height: calc(100vh - 108px);
+    }
+    .sms-history-drawer.sms-contact-detail{
+      height: calc(100vh - 107px);
+    }
+  } 
+}

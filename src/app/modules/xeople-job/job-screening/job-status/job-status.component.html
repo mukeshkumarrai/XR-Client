@@ -1,0 +1,343 @@
+<form [formGroup]="jobStatusForm" applyTabIndexes class="job-status-form" id="job-status-form" >
+    <div class="status-data" #target>
+
+        <mat-form-field class="related-chip-list" floatLabel="always">
+            <mat-label>{{'label_Relatedto' | translate}}</mat-label>
+            <mat-chip-list #chipList aria-label="user selection" required>
+                <mat-chip
+                    *ngFor="let candidate of candidateListOfArray | slice : 0 : maxMoreLength" 
+                    matTooltip="{{candidate?.CandidateName}}" matTooltipClass="custom-tooltip">{{candidate?.CandidateName}}</mat-chip>
+                    <!-- @When: 05-07-2023 @who:Amit @why: EWM-12939 @what: add tooltip -->
+                <button mat-flat-button class="max-count-box" *ngIf="candidateListOfArray?.length>maxMoreLength"
+                    [matMenuTriggerFor]="relatedToCandMenu" matTooltip="{{(candidateListOfArray | slice : maxMoreLength :
+                        candidateListOfArray?.length)?.length}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above">+{{(candidateListOfArray | slice : maxMoreLength :
+                    candidateListOfArray?.length)?.length}}</button>
+            </mat-chip-list>
+            <!-- ============ MENU ========== -->
+            <mat-menu #relatedToCandMenu="matMenu" class="all-owner-list cand-hover-list" id="respinsiveSidebarDropdown1"
+                xPosition="before">
+                <mat-list role="list">
+                    <ng-container *ngFor="let candidate of candidateListOfArray | slice : maxMoreLength : candidateListOfArray?.length">
+                        <mat-list-item>
+                            <div class="userAvtaarAndName mr-5">
+                                <img *ngIf="candidate?.PreviewUrl" src="{{candidate?.PreviewUrl}}">
+                                <span *ngIf="!candidate?.PreviewUrl" [style.background-color]="candidate.ShortNameColor">{{candidate?.ShortName}}</span>
+                            </div>
+                            <span class="status-short-info-name">{{candidate?.CandidateName}}</span>
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
+            </mat-menu>
+            <!-- End  -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{'label_currentApplicationStatus' | translate}}</mat-label>
+            <input type="text" disabled readonly formControlName="PreviousStageName" tabindex matInput
+                id="currentApplication">
+        </mat-form-field>
+
+        <mat-label class="new-app">{{'label_newApplicationStatus' | translate}} <span class="required-show">*</span></mat-label>
+        <div class="new-status">
+            <div class="ng-slectBox">
+                <ng-select class="dropdown-body show-required" appendTo="body" [searchable]="false" [clearable]="true" formControlName="level1"
+                    #select placeholder="{{ 'label_stagedelete' |translate}}" (change)="onLevel1Changes($event);" >
+                    <ng-template ng-header-tmp>
+                        <ng-container>
+                        
+                            <div  class="flex-add-manage" >
+                             <span class="spacer"></span>
+                                <a mat-icon-button id="favIcon" color="primary" class="dropdown-manage" href="./client/core/administrators/job-workflows;can=job" target="_blank"
+                                matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+                                 <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                                 class="{{animationVar?.ManageButton?.isAnimClass}}">
+                                 <mat-icon>subject</mat-icon>
+                                 <mat-icon class="secondIcon">settings</mat-icon>
+                             </div>
+                                </a>
+                                <button mat-icon-button class="refreshBtn radius-call" (click)="getUpdateOptionsLevel1()" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" 
+                                matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                                    <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">refresh</mat-icon>
+                                </button>
+                            </div>
+                        </ng-container>
+
+                        <ng-container>
+                            <div class="pl-15 pr-15">
+                                <mat-form-field class="no-bottom searchInput" floatLabel="never">
+                                    <input matInput class="selectSearch" autocomplete="off"
+                                        placeholder="{{'label_search' |translate}}" type="text"
+                                        (input)="select.filter($event.target.value)" />
+                                </mat-form-field>
+                            </div>
+
+                        </ng-container>
+                    </ng-template>
+                    <ng-option [value]="item" *ngFor="let item of level1"> {{item.StageName}}</ng-option>
+                </ng-select>
+                <mat-error
+                    *ngIf="jobStatusForm.controls['level1'].hasError('required')  && jobStatusForm.controls['level1'].touched">
+                    {{'label_stagedelete'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+            </div>
+
+            <div class="ng-slectBox">
+                <ng-select class="dropdown-body" appendTo="body" [searchable]="false" [clearable]="true" formControlName="NewSubStageName"
+                    #select2 placeholder="{{ 'label_subSatge' |translate}}" (change)="onLevel2Changes($event);">
+                    <ng-template ng-header-tmp>
+                        <ng-container>
+
+                            <div  class="flex-add-manage">
+                                <span class="spacer"></span>
+                                <a mat-icon-button id="favIcon" color="primary" class="dropdown-manage"
+                                    href="./client/core/administrators/job-workflows;can=job" target="_blank"
+                                    matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                    (mouseenter)="mouseoverAnimation(animationVar?.CustomManageButton?.id, animationVar?.CustomManageButton?.animation)"
+                                    (mouseleave)="mouseleaveAnimation(animationVar?.CustomManageButton?.id, animationVar?.CustomManageButton?.animation)">
+                                    <div class="two-icons" id="{{animationVar?.CustomManageButton?.id}}" class="{{animationVar?.CustomManageButton?.isAnimClass}}">
+                                        <mat-icon>subject</mat-icon>
+                                        <mat-icon class="secondIcon">settings</mat-icon>
+                                    </div>
+                                </a>
+                                
+                                <button mat-icon-button class="refreshBtn radius-call" (click)="getUpdateOptionsLevel2()" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" 
+                                matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                (mouseenter)="mouseoverAnimation(animationVar?.CustomBarRotateButton?.id, animationVar?.CustomBarRotateButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.CustomBarRotateButton?.id, animationVar?.CustomBarRotateButton?.animation)">
+                                    <mat-icon id="{{animationVar?.CustomBarRotateButton?.id}}" class="{{animationVar?.CustomBarRotateButton?.isAnimClass}}">refresh</mat-icon>
+                                </button>
+                            </div>
+                        </ng-container>
+                        <ng-container>
+                            <div class="pl-15 pr-15">
+                                <mat-form-field class="no-bottom" floatLabel="never">
+                                    <input matInput class="selectSearch" autocomplete="off"
+                                        placeholder="{{'label_search' |translate}}" type="text"
+                                        (input)="select2.filter($event.target.value)" />
+                                </mat-form-field>
+                            </div>
+            
+                        </ng-container>
+                    </ng-template>
+                    <ng-option [value]="item" *ngFor="let item of level2">{{item.StageName}}</ng-option>
+                </ng-select>
+            </div>
+
+            <div class="ng-slectBox">
+                <ng-select class="dropdown-body" appendTo="body" [searchable]="false" [clearable]="true" formControlName="NewSubChildStageName"
+                    #select3 placeholder="{{ 'label_childStage' |translate}}" (change)="onLevel3Changes($event);">
+                    <ng-template ng-header-tmp>
+                        <ng-container>
+
+                            <div  class="flex-add-manage">
+                                <span class="spacer"></span>
+                                <a mat-icon-button id="favIcon" color="primary" class="dropdown-manage"
+                                    matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                    (mouseenter)="mouseoverAnimation(animationVar?.NotesAddButton?.id, animationVar?.NotesAddButton?.animation)"
+                                    (mouseleave)="mouseleaveAnimation(animationVar?.NotesAddButton?.id, animationVar?.NotesAddButton?.animation)"
+                                    href="./client/core/administrators/job-workflows;can=job" target="_blank">
+                                    <div class="two-icons" id="{{animationVar?.NotesAddButton?.id}}" class="{{animationVar?.NotesAddButton?.isAnimClass}}">
+                                        <mat-icon>subject</mat-icon>
+                                        <mat-icon class="secondIcon">settings</mat-icon>
+                                    </div>
+                                </a>
+                               
+                                <button mat-icon-button (click)="getUpdateOptionsLevel3()" class="refreshBtn radius-call" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" 
+                                matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                (mouseenter)="mouseoverAnimation(animationVar?.StageRotateButton?.id, animationVar?.StageRotateButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.StageRotateButton?.id, animationVar?.StageRotateButton?.animation)">
+                                    <mat-icon id="{{animationVar?.StageRotateButton?.id}}" class="{{animationVar?.StageRotateButton?.isAnimClass}}">refresh</mat-icon>
+                                </button>
+                            </div>
+                        </ng-container>
+                        <ng-container>
+                            <div class="pl-15 pr-15">
+                                <mat-form-field class="no-bottom" floatLabel="never">
+                                    <input matInput class="selectSearch" autocomplete="off"
+                                        placeholder="{{'label_search' |translate}}" type="text"
+                                        (input)="select3.filter($event.target.value)" />
+                                </mat-form-field>
+                            </div>
+            
+                        </ng-container>
+                    </ng-template>
+                    <ng-option [value]="item" *ngFor="let item of level3">
+                        {{item.StageName}}
+                    </ng-option>
+            
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="ng-slectBox ng-box-overflow">
+            <ng-select class="dropdown-body" appendTo="body" [searchable]="false" [clearable]="true" formControlName="ApplicationStatusReasonId"
+            #reason placeholder="{{ 'label_JobAction_ReasonOfStatusChange' |translate}}">
+            <ng-template ng-header-tmp>
+                <ng-container>
+
+                    <div  class="flex-add-manage">
+                        <span class="spacer"></span>
+                        <a mat-icon-button id="favIcon" color="primary" class="dropdown-manage" 
+                        href="./client/core/administrators/group-master/status?groupId={{applicationStatusId}}&V=listMode" target="_blank"
+                        matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                        (mouseenter)="mouseoverAnimation(animationVar?.StatusManageButton?.id, animationVar?.StatusManageButton?.animation)"
+                        (mouseleave)="mouseleaveAnimation(animationVar?.StatusManageButton?.id, animationVar?.StatusManageButton?.animation)">
+                            <div class="two-icons" id="{{animationVar?.StatusManageButton?.id}}"
+                            class="{{animationVar?.StatusManageButton?.isAnimClass}}">
+                            <mat-icon>subject</mat-icon>
+                            <mat-icon class="secondIcon">settings</mat-icon>
+                        </div>
+                           </a>
+                        <button mat-icon-button (click)="getReasonByStageSelected(shortDesc)" class="refreshBtn radius-call" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" 
+                                matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                (mouseenter)="mouseoverAnimation(animationVar?.StatusRotateButton?.id, animationVar?.StatusRotateButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.StatusRotateButton?.id, animationVar?.StatusRotateButton?.animation)">
+                            <mat-icon id="{{animationVar?.StatusRotateButton?.id}}" class="{{animationVar?.StatusRotateButton?.isAnimClass}}">refresh</mat-icon>
+                        </button>
+                    </div>
+                </ng-container>
+                <ng-container>
+                    <div class="pl-15 pr-15">
+                        <mat-form-field class="no-bottom" floatLabel="never">
+                            <input matInput class="selectSearch" autocomplete="off"
+                                placeholder="{{'label_search' |translate}}" type="text"
+                                (input)="reason.filter($event.target.value)"/>
+                        </mat-form-field>
+                    </div>
+    
+                </ng-container>
+            </ng-template>
+            <ng-option value="{{item.Id}}" *ngFor="let item of reasonDataByStage">
+                {{item.Description}}
+            </ng-option>
+    
+        </ng-select>
+        </div>
+
+        <div class="ng-slectBox">
+            <ng-select class="dropdown-body related-chip-list" [multiple]="true" appendTo="body" [searchable]="false" [clearable]="true"
+                placeholder="{{'label_assignCandidateFolders' |customTranslate}}" [closeOnSelect]="false" id="selectFolder"
+                formControlName="FolderList" (change)="onSelectFolder($event)" [(ngModel)]="selectedFolder" 
+                [items]="folderdata" [bindLabel]="Name">
+
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                    <div class="multiselectChip">
+                        <div class="multiselectChip-chip" *ngFor="let item of items | slice:0:maxMoreLength">
+                            <span class="multiselectChip-chip-text" matTooltip="{{item.Name}}" matTooltipClass="custom-tooltip"> {{item[Name]}}</span>
+                            <button class="multiselectChip-close" mat-fab color="warn" (click)="clear(item)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+
+                        <button mat-flat-button class="max-count-box mt-0" *ngIf="items.length > maxMoreLength"
+                        matTooltip="{{items.length - maxMoreLength}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above">+{{items.length - maxMoreLength}}</button>
+
+                    </div>
+                </ng-template>
+
+                <ng-template ng-header-tmp>
+                    <ng-container>
+                        <div class="pl-15 pr-15">
+                            <mat-form-field class="no-bottom" floatLabel="never">
+                                <input matInput class="selectSearch" autocomplete="off"
+                                    placeholder="{{'label_search' |translate}}" type="text"
+                                    (input)="onFilterFolder($event.target.value)" />
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+                </ng-template>
+            </ng-select>
+        </div>
+
+        <div class="ng-slectBox CandidateProfileStatusId">
+            <app-custom-dropdown [selectedIn]="selectedStatus" (selectedOut)="onManageStatuschange($event)"
+                [config]="dropDownStatusConfig">
+              </app-custom-dropdown>
+        </div>
+
+        <div class="ng-slectBox ng-box-overflow CandidateReasonId">
+            <app-custom-dropdown [selectedIn]="selectedReason" (selectedOut)="onManageReasonchange($event)"
+            [resetFormSubject]="resetReason.asObservable()"
+              [config]="dropDownReasonConfig">
+            </app-custom-dropdown>
+        </div>
+
+        <div class="restrict-candidate" id="restrict-candidate">
+            <mat-checkbox color="primary" id="searchfilter-pipeline" tabindex
+             formControlName="IsRestricted" (change)="onRestricedMessage($event)">{{'label_restrictCandidateApplyingNewJob'|translate}}</mat-checkbox>
+             <!-- Xeople: Satya Prakash Gupta : 29-June-2023 : align date field with checkbox : EWM-12845  -->
+            <mat-form-field class="assistance-category" floatLabel="never">
+                <mat-label>{{'label_date' | customTranslate}}</mat-label>
+                <input matInput tabindex [matDatepicker]="RestriDate"   [placeholder]="getDateFormat"  id="date-schedule"  formControlName="RestrictedUntilDate" [required]="isRestrictedMessage"
+                [max]="maxDate" [min]="minDate">
+                <button *ngIf="jobStatusForm.value.RestrictedUntilDate || jobStatusForm.controls['RestrictedUntilDate'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                (click)="clearDate()"> <mat-icon>close</mat-icon></button>
+                
+                <button tabindex="5"  id="datebtn-schedule" mat-raised-button matSuffix color="primary"
+                    type="button" class="matSuffix-icon mgBottom5 addbtn-schedule" (click)="RestriDate.open()">
+                    <mat-icon>calendar_month</mat-icon>
+                </button>
+                <mat-datepicker #RestriDate></mat-datepicker>
+                <mat-error *ngIf="jobStatusForm.controls['RestrictedUntilDate'].hasError('invalidDate') && !jobStatusForm.controls['RestrictedUntilDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                <mat-error *ngIf="jobStatusForm.controls['RestrictedUntilDate'].hasError('matDatepickerParse')"> {{'label_invalidDate' | translate}}</mat-error>
+                <mat-error
+                    *ngIf="jobStatusForm.controls['RestrictedUntilDate'].hasError('matDatepickerMax') && !jobStatusForm.controls['RestrictedUntilDate'].hasError('invalidDate')">
+                    {{'label_date' | translate}} {{'label_shouldNot6Months' | translate}}
+                </mat-error>
+                <mat-error
+                    *ngIf="jobStatusForm.controls['RestrictedUntilDate'].hasError('matDatepickerMin') && !jobStatusForm.controls['RestrictedUntilDate'].hasError('invalidDate')">
+                    {{'label_date' | translate}} {{'label_shoulNotLessThan' | translate}}
+                </mat-error>
+                <mat-error *ngIf="jobStatusForm.controls['RestrictedUntilDate'].hasError('required') && jobStatusForm.controls['RestrictedUntilDate'].touched && !jobStatusForm.controls['RestrictedUntilDate'].hasError('matDatepickerParse')">
+                {{'label_date'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+            </mat-form-field>
+        </div>
+  <!-- who:maneesh,what:ewm-16207 ewm-16342 for fixed new editor,when:13/03/2024 -->
+  <div  class="html-editor-kendo" *ngIf="isRestrictedMessage">
+    <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+        <mat-label class="editor-label" [ngStyle]="this.jobStatusForm.controls['RestrictedMessage'].hasError('required') && this.jobStatusForm.controls['RestrictedMessage'].touched &&
+        {'color': '#f44336'}">{{ 'label_JobAction_RestrictCandMessage' | translate}} <span class="required-show">*</span></mat-label>
+       <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal"
+       (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)"></app-mention-editor>  
+       
+              
+    </div>
+     <!-- @When: 12-12-2023 @who:Amit @why: EWM-15411 @what: buttons work -->    
+     <div class="btns-group" id="btns-group">  
+        <button mat-raised-button color="warn" tabindex type="button" id="btnReset" class="buttonForDesktopMobile"
+        (click)="ResetDataForDiscription()">
+        <mat-icon matTooltip="{{'label_resetBtn' |translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">restart_alt</mat-icon>
+        <span class="buttonTxt">{{'label_resetBtn'|translate}}</span>
+        </button>
+
+        <button mat-raised-button color="warn" tabindex type="button" id="btnCansel"
+        (click)="MessageCansel()" class="buttonForDesktopMobile">
+            <mat-icon matTooltip="{{'button_cancel' |translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">close</mat-icon>
+            <span class="buttonTxt">{{'button_cancel'|translate}}</span>
+        </button>
+
+        <button mat-raised-button color="primary" tabindex type="button" id="btnSave" class="buttonForDesktopMobile"
+        [disabled]="this.jobStatusForm.controls['RestrictedMessage'].hasError('required') || isResponseGetdata" (click)="saveDiscription('true')">
+            <mat-icon matTooltip="{{'label_save' |translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">check</mat-icon>
+            <span *ngIf="!isResponseGetdata" class="buttonTxt">{{'label_save'|translate}}</span>
+            <div *ngIf="isResponseGetdata" id="loading"></div>
+        </button>
+    </div>
+</div>
+
+   
+
+    </div>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="primary" tabindex type="button" (click)="onSubmitJobStatusForm()"
+        id="btnSave" [disabled]="!this.jobStatusForm.valid || isResponseGet">
+        <span *ngIf="!isResponseGet">{{'label_save'|translate}}</span>
+        <div *ngIf="isResponseGet" id="loading"></div>
+    </button>
+    </div>
+</form>

@@ -1,0 +1,34 @@
+<!-- who:maneesh:what:ewm-13774  for  job action jab tab add notes component,when:05/09/2023 -->
+<div class="screening-and-interview-area-right-seccol tab-container sub-tab"
+    id="screening-and-interview-area-right-seccol">
+    <mat-tab-group t-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="summary-tabs" (selectedTabChange)="selectedTabValue($event)">
+        <mat-tab label="jobdetails">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">description</mat-icon>
+                {{'jobdetails' | translate}}
+            </ng-template>
+            <app-job-details-discription *ngIf="candId" [loaderAddInfo]="loaderAddInfo"></app-job-details-discription>
+        </mat-tab>
+        <mat-tab label="job">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">description</mat-icon>
+                {{'candidate_documents' | translate}}
+            </ng-template>
+            <app-job-action-job-documents *ngIf="showingCandidateDoc" [candidateId]="candId" [candidateName]="candidateName" [jobId]="jobId" [jobActionTabName]="jobActionTabName"></app-job-action-job-documents>
+        </mat-tab>
+        <mat-tab label="notes">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">source</mat-icon>
+                {{'candidate_notes' | translate}}
+            </ng-template>
+            <app-job-action-job-notes *ngIf="candId && showingJobNotes" [jobId]="jobId"></app-job-action-job-notes>
+        </mat-tab>
+               
+    </mat-tab-group>
+</div>
+<!-- Multiple candidate template -->
+<ng-template #multiple>
+    <div class="multiple-no-data">
+        <p>{{'label_dataNotAvailable' | translate}}</p>
+    </div>
+</ng-template>

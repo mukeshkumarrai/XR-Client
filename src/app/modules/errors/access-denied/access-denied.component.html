@@ -1,0 +1,16 @@
+<!--@When: 05-12-2023 @who:Amit @why: EWM-15314 @what: structure modified--> 
+<mat-drawer-container autosize class="login-container">
+  <mat-drawer-content>
+    <app-outer-header-new></app-outer-header-new>
+      <div class="expire-link" id="expire-link-denied">
+        <div class="link-expire" id="link-expire-denied">
+          <span class="material-icons">
+            block
+          </span>
+          <h2>{{'label_unauthorized' |translate}}</h2>
+          <p>{{'label_unauthorizedParaOne' |translate}}</p>
+        </div>
+      </div>
+    <app-outer-footer></app-outer-footer>
+  </mat-drawer-content>
+</mat-drawer-container>

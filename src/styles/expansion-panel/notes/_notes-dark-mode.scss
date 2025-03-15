@@ -1,0 +1,48 @@
+@use "../../../colors";
+.dark-theme {
+    .profile-detail-container,.client-summary-container,.job-summary-container{
+        .common-notes-sec{
+            .notes-yearfilter-drawer{
+                background: colors.$dark-primary-bg;
+            }
+            .advancedsearchDrawer{
+                .drawerTitleSec{
+                    h4{
+                        background: colors.$dark-primary;
+                    }
+                }
+            }
+            .common-notes-content{
+                .notes-detail-action{
+                    background: colors.$dark-primary-bg;
+                }
+                .notes-detail{
+                    .notes-detail-linebar {
+                        background: #838383;
+                    }
+                    .flex-box{
+                        .notes-created-info-icon{
+                            .mat-mini-fab {
+                                border: 1px solid colors.$dark-primary;
+                                background: #303030;
+                                color: colors.$dark-primary;
+                            }
+                            .mat-mini-fab.notes-category-btn{
+                                background: #303030;
+                            }
+                        }
+                        .notes-created-by-action {
+                            .notes-created-action{
+                                .up-down{
+                                    .mat-icon{
+                                        color: rgba(255, 255, 255, 0.87);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,244 @@
+@import "../../../../../../../styles-var.scss";
+@import "../../../../../../../mixinStyle.scss";
+
+  /* 
+  @(C): Entire Software
+  @Type: File, <css>
+  @Name: application-form.SCSS
+  @Who: Adarsh singh
+  @When: 13-05-2022
+  @Why: EWM-6552 EWM-6673
+*/
+
+/*
+    @modified 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:documents.component.scss
+    @Who: Amit Rajput
+    @When: 06-July-2022
+    @Why: EWM-7363 EWM-7584
+    @What: header column width change
+*/
+
+
+// new listing
+.new-list-card-content {
+  .new-list-content {
+    .new-list-data-header {
+      .new-data-list-header {
+        grid:auto/60px calc(42% - 170px) 18% 16% 12% 6% 6% 110px;
+        min-width: 815px;
+      }
+    }
+    .new-list-data-header.sticky-width{
+      min-width: 815px;
+      overflow: inherit;
+    }
+    .new-list-data-content {
+      min-width: 815px;
+      overflow-x: hidden;
+      .new-data-list-list {
+        grid:auto/60px calc(42% - 168px) 18% 16% 12% 6% 6% 108px;
+        min-width: 807px;
+      }
+      .new-data-list-list.new-data-document-list{
+        .new-data{
+          .check-space{
+            padding:0px;
+          }
+          .new-data-fab-btn{
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            .mat-icon{
+              width: 24px;
+              height: 24px;
+              line-height: 24px;
+              font-size: 16px;
+            }
+          }
+        }
+        /* @When: 22-05-2023 @who:Amit @what: add style */
+        .new-data.mat-check-inline{
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
+
+.dashboard-mat-card-header.document-header.mat-card-header{
+  padding:0px;
+  align-items: center;
+  border-bottom: inherit;
+  .sub-title{
+    font-size:16px;
+    padding-bottom: 2px;
+  }
+}
+
+.new-list-card-content{
+  .new-list-content{
+    .new-list-data-header{
+      .new-data-list-header{
+        div{
+          &:first-child{
+            padding:0px 7px;
+          }
+        }
+      }
+    } 
+  } 
+} 
+
+.documents-application-card-title{
+  h3{
+      margin-top: 0px;
+      margin-bottom: 5px;
+  }
+  p{
+      margin-top: 0px;
+  }
+}
+
+.dashboard-mat-card-header.mat-card-header{
+  .mat-card-title.icon-with-title{
+    .document-sub-title{
+      .primary-text{
+        margin: 0px;
+        font-size: 16px;
+        padding-bottom: 3px;
+        color: $default-bg-color;
+      }
+      p{
+        margin:0px;
+        font-size:14px;
+        padding-bottom: 15px;
+      }
+    }
+  }
+} 
+
+.xeople-container-listing-with-breadCrumb.mat-drawer-container.document-drawer-container{
+  .mat-card.component-card{
+    padding:0px;
+    box-shadow: inherit;
+    height: calc(100vh - 365px);
+    @media screen and (min-width: 1061px) and (max-width: 1119px){
+      height: calc(100vh - 325px);
+    }
+    @media screen and (min-width: 581px) and (max-width: 1060px){
+      height: calc(100vh - 365px);
+    }
+    @media screen and (min-width: 481px) and (max-width: 580px){
+      height: calc(100vh - 420px);
+    }
+    @include for-small-smartphones{
+      height: calc(100vh - 455px);
+    }
+    form{
+      height: 100%;
+    }
+  }
+}
+.scrollloading{
+  top: -43px;
+}
+.application-fade-sec{
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  // background: #0000004a;
+  z-index: 2;
+  cursor: not-allowed;
+}
+.search-viewicon{
+  position: relative;
+  top: -7px;
+}
+.new-list-card-content .new-list-content .new-list-data-header .new-data-list-header{
+  grid: auto/calc(78% - 440px) 22% 100px 130px 130px 80px;
+  .p_15{
+    padding: 0px 15px;
+  }
+  .new-data{
+    border-right: 1px solid #ccc;
+    &:last-child{
+      border-right: none;
+    }
+    .info-icon{
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      font-size: 20px;
+      padding: 0px 5px;
+    }
+  }
+}
+
+.new-list-card-content .new-list-content .new-list-data-content .new-data-list-list.new-data-document-list{
+  grid: auto/calc(78% - 430px) 22% 100px 130px 130px 80px;
+  // .p_15{
+  //   padding: 0px 15px;
+  // }
+  .new-data{
+    &:first-child{
+      padding: 0px 7px;
+      text-align: left;
+    }
+    .info-icon{
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      font-size: 20px;
+      padding: 0px 3px;
+      vertical-align: middle;
+    }
+  }
+}
+.d-flex{
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep {
+  .info-tooltip{ 
+    top: 42px !important;
+  }
+  .new-list-card-content .new-list-content{
+    .new-list-data-header .new-data-list-header{
+      .p_15.show-mandatory{
+        div{
+          padding: inherit;
+        }
+        .mat-checkbox-inner-container{
+          border-right: none;
+        }
+      }
+      .mat-checkbox-ripple{
+        border-right: none;
+      }
+      .mat-checkbox-frame{
+        border-right: 2px solid $primary-bg-color;
+      }
+    }
+    .new-list-data-content .new-data-list-list.new-data-document-list{
+      .new-data .new-data-fab-btn .mat-badge-content{
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        font-weight: 500;
+      }
+    }
+  }
+  .dark-theme{
+    .new-list-card-content .new-list-content .new-list-data-header .new-data-list-header{
+      .mat-checkbox-frame{
+        border-right: 2px solid $dark-primary;
+      }
+    }
+  }
+}

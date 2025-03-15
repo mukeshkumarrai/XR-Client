@@ -1,0 +1,119 @@
+@use "../../../colors";
+// job details view drawer start
+.view-profile-summary.view-job-details{
+    .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+        height: 100%;
+        .mat-drawer-content{
+            padding: 0px;
+            overflow: hidden;
+            height: 100%;
+            .mat-card-content{
+                height: calc(100vh - 0px) !important;
+                .addEditSec{
+                    height: calc(100% - 0px);
+                    overflow-y: auto;
+                    @media only screen and (max-width: 580px) {
+                        height: calc(100% - 45px);
+                    }
+                    .quick-job{
+                        padding: 10px;
+                    }
+                }
+            }
+        }
+    }  
+}
+// job details view drawer end
+// edit job drawer start
+.view-profile-summary.view-job-details.edit-job{
+    .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+        height: calc(100% - 50px);
+        .mat-drawer-content{
+            height: 100%;
+            overflow: hidden;
+            .user-contact-type{
+                height: 100%;
+                .mat-card-content{
+                    height: 100% !important;
+                    .addEditSec{
+                        height: calc(100% - 55px);
+                        overflow-y: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+// edit job drawer end
+// job details view candidate drawer start
+.view-profile-summary.view-job-details.job-details-edit-view{
+    .candidate-job-mat-card{
+        padding: 0px;
+        height: 100%;
+        border-radius: 0px;
+        .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+            height: calc(100% - 50px);
+        }
+    }
+    .drawer-first-view{
+        .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+                height: 100%;
+                .mat-drawer-content{
+                    overflow: hidden;
+                    .user-contact-type{
+                        height: 100%;
+                        .mat-card-content{
+                            height: calc(100vh - 20px) !important;
+                        .addEditSec{
+                            height: calc(100% - 20px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .drawer-first-view.edit-job-drawer{
+        height: 100%;
+        .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+        height: calc(100% - 50px);
+        .user-contact-type{
+            height: 100%;
+            .mat-card-content{
+            height: 100% !important;
+            .addEditSec{
+                height: calc(100% - 55px);
+                padding-bottom: 0px;
+            }
+            }
+        }
+        }
+    }
+    .drawerfooter-height-remove{
+        .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+            .mat-drawer-content{
+                overflow: hidden;
+                .mat-card-content{
+                    .addEditSec{
+                        height: calc(100vh - 20px);
+                    }
+                }
+            }
+        }
+    }
+    .drawerfooter-view{
+        .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+        height: 100%;
+        .mat-drawer-content{
+            overflow: hidden !important;
+            .mat-card-content{
+            height: calc(100vh - 0px) !important;
+            margin-bottom: 0px;
+            .addEditSec{
+                height: 100%;
+            }
+            }
+        }
+        }
+    }  
+}
+// job details view candidate drawer end

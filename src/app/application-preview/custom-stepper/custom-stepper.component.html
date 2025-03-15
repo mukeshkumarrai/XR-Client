@@ -1,0 +1,31 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: custom-stepper.component.html
+  @Who: Renu
+  @When: 24-May-2022
+  @Why: EWM-6558 EWM-6782
+  @What: custom stepper
+-->
+
+<section class="container" id="custom-container">
+    <header><h2>Step {{selectedIndex + 1}}/{{steps.length}}</h2></header>
+  
+    <div [style.display]="selected ? 'block' : 'none'">
+      <!-- Content from the CdkStep is projected here -->
+      <ng-container [ngTemplateOutlet]="selected.content"></ng-container>
+    </div>
+  
+       <footer class="step-navigation-bar" id="step-navigation-bar">
+      <button class="nav-button" cdkStepperPrevious>&larr;</button>
+ <button
+        class="step"
+        *ngFor="let step of steps; let i = index;"
+        [ngClass]="{'active': selectedIndex === i}"
+        (click)="onClick(i)"
+      >
+        Step {{i + 1}}
+      </button> 
+      <button class="nav-button" cdkStepperNext>&rarr;</button>
+    </footer> 
+  </section>

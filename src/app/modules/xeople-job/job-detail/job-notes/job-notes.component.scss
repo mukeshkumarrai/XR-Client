@@ -1,0 +1,621 @@
+@use "../../../../../colors";
+/* small smartphones (portrait and landscape) ----------- */
+@mixin for-small-smartphones{
+  @media (min-width : 320px) and (max-width : 480px) { @content; }
+}
+/* Smartphones (portrait and landscape) ----------- */
+@mixin avtaar-name-width-height {
+  width: 35px;
+  height: 35px;
+}
+.common-notes-sec {
+  .notes-yearfilter-drawer {
+    box-shadow: none !important;
+    .yearsFilter {
+      padding: 10px;
+      display: block;
+      .mat-expansion-panel-body {
+        padding: 0px 0px 16px;
+      }
+      .monthWithData {
+        display: flex;
+        align-items: center;
+        width: 220px;
+        margin: 0px 15px;
+        padding: 3px 5px;
+        font-size: 12px;
+        cursor: pointer;
+        .month-name {
+          width: 60px;
+          text-align: right;
+        }
+        .mat-progress-bar {
+          margin: 0px 10px;
+        }
+        .notes-ammount {
+          text-align: left;
+        }
+        &:hover {
+          background: #eceff1;
+        }
+      }
+      .monthWithData.active {
+        background: #cfd8dc;
+      }
+    }
+  }
+  .notes-addEdit-drawer {
+     overflow-x: hidden;
+    .notes-drawer {
+      display: flex;
+      height: 100%;
+      .add-new-note {
+        form {
+          padding: 10px 10px;
+          padding-bottom: 60px;
+          overflow: auto;
+          height: calc(100% - 70px);
+          .mat-form-field {
+            .mat-raised-button {
+              min-width: 35px;
+              padding: 0px 5px;
+              line-height: 30px;
+              .mat-icon {
+                font-size: 16px;
+                line-height: 20px;
+                width: 20px;
+                height: 20px;
+              }
+            }
+          }
+          .activity-related {
+            .matAttachment {
+              margin-top: 10px;
+              display: grid;
+              gap: 10px;
+              grid-template-columns: repeat(3, calc(33.33% - 6.6px));
+              @include for-small-smartphones {
+                grid-template-columns: 1fr;
+              }
+              .mat-card.matCardAttach {
+                box-shadow: 0px 0px 6px 0px rgb(0 0 0 / 16%);
+                padding: 7px 5px 7px 10px;
+                margin-bottom: 5px;
+                height: 42px;
+                .email-attachment {
+                  display: flex;
+                  padding-bottom: 0px;
+                  justify-content: space-between;
+                  .file-detail {
+                    padding-right: 0px;
+                    display: grid;
+                    span {
+                      max-width: 100%;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    }
+                    .fileName {
+                      font-weight: 500;
+                      font-size: 14px;
+                      line-height: 24px;
+                    }
+                    .fileSize {
+                      font-size: 12px;
+                      margin-top: 0px;
+                      color: #8d8b8b;
+                    }
+                  }
+                  .mat-icon {
+                    cursor: pointer;
+                    color: colors.$gray-button;
+                    font-size: 20px;
+                  }
+                  .mat-icon:hover {
+                    color: colors.$warn-bg;
+                  }
+                }
+              }
+              .moreAttach {
+                width: 100%;
+                height: 57px;
+                margin-bottom: 5px;
+                .email-attachment {
+                  justify-content: center;
+                }
+              }
+            }
+          }
+        }
+        .drawer-footer {
+          width: 100%;
+          position: absolute;
+          height: 50px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          z-index: 9;
+          padding: 0px 10px;
+          right: 0px;
+          bottom: 0px;
+          border-radius: 0px;
+          left: 0px;
+          box-sizing: border-box;
+          .attachFileBtn {
+            position: absolute;
+            cursor: pointer;
+            left: 0px;
+          }
+          .mat-raised-button{
+            margin-inline-start: 8px;
+          }
+        }
+      }
+    }
+  }
+  .advancedsearchDrawer {
+    width: 100%;
+    max-width: 65%;
+    padding: 0px;
+    background: transparent;
+    box-shadow: none !important;
+    display: flex;
+    @media only screen and (max-width: 1024px) and (min-width: 240px) {
+      max-width: 98%;
+    }
+    .drawerTitleSec {
+      width: 40px;
+      h4 {
+        width: 140px;
+        margin: 0px;
+        height: 40px;
+        line-height: 40px;
+        color: colors.$primary-txt-color;
+        transform: translateY(82px) translateX(-82px) rotate(-90deg);
+        border-radius: 4px 0px 0px 4px;
+        padding-right: 50px;
+        padding-left: 15px;
+        text-align: left;
+        font-weight: 700;
+        .closeDrawerIcon {
+          position: absolute;
+          padding: 0px;
+          min-width: 40px;
+          height: 40px;
+        }
+      }
+    }
+    .advancedsearchDrawerData {
+      padding: 0px;
+      overflow: auto;
+      border-radius: 0px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 0px;
+    }
+  }
+  .common-notes-content {
+    overflow: auto;
+    height: calc(100% - 75px);
+    padding-bottom: 75px;
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+      height: calc(100% - 82px);
+      padding-bottom: 82px;
+    }
+    .notes-detail-action {
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0px;
+      z-index: 2;
+      padding: 4px 0px 5px 5px;
+      margin-bottom: 10px;
+      column-gap: 10px;
+      row-gap: 5px;
+      @media only screen and (max-width: 620px) and (min-width: 240px) {
+        flex-direction: column;
+        align-items: inherit;
+      }
+      .button-with-clear {
+        display: inline-block;
+        margin-right: 5px;
+        position: relative;
+        max-width: 85px;
+        .mat-stroked-button.active {
+          background: #d1c4e9;
+        }
+      }
+      .only-clear.button-with-clear {
+        .clear-with-data {
+          width: 25px;
+        }
+        .addFilter.more-filter.mat-stroked-button.mat-primary {
+          padding-right: 34px;
+        }
+      }
+      .only-clear.button-with-clear {
+        .blankFilter.more-filter.mat-raised-button {
+          padding: 0px;
+          min-width: 36px;
+        }
+        .addFilter.more-filter.mat-raised-button {
+          padding-left: 5px;
+          padding-right: 34px;
+        }
+      }
+      .button-with-clear {
+        .blankFilter.more-filter.mat-raised-button {
+          padding: 0px;
+          min-width: 36px;
+        }
+        .addFilter.more-filter.mat-raised-button {
+          padding-left: 5px;
+          padding-right: 55px;
+        }
+      }
+      .left-data-header {
+        .searchInput{
+          margin-inline-end: 7px;
+        }
+        strong{
+          width: max-content;
+        }
+        &:first-child{
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+        &:last-child {
+          display: flex;
+          justify-content: flex-end;
+          width: 100%;
+          align-items: center;
+        }
+        .header-button {
+          min-width: 36px;
+        }
+      }
+    }
+    .nodata {
+      padding: 0px 15px;
+    }
+    .notes-matcard-content {
+      padding-inline-start: 10px;
+    }
+    .notes-detail {
+      display: flex;
+      position: relative;
+      margin-inline-end: 10px;
+      @media only screen and (max-width: 1024px) and (min-width: 240px) {
+        margin-inline-start: 10px;
+      }
+      .done-icon {
+        color: #9ccc65;
+      }
+      .notes-detail-linebar {
+        position: absolute;
+        height: 100%;
+        width: 1px;
+        left: 30px;
+        top: 10px;
+        background: #ccc;
+      }
+      .notes-detail-linebar.left-gap {
+        left: 20px;
+      }
+      .flex-box {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        .notes-created-info-icon {
+          .mat-mini-fab {
+            cursor: default;
+            box-shadow: none;
+          }
+        }
+        .notes-info {
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column;
+          border-radius: 4px;
+          margin-bottom: 20px;
+          width: 100%;
+          box-shadow: rgb(177, 128, 250) 0px 0px 0px 0.4px, rgb(177, 128, 250) 0px 0px 0px 0.4px;
+          overflow: auto;
+          a {
+            color: #7e57c2;
+            font-size: 12px;
+            font-weight: 600;
+          }
+          .mat-divider-horizontal {
+            position: relative;
+          }
+          .notes-created-details.mat-card {
+            padding: 0px 0px;
+            background: transparent;
+            margin-bottom: 0px;
+            box-shadow: none;
+            width: 100%;
+            word-break: break-word;
+            .notes-content {
+              display: flex;
+              flex-wrap: wrap;
+              width: 100%;
+              p {
+                width: 100%;
+                margin-bottom: 15px;
+              }
+            }
+            .mat-card-header {
+              padding: 0px;
+              width: 50%;
+              margin-bottom: 10px;
+              @media screen and (min-width: 320px) and (max-width: 650px) {
+                width: 100%;
+              }
+              .mat-card-avatar {
+                width: 25px;
+                height: 25px;
+                .mat-icon {
+                  font-size: 22px;
+                  cursor: pointer;
+                }
+              }
+              .mat-card-header-text {
+                padding: 0px 5px;
+                .mat-card-title {
+                  font-size: 14px;
+                  font-weight: bold;
+                }
+                .mat-card-subtitle {
+                  font-size: 14px;
+                  margin-bottom: 0px;
+                }
+              }
+            }
+            .user-notes-data {
+              word-break: break-word;
+            }
+            p {
+              margin: 0px;
+              margin-bottom: 5px;
+            }
+            .attachment-data {
+              display: flex;
+              justify-content: flex-end;
+              .attach_file {
+                position: relative;
+                top: 11px;
+                font-size: 20px;
+              }
+            }
+          }
+        }
+        .notes-info.protected {
+          box-shadow: rgb(112, 208, 251) 0px 0px 0px 0.4px, rgb(112, 208, 251) 0px 0px 0px 0.4px;
+          a {
+            color: #29b6f6;
+          }
+          .notes-created-details.mat-card {
+            .user-main-data {
+              .addClientButton.mat-mini-fab {
+                background: #29b6f6;
+              }
+            }
+          }
+        }
+        .notes-info.private {
+          box-shadow: rgb(239, 83, 80) 0px 0px 0px 0.4px, rgb(239, 83, 80) 0px 0px 0px 0.4px;
+          a {
+            color: #ef5350;
+          }
+          .notes-created-details.mat-card {
+            .addClientButton.mat-mini-fab {
+              background: #ef5350;
+            }
+          }
+        }
+        .notes-info.public {
+          box-shadow: rgb(136, 192, 72) 0px 0px 0px 0.4px, rgb(136, 192, 72) 0px 0px 0px 0.4px;
+          a {
+            color: #9ccc65;
+          }
+        }
+        .notes-created-by-action {
+          width: 100%;
+          height: auto;
+          padding: 0px;
+          background: rgb(126 87 194 / 8%);
+          padding: 5px;
+          box-sizing: border-box;
+          border-radius: 0px;
+          // box-shadow: #b180fa 0px 0px 0px 0.4px, #b180fa 0px 0px 0px 0.4px;
+          align-items: inherit;
+          .notes-created-header {
+            display: flex;
+            gap: 8px;
+            margin-inline-end: 0px;
+            .userAvtaarAndName {
+              border: 2px solid #7e57c2;
+              @include avtaar-name-width-height;
+              cursor: pointer;
+              font-size: 13px;
+              margin: 0px 2px;
+              span,
+              img {
+                @include avtaar-name-width-height;
+                font-size: 16px;
+              }
+            }
+            .userAvtaarAndName.protected {
+              border: 2px solid #29b6f6;
+            }
+            .userAvtaarAndName.public {
+              border: 2px solid #9ccc65;
+            }
+            .userAvtaarAndName.private {
+              border: 2px solid #ef5350;
+            }
+            .notes-created {
+              display: flex;
+              flex-direction: column;
+              row-gap: 3px;
+              .notes-created-data {
+                font-weight: inherit;
+                font-size: 13px;
+                margin-inline-end: 15px;
+                display: inline-flex;
+                align-items: center;
+                flex-wrap: wrap;
+                column-gap: 2px;
+                span.event-name {
+                  color: #7e57c2;
+                }
+                span.event-name.protected {
+                  color: #29b6f6;
+                }
+                span.event-name.public {
+                  color: #9ccc65;
+                }
+                span.event-name.private {
+                  color: #ef5350;
+                }
+                span {
+                  color: #7e57c2;
+                  font-size: 13px;
+                  font-weight: 500;
+                  font-style: italic;
+                }
+                span.protected {
+                  color: #29b6f6;
+                }
+                span.private {
+                  color: #ef5350;
+                }
+                span.public {
+                  color: #9ccc65;
+                }
+                .mat-icon {
+                  margin-inline-start: 5px;
+                  width: 20px;
+                  height: 20px;
+                  line-height: 20px;
+                  text-align: right;
+                  font-size: 20px;
+                  position: relative;
+                  top: 0px;
+                  color: #7e57c2;
+                }
+                .mat-icon.protected {
+                  color: #29b6f6;
+                }
+                .mat-icon.private {
+                  color: #ef5350;
+                }
+                .mat-icon.public {
+                  color: #9ccc65;
+                }
+              }
+              .title {
+                font-size: 13px;
+                display: flex;
+                column-gap: 5px;
+                span {
+                  font-weight: 500;
+                  word-break: break-word;
+                }
+                p{
+                  width: 75px;
+                  min-width: 75px;
+                  margin: 0px;
+                }
+              }
+              .title.contact-show{
+                span.contact{
+                  font-weight: normal;
+                  margin-top: 3px;
+                  width: 75px;
+                  min-width: 75px;
+                }
+              }
+            }
+          }
+          .notes-created-action {
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            margin-inline-end: 0px;
+            align-items: center;
+            padding: 2px 0px;
+            gap: 4px;
+            @media only screen and (max-width: 767px) and (min-width: 240px) {
+              align-self: flex-end;
+            }
+            .mat-icon-button {
+              width: 22px;
+              height: 22px;
+              line-height: 22px;
+              .mat-icon {
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+                line-height: 18px;
+              }
+            }
+            .group-btn {
+              display: flex;
+              align-items: center;
+              gap: 5px;
+            }
+            .up-down {
+              .mat-icon {
+                font-size: 20px;
+              }
+            }
+          }
+        }
+        .notes-created-by-action.protected {
+          background: rgb(112 208 251 / 8%);
+          // box-shadow: #70d0fb 0px 0px 0px 0.4px, #70d0fb 0px 0px 0px 0.4px;
+        }
+        .notes-created-by-action.private {
+          background: rgba(239, 83, 80, 0.08);
+        }
+        .notes-created-by-action.public {
+          background: rgb(136 192 72 / 8%);
+          // box-shadow: #88c048 0px 0px 0px 0.4px, #88c048 0px 0px 0px 0.4px;
+        }
+        .notes-created-by-action.screening-notes-drawer {
+          @include for-small-smartphones {
+            position: relative;
+          }
+        }
+      }
+    }
+    .notes-detail-last {
+      .notes-detail-linebar {
+        background: transparent;
+      }
+      .flex-box {
+        .notes-info {
+          margin-bottom: 0px;
+        }
+      }
+    }
+  }
+  .common-notes-content.view-notes-content{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: calc(100% - 10px);
+    overflow: hidden;
+    .main-notes-detail{
+      padding: 0px;
+      height: calc(100% - 2px);
+    }
+    .main-notes-detail.confidential-protected{
+      .notes-detail{
+        height: 100%;
+      }
+    }
+  }
+}

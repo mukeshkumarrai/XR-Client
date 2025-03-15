@@ -1,0 +1,91 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: security.component.scss
+    @Who: Satya Prakash
+    @When: 18-Nov-2020
+    @Why: ROST-368 ROST-401
+    @What: You can add security styles to this file, and also import other style files
+*/
+.my-class{
+    color: green;
+}
+.posRel{position: initial;}
+.closeIconPswd{position: relative;
+    float: right;
+    right: 5px;
+    z-index: 999;
+    top: 0px; cursor:pointer;
+}
+.passwordStrenth .infoStyle{
+    position: absolute; 
+    top:45px; 
+    right: 0px; 
+    text-align: center;
+}
+.passwordStrenth .greenColor,.passwordStrenth .redColor{
+    position:absolute; 
+    right: 40px;
+}
+.securityPgPos{
+    position: absolute;
+    top: 0px;
+    z-index: 99999999999;
+    width: 100%;
+    left: 0px;
+}
+
+.security-part{
+    .security-full-part{
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 10px;
+        h2.cardSubTitle{
+            text-align: left;
+            font-size: 16px;
+            margin: 0px;
+            margin-bottom: 5px;
+            font-weight: 500;
+            .mat-raised-button.mat-primary{
+                float: right;
+                position: relative;
+                top: -8px;
+            }
+        }
+        .mat-divider-horizontal{
+            position: relative;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        } 
+        .security-section{
+            display: grid;
+            grid: auto/calc(33.33% - 10px);
+            gap: 15px;
+            @media only screen and (min-width:641px) and (max-width:1060px){
+                grid: auto/calc(50% - 10px);
+            }
+            @media only screen and (min-width:320px) and (max-width:640px){
+                grid: auto/calc(100% - 0px);
+            }
+            .security-pwd-full-part{
+                grid-template-columns: calc(100% - 170px) 170px;
+                display: grid;
+                gap: 0px;
+                .mat-raised-button{
+                    margin-inline-start: 8px;
+                }
+            }
+        }
+        .security-section.security-section-break{
+            grid: auto/calc(33.33% - 10px) calc(33.33% - 10px);
+            @media only screen and (min-width:641px) and (max-width:1060px){
+                grid: auto/calc(50% - 10px) calc(50% - 10px);
+            }
+            @media only screen and (min-width:320px) and (max-width:640px){
+                grid: auto/calc(100% - 0px);
+            }
+        }
+    }
+}      
+
+      

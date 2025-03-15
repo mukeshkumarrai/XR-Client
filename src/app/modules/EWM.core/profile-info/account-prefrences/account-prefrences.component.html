@@ -1,0 +1,90 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash 
+    @When: 18-Nov-2020
+    @Why: ROST-369 ROST-412
+    @What:  This page wil be use only for the Security Component HTML
+-->
+<!-- Entire Software : Satya Prakash Gupta : 18-Nov-2020 : Security : ROST-368 ROST-401 -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="account-prefrences-mat-card-header">
+    <mat-card-title class="only-title">{{'label_accountPreferences' |translate}}</mat-card-title>
+    <div class="actionButton">
+        <button mat-raised-button class="buttonForDesktopMobile" tabindex="4" color="primary" id="btnSave" [disabled]="!preferenceFrom.valid"
+        (click)="updateSetting(this.preferenceFrom.value)">
+                <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save' |translate}}</span>
+            </button>    
+    </div>
+</mat-card-header>
+    
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="account-prefrences-drawer">    
+<mat-card class="component-card mat-elevation-z2" id="component-card">    
+        <mat-card-subtitle class="subTitle">{{ (('label_accountPreferencessubHead' |translate).length>maxCharacterLengthSubHead)? (('label_accountPreferencessubHead' |translate) | slice:0:maxCharacterLengthSubHead)+'...':(('label_accountPreferencessubHead' |translate)) }}</mat-card-subtitle>
+        <form class="col" novalidate [formGroup]="preferenceFrom" id="preferenceFrom">
+            <p><strong>{{'label_accountPreferencesLanguageAndRegion' |translate}}</strong></p>
+            <p>{{'label_accountPreferencesLanguageAndRegionShort' |translate}}</p>
+            <div class="row mb-0">
+                <div class="col l4 m6 s12">
+                   <div class="ng-slectBox">
+                    <ng-select placeholder="{{'label_language'|translate}}" class="show-required" tabindex="1" [clearable]="true"  formControlName="UserLanguage" id="accountprefrences-UserLanguage"  required> 
+                        <ng-option value="" disabled>Select Language</ng-option>
+                        <ng-option *ngFor="let language of gridLanguage" [value]="language.Code">{{language.LanguageName}}</ng-option>
+                    </ng-select>
+                    <mat-error *ngIf="this.preferenceFrom.controls['UserLanguage'].hasError('required')  && preferenceFrom.controls['UserLanguage'].touched">
+                        {{ 'label_language' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    </div>
+                 </div>
+               <div class="clear"></div>
+                <div class="col l4 m6 s12">
+                    <div class="ng-slectBox">
+                    <ng-select placeholder="{{'label_defaultRegion'|translate}}" class="show-required"  tabindex="2"[clearable]="true" formControlName="RegionId" id="accountprefrences-RegionId" (change)="getAllTimeZone($event,'onchange')"required> 
+                        <ng-option value="" disabled>Select Default Region</ng-option>
+                        <ng-option *ngFor="let region of distinctRegion" [value]="region.Region">{{region.Region}}</ng-option>
+                    </ng-select>
+                    <mat-error *ngIf="this.preferenceFrom.controls['RegionId'].hasError('required') && preferenceFrom.controls['RegionId'].touched">
+                        {{ 'label_defaultRegion' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    </div>
+                 </div>
+                <div class="col l4 m6 s12">
+                    <div class="ng-slectBox">
+                    <ng-select placeholder="{{'label_timeZone' |translate}}" class="show-required" tabindex="3" [clearable]="true" formControlName="UserTimezone" id="accountprefrences-UserTimezone"required> 
+                        <ng-option value="" disabled>Select Default Time Zone</ng-option>
+                       <ng-option *ngFor="let timezone of timezoneDetails" [value]="timezone.Id">{{timezone.Timezone}}</ng-option>
+                    </ng-select>
+                    <mat-error *ngIf="this.preferenceFrom.controls['UserTimezone'].hasError('required') && preferenceFrom.controls['UserTimezone'].touched">
+                        {{ 'label_timeZone' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    </div>
+                 </div>
+                 <div class="clear"></div>
+           <!---Animations-->          
+           <div class="col l4 m6 s12 slide-toggle-devide">
+            <mat-slide-toggle  formControlName="animation" id="accountprefernce-animations" tabindex="4"
+                  color="primary" labelPosition="before">{{'label_animations' |translate}}
+                </mat-slide-toggle> 
+                
+                <mat-slide-toggle  formControlName="XeepAnimation" id="accountprefernce-xeepanimations" tabindex="5"
+                color="primary" labelPosition="before">{{'label_Xeepanimations' |translate}}
+              </mat-slide-toggle> 
+            </div>
+            <div class="clear"></div>
+            <h2 class="cardSubTitle mt-15" id="cardSubTitle">
+            <span class="new badge red p-5">{{'label_msgForDisableEnable' |translate}}</span>
+            </h2>
+
+             </div>
+        </form>
+</mat-card>
+</mat-drawer-container>
+
+
+<!-- Entire Software : Satya Prakash Gupta : 18-Nov-2020 : Security : ROST-368 ROST-401 -->

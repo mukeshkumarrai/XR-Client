@@ -1,0 +1,116 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: resume-candidate.component.html
+    @Who: Bantee Kumar
+    @When: 17-Feb-2023
+    @Why: EWM-10381 EWM-10602
+    @What:  This page wil be use only for the candidate resume Component HTML
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+<div id="candidate-summry">
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)" class="resumeTab tab-container" dir="{{positionMatTab}}">
+    <mat-tab label="{{'label_resume' | translate}}">
+      <div class="resumeHeader">
+        <div>
+          <h2>{{'label_resume' | translate}} </h2>
+        </div>
+        
+      </div>
+      <div class="progress-loader-box" *ngIf="isLoading">
+        <div class="progress-loader">
+            <div class="loaderBar"></div>
+        </div>
+    </div>
+      <mat-divider class="mt-0 mb-0"></mat-divider>
+      <ng-conatiner *ngIf="showUploadedResume" class="resumeDownloadBtn">
+        <!-- <a [href]="DemoDoc" class="resumeDownloadBtn" *ngIf="showUploadedResume || showNoResumeBox" download="B0F85C5F-4886-4025-9F54-0361DCC3CBA0.PDF"> -->
+            <button target="_blank" mat-icon-button  [hidden]="FileName==undefined" id="descBtn" class="resume"
+            (click)="showResume(ResumeUrl,FileName)">
+            <mat-icon>fullscreen</mat-icon>
+        </button>
+       
+
+        <button *ngIf="showUploadedResume || showNoResumeBox" class="resumeDownloadBtn" type="button"
+        mat-icon-button class="buttonForDesktopMobile"  [hidden]="disableDownloadBtn"
+        color="primary" id="downloadResumeBtn" (click)="onDownloadResume(DemoDoc,UploadFileName)">
+        <mat-icon class="matIconDownload">file_download</mat-icon>
+        <!-- <span class="buttonTxt">{{'label_download' |translate}}</span> -->
+    </button>
+      </ng-conatiner>
+      <!--First Section when No Resume Added yet starts from here-->
+      <div class="row mb-0" *ngIf="showNoResumeBox">
+        <div class="col l12 m12 s12 center-align">
+          <p class="mb-15">{{'label_noResumeAvailable' | translate}}</p>
+          <button type="button" (click)="openUploadResumeBox()" color="primary" mat-raised-button
+            matTooltipClass="custom-tooltip">
+            <mat-icon>
+              add
+            </mat-icon> {{'label_UpLoadResume' | translate}}
+          </button>
+        </div>
+      </div>
+      <!--First Section when No Resume Added yet Ends here-->
+
+      <!--Second Section when PDF Viewer Resume starts from here-->
+
+      <div class="PDFViewer" *ngIf="showUploadedResume">
+        <!-- <div *ngIf="isLoading" class="k-i-loading bgTransparent"></div> -->
+
+        <div *ngIf="isLoading" class="logo-loader">
+          <div class="logo-loading"></div>
+        </div>
+
+        <ngx-doc-viewer [url]="DemoDoc" [viewer]="viewer" (loaded)="isLoading=false" style="width:100%;height:100%;">
+        </ngx-doc-viewer>
+      </div>
+      <!--Second Section when PDF Viewer Resume ends here-->
+
+    
+    </mat-tab>
+    <mat-tab label="{{'label_coverpage'|translate}}" id="cover-page">
+        
+            <ng-template mat-tab-label>
+                {{'label_coverpage'| translate}}
+
+            </ng-template>
+
+            <div class="progress-loader-box" *ngIf="isLoading">
+                <div class="progress-loader">
+                    <div class="loaderBar"></div>
+                </div>
+            </div>
+            <div class="PDFViewer-buttons">
+                <button target="_blank" mat-icon-button [hidden]="IsCover" id="descBtn" class="resume"
+                    (click)="showCoverletter(PreviewUrl,CoverLetterURL)">
+                    <mat-icon>fullscreen</mat-icon>
+                </button>
+                <button  class="resumeDownloadBtn" type="button"
+                    mat-icon-button class="buttonForDesktopMobile" [hidden]="IsCover"
+                    color="primary" id="downloadResumeBtn" (click)="onDownloadCoverPage(DemoDocCover,UploadFileName)">
+                    <mat-icon class="matIconDownload"
+                    >file_download</mat-icon>
+                </button>
+            </div>
+            <div class="col nodata center-align p-15" *ngIf="IsCover">
+                <p class="mb-15">{{'label_NoCoverLetterAvailable' | translate}}</p>
+                <button type="button" (click)="openUploadCovePage()" color="primary" mat-raised-button
+                    matTooltipClass="custom-tooltip">
+                    {{'label_uploadNewCoverPage' | translate}}
+                </button>
+            </div>
+
+            <div class="PDFViewer">
+                <!-- <div *ngIf="isLoading" class="k-i-loading bgTransparent"></div>   -->
+                  <div *ngIf="isLoading" class="logo-loader"> 
+                    <div class="logo-loading"></div>
+                </div>
+
+                <ngx-doc-viewer [url]="DemoDocCover" [viewer]="viewer" (loaded)="isLoading=false"
+                class="PDF-viewer-box">
+                </ngx-doc-viewer>
+            </div>
+        
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,0 +1,100 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash 
+    @When: 20-Nov-2020
+    @Why: ROST-352 ROST-406
+    @What:  This page wil be use only for the internationalization component HTML
+-->
+<!-- Entire Software : Satya Prakash Gupta : 20-Nov-2020 : internationalization component : ROST-352 ROST-406 -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="internation-mat-card-header">
+    <mat-card-title class="only-title">{{'label_internationalization' |translate}}</mat-card-title>
+    <div class="actionButton">
+        <button mat-raised-button class="buttonForDesktopMobile" tabindex="4" color="primary" id="btnSave"
+            [disabled]="!internatFrom.valid" (click)="updateSetting(this.internatFrom.value)">
+            <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save' |translate}}</span>
+        </button>
+    </div>
+</mat-card-header>
+    
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="internation-drawer">    
+    <mat-card class="component-card mat-elevation-z2" id="component-card">   
+        <div class="">
+            <mat-card-subtitle class="subTitle">{{ 'label_internationalizationSubTitle' |translate }}</mat-card-subtitle>
+            </div>
+        <form class="col" novalidate [formGroup]="internatFrom" id="Internationalization-internatFrom">
+            <div class="row mb-0">
+                <div class="col l4 m6 s12">
+                    <div class="ng-slectBox">
+                    <ng-select placeholder="{{'label_defaultLanguage'|translate}}" tabindex="1" class="show-required"  [clearable]="true"  formControlName="LanguageCode" id="Internationalization-LanguageCode" required> 
+                        <ng-option value="" disabled>Select Language</ng-option>
+                        <ng-option *ngFor="let language of gridLanguage" [value]="language.Code">{{language.LanguageName}}</ng-option>
+                    </ng-select>
+                        <mat-error *ngIf="this.internatFrom.controls['LanguageCode'].hasError('required') && internatFrom.controls['LanguageCode'].touched">
+                        {{ 'label_defaultLanguage' |translate}}   {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                    </div>
+                    </div>
+                    <div class="clear"></div>
+                    <!---@When:14-june-2021 @who:priti srivastava-->
+                    <div class="col l4 m6 s12">
+                    <div class="ng-slectBox">
+                        <!--@Nitin Bhtai,@EWM-13251,@when:31-07-2023, Handle countryList API Callingfrom custom drop-->
+                        <app-custom-ng-select [isErrorMsg]="true" [countryList]="countryList" [selectedIn]="selectedValue" [IsRequired]="true" [placeholder]="defaultCountryString" id="CountryId" (selectedOut)="ddlchange($event)"></app-custom-ng-select>
+                    <!--<ng-select placeholder="{{'label_defaultCountry' |translate}}" tabindex="3"  [clearable]="true" formControlName="CountryId" id="Internationalization-CountryId"required> 
+                        <ng-option value="">{{'label_selectCountry'|translate}}</ng-option>
+                        <ng-option *ngFor="let Country of CountryList" [value]="Country.Id">{{Country.Name}}</ng-option>
+                    </ng-select>-->
+                    <mat-error *ngIf="this.internatFrom.controls['CountryId'].hasError('required') && internatFrom.controls['CountryId'].touched">
+                        {{ 'label_defaultCountry' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    </div>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="ng-slectBox">
+                        <app-custom-ng-select-currency [isErrorMsg]="true"  [selectedIn]="selectedCurrencyValue" [placeholder]="defaultCurrencyString" [IsRequired]="true" id="CurrencyId" (selectedOut)="ddlCurrencychange($event)"></app-custom-ng-select-currency>
+                    <!---<ng-select placeholder="{{'label_defaultCurrency' |translate}}" tabindex="3"  [clearable]="true" formControlName="CurrencyId" id="Internationalization-CurrencyId"required> 
+                        <ng-option value="">{{'label_select'|translate}} {{'label_defaultCurrency'|translate}}</ng-option>
+                        <ng-option *ngFor="let Currency of CurrencyList" [value]="Currency.Id">{{Currency.CurrencyName}}</ng-option>
+                    </ng-select>-->
+                    <mat-error *ngIf="this.internatFrom.controls['CurrencyId'].hasError('required') && internatFrom.controls['CurrencyId'].touched">
+                        {{ 'label_defaultCurrency' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    </div>
+                </div>  
+                <!---end 14-june-2021-->           
+                <div class="clear"></div>
+                    <div class="col l4 m6 s12">
+                    <div class="ng-slectBox">
+                    <ng-select placeholder="{{'label_defaultRegion'|translate}}" tabindex="2" [clearable]="true" formControlName="RegionId" class="show-required" id="Internationalization-RegionId" (change)="getAllTimeZone($event,'onchange')" required> 
+                        <ng-option value="" disabled>Select Default Region </ng-option>
+                        <ng-option *ngFor="let region of distinctRegion" [value]="region.Region">{{region.Region}}</ng-option>
+                    </ng-select>
+                    <mat-error *ngIf="this.internatFrom.controls['RegionId'].hasError('required') && internatFrom.controls['RegionId'].touched">
+                        {{ 'label_defaultRegion' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    </div>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="ng-slectBox">
+                    <ng-select placeholder="{{'label_defaultUserTimeZone' |translate}}" tabindex="3"  [clearable]="true" formControlName="TimeZoneId" class="show-required" id="Internationalization-TimeZoneId" required> 
+                        <ng-option value="" disabled>Select Default Time Zone </ng-option>
+                        <ng-option *ngFor="let timezone of timezoneDetails" [value]="timezone.Id">{{timezone.Timezone}}</ng-option>
+                    </ng-select>
+                    <mat-error *ngIf="this.internatFrom.controls['TimeZoneId'].hasError('required') && internatFrom.controls['TimeZoneId'].touched">
+                        {{ 'label_defaultUserTimeZone' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+</mat-drawer-container>
+<!-- Entire Software : Satya Prakash Gupta : 20-Nov-2020 : internationalization component : ROST-352 ROST-406 -->

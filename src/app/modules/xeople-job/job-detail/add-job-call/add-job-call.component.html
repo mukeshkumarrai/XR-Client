@@ -1,0 +1,349 @@
+<!-- by maneesh creat component for add vxt call log -->
+<form [formGroup]="addCallForm" id="addTeamFormId" applyTabIndexes class="call-log-modal job-log-modal">
+    <mat-dialog-content>
+        <div class="top-header-bg"></div>
+        <div class="common-call-data">
+            <div class="save-section">
+
+                <h2 matDialogTitle class="mb-0 title-status" *ngIf="IsActive!='Edit'">
+                    <p>{{'title_addCalllog' | translate}}</p>
+                    <!-- <span class="vxt-connect">{{'label_Vxt_Connect' | translate}}</span> -->
+                    <!-- <span class="vxt-disconnect">{{'label_Vxt_Disconnect' | translate}}</span> -->
+                </h2>
+                <h2 matDialogTitle class="mb-0 title-status" *ngIf="IsActive=='Edit'">
+                    <p>{{'title_editCalllog' | translate}}</p>
+                    <!-- <span class="vxt-connect">{{'label_Vxt_Connect' | translate}}</span> -->
+                    <!-- <span class="vxt-disconnect">{{'label_Vxt_Disconnect' | translate}}</span> -->
+                </h2>
+
+                <!-- <mat-label class="sub-title"
+                [ngStyle]="this.addCallForm.controls['RelatedUserType'].hasError('required') &&
+                this.addCallForm.controls['RelatedUserType'].touched &&
+                {'color': '#f44336'}">{{ 'label_callhistory_saveto' |translate}} <span class="required-show">*</span></mat-label> -->
+                <div class="haff-section" [ngClass]="profileImageData?'':'avtaar-not-show'">
+                    <div class="user-avtaar-name"
+                        [ngClass]="profileImage!='' && profileImage!=undefined && profileImage!=null? 'img-profile':''">
+                        <div class="user-details" [ngClass]="profileImageData?'vxt-header':'default-vxt-header'">
+                            <div *ngIf="profileImageData" class="userAvtaarAndName tooltip tooltip-bottom"
+                                id="profiledata">
+                                <img *ngIf="profileImage!='' && profileImage!=undefined && profileImage!=null"
+                                    src="{{profileImage}}" class="logoImage" alt="">
+                                <span *ngIf="!profileImage"
+                                    [style.background]="getBackgroundColor(profileShortName)">{{profileShortName
+                                    |uppercase}}</span>
+
+                            </div>
+                           
+                            <div class="name-category" *ngIf="profileImageData">
+                                <span class="label-text text-overflow" *ngIf="ChangeAEndCaller=='CAND'"><span
+                                        class="text-overflow title-text">{{profileName | titlecase}}</span>
+                                    <h3>(Candidate)</h3>
+                                </span>
+                                <span class="label-text text-overflow" *ngIf="ChangeAEndCaller=='CLIE'"><span
+                                        class="text-overflow title-text">{{profileName | titlecase}}</span>
+                                    <h3>(Client)</h3>
+                                </span>
+                                <span class="label-text text-overflow" *ngIf="ChangeAEndCaller=='CONT'"><span
+                                        class="text-overflow title-text">{{profileName | titlecase}}</span>
+                                    <h3>(Contact)</h3>
+                                </span>
+                                <div class="profile-data" *ngIf="profilePhonnumber">
+                                    <mat-icon svgIcon="call"></mat-icon>
+                                    <a [disabled]="!profilePhonnumber" href="tel:{{profilePhonnumber}}"
+                                        class="cursor text-overflow" matTooltip="{{profilePhonnumber}}"
+                                        matTooltipClass="custom-tooltip">{{profilePhonnumber}}
+                                    </a>
+                                </div>
+                                <div class="profile-data" *ngIf="!profilePhonnumber">
+                                    <mat-icon svgIcon="call"></mat-icon>
+                                    <span class="no-number">{{'label_noPhoneNumber' | translate}}</span>
+                                </div>
+                                <div class="profile-data" *ngIf="profileEmail">
+                                    <mat-icon svgIcon="mail"></mat-icon>
+                                  
+                                <span class="text-overflow">{{profileEmail}}</span>
+                                </div>
+                                <div class="profile-data" *ngIf="!profileEmail">
+                                    <mat-icon svgIcon="mail"></mat-icon>
+                                    <span>{{'--'}}</span>
+                                </div>
+                                <div class="profile-data" *ngIf="Name">
+                                    <mat-icon svgIcon="business"></mat-icon>
+                                    <span class="text-overflow">{{Name}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="avtaar-details">
+                            <div class="call-details smallSlideToggle">
+                                <div class="data-text outgoing-text" *ngIf="showOutGoingCallData">
+                                    <mat-icon>phone_forwarded</mat-icon>
+                                    <span class="in-out">{{callType}}</span>
+                                </div>
+                                <div class="data-text" *ngIf="showIncommingCallData">
+                                    <mat-icon>phone_callback</mat-icon>
+                                    <span class="in-out">{{callType}}</span>
+                                </div>
+                                <mat-slide-toggle [checked]="showOutGoingCallData"
+                                    (change)="ShowIncomingOutgoing($event)" (click)="$event.stopPropagation()"
+                                    color="primary" labelPosition="before">
+                                </mat-slide-toggle>
+                            </div>
+                            <button [disabled]="gridList =='' || gridList ==null || gridList ==undefined"
+                                mat-stroked-button color="primary" (click)="openDynamicFilterArea()" tabindex
+                                type="button" class="view-last-button"
+                                matTooltip="{{'label_Vxt_View_last_Call_details'|translate}}"
+                                matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                                [matMenuTriggerFor]="menu" id="view-last-Call">
+                                <mat-icon svgIcon="call_log"></mat-icon>
+                            </button>
+
+                            <mat-menu #menu="matMenu" class="call-filter-area mat-elevation-z3">
+                                <div class="arrow-corner">
+                                    <mat-icon class="arrow_left">arrow_drop_up</mat-icon>
+                                </div>
+
+                                <div class="outer-profile">
+                                    <div class="inner-profile">
+                                        <mat-label class="small-title">To</mat-label>
+                                        <div class="user-avtaar-name">
+                                            <div class="userAvtaarAndName tooltip tooltip-bottom">
+                                                <img class="tooltip-trigger"
+                                                    *ngIf="lastcallToProfileImageUrl!=null && lastcallToProfileImageUrl!='' && lastcallToProfileImageUrl!=undefined"
+                                                    src="{{lastcallToProfileImageUrl}}" />
+                                                <span class="tooltip-trigger"
+                                                    *ngIf="lastcallToProfileImageUrl==null || lastcallToProfileImageUrl=='' || lastcallToProfileImageUrl==undefined"
+                                                    [style.background]="getBackgroundColor(LastCallToSortName)">{{LastCallToSortName}}</span>
+
+                                            </div>
+                                            <span class="label-text text-overflow" matTooltip="{{lastcallToName}}"
+                                                matTooltipClass="custom-tooltip">{{lastcallToName}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="inner-profile">
+                                        <mat-label class="small-title">From</mat-label>
+                                        <div class="user-avtaar-name">
+                                            <div class="userAvtaarAndName tooltip tooltip-bottom">
+                                                <img class="tooltip-trigger"
+                                                    *ngIf="lastcallToFromProfileImageUrl!=null && lastcallToFromProfileImageUrl!='' && lastcallToFromProfileImageUrl!=undefined"
+                                                    src="{{lastcallToFromProfileImageUrl}}" />
+                                                <span class="tooltip-trigger"
+                                                    *ngIf="lastcallToFromProfileImageUrl==null || lastcallToFromProfileImageUrl=='' || lastcallToFromProfileImageUrl==undefined"
+                                                    [style.background]="getBackgroundColor(lastcallFromSortName)">{{lastcallFromSortName}}</span>
+                                            </div>
+                                            <span class="label-text text-overflow" matTooltip="{{lastcallFromName}}"
+                                                matTooltipClass="custom-tooltip">{{lastcallFromName}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="notes-area">
+                                    <mat-label class="small-title">Notes</mat-label>
+                                    <span class="notes-box" [innerHTML]="lastcallNotesDiscription | safeHtml"></span>
+                                </div>
+
+                                <div class="date-time-show">
+                                    <h3>Date</h3>
+                                    <p>
+                                        <span>{{lastcallTime | date : 'dd-MM-yyyy
+                                            hh:mm a'}}</span>
+                                    </p>
+                                </div>
+                            </mat-menu>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="haff-section" *ngIf="hideJobDropdown">
+                <div class="ng-slectBox" readonly>
+                    <ng-select [disabled]="true" id="activity-ModifyClient" formControlName="RelatedUserType"
+                        class="dropdown-body" required appendTo="body" tabindex="4" [clearable]="true"
+                        (change)="checkRelatedType($event);onChangeActivityRelatedTo($event);">
+                        <ng-option value="JOB">{{Name}}</ng-option>
+                    </ng-select>
+
+                    <mat-error
+                        *ngIf="addCallForm.controls['RelatedUserType'].hasError('required') && addCallForm.controls['RelatedUserType'].touched">
+                        {{ 'label_activityRelatedTo' | translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                </div>
+                <div class="ng-slectBox" readonly>
+                    <ng-select [disabled]="true" id="activity-ModifyClient" [(ngModel)]="Name"
+                        formControlName="RelatedUserTName" class="dropdown-body" appendTo="body" tabindex="4"
+                        [clearable]="false">
+                        <ng-option value="JOB">{{Name}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="haff-section" *ngIf="JobIdForVxt">
+                <div class="ng-slectBox">
+                    <ng-select [disabled]="true" placeholder="{{ 'label_Vxt_Select_End_Caller' | translate }}"
+                        formControlName="RelatedUserTypeEndCaller" id="activity-ModifyClient" class="dropdown-body"
+                        required appendTo="body" tabindex="4" [clearable]="false" class="show-required"
+                        (change)="checkRelatedTypeEndCaller($event);onChangeAEndCaller($event);">
+                        <ng-option value="CAND">Candidate</ng-option>
+                        <ng-option value="CLIE">Client</ng-option>
+                        <ng-option value="CONT">Contact</ng-option>
+                    </ng-select>
+
+                    <mat-error
+                        *ngIf="addCallForm.controls['RelatedUserTypeEndCaller'].hasError('required') && addCallForm.controls['RelatedUserTypeEndCaller'].touched">
+                        {{ 'End Caller' | translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                </div>
+                <div class="common_dropdown_v2">
+                    <dropdown disabled="true" [configuration]="common_DropdownC_ConfigEndCaller"
+                        (selectedOut)="onRelatedUserchangeEndCaller($event)"
+                        [resetConfiguration]="SecondresetRelattedUserDrpEndCaller.asObservable()"
+                        [getSelectedItem]="selectedRelatedUserEndCaller">
+                    </dropdown>
+                </div>
+            </div>
+            <div class="common_dropdown_v2" id="call-status-change">
+                <dropdown [configuration]="common_DropdownCallStatus_Config" (selectedOut)="onCallStatuschange($event)"
+                [getSelectedItem]="selectedCallStatus">
+                </dropdown>
+            </div>
+            <div class="ng-slectBox">
+                <app-custom-dropdown [selectedIn]="selectedCategory" [resetFormSubject]="resetFormSubjectStatus.asObservable()" 
+                (selectedOut)="onCategorychange($event)" [config]="dropDownStatusConfig"></app-custom-dropdown>
+            </div>
+                <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+                    <mat-label [ngStyle]="this.addCallForm.controls['NotesDiscription'].hasError('required') &&
+                this.addCallForm.controls['NotesDiscription'].touched &&
+                {'color': '#f44336'}">{{ 'label_Vxt_Notes_Discription' | translate}} <span class="required-show">*</span></mat-label>
+                    <app-mention-editor [configuration]="editorConfig" [getEditorVal]="getEditorVal"
+                        (editorValueEmit)="getEditorFormInfo($event)" [otherInputIcon]="true"
+                        [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"
+                        (editorImageValueEmit)="getEditorImageFormInfo($event)"
+                        [resetConfiguration]="resetEditorValue.asObservable()"
+                        [handelWhitespace]="true">
+                    </app-mention-editor>
+                </div>
+     
+            <div class="haff-section date-time-Section" id="DateAndTime">
+                <mat-form-field>
+                    <mat-label>{{'label_select' | translate}} {{'label_date' | translate}}</mat-label>
+                    <input type="hidden" formControlName="Id">
+                    <input matInput [matDatepicker]="picker2" tabindex [placeholder]="getDateFormat"
+                        id="quickjob-filledDate" [(ngModel)]="currentStartDate" formControlName="DateStart"
+                        required [max]="MaxDate">
+                    <button
+                        *ngIf="addCallForm.value.DateStart || addCallForm.controls['DateStart'].hasError('matDatepickerParse')"
+                        id="clearBtn" matSuffix mat-icon-button aria-label="Clear" (click)="clearEndDate()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error
+                        *ngIf="addCallForm.controls['DateStart'].hasError('invalidDate')  && !addCallForm.controls['DateStart'].hasError('required')">
+                        {{'label_invalidDate' | translate}} </mat-error>
+                    <mat-error
+                        *ngIf="addCallForm.controls['DateStart'].hasError('matDatepickerParse') && !addCallForm.controls['DateStart'].hasError('matDatepickerMax')">
+                        {{'label_invalidDate' | translate}}</mat-error>
+                    <mat-error
+                        *ngIf="addCallForm.controls['DateStart'].hasError('required') && addCallForm.controls['DateStart'].touched && !addCallForm.controls['DateStart'].hasError('matDatepickerParse')">
+                        {{'label_date'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                </mat-form-field>
+                <div class="kendo-input-box" [ngClass]="isStartTmeRequired ? 'outer-label' : ''" id="timeInput">
+                    <kendo-floatinglabel text="{{ 'Select Time' | translate }}" class="show-label-required">
+                        <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" [value]="TimeStartValue"
+                            (valueChange)="handleChangeStartTime($event)">
+                        </kendo-timepicker>
+                    </kendo-floatinglabel>
+                    <button *ngIf="TimeStartValue!=''" id="cleartimeBtn" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="clearStartTime()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <p *ngIf="isStartTmeRequired">{{ 'label_Vxt_startTime' | translate }}
+                        {{'label_errorreqired' | translate}}</p>
+                </div>
+            </div>
+            <div class="show-hide">
+                <button mat-stroked-button color="primary" tabindex type="button" (click)="onHideMoreField('target')"
+                    id="btnHideShow">
+                    <span *ngIf="!hideMoreFields">{{'label_Vxt_More_Details' | translate}}<mat-icon> expand_more
+                        </mat-icon></span>
+                    <span *ngIf="hideMoreFields">{{'label_Vxt_less_Details' | translate}} <mat-icon> expand_less
+                        </mat-icon></span>
+                </button>
+            </div>
+            <div class="call-bottom-section"
+                *ngIf="(showReferenceId===true || showStartDate===true || showExpiryDate===true)||(hideMoreFields===true)">
+                <div class="haff-section">
+                    <div class="ng-slectBox">
+                        <ng-select placeholder="{{ 'label_Vxt_Saveto' | translate }}" id="activity-ModifyClient"
+                            formControlName="SecondRelatedUserType" class="dropdown-body" appendTo="body" tabindex="4"
+                            [clearable]="false"
+                            (change)="SecondcheckRelatedType($event);onChangeActivityRelatedToSecond($event);">
+                            <!-- <ng-option value="JOB">Job</ng-option> -->
+                            <ng-option value="CAND" *ngIf="ChangeAEndCaller!='CAND'">Candidate</ng-option>
+                            <ng-option value="CLIE" *ngIf="ChangeAEndCaller!='CLIE'">Client</ng-option>
+                            <ng-option value="CONT" *ngIf="ChangeAEndCaller!='CONT'">Contact</ng-option>
+
+                        </ng-select>
+                    </div>
+                    <div class="common_dropdown_v2">
+                        <dropdown [configuration]="common_DropdownC_Config_Details"
+                            (selectedOut)="SecondOnRelatedUserchange($event,'')"
+                            [resetConfiguration]="SecondresetRelattedUserDrp.asObservable()"
+                            [getSelectedItem]="SecondselectedRelatedUser"></dropdown>
+                    </div>
+                </div>
+                <div class="haff-section duration-source">
+                    <div class="duration">
+                        <!-- <mat-label class="sub-title">Duration</mat-label> -->
+                        <div class="min-sec">
+                            <div class="ng-slectBox ng-select-with-info-icon">
+                                <span class="infoStyle">{{'label_Vxt_minuts' |translate}}</span>
+                                <ng-select id="Second_number" floatLabel="never" formControlName="mins" name="number" placeholder="{{'label_Vxt_Minute' | translate }}"
+                                    class="dropdown-body" (change)="onChangeminut($event,'minut')" appendTo="body"
+                                    [clearable]="true" tabindex (clear)="resetTime('minut');">
+                                    <ng-option *ngFor="let item of timeValue"
+                                        value="{{item?.number}}">{{item?.number}}</ng-option>
+                                </ng-select>
+                            </div>
+                            <div class="ng-slectBox ng-select-with-info-icon">
+                                <span class="infoStyle">{{'label_Vxt_seconds' |translate}}</span>
+                                <ng-select id="Second_number" floatLabel="never" formControlName="Second" name="number" placeholder="{{'label_Vxt_Second' | translate }}"
+                                    class="dropdown-body" (change)="onChangeminut($event,'second')" appendTo="body"
+                                    [clearable]="true" tabindex (clear)="resetTime('second');">
+                                    <ng-option *ngFor="let item of timeValueForSecond"
+                                        value="{{item?.number}}">{{item?.number}}</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="source" id="targetGreen">
+                        <mat-form-field class="source-textarea" floatLabel="always">
+                            <!-- <mat-label>Source</mat-label> -->
+                            <input type="text" tabindex formControlName="SourcDescription" matInput placeholder="{{'label_Vxt_Source' | translate }}"
+                                (keyup)="onMessage($event.target.value)" id="document-comment">
+                            <mat-error *ngIf="this.addCallForm.controls['SourcDescription'].hasError('maxlength')">
+                                {{ 'employee_Source_Description' |translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <span>
+            <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+                {{'button_cancel'|translate}}</button>
+        </span>
+        <button mat-stroked-button color="primary" tabindex type="button"
+            [disabled]="!addCallForm.valid || reletedcatgry || isResponseGet || isStartTmeRequired"
+            (click)="onConfirm(this.addCallForm.getRawValue())" id="btnSave">
+            <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_save'|translate}}</span>
+            <div *ngIf="isResponseGet" id="loading"></div>
+        </button>
+    </div>
+</form>

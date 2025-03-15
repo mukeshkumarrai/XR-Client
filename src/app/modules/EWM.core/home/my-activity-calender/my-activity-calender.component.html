@@ -1,0 +1,416 @@
+<!---
+    Modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 17-Jan-2022
+    @Why: EWM-4469 EWM-4560
+    @What:  This page wil be use only for the my activity Component HTML
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<div class="clientDashboardContainer myActivityContainer" id="myActivityContainer">
+  <mat-card-header class="dashboard-mat-card-header date-sync sync-date-calender" id="activity-header" [ngClass]="[ isCardMode? 'sync-header-activity' : '']">
+    <mat-card-title>
+      <button mat-mini-fab class="addClientButton" matTooltip="{{'label_addNewActivity'|translate}}"
+        matTooltipClass="custom-tooltip" color="primary" id="btnActivity"
+        (click)="openDrawerMyActivity();"
+        (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <div id="{{animationVar?.CreateButton?.id}}"
+        class="{{animationVar?.CreateButton?.isAnimClass}}">
+        <mat-icon>add</mat-icon>
+        <!-- <mat-icon class="secondIcon" fontSet="material-icons-outlined">add</mat-icon> -->
+      </div>
+      </button>
+      <span>{{'label_MenuActivity' |translate}}</span>
+      <div class="user-view-text" *ngIf="sharedCalenderUser!=null">
+        {{'label_myActivityCalender_shareduserNameinfofist' |translate}}
+        <span>{{sharedCalenderUser}}</span>
+      </div>
+         <!-----@When:  27-07-2023 @Who : bantee @why: EWM-13394---->
+         <!-----@When:  28-08-2023 @Who : bantee @why: EWM-14101---->
+
+      <div id="activity-header-LastCalenderSync" *ngIf="emailConnection && viewMode === 'cardMode' && LastSyncDate!=null && LastSyncDate !=0 " class="last-sync">{{'label_emailIntegrationLastCalenderSync' |customTranslate }} -
+        {{(currentDate | date) == (LastSyncDate | date) ?
+     (LastSyncDate | dateAgo): (LastSyncDate | date:userpreferences.dateformate:userpreferences.timezone)}}
+  </div>
+     </mat-card-title>
+
+  
+
+    <div class="actionButton listGridButton" id="candidate-list-actionButton" *ngIf="!isMyActivity">
+
+      <!--@When: 29-11-2023 @who:Amit @why: EWM-15161 @what: search add-->
+      <mat-form-field class="mb-0 searchInput" floatLabel="never" *ngIf="isCardMode">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="userInvitaion-searchBox" tabindex="1" placeholder="Search"
+            (input)="onFilter($event.target.value)" [(ngModel)]="searchValue">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+      <div class="search-viewicon mb-0">
+        <ng-container *ngIf="hideCalenderOption">
+        <!--@When: 05-12-2023 @who:Amit @why: EWM-15296 @what: tolltip show-->
+        <div class="tooltip tooltip-left" *ngIf="sharedCalenderUser!=null">
+          <div class="tooltip-drop">
+            <div class="view-text">
+              {{'label_myActivityCalender_shareduserNameinfofist' |translate}}
+              <span>{{sharedCalenderUser}}</span>
+            </div>
+          </div>
+        </div>
+
+        <mat-checkbox color="primary" type="checkbox" [checked]="sideMenuContext == 'calenderview-section'?true:false" [disabled]="sharedEmp.length==0" (change)="Activitydrawer.toggle();openSharedCalender($event);sideMenuContext = 'calenderview-section'">{{'label_shareCalendarViewSharedCalendar' | translate}}</mat-checkbox>
+
+        <button (click)="shareCalender()" mat-stroked-button class="share-calendar-button" id="share-calendar-button" color="primary">
+          <div class="two-icons">
+            <mat-icon class="example-tab-icon" fontSet="material-icons-outlined">calendar_today</mat-icon>
+            <mat-icon class="secondIcon">arrow_forward</mat-icon>
+          </div>
+          <span class="share-label">{{'label_shareCalendarShareCalendar'|translate}}</span>
+        </button>
+      </ng-container>
+
+        <button mat-raised-button class="refreshBtn header-button" id="btnRefresh" (click) ="refreshComponent()"
+          matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          (mouseenter)="mouseoverAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)" >
+          <mat-icon id="{{animationVar?.RotateButton?.id}}" class="{{animationVar?.RotateButton?.isAnimClass}}">{{animationVar?.RotateButton?.iconName}}</mat-icon>
+        </button>
+
+        <button mat-raised-button class="filterButton radius-call mr-5 mb-0" [matMenuTriggerFor]="timescaleMenu" *ngIf="viewMode === 'cardMode'"
+        (mouseenter)="mouseoverAnimation(animationVar?.AdvanceSearchButton?.id, animationVar?.AdvanceSearchButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.AdvanceSearchButton?.id, animationVar?.AdvanceSearchButton?.animation)"
+        matTooltip="{{'label_timeScale'|translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip">
+          <mat-icon id="{{animationVar?.AdvanceSearchButton?.id}}" class="{{animationVar?.AdvanceSearchButton?.isAnimClass}}">event</mat-icon>
+        </button>
+
+        <mat-menu #timescaleMenu="matMenu" class="headerUserDropdown" xPosition="before">
+          <span class="material-icons headerDroupDownUp">
+            arrow_drop_up
+          </span>
+          <button mat-button (click)="changeDuration(15)" [ngClass]="slotDuration!==15? '': 'selectedTimeScale'">
+             <mat-icon *ngIf="slotDuration==15" class="mr-5">check</mat-icon>
+             <mat-icon *ngIf="slotDuration!=15"></mat-icon>
+            <span >15 {{'label_minutes'|translate}}</span>
+          </button>
+          <button mat-button (click)="changeDuration(30)" [ngClass]="slotDuration!==30? '': 'selectedTimeScale'">
+            <mat-icon *ngIf="slotDuration==30" class="mr-5">check</mat-icon>
+            <mat-icon *ngIf="slotDuration!=30"></mat-icon>
+            <span>30 {{'label_minutes'|translate}}</span>
+          </button>
+          <button mat-button (click)="changeDuration(60)" [ngClass]="slotDuration!==60? '': 'selectedTimeScale'">
+            <mat-icon  *ngIf="slotDuration==60" class="mr-5">check</mat-icon>
+            <mat-icon  *ngIf="slotDuration!=60"></mat-icon>
+            <span>60 {{'label_minutes'|translate}}</span>
+          </button>
+          <mat-divider></mat-divider>
+          <div class="p-15"> {{timezonName}}</div>
+          <mat-divider></mat-divider>
+          <button color="primary" mat-button (click)="openTimezoneModal()">
+            <span>{{'label_changeTimezone'|translate}}</span>
+          </button>
+        </mat-menu>
+
+        <!------------------Activity Listing------------------->
+        <div class="ng-slectBox searchInput " *ngIf="viewMode === 'listMode'">
+          <ng-select placeholder="{{ 'label_ActivityListing' | translate }}" [(ngModel)]="defaultSelectActivityListing"
+            id="activity-ActivityListing" class="dropdown-body" (change)="onChangeActivityListing($event)"
+            appendTo="body" tabindex="1" [clearable]="false">
+            <ng-option value="Upcoming">Upcoming Activities</ng-option>
+            <ng-option value="Past">Past Activities</ng-option>
+            <ng-option value="Done">Done Activities</ng-option>
+            <ng-option value="All">All Activities</ng-option>
+          </ng-select>
+        </div>
+
+        <!------------------Date Filter------------------->
+
+        <div class="button-with-clear mr-0" *ngIf="viewMode === 'listMode'">
+          <button mat-raised-button class="filterButton radius-call mb-0" id="filter-date"
+            [ngClass]="[ filterCountDate!=0 ? 'addFilter' : 'blankFilter']" tabindex="2"
+            matTooltip="{{'label_filterByDate'|translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip"
+            (mouseenter)="mouseoverAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)">
+            <mat-icon fontSet="material-icons-outlined" (click)="openModelForCalenderFilter()"
+              id="{{animationVar?.FilterButton?.id}}" class="{{animationVar?.FilterButton?.isAnimClass}}">date_range
+            </mat-icon>
+          </button>
+          <div class="clear-with-data" *ngIf="filterCountDate!=0" (click)="clearFilterData('Date')">
+            <span class="text-overflow filterCount">{{filterCountDate}}</span>
+            <button mat-icon-button color="warn" id="myActivityDate-clearFilterData">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!------------------Category Filter------------------->
+
+        <div class="button-with-clear" *ngIf="viewMode === 'listMode'">
+          <button mat-raised-button class="filterButton radius-call mb-0" id="filter-category"
+            [ngClass]="[ filterCountCategory!=0 ? 'addFilter' : 'blankFilter']" tabindex="3"
+            (mouseenter)="mouseoverAnimation(animationVar?.CategoryButton?.id, animationVar?.CategoryButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.CategoryButton?.id, animationVar?.CategoryButton?.animation)"
+            matTooltip="{{'label_category'|translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip">
+            <mat-icon fontSet="material-icons-outlined" (click)="openModelForCategoryFilter()"
+              id="{{animationVar?.CategoryButton?.id}}" class="{{animationVar?.CategoryButton?.isAnimClass}}">category
+            </mat-icon>
+          </button>
+          <div class="clear-with-data" *ngIf="filterCountCategory!=0" (click)="clearFilterData('Category')">
+            <span class="text-overflow filterCount">{{filterCountCategory}}</span>
+            <button mat-icon-button color="warn" id="myActivityCategory-clearFilterData">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('cardMode')" id="myActivity-list"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        matTooltip="{{'label_viewCalender'|translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          event_available
+        </span>
+      </button>
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('listMode')" id="myActivityCalender-card"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        matTooltip="{{'label_listView'|translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+       
+      </div>
+
+    </div>
+  </mat-card-header>
+
+<app-activity-drawer  [ActivityObj]="ActivityObj"   (closeDrawerMyActivity)="toggleDrawer1()"></app-activity-drawer>
+  <mat-drawer-container  class="my-activity-sec" autosize id="my-activity-drawer-container" [ngClass]="[ !isMyActivity ? '' : 'action-button-hide', isMyActivityView?'abcdd':'']">
+    <mat-drawer  id="slide1" #Activitydrawer [ngClass]="sideMenuContext === 'activity-section'?'activitydrawer':'employees-shared-calender'"  
+    position="end" [mode]="sideMenuContext === 'activity-section'?'over':'side'"
+    disableClose="true">
+    <ng-container *ngIf="sideMenuContext === 'activity-section'">
+      <div class="activitydrawer-innercontainer">
+        <div class="activitydrawer-innercontainer-drawerTitleSec" id="drawerTitleSec">
+          <h4 class="text-overflow">
+            <!-- {{(formHeading=='Add'?'label_addNewNotes':'label_editNewNotes')|translate}} -->
+            <span *ngIf="activityActionForm=='Add'">{{'label_add' |translate}} {{'label_MenuActivity' |translate}}</span>
+            <span *ngIf="activityActionForm=='Edit'">{{'label_edit' |translate}} {{'label_MenuActivity'
+              |translate}}</span>
+              <!-- <span *ngIf="activityActionForm=='View'">{{'label_View' |translate}} {{'label_MenuActivity'
+                |translate}}</span> -->
+            <button class="closeDrawerIcon" mat-stroked-button (click)="Activitydrawer.toggle();closeDrawerMyActivity(); sideMenuContext = 'activity-section'">
+              <mat-icon>close</mat-icon>
+            </button>
+          </h4>
+        </div>
+        <mat-card class="activitydrawer-innercontainer-mat-card" >
+
+          <!-- <app-view-activity *ngIf="isMyActivityView" [activityActionForm]="activityActionForm" [utctimezonName]="utctimezonName" [timezonName]="timezonName"
+          [timePeriod]="timePeriod" [activityId]="activityId" [isSlotActive]="isSlotActive" [slotsData]="slotsData"
+            (myActivityDrawerClose)="drawerCloseMyActivity($event)" [activityActionForm]="activityActionForm">
+          </app-view-activity> -->
+
+          <!---@When: 12-03-2023 @Who:Renu @Why: EWM-10648 EWM-10764 @What: pasing a new param activityActionForm.--->
+          <app-my-activity  *ngIf="isMyActivity" [activityActionForm]="activityActionForm" [utctimezonName]="utctimezonName" [timezonName]="timezonName"
+          [timePeriod]="timePeriod" [activityId]="activityId" [isSlotActive]="isSlotActive" [slotsData]="slotsData"
+            (myActivityDrawerClose)="drawerCloseMyActivity($event)" [activityActionForm]="activityActionForm"></app-my-activity>
+
+        </mat-card>
+      </div>
+   </ng-container>
+    <ng-container *ngIf="sideMenuContext === 'calenderview-section'">
+    <p>{{'label_sharedCalenderViewBox'|translate}}</p>
+    <div class="main-checkbox">
+      <mat-checkbox color="primary" *ngFor="let emp of sharedEmp; let i=index"  id="activity_sharedcalender_{{i}}" 
+      class="employees-shared-calender-list"   (change)="OnViewCalender($event,emp,i)"
+      [checked]="selectedIndex == i" >
+     
+      <div class="user-avtaar-name">
+        <div class="userAvtaarAndName tooltip tooltip-bottom">
+            <img class="tooltip-trigger" *ngIf="emp?.ProfileImage && emp?.ProfileImage!==''" src="{{emp?.ProfileImage}}" />
+            <span class="tooltip-trigger" *ngIf="emp?.ProfileImage==''||emp?.ProfileImage==null" [style.background]="getBackgroundColor(emp?.ShortName)">{{emp.ShortName}}</span>
+        </div>
+        <span> {{emp?.Name | titlecase}}</span>
+      </div>
+    </mat-checkbox>
+    </div>
+  </ng-container> 
+   </mat-drawer>
+    <mat-drawer-content>
+      <mat-card class="mat-elevation-z2 p-0 calender-mat-card" [ngClass]="[ viewMode === 'cardMode' ? 'cardMode' : 'hide']">
+        <kendo-scheduler  [kendoSchedulerBinding]="schedulerData$"
+        (slotSelectionChange)="onSelectionChange($event)"
+        (slotClick)="otherUserId === null?openActivityPanel($event):''"
+        [selectedDate]="selectedDate" startTime="{{StartTime}}" [scrollTime]="currentTimeBasedOnTimezone"
+          endTime="{{EndTime}}" class="activity-scheduler"
+           [slotDuration]="slotDuration" (eventClick)="showActivtyDeatils($event)"
+          [eventStyles]="getEventStyles" [selectedViewIndex]="1" [timezone]="timezonName"
+          (dateChange)="dateChange($event)"
+          [currentTimeMarker]="{localTimezone:false}" [style.height.px]="activitySchedulerHeight">
+           <ng-template kendoSchedulerMonthDaySlotTemplate let-date="date">
+            <div class="monthview-date current_date active" *ngIf="check(date)"> <span>{{ date | date : 'dd'  }}</span></div>
+            <div class="monthview-date gray" *ngIf="!checkCurrentMonth(date) && !check(date)"> <span>{{ date | date : 'dd'  }}</span></div>
+            <div *ngIf="!check(date) && checkCurrentMonth(date)" class="monthview-date"><span>{{ date | date : 'dd'  }}</span></div>
+          </ng-template>
+          <ng-template kendoSchedulerDateHeaderTemplate let-date="date">
+            <div class="week-date active"  *ngIf="check(date)"><span>{{ date |  date: dateFormat }}</span></div>
+            <div class="week-date" *ngIf="!check(date)" style="margin:0px"><span>{{ date | date : dateFormat  }}</span></div>
+          </ng-template>
+          <ng-template kendoSchedulerToolbarTemplate let-selectedDate="selectedDate">
+
+
+            <div kendoSchedulerToolbarNavigation></div>
+            <span class="k-spacer"></span>
+          
+            <div kendoSchedulerToolbarViewSelector></div>
+
+          </ng-template>
+          <ng-template kendoSchedulerAllDayEventTemplate let-event="event">
+            <div class="schedule-name" [ngClass]="getIcon(event.title,3)==1? 'schedule-name-past': ''" (mouseenter)="onHover(event.id)"
+            (mouseleave)="onHover(-1)" cdkOverlayOrigin #triggerallday="cdkOverlayOrigin" >
+            <div class="completed-activity" [ngStyle]="changeBackground(event.id)" ></div>
+            <mat-icon [ngStyle]="changeCategoryColor(event.id)">{{getIcon(event.title,2) }}</mat-icon>
+            <div class="text-overflow activity-name">{{getIcon(event.title,1) }}</div>
+            <mat-icon class="task-completed" *ngIf="getIcon(event.title,3)==1">check</mat-icon>
+          </div>
+          <ng-template
+          cdkConnectedOverlay
+          [cdkConnectedOverlayOrigin]="triggerallday"
+          [cdkConnectedOverlayOpen]="event.id==onHoverId">
+        <mat-card class="calender-popover mat-elevation-z8 animate__zoomIn animate__animated">
+          <div class="flex popover-title"  [ngClass]="getIcon(event.title,3)==1? 'schedule-name-past': ''" [style.background-color]='getEventPopoverBgCode(activityInfo.ScheduleActivity?.DateEndUTC,activityInfo?.ColorCode)'>
+            <div class="completed-activity" [ngStyle]="changeBackground(event.id)" ></div>
+            <mat-icon  [ngStyle]="changeCategoryColor(event.id)">{{activityInfo?.IconName}}</mat-icon>
+            <div class="activity-name">{{activityInfo?.ActivityTitle}}</div>
+            <mat-icon class="task-completed" *ngIf="getIcon(event.title,3)==1">check</mat-icon>
+          </div>
+          <div class="flex popover-activitydate">
+            <mat-icon matTooltip="{{'label_schedule'|translate}}">schedule</mat-icon>
+
+            <div> {{activityInfo.ScheduleActivity?.DateStartUTC |date:'d MMM y' }}-
+              {{activityInfo.ScheduleActivity?.DateStartUTC|date: 'hh:mm'}} to
+              {{activityInfo.ScheduleActivity?.DateEndUTC |date: 'hh:mm'}}
+              ({{activityInfo?.Duration}})</div>
+          </div>
+          <div class="flex popover-attendees">
+            <mat-icon matTooltip="{{'label_Attendees'|translate}}">perm_contact_calendar</mat-icon>
+            <div>{{activityInfo?.AttendeesName}}({{'label_Attendees'|translate}})</div>
+          </div>
+
+          <div class="flex popover-organiser">
+            <mat-icon>manage_accounts</mat-icon>
+            <div>{{activityInfo?.OrganizersName}}({{'label_Organiser'|translate}})</div>
+          </div>
+          <div class="flex smallSlideToggle-source">
+            <div class="flex">
+              <mat-slide-toggle color="primary"  readonly id="markasdone-btn" [checked]="(activityInfo?.IsCompleted==1)?true:false" labelPosition="before">{{'label_activitydone'|translate}}</mat-slide-toggle>
+            </div>
+            <div class="source-icon">
+              <img *ngIf="source===source" height="25px" src="{{xeopleImage}}"
+              matTooltip="{{'label_Source' | translate}} : {{activityInfo?.Source}}" matTooltipClass="custom-tooltip" />
+              <img *ngIf="MeetingPlatformLogoUrl!==null" height="25px" src="{{activityInfo?.MeetingPlatformLogoUrl}}"
+              matTooltip="{{'label_meetingPlatform' | translate}} : {{activityInfo?.MeetingPlatform}}" matTooltipClass="custom-tooltip" />
+            </div>
+          </div>
+         <div class="flex popover-remark" *ngIf="activityInfo?.IsCompleted==1">
+              <mat-label>{{'label_activityRemarks'|translate}}:</mat-label>
+              {{activityInfo?.Remarks}}
+          </div>
+        </mat-card>
+        </ng-template>
+          </ng-template>
+          <ng-template kendoSchedulerEventTemplate let-event="event" >
+            <div class="schedule-name" [ngClass]="getIcon(event.title,3)==1? 'schedule-name-past': ''" (mouseenter)="onHover(event.id)"
+                (mouseleave)="onHover(-1)" cdkOverlayOrigin #trigger="cdkOverlayOrigin"
+                >
+                <div class="completed-activity" [ngStyle]="changeBackground(event.id)" ></div>
+                <mat-icon [ngStyle]="changeCategoryColor(event.id)">{{getIcon(event.title,2) }}</mat-icon>
+                <div class="text-overflow activity-name">{{getIcon(event.title,1) }}</div>
+                <mat-icon class="task-completed" *ngIf="getIcon(event.title,3)==1">check</mat-icon>
+              </div>
+
+            <ng-template
+              cdkConnectedOverlay
+              [cdkConnectedOverlayOrigin]="trigger"
+              [cdkConnectedOverlayOpen]="event.id==onHoverId">
+            <mat-card class="calender-popover mat-elevation-z8 animate__zoomIn animate__animated">
+              <div class="flex popover-title" [ngClass]="getIcon(event.title,3)==1? 'schedule-name-past': ''" [style.background-color]='getEventPopoverBgCode(activityInfo.ScheduleActivity?.DateEndUTC,activityInfo?.ColorCode)'>
+                <div class="completed-activity" [ngStyle]="changeBackground(event.id)" ></div>
+                <mat-icon  [ngStyle]="changeCategoryColor(event.id)">{{activityInfo?.IconName}}</mat-icon>
+                <div class="activity-name">{{activityInfo?.ActivityTitle}}</div>
+                <mat-icon class="task-completed" *ngIf="getIcon(event.title,3)==1">check</mat-icon>
+              </div>
+              <div class="flex popover-activitydate">
+                <mat-icon matTooltip="{{'label_schedule'|translate}}">schedule</mat-icon>
+
+                <div> {{activityInfo.ScheduleActivity?.DateStartUTC |date:'d MMM y' }}-
+                  {{activityInfo.ScheduleActivity?.DateStartUTC|date: 'hh:mm'}} to
+                  {{activityInfo.ScheduleActivity?.DateEndUTC |date: 'hh:mm'}}
+                  ({{activityInfo?.Duration}})</div>
+              </div>
+              <div class="flex popover-attendees">
+                <mat-icon matTooltip="{{'label_Attendees'|translate}}">perm_contact_calendar</mat-icon>
+                <div>{{activityInfo?.AttendeesName}}({{'label_Attendees'|translate}})</div>
+              </div>
+              <div class="flex popover-organiser">
+                <mat-icon>manage_accounts</mat-icon>
+                <div>{{activityInfo?.OrganizersName}}({{'label_Organiser'|translate}})</div>
+              </div>
+              <div class="flex smallSlideToggle-source">
+                <div class="flex">
+                  <mat-slide-toggle color="primary"  readonly id="markasdone-btn" [checked]="(activityInfo?.IsCompleted==1)?true:false" labelPosition="before">{{'label_activitydone'|translate}}</mat-slide-toggle>
+                </div>
+                <div class="source-icon">
+                  <img *ngIf="source===source" height="25px" src="{{xeopleImage}}"
+                  matTooltip="{{'label_Source' | translate}} : {{activityInfo?.Source}}" matTooltipClass="custom-tooltip" />
+                  <img *ngIf="MeetingPlatformLogoUrl!==null" height="25px" src="{{activityInfo?.MeetingPlatformLogoUrl}}"
+                  matTooltip="{{'label_meetingPlatform' | translate}} : {{activityInfo?.MeetingPlatform}}" matTooltipClass="custom-tooltip" />
+                </div>
+              </div>
+             <div class="flex popover-remark" *ngIf="activityInfo?.IsCompleted==1">
+                  <mat-label>{{'label_activityRemarks'|translate}}:</mat-label>
+                  {{activityInfo?.Remarks}}
+              </div>
+            </mat-card>
+            </ng-template>
+
+          </ng-template>
+          <kendo-scheduler-day-view> </kendo-scheduler-day-view>
+          <kendo-scheduler-week-view> </kendo-scheduler-week-view>
+          <kendo-scheduler-month-view> </kendo-scheduler-month-view>
+         <kendo-scheduler-work-week-view [workWeekStart]="0" [workWeekEnd]="6" [slotClass]="slotClass"> </kendo-scheduler-work-week-view>
+         <!--<kendo-scheduler-work-week-view [workWeekStart]="1" [workWeekEnd]="5"> </kendo-scheduler-work-week-view>
+         <kendo-scheduler-multi-day-view  [workDayStart]="0" [workDayEnd]="6" [numberOfDays]="7" [slotClass]="slotClass"  ></kendo-scheduler-multi-day-view>
+         --->
+          <kendo-scheduler-pdf fileName="scheduler.pdf"> </kendo-scheduler-pdf>
+
+        </kendo-scheduler>
+      </mat-card>
+      <div [ngClass]="[ viewMode === 'listMode' ? 'listMode' : 'hide']">
+        <span *ngIf="viewMode === 'listMode' && isMyActivityList">
+          <app-my-activity-list (DateFilterClearCount)="DateFilterClearCount($event)"
+            (CategoryFilterClearCount)="CategoryFilterClearCount($event)"
+            (UpcomingActivityListing)="UpcomingActivityListing($event)"
+            (editMyActivityDrawer)="openDrawerForActivityEdit($event)"
+            [searchVal]="searchValue"></app-my-activity-list>
+        </span>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

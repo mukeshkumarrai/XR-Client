@@ -1,0 +1,51 @@
+
+// @(C): Entire Software
+// @Type: File, <html>
+// @Who:  ANUP
+//@When: 07-oct-2021
+//@Why: EWM-3088 EWM-3181
+
+/* 
+  Modified
+  @(C): Entire Software
+  @Type: File, <css>
+  @Who: Amit Rajput
+  @When: 01-07-2022
+  @Why: EWM-7363 EWM-7499
+  @What: style structure change
+*/
+
+.latLongDistance{
+    .map-mat-card{
+        .distanceIcon{
+            margin:0px;
+            text-align: center;
+            .import-export{
+                background: #f5f5f5;
+                .mat-icon{
+                    color: #333;
+                }
+            }
+        }
+        .distanceTotal{
+            text-align: center;
+            margin: 10px 0px 0px 0px;
+
+            .distanceTotalLbl{
+              padding: 10px 30px;
+             font-weight: 500;
+            font-size: 16px;
+            color: #f44336;
+            border: 1px solid rgba(0,0,0,0.15);
+            cursor: pointer;
+            }
+        }
+    }    
+}
+.googleMaps{
+    margin-top: 25px; 
+    height: 35vh;
+}
+.agm-map {
+    height: 100%;
+}

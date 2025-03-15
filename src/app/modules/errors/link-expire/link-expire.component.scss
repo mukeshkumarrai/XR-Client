@@ -1,0 +1,39 @@
+// @When: 05-12-2023 @who:Amit @why: EWM-15314 @what: style modified
+@import "../../../../styles-var.scss";
+.expire-link-data{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 50px - 50px);
+  padding-top: 50px;
+  padding-bottom: 50px;
+  .link-expire-data{
+    padding: 25px;
+    text-align: center;
+    display: inline-block;
+    margin: 45px 15px;
+    background: #ffffff;
+    border-radius: 4px;
+    max-width: 450px;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+    .material-icons{
+      font-size: 100px;
+      color: #ffb300;
+    }
+    button.ghost {
+      background-color: transparent;
+      border-color: transparent;
+      padding: 0px;
+      width: auto;
+      cursor: pointer;
+      font-size: 14px;
+      font-style: italic;
+      font-weight: 600;
+      height: auto;
+    }
+    p{
+      margin: 0px;
+    }
+  }
+}
+  

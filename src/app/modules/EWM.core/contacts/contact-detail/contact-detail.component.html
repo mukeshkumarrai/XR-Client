@@ -1,0 +1,195 @@
+ <!---
+@(C): Entire Software
+@Type: File, <html>
+@Who: bantee
+@When:12-sept-2023
+@Why: EWM-13712
+@What:  This component is used for detail for contact
+-->
+<div class="profile-summary-header contact-summary-header" id="contact-header" [style.background-color]="background20"
+*ngIf="(this.contactHeaderData != undefined) && (this.contactHeaderData != null) ">
+    <div class="candidate-profile">
+        <div class="k-i-loading profile-loading" *ngIf="imagePreviewloading" ></div>
+        <!-- who:maneesh,what:ewm-15821 fir fixed shortname and image,when:24/01/2023 -->
+          <span *ngIf="contactHeaderData?.ProfileImageURL==null || contactHeaderData?.ProfileImageURL=='' " [style.background]="getBackgroundColor(contactHeaderData?.ShortName)" class="short-name">{{contactHeaderData?.ShortName}}</span>
+          <img  *ngIf="contactHeaderData?.ProfileImageURL!=null && contactHeaderData?.ProfileImageURL!='' "src="{{contactHeaderData?.ProfileImageURL}}" (click)="openDialog(contactHeaderData?.ProfileImageURL)" id="candidate-profile">
+        <button mat-button>
+            <mat-icon (click)="croppingImage()">edit</mat-icon>
+        </button>
+    </div>
+
+    <div class="outer-sync-data">
+    <div class="candidate-profile-info">
+        <p matTooltip="{{contactHeaderData?.Name}}" matTooltipClass="custom-tooltip">{{contactHeaderData?.Name}}</p>
+        <small id="candidate-location" matTooltip="{{contactHeaderData?.Address}}" matTooltipClass="custom-tooltip">
+            <mat-icon *ngIf="contactHeaderData?.Address">location_on</mat-icon>{{contactHeaderData?.Address}}
+        </small>
+    </div>
+
+    <div class="data-sync" id="sync-data" *ngIf="contactHeaderData?.EOHId" 
+    matTooltip="Synced to EOH on {{contactHeaderData?.SyncedOn| date:userpreferences.timeformate:userpreferences.timezone}} with Contact ID: {{contactHeaderData?.EOHId}}" matTooltipClass="custom-tooltip">
+        <mat-icon svgIcon="tick"></mat-icon>
+        <span class="text_sync">{{'label_SyncedTo' | customTranslate}}</span>
+        <img class="eoh-logo" src="/assets/brand/{{EOHLogo}}">
+        <span class="text-overflow">on {{contactHeaderData?.SyncedOn| date:userpreferences.timeformate:userpreferences.timezone}} with Contact ID: {{contactHeaderData?.EOHId}}</span>
+    </div>
+    </div>
+
+    <span class="candidateheader-spacer"></span>
+    <div class="candidate-action">
+
+        <!--@When: 01-12-2023 @who:Amit @why: EWM-15264 @what: add back btn-->
+        <button type="button" id="backButton" color="primary"  mat-mini-fab [routerLink]="['contact-list']"
+        matTooltip="{{'label_contacts_Back' | customTranslate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)">
+            <mat-icon id="{{animationVar?.BackButton?.id}}" class="{{animationVar?.BackButton?.isAnimClass}}">
+                keyboard_backspace
+            </mat-icon>
+        </button>
+
+        <button type="button" color="primary" mat-mini-fab [matMenuTriggerFor]="beforeMenu"
+        (mouseenter)="mouseoverAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)">
+            <mat-icon id="{{animationVar?.ThreeDotButton?.id}}" class="{{animationVar?.ThreeDotButton?.isAnimClass}}">
+                more_vert
+            </mat-icon>
+        </button>
+        
+        <mat-menu #beforeMenu="matMenu" xPosition="before" class="candidateQuickMenu summary-candidateQuickMenu">
+            <span class="material-icons headerDroupDownUp">
+                arrow_drop_up
+            </span>
+            <button mat-button   (click)="editContactInfoModal()" id="editcontactbtn" >
+                <mat-icon>edit</mat-icon>{{'label_edit' |customTranslate}}
+            </button>
+                        <!-- // who:maneesh,waht:ewm-16066 for send email,when:29/02/2024 -->
+                        
+                     <button mat-button id="candidatesBulkBtn" [disabled]="contactHeaderData?.EmailId == null || contactHeaderData?.EmailId ==''"
+                       (click)="openNewEmailModal(contactHeaderData?.Id,contactHeaderData?.EmailId)"class="header-button br-0" id="candidate-list-manage-search">
+                      <mat-icon>{{animationVar?.MailButton?.iconName}}</mat-icon>
+                      <span class="text-for-mobile-view">{{'label_candidatesendEmail'|customTranslate}}</span>
+                     </button>
+<!-- who:maneesh,what:ewm-16561 for open chat histry overly  smsHistoryDetails,when:28/03/2024 -->
+                <button  mat-button id="smsBtn"
+                  [disabled]="!isSMSStatus || contactHeaderData?.PhoneNumber==null  || contactHeaderData?.PhoneNumber==''"
+                  (click)="smsHistoryDetails(contactHeaderData)">
+                  <mat-icon id="{{animationVar?.ShareButton?.id}}"
+                                      class="{{animationVar?.ShareButton?.isAnimClass}}">sms</mat-icon>{{'label_send' | customTranslate}} {{'label_SMS' | customTranslate}}
+                </button>
+            <button mat-button  id="deletcontactbtn" [disabled]="true">
+                <mat-icon>delete</mat-icon>{{'label_delete' | customTranslate}}
+            </button>
+
+            <button mat-button class="push-candidate-icon-button" 
+            *ngIf="(extractEnableCanCheck == 1) && (IsEOHIntergrated) && (tabType==='summary')"
+             mat-button id="shareContactToEOHBtn" (click)="shareContactModal()" id="AddShareContactSummaryTab" >
+                <img src="/assets/brand/{{EOHLogo}}"> 
+                {{'label_ShareContact' |customTranslate}}
+            </button>
+
+            <button mat-button class="push-candidate-icon-button" 
+                *ngIf="(extractEnableCanCheck == 1) && (IsEOHIntergrated) && (tabType==='client' && onSynchedClientData?.length>0)"
+                mat-button id="shareContactToEOHBtn" (click)="shareContactModal()" id="AddShareContactClientTab" >
+                    <img src="/assets/brand/{{EOHLogo}}"> 
+                    {{'label_ShareContact' |customTranslate}}
+            </button>
+            <ng-container *ngIf="!(extractEnableCanCheck == 1) || (!IsEOHIntergrated); else elseBlock">
+            <a class="push-candidate-icon-button logo-with-text" mat-button
+            (click)="redirectOnMarketPlace()" id="redirectPushShareContact">
+                <div class="groups">
+                    <img src="/assets/brand/{{EOHLogo}}" />
+                    <!-- not connected message  -->
+                    <div class="list-view-name" *ngIf="!IsEOHIntergrated">
+                        <div class="txt">{{'label_ShareContact' |customTranslate}}</div>
+                        <div class="text-label">{{'pushCandidateToEoh_marketplace'|customTranslate}}</div>
+                    </div>
+                    <!-- connected but not subscribe message -->
+                    <div class="list-view-name" *ngIf="IsEOHIntergrated">
+                      <div class="txt">{{'label_ShareContact' |customTranslate}}</div>
+                      <div class="text-label">{{'pushCandidateToEoh_marketplace_Subs'|customTranslate}}</div>
+                  </div>
+                </div>
+            </a>
+
+        </ng-container>
+        <ng-template #elseBlock>
+            <a class="push-candidate-icon-button logo-with-text" (click)="alertDialog()" *ngIf="tabType==='client' && onSynchedClientData?.length===0" mat-button id="shareContactNotSynchedId">
+                <div class="groups">
+                    <img src="/assets/brand/{{EOHLogo}}" />
+                     <div class="list-view-name">
+                        <div class="txt">{{'label_ShareContact' |customTranslate}}</div>
+                        <div class="text-label">{{'label_shareContactNotSynched'|customTranslate}}</div>
+                    </div>
+                </div>
+            </a>
+        </ng-template>
+        </mat-menu>
+    </div>
+</div>
+
+<mat-drawer-container class="advancedsearch-container p-10 profile-summary-container contact-summary-container" autosize id="contact-detail-drawer">
+    <mat-card id="canidate-card" class="canidate-card profile-summary-card" >
+        <mat-card-content class="profile-summary-card-content">
+        
+            <mat-tab-group class="assignJobHideArrows summary-tabs" id="contact-tab"  
+                  dir="{{positionMatTab}}" (selectedTabChange)="onTabChange($event)">
+                <mat-tab id="sammary-tab" label="summary" >
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">contact_page</mat-icon>
+                        View Summary 
+                    </ng-template>
+              <app-contact-summary [contactId]="contactId" [ContactIdString]="ContactIdString" (updateAddress)="dataUpdateAddress($event)" #contactInfoData [contactHeaderData]="contactHeaderData" [isSMSStatus]="isSMSStatus"></app-contact-summary>
+                </mat-tab>
+    
+                <mat-tab id="client-tab" label="client">
+                    <ng-template mat-tab-label>
+                        <!-- @When: 13-09-2023 @who:Amit @why: EWM-14068 @what: icon change --> 
+                        <mat-icon class="example-tab-icon">diversity_3</mat-icon>
+                         Clients <span class="numbers">{{dataTotalJob}}</span>
+                    </ng-template>
+                   <app-contact-clients (clientJobCount)="dataTotalJob=$event" (onSynchedClient)="onSynchedClient($event)" [contactId]="contactId" [contactHeaderData]="contactHeaderData"></app-contact-clients>
+                </mat-tab>                      
+          <mat-tab id="sms-tab" label="sms">
+            <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon" id="sms-icon" fontSet="material-icons-outlined">sms</mat-icon>
+                {{'label_sms' | customTranslate}}
+            </ng-template>
+            <div class="sms-history-drawer sms-contact-detail">
+            <app-sms-history
+            [SMSHistory]="SMSHistory" [ConTactPhoneNumber]="contactPhone" [candidateDetails]="contactHeaderData" [candidateIdData]="contactHeaderData?.Id"  [UserType]="userType"
+            (onSmsHistoryForm)="fetchDataFromSMSHistory($event)" [hideCanselBtn]="true"></app-sms-history>
+        </div>
+      </mat-tab>
+      <mat-tab id="sms-tab" label="call">
+        <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon" fontSet="material-icons-outlined">call</mat-icon>
+            {{'Call' | customTranslate}}<span class="numbers">{{callDataCount}}</span>
+                </ng-template>
+        <div class="sms-history-drawer sms-contact-detail">
+            <app-contact-call-histroy></app-contact-call-histroy>
+    </div>
+  </mat-tab>
+            </mat-tab-group>
+        </mat-card-content>
+    </mat-card>
+<!-- who:maneesh,what:ewm-16561 for open chat histry overly,when:28/03/2024 -->
+    <mat-drawer #smsHistoryDrawer mode="over" *ngIf="smsHistoryToggel" disableClose="true" position="end"
+    class="sms-history-drawer">
+    <div class="closePanel">
+      <button class="closeDrawerIcon" id="closeDrwerMapedsms" mat-stroked-button
+        (click)="toggleDrawer(smsHistoryDrawer)">
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+      <button class="sidebarSectionName addCandidateToJobBtn" mat-raised-button color="primary" type="button"
+        id="btnsmsHistory">{{'label_sms_history'|customTranslate }}</button>
+    </div>
+    <div class="panelSidebarInformation" id="getsmsHistory">
+      <mat-card class="drawer-mat-card candidate-sms-drawer">
+        <app-sms-history
+          [SMSHistory]="SMSHistory" [ConTactPhoneNumber]="contactPhone" [candidateIdData]="contactIdData" [candidateDetails]="candidateDetails" [UserType]="userType"
+          (onSmsHistoryForm)="fetchDataFromSMSHistory($event)"></app-sms-history>
+      </mat-card>
+    </div>
+  </mat-drawer>
+    </mat-drawer-container>

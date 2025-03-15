@@ -1,0 +1,106 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: email-actions.component.html
+  @Who: Adarsh singh
+  @When: 02 Feb 2022
+  @Why: EWM.4462.EWM-4968
+  @What: for email forwading
+ -->
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="dashboard-mat-card-header" id="emailAction-header">
+    <mat-card-title class="only-for-title" id="emailForwardingTitle">
+    {{'label_emailForwarding'|customTranslate}}
+    </mat-card-title>
+    <span class="heading-spacer"></span>
+</mat-card-header>
+<mat-drawer-container class="xeople-container-with-one-card-no-buttons" autosize id="dashboard-drawer">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+            <p class="mt-0">{{'label_xeopleSmartEmail_Automatically'|customTranslate}}</p>
+            <div class="row mb-0 mb-10 email-head">
+                <div class="col l8 m12 s12 pl-0" id="emailFeaturesDesc">
+                    <p class="mt-0">{{'label_emailFeaturesDesc'|customTranslate}}</p>
+                </div>
+                <div class="col l4 m12 s12">
+                    <form [formGroup]="emailForwardForm" class="email-head">
+                        <span *ngIf="!checkedLabel" class="mr-10">{{'label_disabled'|customTranslate}}</span>
+                        <span *ngIf="checkedLabel" class="mr-10">{{'label_enabled'|customTranslate}}</span>
+                        <mat-slide-toggle tabindex="4" color="primary" formControlName="EmailForwardingStatus" id="EmailForwardingStatus"
+                        (change)="toggleVisibility($event.checked,gridData)"></mat-slide-toggle>
+                    </form>
+                </div>
+            </div>
+            <b>{{'label_importantInstructions'|customTranslate}}</b>
+            <ul id="importantInstructionsList2">
+                <li>{{'label_importantInstructionsList1'|customTranslate}}</li>
+                <li>{{'label_importantInstructionsList2'|customTranslate}}</li>
+                <li>{{'label_importantInstructionsList3'|customTranslate}}</li>
+                <li>{{'label_importantInstructionsList4'|customTranslate}}</li>
+                <li>{{'label_importantInstructionsList5'|customTranslate}}</li>
+                <li>{{'label_importantInstructionsList6'|customTranslate}}</li>
+
+            </ul>
+            <p><strong>{{'label_xeopleSmartEmail_Note1'|customTranslate}}</strong> {{'label_xeopleSmartEmail_Note2'|customTranslate}}</p>
+            <div class="xeep-container">
+                <div class="mt-4 half-content-box" id="mailForwardingBox">
+                    <p><strong>{{'label_emailThereOption'|customTranslate}}</strong></p>
+                    <ol>
+                        <li>{{'label_emailThereOption1'|customTranslate}}</li>
+                        <li>{{'label_emailThereOption2'|customTranslate}}</li>
+                    </ol>
+                    <div class="email-data" [hidden]="!checkedLabel">
+                        <p><strong>{{'label_xeopleSmartEmail_Note1'|customTranslate}}</strong> {{'label_emailPleaseNoteDesc'|customTranslate}}</p>
+    
+                        <!-- @When: 27-03-2024 @who:Amit @why: EWM-16581 @what: modified --> 
+                        <div class="email-domain url-link" id="email-domain-link">
+                            <span class="adding-text"><strong>{{'label_emailAddingForCandidate'|customTranslate}}</strong></span>
+                            {{'label_emailPleaseNoteList1'|customTranslate}}
+                            <span class="anchor-email-hide">
+                                <button mat-icon-button color="primary" type="button" id="url-copy-btn" 
+                                (click)="copyCandidateEmailId(labelCandidate+'+'+fullEmail,1)">
+                                <mat-icon>content_copy</mat-icon>
+                                </button>
+                            <a href="mailto:{{labelCandidate}}+{{fullEmail}}" class="newEmailBtn">
+                                {{labelCandidate}}+{{fullEmail}}
+                                <div class="copyMessage email-hide" id="autoHide{{1}}">
+                                    <div class="alert-primary alert-green">
+                                    <mat-icon>check</mat-icon>
+                                    <span>{{'label_emailAddressCipied'| translate }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                            </span> 
+                        </div>
+    
+                        <div class="email-domain url-link" id="email-domain-url">
+                            <span class="adding-text"><strong>{{'label_emailAddingForCandidateToJob'|customTranslate}}</strong></span>
+                            {{'label_emailPleaseNoteList2'|customTranslate}}  
+                            <button mat-icon-button color="primary" type="button" id="url-copy-btn" 
+                            (click)="copyCandidateEmailId(labelCandidate+'+'+domainName+'.'+labelJobRefId,2)">
+                            <mat-icon>content_copy</mat-icon>
+                        </button>
+                            <span class="anchor-email-hide">
+                                <a href="mailto:{{labelCandidate}}+{{domainName}}.{{labelJobRefId}}" class="word-wrap-word newEmailBtn">
+                                {{labelCandidate}}+{{domainName}}.{{labelJobRefId}}
+                            </a>
+                            <div class="copyMessage email-hide" id="autoHide{{2}}">
+                                <div class="alert-primary alert-green">
+                                <mat-icon>check</mat-icon>
+                                <span>{{'label_emailAddressCipied'| translate }}</span>
+                                </div>
+                            </div>
+                            </span>
+                            
+                        </div>
+    
+                    </div>
+    
+                </div>
+                <div class="half-box">
+                    <img src="../../../../../assets/XeopleRecruitsmartemail.png" style="max-width: 100%;" />
+                </div>
+            </div>
+    </mat-card>
+</mat-drawer-container>

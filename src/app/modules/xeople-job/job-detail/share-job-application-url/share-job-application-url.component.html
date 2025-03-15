@@ -1,0 +1,66 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Suika
+    @When: 28-Sept-2022
+    @Why: EWM-5342
+    @What:  This component is used for dependent templates.
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  <div id="remove-Candidate" class="addJobCandidate candidate-job-maped-sec">
+    <form [formGroup]="addForm" applyTabIndexes  id="share-job-application-url">
+      <div class="p-15">
+        <h3 class="mt-0">{{'label_share_job_application_url'|translate }}</h3>
+        <mat-form-field class="email-form-field">
+          <mat-label>{{'label_to' |translate}} *</mat-label>
+          <mat-chip-list #chipListFrom aria-label="Enter Email-ID" formControlName="ToEmailIds">
+            <mat-chip selected *ngFor="let item of userSelectedList; let i=index" [selectable]="true"
+              [removable]="removable" (removed)="removeEmail(item)" required name="From Email-ID">
+              <span class="text-overflow">{{item.Email}}</span>
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input tabindex="11" placeholder=" {{ 'label_enteremail' |translate}}" [matChipInputFor]="chipListFrom"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="addFrom($event)" [matAutocomplete]="auto" tabindex="3">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete">
+          </mat-autocomplete>
+          <button matSuffix mat-button color="primary" (click)="confirmShareJobCandidate()" matTooltip="{{'label_mfa_addEmailStep' | translate}}"
+            class="ccBccEmailBtn" tabindex>
+            <mat-icon class="addContactIcon">add</mat-icon>
+          </button>
+          <mat-error *ngIf="this.addForm.controls['ToEmailIds'].hasError('required')">
+            {{ 'label_emailId' |translate}} {{ 'label_errorreqired' |translate}}
+          </mat-error>
+          <mat-error *ngIf="this.addForm.controls['ToEmailIds'].hasError('incorrectEmail')">
+            {{ 'label_emailreqired' |translate}}
+          </mat-error>
+  
+        </mat-form-field>
+        <!--   -->
+        <button mat-raised-button color="primary" type="button" id="shareurlbtn" class="ml-0 mb-10" [disabled]="isResponseGet"
+          (click)="copyJobApplicationUrl(shareJobApplicationUrl)"  matTooltip="{{'label_copyUrl'|translate}}" matTooltipClass="custom-tooltip">
+          <mat-icon>content_copy</mat-icon>
+         {{'label_copy_job_application_url'| translate }}
+         <div *ngIf="isResponseGet" id="loading" class="buttonTxt" ></div>
+
+        </button>   
+        <div class="flex">
+          <!-- label changes by Adarsh for EWM-7946 on 10-Aug-2022 -->
+          <div *ngIf="isCoppied" class="alert-primary alert-green"><mat-icon>check</mat-icon> <span>{{'label_copyJobApplication'| translate }}</span></div>
+        </div>
+      </div>
+      
+      <!-- <p *ngIf="isCoppied">{{'label_copied'| translate }}</p> <span color="primary">{{shareJobApplicationUrl}}</span> -->
+    </form>
+  
+    <mat-card class="button-row actionBoxFooter">
+      <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+        {{'button_cancel'|translate}}</button>
+      <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid" (click)="onConfirm()"
+        id="btnSave">{{'label_share'|translate}}</button>
+    </mat-card>
+  </div>
+  

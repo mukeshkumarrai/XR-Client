@@ -1,0 +1,62 @@
+
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+
+<!-- <div style="position: relative;">
+	<div class="right-align">
+		<button mat-icon-button  color="warn" *ngIf="viewMode=='view'" (click)="onDismiss()">
+			<mat-icon class="closeModal">close</mat-icon>
+		  </button>
+		  
+		
+	</div> -->
+    <!-- <div class="right-align">
+        <mat-icon class="closeModal">close</mat-icon>
+    </div> -->
+    <!-- <div class="quick-dialog inner-modal"> -->
+        <!-- <h2 mat-dialog-title>
+    
+            <span class="closeModal" (click)="onDismiss()">
+                <mat-icon>close</mat-icon>
+            </span>
+        </h2> -->
+<div class="modal-header">
+  <h2 matDialogTitle class="mb-0"></h2>
+  <div>
+    <button mat-icon-button id="btnModalCancel" color="warn" (click)="onDismiss()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>        
+<mat-dialog-content class="mat-dialog-content-map">
+   
+
+
+<agm-map #AgmMap class="wolrdMap" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="true" (mapReady)="mapReady($event)"
+(mapClick)="mapClicked($event)">
+
+  <agm-marker *ngFor="let m of markers; let i = index"  (markerClick)="clickedMarker(m.id,infoWindow, i)"
+    [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [markerDraggable]="false"
+    (dragEnd)="markerDragEnd(m, $event)" [iconUrl]="m.icon" >
+
+    <agm-info-window #infoWindow>
+
+        <mat-card class="mat-elevation-z0 p-0 mb-0" style="max-width: 200px;" *ngFor="let mapdata of dasboardMapPopUpData; index as rowIndex">
+            <mat-card-header> <mat-card-title *ngIf="mapdata.country">{{mapdata.country}}</mat-card-title> </mat-card-header>
+            
+            <mat-card-content style="height: auto;" class="p-0">
+              <p *ngIf="mapdata.addresslinktomap" class="mb-5">{{mapdata.addresslinktomap}} </p>
+              <p *ngIf="mapdata.zippostalcode" class="mt-0"> {{mapdata.zippostalcode}}</p>
+            </mat-card-content>
+           
+          </mat-card>
+      <!-- <div *ngFor="let mapdata of dasboardMapPopUpData; index as rowIndex">
+      <strong *ngIf="mapdata.country">{{mapdata.country}}</strong><br>
+      <strong *ngIf="mapdata.addresslinktomap">{{mapdata.addresslinktomap}}</strong><br>
+      <strong *ngIf="mapdata.zippostalcode">{{mapdata.zippostalcode}}</strong>
+      </div>          -->
+    </agm-info-window>
+
+  </agm-marker>
+</agm-map>
+
+</mat-dialog-content>

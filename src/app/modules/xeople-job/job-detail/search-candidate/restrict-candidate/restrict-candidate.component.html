@@ -1,0 +1,20 @@
+<!-- @(C): Entire Software
+ @Type: File, <TS>
+ @Who: Nitin Bhati
+ @When: 02-06-2023
+ @Why: EWM-11915
+ @What:restrict candidate.component.Html 
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<form id="xeople-smart-mail" applyTabIndexes>
+    <div class="modal-header">
+         <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content class="candidate-mail">
+        <div class="thanku-text" id="thanku-text"  [innerHTML]="AlertMessage | safeHtml"></div>
+    </mat-dialog-content>
+</form>

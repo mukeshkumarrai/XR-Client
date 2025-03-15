@@ -1,0 +1,130 @@
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<div class="modal-header" id="modal-header"  *ngIf="!hideHeader" >
+  <h2 matDialogTitle class="mb-0"><img src="../../../../../assets/brand/{{EOHLogo}}">{{'label_ShareClient' | translate}} </h2>
+  <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+      <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form [formGroup]="shareClientForm" (ngSubmit)="submitForm()" [ngClass]="hideHeader? 'client-share-eoh' : ''">
+ 
+  <mat-dialog-content class="share-dialog-content">
+  <div class="share-client-note">
+    <h3><span>{{'candidate_note'|translate}}</span></h3>
+    <p>{{(title?title:'label_shareClientEOH')|translate}}</p>
+  </div>
+
+  <mat-form-field class="form-column">
+    <mat-label>{{'label_shareClient_LocationName' |translate}} <span class="required-show">*</span></mat-label>
+    <input matInput formControlName="locationName" id="locationName"
+    placeholder="" required readonly >
+  </mat-form-field>
+
+  <div class="share-inner-section">
+  <mat-form-field class="form-column">
+    <mat-label>{{'label_shareClient_LocationType' |translate}} <span class="required-show">*</span></mat-label>
+    <input matInput formControlName="locationType" id="locationType"
+    placeholder="" required readonly>
+  </mat-form-field>
+    
+  <div class="ng-slectBox form-column">
+    <ng-select placeholder="{{ 'label_shareClient_Industry' | translate }}" #select  [clearable]="false"
+        id="Industry" formControlName="IndustryType"
+        class="dropdown-body-form-column show-required" appendTo="body" (change)="onIndustrychange($event)" tabindex required>
+        <ng-template ng-header-tmp>
+            <div class="add-manage">
+                <span class="spacer"></span>
+                <button mat-icon-button class="dropdown-reload" (click)="refreshAPI()"
+                    color="primary" type="button" matTooltip="{{'label_refreshBtn'|translate}}"
+                    matTooltipClass="custom-tooltip-top" matTooltipPosition="above">
+                    <mat-icon>rotate_right</mat-icon>
+                </button>
+            </div>
+            <div class="searchBox" id="search-box">
+                <input  class="myInput" autocomplete="off" type="text" [value]="searchVal"
+                    id="pushEoh-searchInnput" placeholder="Search..." 
+                    (input)="getInputVal($event.target.value)" />
+                <button *ngIf="searchVal" class="closeBtn" (click)="Clear();">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </ng-template>
+        <ng-option *ngFor="let list of IndustryList" [value]="list">
+            {{list.IndustryName}}</ng-option>
+    </ng-select>
+    <mat-error
+        *ngIf="shareClientForm.controls['IndustryType'].hasError('required') && shareClientForm.controls['IndustryType'].touched">
+        {{ 'label_shareClient_Industry' | translate}} {{ 'label_errorreqired' |translate}}
+    </mat-error>
+</div>
+  <!-- <div class="common_dropdown_v2 form-column"> 
+    <dropdown [configuration]="Industry_Dropdown_Config" tabindex
+        [resetConfiguration]="resetIndustryDrp.asObservable()" (selectedOut)="onIndustrychange($event)"
+        [getSelectedItem]="selectedIndustry" [initialize]="dropdownInitilize"
+        [showMoreOptionsNum]="5">
+    </dropdown>
+    
+</div> -->
+    
+    <div class="common_dropdown_v2 form-column"> 
+      <dropdown [configuration]="Office_Dropdown_Config" tabindex
+          [resetConfiguration]="resetOfficeDrp.asObservable()" (selectedOut)="onOfficechange($event)"
+          [getSelectedItem]="selectedOffice" [initialize]="dropdownInitilize"
+          [showMoreOptionsNum]="5">
+      </dropdown>
+  </div>
+   
+  <div class="common_dropdown_v2 form-column"> 
+    <dropdown [configuration]="Priority_Dropdown_Config" tabindex
+        [resetConfiguration]="resetPriorityDrp.asObservable()" (selectedOut)="onPrioritychange($event)"
+        [getSelectedItem]="selectedPriority" [initialize]="dropdownInitilize"
+        [showMoreOptionsNum]="5">
+    </dropdown>
+</div>
+
+<!-- <div class="common_dropdown_v2 form-column"> 
+  <dropdown [configuration]="Status_Dropdown_Config" tabindex
+      [resetConfiguration]="resetStatusDrp.asObservable()" (selectedOut)="onStatuschange($event)"
+      [getSelectedItem]="selectedStatus" [initialize]="dropdownInitilize"
+      [showMoreOptionsNum]="5">
+  </dropdown>
+</div> -->
+</div>
+
+<div class="checkbox-select mt-5" id="select-checkbox">
+  <mat-checkbox color="primary" id="shareclient-eoh-client" tabindex formControlName="fetchParentClient"  (change)="onCheckedEOHClient($event)">{{'label_shareClient_eohClient'|translate}}</mat-checkbox>
+  <div class="common_dropdown_v2 mt-10" *ngIf="shareClientForm.get('fetchParentClient').value">
+      <dropdown [configuration]="ClientAdmin_Dropdown_Config" tabindex
+          [resetConfiguration]="resetClientAdminDrp.asObservable()" (selectedOut)="onClientAdminChange($event)"
+          [getSelectedItem]="selectedClientAdmin" [initialize]="dropdownInitilize" [showMoreOptionsNum]="5">
+      </dropdown>
+  </div>
+</div>
+
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="eoh-dialog-footer share-client-footer">
+  <div class="button-group">
+    <button *ngIf="buttonVisibility[ClientBtnDetails.CANCEL]?.visible" mat-stroked-button color="warn" tabindex type="button"  id="btnCancel"
+    (click)="onCancel()">{{'label_cancel'|translate}}</button>
+
+    <button  *ngIf="buttonVisibility[ClientBtnDetails.SHARE_CLIENT]?.visible" mat-stroked-button class="eoh-bg-button" color="primary" tabindex type="button" [disabled]="shareClientForm.invalid || isResponseGet" id="btnSave"
+     (click)="submitForm()"><img *ngIf="!isResponseGet" src="../../../../../assets/brand/{{EOHLogo}}">
+     <span *ngIf="!isResponseGet">{{'label_ShareClient'|translate}}</span>
+     <div *ngIf="isResponseGet" id="loading"></div>         
+    </button>
+
+    <button *ngIf="buttonVisibility[ClientBtnDetails.SAVE_AND_NEXT]?.visible" mat-stroked-button color="primary" tabindex type="button" (click)="submitForm()"
+            [disabled]="!shareClientForm.valid || isResponseGet" id="btnSaveNext">
+            <span *ngIf="!isResponseGet">{{'label_screeningAction_saveNext'|translate}}</span>
+            <div *ngIf="isResponseGet" id="loading"></div>        
+    </button>
+  </div>
+</div>
+  
+</form>

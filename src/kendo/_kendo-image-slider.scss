@@ -1,0 +1,129 @@
+.banner-panel{
+    kendo-scrollview.k-scrollview-wrap, kendo-scrollview.k-scrollview, div.k-scrollview{
+        background: transparent;
+        border: 0px;
+        height: calc(100vh - 147px);
+        // @media only screen and (max-width: 1024px) and (min-width: 775px){
+        //     height: calc(100vh - 302px);
+        // }
+        .k-scrollview{
+            & > li{
+                .silder-container{
+                    display: flex;
+                    align-items: center;
+                    // justify-content: center;
+                    flex-direction: column;
+                    font-weight: bold;
+                    font-family: 'Bariol';
+                    height: calc(100vh - 147px);
+                    .image-box{
+                        height: 360px;
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 15px;
+                        padding-top: 20px;
+                        @media only screen and (max-width: 1024px) and (min-width: 775px){
+                            height: 250px;
+                        }
+                        @media only screen and (min-width: 1600px){
+                            height: 450px;
+                            padding-top: 60px;
+                        }
+                        @media only screen and (max-height: 925px){
+                            height: 310px;
+                            padding-top: 30px;
+                        }
+                        img{
+                            max-height: 100%;
+                            max-width: 100%;
+                        }
+                    }
+                    .title{
+                        font-size: 37px;
+                        color: #CE0086;
+                        margin: 20px 0px 0px;
+                        max-width: calc(100% - 50px);
+                        white-space: break-spaces;
+                        text-align: center;
+                        line-height: 28px;
+                        margin-bottom: 10px;
+                        @media only screen and (max-width: 1024px) and (min-width: 775px){
+                            line-height: 28px;
+                            font-size: 28px;
+                        }
+                    }
+                    .description{
+                        max-width: calc(100% - 50px);
+                        font-size: 20px;
+                        color: #381F75;
+                        margin: 0px;
+                        white-space: break-spaces;
+                        line-height: 24px;
+                        text-align: center;
+                        @media only screen and (max-width: 1024px) and (min-width: 775px){
+                            font-size: 16px;
+                            line-height: 20px;
+                        }
+                    }
+                }
+            }
+        }
+        .k-scrollview-elements{
+            kendo-scrollview-pager{
+                height: 18px;
+                bottom: 30px;
+                .k-scrollview-pageable{
+                    padding: 0px;
+                    margin: 0px;
+                    overflow: hidden;
+                    .k-button{
+                        width: 18px;
+                        height: 18px;
+                        background: #DBBFFF;
+                        margin: 0 5px;
+                        &:hover{
+                            background: #DBBFFF;
+                        }
+                        &:hover::before{
+                            display: none;
+                        }
+                    }
+                    .k-primary{
+                        width: 42px;
+                        border-radius: 26px;
+                    }
+                }
+            }
+        }
+    }
+}
+.dark-theme{
+    .banner-panel{
+        kendo-scrollview.k-scrollview-wrap, kendo-scrollview.k-scrollview, div.k-scrollview{
+            .k-scrollview{
+                & > li{
+                    .silder-container{
+                        .title{
+                            color: #ffffff;
+                        }
+                        .description{
+                            color: #d6d3d3;
+                        }
+                    }
+                }
+            }
+            .k-scrollview-elements{
+                kendo-scrollview-pager{
+                    .k-scrollview-pageable{
+                        .k-button{
+                            background: #DBBFFF;
+                            &:hover{
+                                background: #DBBFFF;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }  
+}

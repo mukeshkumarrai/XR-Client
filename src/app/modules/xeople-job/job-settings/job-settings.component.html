@@ -1,0 +1,68 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: job-settings.component.html
+  @Who: Suika
+  @When: 24-June-2021
+  @Why: ROST-1908
+  @What: For dynamic menu
+ -->
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  
+  <mat-card id="jobsetting-card">
+    <mat-card-header>
+      <mat-card-title>{{'label_jobsettings' |translate}}</mat-card-title>
+      <span class="heading-spacer"></span>
+  
+  
+  
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50"
+      (scrolled)="onScrollDown()" [scrollWindow]="false">
+      <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : '']">
+  
+  
+  
+        <div class="row mb-0">
+          <div *ngFor="let groupdata of distinctGroupName;let i =index" class="col l4 m12 s12">
+            <div class="jobSettingCardWidth">
+              <span class="menuHeading">{{groupdata}}</span>
+              <div class="menuListBox">
+                <div *ngFor="let subMenuData of menuArray[groupdata];let j =index ;">
+                  <div *ngIf="menuCount[groupdata] >= j">
+                    <div class="menuLinkItems">
+                      <mat-icon   [ngClass]="subMenuData.isfavourite==0 ? 'matIcon' : 'matIcon activeStarIcon'" 
+                        (click)="makeFavourite(subMenuData.MenuLabel,subMenuData.Id,subMenuData.isfavourite,groupdata)">star</mat-icon>
+                      <a>                    
+                        <p (click)="goToPage(subMenuData.Router)"> {{subMenuData.MenuLabel | translate}}
+                        </p>
+                        <p class="newChipBtn" *ngIf="subMenuData.Tag==1">
+                          New
+                        </p>
+                      </a>
+                    </div>                  
+                  </div>
+                  <a class="viewMoreLink" (click)="viewMore(groupdata)"
+                    *ngIf="menuCount[groupdata]==j && (menuCount[groupdata] < menuArray[groupdata].length-1) ">
+                    <mat-icon class="arrowDownIcon">keyboard_arrow_down</mat-icon>
+                     {{'label_jobsettingmore' | translate}}
+                  </a>
+                
+                </div>
+                <a class="viewMoreLink" (click)="viewLess(groupdata)"
+                 *ngIf="(menuCount[groupdata] >= menuArray[groupdata].length) && menuArray[groupdata].length-1 > mcount">
+                 <mat-icon class="arrowDownIcon">keyboard_arrow_up</mat-icon>
+                 {{'label_jobsettingless' | translate}}
+               </a>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  

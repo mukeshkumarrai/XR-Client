@@ -1,0 +1,146 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: candidate-emergency-contacts.component.html
+    @Who: Renu
+    @When: 18-Aug-2021
+    @Why: EWM-2196 EWM-2428
+    @What:  This page wil be use only for the candidate emergency contacts Component HTML
+-->
+<form [formGroup]="contactForm" id="address-people" applyTabIndexes>
+    <div class="quick-dialog-candidateAdd-address">
+      <h2 mat-dialog-title>
+          <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+     {{methodType}}   {{'candidate_emergencyContacts'|translate}}
+      </h2>
+      <mat-dialog-content class="col">
+      
+        <div class="row mb-0">
+          <div class="col l12 m12 s12">
+            <mat-form-field>
+              <mat-label>{{'label_canEmergencyfirstName' | translate}}</mat-label>
+              <input type ="hidden" name="Id" id="Id" formControlName="Id"/>
+              <input type="text" tabindex matInput
+                placeholder="{{'label_canEmergencyfirstName' | translate}}" formControlName="FirstName" id="candidate-contacts-firstname" required>
+              <mat-error *ngIf="this.contactForm.controls['FirstName'].hasError('required')">
+                {{ 'label_canEmergencyfirstName' |translate}} {{ 'label_errorreqired' |translate}}
+              </mat-error>
+              <mat-error *ngIf="this.contactForm.controls['FirstName'].hasError('pattern')">
+                {{ 'label_canEmergencyfirstName' |translate}} {{ 'label_errorName' |translate}}
+              </mat-error>
+              <mat-error *ngIf="this.contactForm.controls['FirstName'].hasError('maxlength')">
+                {{ 'label_canEmergencyfirstName' |translate}} {{ 'label_errormaxlength50' |translate}}
+              </mat-error> 
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l12 m12 s12">
+              <mat-form-field>
+                <mat-label>{{'label_canEmergencyLastName' | translate}}</mat-label>
+                <input type="text" tabindex matInput
+                  placeholder="{{'label_canEmergencyfirstName' | translate}}" formControlName="LastName" id="candidate-contacts-lastname" required>
+                <mat-error *ngIf="this.contactForm.controls['LastName'].hasError('required')">
+                  {{ 'label_canEmergencyLastName' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <mat-error *ngIf="this.contactForm.controls['LastName'].hasError('pattern')">
+                  {{ 'label_canEmergencyLastName' |translate}} {{ 'label_errorName' |translate}}
+                </mat-error>
+                <mat-error *ngIf="this.contactForm.controls['LastName'].hasError('maxlength')">
+                  {{ 'label_canEmergencyLastName' |translate}} {{ 'label_errormaxlength50' |translate}}
+                </mat-error> 
+              </mat-form-field>
+            </div>
+          </div>
+         
+         <div class="row mb-0">
+          <div class="col l12 m12 s12 ng-slectBox">
+            <!-- <ng-select tabindex placeholder="{{'label_canEmergencyRelationShip' | translate}}" formControlName="Relationship"  [clearable]="true"
+            placeholder="{{'label_canEmergencyRelationShip'|translate}}*" id="candidate-contacts-realtionship" bindLabel="Name" [compareWith]="compareFn" required>
+            <ng-option [value]="" disabled>{{'label_select' | translate}} {{'label_canEmergencyRelationShip' | translate}}</ng-option>
+               <ng-option *ngFor="let relation of relationList" [value]="relation">
+                   {{relation.Name}}</ng-option>
+               </ng-select> -->
+               <app-custom-dropdown [selectedIn]="selectedRelation"  (selectedOut)="onRelationchange($event)"  [config]="dropDoneConfig"
+               ></app-custom-dropdown>
+               <mat-error *ngIf="this.contactForm.controls['Relationship'].hasError('required') && this.contactForm.controls['Relationship'].touched">
+                {{ 'label_canEmergencyRelationShip' |translate}} {{ 'label_errorreqired' |translate}}
+              </mat-error> 
+              <mat-error *ngIf="contactForm.controls['Relationship'].hasError('RelationTaken')">
+                {{'label_canEmergencyRelationShip'|translate}} {{'label_errorreqiredAlready'|translate}}
+              </mat-error>
+          </div>
+        </div>
+                                <!-- @Who: bantee ,@When: 3-mar-2023, @Why: EWM-11518 ,What: pop up on input field recent activity -->
+
+        <div class="row mb-0">
+            <div class="col l12 m12 s12">
+                <mat-form-field class="icon-withchip" tabindex>
+                    <mat-label>{{'label_canEmergencyPhoneNo' | translate}}</mat-label>
+                    <mat-chip-list #phoneList aria-label="phone selection" [disabled]="matchipDisabled" required>
+                        <mat-chip *ngFor="let number of phone" [selectable]="selectable" id="phonechiplist" [removable]="removable"
+                            (removed)="remove(number,'phone')">
+                            {{(number?.phoneCodeName && number.phoneCodeName.toString()?.startsWith('+'))?'':'+'}}{{number?.phoneCodeName}}  {{number.phone}} ({{number.Name}})
+                            <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input readonly [matChipInputFor]="phoneList"  
+                        (click)="addPhone()"
+                        matInput>
+                    </mat-chip-list>
+                    <mat-icon matPrefix class="matPrefix-icon">phone</mat-icon>
+                    <button tabindex mat-raised-button matSuffix color="primary" [disabled]="IsDisabled" type="button" class="matSuffix-icon mgBottom5" id="btnAdd-people" (click)="addPhone()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-form-field>
+                <div class=" ng-slectBox">
+                    <mat-error *ngIf="this.contactForm.controls['phonemul'].hasError('required')">
+                        {{ 'label_canEmergencyPhoneNo' |translate}} {{ 'label_errorreqired' |translate}}
+                      </mat-error>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l12 m12 s12" formGroupName="address">
+                <mat-form-field class="icon-withchip">
+                    <mat-label>{{'label_canEmergencyAddress' | translate}}</mat-label>
+                    <input type="text" tabindex  formControlName="AddressLinkToMap"  matInput
+                    placeholder="{{'label_canEmergencyAddress' | translate}}" (click)="addAddress()" id="candidate-emergency-address" readonly required>
+        
+                    <mat-icon matPrefix class="matPrefix-icon">location_on</mat-icon>
+                    <button tabindex id="addbtn-address" mat-raised-button matSuffix color="primary" [disabled]="IsDisabled" type="button" class="matSuffix-icon mgBottom5"  (click)="addAddress()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <mat-error
+                    *ngIf="this.contactForm.get('address.AddressLinkToMap').hasError('maxlength')">
+                    {{ 'label_canEmergencyAddress'|  translate}} {{ 'label_errormaxlength250' |translate}}
+                  </mat-error>
+                  <mat-error
+                  *ngIf="this.contactForm.get('address.AddressLinkToMap').hasError('required')">
+                  {{ 'label_canEmergencyAddress' | translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                </mat-form-field>
+                
+            </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l6 m6 s12">
+                <mat-label class="toggle-label">{{'label_canPrimaryContact' |translate}}:
+                </mat-label>
+                <mat-slide-toggle formControlName="PrimaryContact" id="candidate-emergency-PrimaryContact" tabindex
+                    color="primary">
+                </mat-slide-toggle>
+            </div>
+        </div>
+       
+      </mat-dialog-content>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+      <button mat-stroked-button color="warn" tabindex type="button"  id="btnCancel" (click)="onDismiss()">
+        {{'button_cancel'|translate}}</button>
+         <!-- who:maneesh,what :ewm.EWM.9767 phoneValid and  prNomber:9767,when:09/01/2023 -->
+      <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!contactForm.valid || !phoneValid"  
+         id="btnSave"  (click)="onSubmit(this.contactForm.value)"> {{'label_save'|translate}}</button>
+    </div>
+  </form>

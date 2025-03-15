@@ -1,0 +1,120 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 16 Dec
+    @Why: EWM-4210 EWM-4219
+    @What:  This page is job sms for candidate
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div> 
+
+<div class="modal-header job-sms-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_SMS' |translate}}  </h2>      
+    <span class="badge primary"  matTooltip="{{minimumBalanceSMS==0? ('label_noBalance' |translate) :''}}"
+    matTooltipClass="custom-tooltip"     [ngClass]="minimumBalanceSMS==0?'highlight':''" color="primary">
+        {{'label_smsCredits' |translate}}: {{minimumBalanceSMS}}
+    </span>
+</div>
+
+<mat-dialog-content id="sendSMSJobForCan" applyTabIndexes class="sms-card-content">
+    <form novalidate [formGroup]="sendSMSForm" accept-charset="utf-8" enctype='multipart/form-data'>
+        <div class="insert-template" id="insert-template">
+            <button type="button" tabindex class="ml-0" mat-stroked-button color="primary" (click)="openTemplateModal()"
+            id="newEmail-template">{{'label_insertTemplate' |translate}}</button>
+        </div>
+        <div class="sms-data">
+            <div class="ng-slectBox">
+                <app-custom-ng-select-phonecode [countryList]="countryList" tabindex [IsDisabled]="false" [selectedIn]="selectedMobileNumberValue" [IsRequired]="true" id="MobileNumber" (selectedOut)="ddlMobileNumberChange($event)"></app-custom-ng-select-phonecode>
+    
+                <mat-error *ngIf="sendSMSForm.controls['PhoneCode'].hasError('required') && IsPhoneCode"  class="matErrorFix">
+                {{'label_countryCode' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+            </div>
+            <mat-form-field>
+                <mat-label>{{'label_phoneNumber' | translate}}</mat-label>
+                <input type="hidden" formControlName="PhoneCode">
+                <input type="text"  tabindex formControlName="ToPhone" name="ToPhone" matInput
+                    id="sms-phoneNumber" placeholder="" required>
+                <mat-error
+                    *ngIf="sendSMSForm.controls['ToPhone'].hasError('required') && sendSMSForm.controls['ToPhone'].touched">
+                    {{ 'label_phoneNumber' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <!-- @When: 09-10-2023 @who:maneesh @why: EWM-14669 @what: Change the maxlength length of phone no 11 digit while entering phone no  -->
+                <mat-error *ngIf="sendSMSForm.controls['ToPhone'].hasError('maxlength')">
+                    {{ 'label_phoneNumber' |translate}} {{ 'label_errorsmaxlength11'
+                    |translate}}
+                </mat-error>
+                <!---------@When: 03-07-2023 @who:bantee @why: EWM-12974 @what: Change the minimum length of phone no from 10 to 4 while entering phone no while sending sms to candidate from job details--------->
+                <mat-error *ngIf="sendSMSForm.controls['ToPhone'].hasError('minlength')">
+                    {{ 'label_phoneNumber' |translate}} {{ 'label_JobDetailSMSerrorminlength4'  |translate}}
+                </mat-error>
+                <mat-error *ngIf="sendSMSForm.controls['ToPhone'].hasError('pattern') && !sendSMSForm.controls['ToPhone'].hasError('maxlength') && !sendSMSForm.controls['ToPhone'].hasError('minlength')">
+                    {{ 'label_phoneNumber' |translate}} {{ 'label_phonevaliderr' |translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="sms-data-bottom">
+            <mat-form-field>
+                <mat-label>{{'label_smsSubject' | translate}}</mat-label>
+                <textarea type="text" tabindex formControlName="Subject" name="Subject" matInput
+                    id="sms-subject" placeholder="" required></textarea>
+                <mat-error
+                    *ngIf="sendSMSForm.controls['Subject'].hasError('required') && sendSMSForm.controls['Subject'].touched">
+                    {{ 'label_smsSubject' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <!-- who:maneesh,what:ewm-115173 for change label,when:28/11/2023 -->
+                <mat-error *ngIf="sendSMSForm.controls['Subject'].hasError('maxlength')">
+                    {{ 'label_smsSubject' |translate}} {{ 'label_errormaxlength75' |translate}}
+                </mat-error>
+                <mat-error *ngIf="sendSMSForm.controls['Subject'].hasError('minlength')">
+                    {{ 'label_smsSubject' |translate}} {{ 'label_errorminlength1' |translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="sms-data-bottom counterTxt">
+            <mat-form-field>
+                <mat-label>{{'label_message' | translate}}</mat-label>
+                <textarea type="text" class="sms-textarea" tabindex matInput formControlName="MessageBody"
+                    placeholder="{{'label_messagePlaceholder' | translate}}"  rows="4"
+                    (keyup)="onMessage($event.target.value)"
+                    id="sms-MessageBody" required resize="none"></textarea>
+                <mat-error
+                    *ngIf="sendSMSForm.controls['MessageBody'].hasError('required') && sendSMSForm.controls['MessageBody'].touched">
+                    {{ 'label_message' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <mat-error *ngIf="this.sendSMSForm.controls['MessageBody'].hasError('maxlength')">
+                    {{ 'label_message' |translate}} {{ 'label_errormaxlength612' |translate}}
+                </mat-error>
+                <mat-error *ngIf="sendSMSForm.controls['MessageBody'].hasError('minlength')">
+                    {{ 'label_message' |translate}} {{ 'label_errorminlength1' |translate}}
+                </mat-error>
+
+            </mat-form-field>
+            
+            <div class="count-error">
+                <div class="sms-count">
+                    <!-- <span *ngIf="msgLength>0">{{msgLength}}:{{'label_characters' |translate}} /</span> -->
+                    <span *ngIf="smsCount>0"> {{'label_smscount' |translate}}:{{smsCount}}</span>
+                </div>
+            <span class="countlabelnew" color="warn">
+                {{'label_balance' |translate}}:{{maxMessage}} {{'label_characters' |translate}} 
+            </span>
+        
+    </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter" id="actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+        {{'button_cancel'|translate}}
+    </button>
+    <button mat-raised-button tabindex color="primary" type="button" id="btnSave"
+        [disabled]="!(sendSMSForm.valid && minimumBalanceSMS!=0)" (click)="onConfirm(this.sendSMSForm.value)">
+        {{'label_send'|translate}}
+    </button> 
+</div>
+ 

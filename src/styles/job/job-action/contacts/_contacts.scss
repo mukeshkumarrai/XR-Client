@@ -1,0 +1,170 @@
+
+// who:Satya Prakash Gupta :what:Common Contact card style : when:15 Sep 2023
+@use "../../../../colors";
+@mixin userAvtaarAndNameSize {
+    $AvtaarAndNameSize:60px;
+    .userAvtaarAndName{
+        width: $AvtaarAndNameSize;
+        height: $AvtaarAndNameSize;
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+        span, img{
+            width: $AvtaarAndNameSize;
+            height: $AvtaarAndNameSize;
+            line-height: $AvtaarAndNameSize;
+            font-size: 20px;
+        }
+    }
+}
+.contact-sec{
+    .contact-card{
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 5px 10px;
+        margin-bottom: 7px;
+        @media only screen and (max-width: 580px) and (min-width: 240px){
+            flex-direction: column;
+        }
+        .left{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            @include userAvtaarAndNameSize;
+            .status{
+                color: #fff;
+                width: 85px;
+                padding: 3px 4px;
+                border-radius: 4px;
+                font-size: 12px;
+                text-align: center;
+                min-height: 17px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-shadow: 1px 0px 1px black;
+                @media only screen and (max-width: 580px) and (min-width: 240px){
+                    width: 55px;
+                }
+            }
+        }
+        .right{
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            .placeholder{
+                display: grid;
+                gap: 5px;
+                font-size: 13px;
+                grid: auto/ 65px auto;
+                min-height: 20px;
+                @media only screen and (max-width: 580px) and (min-width: 240px){
+                    font-size: 12px;
+                    grid: auto/90px auto;
+                }
+                div:first-child{
+                    font-weight: 500;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    position: relative;
+                    top: 2px;
+                }
+                .data{
+                    color: #3b434f;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    .mat-icon-button{
+                        width: 16px;
+                        height: 16px;
+                        line-height: 16px;
+                        .mat-icon{
+                            width: 16px;
+                            height: 16px;
+                            line-height: 16px;
+                            font-size: 16px;
+                        }
+                    }
+                    .mat-button{
+                        height: 20px;
+                        line-height: 16px;
+                        padding: 0px 3px;
+                        display: flex;
+                        align-items: center;
+                        font-size: 12px;
+                        position: relative;
+                        &::before{
+                            content: "";
+                            position: absolute;
+                            left: 0px;
+                            top: 0px;
+                            width: 100%;
+                            height: 100%;
+                            background: currentColor;
+                            opacity: 0.15;
+                            border-radius: 4px;
+                        }
+                        .mat-icon{
+                            width: 16px;
+                            height: 16px;
+                            line-height: 16px;
+                            font-size: 16px;
+                        }
+                    }
+                    .mail-text{
+                        color: colors.$primary-bg-color;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        cursor: pointer;
+                    }
+                }
+                .name{
+                    text-transform: capitalize;
+                }
+                .email{
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+        .copyMessage.email-hide{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            display: none;
+            text-align: center;
+            .alert-green {
+              color: colors.$green-color;
+              background: #fff;
+              border-radius: 4px;
+              display: flex;
+              align-items: center;
+              gap: 3px;
+              font-size: 12px;
+              padding: 5px;
+              height: 12px;
+              line-height: 15px;
+              display: inline-flex;
+              .mat-icon{
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                font-size: 16px;
+              }
+            }
+        }
+    }
+}
+.dark-theme{
+    .contact-sec .contact-card .right .placeholder .data {
+        color: #b5c5dd;
+        .mail-text{
+            color: colors.$dark-primary;
+        }
+    }
+}

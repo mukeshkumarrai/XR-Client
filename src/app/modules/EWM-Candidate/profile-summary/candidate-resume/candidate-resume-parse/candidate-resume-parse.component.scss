@@ -1,0 +1,175 @@
+/* @(C): Entire Software |@Type: File, <html> | @Who: Satya Prakash Gupta | @When: 04-Aug-2021 | @Why: EWM-2240 EWM-2364 | @What:  This page will be use for the candidate summary Component scss file */
+@import "../../../../../../mixinStyle.scss";
+@import "../../../../../../styles-var.scss";
+.candidate-summry.parse-resume-tab-container {
+    // @When: 11-05-2023 @who:Satya Prakash Gupta @why: EWM-11775 EWM-12376 @what: add search teaxt box
+    box-shadow: none;
+    margin-top: 0px;
+    padding-inline-end: 5px;
+    padding-inline-start: 0px;
+    .resumeHeader.mat-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 0px;
+        box-shadow: none;
+        position: sticky;
+        top: 0px;
+        z-index: 2;
+        padding: 0px;
+        border-radius: 0px;
+        column-gap: 15px;
+        @media screen and (min-width:240px) and (max-width: 550px) {
+            flex-direction: column;
+            position: relative;
+            padding-top: 5px;
+        }
+        &:hover {
+            box-shadow: none;
+        }
+        h2 {
+            font-weight: 500;
+            margin: 12px 0px 0px 0px;
+            font-size: 16px;
+            white-space: nowrap;
+            @media screen and (min-width:240px) and (max-width: 550px) {
+                width: 100%;
+                text-align: left;
+            }
+        }
+        .search-and-parsebutton {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+            @media screen and (min-width:240px) and (max-width: 550px) {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            .buttonForDesktopMobile {
+                margin-top: 8px;
+                line-height: 30px;
+                padding: 0px 12px;
+                font-size: 13px;
+                @media only screen and (max-width: 770px) and (min-width: 320px) {
+                    padding: 0px 5px;
+                    min-width: auto;
+                }
+            }
+        }
+    }
+    .scrolltop {
+        padding: 0px 5px;
+    }
+    .mat-card {
+        padding-bottom: 3px;
+        margin-bottom: 30px;
+        transition: 0.3s;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: rgba(169, 14, 14, 0.05) 0px 6px 24px 0px, $primary-bg-color 0px 0px 0px 1px,
+            rgba(169, 14, 14, 0.05) 0px 2px 4px 0px, rgba(50, 50, 93, 0.25) 0px 6px 8px -2px,
+            rgba(0, 0, 0, 0.3) 0px 3px 2px -3px;
+        border-bottom: 3px solid $primary-bg-color;
+        .mat-card-header {
+            position: relative;
+            height: 45px;
+            align-items: center;
+            padding: 0px 15px;
+            background: linear-gradient(90deg, rgba(238, 245, 249, 1) 0%, rgba(255, 255, 255, 1) 100%);
+            .mat-card-title {
+                font-size: 16px;
+                font-weight: 500;
+                margin-bottom: 0px;
+            }
+        }
+        .mat-card-content {
+            height: auto;
+            padding: 10px 15px;
+            margin: 0px;
+            min-height: 100px;
+            max-height: 350px;
+            border-top: 0px;
+            .d-flex {
+                .mat-divider {
+                    position: relative;
+                    margin-bottom: 10px;
+                }
+            }
+            strong {
+                font-weight: 500;
+            }
+            p {
+                margin: 0px;
+                word-break: break-word;
+            }
+            .parse-skills {
+                display: flex;
+                padding: 5px;
+                border: 0px;
+                border-radius: 4px;
+                margin-bottom: 8px;
+                gap: 10px;
+                .data-box {
+                    width: 50%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+                    .label {
+                        font-size: 10px;
+                        font-weight: 600;
+                    }
+                    .data {
+                        font-size: 11px;
+                    }
+                }
+            }
+            .mat-chip.mat-standard-chip {
+                span.number {
+                    margin-right: 5px;
+                    color: rgba(0, 0, 0, 0.87);
+                    background: #ffffff;
+                }
+            }
+        }
+    }
+    .profile-with-skill {
+        display: grid;
+        grid-template-columns: calc(50% - 15px) calc(50% - 15px);
+        column-gap: 30px;
+        @media screen and (min-width: 320px) and (max-width: 991px) {
+            grid-template-columns: 1fr;
+        }
+        .profile-info-data {
+            @extend .grid-10;
+            grid: auto/ 180px calc(100% - 190px);
+            margin-bottom: 10px;
+            @media screen and (min-width: 365px) and (max-width: 1113px) {
+                grid: auto/ 140px calc(100% - 150px);
+            }
+            @media screen and (min-width: 240px) and (max-width: 364px) {
+                grid: auto/ 110px calc(100% - 120px);
+            }
+        }
+        .profile-info-data.skill-info-data {
+            grid: auto/ 280px calc(100% - 290px);
+            @media screen and (min-width: 365px) and (max-width: 1113px) {
+                grid: auto/ 240px calc(100% - 250px);
+            }
+            @media screen and (min-width: 240px) and (max-width: 364px) {
+                grid: auto/ 210px calc(100% - 220px);
+            }
+        }
+    }
+    .employment-info-data {
+        @extend .grid-10;
+        grid: auto/ calc(25% - 5px) calc(75% - 5px);
+        margin-bottom: 10px;
+        @media screen and (min-width: 581px) and (max-width: 991px) {
+            grid: auto/ calc(35% - 5px) calc(65% - 5px);
+        }
+        @media screen and (min-width: 320px) and (max-width: 581px) {
+            grid: auto/ calc(45% - 5px) calc(55% - 5px);
+        }
+    }
+}

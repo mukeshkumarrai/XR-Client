@@ -1,0 +1,61 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0"></h2>
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content class="job-publish-content" id="job-publish-content">
+    <div class="question-list-sec">
+        <div class="new-data-list-header" id="job-publish-listHeader">
+            <div class="new-data">
+                {{'label_name'| translate}}
+            </div>
+            <div class="new-data">
+                {{'label_logo'| translate}}
+            </div>
+            <div class="new-data">
+                {{'label_publishedOn'| translate}}
+            </div>
+            <div class="new-data">
+                {{'label_PublishedBy'| translate}}
+            </div>
+            <div class="new-data">
+                {{'label_expiryOn'| translate}}
+            </div>
+        </div>
+        <p style="text-align: center;" *ngIf="gridaData == null || gridaData?.length == undefined">{{'label_noRecordFound'| translate}}</p>
+        <div class="listCardView new-data-list-content" id="listCardView">
+            <div class="new-data-list-list" *ngFor="let gridData of gridaData">
+                <div class="new-data">
+                    <span class="cardListTxt word-wrap">
+                        {{gridData.Name}}
+
+                    </span>
+                </div>
+                <div class="new-data img-new-data">
+                    <span class="cardListTxt word-wrap">
+                        <img src="{{gridData.Logo}}" alt="image" style="width: 100px" />
+                    </span>
+                </div>
+                <div class="new-data">
+                    <span class="cardListTxt word-wrap">
+                        {{gridData.PublishedDate | date:userpreferences.timeformate:userpreferences.timezone}}
+                    </span>
+                </div>
+                <div class="new-data">
+                    <span class="cardListTxt word-wrap">
+                        {{gridData.PublishBy}}
+                    </span>
+                </div>
+                <div class="new-data">
+                    <span class="cardListTxt word-wrap">
+                        {{gridData.ExpiryDate | date:userpreferences.timeformate:userpreferences.timezone}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

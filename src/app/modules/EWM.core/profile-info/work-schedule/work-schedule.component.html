@@ -1,0 +1,138 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Adarsh singh 
+    @When: 13-April-2022
+    @Why: EWM.5579.EWM-6171
+    @What:  This page wil be use only for the Work Schedule Component HTML
+-->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="word-schedule-mat-card-header">
+    <mat-card-title class="only-title">{{'label_workSchedule' |translate}}</mat-card-title>
+
+    <div class="header-action-button" id="user-type-actionButton">
+
+        <div class="group-header-button">
+            <!-- @When: 18-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+            <a mat-raised-button class="header-button" id="user-invitation-btnViewAudit"
+                [routerLink]="['../../system-settings/system-audit-log/',auditParameter]" 
+                matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip"
+                matTooltipPosition="before">
+                <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+            </a>
+
+            <button mat-raised-button class="buttonForDesktopMobile ml-0" color="primary" tabindex="4" id="btnSave"
+                [disabled]="!workScheduleForm.valid || isSameTimeError" (click)="onConfirm(this.workScheduleForm.value)">
+                <mat-icon>check</mat-icon>
+                <span class="buttonTxt">{{'label_save' |translate}}</span>
+            </button>
+
+        </div>
+    
+      </div>
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="email-settings-drawer">
+    <mat-card id="work-schedule-mat-card" class="component-card mat-elevation-z2 work-schedule">
+        <form novalidate [formGroup]="workScheduleForm" id="emailsetting-form">
+            <div id="workTime">
+                <mat-card-subtitle class="subTitle">{{ 'label_workScheduleSubTitle' |translate }}</mat-card-subtitle>
+                <div class="work-time" id="work-time">
+                    <div class="ng-slectBox day-dropdown" id="day-dropdown">
+                        <ng-select class="dropdown-body" [multiple]="true" appendTo="body" [searchable]="false"
+                            [clearable]="true" placeholder="{{'label_workWeek' |customTranslate}}"
+                            [closeOnSelect]="false" formControlName="WeekDays"  id="weekSelected"
+                            (change)="onWorkDays($event)">
+                            <!-- <ng-option disabled>{{'label_select'| translate}} </ng-option> -->
+                            <ng-option *ngFor="let day of allDay" [value]="day.Id">{{day.Name}}</ng-option>
+                        </ng-select>
+                        <mat-error
+                            *ngIf="workScheduleForm.controls['WeekDays'].hasError('required') && workScheduleForm.controls['WeekDays'].touched">
+                            {{ 'label_workWeek' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                    </div>
+
+                    <!-- <mat-form-field class="week-chip-list">
+                        <mat-chip-list #chipList aria-label="user selection" required [formControl]="dayList">
+                            <mat-chip *ngFor="let slDay of selectedDay;let indx=index;"
+                            
+                            [selectable]="selectable" [removable]="removable" (removed)="remove(slDay,indx)">
+                                {{slDay.Name}}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="{{'label_workWeek' |customTranslate}} " 
+                            formControlName="WeekDays"
+                             #dayInput [formControl]="WeekDays" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                        
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                            <mat-option *ngFor="let day of filteredDay | async" [value]="day">
+                                {{day.Name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="dayList.hasError('required') && dayList.touched">
+                            {{'label_workWeek'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                    </mat-form-field> -->
+                    
+
+                </div>
+            </div>
+            <div id="StartTime">
+                <mat-card-subtitle class="subTitle mt-0" id="subTitle">{{ 'label_officeTimings' |translate }}
+                </mat-card-subtitle>
+                <div class="office-timing" id="office-timing">
+                    <!-- add here to new kendo time picker -->
+                    <div class="kendo-input-box" id="kendo-input-box-start">
+                        <kendo-floatinglabel text="{{ 'label_startTime' | translate }}">
+                            <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a" [value]="TimeStartValue" (valueChange)="handleChangeStartTime($event)"></kendo-timepicker>
+                        </kendo-floatinglabel>
+                    </div>
+                    <div class="kendo-input-box" id="kendo-input-box-end">
+                        <kendo-floatinglabel text="{{ 'label_endTime' | translate }}">
+                            <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a" [value]="TimeEndValue" (valueChange)="handleChangeEndTime($event)"></kendo-timepicker>
+                        </kendo-floatinglabel>
+                    </div>
+
+                    <div class="form-input-group" style="display: none;">
+                        <div class="time-picker mt-10">
+                          <mat-label class="time-picker-label">{{ 'label_startTime' | translate }}</mat-label>
+                          <!---------@When: 03-Mar-2023 @who:Adarsh singh @why: EWM-10940 Desc- kendo time picker--------->
+                            <div class="col-xs-12 col-sm-6 example-col">
+                                <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a" [value]="TimeStartValue" (valueChange)="handleChangeStartTime($event)"></kendo-timepicker>
+                            </div>
+                            <!-- End -->
+                          <mat-error *ngIf="isSameTimeError">
+                            {{'label_workScheduleSatrtEndTimeValidation'|translate}}
+                        </mat-error>
+                           </div>
+                      </div>
+                    
+                    <div class="form-input-group" style="display: none;">
+                        <div class="time-picker mt-10">
+                          <mat-label class="time-picker-label">{{ 'label_endTime' | translate }}</mat-label>
+                          <!---------@When: 03-Mar-2023 @who:Adarsh singh @why: EWM-10940 Desc- kendo time picker--------->
+                          <div class="col-xs-12 col-sm-6 example-col">
+                                <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a" [value]="TimeEndValue" (valueChange)="handleChangeEndTime($event)"></kendo-timepicker>
+                        </div>
+                        <!-- End -->
+                          <!-- <mat-error *ngIf="workScheduleForm.controls['EndTime'].hasError('diffcheckEnd')">
+                            {{'label_workScheduleSatrtEndTimeValidation'|translate}}
+                        </mat-error> -->
+                         </div>
+                      </div>
+                </div>
+
+            </div>
+
+        </form>
+
+    </mat-card>
+</mat-drawer-container>

@@ -1,0 +1,236 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  <div class="header-action-button" id="applicant-actionButton">
+    <mat-form-field class="searchInput" floatLabel="never">
+      <mat-label>{{'label_search'|translate}}</mat-label>
+      <input matInput id="applicant-searchBox" (input)="onFilterSearch($event.target.value)" placeholder="Search"
+        [(ngModel)]="searchVal">
+      <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+      <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onRefresh()"
+        (click)="searchVal=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button id="btnRefresh" (click)="onRefresh()" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <mat-icon> rotate_right </mat-icon>
+    </button>
+    </div>
+  </div>
+  <div class="kendo-grid-appearance without-column-popup remove-fixed-column">
+    <ng-template #template let-anchor>
+      <span>{{anchor.nativeElement.innerText}}</span>
+      </ng-template>
+      <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+                  (mouseover)="showTooltip($event)">
+        <kendo-grid [kendoGridBinding]="gridListData" [pageSize]="pageSize" [skip]="skip" [pageable]="{
+            buttonCount: buttonCount,
+            info: info,
+            type: type,
+            pageSizes: pageSizes,
+            previousNext: previousNext,
+            position: position
+        }" (pageChange)="pageChange($event)" [resizable]="true" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)"
+          [filterable]="true">
+          <kendo-grid-column field="Name" title="Applicant Name" [width]="350">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="avtaar-and-name">
+                <div class="userAvtaarAndName tooltip tooltip-bottom" (click)="openCandidateDetails(dataItem)">
+                  <img *ngIf="dataItem?.CandidateImage && dataItem?.CandidateImage!==''"
+                    src="{{dataItem?.CandidateImage}}" />
+                  <span [style.background]="dataItem?.StatusColorCode" *ngIf="dataItem?.CandidateImage==''||dataItem?.CandidateImage==null">{{dataItem.ShortName}}</span>
+                </div>
+                <a class="text-overflow" [routerLink]="['/client/cand/candidate/candidate']" [queryParams]="{CandidateId:dataItem.CandidateId, Type: 'CAND'}" target="_blank"
+                id="btnViewCandiateName">
+                {{dataItem.Name}}
+              </a>
+              </div>
+            </ng-template>
+            <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+              <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="startswith">
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                  <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              </kendo-grid-string-filter-cell>
+          </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="CandidateEmail" title="Email" [width]="300">
+            <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <div class="newEmailBtn" color="primary" id="newEmail" >
+                  <button mat-icon-button color="primary" type="button" id="url-copy-btn__{{i}}"
+                    class="content-copy" (click)="copyCandidateEmailId(dataItem.CandidateEmail,rowIndex);" *ngIf="dataItem.CandidateEmail!=null && dataItem.CandidateEmail!=''"
+                    matTooltip="{{'label_copy' | translate}}"
+                matTooltipClass="custom-tooltip">
+                    <mat-icon>content_copy</mat-icon>
+                  </button>
+                  <span class="systemAuditEyeIcon cursor" (click)="openNewEmailModal(undefined,'',dataItem.CandidateEmail,dataItem)">
+                    {{dataItem.CandidateEmail}}
+                  </span>
+                  <div class="copyMessage email-hide" id="autoHide{{rowIndex}}">
+                    <div class="alert-primary alert-green">
+                      <mat-icon>check</mat-icon>
+                      <span>{{'label_emailAddressCipied'| translate }}</span>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="startswith">
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                  <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              </kendo-grid-string-filter-cell>
+          </ng-template>
+        </kendo-grid-column>
+        <!-- add coloum by maneesh ewm-17228 when:20/06/2024 -->
+        <kendo-grid-column field="YourPipeline" title="Your Pipeline" [width]="180" [headerStyle]="{'text-align': 'right'}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="pipeline-count">
+              <button mat-icon-button color="primary" class="cursor mr-10" id="pipeline-btn"
+              (click)="openJobTimeline(dataItem?.CandidateId,'YourPipeline');$event.stopPropagation();" [disabled]="dataItem?.YourPipeline ==0"
+                matTooltip="{{dataItem?.YourPipeline}}" matTooltipClass="custom-tooltip">
+                <mat-icon fontSet="material-icons-outlined"
+                  matBadge="{{dataItem?.YourPipeline}}" matBadgeOverlap="true" svgIcon="business"
+                  matTooltip="{{dataItem?.YourPipeline}}" matTooltipClass="custom-tooltip" matBadgeColor="accent"></mat-icon>
+              </button>
+            </div>
+          </ng-template>
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+            <kendo-grid-numeric-filter-cell [column]="column" [filter]="filter" operator="eq">
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-gt-operator></kendo-filter-gt-operator>
+              <kendo-filter-gte-operator></kendo-filter-gte-operator>
+              <kendo-filter-lt-operator></kendo-filter-lt-operator>
+              <kendo-filter-lte-operator></kendo-filter-lte-operator>
+            </kendo-grid-numeric-filter-cell>
+        </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="OtherPipeline" title="Other's Pipeline" [width]="180" [headerStyle]="{'text-align': 'right'}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="pipeline-count">
+              <button mat-icon-button color="primary" class="cursor mr-10" id="pipeline-btn"
+              (click)="openJobTimeline(dataItem?.CandidateId,'OtherPipeline');$event.stopPropagation();" [disabled]="dataItem?.OtherPipeline ==0"
+                matTooltip="{{dataItem?.OtherPipeline}}" matTooltipClass="custom-tooltip">
+                <mat-icon fontSet="material-icons-outlined"
+                  matBadge="{{dataItem?.OtherPipeline}}" matBadgeOverlap="true" svgIcon="business"
+                  matTooltip="{{dataItem?.OtherPipeline}}" matTooltipClass="custom-tooltip" matBadgeColor="accent"></mat-icon>
+              </button>
+            </div>
+          </ng-template>
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+            <kendo-grid-numeric-filter-cell [column]="column" [filter]="filter" operator="eq">
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-gt-operator></kendo-filter-gt-operator>
+              <kendo-filter-gte-operator></kendo-filter-gte-operator>
+              <kendo-filter-lt-operator></kendo-filter-lt-operator>
+              <kendo-filter-lte-operator></kendo-filter-lte-operator>
+            </kendo-grid-numeric-filter-cell>
+        </ng-template>
+        </kendo-grid-column>
+
+          <kendo-grid-column field="IsResume" title="Resume" [filterable]="false" [width]="100">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <!-- EWM : Satya Prakash Gupta : 25-Jul-2023 : Seprate button: EWM-13291 EWM-13564 -->
+              <div class="resume-view">
+                <button mat-mini-fab color="primary" id="descBtn" [disabled]="dataItem.IsResume ==0" class="resume"
+                  matTooltipClass="custom-tooltip"
+                  matTooltip="{{'label_View' | translate}} {{'candidate_resume' | translate}}"
+                  (click)="showResume(dataItem.CandidateId)">
+                  <mat-icon id="{{animationVar?.FolderButton?.id}}" class="{{animationVar?.FolderButton?.isAnimClass}}">
+                    description</mat-icon>
+                </button>
+                <button mat-mini-fab color="accent" class="share" id="shareBtn" [disabled]="dataItem.IsResume ==0"
+                  matTooltipClass="custom-tooltip"
+                  matTooltip="{{'label_share' | translate}} {{'candidate_resume' | translate}}"
+                  (click)="confirmShareDocument(dataItem.CandidateId, dataItem.Name)">
+                  <mat-icon id="{{animationVar?.ShareButton?.id}}" class="{{animationVar?.ShareButton?.isAnimClass}}">share
+                  </mat-icon>
+                </button>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="Location" title="Location" [width]="300">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <span>{{dataItem.Location}}</span>
+            </ng-template>
+              <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+                <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="startswith">
+                  <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                  <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                    <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                </kendo-grid-string-filter-cell>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="Skills" title="Skills" [width]="400">
+            <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+              <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            </kendo-grid-string-filter-cell>
+          </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="grid-chips">
+                <mat-chip-list #chipList aria-label="skill selection">
+                  <ng-container *ngFor="let skillList of dataItem.SkillsList, let i = index;">
+                    <mat-chip *ngIf="i<2" id="skillchiplist" [disabled]="readOnly" [removable]="false">
+                      <span>{{skillList}}</span>
+                    </mat-chip>
+                  </ng-container>
+                </mat-chip-list>
+                <button mat-button color="primary" *ngIf="dataItem.SkillsList?.length>2" class="more-owner-show"
+                  [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                  +{{dataItem.SkillsList?.length-2}}
+                </button>
+
+                <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                  <ng-container *ngFor="let skillList of dataItem?.SkillsList, let i = index;">
+                    <button mat-button *ngIf="i>=2">
+                      {{skillList}}
+                    </button>
+                  </ng-container>
+                </mat-menu>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="Tags" title="Tags" [width]="400">
+            <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+              <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            </kendo-grid-string-filter-cell>
+          </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="grid-chips">
+                <mat-chip-list #chipList aria-label="skill selection">
+                  <ng-container *ngFor="let tagsList of dataItem.TagsList, let i = index;">
+                    <mat-chip *ngIf="i<2" id="tagchiplist" [disabled]="readOnly" [removable]="false">
+                      <span>{{tagsList}}</span>
+                    </mat-chip>
+                  </ng-container>
+                </mat-chip-list>
+                <button mat-button color="primary" *ngIf="dataItem.TagsList?.length>2" class="more-owner-show"
+                  [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                  +{{dataItem.TagsList?.length-2}}
+                </button>
+
+                <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                  <ng-container *ngFor="let tagsList of dataItem?.TagsList, let i = index;">
+                    <button mat-button *ngIf="i>=2">
+                      {{tagsList}}
+                    </button>
+                  </ng-container>
+                </mat-menu>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+          <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+            <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+            <kendo-pager-info></kendo-pager-info>
+            <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+          </ng-template>
+        </kendo-grid>
+      </div>
+  </div>

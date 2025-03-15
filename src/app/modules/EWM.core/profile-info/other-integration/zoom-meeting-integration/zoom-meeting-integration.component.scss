@@ -1,0 +1,251 @@
+@import '../../../../../../styles-var.scss';
+@import '../../../../../../mixinStyle.scss';
+
+.seekIntegrationHeader{
+    justify-content: space-between;
+    div{
+        span:first-child{
+            @media only screen and (max-width: 665px) and (min-width: 581px) {
+                display: none;
+            }
+            @media only screen and (max-width: 415px) and (min-width: 320px) {
+                display: none;
+            }
+        }
+        span{
+            margin-left: 0px;
+        }
+    }
+}
+.leftPanelLinks{
+    .mat-card{
+        margin-top: 5px;
+        padding:10px 15px;
+        .mat-raised-button{
+            margin-bottom: 10px;
+        }
+        .jobSpanStyle{
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+    }
+}
+
+.seekIntegrationSection{
+    .seekImbBox{
+        line-height: 0px;
+        img{
+            width:150px;
+            height: auto;
+            max-width:100%;
+            max-height: 100%;
+            border-radius: 4px;
+            padding: .25rem;
+            border: 1px solid rgba(120,130,140,.13);
+        }
+    }
+    .seekButtonBox{
+        margin-left: 15px;
+        padding: 0.25em;
+        @media only screen and (max-width: 992px) and (min-width: 320px) {
+            margin-left:0px;
+        }
+        button{
+            max-width: unset;
+            margin:0px 0px 0px 10px;
+            // padding:5px 25px;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            @media only screen and (max-width: 992px) and (min-width: 320px) {
+                margin:5px 5px 0px 0px;
+            }
+        }
+    }
+    .seekContentSectionBox{
+        p{
+            margin: 0px 0px 15px 0px;
+            padding:0px;
+            line-height: 20px;
+        }
+    }
+    .imageVideoWidthSize{
+        width:100%;
+        padding: 5px 20px 15px 20px;
+    }
+    .actionButton{
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+    .contactDetailsSection{
+        border-radius: 4px;
+        max-width: 500px;
+        margin-bottom: 20px;
+        padding: 10px 15px;
+        .contact-details{
+            display: grid;
+            grid-template-columns: 140px calc(100% - 150px);
+            gap: 10px;
+            @include for-small-smartphones{
+              grid-template-columns: 1fr;
+              gap:inherit;
+            }
+            p{
+                margin:8px 0px;
+                width: 130px;
+                font-weight: 500;
+            }
+            .spnStyle{
+                display:block;
+                font-weight: 400;
+                margin:8px 0px;
+            }
+        }
+    }
+    .greenColorBtn{
+        color: #7FB734;
+        position: relative;
+        &::after{
+            content: "";
+            background: currentColor;
+            opacity: 0.11;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            z-index: 0;
+            border-radius: 4px;
+            transition: opacity .2s ease-in-out;    
+            }
+    }
+    .blueColorBtn{
+        color:$primary-bg-color;
+        position: relative;
+        &::after{
+            content: "";
+            background: currentColor;
+            opacity: 0.11;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            z-index: 0;
+            border-radius: 4px;
+            transition: opacity .2s ease-in-out;    
+            }
+    }
+    .blackColorBtn{
+        color: #333333;
+        position: relative;
+        &::after{
+            content: "";
+            background: currentColor;
+            opacity: 0.11;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            z-index: 0;
+            border-radius: 4px;
+            transition: opacity .2s ease-in-out;    
+            }
+    }
+    .darkYellowColorBtn{
+        background: #bf9000;
+        color:#fff;
+    }
+    .profileBuildBtn{
+        position: relative;
+        margin-left: 10px;
+        color: $primary-bg-color;
+        .mat-icon{
+            width: 18px;
+            height: 18px;
+            font-size: 16px;
+            color: $warn-bg;
+            vertical-align: middle;
+            text-align: right;
+        }
+
+    }
+    .seekContentSectionBox{
+        font-weight: 500;
+        padding: 10px 0px;
+    }
+}
+
+
+.urOrderList {
+    display: flex;
+    margin: 0px;
+    padding: 0px 50px;
+  }
+
+  .urOrderList .swiper-button-prev,
+  .swiper-button-next {
+    right: 0px;
+  }
+
+  .urOrderList .stageListItems {
+    width: 100%;
+    height: 100%;
+    max-height: 470px;
+    padding: 0px 0px 25px 0px;
+    img{
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 450px;
+        display: block;
+        margin:0px auto;
+        border-radius: 4px;
+    }
+    video{
+        width: auto;
+        height: 400px;
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        margin:0px auto;
+        @media only screen and (max-width: 767px) and (min-width: 481px){
+            height: 300px;
+        }
+        @include for-small-smartphones{
+            height: 200px;
+        }
+    }
+  }
+
+  .jobBoardStatus {
+    .mat-stroked-button {
+        top: -8px;
+    }   
+}
+
+
+.seekbox{
+    display: flex;
+    align-items:flex-end;
+    flex-wrap: wrap;
+}
+
+.page-header.mat-card-header{
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+      height: 55px;
+    }
+  }

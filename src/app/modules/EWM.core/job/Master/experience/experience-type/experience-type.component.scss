@@ -1,0 +1,73 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: experience.component.scss
+    @Who: Nitin Bhati
+    @When: 24-May-2021
+    @Why: ROST-1602
+    @What: You can add experience details styles to this file, and also import other style files
+*/
+
+@import "../../../../../../../mixinStyle.scss";
+
+.top-75{
+  top:-75px;
+}
+
+.page-header.mat-card-header {
+  display: flex;
+}
+  
+.textRight{
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 73px;
+  }
+}
+
+.kendo-table-container .k-grid{
+  height: calc(100vh - 238px);
+  min-width: auto;
+  @media only screen and (max-width: 1060px) and (min-width: 581px) {
+    height: calc(100vh - 280px);
+  }
+  @media only screen and (max-width: 580px) and (min-width: 320px) {
+    height: calc(100vh - 275px);
+  }
+}
+
+.kendo-table-container{
+  position: relative;
+  background:#fff;
+  border-radius:4px;
+  padding:10px;
+  margin:10px 0px;
+  box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+
+.kendocardData {
+  height: calc(100vh - 170px);
+  overflow: auto;
+  padding: 10px 0px;
+  @media only screen and (max-width: 1060px) and (min-width: 550px) {
+    height: calc(100vh - 210px);
+  }
+  @media only screen and (max-width: 549px) and (min-width: 320px) {
+    height: calc(100vh - 255px);
+  }
+}

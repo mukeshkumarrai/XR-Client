@@ -1,0 +1,254 @@
+<!--- 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Nitin Bhati 
+  @When: 08-Feb-2023
+  @Why: EWM-9628 EWM-10420
+  @What:  This page will be use for the manage job template Component html file
+ --->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<ng-template #template let-anchor>
+    <span>{{ anchor.nativeElement.innerText }}</span>
+</ng-template>
+<form novalidate [formGroup]="jobTemplateForm" (ngSubmit)="onSave(this.jobTemplateForm.value)"
+    accept-charset="utf-8" enctype='multipart/form-data' id="jobTemplate-form">
+    <div class="modal-header">
+    <h2 matDialogTitle class="only-title mb-0" *ngIf="activestatus=='Add'">{{'label_jobTemplateCreate' |translate}}</h2>
+    <h2 matDialogTitle class="only-title mb-0" *ngIf="activestatus=='Edit'">{{'label_jobTemplateEdit' |translate}}</h2>
+</div>
+<mat-dialog-content>
+    <div class="addEditSec">
+    <div class="kendodialof-body col">
+
+       
+        <mat-form-field>
+                <mat-label>{{'label_jobTemplateName'|translate}}</mat-label>
+                <input type="hidden" formControlName="Id" id="Id">
+                <input matInput formControlName="Name" tabindex="1" id="jobTemplate-Name" text="Name"
+                    placeholder="" required (blur)="duplicacyCheckTemplateName()">
+                <mat-icon matPrefix class="select-matPrefix-icon">account_box</mat-icon>
+
+                <mat-error
+                    *ngIf="jobTemplateForm.controls['Name'].hasError('required') && jobTemplateForm.controls['Name'].touched">
+                    {{'label_jobTemplateName'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+                <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('maxlength') &&!jobTemplateForm.controls['Name'].hasError('whitespace')">
+                    {{'label_jobTemplateName' |translate}} {{'label_errormaxlength100' |translate}}
+                </mat-error>
+                <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('minlength') && !jobTemplateForm.controls['Name'].hasError('whitespace')">
+                    {{'label_jobTemplateName' |translate}} {{'label_errorminlength2' |customTranslate}}
+                </mat-error>
+                <!-- <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('pattern')">
+                    {{'label_jobTemplateName' |translate}} {{'label_errorspecialchar' |translate}}
+                </mat-error> -->
+                <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('codeTaken')">
+                    {{'label_jobTemplateName'|customTranslate}} {{'label_areadyExists' |customTranslate}}
+                </mat-error>
+                <!-- who:maneesh,what:ewm.9961,when:27/12/2022 -->
+                <mat-error *ngIf="jobTemplateForm.controls['Name'].hasError('whitespace') && !jobTemplateForm.controls['Name'].hasError('required')">
+                    {{'label_jobTemplateName' |translate}} {{'label_nameValidation' |translate}}
+                </mat-error>
+            </mat-form-field>
+
+            <div class="clear"></div>
+            <div class="ng-select-withicon ng-slectBox">
+                <mat-icon matPrefix class="select-matPrefix-icon">business</mat-icon>
+                <ng-select placeholder="{{ 'label_ModifyClient' | customTranslate }}" id="jobTemplate-companyName"
+                    formControlName="ClientId" class="dropdown-body" appendTo="body" tabindex="2" (change)="onClientName($event)">
+                    <ng-option value="" disabled>{{'label_select' | customTranslate}} {{ 'label_ModifyClient' | customTranslate}}</ng-option>
+                    <ng-option *ngFor="let list of clientList" [value]="list.ClientId">
+                        {{list.ClientName}}</ng-option>
+                </ng-select>
+                <!-- <mat-error
+                    *ngIf="jobTemplateForm.controls['ClientId'].hasError('required') && jobTemplateForm.controls['ClientId'].touched">
+                    {{'label_clientName'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error> -->
+            </div>
+            <div class="clear"></div>
+            <mat-form-field>
+                <mat-label>{{'label_jobTitle'|translate}}</mat-label>
+                <input matInput formControlName="JobTitle"
+                    tabindex="3" id="jobTemplate-title" text="Name" placeholder="" required>
+                <mat-icon matPrefix class="select-matPrefix-icon">subtitles</mat-icon>
+                <!-- who:maneesh,what:ewm.9961,when:27/12/2022 -->
+                <mat-error
+                    *ngIf="jobTemplateForm.controls['JobTitle'].hasError('required') && jobTemplateForm.controls['JobTitle'].touched">
+                    {{'label_jobTitle'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+                <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('maxlength')&& !jobTemplateForm.controls['JobTitle'].hasError('whitespace') ">
+                    {{'label_jobTitle' |translate}} {{'label_errormaxlength100' |translate}}
+                </mat-error>
+                <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('minlength')&& !jobTemplateForm.controls['JobTitle'].hasError('whitespace')">
+                    {{'label_jobTitle' |translate}} {{'label_errorminlength2' |translate}}
+                </mat-error>
+                <!-- <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('pattern')">
+                    {{'label_jobTitle' |translate}} {{'label_errorspecialchar' |translate}}
+                </mat-error> -->
+                <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('codeTaken')">
+                    {{'label_jobTitle'|translate}} {{'label_areadyExists' |translate}}
+                </mat-error>
+                <!-- who:maneesh,what:ewm.9961,when:27/12/2022 -->
+                <mat-error *ngIf="jobTemplateForm.controls['JobTitle'].hasError('whitespace') && !jobTemplateForm.controls['JobTitle'].hasError('required')">
+                    {{'label_jobTitle' |translate}} {{'label_nameValidation' |translate}}
+                </mat-error> 
+            </mat-form-field>
+
+
+            <div class="clear"></div>
+            <div class="ng-select-withicon ng-slectBox">
+                <mat-icon matPrefix class="select-matPrefix-icon">work</mat-icon>
+                <ng-select placeholder="{{'quickjob_jobCategory' | translate}} "
+                    id="jobTemplate-jobCategory" tabindex="4" formControlName="JobCategoryId"
+                    class="dropdown-body" appendTo="body">
+                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_jobCategory'
+                        |
+                        translate}}</ng-option>
+                    <ng-option *ngFor="let list of categoryList" [value]="list.Id">
+                        {{list.JobCategory}}</ng-option>
+                </ng-select>
+            </div>
+
+            <div class="clear"></div>
+            <div class="ng-select-withicon ng-slectBox">
+                <mat-icon matPrefix class="select-matPrefix-icon">domain</mat-icon>
+                <ng-select placeholder="{{'quickjob_industry' | translate}} " id="jobTemplate-industry"
+                    tabindex="5" formControlName="IndustryId" class="dropdown-body" appendTo="body">
+                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_industry' |
+                        translate}}</ng-option>
+                    <ng-option *ngFor="let list of industryList" [value]="list.Id">
+                        {{list.Description}}</ng-option>
+                </ng-select>
+            </div>
+
+            <div class="clear"></div>
+            <div class="ng-select-withicon ng-slectBox">
+                <mat-icon matPrefix class="select-matPrefix-icon">work_outline</mat-icon>
+                <ng-select placeholder="{{'quickjob_experience' | translate}} " id="jobTemplate-industry"
+                    tabindex="6" formControlName="ExperienceId" class="dropdown-body" appendTo="body">
+                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_experience' |
+                        translate}}</ng-option>
+                    <ng-option *ngFor="let list of experienceList" [value]="list.Id">
+                        {{list.Name}}</ng-option>
+                </ng-select>
+            </div>
+
+
+            <div class="clear"></div>
+            <div class="ng-select-withicon ng-slectBox">
+                <mat-icon matPrefix class="select-matPrefix-icon">insert_invitation</mat-icon>
+                <ng-select placeholder="{{'quickjob_jobType' | translate}}" id="jobTemplate-jobType"
+                    class="dropdown-body" appendTo="body" tabindex="7" formControlName="JobTypeId">
+                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_jobType' |
+                        translate}}</ng-option>
+                    <ng-option *ngFor="let list of jobTypeList" [value]="list.Id">
+                        {{list.JobType}}</ng-option>
+                </ng-select>
+            </div>
+
+            <div class="clear"></div>
+            <div class="common_dropdown_v2 dropdown-with-icon">
+                <mat-icon matPrefix class="before-icon">photo_size_select_small</mat-icon>
+                <!--<ng-select placeholder="{{'quickjob_jobWorkflow' | translate}} *" class="dropdown-body"
+                    appendTo="body" id="jobTemplate-jobWorkflow" formControlName="WorkFlowId" tabindex="8"
+                    required>
+                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_jobWorkflow'
+                        |
+                        translate}}</ng-option>
+                    <ng-option *ngFor="let list of workFlowList" [value]="list.Id">
+                        {{list.WorkflowName}}</ng-option>
+                </ng-select>-->
+                <dropdown [configuration]="workFlowDropdownConfig"
+                                (selectedOut)="onWorkFlowchange($event)" 
+                                [getSelectedItem]="selectedJobWorkflow"
+                                [showMoreOptionsNum]="maxMoreLengthForWorkFlow" tabindex="8"></dropdown>
+                <!-- <mat-error
+                    *ngIf="jobTemplateForm.controls['WorkFlowId'].hasError('required') && jobTemplateForm.controls['WorkFlowId'].touched">
+                    {{'quickjob_jobWorkflow'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error> -->
+            </div>
+
+            <div class="clear"></div>
+            <div class="ng-select-withicon ng-slectBox">
+                <mat-icon matPrefix class="select-matPrefix-icon">account_balance_wallet</mat-icon>
+                <ng-select placeholder="{{'quickjob_salaryBand' | translate}}" id="jobTemplate-salaryBand"
+                    class="dropdown-body" appendTo="body" formControlName="SalaryBandId" tabindex="9">
+                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_salaryBand' |
+                        translate}}</ng-option>
+                    <ng-option *ngFor="let list of salaryBandList" [value]="list.Id">
+                        {{list.SalaryRange}}</ng-option>
+                </ng-select>
+            </div>
+
+
+
+            <div class="clear"></div>
+            <div class="ng-select-withicon ng-slectBox">
+                <mat-icon matPrefix class="select-matPrefix-icon">payment</mat-icon>
+                <ng-select placeholder="{{'quickjob_salaryUnit' | translate}}" id="jobTemplate-salaryUnit"
+                    class="dropdown-body" appendTo="body" formControlName="SalaryUnitId" tabindex="10">
+                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_salaryUnit'
+                        |
+                        translate}}</ng-option>
+                    <ng-option *ngFor="let list of salaryList" [value]="list.Id">
+                        {{list.Name}}</ng-option>
+                </ng-select>
+            </div>
+
+            <div class="clear"></div>
+            <div class="ng-select-withicon ng-slectBox">
+                <mat-icon matPrefix class="select-matPrefix-icon">military_tech</mat-icon>
+                <ng-select placeholder="{{'quickjob_status' | translate}}" tabindex="11"
+                    class="dropdown-body show-required" appendTo="body" id="jobTemplate-status" formControlName="Status"
+                    required>
+                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_status' |
+                        translate}}
+                    </ng-option>
+                    <ng-option *ngFor="let list of statusList" [value]="list.StatusId">
+                        {{list.StatusName}}</ng-option>
+                </ng-select>
+                <mat-error
+                    *ngIf="jobTemplateForm.controls['Status'].hasError('required') && jobTemplateForm.controls['Status'].touched">
+                    {{'quickjob_status'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+            </div>
+
+
+            <div class="clear"></div>
+              <!-- who:maneesh,what:ewm-16207  for fixed new editor,when:13/03/2024 -->
+           <div class="col l12 m12 s12">
+            <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+                <mat-label
+                [ngStyle]="jobTemplateForm.controls['JobDescription'].hasError('required') && showErrorDesc? 
+                {'color': '#f44336'}:''">{{ 'quickjob_jobDescription' | translate}} <span class="required-show">*</span></mat-label>
+            <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal" 
+                  (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)">
+            </app-mention-editor>   
+          </div>
+        </div>
+            <!-- <div>
+            <app-custom-html-editor [config]="descrpConfigData" [descrpValueIn]="selectedDescription" (descrpValueOut)="getDescription($event)"
+            tabindex="12">
+        </app-custom-html-editor>
+        <mat-error class="matErrorDesc"
+                    *ngIf="jobTemplateForm.controls['JobDescription'].hasError('required') && jobTemplateForm.controls['JobDescription'].touched">
+                    {{'quickjob_jobDescription'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+                </div> -->
+
+
+        
+    </div>
+</div>
+</mat-dialog-content>
+       
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onCancel()" id="btnCancel"> {{'button_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" tabindex  type="button"  [disabled]="!jobTemplateForm.valid"  (click)="onSave(this.jobTemplateForm.value)" id="btnSave"> {{'label_save'|translate}}</button>
+</div>
+</form>
+     

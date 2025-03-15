@@ -1,0 +1,94 @@
+
+// @(C): Entire Software
+// @Type: File, <html>
+//  @Who: Anup Singh
+// @When: 16 Dec
+// @Why: EWM-4210 EWM-4219
+@import "../../../../../mixinStyle.scss";
+@import './../../../../../styles-var.scss';
+  
+.sms-card-content{
+    min-height: 310px;
+    .insert-template{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding-bottom: 15px;
+        .mat-icon{
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 20px;
+            color: $primary-bg-color;
+        }
+    }
+    .sms-data{
+        display: grid;
+        grid: auto/100px calc(100% - 100px);
+        gap: 10px;
+    }
+    .sms-data-bottom{
+        display: grid;
+        grid: auto/1fr;
+    }
+    .counterTxt{
+        position: relative;
+        .mat-form-field{
+            .sms-textarea{
+                resize: none;
+            }
+            .mat-error{
+                padding-top: 10px;
+            }
+        }
+        .count-error{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: absolute;
+            bottom: 7px;
+            left: 0px;
+            right: 0px;
+            .countlabelnew{
+                margin-top: 0px;
+                text-align: right;
+                color: #fe7000;
+                font-size: 80%;
+            }
+            .sms-count{
+                display: flex;
+                align-items: center;
+                span{
+                    color: #fe7000;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+
+::ng-deep {
+    .dark-theme {
+        .job-sms-header{
+            span.primary{
+                background: #4a4a4a;
+                color: $white-color;
+            }
+        } 
+    }
+}
+.highlight{
+    color: red;
+    animation: blink-animation 1s steps(5, start) infinite;
+ -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation{
+    to{
+        visibility: hidden;
+    }
+}
+@-webkit-keyframes blink-animation{
+    to{
+        visibility: hidden;
+    }
+}

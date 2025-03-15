@@ -1,0 +1,189 @@
+
+ //* media mixin for small smartphones start here */
+ @mixin for-small-smartphones-320x767{
+  @media (min-width : 320px) and (max-width : 767px) { @content; }
+}
+/* media mixin for small smartphones end here */
+
+//* media mixin for small smartphones start here */
+@mixin for-small-smartphones-320x480{
+  @media (min-width : 320px) and (max-width : 480px) { @content; }
+}
+/* media mixin for small smartphones end here */
+
+@import "../../../styles-var.scss";
+
+.header{
+  @include for-small-smartphones-320x480{
+    grid-template-columns: auto;
+  }
+}
+.upload-card-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0px 15px;
+  padding-top: 15px;
+  .upload-document{
+    width:660px;
+    .document-name{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      align-items: center;
+      padding: 10px 15px;
+      gap: 10px;
+      box-shadow: none;
+      border-radius: 16px;
+      border: 2px solid #eaecf1;
+      .docs-data{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        h2{
+          font-size: 16px;
+          font-weight: 500;
+          margin:0px;
+          width: 100%;
+          word-break: break-word;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          span{
+            color: #797979;
+            font-size: 12px;
+            font-weight: normal;
+          }
+          .doc-value{
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.87);
+          }
+        }
+      }
+      .mat-stroked-button{
+        border-radius: 8px;
+        margin:0px;
+        min-height: 40px;
+        height: 40px;
+        line-height: 40px;
+        border: 2px solid $primary-bg-color;
+        @media only screen and (max-width: 767px) and (min-width: 320px) {
+          width: 100px;
+        }
+        .text-btn{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .icon-text{
+            display: flex;
+            align-items: center;
+            .btntext{
+              padding:0px 5px;
+            }
+          }
+          .mat-icon{
+            width: 30px;
+            height: 30px;
+            line-height: 28px;
+          }
+        }
+      }
+      .closeIconCreateDoc{
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+      }
+      &:hover{
+        background: #fafdff;
+      }
+      .documentUploadRoundBox{
+        padding: 0px;
+        position: relative;
+        height: 40px;
+        margin: 5px 0px 0px 5px;
+        display: flex;
+        align-items: center;
+        color: transparent;
+        border: none;
+          .circleCreateDocFileUpload{
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s;
+            cursor: pointer;
+            text-align: center;
+            width: 50px;
+            margin: -10px 0px 1px 0px;
+            height: 50px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -12px;
+              .mat-icon{
+                font-size: 32px;
+                margin-top: 0px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 18px;
+                border-radius: 50%;
+              }
+              input[type='file']{
+                height: 55px;
+                width: 60px;
+                position: absolute;
+                top: 0;
+                left: -6px;
+                opacity: 0;
+                cursor: pointer;
+                border-radius: 50%;
+              }
+          }
+          .solidBorderFileUploadBox{
+            margin: -6px 0px 1px 0px;
+            border:1px solid rgba(103, 58, 183, 0.25);
+          }
+        .fileInstructions{
+          font-size: 12px;
+          padding: 0px 0px 0px 55px;
+          position: relative;
+          display: block;
+          text-align: left;
+          max-width: 160px;
+          .closeIconCreateDoc{
+            position: absolute;
+            right: 5px;
+            top: 0px;
+            font-size: 20px;
+            text-align: right;
+            cursor: pointer;
+          }
+        }
+        button{
+          width: 28px;
+          height: 28px;
+          line-height: 20px;
+        }  
+        .closeIconCreateDoc{
+          .mat-icon{
+            border: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.heading-required{
+  &:after {
+    content: ' *';
+    color: $warn-bg;
+  }
+}
+
+
+
+

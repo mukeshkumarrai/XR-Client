@@ -1,0 +1,322 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: Satya Prakash Gupta
+    @When: 13-May-2022
+    @Why:  EWM-6554 EWM-6680
+    @What:  This page will be use for the welcome page Component scss file
+*/
+@import "../../../../../../../mixinStyle.scss";
+@import "../../../../../../../styles-var.scss";
+
+.welcome-page{
+    .configure-application-text-area{
+        margin-bottom: 5px;
+        .textarea-lavel{
+            span{
+                font-weight: 500;
+            }
+        }
+        .mat-divider{
+            position: relative;
+            margin: 2px 0px;
+        }
+        .textarea-lavel{
+            small{
+                display: block;
+            }
+        }
+        .mat-form-field{
+            margin-top: -15px;
+        }
+        .mat-slider {
+            width: 100%;
+            height: 35px;
+            padding: 0px;
+        }
+        .uploadImage{
+            max-width: calc(100% - 10px);
+            margin-top: 5px;
+            margin-bottom: 15px;
+            height: auto;
+            min-height: 200px;
+        }
+        .countlabel{
+            right: 0px;
+        }
+    }
+    .configure-application-text-area.label-with-radio{
+        .textarea-lavel{
+            span{
+                font-weight: 500;
+            }
+        }
+    }
+    .label-with-radio{
+        display: grid;
+        grid: auto/ 200px calc(100% - 210px);
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        gap: 10px;
+        @include for-smartphones {
+            grid: auto/ 100%;
+        }
+        @include for-small-smartphones{
+            grid: auto/ 100%;
+        }
+        .textarea-lavel{
+            @include for-smartphones {
+                margin-bottom: 5px;
+            }
+            @include for-small-smartphones{
+                margin-bottom: 5px;
+            }
+        }
+        .mat-icon-button{
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            margin-left: 5px;
+            .mat-icon{
+                width: 22px;
+                height: 22px;
+                line-height: 22px; 
+                font-size: 22px;
+                opacity: 0.6;
+                &:hover{
+                opacity: 1;
+                }
+            }
+        }
+        .arrow-forward{
+            .mat-icon{
+                font-size: 16px;
+            }
+        }
+    }
+    .label-with-radio.label-logo{
+        align-items: start;
+        grid: auto/200px 200px;
+        @include for-smartphones {
+            grid: auto/ 1fr;
+        }
+        @include for-small-smartphones{
+            grid: auto/ 1fr;
+        }
+        .uploadImage{
+            min-height: 150px;
+            .previewImage{
+                min-height: 150px;
+            }
+        }
+        .input-with-info-icon{
+            .info-style{
+                right: -30px;
+                @include for-smartphones {
+                    right: 0px;
+                    top: -30px;
+                }
+                @include for-small-smartphones{
+                    right: 0px;
+                    top: -30px;
+                }
+            }
+        }
+    }
+    .label-with-radio.label-recruiter{
+        grid: auto/200px calc(80% - 260px);
+        @media only screen and (max-width: 1060px) and (min-width: 1025px){
+            grid: auto/200px calc(100% - 210px);
+        }
+        @include for-smartphones {
+            grid: auto/ 1fr;
+        }
+        @include for-small-smartphones{
+            grid: auto/ 1fr;
+        }
+    }
+    .input-with-info-icon{
+        position: relative;
+        .info-style{
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            text-align: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    }
+    .label-with-switch.label-with-radio{
+        div{
+            display: flex;
+            align-items: center;
+            div{
+                padding: 0px;
+            }
+        }
+    }
+
+    .uploadImage{
+        margin: 0px;
+        .previewImage{
+            min-height: 200px;
+            width: 100%;
+            max-width: 100%;
+            max-height: 350px;
+            height: inherit;
+            img{
+                height: 100%;
+            }
+            
+            .overlay-banner-text{
+                position: absolute;
+                z-index: 1;
+                padding: 0px 15px;
+                word-break: break-word;
+                @include for-small-smartphones{
+                    padding: 0px 5px;
+                }
+                h4{
+                    margin: 0px;
+                    font-size: 16px;
+                    font-weight: 400;
+                    @include for-large-smartphones{
+                        font-size: 16px;
+                    }
+                    @include for-smartphones{
+                        font-size: 16px;
+                    }
+                    @include for-small-smartphones{
+                        font-size: 9px;
+                    }
+                }
+                p{
+                    margin-bottom: 0px;
+                    @include for-large-smartphones{
+                        font-size: 16px;
+                    }
+                    @include for-smartphones{
+                        font-size: 16px;
+                    }
+                    @include for-small-smartphones{
+                        font-size: 9px;
+                    }
+                }
+            }
+            .overlay-bg{
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                box-sizing: border-box;
+                opacity: .7;
+            }
+        }
+    } 
+}
+.matErrorDesc{
+    font-size: 11px;
+}
+.maxValue{
+    // position: relative;
+    // top: -20px;
+    font-size: 70%;
+}
+
+.contactList{
+    top: -23px;
+    padding: 0px;
+    position: relative;
+    max-height: 180px;
+    overflow: auto;
+    .feature-box {
+        // padding: 0px 10px;
+        // display: flex;
+        // flex-direction: row;
+        // align-items: center;
+        // box-sizing: border-box;
+        // font-size: 14px;
+        // border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        .imageName{
+            width: 100%;
+          .email{
+              margin-left: 4px;
+          }  
+        }
+    }
+    .feature-box:hover{
+        background: rgba(153, 153, 153, 0.15);
+    }
+    img{
+        width: 30px;
+        height: 30px;
+        position: relative;
+        top:0px;
+        margin-right: 10px;
+    }
+    img:focus{
+        outline: none;
+    }
+}
+
+   
+.countrySelect.recruiterSelect{
+    .selectSearch{
+        width: calc(100% - 30px);
+    }
+}
+
+
+::ng-deep {
+    .dropIconContentBox{
+        min-height: 60px;
+    }
+    .countrySelect.recruiterSelect{
+        .listWithImage{
+            border-radius: 50px;
+        }
+        .listWithText{
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 10px;
+            background: $primary-bg-color;
+            display: inline-block;
+            text-align: center;
+            border-radius: 50px;
+            color: $white-color;
+            margin-right: 5px;
+        }
+        span.ng-value-label {
+            padding-left: 25px;
+            .listWithImage {
+                top: 17px;
+              }
+            span.listWithText {
+              position: absolute;
+              max-height: 20px;
+              left: 1px;
+              top: 17px;
+              border: none
+            }
+          }
+    }
+    .dark-theme{
+        .dropIconContentBox{
+            span.badge.primary{
+                color: $dark-primary;
+            }
+        } 
+        .countrySelect.recruiterSelect{
+            .listWithText{
+                background: $dark-primary;
+            }
+        }
+    }
+}

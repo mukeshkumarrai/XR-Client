@@ -1,0 +1,59 @@
+
+
+<div class="choose-layout" id="choose-layout" *ngIf="allTest ||getStartedBox">
+    <mat-card class="container" id="simple-layout-card">
+
+        <div class="watermark" id="watermark"><span>Xeople sample</span></div>
+        <div [ngClass]="[(guideLines?.Layout==1) ? 'simple-layout' : '',  (guideLines?.Layout==2) ? 'center-layout' : '', (guideLines?.Layout==3)? 'left-align-layout' : ''] " id="simple-layout">
+            <div class="layout-column-logo" id="layout-column-logo">
+               
+                    <img width="120" src="{{guideLines?.PreviewLogoPath}}">
+             
+            </div>
+            <div class="layout-column-welcome" id="layout-column-welcome">
+                <p><strong>{{'label_candidateHeading'|translate}},</strong></p>
+                <p   [innerHTML]="guideLines?.WelcomeText|safeHtml"></p> 
+            </div>
+           
+            <div class="layout-column-guidelies" id="layout-column-guidelies" *ngIf="allTest">
+                <p class="mt-0"><strong>{{assmentPreviwArr?.ReviewSections.length}} {{'label_testAre' | translate}}</strong></p>
+
+                <div class="test-name-box" *ngFor="let section of assmentPreviwArr?.ReviewSections;let i=index">
+                    <div class="test-name">
+                        <div>{{section?.Name}}</div>
+                        <div>Q-{{section?.Id | assessment:section?.Id:QuesComp}}/{{section?.NoOfQuestions}}</div>
+                    </div>
+                    <div class="test-button">
+                        <button mat-raised-button color="primary" [ngClass]="section?.Id===completeSection[i]?'green':''" 
+                        (click)="testStart(section?.Name,section?.Id)">
+                        <ng-container *ngIf="section?.Id===completeSection[i]">{{'label_completed' | translate}}</ng-container>
+                        <ng-container *ngIf="section?.Id!==completeSection[i]">{{'label_start' | translate}}</ng-container>
+                        </button>
+                    </div>
+                </div>
+
+               
+            </div>
+            <div class="layout-column-buttons" id="layout-column-buttons" *ngIf="allTest">
+                <button mat-raised-button color="primary" type="button" class="ml-0" (click)="testSubmit()">{{'label_finalSubmit' | translate}}</button>
+            </div>
+            <div class="layout-column-guidelies" id="layout-column-guidelies" *ngIf="getStartedBox">
+               
+                <p><strong>{{'label_guidelinesHeading'|translate}}:</strong></p>
+                <p   [innerHTML]="guideLines?.Guidelines|safeHtml"></p> 
+           
+           </div>
+           <div class="layout-column-buttons" id="layout-column-buttons" *ngIf="getStartedBox">
+               <button mat-raised-button color="primary" class="green ml-0" (click)="getStarted()">{{'label_getStarted' | translate}}<mat-icon
+                       fontSet="material-icons-outlined">
+                       arrow_circle_right</mat-icon></button>
+           </div>
+        </div>
+    </mat-card>
+</div>
+
+<app-assessment-test *ngIf="questionSet" [guideLines]="guideLines" [assessmentList]="assessmentList" 
+[currentSection]="currentSection" [assmentPreviwArr]="assmentPreviwArr" (sectionCompltion)="onsectionCompltion($event)"></app-assessment-test>
+
+<app-success-msg *ngIf="successMsg" [patternId]="assessmentList?.PatternId" 
+[totalSections]="assmentPreviwArr?.ReviewSections" [guideLines]="guideLines"></app-success-msg> 

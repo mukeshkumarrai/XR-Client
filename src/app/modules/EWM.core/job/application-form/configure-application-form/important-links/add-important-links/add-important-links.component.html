@@ -1,0 +1,95 @@
+<!---
+@(C): Entire Software
+@Type: File, <html>
+@Who: Adarsh singh
+@When: 30-Oct-2022
+@Why: EWM-8897 EWM-9270
+@What: Add important links popup.
+-->
+<!-- <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div> -->
+
+<form id="add-important-links" [formGroup]="addForm">
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0" style="display: flex;"> 
+            <div *ngIf="activestatus==='Add' ">{{'label_add' |customTranslate}} </div>
+            <div *ngIf="activestatus==='Edit' ">{{'label_edit' |customTranslate}} </div>
+            <div *ngIf="activestatus=== 'View' ">{{'label_view' |customTranslate}} </div>
+            &nbsp;{{'label_impLink' |customTranslate}}</h2>
+    </div>
+
+    <mat-dialog-content>
+        <mat-form-field floatLabel="always">
+            <mat-label>{{'label_Heading' | translate}}</mat-label>
+            <textarea matInput formControlName="Heading" id="Heading" tabindex="1" (blur)="removeSpaces()"
+                placeholder="{{'label_EnterNameLinkDisplay'|translate}}" required></textarea>
+            <mat-error *ngIf="addForm.controls['Heading'].hasError('required')">
+                {{'label_Heading'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['Heading'].hasError('codeTaken')">
+                {{'label_Heading'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['Heading'].hasError('maxlength')">
+                {{'label_Heading'|translate}} {{'label_errormaxlength150'|translate}}
+            </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field floatLabel="always">
+            <mat-label>{{'label_Subheading' | translate}}</mat-label>
+            <textarea matInput formControlName="SubHeading" id="SubHeading" tabindex="1"
+                placeholder="{{'label_StaticSubHeadingText'|translate}}"></textarea>
+            <mat-error *ngIf="addForm.controls['SubHeading'].hasError('maxlength')">
+                {{'label_Subheading'|translate}} {{'label_errormaxlength150'|translate}}
+            </mat-error>
+        </mat-form-field>
+
+        <div class="ng-slectBox">
+            <!-- <mat-label>{{'label_userIcon' | translate}}</mat-label> -->
+            <!-- <mat-label>{{'label_userIcon' | translate}}</mat-label> -->
+            <ng-select placeholder="{{'label_userIcon'|translate}}" [clearable]="true" tabindex="3"
+                formControlName="IconPath" id="activity-iconname" class="categoryIconSelect dropdown-body" appendTo="body">
+                <ng-option  value="" disabled>{{'label_IconText'|translate}}</ng-option>
+                <ng-option *ngFor="let list of iconData?.iconList" value="{{list}}">
+                    <mat-icon>{{list}}</mat-icon> {{list}}
+                </ng-option>
+            </ng-select>
+            <!-- <mat-error
+                *ngIf="addForm.controls['IconPath'].hasError('required') && addForm.controls['IconPath'].touched">
+                {{'label_categoryIcon'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error> -->
+        </div>
+
+        <mat-form-field class="document-form-field" floatLabel="always">
+            <mat-label>{{'label_URL'|translate}}</mat-label>
+            <input matInput formControlName="URL" id="URL" tabindex="1" placeholder="{{'label_UrlText'|translate}}"
+                required />
+            <mat-error *ngIf="addForm.controls['URL'].hasError('required')">
+                {{'label_URL'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error> 
+            <mat-error *ngIf="addForm.get('URL').errors?.pattern && addForm.get('URL').touched">
+                {{ 'label_errorreqiredPattern' |translate}}</mat-error>
+            <mat-error *ngIf="addForm.controls['URL'].hasError('maxlength')">
+                {{'label_URL'|translate}} {{'label_errormaxlength150'|translate}}
+            </mat-error>
+        </mat-form-field> 
+        <mat-form-field floatLabel="always">
+            <mat-label>{{'label_description' | translate}}</mat-label>
+            <textarea matInput formControlName="Description" id="Description" tabindex="1"
+                placeholder="{{'label_DescText'|translate}}"></textarea>
+            <mat-error *ngIf="addForm.controls['Description'].hasError('maxlength')">
+                {{'label_description'|translate}} {{'label_errormaxlength500'|translate}}
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" type="button" id="btnCancel" tabindex="3" (click)="onDismiss()">
+            {{'button_cancel'|translate}}</button>
+        <button *ngIf="isViewMode" mat-stroked-button color="primary" type="button" id="btnSave" (click)="onSave(this.addForm.value)"
+            tabindex="4" [disabled]="!addForm.valid"> {{'label_save'|translate}}</button>
+    </div>
+
+</form>

@@ -1,0 +1,61 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash 
+    @When: 25-Nov-2020
+    @Why: ROST-370 ROST-427
+    @What:  This page wil be use only for the site domain Component HTML
+-->
+<!-- Entire Software : Satya Prakash Gupta : 25-Nov-2020 : site domain : ROST-370 ROST-427 -->
+
+<!-- Entire Software : Naresh Singh : 18-Jan-2021 : Update Site Domain in Sprint 5 : ROST-711 ROST-715 -->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="site-domain-mat-card-header">
+    <mat-card-title class="only-title">{{'label_siteDomain' |translate}}</mat-card-title>
+    <div class="actionButton">
+        <button mat-raised-button color="primary" tabindex="2" [disabled]="!siteDomainFrom.valid"
+        (click)="openConfrmDialog(this.siteDomainFrom.value)" id="btnsave" class="buttonForDesktopMobile">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save'|translate}}</span> 
+        </button>
+    </div>
+</mat-card-header>
+    
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="site-domain-drawer">    
+    <mat-card class="component-card mat-elevation-z2" id="component-card">    
+        <mat-card-subtitle class="subTitle">{{ 'label_siteDomainSubTitle' |translate }}</mat-card-subtitle>
+        <form novalidate [formGroup]="siteDomainFrom" id="siteDomain-form"> 
+            <mat-form-field>
+                <input matInput tabindex="1" type="text" placeholder="Your site name" formControlName="Domain" id="siteDomain-sitename"  required>
+                <span matSuffix class="fixSiteName">{{domainNames}}</span>
+                <mat-error *ngIf="this.siteDomainFrom.controls['Domain'].hasError('required')">
+                    {{'label_siteDomain' |translate}} {{'label_errorreqired' |translate}}
+                </mat-error>
+                <mat-error *ngIf="siteDomainFrom.controls['Domain'].hasError('minlength')">
+                    {{'label_siteDomain' |translate}} {{'label_errorreqiredMinlength' |translate}}
+                </mat-error>
+                <mat-error *ngIf="siteDomainFrom.controls['Domain'].hasError('maxlength')">
+                    {{'label_siteDomain' |translate}} {{'label_errormaxlength50' |translate}}
+                </mat-error>
+                <mat-error *ngIf="siteDomainFrom.controls['Domain'].hasError('codeTaken')">
+                    {{'label_siteDomain' |translate}} {{'label_areadyExists' |translate}}
+                </mat-error>
+                <!-- Entire Software : Nitin Bhati : 10-feb-2021 : alphanumeric validation: EWM-871 -->
+                <mat-error *ngIf="siteDomainFrom.controls['Domain'].hasError('pattern')">
+                    {{'label_siteDomain' |translate}} {{'label_errorspecialchar' |translate}}
+                </mat-error>
+                
+            </mat-form-field>
+            <p class="mt-0">{{'label_sitedomainpara1'|translate}}</p>
+            <p class="mt-0">{{'label_sitedomainpara2'|translate}}</p>
+        </form>
+    </mat-card>
+</mat-drawer-container>
+<!-- Entire Software : Satya Prakash Gupta : 25-Nov-2020 : site domain : ROST-370 ROST-427 -->

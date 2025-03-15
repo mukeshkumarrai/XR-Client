@@ -1,0 +1,36 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 13-April-2022
+    @Why: EWM-5580 EWM-6099
+    @What:  This page wil be use only for token create confirm box Component HTML
+-->
+
+<!---
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 14-April-2022
+    @Why: EWM-5580 EWM-6100
+    @What:  This page wil be use only for generate-token Component HTML
+-->
+
+<form id="TokenCreateComfirmBox" applyTabIndexes>
+
+      <div id="create-token-header" class="modal-header">
+        <h2 mat-dialog-title>{{'label_cheers' |translate}}</h2>
+        <button mat-icon-button id="btnClose" tabindex (click)="onClose()" color="warn">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <mat-dialog-content>
+        <mat-icon class="token" color="primary">celebration</mat-icon>
+        <p>{{'label_tokenCreatePopupMsg1' |translate}}</p>
+        <p>{{'label_tokenCreatePopupMsg2' |translate}} - {{EmailId}}</p>
+        <p>{{'label_tokenCreatePopupMsg3' |translate}}</p>
+      </mat-dialog-content>
+
+  </form>

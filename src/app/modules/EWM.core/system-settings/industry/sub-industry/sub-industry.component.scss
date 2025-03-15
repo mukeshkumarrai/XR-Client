@@ -1,0 +1,113 @@
+/* 
+ @Type: File, <ts>
+ @Name: css 
+ @Who: Suika
+ @When: 13-May-2021
+ @Why: ROST-1506
+*/
+
+@import "../../../../../../mixinStyle.scss";
+
+.col-1 {
+  width: 14%;
+}
+.col-2 {
+  width: 30%;
+}
+.col-3 {
+  width: 10%;
+}
+.col-4 {
+  width: 14%;
+}
+.col-5 {
+  width: 9%;
+}
+.col-6 {
+  width: 15%;
+}
+.col-7 {
+  width: 12%;
+}
+.col-8 {
+  width: 12%;
+}
+.col-9 {
+  width: 3%;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.mat-form-field-infix, .mat-form-field{
+  width: 100%;
+}
+.word-wrap {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+  ////  Styling For Back button and Breadcum BY Anup Singh //////
+.matCardTitleStyle{
+  margin-bottom: 0px !important;
+}
+  
+@media only screen and (max-width: 1150px) and (min-width: 850px) {
+  .matCardTitleStyle {
+    display: unset!important;
+  }
+  .mat-card .mat-divider-horizontal{
+    top:65px !important
+  }
+}
+
+@media only screen and (max-width: 850px) and (min-width: 400px) {
+  .matCardTitleStyle {
+    display: unset!important;
+  }
+  .mat-card .mat-divider-horizontal{
+    top:65px !important
+  }
+}
+
+@media only screen and (max-width:400px) and (min-width: 150px) {
+  .matCardTitleStyle {
+    display: unset!important;
+  }
+  .mat-card .mat-divider-horizontal{
+    top:65px !important
+  }
+}
+
+.xeople-container-listing-with-breadCrumb.mat-drawer-container{
+  .component-card.mat-card{
+    @media only screen and (max-width: 385px) and (min-width: 240px){
+      height: calc(100% - 78px);
+    }
+  }
+}  
+
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 386px){
+    height: 73px;
+  }
+  @media only screen and (max-width: 385px) and (min-width: 240px){
+    height: 97px;
+  }
+}

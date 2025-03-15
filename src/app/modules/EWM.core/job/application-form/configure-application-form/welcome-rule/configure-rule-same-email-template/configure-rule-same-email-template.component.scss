@@ -1,0 +1,104 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Naresh Singh
+    @When: 05-Sep-2021
+    @Why: EWM-2511 EWM-2707
+    @What: You can add this page styles on same file, and also import other style files
+*/
+
+@import "../../../../../../../../styles-var.scss";
+
+
+
+.actionBoxFooter:not([class*=mat-elevation-z]) {
+  z-index: 0;
+  margin-top: 5px;
+  position: relative;
+  box-shadow: none;
+  justify-content: flex-start;
+  padding: 0px;
+  .attachFileBtn {
+    cursor: pointer;
+  }
+  small{
+    text-align: left;
+  }
+}
+.ccBccEmailBtn {
+  min-width: 35px;
+  padding: 0px 0px;
+  position: relative;
+  top: -6px;
+  margin: 0px 3px;
+}
+
+.activeBtnColor {
+  background: #f1f1f2;
+}
+
+.fileUpload {
+  input[type="file"] {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: -15px;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+  }
+}
+
+.insert-template {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  .mat-icon {
+    font-size: 150%;
+  }
+}
+
+.emailattacmentbox{
+  .mat-card{
+    padding: 5px;
+    margin-bottom: 0px;
+    margin-top: 7px;
+  }
+}
+.email-attachment {
+  display: flex;
+  padding-bottom: 5px;
+  justify-content: space-between;
+  .file-detail {
+    padding-right: 5px;
+    display: grid;
+    span {
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .fileSize{
+      font-size: 12px;
+      margin-top: 4px;
+    }
+  }
+  .mat-icon{
+    cursor: pointer;
+  }
+  .mat-icon:hover {
+    color: $warn-bg;
+  }
+}
+
+.mailediter {
+  height: 260px;
+  @media only screen and (max-width: 672px) {
+    height: 430px;
+  }
+}
+
+.email-chip{
+  min-width: 100px;
+}

@@ -1,0 +1,249 @@
+// @When: 07-12-2023 @who:Amit @what: style modified
+@import '../../../../../styles-var.scss';
+.candidate-sms-outer{
+    height: 100%;
+    .candidate-sms-inner{
+        .searchGreyBgBox{
+            display: flex;
+            width: calc(100% - 20px);
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0px 10px;
+            padding-top: 0px;
+            background: #f5f5f5;
+            position: sticky;
+            height: 45px;
+            top: 0px;
+            z-index: 2;
+            gap: 5px;
+            .sms-btn-refresh{
+                min-width: 36px;
+            }
+        }
+        .sms-history-sec{
+            overflow: auto;
+            .sms-history{
+                display: grid;
+                // grid: auto/calc(100% - 44px) 33px;
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+                padding: 0px 10px;
+                margin-bottom: 30px;
+                font-size: 12px;
+                position: relative;
+                &:first-child{
+                    margin-top: 20px;
+                }
+                .chat{
+                    position: relative;
+                    max-width: 75%;
+                    min-width: 250px;
+                    @media only screen and (max-width: 767px) {
+                        width: 100%;
+                        max-width: 100%;
+                    }
+                    .chat-data{
+                        border-radius: 8px 0px 8px 8px;
+                        padding: 10px;
+                        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+                        font-weight: 400;
+                        line-height: 18px;
+                        .chat-data-bg{
+                            position: absolute;
+                            color: $primary-bg-color;
+                            left: 0px;
+                            top: 15px;
+                            width: calc(100% - 0px);
+                            height: calc(100% - 37px);
+                            z-index: 1;
+                            &::before{
+                                content: "";
+                                left: 0px;
+                                top: 0px;
+                                width: 100%;
+                                height: 100%;
+                                position: absolute;
+                                background-color: currentColor;
+                                opacity: 0.15;
+                                border-radius: 8px 0px 8px 8px;
+                            }
+                        }
+                        .triangle{
+                            position: absolute;
+                            color: $primary-bg-color;
+                            right: 0px;
+                            top: 14px;
+                            z-index: 1;
+                            &::after{
+                                content: '';
+                                position: absolute;
+                                left: 0px;
+                                top: 0px;
+                                width: 0;
+                                height: 0;
+                                border-top: 10px solid transparent;
+                                border-bottom: 10px solid transparent;
+                                border-left: 10px solid currentColor;
+                                opacity: 0.15;
+                            }
+                        }
+                        .sms-body{
+                            position: relative;
+                            z-index: 2;
+                            word-break: break-word;
+                        }
+                        .date-and-time{
+                            display: flex;
+                            justify-content: flex-end;
+                            font-style: italic;
+                            gap: 5px;
+                            font-size: 11px;
+                            font-weight: 400;
+                            margin-top: 10px;
+                            color: #5e5d5d;
+                        }
+                    }
+                    .owner-name{
+                        font-weight: 500;
+                        position: relative;
+                        top: -5px;
+                        font-size: 13px;
+                        display: flex;
+                        justify-content: flex-end;
+                        right: 0px;
+                    }
+                    .sms-status{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding-top: 5px;
+                        .mat-icon{
+                            font-size: 18px;
+                            height: 18px;
+                            width: 18px;
+                            line-height: 18px;
+                        }
+                        .failed,
+                        .delivered,
+                        .pending,
+                        .resend{
+                            display: flex;
+                            align-items: center;
+                            gap: 5px;
+                            .mat-button{
+                                line-height: 18px;
+                                height: 18px;
+                                padding: 0px 3px;
+                                font-size: 12px;
+                                font-weight: 400;
+                                .mat-icon{
+                                    text-align: left;
+                                    width: 23px;
+                                }
+                            }
+                        }
+                        .failed{
+                            color: $warn-bg;
+                        }
+                        .pending{
+                            color: $gold-star; 
+                        }
+                        .delivered{
+                            color: $green-color;
+                        }
+                        .resend{
+                            color: $primary-bg-color;
+                        }
+                    }
+                }
+                .chat-owner{
+                    width: 33px;
+                    text-align: center;
+                    position: relative;
+                    top: -14px;
+                    display: flex;
+                    .userAvtaarAndName{
+                        padding: 2px;
+                        box-shadow: 0px 0px 1px 0px #121212;
+                    }
+                }
+            }
+            .reply-history{
+                // grid: auto/33px calc(100% - 44px);
+                display: flex;
+                justify-content: flex-start;
+                .chat{
+                    .owner-name{
+                        justify-content: flex-start;
+                    }
+                    .sms-status{
+                        justify-content: flex-start;
+                        .delivered{
+                            color: #9E9E9E;
+                        }
+                    }
+                    .chat-data{
+                        border-radius:0px 8px 8px 8px;
+                        .chat-data-bg{
+                            color: #9E9E9E;
+                            &::before{
+                                border-radius:0px 8px 8px 8px;
+                            }
+                        }
+                        .triangle{
+                            color: #9E9E9E;
+                            left: -21px;
+                            &:after{
+                                border-right: 10px solid currentColor;
+                                border-left: 10px solid transparent;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .drawerFooter{
+        width: 100%;
+        position: absolute;
+        height: 50px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        z-index: 9;
+        padding: 0px 10px;
+        right: 0px;
+        bottom: 0px;
+        border-radius: 0px;
+    }
+}
+
+::ng-deep{
+    .dark-theme{
+        .candidate-sms-outer{
+            .candidate-sms-inner{
+                .searchGreyBgBox{
+                    background: #1c1c1c !important;
+                }
+                .sms-history-sec{
+                    .sms-history{
+                        .chat{
+                            .chat-data{
+                                .chat-data-bg{
+                                    color: $dark-primary !important;
+                                }
+                                .triangle{
+                                    color: $dark-primary !important;
+                                }
+                                .date-and-time{
+                                    color: #9e9e9e !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

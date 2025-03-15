@@ -1,0 +1,124 @@
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  
+<div class="quick-dialog">
+    <h2 mat-dialog-title  class="breadcum">
+        {{'label_checklistHeader'|translate}} 
+        </h2>
+    <mat-dialog-content  #target> 
+        <div class="addEditSec" >
+            <ng-template #template let-anchor>
+                <span>{{ anchor.nativeElement.innerText }}</span>
+            </ng-template>
+            <form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data'>  
+                    <div class="ng-slectBox">
+                          <app-custome-dropdown-with-two-variabel tabindex="1" [selectedIn]="selectedDocumentname"
+                            [resetFormSubject]="resetDdl.asObservable()" (selectedOut)="onChangeDocumentName($event)"
+                            [config]="dropDocumrntnameConfig"></app-custome-dropdown-with-two-variabel>
+                        </div>                
+                <div>
+                    <mat-form-field floatLabel="always">
+                        <mat-label>{{'label_filename'|translate}} </mat-label>
+                        <p class="mat-card-subtitle">{{'label_fileNameLable'|translate}} </p>
+                         <input matInput formControlName="Name" id="fileName"
+                            tabindex="2" placeholder="{{'label_filename'|translate}}" required cdkFocusInitial/>
+                        <mat-error *ngIf="addForm.controls['Name'].hasError('required')">
+                            {{'label_filename'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addForm.controls['Name'].hasError('maxlength')">
+                            {{'label_filename'|translate}} {{'label_errormaxlength100'|translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addForm.controls['Name'].hasError('codeTaken')">
+                            {{'label_filename'|translate}} {{'label_errorreqiredAlready'|translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="counterTxt">
+                    <mat-form-field>
+                        <mat-label>{{'label_comment' | translate}}</mat-label>
+                        <textarea type="text" tabindex="3" formControlName="Comment" matInput
+                            (keyup)="onMessage($event.target.value)" id="document-comment"></textarea>
+                        <mat-error *ngIf="this.addForm.controls['Comment'].hasError('maxlength')">
+                            {{ 'label_comment' |translate}} {{ 'label_errormaxlength250' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    <span class="countlabel" color="warn">
+                        {{'label_balance' |translate}}:{{maxMessage}} {{'label_characters' |translate}}
+                    </span>
+                </div>
+            <div class="show-hide">   
+                <button mat-stroked-button color="primary"  tabindex="4" type="button"  (click)="onHideMoreField('target')" id="btnHideShow"> 
+                    <span  *ngIf="!hideMoreFields">{{'label_ShowMoreFiled'|translate}} <mat-icon> expand_more </mat-icon></span>
+                    <span  *ngIf="hideMoreFields">{{'label_hideMoreField'|translate}} <mat-icon> expand_less </mat-icon></span>
+                </button>
+            </div> 
+
+            <div *ngIf="(showReferenceId===true || showStartDate===true || showExpiryDate===true)||(hideMoreFields===true)">
+                    <mat-form-field>
+                        <mat-label>{{'label_weightage'|translate}}</mat-label>
+                        <input matInput formControlName="Weightage"
+                            id="Weightage" tabindex="5" placeholder="{{'label_weightage'|translate}}" readonly/>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{'label_referenceId'|translate}}</mat-label>
+                        <input matInput formControlName="ReferenceId"
+                            id="ReferenceId" tabindex="6" placeholder="{{'label_referenceId'|translate}}" [required]="showReferenceId" />
+                         <mat-error *ngIf="addForm.controls['ReferenceId'].hasError('required')">
+                            {{'label_referenceId'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addForm.controls['ReferenceId'].hasError('maxlength')">
+                            {{'label_referenceId'|translate}} {{'label_errormaxlength50'|translate}}
+                        </mat-error>
+                       </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{'label_startDate' | translate}}</mat-label>
+                        <input matInput [matDatepicker]="picker2" (dateInput)="inputEventStart(addForm.value.StartDate)" tabindex="7"    [placeholder]="getDateFormat" 
+                            id="experience-startDate" [max]="today" formControlName="StartDate" [required]="showStartDate">
+                            <button *ngIf="addForm.value.StartDate || addForm.controls['StartDate'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="clearStartDate()" > 
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                          <mat-error *ngIf="addForm.controls['StartDate'].hasError('required') && addForm.controls['StartDate'].touched && !addForm.controls['StartDate'].hasError('matDatepickerParse')"> {{'label_startDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                         <mat-error *ngIf="addForm.controls['StartDate'].hasError('invalidDate') && !addForm.controls['StartDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                         <mat-error *ngIf="addForm.controls['StartDate'].hasError('matDatepickerParse') && !addForm.controls['StartDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                         <mat-error *ngIf="addForm.controls['StartDate'].hasError('matDatepickerMax') && !addForm.controls['StartDate'].hasError('invalidDate')"> {{'label_startDate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error>
+                         <mat-error *ngIf="addForm.controls['StartDate'].hasError('matDatepickerMin') && !addForm.controls['StartDate'].hasError('invalidDate')"> {{'label_mustbe' | translate}} </mat-error>
+                         <!-- End  -->
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{'label_cardExpiryDate' | translate}}</mat-label>
+                        <input matInput [matDatepicker]="picker1" tabindex="8" id="experience-endDate" [min]="endDay" (dateInput)="inputEventStart(addForm.value.StartDate)"
+                            formControlName="ExpiryDate" [required]="showExpiryDate"    [placeholder]="getDateFormat" >
+                            <button *ngIf="addForm.value.ExpiryDate || addForm.controls['ExpiryDate'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="clearEndDate()" > 
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                         <!---------@When: 20-03-2023 @who:Adarsh singh @why: EWM-11150 @Desc- Added date validation--------->
+                        <mat-error *ngIf="addForm.controls['ExpiryDate'].hasError('required') && addForm.controls['ExpiryDate'].touched && !addForm.controls['ExpiryDate'].hasError('matDatepickerParse')"> {{'label_cardExpiryDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                        <mat-error *ngIf="addForm.controls['ExpiryDate'].hasError('invalidDate') && !addForm.controls['ExpiryDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                        <mat-error *ngIf="addForm.controls['ExpiryDate'].hasError('matDatepickerParse') && !addForm.controls['ExpiryDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                        <mat-error *ngIf="addForm.controls['ExpiryDate'].hasError('matDatepickerMax') && !addForm.controls['ExpiryDate'].hasError('invalidDate')"> {{'label_cardExpiryDate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error>
+                        <mat-error *ngIf="addForm.controls['ExpiryDate'].hasError('matDatepickerMin') && !addForm.controls['ExpiryDate'].hasError('invalidDate')"> {{'label_cardExpiryDate' | translate}} {{'label_mustbeStartDate' | translate}} </mat-error>
+                        <!-- End  -->
+                    </mat-form-field>
+            </div>
+            </form>
+        </div>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex="10" type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-raised-button tabindex="9" class="buttonForDesktopMobile" color="primary" 
+            (click)="onSave(this.addForm.value)" type="button" id="btnSave" [disabled]="!addForm.valid">
+            <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save'|translate}}</span>
+        </button>
+    </div>
+</div>

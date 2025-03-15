@@ -1,0 +1,126 @@
+$default-bg-color: #5844DA;
+$gray-button: #c1c1c1;
+$dark-primary: #789aab;
+$black-color: #000000;
+
+@import "../../../styles-var.scss";
+
+.upload-card-content{
+    padding: 0px 15px;
+    margin-top: 15px;
+    .document-name{
+        display: grid;
+        grid: auto/35px calc(100% - 45px);
+        gap: 10px;
+        box-shadow: none;
+        border: 2px solid #eaecf1;
+        border-radius: 16px;
+        .mat-icon{
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            font-size: 24px;
+            text-align: center;
+            border-radius: 50%;
+            border: 2px solid $primary-bg-color;
+        }
+        .heading{
+            font-size: 16px;
+            color: #166ebe;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            padding: 3px 5px;
+            .bg-color{
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                color: $dark-primary;
+                z-index: -1;
+                &::after{
+                    content: "";
+                    background-color: currentColor;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0px;
+                    top: 0px;
+                    opacity: 0.1;
+                    z-index: -1;
+                    border-radius: 4px;
+                }
+            }
+        }
+        p{
+            margin: 0px;
+            padding: 5px 0px;
+            font-size: 13px;
+            color: $primary-bg-color;
+        }
+        .url-data{
+            width: 100%;
+            font-weight: "Bariol";
+            .url{
+                font-weight: 500;
+                position: relative;
+                z-index: 2;
+                padding: 3px 5px;
+                .bg-color{
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;
+                    height: 100%;
+                    color: $black-color;
+                    z-index: -1;
+                    &::after{
+                        content: "";
+                        background-color: currentColor;
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        left: 0px;
+                        top: 0px;
+                        opacity: 0.1;
+                        z-index: -1;
+                        border-radius: 4px;
+                    }
+                }
+                h3{
+                    margin: 0px;
+                    font-size: 11px;
+                    font-weight: 500;
+                    color: $primary-bg-color;
+                }
+                .url-link{
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    a{
+                        color: #166ebe;
+                        word-break: break-word;
+                    }
+                    .mat-stroked-button{
+                        min-width: 48px;
+                        width: 48px;
+                        padding: 0px 5px;
+                        line-height: 24px;
+                        color: $primary-bg-color;
+                        background: #f9f9f9;
+                        opacity: 0;
+                        font-size: 13px;
+                        font-weight: "Bariol";
+                    }
+                    &:hover{
+                        .mat-stroked-button{
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+}

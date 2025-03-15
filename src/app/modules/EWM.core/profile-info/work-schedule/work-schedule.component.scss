@@ -1,0 +1,42 @@
+@import '../../../../../mixinStyle.scss';
+
+.xeople-container-with-one-card.mat-drawer-container{
+  .component-card.mat-card {
+    @include for-small-smartphones{
+      overflow-x: hidden;
+    }
+  }
+} 
+.work-schedule{
+  .subTitle{
+    font-weight: 500;
+  }
+  .work-time{
+    display: grid;
+    grid: auto/400px;
+    @include for-small-smartphones{
+      grid: auto/100%;
+    }
+  }
+  .office-timing{
+    display: grid;
+    grid: auto/calc(200px - 5px) calc(200px - 5px);
+    grid-gap: 10px;
+    @include for-small-smartphones{
+      grid: auto/calc(100% - 0px);
+    }
+  }
+}  
+
+.page-header.mat-card-header{
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 55px;
+  }
+}
+.xeople-container-with-one-card.mat-drawer-container{
+  .component-card.mat-card{
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100% - 37px);
+    }
+  }
+}

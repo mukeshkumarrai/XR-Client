@@ -1,0 +1,71 @@
+<div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_popup_checklist_header' | translate}} {{CandidateName}}</h2>
+    <button mat-icon-button  id="btncloseinfo" color="warn" (click)="onDismiss()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-dialog-content class="checklist-container">
+    <div class="col nodata center-align p-15" *ngIf="WorkflowChecklistData==undefined || WorkflowChecklistData?.length==0">
+        <p class="mb-15">{{'label_JobActionChecklistAvailable' | translate}}</p>
+        <button type="button"(click)="openMapChecklistModule()" color="primary" mat-raised-button
+        matTooltipClass="custom-tooltip" id="addLengthBtn">
+        <mat-icon>
+        add
+        </mat-icon>
+        </button>
+    </div>
+    <div id="checklist-container" *ngIf="WorkflowChecklistData?.length>0">
+        <div class="checkbox-container" *ngIf="TotalMandatoryPendingSum>0">
+            Total pending({{TotalMandatoryPendingSum}}/{{TotalMandatoryChecklistSum}})
+            <!-- <mat-checkbox color="primary" tabindex matTooltip="" [disabled]="true" matTooltipClass="custom-tooltip" *ngIf="TotalPendingSum>0">Total pending({{TotalPendingSum}}/{{TotalChecklistSum}})
+            </mat-checkbox> -->
+        </div>
+        <mat-accordion class="checklist-sec" id="checklist-sec">
+            <mat-expansion-panel id="mat-expansion-panel" #panelM hideToggle (afterExpand)="open(panelM)" *ngFor="let list of WorkflowChecklistData;let i=index"
+            (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header id="mat-expansion-panel-header" #panelG (click)="panelG._toggle()">
+                    <div class="bg" [style.color]="list.ChecklistType=='Group'?'#4caf50':''"></div>
+                    <div class="checklist-header" id="checklist-header" #panel2>
+                        <div class="collapse-expand-title" id="collapse-expand-title">
+                            <button mat-icon-button tabindex *ngIf="!panelM.expanded" id="btn_expand"
+                                (click)="panelG._toggle();checkListOpen(list,false,i)" class="collapse-expand">
+                                <mat-icon>expand_more</mat-icon>
+                            </button>
+                            <button mat-icon-button tabindex *ngIf="panelM.expanded" id="btn_less"
+                                (click)="panelG._toggle();" class="collapse-expand">
+                                <mat-icon>expand_less</mat-icon>
+                            </button>
+                            <div class="title-icon" id="title-icon">
+                                <div class="title" id="title">{{list?.Name}}</div>
+                            </div>
+                        </div>
+                        <div class="staus-actions" id="staus-actions">
+                            <div class="staus-and-time" id="staus-and-time" [ngClass]="list?.Status == 'Completed'? '': 'pending'">
+                                <div class="status" id="status">{{list?.Status}}</div>
+                                <div class="time" id="statusDate" *ngIf="list.Status=='Completed'">{{list?.CompletedDate |
+                                    date:userpreferences.timeformate:userpreferences.timezone}}</div>
+                            </div>
+                            <button mat-icon-button tabindex id="btn_upload" (click)="mapChecklistAsDocument(list)">
+                                <mat-icon>cloud_upload</mat-icon>
+                            </button>
+                            <button mat-icon-button tabindex id="btn_download" (click)="dowLoadCheckList(list)">
+                                <mat-icon>file_download</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </mat-expansion-panel-header><!--*ngIf="checkListStatus"-->
+                <app-single-group-checklist  [jobId]="jobId" [isEditable]="isEditable" [candidateId]="candidateId"
+                [WorkFlowStageId]="WorkFlowStageId"  [EmailId]="EmailId" 
+                [checklistType]="checklistType" [resetComponent]="resetComponent.asObservable()" (savedChecklist)="documentDataFetchFromChild($event)"></app-single-group-checklist>           
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="add-client-btn" *ngIf="WorkflowChecklistData?.length>0">
+        <button mat-fab class="addClientButton" id="btnCreate" color="primary" (click)="openMapChecklistModule()">     
+            <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+        </button>
+    </div>
+</mat-dialog-content>

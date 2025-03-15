@@ -1,0 +1,74 @@
+/* @When: 11-10-2023 @who:Amit @why: EWM-14609 @what: This page will be use for the contact clients scss file */
+.scrollloading {
+  position: absolute;
+  height: 75px;
+  bottom: 0;
+  width:calc(100% - 6px);
+}
+.page-header.contact-client-header.mat-card-header{
+  border-bottom: none;
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 42px;
+  }
+  .header-action-button{
+    .contact-action-button{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      .mat-raised-button{
+        margin-left: 0px;
+        .mat-icon{
+          margin-inline-end: 7px;
+          width: 18px;
+          height: 18px;
+          line-height: 18px;
+          font-size: 18px;
+          @media only screen and (max-width: 580px) and (min-width: 240px){
+            margin-inline-end: 0px;
+          }
+        }
+      }
+    }
+    @media only screen and (max-width: 660px) and (min-width: 320px){
+    .icon-with-text-mobile{
+      min-width: 40px;
+      padding: 0px;
+      .mat-icon{
+        margin-inline-end: 0px;
+      }
+      .buttonTxt{
+          display: none;
+        }
+      }
+    }
+    @media only screen and (max-width: 660px) and (min-width: 320px){
+    .icon-with-text-mobile{
+      min-width: 40px;
+      padding: 0px;
+      .buttonTxt{
+          display: none;
+        }
+      }
+    }
+  }
+}   
+.contact-client-content{
+  border-top: none;
+  .kendo-grid-appearance{
+    padding: 0px 10px;
+  }
+}
+// @When: 12-10-2023 @who:Amit @why: EWM-14757 @what: header space manage
+:host ::ng-deep{
+  .kendo-grid-appearance.without-column-popup{
+    .k-grid{
+      .k-grid-header, .k-grid-footer{
+        .k-header{
+          .k-link {
+            padding-inline-end: 12px;
+          }
+        }
+      }
+    }
+  }   
+}

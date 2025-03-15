@@ -1,0 +1,73 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who:  ANUP
+    @When: 07-oct-2021
+    @Why: EWM-3088 EWM-3181
+    @What:  This page is creted for disatance count
+-->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<div id="lat-long-distance" class="latLongDistance" applyTabIndexes>
+  <div class="quick-dialog">
+    <span (click)="onDismiss()" id="btnCancel" tabindex class="material-icons closeModal timeLineCloseIcon">
+      close
+    </span>
+    <h2 mat-dialog-title class="mb-0">
+      {{'label_Distance'|translate}}
+    </h2>
+    <mat-card-content class="col">
+      <div class="row mb-0">
+        <!-- <div class="col l3 m4 s12">
+                    <mat-label class="lineHeightFix">{{'label_JobLocation'|translate}}</mat-label>
+                </div> -->
+        <mat-form-field class="col l12 m12 s12">
+          <input matInput tabindex [value]="jobAddress" id="lat-long-distance-jobAddress"
+            placeholder="{{'label_JobLocation'|translate}}" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="row mb-0 distanceIcon">
+        <div class="col l12 m12 s12">
+          <mat-icon> import_export</mat-icon>
+        </div>
+      </div>
+
+      <div class="row mb-0">
+        <!-- <div class="col l3 m4 s12">
+                    <mat-label class="lineHeightFix">{{'label_CandidateLocation'|translate}}</mat-label>
+                </div> -->
+        <mat-form-field class="col l12 m12 s12">
+          <input matInput [value]="canAddress" id="lat-long-distance-canAddress"
+            placeholder="{{'label_CandidateLocation'|translate}}" disabled>
+        </mat-form-field>
+      </div>
+
+      <div class="row mb-0 distanceTotal">
+        <div class="col l12 m12 s12" id="lat-long-distance-totalDistance">
+          <label class="distanceTotalLbl">{{distanceData?.value | kilometerToMeter:distanceType}}</label>
+          <!-- distanceData:  {{distanceData?.text}}<br>
+                    durationData:  {{durationData?.text}}   -->
+        </div>
+      </div>
+      <!-- For showing Google map route ploting By Nitin -->
+      <div class="row mb-0">
+
+      </div>
+
+    </mat-card-content>
+    <!-- <mat-divider></mat-divider> -->
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+
+      <!-- <button mat-raised-button tabindex class="buttonForDesktopMobile" color="primary" type="button"
+         id="btnSave">
+            <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save'|translate}}</span>
+        </button> -->
+    </div>
+
+  </div>
+</div>

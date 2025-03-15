@@ -1,0 +1,31 @@
+<div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_JobAction_Files' | translate}} </h2>  
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<!-- @When: 17-10-2023 @who:Amit @why: EWM-14847 @what: document dialog content add -->
+<mat-dialog-content class="documents-dialog-content" id="documents-content">
+    <div class="documents-container" id="attachment-container">
+        <div class="folders-documents" [ngClass]="showHideDocumentButtons? 'with-actions' :''" id="attachment-documents">
+            <div class="document-folder-sec" id="attachment-div-sec">
+                <ng-container *ngFor="let documentsData of fileAttachments">
+                    <mat-card [ngClass]="documentsData?.Path==PreviewUrlPath?'opened':''" id="mat-cardId"
+                        (dblclick)="eventEmitDoubleClick(documentsData?.PreviewUrl,documentsData?.Name,documentsData?.Path)"
+                        (click)="eventEmitSingleClick(documentsData?.PreviewUrl,documentsData?.Path)">
+                        <mat-icon class="document-icon" id="document-icon">description</mat-icon>
+                        <div class="file-name" id="file-name" matTooltip="{{documentsData?.Name}}" matTooltipClass="custom-tooltip">
+                            {{documentsData?.Name}}</div>
+                        <div class="format pdf" id="format"
+                            [style.background]="getIconColor(documentsData?.FileExtention)">
+                            {{documentsData?.FileExtention}}</div>
+                        <div class="files" id="document-size">{{documentsData?.Size |fileSize}}</div>
+                    </mat-card>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

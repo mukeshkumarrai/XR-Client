@@ -1,0 +1,143 @@
+@use "../../.././../colors";
+.checklist-sec.mat-accordion{
+    .mat-expansion-panel, .mat-expansion-panel:not(.mat-expanded), .mat-expansion-panel:not(.mat-expansion-panel-spacing){
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 8px 0px;
+        &:first-child{
+            margin-top: 8px;
+        }
+        .mat-expansion-panel-header, .mat-expansion-panel-header.mat-expanded{
+            padding: 0px 5px;
+            color: colors.$primary-bg-color;
+            height: 32px;
+            @media only screen and (max-width: 580px) and (min-width: 240px){
+                height: 58px;
+            }
+            .mat-content{
+                .bg{
+                    position: absolute;
+                    color: colors.$primary-bg-color;
+                    width: 100%;
+                    height: 100%;
+                    left: 0px;
+                    top: 0px;
+                    &::before{
+                        background: currentColor;
+                        content: "";
+                        opacity: 0.15;
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        left: 0px;
+                        top: 0px;
+                    }
+                }
+                .checklist-header{
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    gap: 10px;
+                    @media only screen and (max-width: 580px) and (min-width: 240px){
+                        flex-direction: column;
+                        gap: 0px;
+                    }
+                    .collapse-expand-title{
+                        display: flex;
+                        align-items: center;
+                        gap: 7px;
+                        .title-icon{
+                            .title{
+                                font-size: 13px;
+                            }
+                        }
+                    }
+                    .staus-actions{
+                        display: flex;
+                        align-items: center;
+                        gap: 7px;
+                        @media only screen and (max-width: 580px) and (min-width: 240px){
+                            justify-content: flex-end;
+                        }
+                        .staus-and-time{
+                            height: 32px;
+                            padding: 0px 4px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            row-gap: 2px;
+                            font-size: 13px;
+                            width: 180px;
+                            color: rgb(106, 177, 24);
+                            background: rgb(106 177 24 / 15%);  
+                            .time{
+                                font-size: 11px;
+                            }
+                        }
+                        .pending{
+                            background: #f4433630;
+                            color: colors.$warn-bg;
+                        }
+                    }
+                }
+            }
+        }
+        &:hover{
+            .mat-expansion-panel-header .mat-content .bg::before{
+                opacity: 0.06;
+            }
+        }
+        .mat-expansion-panel-content{
+            .mat-expansion-panel-body{
+                padding: 5px;
+            }
+        }
+    }
+}
+// .group-checklist.mat-accordion{
+//     .mat-expansion-panel, .mat-expansion-panel:not(.mat-expanded), .mat-expansion-panel:not(.mat-expansion-panel-spacing){
+//         .mat-expansion-panel-header, .mat-expansion-panel-header.mat-expanded{
+//             .mat-content{
+//                 .bg{
+//                     color: #4caf50;
+//                 }    
+//             }
+//         }
+//     }
+// }
+.click-add{
+    .mat-icon{
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        vertical-align: bottom;
+        svg{
+            fill: colors.$primary-bg-color;
+        }
+    }
+}
+.dark-theme{
+    .checklist-sec.mat-accordion{
+        .mat-expansion-panel, .mat-expansion-panel:not(.mat-expanded), .mat-expansion-panel:not(.mat-expansion-panel-spacing){
+            .mat-expansion-panel-header, .mat-expansion-panel-header.mat-expanded{
+                color: colors.$dark-primary;
+                .mat-content{
+                    .bg{
+                        color: colors.$dark-primary;
+                        &::before{
+                            background: colors.$dark-primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .kendo-grid-appearance{
+        .text-area-outline{
+            background: #545454;
+        }
+    }
+        
+}
+

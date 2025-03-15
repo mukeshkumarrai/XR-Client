@@ -1,0 +1,43 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: cover-page-view-details.component.html
+  @Who: Suika
+  @When: 17-May-2022
+  @Why:  EWM-6605 EWM-6720
+  @What: Coverpage info view page
+ -->
+
+
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{coverPageInfoList?.Name}}</h2>      
+    <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content class="info-box">
+    <mat-card class="info-Data mt-5">
+        <div class="info-title">
+            {{'label_cover_file_format'|translate}}
+        </div>
+        <div class="info-details">
+            {{coverPageInfoList?.FileFormat}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_cover_file_size'|translate}}
+        </div>
+        <div class="info-details">
+            {{coverPageInfoList?.FileSize}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_cover_Modified_on'|translate}}
+        </div>
+        <div class="info-details">
+            {{coverPageInfoList.UploadedOn| date:userpreferences.timeformate:userpreferences.timezone}}
+        </div>
+    </mat-card>
+</mat-dialog-content>

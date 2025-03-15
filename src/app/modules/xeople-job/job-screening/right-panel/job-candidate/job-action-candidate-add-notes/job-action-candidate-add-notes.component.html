@@ -1,0 +1,143 @@
+<!--- @(C): Entire Software @Who: Satya Prakash Gupta @When: 23-Aug-2023 @Why: EWM-13770 EWM-13838 @What:  HTML page --->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<!-- who:maneesh:what:ewm-13870 for create job action candidate add notes component,when:24/08/2023 -->
+<div class="activitydrawer-innercontainer" id="activitydrawer-innercontainer">
+    <div class="activitydrawer-innercontainer-drawerTitleSec" id="drawerTitleSec">
+        <h4 class="text-overflow sm-text">
+            <span>{{'label_addedToJob' | translate}} {{'candidate_notes' | translate}}</span>
+            <button class="closeDrawerIcon" id="closeDrawerIcon" mat-stroked-button (click)="onDismiss()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </h4>
+    </div>
+    <mat-card id="add-new-note" class="add-notes">
+        <form [formGroup]="jobActionNotesForm" id="jobActionNote">
+            <mat-form-field>
+                <mat-label>{{'quickjob_filledDate' | translate}}</mat-label>
+                <input type="hidden" formControlName="Id">
+                <input matInput [matDatepicker]="picker2" tabindex [placeholder]="getDateFormat"
+                    id="quickjob-filledDate" [(ngModel)]="dateFill" formControlName="NotesDate" required>
+                <button
+                    *ngIf="jobActionNotesForm.value.NotesDate || jobActionNotesForm.controls['NotesDate'].hasError('matDatepickerParse')"
+                    id="clearBtn" matSuffix mat-icon-button aria-label="Clear" (click)="clearEndDate()">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+                <mat-error
+                    *ngIf="jobActionNotesForm.controls['NotesDate'].hasError('invalidDate')  && !jobActionNotesForm.controls['NotesDate'].hasError('required')">{{'label_invalidDate'
+                    | translate}} </mat-error>
+                <mat-error
+                    *ngIf="jobActionNotesForm.controls['NotesDate'].hasError('matDatepickerParse') && !jobActionNotesForm.controls['NotesDate'].hasError('matDatepickerMax')">
+                    {{'label_invalidDate' | translate}}</mat-error>
+                <mat-error
+                    *ngIf="jobActionNotesForm.controls['NotesDate'].hasError('required') && jobActionNotesForm.controls['NotesDate'].touched && !jobActionNotesForm.controls['NotesDate'].hasError('matDatepickerParse')">
+                    {{'quickjob_filledDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+            </mat-form-field>
+            
+            <div class="ng-slectBox"  id="quickselectedCategory" *ngIf="isDropdownShow">
+                <app-custom-dropdown [selectedIn]="selectedCategory" tabindex 
+                    (selectedOut)="onCategorychange($event)" [config]="dropDoneConfig">
+                </app-custom-dropdown>
+            </div>
+
+            <div class="counterTxt" >
+                    <mat-form-field class="related-chip-list" floatLabel="always" id="candidatechipListdetails">
+                        <mat-label>{{'label_Relatedto' | translate}}</mat-label>
+                        <mat-chip-list #chipList aria-label="user selection" required id="candidatechipList">
+                               <mat-chip>{{'label_Candidate' |translate}}: {{candidateName}}
+                               </mat-chip>
+                                 <mat-chip *ngIf="showRelated">{{'label_job' |translate}}: {{JobTitle}}
+                                </mat-chip>
+                                <mat-chip *ngIf="showRelatedClient">{{'label_JobActionclients' |translate}}: {{ClientName}}
+                                </mat-chip>
+            
+                        </mat-chip-list>
+                </mat-form-field>
+            </div>
+            <div class="checkbox-group" id="candidatecheckbox">
+            <!-- by maneesh change id from id="jobinterview-OrganizerCheckbox"     to  id="jobactionRightPannelCheckbox" -->
+                <mat-checkbox color="primary" (change)="checkbox($event,'job',JobId)"  id="jobactionRightPannelCheckbox"
+                    formControlName="JobCheckbox">{{'label_job' | translate}}</mat-checkbox>
+            <!-- by maneesh change id from id="jobinterview-InterviewerCheckbox"    to id="jobactionCandidateRightPannelCheckbox"-->
+                <mat-checkbox  [hidden]="hiddenclientcheckbox"  color="primary" (change)="checkbox($event,'client',clientId)"  id="jobactionCandidateRightPannelCheckbox"
+                    formControlName="clientCheckbox">{{'label_JobActionclients' |
+                    translate}}</mat-checkbox>
+            </div>
+
+            <div class="counterTxt" id="document-NoteTitle">
+                <mat-form-field>
+                                <!-- changed title  for EWM-EWM-15061 on 22-11-2023 by maneesh  -->
+                    <mat-label>{{'label_recentnotestitle' | translate}}</mat-label>
+                    <textarea type="text" tabindex formControlName="NoteTitle" matInput tabindex
+                        (keyup)="onMessage($event.target.value)" id="document-comment" ></textarea>
+                    <mat-error *ngIf="this.jobActionNotesForm.controls['NoteTitle'].hasError('maxlength')">
+                        {{ 'label_recentnotestitle' |translate}} {{ 'label_errormaxlength200' |translate}}
+                    </mat-error>
+                </mat-form-field>
+                <span class="countlabel">
+                    {{maxMessage}} {{'label_characters' |translate}}
+                </span>
+            </div>
+            <mat-form-field id="candidateAccessName">
+                <mat-label>{{'label_access' | translate}}</mat-label>
+                <input matInput placeholder="{{'label_access'|translate}}" (click)="openManageAccessModal('','','')"
+                    formControlName="AccessName" required readonly>
+                <input type="hidden" formControlName="AccessId">
+                <button type="button" class="access-button" matSuffix mat-raised-button color="primary" tabindex
+                    (click)="openManageAccessModal('','','')" id="AccessModal">
+
+                    <mat-icon class="addContactIcon">add</mat-icon>
+                </button>
+                <mat-error *ngIf="this.jobActionNotesForm.controls['AccessName'].hasError('required')">
+                    {{ 'label_access' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+            </mat-form-field>
+            <!--@When: 24-11-2023 @who:Amit @why: EWM-15194 @what: class change-->
+            <div class="html-editor-kendo" tabindex="14">
+                <mat-label [ngStyle]="this.jobActionNotesForm.controls['Description'].hasError('required') &&
+            this.jobActionNotesForm.controls['Description'].touched && showErrorDesc?
+                {'color': '#f44336'}:''">{{ 'label_recentnotesdescription' | translate}} <span class="required-show">*</span></mat-label>
+                <app-mention-editor *ngIf="ShowEditor" #mentionEditor [configuration]="editorConfig" [getEditorVal]="getEditorVal"
+                (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"></app-mention-editor>
+               
+            </div>
+            <div class="matAttachment" *ngIf="this.fileAttachments.length>0" id="myActivity-documentAttachment">
+                <div class="matAttachment-data">
+                    <mat-card *ngFor="let files of fileAttachmentsOnlyTow" class="matCardAttach" id="myActivity-documentAttachmentCard">
+                        <div class="file-detail" tabindex id="myActivity-fileAttachment">
+                            <span class="fileName">{{files?.Name}}</span>
+                            <span class="fileSize">{{(files?.Size)/1024}}</span>
+                        </div>
+                        <mat-icon class="matCloseIcon" tabindex (click)="removeAttachment(files)"
+                            id="myActivity-documentRemove">
+                            close
+                        </mat-icon>
+                    </mat-card>
+                    <button *ngIf="this.fileAttachments.length>2" mat-stroked-button class="moreAttach" color="primary"
+                        (click)="openMultipleAttachmentModal()" id="myActivity-documentAttachmentPopupShow"
+                        tabindex>{{fileAttachments?.length-2}} {{'label_more' |
+                        translate}}..
+                    </button>
+                </div>
+            </div>
+        </form>
+        <mat-card class="drawer-footer" id="drawer-footer">
+            <button mat-icon-button color="primary" tabindex class="fileUpload attachFileBtn"
+                (click)="openMultipleAttachmentModal()" id="myActivity-documentAttachmentAddPopup">
+                <mat-icon>attach_file</mat-icon>
+            </button>
+            <div>
+                <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+                    {{'button_cancel'|translate}}</button>
+                <button mat-raised-button tabindex color="primary" type="button" id="btnSave"
+                (click)="onSave(this.jobActionNotesForm.value)" [disabled]="!jobActionNotesForm.valid || isCategory || isResponseGet">
+                 <span *ngIf="!isResponseGet">{{'label_save'|translate}}</span>
+                </button>
+                <div *ngIf="isResponseGet" id="loading"></div>
+            </div>
+        </mat-card>
+    </mat-card>
+</div>

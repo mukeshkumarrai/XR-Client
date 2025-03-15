@@ -1,0 +1,298 @@
+@import "../../../../mixinStyle.scss";
+@import "../../../../styles-var.scss";
+
+.clientShortName{
+  img{
+    width: 50px;
+    height: 50px !important;
+    border-radius: 100% !important;
+  }
+}
+.advancedsearch-container {
+  height: 100%;
+  width: 100%;
+}
+tr.ng-star-inserted td:first-child {
+  padding: 0px !important;
+}
+.mat-card .mat-card-content.advancedsearch-mat-card-content {
+  margin-top: 0px;
+  padding-bottom: 0px;
+  height: auto;
+  .filterButton {
+    cursor: inherit;
+    margin: 0px 10px;
+    min-width: auto;
+    .mat-icon.clearFilter {
+      margin-left: 0px;
+      font-size: 15px;
+      position: absolute;
+      top: 2px;
+      height: 16px;
+      width: 18px;
+      right: 0px;
+    }
+    .badge {
+      margin-left: 5px;
+      min-width: 30px;
+      max-width: 36px;
+      padding-right: 20px;
+      display: inline-block;
+      line-height: 12px;
+      top: 1px;
+      position: relative;
+    }
+    .filterTxt {
+      padding-top: 5px;
+      cursor: pointer;
+      padding-bottom: 5px;
+    }
+  }
+  .createjob.mat-raised-button {
+    position: relative;
+    .mat-icon {
+      display: inline-block;
+    }
+    .buttonTxt {
+      margin-right: 8px;
+    }
+  }
+}
+.kendo-grid-appearance{
+  position: relative;
+  background:#fff;
+  border-radius:4px;
+  padding:10px;
+  margin:10px 0px;
+  box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+.kendocardData {
+  height: calc(100vh - 217px);
+  overflow: auto;
+  padding: 10px 0px;
+  @media only screen and (max-width: 549px) and (min-width: 320px) {
+    height: calc(100vh - 300px);
+  }
+}
+.kendo-grid-appearance .k-grid {
+  height: calc(100vh - 240px);
+  min-width: auto;
+  @media only screen and (max-width: 580px) and (min-width: 320px) {
+    height: calc(100vh - 328px);
+  }
+}
+.advancedsearchDrawer {
+  width: 100%;
+  max-width: 345px;
+  padding: 0px;
+  background: transparent;
+  box-shadow: none !important;
+  display: flex;
+  .drawerTitleSec {
+    width: 40px;
+    h4 {
+      width: 140px;
+      margin: 0px;
+      height: 40px;
+      line-height: 40px;
+      .closeDrawerIcon {
+        position: absolute;
+        padding: 0px;
+        min-width: 40px;
+        height: 40px;
+       }
+    }
+  }
+  .advancedsearchDrawerData {
+    padding: 10px;
+    overflow: auto;
+    border-radius: 0px;
+    width: 100%;
+    height: calc(100vh - 270px);
+    @media only screen and (max-width: 1060px) and (min-width: 581px) {
+      height: calc(100vh - 248px);
+    }
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100vh - 253px);
+    }
+  }
+}
+.candidate-data-header {
+  display: flex;
+  align-items: baseline;
+  padding: 5px 10px;
+  justify-content: space-between;
+  .filter-refresh {
+    display: flex;
+    button {
+      margin-left: 0px;
+      margin-right: 5px;
+    }
+  }
+  .search-viewicon {
+    display: flex;
+    align-items: baseline;
+    @media only screen and (max-width: 980px) and (min-width: 320px){
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .mat-stroked-button {
+      min-width: 125px;
+      @media only screen and (min-width: 320px) and (max-width: 434px) {
+        min-width: 100px;
+      }
+    }
+    .advancedsearchButton {
+      min-width: 50px;
+      padding: 0px;
+      cursor: pointer;
+      .two-icons{
+        font-size: 24px;
+        .mat-icon{
+          font-size: 38px;
+          position: absolute;
+          height: 36px;
+          width: 36px;
+        }
+      }
+      .buttonTxt{
+        display: none;
+      }
+    }
+    .searchInput {
+      margin-bottom: 0px;
+      max-width: 280px;
+      margin-right: 10px;
+      margin-left: 10px;
+      @media only screen and (max-width: 980px) and (min-width: 320px){
+        display: block;
+        margin-bottom: 5px;
+        margin-left: 0px;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 740px) and (min-width: 320px){
+  .buttonForDesktopMobile.mat-raised-button .buttonTxt {
+    display: none;
+  }
+}
+:host ::ng-deep{  
+  .ng-dropdown-panel .ng-dropdown-panel-items{
+    max-width: 260px;
+  }
+}
+.top-75{
+  top:-75px;
+}
+.dataActionButton.mat-flat-button {
+  min-width: 30px;
+  width: 35px;
+  padding: 0;
+  color: #a1a1a1;
+  background: transparent;
+}
+.dataActionButton.mat-flat-button:hover {
+  color: $primary-bg-color;
+}
+.main-loading{
+  left:0px;
+  top:0px;
+  right:0px;
+  bottom:0px;
+}
+.leftMnuButton.mat-mini-fab.mat-primary{
+  z-index: 4;
+}
+.listCardView .cardContent {
+  padding-top: 0px;
+}
+.scrollloading {
+  position: absolute;
+  height: 75px;
+  bottom: 0;
+  width:calc(100% - 6px);
+}
+
+.copyMessage.email-hide{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: none;
+  .alert-green {
+    color: #7fb734;
+    background: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 12px;
+    padding: 5px;
+    height: 12px;
+    line-height: 15px;
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      font-size: 16px;
+    }
+  }
+}
+.newEmailBtn{
+position: relative;
+  .content-copy{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      font-size: 16px;
+      margin: 0px 3px;
+    }
+  }
+}
+
+// who:Satya Prakash Gupta :what:EWM-14534: Social profile design :when:29/Sep/2023
+.social-container{
+  display: flex;
+  gap: 5px;
+  .social-pic{
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 1px;
+    box-shadow: 0px 0px 1px 1px #ccc;
+    cursor: pointer;
+    img{
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+    }
+  }
+  .mat-icon-button{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+}
+.more-list-container{
+  .more-list{
+    display: flex;
+    align-items: center;
+    white-space: break-spaces;
+    line-height: 16px;
+    min-height: 40px;
+    gap: 7px;
+    img{
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      padding: 1px;
+      box-shadow: 0px 0px 1px 1px #ccc;
+    }
+  }
+}
+

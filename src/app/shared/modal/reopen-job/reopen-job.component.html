@@ -1,0 +1,34 @@
+<!---------@When: 07-09-2023 @who:Amit @why: EWM-13897 @what: reopen job HTML--------->
+
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_reOpen_job_Desc' | translate}}</h2>
+</div>
+
+<form [formGroup]="reOpneJobForm" class="reopen-form" id="close-job-form-apply" #target>
+    <mat-dialog-content class="reopen-content">
+        <mat-form-field>
+            <mat-label>{{'quickjob_jobExpiryDays' | translate}}</mat-label>
+            <input matInput placeholder="" (keyup)="conditionChcek()" type="text" formControlName="JobExpiryDays"
+                id="quickjob-jobExpiryDays" value="" tabindex="21" min="0" max="999">
+            <mat-error *ngIf="reOpneJobForm.controls['JobExpiryDays'].hasError('pattern')">
+                {{'quickjob_jobExpiryDays' |translate}} {{'label_errorspecialcharDecimal'
+                |translate}}
+            </mat-error>
+            <mat-error *ngIf="reOpneJobForm.controls['JobExpiryDays'].hasError('numbercheck')">
+                {{'label_quickjob_jobExpiry999Days' |translate}}
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+           <div>
+            <button mat-stroked-button color="warn" tabindex="25" type="button" id="candidate-btnCancel"
+                (click)="onDismissphone()">
+                {{'button_cancel'|translate}}</button>
+            <button mat-stroked-button color="primary" tabindex="26" id="close-job-btn" [disabled]="reOpneJobForm.invalid || !reOpneJobForm.value.JobExpiryDays || isResponseGet" (click)="confirmDialog()">
+                <span *ngIf="!isResponseGet">{{'label_save' | translate}}</span>
+                <div *ngIf="isResponseGet" id="loading"></div>
+            </button>
+        </div>
+    </div>
+</form>

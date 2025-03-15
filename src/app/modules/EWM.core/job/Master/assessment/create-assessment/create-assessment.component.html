@@ -1,0 +1,964 @@
+
+<!--
+  @modified
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: assessment-version.component.html
+  @Who: Satya Prakash
+  @When: 08-Mar-2022
+  @Why: EWM-5427 EWM-5472
+  @What: Assessment version view page
+ -->
+<mat-card-header class="dashboard-mat-card-header assessment-mat-card-header" id="client-tag-master-mat-card-header">
+  <mat-card-title class="icon-with-title only-for-title">
+
+    <div class="sub-title">
+      <span>{{'label_addAssement' |translate}}</span>
+
+    </div>
+
+  </mat-card-title>
+
+  <div class="stepper-button" id="client-dashboard-actionButton">
+    <button mat-stroked-button color="primary" id="backBtn" *ngIf="activeStepperIndex!=0" (click)="goBack(stepper)" >
+      {{'label_back' | translate}}          
+    </button>
+
+    <button mat-stroked-button color="primary" id="btn-nextAssementStep1" type="button"
+      [disabled]="!addAssessmentGroup.valid" *ngIf="activeStepperIndex==0" (click)="saveStep1()">
+      {{'label_next'|translate}}
+    </button>
+
+    <button mat-stroked-button color="primary" id="btn-nextAssementStep2" type="button" *ngIf="activeStepperIndex==1"  (click)="saveStep2()"  
+    [disabled]="!addQuesGroup.valid ||blankval">
+      {{'label_next'|translate}}
+    </button>
+
+    <button mat-stroked-button color="primary" tabindex id="btn-nextAssementGuideLines"
+    [disabled]="!guideLinesGroup.valid" *ngIf="activeStepperIndex==2" (click)="saveStep3()" type="button" >
+      {{'label_next'|translate}}
+    </button>
+
+    <button mat-raised-button color="warn" tabindex id="btnCancel" (click)="clearFormdata()" class="buttonForDesktopMobile">
+      <mat-icon matTooltip="{{'label_cancel'|translate}}"
+      matTooltipClass="custom-tooltip">close</mat-icon>
+      <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+    </button>
+
+    <button mat-raised-button color="accent" type="button" *ngIf="activeStepperIndex==3" (click)="assementPreview()" class="buttonForDesktopMobile">
+      <mat-icon matTooltip="{{'button_livePreview'|translate}}"
+        matTooltipClass="custom-tooltip">preview</mat-icon>
+      <span class="buttonTxt">{{'button_livePreview' |translate}}</span>
+    </button>
+
+    <button mat-raised-button color="primary" type="button" *ngIf="activeStepperIndex==3" (click)="saveStep4()" class="buttonForDesktopMobile">
+      <mat-icon matTooltip="{{'label_mfa_finishBtn'|translate}}"
+      matTooltipClass="custom-tooltip">done_all</mat-icon>
+      <span class="buttonTxt">{{'label_mfa_finishBtn' |translate}}</span>
+    </button> 
+</div>
+
+  
+</mat-card-header>
+<mat-drawer-container class="xeople-container-with-one-card-no-buttons" autosize id="client-tag-master-drawer"
+  applyTabIndexes>
+  
+  <mat-horizontal-stepper class="assessment-stepper-sec mat-elevation-z2" [linear]="isLinear" #stepper
+    labelPosition="bottom" [selectedIndex]="activeStepperIndex" (selectionChange)="onStepChange($event)">
+    
+    <ng-template matStepperIcon="edit" let-index="index">{{index + 1}}</ng-template>
+    <!----assessment detail start here------> 
+    <mat-step [stepControl]="addAssessmentGroup" [completed]="false"  label="{{'label_assessmentDetails'|translate}}">
+      <div class="assesment-stepper-container" id="assesment-detail-container">
+        <form [formGroup]="addAssessmentGroup" class="form-input">
+          <div class="form-input-group">
+            <mat-form-field>
+              <mat-label>{{'label_nameOfAssessment' | translate}} </mat-label>
+              <input type="hidden" id="assessment-Id" formControlName="Id">
+              <input matInput autofocus formControlName="Name" placeholder="{{'label_nameOfAssessment' | translate}}"
+                tabindex id="assessment-name" (blur)="onNameChanges()" required>
+              <mat-error
+                *ngIf="addAssessmentGroup.controls['Name'].hasError('required') && addAssessmentGroup.controls['Name'].touched">
+                {{'label_nameOfAssessment'|translate}} {{'label_errorreqired'|translate}}
+              </mat-error>
+              <mat-error *ngIf="addAssessmentGroup.controls['Name'].hasError('maxlength')  && addAssessmentGroup.controls['Name'].touched &&!addAssessmentGroup.controls['Name'].hasError('whitespace')">
+                {{'label_nameOfAssessment' |translate}} {{'label_errormaxlength50' |translate}}
+              </mat-error>
+              <mat-error *ngIf="addAssessmentGroup.controls['Name'].hasError('nameTaken')  && addAssessmentGroup.controls['Name'].touched">
+                {{'label_nameOfAssessment' |translate}} {{'label_areadyExists' |translate}}
+              </mat-error>
+               <!--  @Who: maneesh, @When: 26-dec-2022,@Why: EWM-9957 addnoWhitespaceValidator -->
+
+               <mat-error *ngIf="addAssessmentGroup.controls['Name'].hasError('whitespace') && !addAssessmentGroup.controls['Name'].hasError('required')">
+                {{'label_nameOfAssessment' |translate}} {{'label_nameValidation' |translate}}
+               </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+          <!-- //who:maneesh,what:ewm-15630 for fixed speech text,when:13/06/2024  -->
+          <mat-label  *ngIf="!noSpaceDiscription"
+            [ngStyle]="addAssessmentGroup.controls['Description'].hasError('required') && showErrorDesc && !noSpaceDiscription? 
+            {'color': '#f44336'}:''">{{ 'label_desc' | translate}} <span class="required-show">*</span></mat-label>
+            <mat-label *ngIf="noSpaceDiscription"
+            [ngStyle]="noSpaceDiscription && !showErrorDesc ? 
+            {'color': '#f44336'}:''">{{ 'label_desc' | translate}} <span class="required-show">*</span></mat-label>
+           <app-mention-editor #mentionEditor [configuration]="editorConfig" [getEditorVal]="getEditorVal" 
+            (editorValueEmit)="getEditorFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassageForDis.asObservable()"></app-mention-editor>
+            <span *ngIf="noSpaceDiscription" [ngStyle]="noSpaceDiscription && !showErrorDesc ? 
+            {'color': '#f44336'}:''">{{'label_nameValidation' |translate}}</span> 
+        </div>
+
+          <div class="form-input-group">
+              <div class="assessment-duration">
+                <div><mat-label  [ngStyle]="addAssessmentGroup.controls['assessmentMin'].hasError('required') &&
+                  addAssessmentGroup.controls['assessmentMin'].touched &&
+                   {'color': '#f44336'}">{{'label_assessmentDuration' | translate}} <span class="required-show">*</span></mat-label></div>
+                <div class="ng-slectBox">
+                  <ng-select class="dropdown-body" placeholder="" [clearable]="true" tabindex 
+                  formControlName="assessmentHrs" id="workflow-Status" required (change)="onChangehrs($event)">
+                  <ng-option value="" disabled>{{'label_hrs'|translate}}</ng-option>
+                  <!-- <ng-option [value]="0">0 hrs </ng-option>
+                  <ng-option [value]="1">1 hrs </ng-option>
+                  <ng-option [value]="2">2 hrs </ng-option>
+           -->
+                  <ng-option *ngFor="let in of counter(13) ;let i = index" [value]="i">{{i}} {{'label_hrs'|translate}} </ng-option>
+               
+                  
+                  </ng-select>
+                
+                  <mat-error
+                  *ngIf="addAssessmentGroup.controls['assessmentHrs'].hasError('required') && addAssessmentGroup.controls['assessmentHrs'].touched">
+                  {{ 'label_hrs' | translate}} {{ 'label_errorreqired' |translate}}
+                  </mat-error>
+                </div>
+                <div class="ng-slectBox">
+                  <ng-select class="dropdown-body" placeholder="" [clearable]="true" tabindex
+                  formControlName="assessmentMin" id="workflow-Status" required (change)="onChangeMinutes($event)">
+                  <ng-option value="" disabled>{{'label_minutes'|translate}}</ng-option>
+                  <ng-option *ngFor="let in of counter(60) ;let i = index" [value]="i">{{i}} {{'label_minutes'|translate}} </ng-option>
+               
+                  </ng-select> 
+                  <mat-error
+                  *ngIf="addAssessmentGroup.controls['assessmentMin'].hasError('required') && addAssessmentGroup.controls['assessmentMin'].touched">
+                  {{ 'label_minutes' | translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <mat-error
+                *ngIf="addAssessmentGroup.controls['assessmentMin'].hasError('minTaken')">
+                {{ 'label_assessmentDuration' | translate}} {{ 'label_errormaxMin15' |translate}}
+              </mat-error>
+                </div>
+              </div>
+          </div>
+         
+          <div class="form-input-group">
+            <div class="ng-slectBox">
+              <app-custom-dropdown tabindex [selectedIn]="selectedModuleName" (selectedOut)="onModulechange($event)"
+              [config]="ModuleConfig"></app-custom-dropdown>
+        
+            </div>
+
+          </div>
+          <div class="form-input-group">
+            <div class="ng-slectBox">
+              <app-custom-dropdown tabindex [selectedIn]="selectedRelatedTo" (selectedOut)="onRealtedTochange($event)"
+              [config]="relatedToConfig"></app-custom-dropdown>
+         
+            </div>
+            <div class="ng-slectBox">
+         
+              <app-custom-dropdown tabindex   [resetFormSubject]="resetFromSubjectRelatedTo.asObservable()" [selectedIn]="selectedRelatedToValue" (selectedOut)="onRealtedToValuechange($event)"
+              [config]="relatedToValueConfig" (selectedOut)="onRealtedToValuechange($event)"></app-custom-dropdown>
+            </div>
+
+
+          </div>
+          <div class="form-input-group">
+            <mat-form-field>
+              <mat-label>{{'label_access' | translate}}</mat-label>
+              <!-- who:maneesh,what:ewm-11746 fixed input field popup, when:06/04/2023 -->
+              <input matInput placeholder="{{'label_access'|translate}}" formControlName="AccessesPermissionName"
+                id="assesment-accessName" required readonly tabindex (click)="openManageAccessModal('','','')" >
+              <button type="button" matSuffix mat-raised-button color="primary" class="matSuffix-icon mgBottom5"
+                tabindex (click)="openManageAccessModal('','','')">
+
+                <mat-icon class="addContactIcon">add</mat-icon>
+              </button>
+
+              <mat-error *ngIf="addAssessmentGroup.controls['AccessesPermissionName'].hasError('required')">
+                {{ 'label_access' |translate}} {{ 'label_errorreqired' |translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-radio-group">
+
+            <mat-label class="radio-label" [ngStyle]="addAssessmentGroup.controls['PatternId'].hasError('required') &&
+            addAssessmentGroup.controls['PatternId'].touched &&
+             {'color': '#f44336'}">{{'label_assessmentPattern' | translate}} <span class="required-show">*</span></mat-label>
+            <mat-radio-group formControlName="PatternId" id="assesment-pattern" required tabindex>
+              <mat-radio-button color="primary" value="1"  (change)="onAssesmentPatternSelection($event)" tabindex>
+                {{'label_questionBased' |translate}}
+              </mat-radio-button>
+              <mat-radio-button color="primary" value="2"  (change)="onAssesmentPatternSelection($event)" tabindex>
+                {{'label_sectionBased' |translate}}
+              </mat-radio-button>
+
+            </mat-radio-group>
+            <mat-error class="custom-mat-error"
+              *ngIf="addAssessmentGroup.controls['PatternId'].hasError('required')  && addAssessmentGroup.controls['PatternId'].touched">
+              {{ 'label_assessmentPattern' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+          </div>
+          <div class="form-input-group">
+            <div class="ng-slectBox">
+<!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data--->    
+              <ng-select placeholder="{{'label_status'|translate}}" class="show-required" tabindex [clearable]="false"
+                formControlName="Status" id="assement-status" [(ngModel)]="selectedIn" [compareWith]="compareFn"
+                required>
+                <ng-option [value]="" disabled>{{'label_selectStatus'|translate}}</ng-option>
+                <ng-option *ngFor="let list of statusList" [value]="list">{{list.StatusName}}</ng-option>
+              </ng-select>
+              <mat-error
+                *ngIf="addAssessmentGroup.controls['Status'].hasError('required') && addAssessmentGroup.controls['Status'].touched">
+                {{'label_selectStatus'|translate}} {{'label_errorreqired'|translate}}
+              </mat-error>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-step>      
+    <!----assessment detail end here------> 
+    
+    <!----add question start here------> 
+    <mat-step [stepControl]="addQuesGroup" [completed]="false" label="{{'label_addQuestions'|translate}}">
+      <!----for question based--->
+      <div class="assesment-stepper-container" id="assesment-addQuestions-container"  *ngIf="assesmentSelection==1">
+        <form [formGroup]="addQuesGroup" class="assesment-addQuestions-form">
+          <ng-container formArrayName="QuesInfo">     
+
+            <mat-card class="mt-10 mat-elevation-z0" *ngFor="let ques of questionInfo().controls; let i = index"
+              [formGroupName]="i">
+            
+              <mat-accordion>
+                <mat-expansion-panel hideToggle="false" expanded="true">
+                  
+                  <div class="input-with-button addquestion-input-with-button">
+                    
+                    <div class="add-quistions-and-section">
+                      <button mat-stroked-button color="warn" style="display: none;" id="btn-delete" 
+                        matTooltip="{{'label_addSection'|translate}}"
+                        matTooltipClass="custom-tooltip">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                      <button mat-stroked-button color="primary" type="button" id="btn-addQues"
+                        (click)="showQuesType(i)" matTooltip="{{'label_addQuestions'|translate}}"
+                        matTooltipPosition="left">
+                        <div class="two-icons" id="add-question">
+                          <mat-icon>question_mark</mat-icon>
+                          <mat-icon class="secondIcon" fontSet="material-icons-outlined">add</mat-icon>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h5 class="quistion-type-heading" *ngIf="ShowType===i">{{'label_questionTypeHeading' | translate}}</h5>
+                    <div class="question-type assesment-add-question" *ngIf="ShowType===i">
+                      <mat-card class="question-type mat-elevation-z2" (click)="onQuesTypeSelection(i,1);"
+                        [ngClass]="{'active': selected == 1}">
+                        <mat-icon class="check-selection">
+                          task_alt
+                        </mat-icon>
+                        <div class="question-type-heading">
+                          <mat-icon>description</mat-icon> {{'label_freeText'|translate}}
+                        </div>
+                        <small>{{'label_freeQuestTooltip'|translate}}</small>
+                      </mat-card>
+                      <mat-card class="question-type mat-elevation-z2" (click)="onQuesTypeSelection(i,2)"
+                        [ngClass]="{'active': selected == 2 }">
+                        <mat-icon class="check-selection">
+                          task_alt
+                        </mat-icon>
+
+                        <div class="question-type-heading">
+                          <mat-icon>rule</mat-icon> {{'label_singleSelect'|translate}}
+                        </div>
+                        <small>{{'label_SingleQuesTooltip'|translate}}</small>
+                      </mat-card>
+                      <mat-card class="question-type mat-elevation-z2" (click)="onQuesTypeSelection(i,3)"
+                        [ngClass]="{'active': selected == 3 }">
+                        <mat-icon class="check-selection">
+                          task_alt
+                        </mat-icon>
+                        <div class="question-type-heading">
+                          <mat-icon>playlist_add_check</mat-icon> {{'label_multiSelect'|translate}}
+                        </div>
+                        <small>{{'label_mulitQuesTooltip'|translate}}</small>
+                      </mat-card>
+                      <mat-card class="question-type mat-elevation-z2" (click)="onQuesTypeSelection(i,4)"
+                        [ngClass]="{'active': selected == 4  && selectedQuesIndex==i}">
+                        <mat-icon class="check-selection">
+                          task_alt
+                        </mat-icon>
+                        <div class="question-type-heading">
+                          <mat-icon>attach_file</mat-icon> {{'candidate_attachments'|translate}}
+                        </div>
+                        <small>{{'label_attachementTooltip'|translate}}</small>
+                      </mat-card>
+                    </div>
+                   
+                      <div class="question-list-sec" *ngIf="ques.get('ques').controls.length!=0" [ngClass]="evalCriteriaId==2? '':'without-weightage'">
+                        <div class="new-data-list-header">
+                          <div class="drag-action">
+                          </div>
+                          <div class="new-data">
+                            {{'label_type' | translate}}
+                          </div>
+                          <div class="new-data" *ngIf="evalCriteriaId==2">
+                            {{'label_weightageDescription' | translate}}
+                          </div>
+                          <div class="new-data">
+                            {{'label_questions' | translate}}
+                          </div>
+                          <div class="new-data">
+                            {{'label_actions' | translate}}
+                          </div>
+                        </div>
+                        <div class="new-data-list-list" [ngClass]="evalCriteriaId=='2'? '':'without-weightage'">
+                    
+                          <mat-accordion  cdkDropList   [cdkDropListData]="ques.get('ques').value" (cdkDropListDropped)="drop($event,i)"  >
+                              
+                            <mat-expansion-panel #panel hideToggle class="mat-elevation-z0"   *ngFor="let quesGrid of ques.get('ques').controls; let j = index"
+                             cdkDrag >
+                             <div *cdkDragPreview class="question-sets-preview">
+                              <div class="new-data-list-list-preview" [ngClass]="evalCriteriaId==2? '':'without-weightage'">
+                                <div class="drag-action">
+                                  <button mat-icon-button color="primary" cdkDragHandle>
+                                    <mat-icon>drag_indicator</mat-icon>
+                                  </button>
+                                </div>
+                                <div class="new-data">
+                               
+                                  {{quesGrid.controls['TypeName'].value}}
+                               
+                                </div>
+                                <div class="new-data" *ngIf="evalCriteriaId==2">
+                                  {{quesGrid.controls['Weightage'].value}}
+                                  
+                                </div>
+                                <div class="new-data">
+                                  {{quesGrid.controls['QuestionDesc'].value}}
+                                </div>
+                                <div class="new-data actions">
+                                  <button mat-icon-button color="primary" type="button" id="btn_edit{{i}}{{j}}" (click)="onEditQuestions(quesGrid,i,j)"
+                                  matTooltip="{{'label_edit'|translate}}" matTooltipClass="custom-tooltip">
+                                    <mat-icon>edit</mat-icon>
+                                  </button>
+                                  <button mat-icon-button color="warn" type="button" id="btn_delete{{i}}{{j}}" (click)=confirmDialog(quesGrid,i,j)
+                                  matTooltip="{{'label_delete'|translate}}" matTooltipClass="custom-tooltip">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                                  <button mat-icon-button  tabindex *ngIf="!panel.expanded" id="btn_expand" (click)="panelH._toggle()">
+                                    <mat-icon>expand_more</mat-icon>
+                                  </button>
+                                  <button mat-icon-button tabindex *ngIf="panel.expanded" id="btn_less" (click)="panelH._toggle()">
+                                    <mat-icon>expand_less</mat-icon>
+                                  </button>
+                                 
+                                </div>
+                              </div>
+                             </div>
+                             <div class="question-sets-placeholder" *cdkDragPlaceholder></div>
+                              <mat-expansion-panel-header  #panelH (click)="panelH._toggle()">
+                                <div class="drag-action">
+                                  <button mat-icon-button color="primary" cdkDragHandle>
+                                    <mat-icon>drag_indicator</mat-icon>
+                                  </button>
+                                </div>
+                                <div class="new-data">
+                               
+                                  {{quesGrid.controls['TypeName'].value}}
+                               
+                                </div>
+                                <div class="new-data" *ngIf="evalCriteriaId==2">
+                                  {{quesGrid.controls['Weightage'].value}}
+                                  
+                                </div>
+                                <div class="new-data">
+                                  {{quesGrid.controls['QuestionDesc'].value}}
+                                </div>
+                                <div class="new-data actions">
+                                  <button mat-icon-button color="primary" type="button" id="btn_edit{{i}}{{j}}" (click)="onEditQuestions(quesGrid,i,j)"
+                                  matTooltip="{{'label_edit'|translate}}" matTooltipClass="custom-tooltip">
+                                    <mat-icon>edit</mat-icon>
+                                  </button>
+                                  <button mat-icon-button color="warn" type="button" id="btn_delete{{i}}{{j}}" (click)=confirmDialog(quesGrid,i,j)
+                                  matTooltip="{{'label_delete'|translate}}" matTooltipClass="custom-tooltip">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                                  <button mat-icon-button  tabindex *ngIf="!panel.expanded" id="btn_expand" (click)="panelH._toggle()">
+                                    <mat-icon>expand_more</mat-icon>
+                                  </button>
+                                  <button mat-icon-button tabindex *ngIf="panel.expanded" id="btn_less" (click)="panelH._toggle()">
+                                    <mat-icon>expand_less</mat-icon>
+                                  </button>
+                                 
+                                </div>
+                              </mat-expansion-panel-header>
+                              <div class="set-question" [ngClass]="quesGrid.controls['TypeId'].value===1 ||quesGrid.controls['TypeId'].value===4 ?'one-column':''">
+                                <div>
+                                  <strong>Question</strong>
+                  
+                                  <p>{{quesGrid.controls['QuestionDesc'].value}}</p>
+                                </div>
+                                <div *ngIf="quesGrid.controls['TypeId'].value===2 || quesGrid.controls['TypeId'].value===3 ">
+                                  <h5 class="answer-title mt-0 mb-5" *ngIf="quesGrid.controls['TypeId'].value===2">{{'label_accsingleSelect'|translate}}</h5>
+                                  <h5 class="answer-title mt-0 mb-5" *ngIf="quesGrid.controls['TypeId'].value===3">{{'label_accMulitpleSelect'|translate}}</h5>
+                                  <mat-card class="answer mat-elevation-z0"  *ngFor="let option of quesGrid.controls['Options'].value" [ngClass]="option.IsCorrect==1?'right':'wrong'">
+                                    {{option.Description}}
+                                  </mat-card>
+                                </div>
+                              </div>
+                             
+                            </mat-expansion-panel>
+                           
+                          </mat-accordion>
+                        </div>
+                      </div>
+                   
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </mat-card>
+         
+          </ng-container>
+        </form>
+      </div>
+
+      <!---section based--->
+      <div class="assesment-stepper-container" id="assesment-addSectionss-container" *ngIf="assesmentSelection==2">
+        <form [formGroup]="addQuesGroup" class="assesment-addQuestions-form">
+          <ng-container formArrayName="SectionInfo">
+           
+            <button mat-raised-button color="primary" type="button" id="btn-addSection" *ngIf="hideBtn"
+              style="display: none;" (click)="addSection()">{{'label_addSection'|translate}}</button>
+              <button mat-raised-button  color="primary" type="button" id="btn-addSection" *ngIf="hideBtn"
+              style="display: none;"  >{{'label_addQuestions'|translate}}</button>
+
+            <mat-card class="mt-10 mat-elevation-z0 assement-sectionquestion-box" *ngFor="let section of SectionInfo().controls; let i = index"
+              [formGroupName]="i">
+              <mat-accordion>
+                <mat-expansion-panel #panel2 hideToggle="true" [expanded]="(sectionCount-1)!=i?false:true">
+                  <mat-expansion-panel-header class="section-name-expansion" [ngStyle]="section.get('ques').controls.length!=0?{'display':'flex', 'height':'40px'}:{'display':'none'}" style="display: none;" #panelH (click)="panelH._toggle()">
+                    <mat-panel-title *ngIf="!section.controls['isEditable'].value">
+                      {{section.controls['Section'].value}}
+                    </mat-panel-title>
+                    <mat-panel-title>
+                    <mat-form-field class="mb-0" *ngIf="section.controls['isEditable'].value">
+                      <mat-label>{{ "label_sectionName" | translate }}</mat-label>
+                      <input matInput formControlName="Section" id="Section-Name"
+                        placeholder="{{ 'label_sectionName' | translate }}"  required tabindex />
+                      <mat-error *ngIf="section.controls['Section'].hasError('required')">
+                        {{'label_sectionName'|translate}} {{'label_errorreqired'|translate}}
+                      </mat-error>
+                      <mat-error *ngIf="section.controls['Section'].hasError('maxlength')">
+                        {{'label_sectionName'|translate}} {{'label_errormaxlength50'|translate}}
+                      </mat-error>  
+                    
+                    </mat-form-field>
+                  </mat-panel-title>
+                    <div class="new-data actions">
+                      <button mat-icon-button *ngIf="!section.controls['isEditable'].value && sectionEdit(i)" color="primary" id="btn_edit{{i}}{{j}}" type="button" (click)="onEditSection(section,i)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-icon-button *ngIf="section.controls['isEditable'].value" color="primary" id="btn_done{{i}}{{j}}" type="button" (click)="onSaveSection(section,i)">
+                        <mat-icon>done</mat-icon>
+                      </button>
+                      <button mat-icon-button color="warn" *ngIf="section.controls['isEditable'].value" color="primary" id="btn_cancel{{i}}{{j}}" type="button" (click)="onCancelSection(section,i)">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                      <button mat-icon-button  tabindex *ngIf="!panel2.expanded" id="btn_Expand" (click)="panelH._toggle()">
+                        <mat-icon>expand_more</mat-icon>
+                      </button>
+                      <button mat-icon-button tabindex *ngIf="panel2.expanded" id="btn_collapse" (click)="panelH._toggle()">
+                        <mat-icon>expand_less</mat-icon>
+                      </button>
+                     
+                    </div>
+                  </mat-expansion-panel-header>
+                  <div class="input-with-button">
+                    <mat-form-field>
+                      <mat-label>{{ "label_sectionName" | translate }}</mat-label>
+                      <input matInput formControlName="Section" id="Section-Name" (keyup)="WhitespaceValidator($event, i)"
+                        placeholder="{{ 'label_sectionName' | translate }}" required tabindex />
+                      <mat-error *ngIf="section.controls['Section'].hasError('required')">
+                        {{'label_sectionName'|translate}} {{'label_errorreqired'|translate}} 
+                      </mat-error>
+                  
+                      <mat-error *ngIf="section.controls['Section'].hasError('maxlength')">
+                        {{'label_sectionName'|translate}} {{'label_errormaxlength50'|translate}}
+                      </mat-error>  
+                        <!--  @Who: maneesh, @When: 26-dec-2022,@Why: EWM-10052 addnoWhitespaceValidator -->
+
+               <span *ngIf="blankval" class="span-error"> 
+                {{'label_sectionName' |translate}} {{'label_nameValidation' |translate}}</span>
+                    </mat-form-field>
+                  
+                    <div class="add-quistions-and-section">
+                      <button mat-stroked-button color="warn" id="btn-delete" style="display: none;"(click)="addSection()"
+                        matTooltip="{{'label_addSection'|translate}}"
+                        matTooltipClass="custom-tooltip">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+
+                      <button mat-stroked-button color="primary" type="button" id="btn-addQues"
+                        (click)="showQuesType(i)" matTooltip="{{'label_addQuestions'|translate}}"
+                        matTooltipPosition="left">
+                        <div class="two-icons" id="add-question">
+                          <mat-icon>question_mark</mat-icon>
+                          <mat-icon class="secondIcon" fontSet="material-icons-outlined">add</mat-icon>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+
+                    <h5 class="quistion-type-heading" *ngIf="ShowType===i">{{'label_questionTypeHeading' | translate}}</h5>
+                    <div class="assesment-add-question" *ngIf="ShowType===i">
+                      <mat-card class="question-type mat-elevation-z2" (click)="onQuesTypeSelection(i,1,null,section);"
+                        [ngClass]="{'active': selected == 1}">
+                        <mat-icon class="check-selection">
+                          task_alt
+                        </mat-icon>
+                        <div class="question-type-heading">
+                          <mat-icon>description</mat-icon> {{'label_freeText'|translate}}
+                        </div>
+                        <small>{{'label_freeQuestTooltip'|translate}}</small>
+                      </mat-card>
+                      <mat-card class="question-type mat-elevation-z2" (click)="onQuesTypeSelection(i,2,null,section)"
+                        [ngClass]="{'active': selected == 2 }">
+                        <mat-icon class="check-selection">
+                          task_alt
+                        </mat-icon>
+
+                        <div class="question-type-heading">
+                          <mat-icon>rule</mat-icon> {{'label_singleSelect'|translate}}
+                        </div>
+                        <small>{{'label_SingleQuesTooltip'|translate}}</small>
+                      </mat-card>
+                      <mat-card class="question-type mat-elevation-z2" (click)="onQuesTypeSelection(i,3,null,section)"
+                        [ngClass]="{'active': selected == 3 }">
+                        <mat-icon class="check-selection">
+                          task_alt
+                        </mat-icon>
+                        <div class="question-type-heading">
+                          <mat-icon>playlist_add_check</mat-icon> {{'label_multiSelect'|translate}}
+                        </div>
+                        <small>{{'label_mulitQuesTooltip'|translate}}</small>
+                      </mat-card>
+                      <mat-card class="question-type mat-elevation-z2" (click)="onQuesTypeSelection(i,4,null,section)"
+                        [ngClass]="{'active': selected == 4  && selectedQuesIndex==i}">
+                        <mat-icon class="check-selection">
+                          task_alt
+                        </mat-icon>
+                        <div class="question-type-heading">
+                          <mat-icon>attach_file</mat-icon> {{'candidate_attachments'|translate}}
+                        </div>
+                        <small>{{'label_attachementTooltip'|translate}}</small>
+                      </mat-card>
+                    </div>
+                   
+                      <div class="question-list-sec" *ngIf="section.get('ques').controls.length!=0" [ngClass]="evalCriteriaId==2? '':'without-weightage'">
+                        <div class="new-data-list-header">
+                          <div class="drag-action">
+                          </div>
+                          <div class="new-data">
+                            {{'label_type' | translate}}
+                          </div>
+                          <div class="new-data" *ngIf="evalCriteriaId==2">
+                            {{'label_weightageDescription' | translate}}
+                          </div>
+                          <div class="new-data">
+                            {{'label_questions' | translate}}
+                          </div>
+                          <div class="new-data">
+                            {{'label_actions' | translate}}
+                          </div>
+                        </div>
+                        <div class="new-data-list-list" [ngClass]="evalCriteriaId==2? '':'without-weightage'">
+                    
+                          <mat-accordion  cdkDropList   [cdkDropListData]="section.get('ques').value" (cdkDropListDropped)="drop($event,i)"  >
+                            <mat-expansion-panel #panel1 hideToggle class="mat-elevation-z0"   *ngFor="let quesGrid of section.get('ques').controls; let j = index"
+                             cdkDrag >
+                             <div *cdkDragPreview class="question-sets-preview">
+                              <div class="new-data-list-list-preview" [ngClass]="evalCriteriaId==2? '':'without-weightage'">
+                                <div class="drag-action">
+                                  <button mat-icon-button color="primary" cdkDragHandle>
+                                    <mat-icon>drag_indicator</mat-icon>
+                                  </button>
+                                </div>
+                                <div class="new-data">
+                               
+                                  {{quesGrid.controls['TypeName'].value}}
+                               
+                                </div>
+                                <div class="new-data" *ngIf="evalCriteriaId==2">
+                                  {{quesGrid.controls['Weightage'].value}}
+                                  
+                                </div>
+                                <div class="new-data">
+                                  {{quesGrid.controls['QuestionDesc'].value}}
+                                </div>
+                                <div class="new-data actions">
+                                  <button mat-icon-button color="primary" type="button" id="btn_edit{{i}}{{j}}" (click)="onEditQuestions(quesGrid,i,j)"
+                                  matTooltip="{{'label_edit'|translate}}" matTooltipClass="custom-tooltip">
+                                    <mat-icon>edit</mat-icon>
+                                  </button>
+                                  <button mat-icon-button color="warn" type="button" id="btn_delete{{i}}{{j}}" (click)=confirmDialog(quesGrid,i,j)
+                                  matTooltip="{{'label_delete'|translate}}" matTooltipClass="custom-tooltip">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                                  <button mat-icon-button  tabindex *ngIf="!panel1.expanded" id="btn_expand" (click)="panelH._toggle()">
+                                    <mat-icon>expand_more</mat-icon>
+                                  </button>
+                                  <button mat-icon-button tabindex *ngIf="panel1.expanded" id="btn_less" (click)="panelH._toggle()">
+                                    <mat-icon>expand_less</mat-icon>
+                                  </button>
+                                 
+                                </div>
+                              </div>
+                             </div>
+                             <div class="question-sets-placeholder" *cdkDragPlaceholder></div>
+                              <mat-expansion-panel-header  #panelH (click)="panelH._toggle()">
+                                <div class="drag-action">
+                                  <button mat-icon-button color="primary" cdkDragHandle>
+                                    <mat-icon>drag_indicator</mat-icon>
+                                  </button>
+                                </div>
+                                <div class="new-data">
+                               
+                                  {{quesGrid.controls['TypeName'].value}}
+                               
+                                </div>
+                                <div class="new-data" *ngIf="evalCriteriaId==2">
+                                  {{quesGrid.controls['Weightage'].value}}
+                                  
+                                </div>
+                                <div class="new-data">
+                                  {{quesGrid.controls['QuestionDesc'].value}}
+                                </div>
+                                <div class="new-data actions">
+                                  <button mat-icon-button color="primary" id="btn_edit{{i}}{{j}}" type="button" (click)="onEditQuestions(quesGrid,i,j)"
+                                  matTooltip="{{'label_edit'|translate}}" matTooltipClass="custom-tooltip">
+                                    <mat-icon>edit</mat-icon>
+                                  </button>
+                                  <button mat-icon-button color="warn" type="button" id="btn_delete{{i}}{{j}}"  (click)=confirmDialog(quesGrid,i,j)
+                                  matTooltip="{{'label_delete'|translate}}" matTooltipClass="custom-tooltip">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                                  <button mat-icon-button  tabindex *ngIf="!panel1.expanded" id="btn_Expand" (click)="panelH._toggle()">
+                                    <mat-icon>expand_more</mat-icon>
+                                  </button>
+                                  <button mat-icon-button tabindex *ngIf="panel1.expanded" id="btn_collapse" (click)="panelH._toggle()">
+                                    <mat-icon>expand_less</mat-icon>
+                                  </button>
+                                 
+                                </div>
+                              </mat-expansion-panel-header>
+                              <div class="set-question" [ngClass]="quesGrid.controls['TypeId'].value===1 ||quesGrid.controls['TypeId'].value===4 ?'one-column':''">
+                                <div>
+                                  <strong>Question</strong>
+                  
+                                  <p>{{quesGrid.controls['QuestionDesc'].value}}</p>
+                                </div>
+                                <div *ngIf="quesGrid.controls['TypeId'].value===2 || quesGrid.controls['TypeId'].value===3 ">
+                                  <h5 class="answer-title mt-0 mb-5" *ngIf="quesGrid.controls['TypeId'].value===2">{{'label_accsingleSelect'|translate}}</h5>
+                                  <h5 class="answer-title mt-0 mb-5" *ngIf="quesGrid.controls['TypeId'].value===3">{{'label_accMulitpleSelect'|translate}}</h5>
+                                  <mat-card class="answer mat-elevation-z1"  *ngFor="let option of quesGrid.controls['Options'].value" [ngClass]="option.IsCorrect==1?'right':'wrong'">
+                                    {{option.Description}}
+                                  </mat-card>
+                                </div>
+                              </div>
+                            </mat-expansion-panel>
+                          </mat-accordion>
+                        </div>
+                      </div>
+                   
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </mat-card>
+            <div *ngIf="!hideBtn" class="add-section">
+              <button mat-fab color="primary"  [disabled]="!addQuesGroup.valid || blankval "  type="button" id="btn-addSection" (click)="addSection()"
+                matTooltip="{{'label_addSection'|translate}}" matTooltipPosition="left">
+                
+                <div class="two-icons" id="add-question">
+                  <mat-icon>vignette</mat-icon>
+                  <mat-icon class="secondIcon" fontSet="material-icons-outlined">add</mat-icon>
+                </div>
+              </button>
+            </div>
+          </ng-container>
+        </form>
+      </div>
+    </mat-step>
+    <!----add question end here------> 
+
+    <!----guidline start here------> 
+    <mat-step [stepControl]="guideLinesGroup" [completed]="false" label="{{'label_guidelines'|translate}}">
+      <div class="assesment-stepper-container" id="assesment-guidline-container">
+        <form [formGroup]="guideLinesGroup">
+          <mat-label>{{ 'label_ChooseLayout' | translate}} <span class="required-show">*</span></mat-label>
+          <div class="choose-layout" id="choose-layout">
+            <mat-card class="mt-5 mat-elevation-z2 cursor" id="simple-layout-card"  (click)="selectedLayout(1)"  [ngClass]="{'selected': chosenLayout == 1}">
+              <mat-card-title>{{'label_simpleLayout'|translate}}
+                <mat-icon class="check-selection">
+                  task_alt
+                </mat-icon>
+              </mat-card-title>
+              <mat-divider></mat-divider>
+              <div class="simple-layout" id="simple-layout">
+                <div class="layout-column-logo" id="layout-column-logo">Logo</div>
+                <div class="layout-column-welcome" id="layout-column-welcome">
+                  {{'label_welcomeText'|translate}}
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                </div>
+                <div class="layout-column-guidelies" id="layout-column-guidelies">
+                  {{'label_guidelines'|translate}}
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                </div>
+                <div class="layout-column-buttons" id="layout-column-buttons">
+                  <button mat-raised-button color="primary" disabled>Lets start</button>
+                </div>
+              </div>
+            </mat-card>
+            <mat-card class="mt-5 mat-elevation-z2 cursor" id="simple-layout-card" (click)="selectedLayout(2)" [ngClass]="{'selected': chosenLayout == 2}">
+              <mat-card-title>{{'label_centerLayout'|translate}}
+                <mat-icon class="check-selection">
+                  task_alt
+                </mat-icon>
+              </mat-card-title>
+              <mat-divider></mat-divider>
+              <div class="center-layout" id="center-layout">
+                <div class="layout-column-logo" id="layout-column-logo">Logo</div>
+                <div class="layout-column-welcome" id="layout-column-welcome">
+                  {{'label_welcomeText'|translate}}
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                </div>
+                <div class="layout-column-guidelies" id="layout-column-guidelies">
+                  {{'label_guidelines'|translate}}
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                </div>
+                <div class="layout-column-buttons" id="layout-column-buttons">
+                  <button mat-raised-button color="primary" disabled>Lets start</button>
+                </div>
+              </div>
+            </mat-card>
+            <mat-card class="mt-5 mat-elevation-z2 cursor" id="simple-layout-card" (click)="selectedLayout(3)"  [ngClass]="{'selected': chosenLayout == 3}">
+              <mat-card-title>{{'label_leftLayout'|translate}}
+                <mat-icon class="check-selection">
+                  task_alt
+                </mat-icon>
+              </mat-card-title>
+              <mat-divider></mat-divider>
+              <div class="left-align-layout" id="left-align-layout">
+                <div class="layout-column-logo" id="layout-column-logo">Logo</div>
+                <div class="layout-column-welcome" id="layout-column-welcome">
+                  {{'label_welcomeText'|translate}}
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                </div>
+                <div class="layout-column-guidelies" id="layout-column-guidelies">
+                  {{'label_guidelines'|translate}}
+                  <div class="lines"></div>
+                  <div class="lines"></div>
+                </div>
+                <div class="layout-column-buttons" id="layout-column-buttons">
+                  <button mat-raised-button color="primary" disabled>Lets start</button>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+
+          <mat-label>{{'label_uploadIcon'|translate}} {{'label_logo'|translate}} <span class="required-show">*</span></mat-label>
+          <div class="uploadImage">
+            
+            <span class="uploadTxt" *ngIf="!imagePreviewStatus">
+              <input hidden matInput formControlName="LogoPath">
+              <img class="uploadImgIcon" src="/assets/uploadFileIcon.png" />
+              <button mat-button (click)="croppingImage('1')" type="button">{{'label_browseFileToUpload'
+                |translate}}</button>
+
+            </span>
+
+            <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+            <div class="previewImage" *ngIf="imagePreviewStatus">
+              <img src="{{previewImage}}" *ngIf="previewImage" (click)="openDialog(previewImage)" />
+
+              <div class="removeImage">
+                <button type="button" mat-mini-fab (click)="croppingImage('1')" color="primary" id="restorepreview">
+
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="removeLogo('logo')" id="restorepreview">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+          <!--  (editorImageValueEmit)="getEditorImageFormInfoGuidelines($event,'Guidelines')" (editorImageValueEmit)="getEditorImageFormInfoWelcomeText($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()" -->
+          <!-- //who:maneesh,what:ewm-15630 for fixed speech text,when:13/06/2024  -->
+          <div class="html-editor-kendo" tabindex id="kendoHTMLEditer"> 
+            <mat-label *ngIf="!spaceError"
+            [ngStyle]="guideLinesGroup.controls['WelcomeText'].hasError('required') && labelError && !spaceError ? 
+            {'color': '#f44336'}:''">{{ 'label_welcomeText' | translate}} <span class="required-show">*</span></mat-label>
+            <mat-label  *ngIf="spaceError"
+            [ngStyle]="spaceError && !labelError ? 
+            {'color': '#f44336'}:''">{{ 'label_welcomeText' | translate}} *</mat-label>
+           <app-mention-editor #mentionEditor [configuration]="editorConfig" [getEditorVal]="getEditorValWelcomeText" 
+            (editorValueEmit)="getEditorFormInfoWelcomeText($event,'WelcomeText')"  [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"></app-mention-editor>
+            <span *ngIf="spaceError" class="space-error" [ngStyle]="spaceError && !labelError ? 
+            {'color': '#f44336'}:''">{{'label_nameValidation' |translate}}</span> 
+        </div>
+
+        <div class="html-editor-kendo mt-10" tabindex id="kendoHTMLEditer">
+          <mat-label *ngIf="!whitespaceForGuidelines"
+          [ngStyle]="guideLinesGroup.controls['Guidelines'].hasError('required') && showErrorDesc && !whitespaceForGuidelines? 
+          {'color': '#f44336'}:''">{{ 'label_guidelines' | translate}} <span class="required-show">*</span></mat-label>
+          <mat-label *ngIf="whitespaceForGuidelines"
+          [ngStyle]="whitespaceForGuidelines && !showErrorDesc? 
+          {'color': '#f44336'}:''">{{ 'label_guidelines' | translate}} *</mat-label>
+         <app-mention-editor #mentionEditor [configuration]="GuidLinesEditorConfig" [getEditorVal]="getEditorValGuidelinest" 
+          (editorValueEmit)="getEditorFormInfoGuidelines($event,'Guidelines')"  [getRequiredValidationMassage]="getRequiredValidationMassageforGuidelines.asObservable()"></app-mention-editor>
+          <span *ngIf="whitespaceForGuidelines" [ngStyle]="whitespaceForGuidelines && !showErrorDesc ? 
+            {'color': '#f44336'}:''">{{'label_nameValidation' |translate}}</span> 
+      </div> 
+    
+        </form>
+      </div>
+    </mat-step>
+    <!----guidline end here------> 
+
+    <!----review start here------> 
+    <mat-step [stepControl]="reviewFormGroup" [completed]="false" label="{{'label_review'|translate}}">
+      <div class="assesment-stepper-container" id="assesment-review-container">
+        <form [formGroup]="reviewFormGroup">
+          <div class="total-question-weightage">
+            <div class="total-question">
+              {{'label_totalNoQues'|translate}} : {{totalNoOfQues}}
+            </div>
+            <div class="total-weightage" *ngIf="evalCriteriaId=='2'">{{'label_totalWeigtage'|translate}} : {{totalWeightage}}</div> 
+          </div>
+           <!------------------case 1 & 2 & 3:   In case when Evaluation is basis on Average/ weightage Average Evaluation ------------->
+          <div class="question-list-sec" [ngClass]="evalCriteriaId=='2' ? '':'without-weightage'">
+            <div class="new-data-list-header">
+              <div class="drag-action">
+              </div>
+             
+              <div class="new-data"  *ngIf="assesmentSelection==1">
+                {{'label_questionType' | translate}}
+              </div>
+              <div class="new-data" *ngIf="assesmentSelection!=1">
+                {{'label_testName' | translate}}
+              </div>
+              <div class="new-data" *ngIf="evalCriteriaId=='2' " >
+                {{'label_weightageDescription' | translate}}
+              </div>
+              <div class="new-data">
+                {{'label_questions' | translate}}
+              </div>
+              <div class="new-data">
+                {{'label_actions' | translate}}
+              </div>
+            </div>
+            <div class="new-data-list-list" [ngClass]="evalCriteriaId=='2' ? '':'without-weightage'">
+              <mat-accordion  cdkDropList   [cdkDropListData]="gridViewList" (cdkDropListDropped)="dropReviewSection($event)" >
+                <mat-expansion-panel hideToggle  class="mat-elevation-z0" *ngFor="let preview of gridViewList" cdkDrag>
+                  <div *cdkDragPreview class="question-sets-preview">
+                    <div class="new-data-list-list-preview" [ngClass]="evalCriteriaId=='2' ? '':'without-weightage'">
+                      <div class="drag-action">
+                        <button mat-icon-button color="primary" cdkDragHandle>
+                          <mat-icon>drag_indicator</mat-icon>
+                        </button>
+                        </div>
+                        <div class="new-data" *ngIf="assesmentSelection==1">
+                          {{preview.Type}}
+                          
+                        </div>
+                        <div class="new-data" *ngIf="assesmentSelection!=1">
+                          {{preview.Name}}
+                          
+                        </div>
+                        <div class="new-data" *ngIf="evalCriteriaId=='2' ">
+                          {{preview.Weightage}}
+                        </div>
+                        <div class="new-data" *ngIf="assesmentSelection==2">
+                          {{preview.NoOfQuestions}}
+                        </div>
+                        <div class="new-data actions">
+                          <button mat-icon-button color="warn" type="button" id="btn_delete" (click)="confirmDialogStep4(preview)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                    </div>
+                   </div>
+                   <div class="question-sets-placeholder" *cdkDragPlaceholder></div>
+                  <mat-expansion-panel-header  >
+                    <div class="drag-action">
+                      <button mat-icon-button color="primary" cdkDragHandle>
+                        <mat-icon>drag_indicator</mat-icon>
+                      </button>
+                    </div>
+                    <div class="new-data" *ngIf="assesmentSelection==1">
+                      {{preview.Type}}
+                      
+                    </div>
+                    <div class="new-data" *ngIf="assesmentSelection!=1">
+                      {{preview.Name}}
+                      
+                    </div>
+                    <div class="new-data" *ngIf="evalCriteriaId=='2' ">
+                      {{preview.Weightage}}
+                    </div>
+                    <div class="new-data" *ngIf="assesmentSelection==2">
+                      {{preview.NoOfQuestions}}
+                    </div>
+                    <div class="new-data" *ngIf="assesmentSelection==1">
+                      {{preview.Name}}
+                    </div>
+                    <div class="new-data actions">
+                      
+                      <button mat-icon-button color="warn" type="button" id="btn_delete" (click)="confirmDialogStep4(preview)"
+                      matTooltip="{{'label_delete'|translate}}" matTooltipClass="custom-tooltip">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </mat-expansion-panel-header>
+                
+                </mat-expansion-panel>
+
+              </mat-accordion>
+            </div>
+          </div>
+          
+        
+        </form>
+      </div>
+    </mat-step>
+    <!----review end here------> 
+  </mat-horizontal-stepper>
+</mat-drawer-container>

@@ -1,0 +1,536 @@
+<div class="job-detail-header" id="canidate-header" [ngClass]="headerExpand ? '' : 'header-collapse-layout'">
+    <div class="dynmic-bg-color"></div>
+    <div class="canidate-header-container" id="canidate-header-container">
+      <div class="canidate-header-left">
+        <div class="job-profile-details">
+          <div class="userAvtaarAndName">
+            <span matTooltip="{{'quickjob_jobRank'|translate}}" matTooltipClass="custom-tooltip"
+              [ngStyle]="{'background-color': JobDetails?.JobRankColor == '#ffffff' ? '#5844DA' : JobDetails?.JobRankColor}">{{JobDetails?.JobRank}}</span>
+              <h3 matTooltip="{{JobDetails?.JobTitle}}"
+                matTooltipClass="custom-tooltip" class="text-overflow">{{JobDetails?JobDetails.JobTitle:''}}</h3>
+            </div>
+          <div class="desktop-job-status-sec">
+            <ng-container *ngTemplateOutlet="headerLeftBox"></ng-container>
+          </div>
+          <ng-template #headerLeftBox>
+            <!-- <div class="job-short-info cursor" (click)="publishButtonPopup()">
+              <span *ngIf="getResponseEmailPhone?.JobReferenceId != null"
+                matTooltip="{{'label_publishedTo'|translate}} ({{JobDetails?.PublishedJobCount}})"
+                matTooltipClass="custom-tooltip">{{'label_publishedTo'|translate}}
+                ({{JobDetails?.PublishedJobCount}})</span>
+              <mat-icon fontSet="material-icons-outlined">trending_up</mat-icon>
+            </div> -->
+            <button mat-raised-button color="primary" class="ml-0 candidate-btn-publish" id="candidate-btn-publish"
+              matTooltip="{{'label_publishedTo'|translate}} ({{JobDetails?.PublishedJobCount}})"
+              matTooltipClass="custom-tooltip" (click)="publishButtonPopup()"
+              >
+              <div class="published-button-txt">
+                <span>{{'label_publishedTo'|translate}} ({{JobDetails?.PublishedJobCount}})</span>
+  
+                <button mat-icon-button id="published-trending-button"
+                (mouseenter)="mouseoverAnimation(animationVar?.PublishedTrendingButton?.id, animationVar?.PublishedTrendingButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.PublishedTrendingButton?.id, animationVar?.PublishedTrendingButton?.animation)">
+                <mat-icon fontSet="material-icons-outlined"
+                id="{{animationVar?.PublishedTrendingButton?.id}}"
+                class="{{animationVar?.PublishedTrendingButton?.isAnimClass}}">trending_up</mat-icon>
+              </button>
+  
+              </div>
+            </button>
+            <div class="job-short-info">
+              <span *ngIf="getResponseEmailPhone?.JobReferenceId == null">--</span>
+              <span *ngIf="getResponseEmailPhone?.JobReferenceId != null"
+                matTooltip="{{getResponseEmailPhone?.JobReferenceId}}"
+                matTooltipClass="custom-tooltip">{{getResponseEmailPhone?.JobReferenceId}}</span>
+              <mat-icon matTooltip="{{'label_JobRefIdDesc'|translate}}" matTooltipClass="custom-tooltip"
+                fontSet="material-icons-outlined">info</mat-icon>
+            </div>
+            <div class="job-short-info">
+              <span *ngIf="getResponseEmailPhone?.JobType == null">--</span>
+              <span *ngIf="getResponseEmailPhone?.JobType != null" matTooltip="{{getResponseEmailPhone?.JobType}}"
+                matTooltipClass="custom-tooltip">{{getResponseEmailPhone?.JobType}}</span>
+              <mat-icon matTooltip="{{'label_JobTypeDesc'|translate}}" matTooltipClass="custom-tooltip"
+                fontSet="material-icons-outlined">info</mat-icon>
+            </div>
+            <div class="job-short-info">
+              <span *ngIf="getResponseEmailPhone?.Experience == null">--</span>
+              <span *ngIf="getResponseEmailPhone?.Experience != null" matTooltip="{{getResponseEmailPhone?.Experience}}"
+                matTooltipClass="custom-tooltip">{{getResponseEmailPhone?.Experience}}</span>
+              <mat-icon matTooltip="{{'label_ExprienceDesc'|translate}}" matTooltipClass="custom-tooltip"
+                fontSet="material-icons-outlined">info</mat-icon>
+            </div>
+          </ng-template>
+        </div>
+        <div class="candidate-profile-info">
+          <div class="jobdetail-header-info">
+            <div class="jobdetail-header-info-txt">
+              <mat-icon matTooltip="{{'label_jobTitle'|translate}}" matTooltipClass="custom-tooltip" class="dark-btn">work</mat-icon>
+              <span matTooltip="{{JobDetails?.JobTitle}}"
+                matTooltipClass="custom-tooltip">{{JobDetails?JobDetails.JobTitle:''}}</span>
+            </div>
+            <!-- <div class="group-btn" id="WorkNorthEastBtn"
+            (mouseenter)="mouseoverAnimation(animationVar?.WorkNorthEastButton?.id, animationVar?.WorkNorthEastButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.WorkNorthEastButton?.id, animationVar?.WorkNorthEastButton?.animation)">
+              <mat-icon fontSet="material-icons-outlined" color="primary" id="Job-btn-ThreedotId"
+                (click)="jobView.toggle();openjobDetailsView()" id="{{animationVar?.WorkNorthEastButton?.id}}"
+                class="{{animationVar?.WorkNorthEastButton?.isAnimClass}}">north_east</mat-icon>
+            </div> -->
+          </div>
+          <div class="jobdetail-header-info clientdetail-header-info">
+            <div class="jobdetail-header-info-txt">
+              <mat-icon matTooltip="{{'label_cover_client_name'|translate}}" matTooltipClass="custom-tooltip" class="dark-btn">business
+              </mat-icon>
+              <!-- <span (click)="clientDetail.toggle(); openClientDetail()" matTooltip="{{JobDetails?.ClientName}}" matTooltipClass="custom-tooltip">
+                {{JobDetails?JobDetails?.ClientName:''}}
+              </span> -->
+            </div>
+            <!-- <div class="group-btn" id="BusinessNorthEastBtn"
+            (mouseenter)="mouseoverAnimation(animationVar?.BusinessNorthEastButton?.id, animationVar?.BusinessNorthEastButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.BusinessNorthEastButton?.id, animationVar?.BusinessNorthEastButton?.animation)">
+              <mat-icon fontSet="material-icons-outlined" color="primary" id="Job-btn-ThreedotId"
+                (click)="clientDetail.toggle(); openClientDetail()"
+                id="{{animationVar?.BusinessNorthEastButton?.id}}"
+                class="{{animationVar?.BusinessNorthEastButton?.isAnimClass}}">north_east</mat-icon>
+            </div> -->
+          </div>
+          <div class="jobdetail-header-info">
+            <div class="jobdetail-header-info-txt">
+              <mat-icon matTooltip="{{'label_location'|translate}}" matTooltipClass="custom-tooltip" class="dark-btn">location_on
+              </mat-icon>
+              <span matTooltip="{{JobDetails?JobDetails?.City:''}}, {{JobDetails?JobDetails?.State:''}}"
+                matTooltipClass="custom-tooltip">
+                {{JobDetails?JobDetails?.City:''}}, {{JobDetails?JobDetails?.State:''}}
+              </span>
+            </div>
+            <div class="group-btn" id="LocationOpenNewBtn" (mouseenter)="mouseoverAnimation(animationVar?.LocationOpenNewButton?.id, animationVar?.LocationOpenNewButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.LocationOpenNewButton?.id, animationVar?.LocationOpenNewButton?.animation)">
+              <mat-icon fontSet="material-icons-outlined" color="primary" id="Job-btn-ThreedotId"
+                (click)="openNewTabForClientGoogleMapLocation(JobDetails.Latitude,JobDetails.Longitude,JobDetails.Location)" class="dark-btn"
+                id="{{animationVar?.LocationOpenNewButton?.id}}"
+                class="{{animationVar?.LocationOpenNewButton?.isAnimClass}}">
+                open_in_new</mat-icon>
+            </div>
+          </div>
+          <div class="jobdetail-header-info">
+            <div class="jobdetail-header-info-txt">
+              <mat-icon matTooltip="{{'label_contacts'|translate}}" matTooltipClass="custom-tooltip" class="dark-btn">badge</mat-icon>
+              <span *ngIf="largeEmailsAndPhonesData?.length == 0" style="text-align: center;">--</span>
+              <div class="company-contacts" *ngIf="largeEmailsAndPhonesData">
+                <div class="company-contacts-btn-groups" *ngFor="let emailOrPhones of largeEmailsAndPhonesData">
+                  <div matTooltip="{{emailOrPhones?.Name}}" matTooltipClass="custom-tooltip"
+                    *ngIf="emailOrPhones?.ProfileImage != null" class="userAvtaarAndName" id="screening-userAvtaar">
+                    <img src="{{profileImagePreview}}" tabindex>
+                  </div>
+                  <div *ngIf="emailOrPhones?.ProfileImage == null" class="userAvtaarAndName">
+                    <span tabindex matTooltip="{{emailOrPhones?.Name}}"
+                      matTooltipClass="custom-tooltip">{{sortName(emailOrPhones?.Name)}}</span>
+                  </div>
+                  <button mat-icon-button color="primary" (click)="confirmMailSync(emailOrPhones)"
+                    matTooltip="{{'label_email' | translate}}" matTooltipClass="custom-tooltip">
+                    <mat-icon>mail_outline</mat-icon>
+                  </button>
+                  <a mat-icon-button color="primary" type="button"
+                    href="tel:{{emailOrPhones?.Phone}}" matTooltip="{{'label_phone' | translate}}"
+                    matTooltipClass="custom-tooltip">
+                    <mat-icon [ngStyle]="{'cursor':zoomCheckStatus === false ? '' : 'pointer' }">phone</mat-icon>
+                </a>
+                </div>
+                <div class="company-contacts-btn-groups"
+                  *ngIf="this.EmailsAndPhonesData!= null && this.EmailsAndPhonesData?.length>2">
+                  <button mat-icon-button color="primary" class="more-owner-show" id="btnMore">
+                    <span class="extra-more" *ngIf="EmailsAndPhonesData?.length<=999" matTooltipClass="custom-tooltip"
+                      matTooltip="{{EmailsAndPhonesData?.length-2}} {{'label_more' | translate}}..">+{{EmailsAndPhonesData?.length-2}}</span>
+                    <mat-icon *ngIf="EmailsAndPhonesData?.length>999" matTooltipClass="custom-tooltip"
+                      matTooltip="999 {{'label_more' | translate}}..">...</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="group-btn">
+              <!-- [disabled]="this.EmailsAndPhonesData!= null && (this.EmailsAndPhonesData?.length>2 )== false" -->
+              <button mat-icon-button color="primary" id="Job-btn-ThreedotId_north_east"
+                [disabled]="this.EmailsAndPhonesData!= null && (this.EmailsAndPhonesData?.length>2 )== false"
+                [matMenuTriggerFor]="showEmailsPhones"
+                (mouseenter)="mouseoverAnimation(animationVar?.ContactSouthEastButton?.id, animationVar?.ContactSouthEastButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.ContactSouthEastButton?.id, animationVar?.ContactSouthEastButton?.animation)">
+                <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.ContactSouthEastButton?.id}}"
+                class="{{animationVar?.ContactSouthEastButton?.isAnimClass}}">
+                  south_east
+                </mat-icon>
+              </button>
+              <mat-menu #showEmailsPhones="matMenu" class="all-owner-list owner-hover-list" id="respinsiveSidebarDropdown">
+                <mat-list role="list">
+                  <ng-container *ngFor="let emailPhoneData of smallEmailsAndPhonesData, let i = index;">
+                    <mat-list-item class="contact-mat-list">
+                      <div class="company-contacts-btn-groups">
+                        <span matTooltip="{{emailPhoneData?.Name}}"
+                          matTooltipClass="custom-tooltip" class="jobAgeBoxTimer text-overflow">{{emailPhoneData?.Name}}</span>
+                          <div class="group-btn">
+                        <button mat-icon-button color="primary" (click)="confirmMailSync(emailPhoneData)"
+                          matTooltip="{{'label_email' | translate}}" matTooltipClass="custom-tooltip">
+                          <mat-icon class="jobAgeBoxTimer">mail_outline</mat-icon>
+                        </button>
+                        <a mat-icon-button color="primary" href="tel:{{emailPhoneData?.Phone}}" type="button"
+                          matTooltip="{{'label_phone' | translate}}" matTooltipClass="custom-tooltip">
+                          <mat-icon [ngStyle]="{'cursor':zoomCheckStatus === false ? '' : 'pointer' }" class="jobAgeBoxTimer">phone
+                          </mat-icon>
+                        </a>
+                      </div>
+                      </div>
+                    </mat-list-item>
+                  </ng-container>
+                </mat-list>
+              </mat-menu>
+            </div>
+          </div>
+          <div class="jobdetail-header-info">
+            <div class="jobdetail-header-info-txt">
+              <mat-icon matTooltip="{{'quickjob_owners'|translate}}" matTooltipClass="custom-tooltip" class="dark-btn">face_6</mat-icon>
+              <div class="multiple-owner-sec">
+                <div *ngFor="let OwnersNameData of largeScreenTagDataOwner" class="multiple-owner">
+                  <div class="userAvtaarAndName" matTooltip="{{OwnersNameData?.OwnerName | titlecase}}"
+                    matTooltipClass="custom-tooltip">
+                    <img *ngIf="OwnersNameData?.OwnerProfileImageUrl!=''"
+                      src="{{OwnersNameData?.OwnerProfileImageUrl}}" />
+                    <span *ngIf="OwnersNameData?.OwnerProfileImageUrl==''">{{sortName(OwnersNameData.OwnerName)}}</span>
+                  </div>
+                </div>
+                <button mat-icon-button color="primary"
+                  *ngIf="((this.OwnersList != undefined)&&(this.OwnersList != null)&&(this.OwnersList?.length>10))"
+                  class="more-owner-show" id="btnMore">
+                  <span class="extra-more" *ngIf="OwnersList?.length<=999" matTooltipClass="custom-tooltip"
+                    matTooltip="{{OwnersList?.length-10}} {{'label_more' | translate}}..">+{{OwnersList?.length-10}}</span>
+                  <mat-icon *ngIf="OwnersList?.length>999" matTooltipClass="custom-tooltip"
+                    matTooltip="999 {{'label_more' | translate}}..">more_horiz</mat-icon>
+                </button>
+                <mat-menu #showAllOwner="matMenu" class="all-owner-list owner-hover-list" id="respinsiveSidebarDropdown">
+                  <mat-list role="list">
+                    <ng-container *ngFor="let OwnersNameData of smallScreenTagDataOwner, let i = index;">
+                      <mat-list-item>
+                        <div class="userAvtaarAndName mr-5">
+                          <img *ngIf="OwnersNameData?.OwnerProfileImageUrl!=''"
+                            src="{{OwnersNameData?.OwnerProfileImageUrl}}" />
+                          <span
+                            *ngIf="OwnersNameData?.OwnerProfileImageUrl==''">{{sortName(OwnersNameData.OwnerName)}}</span>
+                        </div>
+                        <span class="jobAgeBoxTimer">{{OwnersNameData?.OwnerName | titlecase}}</span>
+                      </mat-list-item>
+                    </ng-container>
+                  </mat-list>
+                </mat-menu>
+              </div>
+            </div>
+            <div class="group-btn">
+              <!-- [disabled]="this.OwnersList!= null && (this.OwnersList?.length>3 )== false" -->
+              <button mat-icon-button color="primary" id="Job-btn-ThreedotId" [matMenuTriggerFor]="showAllOwner"
+                [disabled]="this.OwnersList!= null && (this.OwnersList?.length>10 )== false"
+                (mouseenter)="mouseoverAnimation(animationVar?.OwnerSouthEastButton?.id, animationVar?.OwnerSouthEastButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.OwnerSouthEastButton?.id, animationVar?.OwnerSouthEastButton?.animation)">
+                <mat-icon fontSet="material-icons-outlined"
+                id="{{animationVar?.OwnerSouthEastButton?.id}}"
+                class="{{animationVar?.OwnerSouthEastButton?.isAnimClass}}">
+                  south_east
+                </mat-icon>
+              </button>
+            </div>
+          </div>
+  
+          <div class="jobdetail-header-info">
+            <div class="jobdetail-header-info-txt">
+              <mat-icon matTooltip="{{'quickjob_tags'|translate}}" matTooltipClass="custom-tooltip" class="dark-btn">local_offer</mat-icon>
+              <span *ngIf="tagSelecteditem?.length == 0" style="text-align: center;">--</span>
+              <!-- <button class="jobAgeBoxLabel jobAgeBoxLabel-btn" [matMenuTriggerFor]="addCandidateMenu"
+                (click)="searchTextTag=''" matTooltip="{{'quickjob_tags'|translate}}" matTooltipClass="custom-tooltip">
+                <mat-icon>local_offer</mat-icon>
+              </button> -->
+              <div class="tag-list">
+                <div *ngFor="let selectTag of largeScreenTagData" class="tag-name text-overflow"
+                  id="job-btn-selectedTagId" matTooltip="{{selectTag.Name}}" matTooltipClass="custom-tooltip">
+                  <mat-icon [style.color]="selectTag.ColorCode">local_offer</mat-icon>
+                  <span class="text-overflow">{{selectTag.Name}}</span>
+                </div>
+                <span *ngIf="this.tagSelecteditem?.length >2">({{this.smallScreenTagData.length}})</span>
+              </div>
+            </div>
+            <div class="group-btn">
+              <button mat-icon-button color="primary" id="candidate-btn-add-tag" [matMenuTriggerFor]="addCandidateMenu"
+                (click)="searchTextTag=''" matTooltip="{{'quickjob_tags'|translate}}" matTooltipClass="custom-tooltip"
+                (mouseenter)="mouseoverAnimation(animationVar?.TagAddButton?.id, animationVar?.TagAddButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.TagAddButton?.id, animationVar?.TagAddButton?.animation)">
+                <mat-icon id="{{animationVar?.TagAddButton?.id}}"
+                class="{{animationVar?.TagAddButton?.isAnimClass}}">add</mat-icon>
+              </button>
+              <!-- <mat-icon fontSet="material-icons-outlined" color="primary" #mobileSide="matMenuTrigger"
+                [matMenuTriggerFor]="mobileViewTag" id="Job-btn-ThreedotId"
+                *ngIf="((this.tagSelecteditem != undefined)&&(this.tagSelecteditem != null)&&(this.tagSelecteditem.length>2)) || (mobileScreenTag && (this.smallScreenTagData.length>0))">
+                south_east
+              </mat-icon> -->
+              <button mat-icon-button color="primary" id="Job-btn-ThreedotId_Icon" #mobileSide="matMenuTrigger"
+              [matMenuTriggerFor]="mobileViewTag" [disabled]="this.tagSelecteditem!= null && (this.tagSelecteditem?.length>2 )== false"
+              (mouseenter)="mouseoverAnimation(animationVar?.TagSouthEastButton?.id, animationVar?.TagSouthEastButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.TagSouthEastButton?.id, animationVar?.TagSouthEastButton?.animation)">
+                <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.TagSouthEastButton?.id}}"
+                class="{{animationVar?.TagSouthEastButton?.isAnimClass}}">
+                south_east
+              </mat-icon>
+              </button>
+  
+            </div>
+          </div>
+          <mat-menu #addCandidateMenu="matMenu" class="tagOpentMenu">
+            <div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+              <mat-form-field class="remove-bottom-matinput">
+                <input matInput type="text" id="candidate-tagSearch" [(ngModel)]="searchTextTag" name="searchTextEWM"
+                  placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}" />
+  
+                <button *ngIf="searchTextTag" matSuffix mat-icon-button aria-label="Clear" (click)="searchTextTag=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+            <div class="tag-list-data">
+              <button class="tagList mat-menu-item" *ngFor="let tag of JobTags | NameFilter:searchTextTag:'Name'"
+                (click)="selectTagList($event,tag)" matTooltip="{{tag.Name}}" matTooltipClass="custom-tooltip">
+                <mat-icon [style.color]="tag.ColorCode">local_offer</mat-icon>
+                <span class="text-overflow">
+                  {{tag.Name}}
+                </span>
+                <span class="spacer"></span>
+                <mat-slide-toggle class="mat-slide-toggle" [checked]="tag.IsSelected===1?'true':'false'" color="primary">
+                </mat-slide-toggle>
+              </button>
+            </div>
+            <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+          </mat-menu>
+          <!-- Three DOT Start -->
+          <mat-menu #mobileViewTag="matMenu" class="mobile-view-tag candidateQuickMenu" id="respinsiveSidebarDropdown"
+            [overlapTrigger]="false">
+            <button *ngFor="let tag of smallScreenTagData" mat-button class="mobile-view-tag-list"
+              id="job-btn-smallScreenTagId" matTooltip="{{ tag.Name }}" matTooltipClass="custom-tooltip">
+              <mat-icon [style.color]="tag.Color">local_offer</mat-icon>
+              {{ tag.Name }}
+            </button>
+          </mat-menu>
+          <!-- three dot End -->
+        </div>
+        <div class="job-status">
+          <div class="jobAge">
+            <mat-card class="jobAgeBox ml-0">
+              <div class="job-box-data">
+                <div class="jobAgeBoxLabel" matTooltip="{{'label_skills' |translate}}" matTooltipClass="custom-tooltip">
+                  <mat-icon>hotel_class</mat-icon>
+                  <!-- <span *ngIf="largeEmailsAndPhonesData?.length" style="text-align: center;">---</span> -->
+                </div>
+                <!-- <div class="job-short-info" matTooltip="{{getResponseEmailPhone?.Skills}}" matTooltipClass="custom-tooltip"
+                *ngIf="getResponseEmailPhone?.Skills != null">
+                  <span>{{getResponseEmailPhone?.Skills}}</span>
+                  <mat-icon matTooltip="{{'label_SkillsDesc'|translate}}" matTooltipClass="custom-tooltip" fontSet="material-icons-outlined">info</mat-icon>
+                </div> -->
+  
+                <span *ngIf="this.skillData?.length == 0" style="text-align: center;">--</span>
+                <!-- <div class="skilss-lists" *ngFor="let skill of largeSkill | slice : 0 : 3">
+                  <div *ngIf="skill?.SkillName != null">
+                    
+                  </div>
+                </div> -->
+                <span *ngFor="let skill of largeSkill | slice : 0 : 3" tabindex matTooltip="{{skill?.SkillName}}"
+                  class="skils-job-detail" matTooltipClass="custom-tooltip">
+                  {{skill?.SkillName}}
+                </span>
+  
+                <div class="company-contacts-btn-groups">
+                  <button mat-button color="primary" class="more-owner-show" id="btnMore"
+                    *ngIf="this.skillData!= null && this.skillData?.length>3">
+                    <span class="extra-more" *ngIf="skillData?.length<=999" matTooltipClass="custom-tooltip"
+                      matTooltip="{{skillData?.length-3}} {{'label_more' | translate}}..">+{{skillData?.length-3}}</span>
+                    <mat-icon *ngIf="skillData?.length>999" matTooltipClass="custom-tooltip"
+                      matTooltip="999 {{'label_more' | translate}}..">...</mat-icon>
+                  </button>
+  
+                  <mat-menu #showSkillData="matMenu" class="all-owner-list owner-hover-list" id="respinsiveSidebarDropdown">
+                    <mat-list role="list">
+                      <ng-container *ngFor="let smallSkill of largeSkill | slice : 3 : skillData.length">
+                        <mat-list-item>
+                          <div class="company-contacts-btn-groups">
+                            <div *ngIf="smallSkill?.SkillName != null">
+                              <span tabindex matTooltip="{{smallSkill?.SkillName}}"
+                                class="jobAgeBoxTimer currentJobStatus"
+                                matTooltipClass="custom-tooltip">{{smallSkill?.SkillName}}</span>
+                            </div>
+                          </div>
+                        </mat-list-item>
+                      </ng-container>
+                    </mat-list>
+                  </mat-menu>
+  
+                 
+                  
+                </div>
+              </div>
+  
+              <div class="group-btn">
+                <!-- [disabled]="this.skillData!= null && (this.skillData?.length>3 )== false" -->
+                <mat-icon id="all-status" class="all-status" color="primary" matTooltip="{{'label_SkillsDesc'|translate}}"
+                  matTooltipClass="custom-tooltip" fontSet="material-icons-outlined">info</mat-icon>
+                <button mat-icon-button [disabled]="this.skillData!= null && (this.skillData?.length>3 )== false"
+                  id="all-status" class="all-status" color="primary" [matMenuTriggerFor]="showSkillData"
+                  (mouseenter)="mouseoverAnimation(animationVar?.SkillSouthEastButton?.id, animationVar?.SkillSouthEastButton?.animation)"
+                  (mouseleave)="mouseleaveAnimation(animationVar?.SkillSouthEastButton?.id, animationVar?.SkillSouthEastButton?.animation)">
+                  <mat-icon id="{{animationVar?.SkillSouthEastButton?.id}}"
+                  class="{{animationVar?.SkillSouthEastButton?.isAnimClass}}">
+                    south_east
+                  </mat-icon>
+                </button>
+  
+              </div>
+            </mat-card>
+  
+            <mat-card class="jobAgeBox ml-0">
+              <div class="job-box-data">
+                <div class="jobAgeBoxLabel" matTooltip="{{'label_cureentStatus' |translate}}"
+                  matTooltipClass="custom-tooltip">
+                  <mat-icon>waterfall_chart</mat-icon>
+                </div>
+                <div class="jobAgeBoxTimer currentJobStatus" matTooltip="{{currentStatus?currentStatus:''}}"
+                  matTooltipClass="custom-tooltip">{{currentStatus?currentStatus:''}} </div>
+              </div>
+              <div class="group-btn"
+              (mouseenter)="mouseoverAnimation(animationVar?.StatusInfoButton?.id, animationVar?.StatusInfoButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.StatusInfoButton?.id, animationVar?.StatusInfoButton?.animation)">
+                <mat-icon fontSet="material-icons-outlined" id="all-status" class="all-status" color="primary"
+                  [matMenuTriggerFor]="allJobStatus" id="{{animationVar?.StatusInfoButton?.id}}"
+                  class="{{animationVar?.StatusInfoButton?.isAnimClass}}">info
+                </mat-icon>
+              </div>
+  
+            </mat-card>
+            <mat-menu #allJobStatus="matMenu" xPosition="before" class="candidateQuickMenu allJobStatus">
+              <span class="material-icons headerDroupDownUp">
+                arrow_drop_up
+              </span>
+              <div class="show-status">
+                <ng-container *ngFor="let JobStatusdata of JobStatus; let i = index">
+                  <button mat-button id="jobStatus_{{i}}"
+                    [ngClass]="JobStatusdata.CurrentStatus==0 ?'selectBtn':'selectBtn current'">
+                    {{JobStatusdata.Name}}
+                  </button>
+                  <button mat-icon-button id="jobStatusIcon_{{i}}" *ngIf="jobStatuslength>i">
+                    <mat-icon>chevron_right</mat-icon>
+                  </button>
+                </ng-container>
+              </div>
+            </mat-menu>
+  
+            <mat-card class="jobAgeBox ml-0">
+              <div class="job-box-data">
+                <div class="jobAgeBoxLabel" matTooltip="{{'label_AgeingOfJob' |translate}}"
+                  matTooltipClass="custom-tooltip">
+                  <mat-icon>legend_toggle</mat-icon>
+                </div>
+                <!-- Entire Software : Amit Rajput : 10-May-2022 : Tooltip Add : EWM-5987 -->
+                <div class="jobAgeBoxTimer" matTooltip="{{JobPostDate|dayscounttillsecontsbydate:'From'}}
+            ({{JobPostDate|date:userpreferences.timeformate:userpreferences.timezone}})"
+                  matTooltipClass="custom-tooltip">
+                  {{JobPostDate|dayscounttillsecontsbydate:'From'}}
+                  ({{JobPostDate|date:userpreferences.timeformate:userpreferences.timezone}})</div>
+              </div>
+            </mat-card>
+            <mat-card class="jobAgeBox">
+              <div class="job-box-data">
+                <div class="jobAgeBoxLabel" matTooltip="{{'label_ExpireIn' |translate}}" matTooltipClass="custom-tooltip">
+                  <mat-icon>event_note</mat-icon>
+                </div>
+                <div  *ngIf="days" class="jobAgeBoxTimer" [ngClass]="days>0 ?'':'reverseCounterred'" matTooltip="{{days}}d ({{dateConvert(expiryDate)}} {{hours}}h
+            {{minutes}}m {{seconds}}s)" matTooltipClass="custom-tooltip">{{days}}d {{hours}}h:{{minutes}}m:{{seconds}}s
+                </div>
+              </div>
+  
+            </mat-card>
+          </div>
+        </div>
+        <div class="job-detail-chart" id="job-detail-chart">
+          <!-- <mat-progress-bar mode="indeterminate" class="card-barloader" color="primary" *ngIf="pieloading">
+          </mat-progress-bar>
+          <p *ngIf="pieData?.length == 0" class="center">No data found</p>
+          <div class="card-fadeloader" *ngIf="pieloading"></div>
+          <div id="piechart" *ngIf="pieData?.length>0">
+            <a (click)="refresh()" *ngIf="totalSource!=0" class="sourced"><span>{{'label_sourced'|translate}} : 100%</span></a>
+            <a (click)="refresh()" *ngIf="totalSource==0" class="sourced"><span>{{'label_sourced'|translate}} : 0%</span></a>
+            <div class="apex-chart">
+            <apx-chart [series]="cOptions?.series" [chart]="cOptions?.chart" [labels]="cOptions?.labels"
+              [stroke]="cOptions?.stroke" id="piechartdata"></apx-chart>
+            </div>
+            </div> -->
+          </div>
+        </div>
+        <div class="canidate-header-right">
+          <!-- <div class="desktop-job-status-sec">
+            <ng-container *ngTemplateOutlet="jobStatusSec"></ng-container>
+          </div>
+          <ng-template #jobStatusSec>
+            
+          </ng-template> -->
+    
+          
+          
+          <div class="candidate-action">
+            <button type="button" color="primary" id="candidateActionBtn" mat-mini-fab [matMenuTriggerFor]="beforeMenu"
+              (mouseenter)="mouseoverAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)">
+              <mat-icon id="{{animationVar?.ThreeDotButton?.id}}" class="{{animationVar?.ThreeDotButton?.isAnimClass}}">
+                more_vert
+              </mat-icon>
+            </button>
+    
+            <mat-menu #beforeMenu="matMenu" xPosition="before" class="candidateQuickMenu job-details-threedot">
+              <span class="material-icons headerDroupDownUp">
+                arrow_drop_up
+              </span>
+    
+              <!-- <a mat-button id="backToJobBtn" (click)="backToJob()">
+                <mat-icon>keyboard_backspace</mat-icon>
+                {{'label_backToJobLanding'|translate}}
+              </a> -->
+    
+              <div class="mobile-job-status-sec">
+                <mat-divider class="mt-0 mb-5"></mat-divider>
+                <ng-container *ngTemplateOutlet="headerLeftBox"></ng-container>
+              </div>
+    
+              <mat-divider class="mt-0 mb-0"></mat-divider>
+    
+              <!-- <button mat-button id="jobdetailsViewBtn" (click)="jobView.toggle();openjobDetailsView()">
+                <mat-icon>preview</mat-icon> {{'jobdetails_View' | translate}}
+              </button>
+              <button mat-button id="addCandidateToJobBtn" (click)="candidateJob.toggle();opencandidatejobmapeed()">
+                <mat-icon>add_circle</mat-icon> {{'jobdetails_AddCandidateToJob' | translate}}
+              </button>
+              <button mat-button id="addCandidateToMapApplicationBtn"
+                (click)="candidateMapApplicationForm.toggle();openMapApplicationForm()">
+                <mat-icon>read_more</mat-icon> {{'label_mapApplicationForm' | translate}}
+              </button>
+    
+              <button mat-button id="shareJobApplicationBtn" [disabled]="IsApplicationFormAvailable===0"
+                (click)="shareJobApplicationForm.toggle();ShareJobApplicationUrl()">
+                <mat-icon>share</mat-icon>{{'label_share_job_application_url' | translate}}
+              </button> -->
+    
+            </mat-menu>
+    
+          </div>
+        </div>
+      </div>
+    <button mat-stroked-button class="header-expand-collapse" (click)="headerExpandCollapse()"
+      (mouseenter)="mouseoverAnimation(animationVar?.ExpandArrowButton?.id, animationVar?.ExpandArrowButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.ExpandArrowButton?.id, animationVar?.ExpandArrowButton?.animation)">
+      <mat-icon *ngIf="headerExpand" id="{{animationVar?.ExpandArrowButton?.id}}"
+        class="{{animationVar?.ExpandArrowButton?.isAnimClass}}">
+        expand_less
+      </mat-icon>
+      <mat-icon *ngIf="!headerExpand" id="{{animationVar?.ExpandArrowButton?.id}}"
+        class="{{animationVar?.ExpandArrowButton?.isAnimClass}}">
+        expand_more
+      </mat-icon>
+    </button>
+  </div>

@@ -1,0 +1,281 @@
+<!-- /*
+@(C): Entire Software
+@Type: File, <ts>
+@Who: Adarsh singh
+@When: 26-June-2023
+@Why: EWM-11778.EWM-12850
+*/ -->
+<!-- 
+  @Modified
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Satya Prakash Gupta
+  @When: 08-Jul-2023
+  @Why: EWM-11778 EWM-13056
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header job-activity-header" id="job-activity-header">
+    <div class="actionButton listGridButton" id="job-activity-list-actionButton" >
+          <!--@When: 29-11-2023 @who:Amit @why: EWM-15161 @what: search add-->
+          <mat-form-field class="mb-0 searchInput" floatLabel="never">
+            <mat-label>{{'label_search'|translate}}</mat-label>
+            <input matInput id="userInvitaion-searchBox" tabindex="1" placeholder="Search"
+              [(ngModel)]="searchValue">
+            <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+            <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <!-- <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div> -->
+        </mat-form-field>
+        <div class="search-viewicon mb-0">
+            <!------------------Activity Listing------------------->
+            <div class="ng-slectBox searchInput " *ngIf="viewMode === 'listMode'">
+                <ng-select placeholder="" [searchable]="false"
+                    [(ngModel)]="defaultSelectActivityListing" id="job-activity-ActivityListing" class="dropdown-body job-interview-list-filter-dropdown"
+                    (change)="onChangeActivityListing($event)" appendTo="body" tabindex="1" [clearable]="false">
+                    <ng-option value="Upcoming">Upcoming Activities</ng-option>
+                    <ng-option value="Past">Past Activities</ng-option>
+                    <ng-option value="Done">Done Activities</ng-option>
+                    <ng-option value="All">All Activities</ng-option>
+                </ng-select>
+            </div>
+
+            <!------------------Date Filter------------------->
+            <div class="button-with-clear mr-0" *ngIf="viewMode === 'listMode'">
+                <button mat-raised-button class="filterButton radius-call mb-0" id="filter-date"
+                    [ngClass]="[ filterCountDate!=0 ? 'addFilter' : 'blankFilter']" tabindex="2"
+                    matTooltip="{{'label_filterByDate'|translate}}" matTooltipPosition="before"
+                    matTooltipClass="card-list-tooltip"
+                    (mouseenter)="mouseoverAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)">
+                    <mat-icon fontSet="material-icons-outlined" (click)="openModelForCalenderFilter()"
+                        id="{{animationVar?.FilterButton?.id}}" class="{{animationVar?.FilterButton?.isAnimClass}}">
+                        date_range
+                    </mat-icon>
+                </button>
+                <div class="clear-with-data" *ngIf="filterCountDate!=0" (click)="clearFilterData('Date')">
+                    <span class="text-overflow filterCount">{{filterCountDate}}</span>
+                    <button mat-icon-button color="warn" id="job-myActivityDate-clearFilterData">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!------------------Category Filter------------------->
+            <div class="button-with-clear" *ngIf="viewMode === 'listMode'">
+                <button mat-raised-button class="filterButton radius-call mb-0" id="filter-category"
+                    [ngClass]="[ filterCountCategory!=0 ? 'addFilter' : 'blankFilter']" tabindex="3"
+                    (mouseenter)="mouseoverAnimation(animationVar?.CategoryButton?.id, animationVar?.CategoryButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.CategoryButton?.id, animationVar?.CategoryButton?.animation)"
+                    matTooltip="{{'label_category'|translate}}" matTooltipPosition="before"
+                    matTooltipClass="card-list-tooltip">
+                    <mat-icon fontSet="material-icons-outlined" (click)="openModelForCategoryFilter()"
+                        id="{{animationVar?.CategoryButton?.id}}" class="{{animationVar?.CategoryButton?.isAnimClass}}">
+                        category
+                    </mat-icon>
+                </button>
+                <div class="clear-with-data" *ngIf="filterCountCategory!=0" (click)="clearFilterData('Category')">
+                    <span class="text-overflow filterCount">{{filterCountCategory}}</span>
+                    <button mat-icon-button color="warn" id="job-myActivityCategory-clearFilterData">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'calender-button']" class="header-button radius-call"
+                (click)="switchListMode('cardMode')" id="job-myActivity-list mb-5"
+                (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+                matTooltip="{{'label_viewCalender'|translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip">
+                <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+                class="{{animationVar?.GridButton?.isAnimClass}}">
+                event_available
+                </span>
+            </button>
+
+            <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : '']" class="header-button radius-call mb-0"
+                (click)="switchListMode('listMode')" id="job-myActivityCalender-card"
+                (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+                matTooltip="{{'label_listView'|translate}}" matTooltipPosition="before" matTooltipClass="card-list-tooltip">
+                <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+                class="{{animationVar?.ListButton?.isAnimClass}}">
+                {{animationVar?.ListButton?.iconName}} 
+                </span>
+            </button>
+
+        </div>
+    </div>
+</mat-card-header>
+<mat-drawer-container class="my-activity-sec" autosize id="job-my-activity-drawer-container">
+    <mat-drawer-content>
+<mat-card class="mat-elevation-z2 p-0 calender-mat-card jobaction-calender" *ngIf="viewMode === 'cardMode'">
+    <kendo-scheduler [kendoSchedulerBinding]="events" (slotSelectionChange)="onSelectionChange($event)"
+        (slotClick)="openActivityPanel($event)" [selectedDate]="selectedDate" startTime="{{StartTime}}"
+        endTime="{{EndTime}}" class="activity-scheduler" [slotDuration]="slotDuration"
+        (eventClick)="showActivtyDeatils($event)" [eventStyles]="getEventStyles" [selectedViewIndex]="1"
+        [timezone]="timezonName" (dateChange)="dateChange($event)" [currentTimeMarker]="{localTimezone:false}">
+        <ng-template kendoSchedulerMonthDaySlotTemplate let-date="date">
+            <div class="monthview-date current_date active" *ngIf="check(date)"> <span>{{ date | date : 'dd' }}</span>
+            </div>
+            <div class="monthview-date gray" *ngIf="!checkCurrentMonth(date) && !check(date)"> <span>{{ date | date :
+                    'dd' }}</span></div>
+            <div *ngIf="!check(date) && checkCurrentMonth(date)" class="monthview-date"><span>{{ date | date : 'dd'
+                    }}</span></div>
+        </ng-template>
+        <ng-template kendoSchedulerDateHeaderTemplate let-date="date">
+            <div class="week-date active" *ngIf="check(date)"><span>{{ date | date: dateFormat }}</span></div>
+            <div class="week-date" *ngIf="!check(date)" style="margin:0px"><span>{{ date | date : dateFormat }}</span>
+            </div>
+        </ng-template>
+        <ng-template kendoSchedulerToolbarTemplate let-selectedDate="selectedDate">
+            <div kendoSchedulerToolbarNavigation></div>
+            <span class="k-spacer"></span>
+            <div kendoSchedulerToolbarViewSelector></div>
+
+        </ng-template>
+        <ng-template kendoSchedulerAllDayEventTemplate let-event="event">
+            <div class="schedule-name"  [ngStyle]="changeBackgroundInterview(event.dataItem.AttendeeId)"
+                (mouseenter)="onHoverInterview(event.dataItem.AttendeeId,event.id)" (mouseleave)="onHover(-1)" cdkOverlayOrigin
+                #triggerallday="cdkOverlayOrigin">
+                <!-- <div class="completed-activity" [ngStyle]="changeBackground(event.id)"></div> -->
+                <mat-icon>{{getIcon(event.title,2) }}</mat-icon>
+                <div class="text-overflow activity-name">{{getIcon(event.title,1) }}</div>
+                <!-- <mat-icon class="task-completed" *ngIf="getIcon(event.title,3)==1">check</mat-icon> -->
+            </div>
+            <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="triggerallday"
+                [cdkConnectedOverlayOpen]="event.dataItem.AttendeeId==onAttendeeId && event.id==onHoverId">
+                <mat-card class="calender-popover jobaction-calender-calender-popover mat-elevation-z8 animate__zoomIn animate__animated">
+                    <div class="flex popover-title"
+                    [ngStyle]="changeBackground(event.id)">
+                        <!-- <div class="completed-activity" [ngStyle]="changeBackground(event.id)"></div> -->
+                        <mat-icon>{{activityInfo?.IconName}}</mat-icon>
+                        <div class="activity-name">{{activityInfo?.ActivityTitle}}</div>
+                        <!-- <mat-icon class="task-completed" *ngIf="getIcon(event.title,3)==1">check</mat-icon> -->
+                    </div>
+                    <div class="flex popover-activitydate">
+                        <mat-icon matTooltip="{{'label_schedule'|translate}}">schedule</mat-icon>
+
+                        <div> {{activityInfo.ScheduleActivity?.DateStartUTC |date:'d MMM y' }}-
+                            {{activityInfo.ScheduleActivity?.DateStartUTC|date: 'hh:mm'}} to
+                            {{activityInfo.ScheduleActivity?.DateEndUTC |date: 'hh:mm'}}
+                            ({{activityInfo?.Duration}})</div>
+                    </div>
+                    <div class="flex popover-attendees">
+                        <mat-icon matTooltip="{{'label_Attendees'|translate}}">perm_contact_calendar</mat-icon>
+                        <div>{{activityInfo?.AttendeesName}}({{'label_Attendees'|translate}})</div>
+                    </div>
+                    
+
+                    <div class="flex popover-organiser">
+                        <mat-icon>manage_accounts</mat-icon>
+                        <div>{{activityInfo?.OrganizersName}}({{'label_Organiser'|translate}})</div>
+                    </div>
+                    <div class="flex smallSlideToggle-source">
+                        <div class="flex">
+                            <mat-slide-toggle color="primary" readonly id="markasdone-btn"
+                                [checked]="(activityInfo?.IsCompleted==1)?true:false"
+                                labelPosition="before">{{'label_activitydone'|translate}}</mat-slide-toggle>
+                        </div>
+                        <div class="source-icon">
+                            <img *ngIf="source===source" height="25px" src="{{xeopleImage}}"
+                                matTooltip="{{'label_Source' | translate}} : {{activityInfo?.Source}}"
+                                matTooltipClass="custom-tooltip" />
+                            <img *ngIf="MeetingPlatformLogoUrl!==null" height="25px"
+                                src="{{activityInfo?.MeetingPlatformLogoUrl}}"
+                                matTooltip="{{'label_meetingPlatform' | translate}} : {{activityInfo?.MeetingPlatform}}"
+                                matTooltipClass="custom-tooltip" />
+                        </div>
+                    </div>
+                    <div class="flex popover-remark" *ngIf="activityInfo?.IsCompleted==1">
+                        <mat-label>{{'label_activityRemarks'|translate}}:</mat-label>
+                        {{activityInfo?.Remarks}}
+                    </div>
+                </mat-card>
+            </ng-template>
+        </ng-template>
+
+        <ng-template kendoSchedulerEventTemplate let-event="event">
+            <div class="schedule-name" [ngStyle]="changeBackgroundInterview(event.dataItem.AttendeeId)"
+                (mouseenter)="onHoverInterview(event.dataItem.AttendeeId,event.id)" (mouseleave)="onHover(-1)" cdkOverlayOrigin
+                #trigger="cdkOverlayOrigin">
+                <!-- <div class="completed-activity" [ngStyle]="changeBackground(event.id)"></div> -->
+                <mat-icon>{{getIcon(event.title,2) }}</mat-icon>
+                <div class="text-overflow activity-name">{{getIcon(event.title,1) }}{{event.AttendeeId}}</div>
+                <!-- <mat-icon class="task-completed" *ngIf="getIcon(event.title,3)==1">check</mat-icon> -->
+            </div>
+
+            <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
+                [cdkConnectedOverlayOpen]="event.dataItem.AttendeeId==onAttendeeId && event.id==onHoverId">
+                <mat-card class="calender-popover jobaction-calender-calender-popover mat-elevation-z8 animate__zoomIn animate__animated">
+                    <div class="flex popover-title" [ngStyle]="changeBackgroundInterview(event.dataItem.AttendeeId)">
+                        <!-- <div class="completed-activity" [ngStyle]="changeBackground(event.id)"></div> -->
+                        <mat-icon>{{activityInfo?.IconName}}</mat-icon>
+                        <div class="activity-name">{{activityInfo?.ActivityTitle}}</div>
+                        <!-- <mat-icon class="task-completed" *ngIf="getIcon(event.title,3)==1">check</mat-icon> -->
+                    </div>
+                    <div class="flex popover-activitydate">
+                        <mat-icon matTooltip="{{'label_schedule'|translate}}">schedule</mat-icon>
+
+                        <div> {{activityInfo.ScheduleActivity?.DateStartUTC |date:'d MMM y' }}-
+                            {{activityInfo.ScheduleActivity?.DateStartUTC|date: 'hh:mm'}} to
+                            {{activityInfo.ScheduleActivity?.DateEndUTC |date: 'hh:mm'}}
+                            ({{activityInfo?.Duration}})</div>
+                    </div>
+                    <div class="flex popover-attendees">
+                        <mat-icon matTooltip="{{'label_Attendees'|translate}}">perm_contact_calendar</mat-icon>
+                        <div>{{activityInfo?.AttendeesName}}({{'label_Attendees'|translate}})</div>
+                    </div>
+                    
+                    <div class="flex popover-organiser">
+                        <mat-icon>manage_accounts</mat-icon>
+                        <div>{{activityInfo?.OrganizersName}}({{'label_Organiser'|translate}})</div>
+                    </div>
+                    <div class="flex smallSlideToggle-source">
+                        <div class="flex">
+                            <mat-slide-toggle color="primary" readonly id="markasdone-btn"
+                                [checked]="(activityInfo?.IsCompleted==1)?true:false"
+                                labelPosition="before">{{'label_activitydone'|translate}}</mat-slide-toggle>
+                        </div>
+                        <div class="source-icon">
+                            <img *ngIf="source===source" height="25px" src="{{xeopleImage}}"
+                                matTooltip="{{'label_Source' | translate}} : {{activityInfo?.Source}}"
+                                matTooltipClass="custom-tooltip" />
+                            <img *ngIf="MeetingPlatformLogoUrl!==null" height="25px"
+                                src="{{activityInfo?.MeetingPlatformLogoUrl}}"
+                                matTooltip="{{'label_meetingPlatform' | translate}} : {{activityInfo?.MeetingPlatform}}"
+                                matTooltipClass="custom-tooltip" />
+                        </div>
+                    </div>
+                    <div class="flex popover-remark" *ngIf="activityInfo?.IsCompleted==1">
+                        <mat-label>{{'label_activityRemarks'|translate}}:</mat-label>
+                        {{activityInfo?.Remarks}}
+                    </div>
+                </mat-card>
+            </ng-template>
+
+        </ng-template>
+        <kendo-scheduler-day-view> </kendo-scheduler-day-view>
+        <kendo-scheduler-week-view> </kendo-scheduler-week-view>
+        <kendo-scheduler-month-view> </kendo-scheduler-month-view>
+        <kendo-scheduler-work-week-view [workWeekStart]="0" [workWeekEnd]="6" [slotClass]="slotClass">
+        </kendo-scheduler-work-week-view>
+        
+        <kendo-scheduler-pdf fileName="scheduler.pdf"> </kendo-scheduler-pdf>
+
+    </kendo-scheduler>
+</mat-card>
+<div *ngIf="viewMode === 'listMode'">
+    <app-job-activity-grid (DateFilterClearCount)="DateFilterClearCount($event)" (CategoryFilterClearCount)="CategoryFilterClearCount($event)"
+     [syncCandidateDataList]="syncCandidateDataList"  [syncInterviewDataListId]="syncInterviewDataListId"
+    [syncOrganiserDataListId]="syncOrganiserDataList[0]?.Id" (UpcomingActivityListing)="UpcomingActivityListing($event)"
+    [searchVal]="searchValue">
+
+    </app-job-activity-grid>
+</div>
+</mat-drawer-content>
+
+</mat-drawer-container>

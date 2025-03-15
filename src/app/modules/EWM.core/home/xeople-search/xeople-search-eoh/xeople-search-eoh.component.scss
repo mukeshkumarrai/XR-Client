@@ -1,0 +1,99 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: xeople-search.component.scss
+    @Who: Satya Prakash Gupta
+    @When: 19-Nov-2020
+    @Why: ROST-366 ROST-398
+    @What: This page will be use for the xeople search style
+*/
+@import '../../../../../../mixinStyle.scss';
+@import '../../../../../../styles-var.scss';
+.myActivityContainer{
+    @include for-small-smartphones {
+        height: calc(100% - 80px);
+    }
+    .dashboard-mat-card-header.mat-card-header{
+        .only-title{
+            .title-count{
+                font-size: 14px;
+            }
+        }
+        .actionButton{
+            .mat-raised-button{
+                img{
+                    width: 25px;
+                    background: #ffffff;
+                    border-radius: 6px;
+                    padding: 1px; 
+                    margin-right: 5px;
+                    @media only screen and (max-width: 660px) and (min-width: 240px){
+                        margin-right: 0px;
+                    } 
+                }
+            }
+        }
+    } 
+    .xeople-search-container{
+        height: calc(100% - 50.50px);  
+        background-color: transparent;
+        overflow-x: hidden;
+        overflow-y: auto;
+        @include for-small-smartphones {
+            height: calc(100% - 80.50px);  
+        }
+        .xeople-search-chips-container{
+            display: block;
+            position: relative;
+            // @When: 13-April-2023 @who:Satya Prakash @why: EWM-11076 @what:Hide and show expand button
+            .showMoreDataButton{
+                position: absolute;
+                right: 10px;
+                top: 5px;
+                z-index: 2;
+                overflow: hidden;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                .mat-icon{
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px; 
+                    --animate-duration: 1s;
+                    opacity: 0.70;
+                }
+                &:hover{
+                    .mat-icon{
+                        opacity: 1;
+                    } 
+                }
+            }
+        }
+        .xeople-search-drawer{
+            .badge{
+                text-transform: none;
+                margin: 10px 0px 0px 0px;
+                height: auto;
+                display: flex;
+                max-width: max-content;
+                text-align: left;
+                line-height: 16px;
+                min-height: 31px;
+                align-items: center;
+            }
+            .xeople-search-drawer{
+                overflow: auto;
+            }
+            .xeople-search-main{
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+    .xeople-search-container.search-xeoplers-list{
+        overflow-y: hidden;
+    }
+}
+.xeople-search-fourth-sec .xeople-search-first-sec-form-col{
+    grid-template-columns: repeat(1, calc(100% - 0px));
+}

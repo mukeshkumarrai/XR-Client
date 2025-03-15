@@ -1,0 +1,98 @@
+/* 
+  Modified
+  @(C): Entire Software
+  @Type: File, <css>
+  @Who: Amit Rajput
+  @When: 05-Jan-2023
+  @Why: EWM-10026 EWM-10060
+  @What: Manage job posting style
+*/
+
+@import "../../../../../styles-var.scss";
+  
+.interfaceBoardContainer{
+  overflow: auto;
+  height: calc(100vh - 424px);
+  .marketplace-section{
+    display: grid;
+    grid: auto/calc(25% - 5px) calc(25% - 10px) calc(25% - 10px) calc(25% - 5px);
+    gap: 10px;
+    @media only screen and (max-width: 1599px) and (min-width: 1280px) {
+      grid: auto/calc(33.33% - 5px) calc(33.33% - 10px) calc(33.33% - 5px);
+    }
+    @media only screen and (max-width: 1279px) and (min-width: 768px) {
+      grid: auto/calc(50% - 5px) calc(50% - 5px);
+    }
+    @media only screen and (max-width: 767px) and (min-width: 240px) {
+      grid: auto/calc(100% - 0px);
+    }
+    .customBoxWidth:last-child{
+      @media only screen and (max-width: 767px) and (min-width: 240px) {
+        margin-bottom: 10px;
+      }
+    }
+    .selectTemplateOrCreatejob{
+      min-height: 230px;
+      box-shadow: rgb(99 99 99 / 20%) 0px 2px 4px 0px, 2px 0px 0px $primary-bg-color inset;
+      cursor: inherit;
+      .ImageFileBox{
+        padding-top: 10px;
+        img{
+          cursor:initial;
+        }
+      }
+      .jobInfobox{
+        .jobinfodata{
+          grid: auto/30% 70%;
+          a{
+            color: $info-color;
+            cursor: pointer;
+            text-decoration: underline;
+            span{
+              vertical-align: inherit;
+            }
+            span.mat-button-focus-overlay{
+              opacity: 0;
+            }
+          }
+          a.mat-button-disabled{
+            cursor: inherit;
+            color: $gray-button;
+            text-decoration:none;
+          }
+        }
+        .jobinfodata.manage-posting{
+          grid: auto/1fr;
+          span{
+            a{
+              color: $dark-primary-bg;
+              font-weight: 500;
+              padding-inline-end: 5px;
+            }
+          }
+        }
+        .jobinfodata.visible-icon{
+          span.txtValueStyle{
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            .mat-icon-button{
+              width: 24px;
+              height: 24px;
+              line-height: 24px;
+              .mat-icon{
+                width: 18px;
+                height: 18px;
+                line-height: 18px;
+                font-size: 18px;
+              }
+            }
+          }
+        }
+      }
+      &:hover{
+        box-shadow: rgb(99 99 99 / 20%) 0px 2px 4px 0px, 6px 0px 0px $primary-bg-color inset;
+      }
+    }
+  }
+}

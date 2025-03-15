@@ -1,0 +1,49 @@
+/* @When: 03-03-2025 @who:Amit @why: EWM-19623 @what: call select style */
+@use "../../colors" as *;
+.call-section {
+    overflow: hidden;
+    .call-section-move{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        .select-call-log {
+            box-sizing: border-box;
+            transition: all 0.25s;
+            cursor: pointer;
+            margin: 3px 0px;
+            padding: 10px;
+            border-radius: 12px;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            gap: 7px;
+            background: $white-bg;
+            border-radius: 100%;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+            .mat-icon {
+                height: 32px;
+                width: 32px;
+                line-height: 36px;
+                transition: all 0.25s;
+                svg{
+                    border-radius: 100%;
+                }
+            }
+            label {
+                cursor: pointer;
+                font-size: 14px;
+            }
+            &:hover{
+                transform: inherit;
+                color: inherit;
+                .mat-icon {
+                    transform: scale(1.10);
+                    transition: all 0.25s;
+                }
+            }
+        }
+    }
+}

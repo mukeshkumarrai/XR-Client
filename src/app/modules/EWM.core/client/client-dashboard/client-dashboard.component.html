@@ -1,0 +1,472 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: Clientlandingpage.component.html
+  @Who: Nitin Bhati
+  @When: 25-Oct-2021
+  @Why: EWM-3272 EWM-3483
+  @What: This page wil be use only for the client landing page Component HTML
+ -->
+<mat-card-header class="page-header" id="client-dashboard-dashboard-mat-card-header">
+  <mat-card-title class="page-header-title-buttons" id="jobClientTitle">
+    <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_addedToJob'|translate}} {{'label_addClient' | customTranslate}}"
+      matTooltipClass="custom-tooltip" color="primary" id="btnCreate" (click)="openQuickCompanyModal()"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+      <div id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">
+        <mat-icon>add</mat-icon>
+      </div>
+    </button>
+    <div class="sub-title">
+      <div class="page-header-title">{{'label_totalNoofClient' |customTranslate}} {{TotalNoOfClient}}</div>
+    </div>
+  </mat-card-title>
+  <div class="header-action-button" id="client-dashboard-actionButton">
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()"
+          id="dashboard-search-close" (click)="searchValue=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="group-header-button">
+      <button mat-raised-button class="header-button" id="label_refreshBtn" (click)="mapReload()"
+        matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)">
+        <mat-icon id="{{animationVar?.RotateButton?.id}}" class="{{animationVar?.RotateButton?.isAnimClass}}">
+          {{animationVar?.RotateButton?.iconName}}
+        </mat-icon>
+      </button>
+      <!-- @When: 29-02-2024 @who:Amit @why: EWM-16254 @what: proximity search btn -->
+      <div class="button-with-clear blank-count" id="proximity-search">
+        <button mat-raised-button (click)="openProximitySearchDialog()" class="header-button"
+          matTooltip="{{'label_proximity' | translate}} {{'label_search' | translate}}"
+          matTooltipClass="card-list-tooltip" matTooltipPosition="before" id="proximity-area"
+          [ngClass]="[IsProximitySearch==true ? 'addFilter' : 'blankFilter']"
+          (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)">
+          <mat-icon id="{{animationVar?.ActionsButton?.id}}"
+            class="{{animationVar?.ActionsButton?.isAnimClass}}">share_location</mat-icon>
+        </button>
+        <div class="clear-with-data blank-text" *ngIf="IsProximitySearch==true" (click)="onClearProximitySearch()">
+          <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      <button mat-raised-button class="header-button" [ngClass]="[ viewMode === 'dash' ? '' : 'active']"
+        (click)="switchListMode('dash')" [routerLink]="['../client-dashboard']" id="dashboard"
+        (mouseenter)="mouseoverAnimation(animationVar?.GraphButton?.id, animationVar?.GraphButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GraphButton?.id, animationVar?.GraphButton?.animation)"
+        matTooltip="{{'label_graph'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <span class="material-icons" id="{{animationVar?.GraphButton?.id}}"
+          class="{{animationVar?.GraphButton?.isAnimClass}}">
+          {{animationVar?.GraphButton?.iconName}}
+        </span>
+      </button>
+      <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : '']" class="header-button"
+        [routerLink]="['./client/core/clients/list']" (click)="switchListMode('listMode')" id="dashboard-list"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+      <button mat-raised-button [matMenuTriggerFor]="mobileViewButtonsMenu" class="header-button">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #mobileViewButtonsMenu="matMenu" class="threedot-inside-menu">
+        <ng-container *ngTemplateOutlet="buttonRef"></ng-container>
+      </mat-menu>
+      <!-------ng template for buttons---->
+      <ng-template #buttonRef>
+        <button mat-menu-item (click)="advancedsearch.toggle();advancedSearchActivate(true)" class="header-button"
+          id="dashboard-search">
+          <mat-icon>{{animationVar?.AdvanceSearchButton?.iconName}}
+          </mat-icon>
+          <span class="text-for-mobile-view">{{'label_advancedSearch'|translate}}</span>
+        </button>
+        <div class="button-with-clear">
+          <button mat-menu-item class="filterButton header-button" id="dashboard-filter-close"
+            [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" (click)="openFilterModalDialog()">
+            <mat-icon fontSet="material-icons-outlined">
+              {{animationVar?.FilterButton?.iconName}}
+            </mat-icon>
+            <span class="text-for-mobile-view">{{'label_filters'|translate}}</span>
+          </button>
+          <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData(viewMode)">
+            <span class="text-overflow filterCount">{{filterCount}}</span>
+            <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="button-with-clear">
+          <button mat-menu-item id="folderBtn" class="header-button"
+            [ngClass]="[ folderId!=0 ? 'addFilter' : 'blankFilter']" (click)="getFolderListAll()">
+            <mat-icon fontSet="material-icons-outlined">{{animationVar?.FolderButton?.iconName}}</mat-icon>
+            <span class="text-for-mobile-view">{{'candidate_folders'|translate}}</span>
+          </button>
+          <div class="clear-with-data" *ngIf="folderId!=0" (click)="clearFolderData()">
+            <span class="text-overflow filterCount" matTooltip="{{folderName}}">{{folderName}}</span>
+            <button mat-icon-button color="warn" id="candidate-list-close">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+        <button mat-menu-item class="header-button" id="bulksmsBtn"
+          [disabled]="1 > selectedCandidate?.length || !SMSCheckStatus" (click)="openJobBulkSMSForClient()">
+          <mat-icon fontSet="material-icons-outlined">sms</mat-icon>
+          <span class="text-for-mobile-view">{{'Client_SendSMSContact'|translate}}</span>
+        </button>
+        <!-- who:maneesh,what remove mailConnectStatus discuss with mukesh sr,when:15/03/2024 -->
+        <button mat-menu-item class="header-button" id="bulkmailBtn" [disabled]="1 > selectedCandidate?.length"
+          (click)="onBulkEmail()">
+          <mat-icon fontSet="material-icons-outlined">
+            {{animationVar?.MailButton?.iconName}}</mat-icon>
+          <span class="text-for-mobile-view">{{'Client_SendMailContact'|translate}}</span>
+        </button>
+      </ng-template>
+      <!--------ng teplate end-->
+    </div>
+  </div>
+</mat-card-header>
+<mat-drawer-container class="advancedsearch-container" autosize id="dashboard-drawer">
+  <mat-drawer #advancedsearch class="advancedsearchDrawer" mode="over" disableClose="true" position="end"
+    id="client-dashboard-advancedsearch-drawer">
+    <div style="display: flex; height: 100%;">
+      <div class="drawerTitleSec">
+        <h4 class="text-overflow">
+          {{'label_advancedSearch'|translate}}
+          <button class="closeDrawerIcon" mat-stroked-button
+            (click)="advancedsearch.toggle();advancedSearchActivate(false)" id="dashboard-advance-search">
+            <mat-icon>close</mat-icon>
+          </button>
+        </h4>
+      </div>
+      <mat-card class="advancedsearchDrawerData" id="client-dashboard-advancedsearchDrawerData" style="height: 100%;">
+        <div class="row">
+          <div class="ng-slectBox">
+            <app-custom-dropdown [selectedIn]="selectedRelation" (selectedOut)="onIndustrychange($event)"
+              [config]="dropDoneConfig"></app-custom-dropdown>
+          </div>
+          <div class="ng-slectBox">
+            <!--@Nitin Bhtai,@EWM-13251,@when:31-07-2023, Handle countryList API Callingfrom custom drop-->
+            <app-custom-ng-select [countryList]="countryList" [selectedIn]="selectedValue" [IsRequired]="false"
+              [isselectAll]="true" (selectedOut)="onCountrychange($event)" [isCrossIcon]="true"></app-custom-ng-select>
+            <!--add cross icon conditionally adarsh singh on 10-Aug-2023 for ewm-13749 -->
+          </div>
+          <div class="ng-slectBox">
+            <app-custom-dropdown [selectedIn]="selectedParentClient" (selectedOut)="onParentClientchange($event)"
+              [config]="dropDoneConfigParentClient"></app-custom-dropdown>
+          </div>
+          <div class="ng-slectBox">
+            <app-custom-dropdown [selectedIn]="selectedClientRM" (selectedOut)="onClientRMchange($event)"
+              [config]="dropDoneConfigClientRM"></app-custom-dropdown>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </mat-drawer>
+  <div class="advancedsearch-sidenav-content" id="client-dashboard-advancedsearch-sidenav-content">
+    <div class="client-dashboard-container">
+      <mat-card class="mapSection" id="client-dashboard-mapSection">
+        <mat-card-title class="card-title-with-action">
+          <div class="clientDataDesc">
+            <span>{{'label_Client_Locations'| customTranslate | titlecase}}</span>
+            <!-- // adarsh singh for EWM-14439 on 22-09-2023  -->
+            <span *ngIf="TotalNoOfClient > 100" class="limitedData">Limited Data Available: Showing 100 out of
+              {{TotalNoOfClient}} client.</span>
+          </div>
+          <div class="card-title-action">
+            <button mat-icon-button matTooltip="{{'label_newWindow'|translate}}" id="dashboard-new-window"
+              matTooltipClass="custom-tooltip" (click)="openDialog(mapDialog,'map')" [style.color]="background60"
+              (mouseenter)="mouseoverAnimation(animationVar?.MapExpandButton?.id, animationVar?.MapExpandButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.MapExpandButton?.id, animationVar?.MapExpandButton?.animation)">
+              <mat-icon id="{{animationVar?.MapExpandButton?.id}}"
+                class="{{animationVar?.MapExpandButton?.isAnimClass}}">open_in_new</mat-icon>
+            </button>
+            <button mat-icon-button disabled id="client-dashboard-disabled" [style.color]="background60"
+              (mouseenter)="mouseoverAnimation(animationVar?.MapMoreButton?.id, animationVar?.MapMoreButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.MapMoreButton?.id, animationVar?.MapMoreButton?.animation)">
+              <mat-icon id="{{animationVar?.MapMoreButton?.id}}" class="{{animationVar?.MapMoreButton?.isAnimClass}}">
+                more_vert</mat-icon>
+            </button>
+          </div>
+        </mat-card-title>
+        <div class="progress-loader-box" *ngIf="maploading">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+        <div class="card-fadeloader" *ngIf="maploading"></div>
+        <agm-map #AgmMap class="wolrdMap" [latitude]="lat" [longitude]="lng" [disableDefaultUI]="true"
+          (mapReady)="mapReady($event)" (mapClick)="mapClicked($event)" [fitBounds]="true" id="dashboard-map">
+          <agm-marker *ngFor="let m of markers; let i = index"
+            (markerClick)="clickedMarker(m.ClientId,infoWindow, i,'onload',m.LocationId)" [latitude]="m.lat"
+            [longitude]="m.lng" [markerDraggable]="false" (dragEnd)="markerDragEnd(m, $event)" [agmFitBounds]="true"
+            [iconUrl]="m.icon" id="dashboard-map-marker">
+            <agm-info-window #infoWindow id="dashboard-map-popup">
+              <span *ngIf="dasboardMapPopUpData?.length !=0">
+                <mat-card class="mat-elevation-z0 p-0 m-0" style="max-width: 200px;"
+                  *ngFor="let mapdata of dasboardMapPopUpData; index as rowIndex">
+                  <mat-card-header class="p-0">
+                    <mat-card-title *ngIf="mapdata.ClientName">
+                      <a [routerLink]="['/client/core/clients/list/client-detail']"
+                        [queryParams]="{clientId:mapdata.ClientId}">
+                        {{mapdata.ClientName}}
+                      </a>
+                    </mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content style="height: auto;" class=" p-0 mt-0">
+                    <p *ngIf="mapdata.Address"> {{mapdata.Address}}</p>
+                  </mat-card-content>
+                </mat-card>
+              </span>
+              <span *ngIf="dasboardMapPopUpData?.length ==0">
+                <mat-card class="mat-elevation-z0 p-0 m-0" style="max-width: 200px;">
+                  <mat-card-content style="height: auto;" class=" p-0 mt-0">
+                    <p> {{'label_noRecordAvailable' | translate}}</p>
+                  </mat-card-content>
+                </mat-card>
+              </span>
+            </agm-info-window>
+          </agm-marker>
+        </agm-map>
+      </mat-card>
+      <mat-card class="pieChartSection" id="client-dashboard-pieChartSection">
+        <mat-card-title class="card-title-with-action">
+          {{'label_piechart'|customTranslate}}
+          <div class="card-title-action">
+            <button mat-icon-button matTooltip="{{'label_newWindow'|translate}}" (click)="openDialog(pieDialog,'pie')"
+              matTooltipClass="custom-tooltip" id="btnpiechartnewwinsow" [style.color]="background60"
+              (mouseenter)="mouseoverAnimation(animationVar?.PieExpandButton?.id, animationVar?.PieExpandButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.PieExpandButton?.id, animationVar?.PieExpandButton?.animation)">
+              <mat-icon id="{{animationVar?.PieExpandButton?.id}}"
+                class="{{animationVar?.PieExpandButton?.isAnimClass}}">open_in_new</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="piechartdroplist" id="piechartdroplist"
+              [style.color]="background60"
+              (mouseenter)="mouseoverAnimation(animationVar?.PieMoreButton?.id, animationVar?.PieMoreButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.PieMoreButton?.id, animationVar?.PieMoreButton?.animation)">
+              <mat-icon id="{{animationVar?.PieMoreButton?.id}}"
+                class="{{animationVar?.PieMoreButton?.isAnimClass}}">more_vert</mat-icon>
+            </button>
+            <mat-menu #piechartdroplist="matMenu" class="headerUserDropdown">
+              <a mat-button (click)="changePieChart('donut')" id="btnDonut"
+                [ngClass]="'donut'==piechartType ? 'active' : ''">Donut</a>
+              <a mat-button (click)="changePieChart('polarArea')" id="btnPolarArea"
+                [ngClass]="'polarArea'==piechartType ? 'active' : ''">Polar Area</a>
+              <a mat-button (click)="changePieChart('pie')" id="btnpie"
+                [ngClass]="'pie'==piechartType ? 'active' : ''">Pie</a>
+            </mat-menu>
+          </div>
+        </mat-card-title>
+        <div class="progress-loader-box" *ngIf="pieloading">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+        <p *ngIf="pieData?.length == 0" class="center">No data found</p>
+        <div class="card-fadeloader" *ngIf="pieloading"></div>
+        <div id="piechart" class="pie-bar-chart" *ngIf="pieData?.length>0">
+          <apx-chart [series]="cOptions?.series" [chart]="cOptions?.chart" [labels]="cOptions?.labels"
+            [stroke]="cOptions?.stroke" id="piechartdata"></apx-chart>
+        </div>
+      </mat-card>
+      <mat-card class="pieChartSection" id="client-dashboard-barChartSection">
+        <mat-card-title class="card-title-with-action">
+          {{'label_barchart'|customTranslate}}
+          <div class="card-title-action">
+            <button mat-icon-button matTooltip="{{'label_refreshBtn'|translate}}" id="btnbarreload"
+              (click)="barreload()" matTooltipClass="custom-tooltip" [style.color]="background60"
+              (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+              <mat-icon id="{{animationVar?.BarRotateButton?.id}}"
+                class="{{animationVar?.BarRotateButton?.isAnimClass}}">{{animationVar?.BarRotateButton?.iconName}}
+              </mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="{{'label_newWindow'|translate}}" (click)="openDialog(barDialog,'bar')"
+              matTooltipClass="custom-tooltip" id="btnbarnewwindow" [style.color]="background60"
+              (mouseenter)="mouseoverAnimation(animationVar?.BarExpandButton?.id, animationVar?.BarExpandButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.BarExpandButton?.id, animationVar?.BarExpandButton?.animation)">
+              <mat-icon id="{{animationVar?.BarExpandButton?.id}}"
+                class="{{animationVar?.BarExpandButton?.isAnimClass}}">{{animationVar?.BarExpandButton?.iconName}}
+              </mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="barchartdroplist" id="btnbartype" [style.color]="background60"
+              (mouseenter)="mouseoverAnimation(animationVar?.BarMoreButton?.id, animationVar?.BarMoreButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.BarMoreButton?.id, animationVar?.BarMoreButton?.animation)">
+              <mat-icon id="{{animationVar?.BarMoreButton?.id}}"
+                class="{{animationVar?.BarMoreButton?.isAnimClass}}">{{animationVar?.BarMoreButton?.iconName}}
+              </mat-icon>
+            </button>
+            <mat-menu #barchartdroplist="matMenu" class="headerUserDropdown">
+              <a mat-button (click)="changeBarChart('line')" id="btnline"
+                [ngClass]="'line'==barchartType ? 'active' : ''">Line</a>
+              <a mat-button (click)="changeBarChart('bar')" id="btnbar"
+                [ngClass]="'bar'==barchartType ? 'active' : ''">Bar</a>
+            </mat-menu>
+          </div>
+        </mat-card-title>
+        <div class="progress-loader-box" *ngIf="barloading">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+        <p *ngIf="barChartData?.length == 0" class="center">No data found</p>
+        <div class="card-fadeloader" *ngIf="barloading"></div>
+        <div id="barchart" class="pie-bar-chart" *ngIf="barChartData?.length>0">
+          <apx-chart [series]="chartOptions1?.series1" [chart]="chartOptions1?.chart"
+            [dataLabels]="chartOptions1?.dataLabels" [plotOptions]="chartOptions1?.plotOptions"
+            [xaxis]="chartOptions1?.xaxis"></apx-chart>
+        </div>
+      </mat-card>
+      <mat-card class="grid-card" id="client-dashboard-mat-elevation-z2">
+        <div class="cltDashobardGrid kendo-grid-appearance without-column-popup remove-fixed-column">
+          <ng-template #template let-anchor>
+            <span>{{ anchor.nativeElement.innerText }}</span>
+          </ng-template>
+          <!-----kendo grid------>
+          <!-- @Who: Bantee Kumar,@Why:EWM-10975,@When: 11-Mar-2023,@What: More number of Columns added as per the story. -->
+          <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+            (mouseover)="showTooltip($event)">
+            <div *ngIf="loading" class="logo-loader" id="logo-loader">
+              <div class="logo-loading"></div>
+            </div>
+            <kendo-grid #grid [sortable]="true" [sort]="sort" [filter]="filter" id="overflowCustom"
+              [reorderable]="false" [resizable]="true" [filterable]="true" [data]="data" [selectable]="true" [pageable]="{buttonCount: 3,
+                                          info: true,
+                                          type: 'numeric',
+                                          pageSizes: true,
+                                          previousNext: true,
+                                          responsive: true}" [pageSize]="pagesize" [skip]="skip"
+              (pageChange)="pageChanges($event)" (filterChange)="filterChange($event)" (sortChange)="sortChange($event)"
+              (selectedKeysChange)="selectionChange($event)" [kendoGridSelectBy]="selectedCallback"
+              [selectable]="selectableSettings" [(selectedKeys)]="selectedCandidate">
+
+              <kendo-grid-checkbox-column width="45" [columnMenu]="false"
+                [showSelectAll]="true"></kendo-grid-checkbox-column>
+              <kendo-grid-messages pagerPage="{{'label_pagerPage' |translate}}" pagerOf="{{'label_pagerOf' |translate}}"
+                pagerItems="{{'label_pagerItems' |translate}}"
+                pagerItemsPerPage="{{'label_pagerItemsPerPage' |translate}}"
+                noRecords="{{'label_noRecordAvailable' |translate}}">
+              </kendo-grid-messages>
+              <!--  who:maneesh,what:ewm-13417 for change width  "column.width<40?150:column.width" when:19/07/2023 -->
+              <kendo-grid-column *ngFor="let column of columnsWithAction" [field]="column.Field"
+                [title]="column.Title |customTranslate" [width]="column.width<40?150:column.width"
+                [reorderable]="column.Type=='Action'?false:true"
+                [headerStyle]="column.Type=='Numeric' || column.Field=='Phone' || column.Type=='Date' ?{'text-align': 'right'}:''"
+                [format]="column.Format" [filterable]="column.Filterable">
+                <!--  who:suika,what:EWM-13301 stop drag and drop for action column-- [reorderable]="column.Type=='Action'?false:true" -->
+                <!---------@When: 21-APR-2023 @who:Adarsh singh @why: EWM-12059 @dec- Adding dynamic grid column from config --------->
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ClientName'">
+                  <a [routerLink]="['../list/client-detail']" [queryParams]="{clientId:dataItem.ClientId}"
+                    id="btnViewCandiateName">
+                    <span> {{dataItem.ClientName}}</span>
+                  </a>
+                </ng-template>
+
+                <!--Who:Ankit Rawat, What:EWM-16114-EWM-16298 Added Proximity column on Grid, When:04March24 -->
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Proximity'">
+                  <span class="textRight">{{ IsProximitySearch ? dataItem.Proximity : ' ' }}</span>
+                </ng-template>
+
+                <!-- @Who: Nitin Bhati,@When:18-10-2023, @Why: EWM-14856 -->
+                <!-- End  -->
+
+                <!-- @Who: Ankit Rawat,@When:15 March 24, @Why: EWM-16422 -->
+                <ng-template kendoGridFilterCellTemplate let-filter let-column="column"
+                  *ngIf="column.Type.toLowerCase()=='numeric'">
+                  <kendo-grid-numeric-filter-cell [column]="column" [filter]="filter" operator="eq">
+                    <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                    <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                    <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                    <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                    <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                  </kendo-grid-numeric-filter-cell>
+                </ng-template>
+              </kendo-grid-column>
+              <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+                <kendo-pager-info></kendo-pager-info>
+                <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+              </ng-template>
+            </kendo-grid>
+          </div>
+          <!-------kendo grid end------>
+        </div>
+      </mat-card>
+    </div>
+    <ng-template #mapDialog>
+      <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_Client_Locations' | customTranslate | titlecase }}</h2>
+        <button mat-icon-button id="btnclosemap" (click)="onDismiss(mapDialog,'map')" color="warn">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <mat-dialog-content class="mat-dialog-content-map" id="client-dashboard-chart-modal-container">
+        <agm-map #AgmMap class="wolrdMap" [latitude]="lat" [longitude]="lng" [disableDefaultUI]="true"
+          (mapReady)="mapReady($event)" (mapClick)="mapClicked($event)" id="mappopup" [fitBounds]="true">
+          <agm-marker *ngFor="let m of markers; let i = index"
+            (markerClick)="clickedMarker(m.ClientId,infoWindow, i,'modal',m.LocationId)" [latitude]="m.lat"
+            [longitude]="m.lng" [markerDraggable]="false" (dragEnd)="markerDragEnd(m, $event)" id="mappopup-marker"
+            [agmFitBounds]="true" [iconUrl]="m.icon">
+            <agm-info-window #infoWindow id="mappopup-window">
+              <mat-card class="mat-elevation-z0 p-0 m-0" style="max-width: 200px;"
+                *ngFor="let mapdata of dasboardMapPopUpData; index as rowIndex">
+                <mat-card-header class="p-0">
+                  <mat-card-title *ngIf="mapdata.ClientName">
+                    <a [routerLink]="['/client/core/clients/list/client-detail']"
+                      [queryParams]="{clientId:mapdata.ClientId}">
+                      {{mapdata.ClientName}}
+                    </a>
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content style="height: auto;" class=" p-0 mt-0">
+                  <p *ngIf="mapdata.Address"> {{mapdata.Address}}</p>
+                </mat-card-content>
+              </mat-card>
+            </agm-info-window>
+          </agm-marker>
+        </agm-map>
+      </mat-dialog-content>
+    </ng-template>
+    <ng-template #barDialog>
+      <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_barchart'|customTranslate}}</h2>
+        <button mat-icon-button color="warn" id="client-dashboard-matDialogClose" (click)="onDismiss(barDialog,'bar')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <mat-dialog-content id="popupbarchart">
+        <apx-chart [series]="chartOptions2?.series1" [chart]="chartOptions2?.chart"
+          [dataLabels]="chartOptions2?.dataLabels" [plotOptions]="chartOptions2?.plotOptions"
+          [xaxis]="chartOptions2?.xaxis"></apx-chart>
+      </mat-dialog-content>
+    </ng-template>
+    <ng-template #pieDialog>
+      <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_piechart'|customTranslate | titlecase}}</h2>
+        <button mat-icon-button id="btnclose" (click)="onDismiss(barDialog,'pie')" color="warn">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <mat-dialog-content id="popuppiechart">
+        <apx-chart [series]="cOptions1?.series" [chart]="cOptions1?.chart" [labels]="cOptions1?.labels"
+          [stroke]="cOptions1?.stroke" id="piechartdatapopup"></apx-chart>
+      </mat-dialog-content>
+    </ng-template>
+  </div>
+</mat-drawer-container>

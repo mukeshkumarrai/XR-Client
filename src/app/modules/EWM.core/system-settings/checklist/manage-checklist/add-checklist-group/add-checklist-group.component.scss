@@ -1,0 +1,64 @@
+@use "../../../../../../../colors";
+@import "../../../../../../../mixinStyle.scss";
+
+.form-group-box{
+    @media only screen and (max-width: 1060px) and (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media only screen and (max-width: 767px) and (min-width: 240px){
+        grid-template-columns: 1fr;
+    }
+}
+.moveCurson{
+    cursor: move;
+}
+.actionBtnListBox{
+    width: 60px;
+    display: flex;
+}
+.chaecklist-actionBtnListBox{
+    // width: 90px;
+    display: flex;
+    .mat-icon-button{
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        .mat-icon{
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 20px;
+        }
+    }
+}
+.add-checklist.mat-fab{
+    position: fixed;
+    right: 20px;
+    bottom: 60px;
+    z-index: 3;
+}
+.checklist-question{
+    &:last-child{
+        margin-bottom: 0px;
+    }
+}
+.checklist-name{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+.selectb0x-mat-hint{
+    position: absolute;
+    bottom: 0px;
+    font-size: 13px;
+}
+.checklist-card{
+    margin: 0px;
+    margin-bottom: 15px;
+    &:last-child{
+        margin-bottom: 70px;
+    }
+}

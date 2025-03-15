@@ -1,0 +1,24 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:emailnotintegrated-dialog.component.html
+    @Who: Suika
+    @When: 18-Sep-2021
+    @Why: EWM-2522 EWM-2833
+    @What: This page wil be use only for the confirm Component HTML
+help-->
+<div mat-dialog-content class="center-align confirm-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        mailbox
+    </span>
+    <h6 mat-dialog-title>
+        {{'label_emailnotintegrated'|translate}}
+    </h6>
+    <p> {{message|translate}}</p>
+    <p> {{title|translate}} </p>
+</div>
+<mat-divider></mat-divider>
+
+<div mat-dialog-actions class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" (click)="onDismiss()"> {{'label_cancel'|translate}}</button>   
+</div>

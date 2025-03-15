@@ -1,0 +1,115 @@
+/*
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 12-May-2023
+    @Why: EWM-12382
+    @What: style modified
+*/
+
+@import "../../../../styles-var.scss";
+
+.candidate-mail{
+    min-height: 280px;
+    h3{
+        margin: 0px;
+        padding: 5px 0px;
+    }
+    .url-link{
+        display: flex;
+        span.primary{
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            justify-content: flex-start;
+            text-transform: inherit;
+            font-size: 14px;
+            font-weight: normal;
+            margin-left: 0px;
+            color: $default-bg-color;
+            &::before{
+                opacity: 0.10;
+                z-index: 1;
+            }
+        }
+        a{
+            display: inline-block;
+            z-index: 2;
+            cursor: pointer;
+        }
+        .mat-icon-button{
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            z-index: 2;
+            border: none;
+            .mat-icon{
+                width: 22px;
+                height: 22px;
+                line-height: 22px;
+                font-size: 18px;
+                border: none;
+            }
+        }
+        .mat-raised-button{
+            @media only screen and (max-width: 767px) and (min-width: 240px){        
+                display: flex;
+                align-self: end;
+            }
+        }
+    }
+    .imp-instruction{
+        h4{
+            margin: 15px 0px 0px;
+        }
+        ul{
+            li{
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+   
+.copyMessage.email-hide{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: none;
+    .alert-green {
+        color: #7fb734;
+        background: #fff;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 12px;
+        padding: 5px 25px 5px 5px;
+        height: 12px;
+        line-height: 15px;
+        .mat-icon{
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        font-size: 16px;
+        }
+    }
+}
+  
+.newEmailBtn{
+    position: relative;
+    // @When: 31-Jul-2023 @Who:Satya Prakash Gupta @Why: EWM-13291 EWM-13565 @What: Add under line
+    text-decoration: underline;
+        .content-copy{
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+            .mat-icon{
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            font-size: 16px;
+            margin: 0px 3px;
+        }
+    }
+}

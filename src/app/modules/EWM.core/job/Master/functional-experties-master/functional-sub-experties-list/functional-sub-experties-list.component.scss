@@ -1,0 +1,120 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <scss>
+  @Who: Anup
+  @When: 18-June-2021
+  @Why: EWM-1746 EWM-1843
+  @What:  This page will be use for the Functional Sub Experties list Component scss file
+
+*/
+
+@import "../../../../../../../mixinStyle.scss";
+
+.listcardContentMaxData{
+  min-width: 850px;
+}
+.sticky-width{
+  min-width: 850px;
+}
+.col-1 {
+  width: 30%;
+} 
+.col-2 {
+  width: 26%;
+}
+.col-3 {
+  width: 26%;
+}
+.col-4 {
+  width: 15%;
+}
+.col-6 {
+  width: 3%;
+}
+.listActionBox {
+    min-width: 24px !important;
+}
+.listHeader.sticky {
+  top: 75px;
+  padding-bottom: 0;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+
+// // Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+    height: 70px;
+}
+.maxData:hover {
+    height: 70px;
+}
+
+////  Styling For Back button and Breadcum BY Anup Singh //////
+.matCardTitleStyle{
+  margin-bottom: 0px !important;
+}  
+    
+@media only screen and (max-width: 1150px) and (min-width: 850px) {
+  .matCardTitleStyle {
+    display: unset!important;
+  }
+  .mat-card .mat-divider-horizontal{
+    top:65px !important
+  }
+}
+
+@media only screen and (max-width: 850px) and (min-width: 750px) {
+  .matCardTitleStyle {
+    display: unset!important;
+  }
+  .mat-card .mat-divider-horizontal{
+    top:65px !important
+  }
+}
+
+@media only screen and (max-width:750px) and (min-width: 150px) {
+  .matCardTitleStyle {
+    display: unset!important;
+  }
+  .mat-card .mat-divider-horizontal{
+    top:65px !important
+  }
+}
+
+.xeople-container-listing-with-breadCrumb.mat-drawer-container{
+  .component-card.mat-card{
+    @media only screen and (max-width: 504px) and (min-width: 327px){
+      height: calc(100% - 78px);
+    }
+    @media only screen and (max-width: 326px) and (min-width: 240px){
+      height: calc(100% - 98px);
+    }
+  }
+}
+
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 505px){
+    height: 73px;
+  }
+  @media only screen and (max-width: 504px) and (min-width: 327px){
+    height: 97px;
+  }
+  @media only screen and (max-width: 326px) and (min-width: 240px){
+    height: 120px;
+  }
+}

@@ -1,0 +1,35 @@
+@use "../../../colors";
+.parse-resume-summary{
+    .candidate-summry.parse-resume-tab-container{
+        overflow: auto;
+        height: 100%;
+        .resumeHeader.mat-card{
+            h2{
+                padding: 15px 10px;
+            }
+        }
+        .scrolltop{
+            padding-inline-start: 10px;
+            .mat-card{
+                padding: 0px;
+                border: 1px solid #dcdcdc;
+                .mat-card-content{
+                    overflow: auto;
+                    box-sizing: border-box;
+                }
+            }
+            .profile-with-skill{
+                .mat-card{
+                  .mat-card-content{
+                    .profile-info-data{
+                      grid: auto/ 150px calc(100% - 160px);
+                    }
+                    .profile-info-data.skill-info-data{
+                      grid: auto/200px calc(100% - 210px);
+                    }
+                  }
+                }
+            }
+        } 
+    }
+}

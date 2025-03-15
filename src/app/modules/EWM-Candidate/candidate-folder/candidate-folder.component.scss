@@ -1,0 +1,75 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: folder.component.scss
+    @Who: Nitin Bhati
+    @When: 18-Aug-2021
+    @Why: EWM-2494
+    @What: You can add candidate folder details styles to this file, and also import other style files
+*/
+.candidate-folder{
+    height: 65vh;
+    overflow: hidden;
+    .contentScroll{
+        overflow: auto;
+    }
+    .listcardContentMaxData,
+    .sticky-width{
+        min-width: 855px;
+        background: transparent;
+    }
+    .listcardContentMaxData{
+        height: calc(65vh - 95px);
+        overflow: auto;
+    }
+}
+.listCardViewButtonroup{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.col-1{
+    width: 62%;
+}
+.col-2{
+    width: 30%;
+}
+.col-3{
+    width: 8%;
+}
+
+.scrollloading{
+    height:75px;
+    position: relative;
+    background-color: transparent;
+    top: inherit;
+    right: inherit;
+    left: inherit;
+    bottom: inherit;
+}
+.search-results {
+    height: 300px;
+    overflow: auto;
+}
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+    height: 70px;
+}
+.maxData:hover {
+    height: 70px;
+}
+.listcardContentMaxData{
+    min-width: unset;
+}
+
+.listContent {
+    padding-top: 0px;
+    overflow-x: auto;
+    min-width: 650px;
+    overflow: hidden;
+}
+.padding0{
+    padding: 0px !important;
+    margin-bottom: 0px;
+}
+
+.matEyeIcon{float:right; margin-right:20px}

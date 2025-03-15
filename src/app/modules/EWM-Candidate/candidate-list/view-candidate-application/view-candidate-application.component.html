@@ -1,0 +1,60 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: view-candidate-application.component.html
+  @Who: Suika
+  @What: For sample html
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header" id="view-candidate-application">
+    <mat-card-title class="only-for-title">{{'label_viewcandidateapplication' |translate}} </mat-card-title>
+</mat-card-header>
+<!-- (selectedTabChange)="selectedTabValue($event)" -->
+<mat-drawer-container   class="xeople-container-with-one-card-no-buttons" autosize id="sample-drawer">
+    <mat-card  class="component-card mat-elevation-z2 view-candidate-application" id="industry-card">
+        <mat-tab-group  class="candidate-tab view-tab" #allTabs >
+            <ng-container *ngFor="let section of stepperConfig"  >
+             <!-- @When: 02-12-2022 @who:maneesh @why: EWM-9513 what:changes done for ewm.9513  -->
+            <mat-tab  *ngIf="section?.PageLabel=='Personal_Information'" label="Personal Information">
+                <app-candidate-personal-information *ngIf="section?.PageLabel=='Personal_Information' " [CandidateId]="CandidateId" ></app-candidate-personal-information>
+
+                <div class="right-align">
+                <button class="closeDrawerIcon"  *ngIf="hideButton" mat-stroked-button  color="warn" (click)="closeDrawerMyActivity()">{{'button_close'|translate}}
+                </button>
+
+                <button mat-raised-button tabindex="-1" type="button" *ngIf="hideButton"
+                color="primary" (click)='moveToSelectedTab("Documents")'>{{'label_next'|translate}}</button>
+                </div>
+
+            
+
+            </mat-tab>
+            <mat-tab  *ngIf="section?.PageLabel=='Knockout_Questions' " label="Knockout Questions">
+                <app-candidate-knockout-details [IsKnockoutSuccess]="IsKnockoutSuccess" *ngIf="section?.PageLabel=='Knockout_Questions'" [CandidateId]="CandidateId" ></app-candidate-knockout-details>
+                
+                <div class="right-align">
+                    <button class="closeDrawerIcon"  *ngIf="hideButton" mat-stroked-button  color="warn" (click)="closeDrawerMyActivity()">{{'button_close'|translate}}
+                    </button>
+                <button mat-raised-button tabindex="-1" type="button"  *ngIf="hideButton"
+                 color="primary" (click)='moveToSelectedTab("Personal_Information")'>{{'label_next'|translate}}</button>
+
+            </div>
+
+
+            </mat-tab>
+            <mat-tab *ngIf="section?.PageLabel=='Documents'"  label="Documents">
+                <app-candidate-document-information *ngIf="section?.PageLabel=='Documents'" [CandidateId]="CandidateId" ></app-candidate-document-information>
+         
+                <div class="right-align">
+                    <button class="closeDrawerIcon"  *ngIf="hideButton" mat-stroked-button color="warn" (click)="closeDrawerMyActivity()">{{'button_close'|translate}}
+                    </button> 
+              </div>
+            </mat-tab>
+        </ng-container>
+        </mat-tab-group>
+    </mat-card>
+</mat-drawer-container>

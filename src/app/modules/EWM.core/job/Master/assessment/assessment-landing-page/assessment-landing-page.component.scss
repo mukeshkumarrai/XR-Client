@@ -1,0 +1,116 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: assessment-landing-page.component.scss
+    @Who: Satya Prakash Gupta
+    @When: 11-Mar-2022
+    @Why: EWM-5427 EWM-5472
+    @What: This page will be use for the assessment-landing-pagescss file
+*/
+@import '../../../../../../../mixinStyle.scss';
+@import '../../../../../../../styles-var.scss';
+
+.nodata{
+    display: flex;
+    justify-content: center;
+    padding: 10px 0px;
+}
+.assessment-card-box{
+    display: grid;
+    grid-template-columns: repeat(5, calc(20% - 8px));
+    grid-gap: 10px;
+    @media only screen and (max-width: 1170px) and (min-width: 1025px) {
+        grid-template-columns: repeat(4, calc(25% - 7px));
+    }
+    @include for-ipads-portrait-landscape{
+        grid-template-columns: repeat(3, calc(33.33% - 6.6px));
+    }
+    @include for-large-smartphones {
+        grid-template-columns: repeat(2, calc(50% - 5px));
+    }
+    @include for-smartphones {
+        grid-template-columns: repeat(2, calc(50% - 5px));
+    }
+    @include for-small-smartphones{
+        grid-template-columns: repeat(1, calc(100% - 0px));
+    }
+    .mat-card{
+        border-radius: 8px;
+        @include card-zoom-time;
+        &:hover{
+            @include card-zoom-hover-1-05;
+        }
+        .assessment-header{
+            display: flex;
+            height: 30px;
+            align-items: center;
+            font-size: 16px;
+            padding: 3px 10px;
+            font-weight: 600;
+        }
+        .description{
+            height: 170px;
+            overflow: auto;
+            padding: 0px 10px;
+            font-size: 12px;
+            color: $gray-txt;
+            line-height: 18px;
+            word-break: break-word;
+            span{
+                p,ul, ol{
+                    margin-top: 0px;
+                }
+            }
+        }
+        .assessment-footer{
+            display: flex;
+            justify-content: flex-end;
+            height: 30px;
+            align-items: center;
+            padding: 0px 10px;
+            color: $primary-bg-color;
+            position: relative;
+            &::before{
+                content: "";
+                width: 100%;
+                height: 100%;
+                top: 0px;
+                left: 0px;
+                background: currentColor;
+                opacity: 0.03;
+                position: absolute;
+            }
+            @include mat-icon-button-25;
+            .mat-icon-button{
+                .mat-icon{
+                    opacity: 0.7;
+                }
+                &:hover{
+                    .mat-icon{
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+::ng-deep {
+    .xeople-container.mat-drawer-container{
+        .mat-drawer-content{
+            height: calc(100% - 10px);
+        }
+    }
+}
+
+.page-header.mat-card-header{
+    @media only screen and (max-width: 1060px) and (min-width: 581px){
+      flex-direction: column;
+      height: 78px;
+      padding: 5px 10px 5px 15px;
+      align-items: inherit;
+    }
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+      height: 73px;
+    }
+  }

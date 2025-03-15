@@ -1,0 +1,366 @@
+@use "../../../../colors" as *;
+.page-header.mat-card-header{
+  .header-action-button .header-form{
+    max-width: 230px;
+  }
+}
+.candidate-data-header {
+  display: flex;
+  align-items: center;
+  padding: 7px 0px;
+  gap: 10px;
+  justify-content: space-between;
+
+  @media screen and (min-width:240px) and (max-width: 767px) {
+    display: grid;
+    grid: auto/100%;
+  }
+
+  .mat-raised-button {
+    min-width: 36px;
+    padding: 0px;
+    margin: 0px;
+
+    .mat-icon {
+      font-size: 20px;
+      line-height: 24px;
+    }
+  }
+
+  .filter-refresh {
+    display: flex;
+    position: relative;
+
+    button {
+      margin-left: 0px;
+      margin-right: 5px;
+    }
+  }
+
+  .search-viewicon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 0px;
+    flex-basis: 100%;
+
+    .button-with-clear {
+      display: inline-flex;
+
+      .addFilter {
+        padding-left: 5px;
+        padding-right: 55px;
+      }
+
+      .mat-stroked-button {
+        min-width: 36px;
+        padding: 0px 8px;
+
+        .mat-icon {
+          font-size: 20px;
+          line-height: 24px;
+        }
+      }
+    }
+
+    .list-grid-button {
+      min-width: 36px;
+      padding: 0px;
+    }
+
+    .active-list-grid {
+      display: none;
+    }
+
+    .searchInput {
+      margin: 0px;
+      height: 36px;
+      margin-top: -15px;
+      width: 100%;
+      max-width: 100%;
+      min-width: 140px;
+    }
+  }
+
+  .show-all-hide-stage{
+    min-width: auto;
+    padding: 0px 10px;
+    .stage-count{
+      background: $warn-bg;
+      padding: 2px 5px;
+      width: auto;
+      height: 14px;
+      display: inline-block;
+      color: $warn-txt;
+      line-height: 14px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+  }
+}
+.leads-container {
+  padding: 5px 10px;
+  .convert-to-client{
+    line-height: 14px;
+    font-weight: 400;
+    font-size: 13px;
+    padding: 2px 11px;
+    text-align: left;
+  }
+  a.badge {
+    text-align: center;
+    font-weight: 500;
+    box-sizing: border-box;
+  }
+  .job-details-kanban{
+    height: calc(100vh - 349px);
+    padding-bottom: 4px;
+    @media (767px >= width) {
+      height: calc(100vh - 397px);
+    }
+    @media (580px >= width) {
+      height: calc(100vh - 433px);
+    }
+    .kanban-sec{
+      height: 100%;
+    }
+    .viewport {
+      height: calc(100vh - 383px);
+      @media (767px >= width) {
+        height: calc(100vh - 432px);
+      }
+      @media (580px >= width) {
+        height: calc(100vh - 470px);
+      }
+    }
+  }
+}
+.kendo-grid-appearance {
+  overflow: hidden;
+  .k-grid {
+    height: calc(100vh - 346px);
+    @media (767px >= width) {
+      height: calc(100vh - 390px);
+    }
+    @media (580px >= width) {
+      height: calc(100vh - 428px);
+    }
+  }
+}
+.multilayer-workflow{
+  padding: 0px 10px;
+  width: 290px;
+  h4{
+    margin: 0px 0px;
+    font-weight: 500;
+    padding-right: 35px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 32px;
+    font-size: 13px;
+    .mat-icon-button{
+      position: absolute;
+      right: 0px;
+      top: 1px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      .mat-icon{
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 20px;
+      }
+    }
+  }
+  .tree-view-box{
+    padding-top: 4px;
+    .mat-tree-node{
+      min-height: 30px;
+      &:hover{
+        background-color: transparent;
+      }
+    }
+    .multilayer-tree-node{
+      display: flex;
+      align-items: center;
+      .multilayer-tree-node-name{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline;
+        font-size: 12px;
+        line-height: 30px;
+        height: 30px;
+        color: #fff;
+        text-shadow: 1px 1px 4px #000;
+        margin: 3px 0px;
+        border-radius: 4px;
+        box-shadow: #d2d6de 0px 0px 0px 1px;
+        position: relative;
+        &:hover{
+          box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+        }
+        .badge{
+          background: #fff;
+          line-height: 20px;
+          margin-left: 0px;
+          padding: 3px 1px;
+          height: 24px;
+          font-size: 12px;
+          max-width: 24px;
+          min-width: 24px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          border-radius: 100%;
+          box-shadow: 0px 2px 4px 0px #958686 inset;
+          position: absolute;
+          right: 6px;
+          top: 3px;
+          color: $primary-bg-color;
+          text-shadow: none;
+          &::after{
+            position: absolute;
+            content: "";
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: currentColor;
+            opacity: 0.15;
+          }
+          &:hover{
+            box-shadow: 0px 0px 8px 0px #958686 inset;
+            box-shadow: 0px -2px 4px 0px #958686 inset;
+            &::after{
+              position: absolute;
+              content: "";
+              left: 0px;
+              top: 0px;
+              width: 100%;
+              height: 100%;
+              background-color: #fff;
+            }
+          }
+        }
+      }
+      .mat-icon-button {
+        line-height: 30px;
+        height: 30px;
+        width: 30px;
+        .mat-icon{
+          font-size: 20px;
+          line-height: 30px;
+          height: 30px;
+          width: 30px;
+        }
+      }
+    }
+    ul{
+      padding-inline-start: 10px;
+    }
+    .node-child-and-subchild{
+      .child-and-subchild{
+        width: 219px;
+        padding-inline-start: 5px;
+        border-left: 5px solid #2196f3;
+        .mat-icon{
+          position: absolute;
+          right: 36px;
+          top: 3px;
+        }
+      }
+      .parent{
+        width: 200px;
+      }
+    }
+    .node-parent{
+      .child-and-subchild{
+        width: 214px;
+        border-left: 5px solid #4caf50;
+      }
+      .parent{
+        width: 224px;
+        border-left: 5px solid #2196f3;
+        padding-inline-start: 5px;
+      }
+    }
+    ul .node-parent{
+      .child-and-subchild{
+        width: 204px;
+        border-left: 5px solid #ffc107;
+      }
+      .parent{
+        width: 214px;
+        border-left: 5px solid #4caf50;
+      }
+    }
+    /*---Tree view node---*/
+    .example-tree-invisible {
+      display: none;
+    }
+    .multilayer-tree ul,
+    .multilayer-tree li {
+      margin-top: 0;
+      margin-bottom: 0;
+      list-style-type: none;
+      font-size: 12px;
+    }
+    /* silly UX, they want a border in the full width of the tree between tree nodes */
+    .multilayer-tree {
+      position: relative;
+    }
+  }
+}
+.pin-unpin-button{
+  display: flex;
+  align-items: center;
+  .pin-unpin{
+    .mat-icon{
+      font-size: 20px;
+      transform: rotate(45deg);
+      margin: 0px;
+      width: 28px;
+      top: 3px;
+      position: relative;
+      left: -4px;
+    }
+    .two-icons{
+      .mat-icon{
+        color: $warn-bg;
+        left: -4px;
+      }
+      .secondIcon{
+        position: absolute;
+        left: 0px;
+        top: 12px;
+        background: none;
+      }
+    }
+  }
+}
+.menu-pin{
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  .pin-unpin{
+    position: relative;
+    top: 1px;
+    .mat-icon{
+      font-size: 20px;
+      transform: rotate(45deg);
+      top: 4px;
+      position: relative;
+      cursor: pointer;
+    }
+    .two-icons{
+      .secondIcon{
+        position: absolute;
+        left: 6px;
+        top: 2px;
+      }
+    }
+  }
+}

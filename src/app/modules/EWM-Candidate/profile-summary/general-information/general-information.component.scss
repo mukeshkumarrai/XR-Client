@@ -1,0 +1,98 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Nitin Bhati
+    @When: 11-Aug-2021
+    @Why: EWM-2424
+    @What: You can add this page styles on same file, and also import other style files
+*/
+/* 
+    @modified
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Satya Prakash Gupta
+    @When: 26-Oct-2022
+    @Why: EWM-8254 EWM-9261
+    @What:  CR changes
+*/    
+@import "../../../../../mixinStyle.scss";
+.form-group-box{
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 10px));
+    gap: 10px;
+    @media screen and (min-width: 240px) and (max-width: 767px) {
+        grid-template-columns: repeat(1, calc(100% - 0px));
+    }
+}
+.single-form-group-box{
+    grid-template-columns: repeat(1, calc(100% - 0px));
+    .mat-slide-toggle{
+        width: min-content;
+    }
+}
+// .quick-dialog{
+//     .row{
+//         margin-bottom: 10px;
+//     }
+//     h4{
+//         margin: 0px;
+//         margin-top: 10px;
+//         margin-bottom: 10px;
+//         font-weight: 500;
+//         display: flex;
+//         align-items: center;
+//         padding: 8px 10px;
+//         border-radius: 4px;
+//         .mat-icon{
+//             margin-right: 5px;
+//         }
+//     }
+//     &:first-child{
+//         margin-top: 0px;
+//     }
+//     .ng-select-withicon{
+//         display: inline-flex;
+//         align-items: baseline;
+//         box-sizing: border-box;
+//         width: 100%;
+//         .ng-select{
+//             font-size: 14px;
+//             width: 100%;
+//         }
+//     }
+//     .select-matPrefix-icon{
+//         top: 4px;
+//         position: relative;
+//         width: 1.215em; 
+//     }
+//     .matPrefix-icon{
+//         top: 4px;
+//         position: relative;
+//         width: 1.215em;
+//     }
+//     .matSuffix-icon{
+//         position: relative;
+//         bottom: 0px;
+//         font-size: 12px;
+//         padding: 3px 10px;
+//         line-height: 25px;
+//         height: 30px;
+//         min-width: 35px;
+//     }
+//     .mat-form-field-should-float{
+//         .matPrefix-icon{
+//             top: 8px;
+//         }
+//     }
+// }
+
+// .ng-slectBox{
+//     font-size: 14px !important;
+// }
+
+.chip-min{
+    @include for-small-smartphones {
+        width: 120px;
+    }
+}  
+

@@ -1,0 +1,103 @@
+<!---
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Who: Satya Prakash Gupta
+  @When: 18-May-2021
+  @Why: EWM-1481 EWM-1554
+  @What:  This page will be use for the Social Profile Cmponent HTML file
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="client-dashboard-dashboard-mat-card-header">
+    <mat-card-title>
+      <mat-card-title class="only-title" *ngIf="!IsEdit">{{'label_addSocailProfile' |translate}}</mat-card-title>
+      <mat-card-title class="only-title" *ngIf="IsEdit">{{'label_editSocailProfile' |translate}}</mat-card-title>
+    </mat-card-title>
+    
+    <div class="actionButton">
+            <!-- who:maneesh,what:ewm-8500 for change tab index number,when:17/04/2023 -->
+      <button mat-raised-button class="buttonForDesktopMobile" tabindex="7" color="warn" 
+        id="submit" (click)="onCancel()">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+      </button>
+            <!-- who:maneesh,what:ewm-8500 for change tab index number,when:17/04/2023 -->
+      <button mat-raised-button class="buttonForDesktopMobile" color="primary" tabindex="8"
+        (click)="onSave(this.addSocialProfileForm.value,this.activestatus)" type="button" id="saveBtnId"
+        [disabled]="!addSocialProfileForm.valid">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save'|translate}}</span>
+      </button>
+
+    </div>
+  </mat-card-header>
+
+
+  <mat-drawer-container class="xeople-container-with-one-card" autosize id="dashboard-drawer">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+    <div class="row addEditSec" id="addEditSec">
+        <ng-template #template let-anchor>
+            <span>{{ anchor.nativeElement.innerText }}</span>
+        </ng-template>
+        <form novalidate [formGroup]="addSocialProfileForm" id="addSocialProfileForm" accept-charset="utf-8"
+          enctype='multipart/form-data' class="col l12 m12 s12">
+          <div class="row">
+            <mat-form-field class="col l4 m6 s12">
+              <mat-label>{{'label_nameOfSocialPlatform'|translate}}</mat-label>
+              <input type="hidden" formControlName="ProfileName" id="socialProfileId" name="SocialProfileName">
+              <input matInput formControlName="ProfileName" id="socialProfileId" tabindex="1" text="SocialProfileName" placeholder=""
+                required (blur)="onSocialProfileNameChanges()">
+              <mat-error *ngIf="addSocialProfileForm.controls['ProfileName'].hasError('required')">
+                {{'label_nameOfSocialPlatform'|translate}} {{'label_errorreqired'|translate}}
+              </mat-error>
+              <mat-error *ngIf="addSocialProfileForm.controls['ProfileName'].hasError('codeTaken')">
+                {{'label_nameOfSocialPlatform'|translate}} {{'label_errorreqiredAlready'|translate}}
+              </mat-error>
+              <mat-error *ngIf="addSocialProfileForm.controls['ProfileName'].hasError('minlength')">
+                {{'label_nameOfSocialPlatform' |translate}} {{'label_errorreqiredMinlength' |translate}}
+              </mat-error>
+              <mat-error *ngIf="addSocialProfileForm.controls['ProfileName'].hasError('maxlength')">
+                  {{'label_nameOfSocialPlatform' |translate}} {{'label_errormaxlength100' |translate}}
+              </mat-error>
+              <mat-error *ngIf="addSocialProfileForm.controls['ProfileName'].hasError('pattern')">
+                {{'label_nameOfSocialPlatform' |translate}} {{'label_errorspecialchar' |translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>  
+          <div class="row mb-0">
+            <div class="col l4 m6 s12 text-center center-align">
+              <mat-card class="p-15 matCardWidth margin0">
+                <p class="fontWeight500">{{'label_logo'|translate}} <span class="required-show">*</span></p>
+                <div class="uploadImage" id="uploadImage">
+                  <span class="uploadTxt" *ngIf="!imagePreviewStatus">
+                    <img class="uploadImgIcon" src="/assets/uploadFileIcon.png"  />
+                    <input matInput formControlName="Logo" hidden readonly required>
+                    <button mat-button (click)="croppingImage('1')" tabindex="4"
+                      type="button">{{'label_browseFileToUpload'|translate}}</button>
+                    <!-- <button mat-button (click)="fileInput.click()" type="button" >Browse file to upload </button>
+                            <input hidden (change)="selectFile($event)" required #fileInput type="file" id="file"> -->
+                  </span>
+                  <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+                  <div class="previewImage" *ngIf="imagePreviewStatus">
+                    <img class="cursor" src="{{imagePreview}}" (click)="openImageDialog(imagePreview)"/>
+                    <div class="removeImage">
+                      <input matInput formControlName="Logo" hidden readonly>
+                      <button mat-mini-fab (click)="croppingImage('1')" type="button" color="primary" id="restorepreview">
+                        <!-- <button mat-icon-button (click)="fileInput.click()" type="button" color="primary" id="restorepreview">
+                                  <input hidden (change)="selectFile($event)" required #fileInput type="file" id="file"> -->
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              
+              </mat-card>
+            </div>
+          </div>
+        </form>
+      </div>
+</mat-card>
+</mat-drawer-container>

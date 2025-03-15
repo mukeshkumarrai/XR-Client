@@ -1,0 +1,16 @@
+/* @When: 09-02-2024 @who:Amit @why: EWM-15993 @what: unsaved confirm popup style */
+@import '../../../../styles-var.scss';
+@import '../../../../mixinStyle.scss';
+.actionBoxFooter{
+    .mat-stroked-button{
+        @include for-small-smartphones{
+            height: 32px;
+            line-height: 32px;
+            padding: 0px 5px;
+            font-size: 12px;
+        }
+    }
+    .mat-stroked-button.cancel-btn{
+       min-width: 50px;
+    }
+}

@@ -1,0 +1,268 @@
+  
+  /* 
+      @(C): Entire Software
+      @Type: File, <css>
+      @Who: Naresh Singh
+      @When: 06-Oct-2021
+      @Why: EWM-3088 EWM-2549
+      @What: You can add this page styles on same file, and also import other style files
+  */
+ 
+//* media mixin for small smartphones start here */
+@mixin for-small-smartphones-320x480{
+  @media (min-width : 320px) and (max-width : 480px) { @content; }
+}
+/* media mixin for small smartphones end here */
+
+
+ //* media mixin for small smartphones start here */
+@mixin for-small-smartphones-320x767{
+  @media (min-width : 320px) and (max-width : 767px) { @content; }
+}
+/* media mixin for small smartphones end here */
+
+/* style variable start here */
+$gray-bg-color: #f5f5f5;
+$default-text-color: #ffffff;
+/* style variable end here */
+
+@import "../../../styles-var.scss";
+  
+.header{
+  @include for-small-smartphones-320x767{
+    grid-template-columns: auto;
+  }
+}   
+.inputSearch{
+  display: block !important;
+  z-index: 9999999999;
+  position: absolute;
+  top: inherit;
+  left: inherit;
+  bottom: inherit;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0);
+  right: 20px;
+  bottom: 18px;
+  font-size: 26px;
+}  
+.preview-upload-resume{
+  margin:0px auto;
+  @include for-small-smartphones-320x480{
+    width:calc(100% - 50px);
+  }
+  .mat-card-header{
+    .mat-card-title{
+      .sub-title{
+        p{
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+// .resume-content{
+//   min-height:300px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 100%;
+//   padding:0px;
+//   margin: 0px 15px;
+//   z-index: 1;
+//   position: relative;
+//   .uploadResumeForm{
+//     width:100%;
+//     @include for-small-smartphones-320x480{
+//       width: 100%;
+//     }
+//   }
+// }  
+.actionBoxFooter{
+  min-height: inherit;
+  padding: 0px;
+  margin-bottom: 0px;
+  button{
+    z-index: 1;
+    background: $default-text-color;
+  }
+}
+.upload-parsed-content{
+  display: flex;
+  justify-content: center;
+  padding: 20px 15px;
+  align-items: center;
+  flex-direction: column;
+  .parsed-mat-card{
+    width: calc(100% - 10px);
+    border-radius: 20px;
+    max-width: 520px;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    border: 1px solid #E7E7F1;
+    box-shadow: 0px 2px 20px rgba(30,10,58,0.04);
+    background: #fcffff;
+    .resume-content{
+      position: relative;
+      z-index: 1;
+      margin: 0px;
+      padding: 0px;
+      .uploadResumeForm{
+        .matTitleDocument{
+          font-size: 20px;
+          padding-bottom: 20px;
+          font-weight: bold;
+          font-family: 'Bariol';
+          span{
+            color: $warn-bg;
+          }
+        }
+        .documentUploadRoundBox{
+          padding: 0px;
+          position: relative;
+          margin: 5px 0px 15px 5px;
+          display: flex;
+          width: 100%;
+          row-gap: 10px;
+          flex-direction: column;
+          border: none;
+          &::before{
+            position: inherit;
+            content: none;
+          }
+            .circleCreateDocFileUpload{
+              border-radius: 8px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              transition: all 0.5s;
+              cursor: pointer;
+              text-align: center;
+              z-index: 1;
+              width: 90px;
+              margin: 0px;
+              height: 45px;
+              gap: 8px;
+              padding: 0px 13px;
+              border: 5px solid #EDF4FF;
+              box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 35%);
+              background: #ffffff;
+              color: $primary-bg-color;
+                .mat-icon{
+                  margin-top: 0px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  border-radius: 50%;
+                }
+                span{
+                  font-weight: bold;
+                  font-size: 16px;
+                  font-family: 'Bariol';
+                }
+                input[type=file]{
+                  height: 55px;
+                  width: 126px;
+                  position: absolute;
+                  top: 0px;
+                  left: 0px;
+                  opacity: 0;
+                  cursor: pointer;
+                  border-radius: 50%;
+                  text-indent: -999px;
+                }
+            }
+            .solidBorderFileUploadBox{
+              margin: -6px 0px 1px 0px;
+              border:1px solid rgba(103, 58, 183, 0.25);
+            }
+          .fileInstructions{
+            font-size: 12px;
+            position: relative;
+            display: block;
+            text-align: left;
+            color: #797979;
+            margin: 0px;
+            span{
+              font-weight: 500;
+              color: rgba(0, 0, 0, 0.87);
+              font-weight: bold;
+            }
+            .closeIconCreateDoc{
+              position: absolute;
+              right: 5px;
+              top: 0px;
+              font-size: 20px;
+              text-align: right;
+              cursor: pointer;
+            }
+          }
+          button{
+            width: 28px;
+            height: 28px;
+            line-height: 20px;
+          }  
+        }
+        .documentUploadRoundBox.file-show{
+          flex-direction: inherit;
+          align-items: center;
+          .circleCreateDocFileUpload{
+            width: 50px;
+            height: 50px;
+            border-radius: 100%;
+            box-sizing: border-box;
+            margin: 0px;
+            .mat-icon{
+              font-size: 28px;
+            }
+          }
+          .show-details{
+            padding-inline-start: 20px;
+            width: calc(100% - 67px);
+            .details-data{
+              display: flex;
+              align-items: center;
+              .fileInstructions{
+                color: rgba(0, 0, 0, 0.87);
+                font-size: 13px;
+              }
+            }
+            .title-file{
+              position: relative;
+              .other-file{
+                text-decoration: underline;
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+              }
+              input[type='file']{
+                height: 18px;
+                width: 160px;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                opacity: 0;
+                cursor: pointer;
+                border-radius: 50%;
+                text-indent: -999px;
+              }
+            }
+          }
+        }
+        span.red {
+          display: flex;
+          height: auto;
+          text-transform: initial;
+          text-align: left;
+          margin-left: 0px;
+          margin-bottom: 5px;
+          line-height: 18px;
+          .mat-icon{
+            padding-right: 3px;
+            font-size: 18px;
+          }
+        }
+      }
+    }  
+  } 
+}

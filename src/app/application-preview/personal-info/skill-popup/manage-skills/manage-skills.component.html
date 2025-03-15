@@ -1,0 +1,82 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 22-June-2021
+    @Why: EWM-7151 EWM-7233
+    @What:  This component is used for  edit/view
+-->
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+
+    <div class="modal-header" id="modal-header" *ngIf="activestatus=='edit'">
+        <h2 matDialogTitle class="mb-0">{{'label_editSkill' | translate}}  </h2>      
+        <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="modal-header" id="modal-header"*ngIf="activestatus=='view'">
+        <h2 matDialogTitle class="mb-0">{{'label_viewSkill' | translate}} </h2>      
+        <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content>
+        <div class="addEditSec">
+            <ng-template #template let-anchor>
+                <span>{{ anchor.nativeElement.innerText }}</span>
+            </ng-template>
+            <form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data'>
+                    <mat-form-field [hidden]="hideFileName">
+                        <mat-label>{{'quickjob_skills'|translate}}</mat-label>
+                        <input matInput formControlName="SkillName"  id="fileName" readonly
+                            tabindex="1" placeholder="{{'quickjob_skills'|translate}}"/>                      
+                    </mat-form-field>
+                           <div class="ng-slectBox">
+                            <app-custom-dropdown [selectedIn]="selectedSkillTags" tabindex="3" (selectedOut)="onSkillTagschange($event)"
+                              [config]="dropDownSkillTagsConfig">
+                            </app-custom-dropdown>
+                          </div>
+                    <mat-form-field >
+                        <mat-label>Weightage</mat-label>
+                        <input matInput formControlName="Weightage"  id="fileName" readonly
+                            tabindex="1" placeholder="Weightage"/>
+                            
+                                <mat-error *ngIf="addForm.controls['Weightage'].hasError('pattern')">
+                                    {{'label_weightage'|translate}} {{'label_errorspecialcharNegative'|translate}}
+                                </mat-error>
+                           </mat-form-field>
+                        <mat-form-field (click)="picker1?.open()">
+                            <mat-label>{{'label_cardExpiryDate' | translate}}</mat-label>
+                            <input matInput [matDatepicker]="picker1" [required]="expiryDateStatus" [min]="endDay"  tabindex id="experience-endDate" 
+                                formControlName="RenewalDate">
+                                <button *ngIf="addForm.value.RenewalDate" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="clearStartDate()" > 
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                            <mat-error *ngIf="this.addForm.controls['RenewalDate'].status=='INVALID'">
+                                {{ 'label_mustbe' |translate}} </mat-error>
+                        </mat-form-field>
+                    <div *ngIf="docRequiredStatus">
+                        <app-document-upload [activestatus]="activestatus" [filePathOnServer]="filePathOnServer" [docRequiredStatus]="docRequiredStatus" [filestatus]="filestatus" [fileInfo]="fileInfo" [fileViewstatus]="fileViewstatus" [iconFileType]="iconFileType" (informDocumentParent)="documentDataFetchFromChild($event)"></app-document-upload>
+                   
+                        
+                    </div>       
+
+            </form>
+        </div>
+    </mat-dialog-content>
+    <mat-divider *ngIf="activestatus=='edit'"></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter" *ngIf="activestatus=='edit'">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-raised-button tabindex="5" class="buttonForDesktopMobile" color="primary" 
+            (click)="onSave(this.addForm.value)" type="button" id="btnSave" [disabled]="!addForm.valid">
+            <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save'|translate}}</span>
+        </button>
+    </div>

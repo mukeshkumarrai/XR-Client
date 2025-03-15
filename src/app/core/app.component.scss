@@ -1,0 +1,34 @@
+
+  .sidenav-content {
+    display: flex;
+    padding: 15px;
+    height: calc(100% - 35px);
+  }
+  .mat-drawer-side {
+    border-right: solid 0px rgba(0,0,0,.12);
+    box-shadow: 0 0.5rem 1rem 0 rgba(44, 51, 73, 0.3);
+  }
+  .full-width {
+    width: 170px;
+  }
+  .menu-button {
+    transition: 300ms ease-in-out;
+    transform: rotate(0deg);
+  }
+  .menu-button.rotated {
+    transform: rotate(180deg);
+  }
+  .submenu {
+    overflow-y: hidden;
+    transition: transform 300ms ease;
+    transform: scaleY(0);
+    transform-origin: top;
+    padding-left: 30px;
+  }
+  .submenu.expanded {
+    transform: scaleY(1);
+  }
+  .mat-fab:not([class*=mat-elevation-z]), .mat-mini-fab:not([class*=mat-elevation-z]){
+      box-shadow: none;
+      margin-right: 10px;
+  }

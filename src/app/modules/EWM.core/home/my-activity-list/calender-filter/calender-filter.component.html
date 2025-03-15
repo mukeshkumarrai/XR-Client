@@ -1,0 +1,73 @@
+<!---
+   @Type: File, <html>
+   @Name: calender-filter.component.html
+   @Who: Anup Singh
+   @When: 14-jan-2022
+   @Why:EWM-4465 EWM-4660
+   @What: popup component for calender-filter
+   -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<!-- <div id="myActivity-calenderFilter" class="removeCandidate" applyTabIndexes>
+    <div class="quick-dialog">
+       
+
+    </div>
+</div>
+
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_filterByDate' | translate}}</h2>
+</div> -->
+<mat-card-content class="col" applyTabIndexes>
+    <form novalidate [formGroup]="ScheduleForm">
+        <mat-form-field>
+            <mat-label>{{'label_startDate' | translate}}</mat-label>
+            <input  matInput [matDatepicker]="DateStart" tabindex    [placeholder]="getDateFormat" 
+                id="myActivity-calenderFilter-DateStart" (dateChange)="addDateStart($event);checkDuration(ScheduleForm.controls['DateStart'].value,ScheduleForm.controls['DateEnd'].value)"
+                formControlName="DateStart"  [min]="StartDateMin" [max]="StartDateMax" 
+                required>
+                <button *ngIf="ScheduleForm.value.DateStart || ScheduleForm.controls['DateStart'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                (click)="clearStartDateEndDate('dateStart')" > 
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-datepicker-toggle matSuffix [for]="DateStart"></mat-datepicker-toggle>
+            <mat-datepicker #DateStart></mat-datepicker>
+            <!---------@When: 24-03-2023 @who:maneesh  @why: EWM-11214 @Desc- Added date validation--------->
+            <mat-error *ngIf="ScheduleForm.controls['DateStart'].hasError('required') && ScheduleForm.controls['DateStart'].touched && !ScheduleForm.controls['DateStart'].hasError('matDatepickerParse')"> {{'label_startDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+            <mat-error *ngIf="ScheduleForm.controls['DateStart'].hasError('invalidDate') && !ScheduleForm.controls['DateStart'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+            <mat-error *ngIf="ScheduleForm.controls['DateStart'].hasError('matDatepickerParse') && !ScheduleForm.controls['DateStart'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+            <mat-error *ngIf="ScheduleForm.controls['DateStart'].hasError('matDatepickerMin') && !ScheduleForm.controls['DateStart'].hasError('invalidDate')"> {{'label_startDate'|translate}} {{'label_notLessthanCurrentDate' | translate}} </mat-error>
+            <!-- End  -->                                   
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <mat-label>{{'label_endDate' | translate}}</mat-label>
+            <input  matInput [matDatepicker]="DateEnd" tabindex     [placeholder]="getDateFormat" 
+                id="myActivity-calenderFilter-DateEnd" [min]="EndDateMin" [max]="endDay"
+                formControlName="DateEnd" (dateChange)="checkDuration(ScheduleForm.controls['DateStart'].value,ScheduleForm.controls['DateEnd'].value)"  required>
+                <button *ngIf="ScheduleForm.value.DateEnd || ScheduleForm.controls['DateEnd'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                (click)="clearStartDateEndDate('dateEnd')" > 
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-datepicker-toggle matSuffix [for]="DateEnd"></mat-datepicker-toggle>
+            <mat-datepicker #DateEnd></mat-datepicker>
+            <!---------@When: 24-03-2023 @who:maneesh  @why: EWM-11214 @Desc- Added date validation--------->
+            <mat-error *ngIf="ScheduleForm.controls['DateEnd'].hasError('required') && ScheduleForm.controls['DateEnd'].touched && !ScheduleForm.controls['DateEnd'].hasError('matDatepickerParse')"> {{'label_endDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+            <mat-error *ngIf="ScheduleForm.controls['DateEnd'].hasError('invalidDate') && !ScheduleForm.controls['DateEnd'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+            <mat-error *ngIf="ScheduleForm.controls['DateEnd'].hasError('matDatepickerParse') && !ScheduleForm.controls['DateEnd'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}} </mat-error>
+            <mat-error *ngIf="ScheduleForm.controls['DateEnd'].hasError('matDatepickerMax') && !ScheduleForm.controls['DateEnd'].hasError('invalidDate')"> {{'label_DatesDurationerror' | translate}}</mat-error>
+            <mat-error *ngIf="ScheduleForm.controls['DateEnd'].hasError('matDatepickerMin') && !ScheduleForm.controls['DateEnd'].hasError('invalidDate')"> {{'label_endDate' | translate}} {{'label_notLessthanCurrentDate'|translate}} </mat-error>
+            <!-- End  -->
+        </mat-form-field>
+    </form>
+</mat-card-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" id="btnClose" tabindex (click)="onDismiss()"> {{'button_close' |
+        translate}}</button>
+    <button mat-stroked-button color="primary" id="btnAdd" tabindex [disabled]="!ScheduleForm.valid || durationError"
+        (click)="onConfirm()">{{'label_add' |translate}}</button>
+</div>

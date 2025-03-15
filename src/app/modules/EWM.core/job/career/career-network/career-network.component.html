@@ -1,0 +1,63 @@
+<!---
+ @(C): Entire Software
+ @Type: File, <html>
+ @Who: Anup Singh
+ @When: 07-May-2022
+ @Why: EWM-6220 EWM-6502
+ @What: This page wil be use only career Network
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<div id="pageTempalate" class="career-site-type">
+    <form novalidate [formGroup]="CareerNetworkForm" accept-charset="utf-8" enctype='multipart/form-data'
+        id="network-form">
+        <div class="network">
+        <p class="mt-0">{{'label_networkMsg' |translate}}</p>
+        <mat-card class="social-network mat-elevation-z2" *ngFor="let SocialProfiles of SocialProfilesData; let i=index">
+
+            <mat-slide-toggle color="primary" labelPosition="before" (change)="onChangeToggle($event.checked,SocialProfiles)"
+                [checked]="SocialProfiles?.isToggle" class="disablePublishJob" tabindex="2"
+                id="careerNetwork-toggle{{i}}" tabindex>
+                <img src="{{SocialProfiles?.SocialProfileImageUrl}}" width="30px" id="careerNetwork-img{{i}}" *ngIf="SocialProfiles?.SocialProfileImageUrl" tabindex="1">
+                <span>{{SocialProfiles?.SocialProfileName}}</span>
+            </mat-slide-toggle>
+           
+            <mat-form-field *ngIf="SocialProfiles?.isToggle">
+                <mat-label>{{'label_networkInput'|translate}}</mat-label>
+                <input matInput tabindex="3" id="careerNetwork-input{{i}}" [value]="SocialProfiles?.SocialProfileURL"
+                    text="Name" (keyup)="onKeyupInput(SocialProfiles,$event.target.value)" placeholder="" required>
+             </mat-form-field>
+            <mat-error *ngIf="(SocialProfiles?.SocialProfileURL)!=''?false:true && SocialProfiles?.isToggle && SocialProfiles?.isInputValidation" id="careerNetwork-error{{i}}" 
+            class="error">
+                {{'label_socialLink'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+        </mat-card>
+
+        </div>
+
+
+        <mat-label>{{'label_displayOn'|translate}}</mat-label>
+        <div class="display-on">
+            <mat-checkbox color="primary" tabindex="4" formControlName="IsCareerPage"
+                id="careerNetwork-checkboxCareerPage" type="checkbox">{{'label_MenuCareerPage'|translate}}
+            </mat-checkbox>
+
+            <mat-checkbox color="primary" tabindex="5" formControlName="IsJobDetailPage"
+                id="careerNetwork-checkboxJobDetailPage" type="checkbox">{{'label_jobDetailPage'|translate}}
+            </mat-checkbox>
+        </div>
+
+        <mat-card class="drawer-footer mat-elevation-z2" id="drawer-data-continer-footer">
+            <button mat-stroked-button color="warn" tabindex="3" type="button" id="btnCancel"
+                (click)="onDismiss()">{{'button_cancel'|translate}}</button>
+
+            <span>
+                <button mat-raised-button color="primary" [disabled]="isInputValidation" tabindex="4" type="button" id="btnSave" (click)="onConfirm()">
+                    {{'label_save'|translate}}
+                </button>
+            </span>
+        </mat-card>
+
+    </form>
+</div>

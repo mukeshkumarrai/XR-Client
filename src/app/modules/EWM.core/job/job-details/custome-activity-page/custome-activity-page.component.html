@@ -1,0 +1,358 @@
+<!-- 
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Who: Maneesh
+  @When: 30-06-22
+  @Why: EWM.7363 EWM.7181
+  @What: This page is creted for  Create/edit activity common component  -->
+<div class="my-activity">
+    <mat-card id="add-new-activity" class="advancedsearchDrawerData pb-0 add-new-activity">
+      <form [formGroup]="myActivityForm" id="clientNote" class="pl-0 pr-0 row-space-remove">
+        <div class="row mb-0">
+          <div class="col l12 m12 s12">
+            <mat-form-field>
+              <mat-label>{{'label_titleOfActivity' | translate}} </mat-label>
+              <input type="hidden" formControlName="Id">
+              <input matInput #titleActivity="matInput" autofocus formControlName="ActivityTitle"
+                placeholder="{{'label_titleOfActivity' | translate}}" tabindex="1" id="activity-titleOfActivity"
+                required>
+              <mat-error
+                *ngIf="myActivityForm.controls['ActivityTitle'].hasError('required') && myActivityForm.controls['ActivityTitle'].touched">
+                {{'label_titleOfActivity'|translate}} {{'label_errorreqired'|translate}}
+              </mat-error>
+              <mat-error *ngIf="myActivityForm.controls['ActivityTitle'].hasError('maxlength')">
+                {{'label_titleOfActivity' |translate}} {{'label_errormaxlength50' |translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col l6 m6 s12">
+            <mat-form-field>
+              <mat-label>{{'label_activityRelatedTo' | translate}}</mat-label>
+              <mat-chip-list #chipList aria-label="activityRelatedToIdChip selection" tabindex="2"
+                [disabled]="action">
+                <mat-chip id="activityRelatedToIdChip">
+                  {{Employee}}
+                </mat-chip>
+              </mat-chip-list>
+            </mat-form-field>
+            <!-- <div class="ng-slectBox">
+                  <ng-select placeholder="{{ 'label_activityRelatedTo' | translate }} * {{Names}}"
+                      id="activity-ModifyClient" formControlName="RelatedUserType" class="dropdown-body"
+                      required appendTo="body" tabindex="2" [clearable]="true"
+                      (change)="onChangeActivityRelatedTo($event)">
+                      <ng-option value="JOB">Job</ng-option>
+                      <ng-option value="CAND">Candidate</ng-option>
+                      <ng-option value="EMPL">Employee</ng-option>
+                      <ng-option value="CLIE">Client</ng-option>
+                  </ng-select>
+                  <mat-error
+                      *ngIf="myActivityForm.controls['RelatedUserType'].hasError('required') && myActivityForm.controls['RelatedUserType'].touched">
+                      {{ 'label_activityRelatedTo' | translate}} {{ 'label_errorreqired' |translate}}
+                  </mat-error>
+              </div> -->
+          </div>
+
+
+          <div class="col l6 m6 s12">
+            <mat-form-field>
+              <mat-label>{{'label_relatedUser' | translate}}</mat-label>
+              <mat-chip-list #chipList aria-label="relateduserToIdChip selection" tabindex="3" [disabled]="action">
+                <mat-chip id="relateduserToIdChip">
+                  {{Names}}
+                </mat-chip>
+              </mat-chip-list>
+            </mat-form-field>
+          </div>
+
+
+          <div class="col l12 m12 s12">
+            <mat-label class="full-size">{{ 'label_category' | translate}} *</mat-label>
+            <mat-button-toggle-group appearance="legacy" id="activity-Category" name="fontStyle"
+              aria-label="Font Style" formControlName="CategoryId" tabindex="4">
+              <mat-button-toggle *ngFor="let type of ActivityTypeList" [value]="type.Id">
+                {{type.ActivityCategory}}
+                <mat-icon [style.background-color]="type.ColorCode" class="act-icon">
+                  {{type.Icon}}</mat-icon>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-error
+              *ngIf="myActivityForm.controls['CategoryId'].hasError('required') && myActivityForm.controls['CategoryId'].touched">
+              {{ 'label_category' | translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+          </div>
+
+          <div class="col l12 m12 s12">
+            <mat-form-field class="schedule-category">
+              <mat-label>{{'label_schedule' | customTranslate}} *</mat-label>
+              <input matInput tabindex placeholder="" id="activity-schedule" readonly>
+              <span>{{scheduleData?.DateStart | date:'shortDate'}} {{scheduleData?.TimeStart}}
+                {{scheduleData?.DateEnd | date:'shortDate'}} {{scheduleData?.TimeEnd}}</span>
+
+              <button tabindex="5" id="addbtn-schedule" mat-raised-button matSuffix color="primary" type="button"
+                class="matSuffix-icon mgBottom5" (click)="openModelForSchedule()" [disabled]="action">
+                <mat-icon>calendar_month</mat-icon>
+              </button>
+              <mat-error *ngIf="myActivityForm.controls['ScheduleActivity'].hasError('required')">
+                {{ 'label_schedule' |customTranslate}} {{ 'label_errorreqired' |translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+
+          <div class="col l12 m12 s12">
+            <mat-form-field>
+              <mat-label>{{'label_location' | translate}}</mat-label>
+              <input matInput ngx-google-places-autocomplete formControlName="Location" placeholder="" tabindex="6"
+                (onAddressChange)="fetchDataFromAddressBar($event)" id="activity-Location">
+              <button id="addbtn-Location" mat-raised-button matSuffix color="primary" type="button"
+                class="matSuffix-icon mgBottom5" [disabled]="action">
+                <mat-icon>place</mat-icon>
+              </button>
+              <mat-error *ngIf="myActivityForm.controls['Location'].hasError('maxlength')">
+                {{ 'label_location' |translate}} {{ 'label_errormaxlength100' |translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+
+          <div class="col l12 m12 s12 activityLabel">
+            <mat-form-field>
+              <mat-label
+                [ngStyle]="myActivityForm.controls['AddRequiredAttendees'].hasError('required') && isAttendeesReq && {'color': '#f44336'}">
+                {{'label_addRequiredAttendees' | translate}} *</mat-label>
+              <mat-chip-list #chipList aria-label="requiredAttendeesList selection" tabindex="8">
+                <mat-chip *ngFor="let attendees of requiredAttendeesList" [selectable]="selectable"
+                  id="requiredAttendeesListChiplist" [removable]="removable"
+                  (removed)="remove(attendees,'addRequiredAttendees')" [disabled]="action">
+                  {{attendees.Name}}
+                  <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
+              <button tabindex mat-raised-button matSuffix color="primary" type="button"
+                class="matSuffix-icon mgBottom5" id="btnAdd-requiredAttendeesList"
+                (click)="openModelAddRequiredAttendees()" [disabled]="action">
+                <mat-icon>perm_contact_calendar</mat-icon>
+              </button>
+            </mat-form-field>
+            <div class=" ng-slectBox">
+              <mat-error
+                *ngIf="myActivityForm.controls['AddRequiredAttendees'].hasError('required') && isAttendeesReq">
+                {{ 'label_addRequiredAttendees' |translate}} {{ 'label_errorreqired'
+                |translate}}
+              </mat-error>
+            </div>
+          </div>
+
+
+          <div class="col l12 m12 s12 activityLabel">
+            <mat-form-field>
+              <mat-label>{{'label_organizerOrAssignees' | translate}} *</mat-label>
+              <mat-chip-list #chipList aria-label="organizerOrAssignees selection" tabindex="9">
+                <mat-chip *ngFor="let user of organizerOrAssigneesList" [selectable]="selectable"
+                  id="organizerOrAssigneesChip" [removable]="removable"
+                  (removed)="remove(user,'organizerOrAssignees')" [disabled]="action">
+                  {{user.UserName}}
+                  <span *ngIf="!(user.UserId==userId)">
+                    <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                  </span>
+                </mat-chip>
+              </mat-chip-list>
+              <button tabindex mat-raised-button matSuffix color="primary" type="button"
+                class="matSuffix-icon mgBottom5" id="btnAdd-organizerOrAssignees"
+                (click)="openModelOrganizerOrAssignees()" [disabled]="action">
+                <mat-icon>manage_accounts</mat-icon>
+              </button>
+            </mat-form-field>
+            <div class=" ng-slectBox">
+              <mat-error *ngIf="myActivityForm.controls['OrganizerOrAssignees'].hasError('required')">
+                {{ 'label_organizerOrAssignees' |translate}} {{ 'label_errorreqired'
+                |translate}}
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="col l12 m12 s12">
+            <mat-form-field>
+              <mat-label>{{'label_onlineMeetingUrl' | translate}} </mat-label>
+              <input matInput formControlName="ActivityUrl" placeholder="{{'label_onlineMeetingUrl' | translate}}"
+                tabindex="10" id="activity-ActivityUrl">
+              <mat-error *ngIf="myActivityForm.controls['ActivityUrl'].hasError('maxlength')">
+                {{'label_onlineMeetingUrl' |translate}} {{'label_errormaxlength2048'
+                |translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="col l12 m12 s12">
+            <div class="ng-slectBox">
+              <ng-select placeholder="{{'label_meetingPlatform'|translate}}" [clearable]="true"
+                (change)="clickMeetingPlatformID($event)" tabindex="11" formControlName="MeetingPlatform"
+                id="activity-meetingPlatform" (clear)="onRemoveMeetingChange()">
+                <ng-option value="00000000-0000-0000-0000-000000000000" disabled>
+                  {{'label_selectMeetingPlatform'|translate}}</ng-option>
+                <ng-option *ngFor="let list of meetingPlatformList" value="{{list.RegistrationCode}}">
+                  <span class="select-meeting">
+                    <img src="{{list.LogoUrl}}" width="20px" class="listWithImage" /> {{list.Name}}
+                  </span>
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+
+
+          <div class="col l12 m12 s12">
+            <mat-form-field>
+              <mat-label>{{'label_access' | translate}}</mat-label>
+              <!-- who:maneesh,what:ewm-11746 fixed input field popup, when:06/04/2023 -->
+              <input matInput placeholder="{{'label_access'|translate}}" formControlName="AccessName"
+                id="activity-accessName" required readonly  (click)="openManageAccessModal('','','')" > 
+              <input type="hidden" formControlName="AccessId">
+              <button type="button" matSuffix mat-button tabindex mat-raised-button color="primary" class=""
+                tabindex="12" (click)="openManageAccessModal('','','')" [disabled]="action">
+
+                <mat-icon class="addContactIcon">add</mat-icon>
+              </button>
+              <mat-error *ngIf="myActivityForm.controls['AccessName'].hasError('required')">
+                {{ 'label_access' |translate}} {{ 'label_errorreqired' |translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="col l12 m12 s12">
+            <div class="endoHTMLEditer" tabindex>
+              <mat-label>{{ 'label_desc' | translate}}</mat-label>
+              <kendo-editor #editor tabindex formControlName="Description" class="mailediter" id="activity-editor"
+                [readonly]="action">
+                <kendo-toolbar [overflow]="false" tabindex>
+                  <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorStrikethroughButton>
+                    </kendo-toolbar-button>
+                  </kendo-toolbar-buttongroup>
+                  <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorSuperscriptButton>
+                    </kendo-toolbar-button>
+                  </kendo-toolbar-buttongroup>
+                  <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAlignCenterButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAlignRightButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAlignJustifyButton>
+                    </kendo-toolbar-button>
+                  </kendo-toolbar-buttongroup>
+                  <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+                  <kendo-toolbar-dropdownlist kendoEditorFontSize>
+                  </kendo-toolbar-dropdownlist>
+                  <kendo-toolbar-dropdownlist kendoEditorFontFamily>
+                  </kendo-toolbar-dropdownlist>
+                  <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+                  <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+                  </kendo-toolbar-colorpicker>
+                  <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+                  </kendo-toolbar-buttongroup>
+                  <kendo-toolbar-button kendoEditorSelectAllButton></kendo-toolbar-button>
+                  <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+                  </kendo-toolbar-buttongroup>
+                  <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorCreateLinkButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+                  </kendo-toolbar-buttongroup>
+                  <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+                  <kendo-toolbar-button kendoEditorInsertImageButton></kendo-toolbar-button>
+                  <kendo-toolbar-button kendoEditorViewSourceButton></kendo-toolbar-button>
+                  <kendo-toolbar-button kendoEditorCleanFormattingButton>
+                  </kendo-toolbar-button>
+                  <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                  <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAddRowBeforeButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorAddRowAfterButton>
+                    </kendo-toolbar-button>
+                  </kendo-toolbar-buttongroup>
+                  <kendo-toolbar-buttongroup>
+                    <kendo-toolbar-button kendoEditorDeleteColumnButton>
+                    </kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+                    <kendo-toolbar-button kendoEditorDeleteTableButton>
+                    </kendo-toolbar-button>
+                  </kendo-toolbar-buttongroup>
+                  <kendo-toolbar-button kendoEditorPrintButton></kendo-toolbar-button>
+                </kendo-toolbar>
+
+              </kendo-editor>
+            </div>
+          </div>
+
+
+          <div class="row" *ngIf="this.fileAttachments?.length>0" id="myActivity-documentAttachment">
+            <div class="col l4 m6 s12" *ngFor="let files of fileAttachmentsOnlyTow">
+              <mat-card class="matCardAttach" id="myActivity-documentAttachmentCard">
+                <div class="email-attachment">
+                  <div class="file-detail" tabindex>
+                    <span>{{files.Name}}</span>
+                    <span>{{(files.Size)/1024}}</span>
+                  </div>
+                  <mat-icon class="matCloseIcon" tabindex (click)="removeAttachment(files)"
+                    id="myActivity-documentRemove">cancel</mat-icon>
+                </div>
+              </mat-card>
+            </div>
+
+
+            <div class="col l4 m6 s12" *ngIf="this.fileAttachments.length>2">
+              <mat-card class="matCardAttach moreAttach" (click)="openMultipleAttachmentModal()"
+                id="myActivity-documentAttachmentPopupShow">
+                <div class="email-attachment">
+                  <div class="file-detail" tabindex>
+                    <span></span>
+                    <span>{{fileAttachments?.length-2}} {{'label_more' |
+                      translate}}..</span>
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+
+
+        <div class="drawerFooter">
+          <button mat-icon-button color="primary" tabindex class="fileUpload attachFileBtn"
+            (click)="openMultipleAttachmentModal()" id="myActivity-documentAttachmentAddPopup">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+          <button mat-raised-button tabindex *ngIf="!action" color="primary"
+            (click)="onSave(this.myActivityForm.getRawValue())" type="button" id="btnSave"
+            [disabled]="!myActivityForm.valid">
+            {{'label_save'|translate}}
+              
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>

@@ -1,0 +1,429 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: employee-list.component.html
+  @Who: Renu
+  @When: 26-Oct-2021
+  @Why: EWM-1734 EWM-3271
+  @What: This page wil be use only for the employee list page Component HTML
+ -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<mat-drawer-container id="candidate-list-card" class="candidate-list-card">
+  <div class="advancedsearch-sidenav-content posRel employee-sidenav-content">
+
+    <mat-card-header class="page-header" id="employee-list-card-header">
+      <mat-card-title>
+        <button mat-mini-fab class="mainAddButton" matTooltip="{{'label_addEmployee'|customTranslate | titlecase }}"
+          matTooltipClass="custom-tooltip" color="primary" id="btnCreate" (click)="openEmployeeModal()"
+          (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+            <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">
+              {{animationVar?.CreateButton?.iconName}}</mat-icon>
+        </button>
+        <div class="sub-title">
+          <span>{{'label_totalEmployee' |customTranslate | titlecase}} {{totalDataCount}}</span>
+        </div>
+      </mat-card-title>
+      <div class="header-action-button" id="employee-list-actionButton">
+        <div class="header-form">
+          <mat-form-field class="searchInput" floatLabel="never">
+            <mat-label>{{'label_search'|translate}}</mat-label>
+            <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="Search"
+              [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}">
+            <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+
+            <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()"
+              (click)="searchValue=''" id="employee-list-onSearchFilterClear">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+          </mat-form-field>
+        </div>
+
+          <div class="group-header-button">
+          <div class="desktop-view-header-menu">
+            <ng-container *ngTemplateOutlet="buttonRef"></ng-container>
+          </div>
+
+          <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+            (click)="switchListMode('listMode')" id="employee-landing-viewModeInactive"
+            (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+            matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+            <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+              class="{{animationVar?.ListButton?.isAnimClass}}">
+              {{animationVar?.ListButton?.iconName}}
+            </span>
+          </button>
+
+
+          <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+            (click)="switchListMode('cardMode')" id="employee-landing-viewModeactive"
+            (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+            matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+            <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+              class="{{animationVar?.GridButton?.isAnimClass}}">
+              {{animationVar?.GridButton?.iconName}}
+            </span>
+          </button>
+
+
+          <button mat-raised-button [matMenuTriggerFor]="mobileViewButtonsMenu" class="header-button mobile-view-button">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu #mobileViewButtonsMenu="matMenu" class="mobile-view-header-menu">
+            <ng-container *ngTemplateOutlet="buttonRef"></ng-container>
+          </mat-menu>
+
+           <!-------ng template for buttons---->
+      <ng-template #buttonRef>
+
+        <div class="button-with-clear">
+          <button mat-raised-button id="folderBtn" class="header-button"
+            [ngClass]="[ folderId!=0 ? 'addFilter' : 'blankFilter']"
+            (click)="getFolderListAll()" matTooltip="{{'candidate_folders'|translate}}"
+              matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+              (mouseenter)="mouseoverAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)"
+               (mouseleave)="mouseleaveAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)">
+            <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.FolderButton?.id}}" class="{{animationVar?.FolderButton?.isAnimClass}}">{{animationVar?.FolderButton?.iconName}}</mat-icon>
+            <span class="text-for-mobile-view">{{'candidate_folders'|translate}}</span>
+          </button>
+          <div class="clear-with-data" *ngIf="folderId!=0" (click)="clearFolderData()">
+            <span class="text-overflow filterCount" matTooltip="{{folderName}}">{{folderName}}</span>
+            <button mat-icon-button color="warn" id="candidate-list-close">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="button-with-clear blank-count">
+          <button mat-raised-button (click)="advancedsearch.toggle()"  class="header-button"
+            matTooltip="{{'label_employeeListquickSearch'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+            id="employee-list-advancedsearch" [ngClass]="[typeId || statusId || designation ? 'addFilter' : 'blankFilter']"
+            (mouseenter)="mouseoverAnimation(animationVar?.AdvanceSearchButton?.id, animationVar?.AdvanceSearchButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.AdvanceSearchButton?.id, animationVar?.AdvanceSearchButton?.animation)">
+            <mat-icon id="{{animationVar?.AdvanceSearchButton?.id}}" class="{{animationVar?.AdvanceSearchButton?.isAnimClass}}">{{animationVar?.AdvanceSearchButton?.iconName}}</mat-icon>
+              <span class="text-for-mobile-view">{{'label_employeeListquickSearch'|translate}}</span>
+          </button>
+
+          <div class="clear-with-data blank-text" *ngIf="typeId || statusId || designation"  (click)="clearAdvanceSearch()">
+            <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+          <div class="button-with-clear">
+            <button mat-raised-button id="candidate-addfilter" class="header-button"
+              [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" matTooltip="{{'label_filters'|translate}}"
+              matTooltipClass="card-list-tooltip" matTooltipPosition="before" (click)="openFilterModalDialog()"
+              (mouseenter)="mouseoverAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)">
+              <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.FilterButton?.id}}"
+                class="{{animationVar?.FilterButton?.isAnimClass}}">{{animationVar?.FilterButton?.iconName}}</mat-icon>
+                <span class="text-for-mobile-view">{{'label_filters'|translate}}</span>
+            </button>
+
+            <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData(viewMode)">
+              <span class="text-overflow filterCount">{{filterCount}}</span>
+              <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <button mat-raised-button matTooltip="{{'label_actions'|translate}}" matTooltipClass="card-list-tooltip"
+          matTooltipPosition="before"
+            (click)="openActionModalDialog()" id="employee-list-openActionModalDialog" class="header-button"
+            (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)">
+            <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.ActionsButton?.id}}" class="{{animationVar?.ActionsButton?.isAnimClass}}">
+              {{animationVar?.ActionsButton?.iconName}} </mat-icon>
+              <span class="text-for-mobile-view">{{'label_actions'|translate}}</span>
+          </button>
+
+          <button mat-raised-button class="header-button" id="btnRefresh" (click)="refreshComponent()"
+            matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+            (mouseenter)="mouseoverAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)">
+            <mat-icon id="{{animationVar?.RotateButton?.id}}" class="{{animationVar?.RotateButton?.isAnimClass}}">
+              {{animationVar?.RotateButton?.iconName}}</mat-icon>
+              <span class="text-for-mobile-view">{{'label_refreshBtn'|translate}}</span>
+          </button>
+        </ng-template>
+        <!--------ng teplate end-->
+        </div>
+
+      </div>
+    </mat-card-header>
+
+    <mat-card-content class="advancedsearch-mat-card-content advancedsearch-mat-card-content">
+      <mat-drawer-container class="advancedsearch-container" autosize id="employee-list-advancedsearch-container">
+        <mat-drawer #advancedsearch class="advancedsearchDrawer" mode="over" disableClose="true" position="end">
+          <div style="display: flex; height:100%;">
+            <div class="drawerTitleSec">
+              <h4 class="text-overflow">
+                {{'label_employeeListquickSearch'|translate}}
+                <button class="closeDrawerIcon" mat-stroked-button (click)="advancedsearch.toggle()"
+                  id="employee-list-closeDrawerIcon">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </h4>
+            </div>
+            <mat-card class="advancedsearchDrawerData" style="height:100%;">
+              <div class="row mb-0">
+                <div class="ng-slectBox">
+                  <app-custom-dropdown [selectedIn]="selectedUserType" (selectedOut)="onTypechange($event)"
+                    [config]="dropDoneConfig"></app-custom-dropdown>
+                </div>
+                <div class="ng-slectBox">
+                  <app-custom-dropdown [selectedIn]="selectedUserStatus"
+                    [resetFormSubject]="resetFormSubjectStatus.asObservable()" (selectedOut)="onStatuschange($event)"
+                    [config]="dropDownStatusConfig"></app-custom-dropdown>
+                </div>
+                <div class="ng-slectBox">
+                  <app-custom-dropdown [selectedIn]="selectedDesignation" (selectedOut)="onDesignationchange($event)"
+                    [config]="dropDownDesignationConfig"></app-custom-dropdown>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </mat-drawer>
+        <div class="row" [ngClass]="[ viewMode === 'listMode' ? 'listMode' : 'hide']">
+          <div class="col s12 m12 l12 pl-10 pr-10">
+            <!-- @Who: Satya Prakash Gupta ,@When: 21-April-2023, @Why: EWM-11977 EWM-12067 EWM-12066 ,What: locked comumn false -->
+            <div class="clientlanding-kendo kendo-grid-appearance without-column-popup" id="employee-list-clientlanding-kendo">
+              <ng-template #template let-anchor>
+                <span>{{ anchor.nativeElement.innerText }}</span>
+              </ng-template>
+              <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+                (mouseover)="showTooltip($event)">
+
+                  <kendo-grid #grid class="employee-kendo-grid"  [sortable]="true"
+                  [sort]="state.sort" [filter]="state.filter" id="overflowCustom"
+                  (pageChange)="pageChangess($event)"
+                            [reorderable]="false" [resizable]="true"
+                            [filterable]="true" [data]="data" [selectable]="true" [pageable]="{buttonCount: 3,
+                                info: true,
+                                type: 'numeric',
+                                pageSizes: true,
+                                previousNext: true,
+                                responsive: true}" [pageSize]="state.take" [skip]="state.skip"  (filterChange)="filterChange($event)"
+                                (sortChange)="sortChange($event)">
+                  <kendo-grid-column title="" width="35" class="p-0">
+                    <ng-template class="expanIconCol" kendoGridCellTemplate let-dataItem>
+                      <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton"
+                        id="employee-list-dataActionButton">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                        <a mat-menu-item [routerLink]="['../employee-detail']"
+                          [queryParams]="{CandidateId:dataItem.UserId}" id="btnActionView">
+                          <mat-icon>subject</mat-icon>
+                          {{'label_view_summary'|translate}}
+                        </a>
+                      </mat-menu>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <!--@who:Nitin Bhati,@when:21-04-2023,@why: 12064,@what:Add Coumn.Field= Phone and Zipcode-->
+          <!--  who:maneesh,what:ewm-13417 for change width   "column.width<40?150:column.width" when:19/07/2023 -->
+                  <kendo-grid-column *ngFor="let column of columns , let i = index" [field]="column.Field"
+                    [title]="column.Title |customTranslate"  [width]="column.width<40?150:column.width"
+                    [headerStyle]="column.Type=='Numeric' || column.Type=='Date' ?{'text-align': 'right'}:''"
+                     [format]="column.Type" [filterable]="column.Filterable" [style]="{'padding':column?.Field?.toLowerCase()=='StatusName'.toLowerCase()?'0px':''}">
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='FirstName'">
+            <!-- // who:maneesh,what:ewm-13277 for send employeetype in queryParams,when:28/07/2023 -->
+                      <a [routerLink]="['../employee-detail']" [queryParams]="{CandidateId:dataItem.UserId ,employeeType:dataItem.Type}"
+                        id="btnViewCandiateName">
+                        {{dataItem.FirstName}}
+                      </a>
+                    </ng-template>
+                    <!-------------@suika @EWM-13288 @EWM-13412 @whn 24-07-2023---------------------------------->
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Email'"  let-rowIndex="rowIndex">
+                      <div class="copy-content" color="primary" id="newEmail" >
+                        <button mat-icon-button color="primary" type="button" id="url-copy-btn__{{i}}"
+                          class="content-copy" matTooltip="{{'label_copy' | translate}}" matTooltipClass="custom-tooltip"
+                          (click)="copyCandidateEmailId(dataItem.Email,rowIndex);" *ngIf="dataItem.Email!=null && dataItem.Email!=''">
+                          <mat-icon>content_copy</mat-icon>
+                        </button>
+                        <span class="email-text" matTooltip="{{dataItem.Email}}" matTooltipClass="custom-tooltip"
+                        (click)="openNewEmailModal(undefined,'',dataItem.Email,dataItem)">{{dataItem.Email}}</span>
+                        <div class="copyMessage email-hide" id="autoHide{{rowIndex}}">
+                          <div class="alert-primary alert-green">
+                            <mat-icon>check</mat-icon>
+                            <span>{{'label_emailAddressCipied'| translate }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                    <!---------------------------------------------------------------->
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Phone'">
+                      <span class="textRight">{{dataItem.Phone}}</span>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastUpdatedOn'">
+                      <span class="textRight">{{(dataItem.LastUpdatedOn?dataItem.LastUpdatedOn:'')|
+                        date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Zipcode'">
+                      <span class="textRight">{{dataItem.ZipCode}}</span>
+                    </ng-template>
+            <!-- // who:maneesh,what:ewm-13998 for fixed EmployeeType data in listview,when:28/07/2023 -->
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='EmployeeType'">
+                      <span class="textRight">{{dataItem?.Type}}</span>
+                    </ng-template>
+
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='StatusName'">
+                      <span [style.background-color]="dataItem?.StatusColorCode" class="cell-color">{{dataItem?.StatusName}}</span>
+                    </ng-template>
+
+     <!-- who:maneesh,what:ewm-14171 for add new coloum Socialprofile,when:29/09/2023 -->
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Socialprofile'">
+                      <!-- who:Satya Prakash Gupta :what:EWM-14534: Social profile design :when:29/Sep/2023 -->
+                      <div class="social-container">
+                        <ng-container *ngFor="let item of dataItem?.SocialProfiles; let i=index">
+                          <a class="social-pic" id="social-pic" *ngIf="i<3" (click)="socialURL(item?.ProfileUrl)" target="_blank">
+                            <img src="{{item?.PreviewProfileTypeLogo}}" matTooltip="{{item?.ProfileType}}"
+                              matTooltipClass="custom-tooltip" alt="social images">
+                          </a>
+                        </ng-container>
+                        <button mat-icon-button color="primary" *ngIf="dataItem.SocialProfiles?.length>3"
+                          class="more-owner-show" [matMenuTriggerFor]="showSocialProfiles" name="btnMore" id="btnMoreSocial">
+                          <span class="extra-more" *ngIf="dataItem.SocialProfiles?.length<=99"
+                            matTooltipClass="custom-tooltip"
+                            matTooltip="{{dataItem.SocialProfiles?.length-3}} {{'label_more' | translate}}..">+{{dataItem.SocialProfiles?.length-3}}</span>
+                          <mat-icon *ngIf="dataItem.SocialProfiles?.length>99" matTooltipClass="custom-tooltip"
+                            matTooltip="99 {{'label_more' | translate}}..">more_horiz</mat-icon>
+                        </button>
+                      </div>
+
+                      <mat-menu #showSocialProfiles="matMenu" class="all-owner-list owner-hover-list"
+                      id="respinsiveSocialProfileSidebarDropdown">
+                      <ng-container *ngFor="let item of dataItem?.SocialProfiles; let i=index">
+                        <a mat-button class="more-list-container" *ngIf="i>=3" (click)="socialURL(item?.ProfileUrl)" target="_blank">
+                          <div class="more-list" id="more-list">
+                            <img id="SocialPicImage" src="{{item?.PreviewProfileTypeLogo}}" alt="Social image">
+                            <div>{{item?.ProfileType}}</div>
+                          </div>
+                        </a>
+                      </ng-container>
+                      </mat-menu>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <ng-template kendoPagerTemplate let-totalPages="totalPages"
+                  let-currentPage="currentPage">
+                  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                  <kendo-pager-numeric-buttons [buttonCount]="3" (click)="dat"></kendo-pager-numeric-buttons>
+                  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+                  <kendo-pager-info></kendo-pager-info>
+                  <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+              </ng-template>
+                </kendo-grid>
+                <div *ngIf="loadingscroll"
+                  class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="listCardView kendocardData" [ngClass]="[ viewMode === 'cardMode' ? 'cardMode' : 'hide']"
+          infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="70"
+          (scrolled)="onScrollDown()" [scrollWindow]="false" id="employee-list-kendocardData">
+          <div class="cardContent">
+
+            <div class="col nodata" *ngIf="this.gridListData==undefined ||this.gridListData.length==0">
+              <span>{{'label_noRecordAvailable'|translate}}</span>
+            </div>
+            <div class="row">
+              <div class="cardWidth col" *ngFor="let listDataList of gridListData;let i =index"
+                [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+                <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                  <mat-card-content class="listcardContent cardHeightWithImage kendoCard">
+                    <div [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+                      <div class="cardModeLine">
+                        <!-- who:maneesh,what: fixed sortname and background color,when:14/07/2023 -->
+                        <div class="clientShortName" *ngIf="!listDataList?.ImageUrl"   [style.background]="getBackgroundColor(listDataList?.ShortName)">{{listDataList?.ShortName}}</div>
+                        <img class="clientShortName" src="{{(listDataList?.ImageUrl !=undefined && listDataList?.ImageUrl !=null && listDataList?.ImageUrl !='')?listDataList?.ImageUrl:ProfileImagePreviewURL}}" *ngIf="listDataList?.ImageUrl"  (click)="imagePreview(listDataList?.ImageUrl)">
+
+                        <div class="card-header-data text-overflow">
+                          <span class="cardListTxt word-wrap cursorTitle cursor"
+                            matTooltip="{{ listDataList?.FirstName}} {{listDataList?.LastName}} "
+                            matTooltipClass="custom-tooltip" [routerLink]="['/client/emp/employees/employee-detail']"
+                            [queryParams]="{CandidateId:listDataList?.UserId}">
+                            <strong>{{listDataList?.FirstName}} {{listDataList?.LastName}}</strong>
+                          </span>
+                          <div class="clear"></div>
+                          <span class="cardListTxt word-wrap" *ngIf="listDataList?.JobTitle!=''"
+                            matTooltip="{{ listDataList?.JobTitle }}" matTooltipClass="custom-tooltip">
+                            <mat-icon>badge</mat-icon> {{listDataList?.JobTitle}}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="row mb-5 mt-15">
+                        <div class="col l6 m6 s12">
+                          <div class="col card-data" id="client-OwnerName">
+                            <span class="cardListTxt word-wrap"
+                              matTooltip="{{listDataList?.City}} {{listDataList?.Country}}"
+                              matTooltipClass="custom-tooltip">
+                              <mat-icon>location_on</mat-icon> {{listDataList?.City}} {{listDataList?.Country}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col l6 m6 s6">
+                          <div class="col card-data" id="client-OwnerName">
+                            <span class="cardListTxt word-wrap" matTooltip=" {{ listDataList?.FullAddress }}"
+                              matTooltipClass="custom-tooltip">
+                              {{ listDataList?.FullAddress }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row mb-5 mt-15">
+                        <div class="col l6 m6 s6">
+                          <div class="col card-header">
+                            <strong>{{'label_templatetype' | translate}}</strong>
+                          </div>
+                          <div class="col card-data" id="client-statusname">
+                          <!-- // who:maneesh,what:ewm-13998 for fixed EmployeeType data in card view ,when:28/07/2023 -->
+                            <span class="cardListTxt word-wrap vert-align" matTooltip="{{ listDataList?.Type }}"
+                              matTooltipClass="custom-tooltip">
+                              {{listDataList?.Type}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col l6 m6 s6">
+                          <div class="col card-header">
+                            <strong>{{'label_templateStatus' | translate}}</strong>
+                          </div>
+                          <div class="col card-data" id="client-statusname">
+                            <span class="cardListTxt word-wrap vert-align" matTooltip="{{ listDataList?.Status }}"
+                              matTooltipClass="custom-tooltip">
+                              {{listDataList?.Status}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="go-corner">
+                        <button mat-icon-button color="primary" [routerLink]="['../employee-detail']"
+                          [queryParams]="{CandidateId:listDataList?.UserId}" class="clientTitlePurpleTxt" id="btnView"
+                          matTooltipClass="card-list-tooltip" matTooltipPosition="before" matTooltip="{{'label_view_summary'|translate}}">
+                          <mat-icon class="clientTitlePurpleTxt">subject</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+
+            </div>
+          </div>
+          <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+        </div>
+      </mat-drawer-container>
+    </mat-card-content>
+  </div>
+</mat-drawer-container>

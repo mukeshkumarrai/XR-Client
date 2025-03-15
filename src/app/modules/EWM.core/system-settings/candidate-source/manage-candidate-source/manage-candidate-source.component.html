@@ -1,0 +1,99 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Ankit Rawat
+    @When: 17 May 2024
+    @Why: EWM-17076
+    @What:  This page wil be use only for manage candidate source
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="organization-details-mat-card-header">
+    <mat-card-title *ngIf="type!='Add'" class="only-title">{{'label_edit_candidateSource' |translate}} </mat-card-title>
+    <mat-card-title *ngIf="type=='Add'" class="only-title">{{'label_Add_Candidate_Source' |translate}} </mat-card-title>
+    <div class="actionButton">
+        <button mat-raised-button class="buttonForDesktopMobile" tabindex="1" color="warn"
+            [routerLink]="['../candidate-source']" id="btnCancel">
+            <mat-icon>close</mat-icon>
+            <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+        </button>
+        <button *ngIf="type!='Add'" mat-raised-button class="buttonForDesktop" tabindex="3" color="primary"
+            type="button" id="btnSave" (click)="onSave(formGroupSource.value)"
+            [disabled]="!formGroupSource.valid || !isSatusValid || isResponseGet">
+            <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_save'|translate}}</span>
+            <div *ngIf="isResponseGet" id="loading"></div>
+        </button>
+        <button *ngIf="type=='Add'" mat-raised-button class="buttonForDesktop" tabindex="3" color="primary"
+            type="button" id="btnSave" (click)="createCandidateSourceURL(formGroupSource.value)"
+            [disabled]="!formGroupSource.valid || !isSatusValid || isResponseGet">
+            <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_save'|translate}}</span>
+            <div *ngIf="isResponseGet" id="loading"></div>
+        </button>
+    </div>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="administrator-drawer">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+        <ng-template #template let-anchor>
+            <span>{{ anchor.nativeElement.innerText }}</span>
+        </ng-template>
+        <form novalidate [formGroup]="formGroupSource" accept-charset="utf-8" enctype='multipart/form-data'
+            id="userGroup-form">
+            <div class="manage-candidate-source">
+                <mat-form-field>
+                    <mat-label>{{'lable_candidate_source_application' |translate}}</mat-label>
+                    <input type="hidden" formControlName="sourceId" id="source-Id">
+                    <input matInput formControlName="sourceName" tabindex="1" id="source-Name" [disabled]="type=='Edit'"
+                        required>
+                    <mat-error
+                        *ngIf="this.formGroupSource.controls['sourceName'].hasError('required') && formGroupSource.controls['sourceName'].touched">
+                        {{ 'lable_candidate_source_application' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="formGroupSource.controls['sourceName'].hasError('whitespace') && !this.formGroupSource.controls['sourceName'].hasError('required')">
+                        {{'label_nameValidation' |translate}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="formGroupSource.controls['sourceName'].hasError('maxlength') && !this.formGroupSource.controls['sourceName'].hasError('whitespace')">
+                        {{'lable_candidate_source_application'|translate}} {{'label_errormaxlength50'|translate}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>{{'lable_candidate_source_description' |translate}}</mat-label>
+                    <textarea matInput formControlName="sourceDescription" tabindex="2" id="source-Description"
+                        [disabled]="IsSystemDefined==1" required>
+                        </textarea>
+                    <mat-error
+                        *ngIf="this.formGroupSource.controls['sourceDescription'].hasError('required') && formGroupSource.controls['sourceDescription'].touched">
+                        {{ 'lable_candidate_source_description' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="formGroupSource.controls['sourceDescription'].hasError('whitespace') && !this.formGroupSource.controls['sourceDescription'].hasError('required')">
+                        {{'label_nameValidation' |translate}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="formGroupSource.controls['sourceDescription'].hasError('maxlength') && !this.formGroupSource.controls['sourceDescription'].hasError('whitespace')">
+                        {{'lable_candidate_source_application'|translate}} {{'label_errormaxlength100'|translate}}
+                    </mat-error>
+                </mat-form-field>
+
+                <dropdown [configuration]="ddlStatusConfig" (selectedOut)="ddlChangeStatus($event)"
+                    [getSelectedItem]="selectedStatusItem" [showMoreOptionsNum]="maxMoreLengthForStatus" tabindex="3">
+                </dropdown>
+
+                <dropdown [configuration]="ddlTagConfig" (selectedOut)="ddlChangeTag($event)"
+                    [getSelectedItem]="selectedTagItem" [showMoreOptionsNum]="maxMoreLengthForTag" tabindex="4">
+                </dropdown>
+
+                <dropdown [configuration]="ddlFolderConfig" (selectedOut)="ddlChangeFolder($event)"
+                    [getSelectedItem]="selectedFolderItem" [showMoreOptionsNum]="maxMoreLengthForFolder" tabindex="5">
+                </dropdown>
+
+            </div>
+        </form>
+    </mat-card>
+</mat-drawer-container>

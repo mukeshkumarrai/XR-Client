@@ -1,0 +1,459 @@
+<!---
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 20-April-2022
+    @Why: EWM-4945 EWM-6167
+    @What:  This component is used for the email template.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="email-template-mangage-mat-card-header">
+  <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_addEmailTemplates' |translate}}
+  </mat-card-title>
+  <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_editTemplate' |translate}}</mat-card-title>
+  <div class="actionButton">
+    <!---@Who: Ankit Rawat, @When: 07-Feb-2024, @Why: EWM-15904-EWM-15947 (The Preview button is disabled till all mandatory field fill)-->
+    <button mat-raised-button class="buttonForDesktopMobile" (click)="openPriviewPopup()" id="btnPreview" [disabled]="!addEmailTemplateForm.valid" color="accent">
+      <mat-icon>preview</mat-icon>
+      <span class="buttonTxt">{{'button_livePreview' |translate}}</span>
+    </button>
+    <button mat-raised-button [routerLink]="['../']" class="buttonForDesktopMobile" color="warn">
+      <mat-icon>close</mat-icon>
+      <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+    </button>
+    <button mat-raised-button tabindex="4" class="buttonForDesktopMobile" color="primary"
+      (click)="onSave(this.activestatus)" type="button" id="saveBtnId" [disabled]="!addEmailTemplateForm.valid">
+      <mat-icon>check</mat-icon>
+      <span class="buttonTxt">{{'label_save'|translate}}</span>
+    </button>
+  </div>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="email-template-mangage-drawer">
+  <mat-card class="component-card mat-elevation-z2" id="emailtemplates-component-card">
+
+    <form novalidate [formGroup]="addEmailTemplateForm" id="emailtemplates">
+
+      <div class="form-group-box">
+        <div class="ng-slectBox">
+          <ng-select placeholder="{{ 'label_relatedTo' | translate }}" id="emailTemp-RelatedTo" (change)="onchangeRelatedTo()"
+            formControlName="RelatedTo" class="dropdown-body show-required" required appendTo="body" tabindex="2" [clearable]="true">
+            <ng-option *ngFor="let list of userTypeList" value="{{list.CodeInternal}}">
+              {{list.PublicName}}</ng-option>
+          </ng-select>
+
+          <mat-error
+            *ngIf="this.addEmailTemplateForm.controls['RelatedTo'].hasError('required') && addEmailTemplateForm.controls['RelatedTo'].touched">
+            {{ 'label_relatedTo' |translate}} {{ 'label_errorreqired' |translate}}
+          </mat-error>
+        </div>
+      </div>
+
+      <div class="form-group-box">
+        <div class="ng-slectBox">
+          <ng-select [clearable]="true" placeholder="{{'label_moduleName'|translate}}" tabindex="1" class="show-required"
+            formControlName="ddlModulesName" id="moduleName" (change)="onchangeModule($event)" required>
+            <!-- <ng-option value="">{{'label_selectModule'|translate}}</ng-option> -->
+            <ng-option *ngFor="let module of moduleArray" [value]="module">{{module.ModuleName}}</ng-option>
+          </ng-select>
+          <mat-error
+            *ngIf="this.addEmailTemplateForm.controls['ddlModulesName'].hasError('required') && addEmailTemplateForm.controls['ddlModulesName'].touched">
+            {{ 'label_selectModule' |translate}} {{ 'label_errorreqired' |translate}}
+          </mat-error>
+        </div>
+      </div>
+
+      <div class="form-group-box">
+        <mat-form-field>
+          <mat-label>{{'label_templateMailName' |translate}}</mat-label>
+          <textarea matInput formControlName="Title" text="templateName" id="Title" required tabindex="2"
+            (blur)="onTitleChanges()"></textarea>
+          <mat-error *ngIf="this.addEmailTemplateForm.controls['Title'].hasError('required')">
+            {{'label_templateMailName' |translate}} {{'label_errorreqired' |translate}}
+          </mat-error>
+          <mat-error *ngIf="this.addEmailTemplateForm.controls['Title'].hasError('maxlength')">
+            {{'label_templateMailName' |translate}} {{'label_errormaxlength255' |translate}}
+          </mat-error>
+          <mat-error *ngIf="this.addEmailTemplateForm.controls['Title'].hasError('codeTaken')">
+            {{'label_templateMailName' |translate}} {{'label_areadyExists' |translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group-box">
+        <mat-form-field class="email-form-field">
+          <mat-label>{{'label_fromEmails' |translate}} <span class="required-show">*</span></mat-label>
+          <mat-chip-list #chipListFrom aria-label="Enter From Email-ID" formControlName="fromMails">
+            <mat-chip selected *ngFor="let item of fromEmailList; let i=index" [selectable]="true"
+              [removable]="removable" (removed)="removeFromEmail(item)" required name="From Email-ID">
+              <span class="text-overflow">{{item.value}}</span>
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input tabindex="11" placeholder="From Email Address..." [matChipInputFor]="chipListFrom"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="addFrom($event)" [matAutocomplete]="auto" tabindex="3">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete">
+          </mat-autocomplete>
+          <mat-error *ngIf="this.addEmailTemplateForm.controls['fromMails'].hasError('required')">
+            {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+          </mat-error>
+          <mat-error *ngIf="this.addEmailTemplateForm.controls['fromMails'].hasError('incorrectEmail')">
+            {{ 'label_enterCorrectEmail' |translate}}
+          </mat-error>
+
+
+          <button mat-raised-button color="primary" (click)="getUserContactInfo('From')"
+          matSuffix class="mat-suffix-button" tabindex="" matTooltipPosition="left"
+            matTooltip="{{'label_receipent'|translate}}">
+            <mat-icon class="addContactIcon">add</mat-icon>
+          </button>
+
+        </mat-form-field>
+      </div>
+
+      <div class="form-group-box">
+        <mat-form-field class="email-form-field">
+          <mat-label>{{'label_ccEmails' |translate}}</mat-label>
+          <mat-chip-list #chipListcc aria-label="Enter CC Email-ID" formControlName="ccMails">
+            <mat-chip [color]="(item.invalid) ? 'warn' : ''" selected *ngFor="let item of ccEmailList; let i=index"
+              [selectable]="true" [removable]="removable" (removed)="removeccEmail(item)" required name="CC Email-ID">
+              <span class="text-overflow">{{item.value}}</span>
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input tabindex="11" placeholder="{{'label_ccEmailId' |translate}}" [matChipInputFor]="chipListcc"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="addCC($event)" [matAutocomplete]="auto" tabindex="4">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete">
+          </mat-autocomplete>
+          <mat-error *ngIf="this.addEmailTemplateForm.controls['ccMails'].hasError('required')">
+            {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+          </mat-error>
+          <mat-error *ngIf="this.addEmailTemplateForm.controls['ccMails'].hasError('incorrectEmail')">
+            {{ 'label_enterCorrectEmail' |translate}}
+          </mat-error>
+
+
+          <button mat-raised-button color="primary" (click)="getUserContactInfo('CC')"
+          matSuffix class="mat-suffix-button" tabindex="" matTooltipPosition="left"
+            matTooltip="{{'label_receipent'|translate}}">
+            <mat-icon class="addContactIcon">add</mat-icon>
+          </button>
+
+
+        </mat-form-field>
+      </div>
+
+      <div class="form-group-box">
+        <mat-form-field class="email-form-field">
+          <mat-label>{{'label_bccEmails' |translate}}</mat-label>
+          <mat-chip-list #chipListBcc aria-label="Enter BCC Email-ID" formControlName="bccMails">
+            <mat-chip [color]="(item.invalid) ? 'warn' : ''" selected *ngFor="let item of bccEmailList; let i=index"
+              [selectable]="true" [removable]="removable" (removed)="removeBccEmail(item)" required name="BCC Email-ID">
+              <span class="text-overflow">{{item.value}}</span>
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input tabindex="11" placeholder="{{'label_bccEmailId' |translate}}" [matChipInputFor]="chipListBcc"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="addBcc($event)" [matAutocomplete]="auto" tabindex="5">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete">
+          </mat-autocomplete>
+          <mat-error *ngIf="this.addEmailTemplateForm.controls['bccMails'].hasError('required')">
+            {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+          </mat-error>
+          <mat-error *ngIf="this.addEmailTemplateForm.controls['bccMails'].hasError('incorrectEmail')">
+            {{ 'label_enterCorrectEmail' |translate}}
+          </mat-error>
+
+          <button mat-raised-button color="primary" (click)="getUserContactInfo('BCC')"
+          matSuffix class="mat-suffix-button" tabindex="" matTooltipPosition="left"
+            matTooltip="{{'label_receipent'|translate}}">
+            <mat-icon class="addContactIcon">add</mat-icon>
+          </button>
+
+        </mat-form-field>
+      </div>
+
+      <div class="form-group-box">
+        <mat-form-field>
+          <mat-label>{{'label_templateSubject' |translate}}</mat-label>
+          <textarea matInput formControlName="Subject" text="templateSubject" id="Subject" required tabindex="6"></textarea>
+          <mat-error *ngIf="addEmailTemplateForm.controls['Subject'].hasError('required')">
+            {{'label_templateSubject' |translate}} {{'label_errorreqired' |translate}}
+          </mat-error>
+          <mat-error *ngIf="addEmailTemplateForm.controls['Subject'].hasError('maxlength')">
+            {{'label_templateSubject' |translate}} {{'label_errormaxlength500' |translate}}
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <div class="form-group-box">
+        <mat-form-field>
+          <mat-label>{{'access_permission' | translate}}</mat-label>
+              <!-- who:maneesh,what:ewm-11746 fixed input field popup, when:06/04/2023 -->
+          <input matInput placeholder="{{'access_permission'|translate}}" formControlName="AccessName"
+            id="emailTemp-accessName" required readonly (click)="openManageAccessModal('','','')">
+          <input type="hidden" formControlName="AccessId">
+          <button type="button" matSuffix class="mat-suffix-button" mat-raised-button color="primary" id="emailTemp-openAccessModel"
+            tabindex="11" (click)="openManageAccessModal('','','')">
+            <mat-icon class="addContactIcon">add</mat-icon>
+          </button>
+          <mat-error *ngIf="addEmailTemplateForm.controls['AccessName'].hasError('required')">
+            {{ 'access_permission' |translate}} {{ 'label_errorreqired' |translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group-box">
+        <mat-form-field>
+          <mat-label>{{'label_Documents' | translate}}</mat-label>
+          <!-- @Who: bantee ,@When: 11-april-2023, @Why: EWM-11808 ,What: pop up on input field-->
+          <input matInput placeholder="{{'label_Documents'|translate}}" id="emailTemp-document" readonly (click)="openDocumentModal()">
+          <button type="button" matSuffix class="mat-suffix-button" mat-raised-button color="primary" id="emailTemp-documents"
+            tabindex="11" (click)="openDocumentModal()">
+            <mat-icon class="addContactIcon">add</mat-icon>
+          </button>
+        </mat-form-field>
+
+
+      </div>
+
+      <div class="question-list-sec">
+        <div class="new-data-list-header">
+
+          <div class="new-data" id="emailTemp-documents-Usertype">
+            {{'label_usertype'|translate}}
+          </div>
+
+          <div class="new-data" id="emailTemp-documents-Category">
+            {{'label_category'|translate}}
+          </div>
+
+          <div class="new-data" id="emailTemp-documents-documentname">
+            {{'label_documentname'|translate}}
+          </div>
+
+        </div>
+        <div class="col nodata"
+          *ngIf="this.subCategoryCheckedForSubmit==undefined || this.subCategoryCheckedForSubmit==null ||this.subCategoryCheckedForSubmit.length==0">
+          <span>{{'label_noRecordAvailable'|translate}}</span>
+        </div>
+        <!---------@When: 05-05-2023 @who:Bantee Kumar@why: EWM-11208 What:User Type is not displaying under the Document field.--------->
+        <div class="new-data-list-content">
+          <div class="new-data-list-list" *ngFor="let listData of subCategoryCheckedForSubmit;let i =index"
+            [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+            <div class="new-data">
+              <span class="cardListTxt word-wrap" matTooltip="{{listData.TypeName}}" matTooltipClass="custom-tooltip">
+                {{listData.TypeName }}
+              </span>
+            </div>
+
+            <div class="new-data">
+              <span class="cardListTxt word-wrap" matTooltip="{{listData.CategoryName}}"
+                matTooltipClass="custom-tooltip">
+                {{listData.CategoryName}}
+              </span>
+            </div>
+            <div class="new-data">
+              <span class="cardListTxt word-wrap" matTooltip=" {{listData.DocumentName}}">
+                {{listData.DocumentName}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- @When: 19-09-2023 @who:Amit @why: EWM-14188 @what: attach toggle add -->
+      <div class="multple-attachment">
+        <label>{{'candidate_attachments' | translate}}</label>
+        <mat-card class="attachment-box email-attachment-box">
+
+        <!-- @When: 20-09-2023 @who:Amit @why: EWM-14188 @what: toggle add -->
+        <div class="attach-resume" id="attach-resume-box">
+          <div class="attach-btn">
+          <button mat-stroked-button color="primary" type="button" tabindex class="fileUpload attachFileBtn"
+            (click)="openMultipleAttachmentModal()" id="emailTemp-documentAttachmentAddPopup">
+            <mat-icon>attach_file</mat-icon>
+            {{'label_uploadIcon' | translate}}
+          </button>
+        </div>
+
+          <div class="slide-toggle-box" id="slide-toggle-box">
+            <mat-slide-toggle color="primary" labelPosition="before" tabindex id="attach-resume" tabindex
+            (change)="setAttachResume($event)" formControlName="attchResume"> {{'label_addEmailTemplate_attachResumes' |translate}} </mat-slide-toggle>
+            <!-- @When: 15-09-2023 @who:Amit @why: EWM-14188 @what: add info icon -->
+            <p>{{'label_addEmailTemplate_EnableAttachResumeOption' |translate}}</p>
+          </div>
+
+        </div>
+
+          <mat-card-content class="multple-attachment" *ngIf="this.fileAttachments.length>0" id="emailTemp-documentAttachment">
+              <mat-card class="matCardAttach mat-elevation-z1" id="emailTemp-documentAttachmentCard"
+                *ngFor="let files of fileAttachmentsOnlyTow">
+                <div class="email-attachment">
+                  <div class="file-detail" tabindex>
+                    <span class="fileName">{{files.Name}}</span>
+                    <span class="fileSize">{{(files.Size)/1024}} KB</span>
+                  </div>
+                  <mat-icon class="matCloseIcon cursor" tabindex (click)="removeAttachment(files)"
+                    id="emailTemp-documentRemove">close</mat-icon>
+                </div>
+              </mat-card>
+              <!--------@suika @EWM-11650 @EWM-11665 @whn 19-05-2023 to handle multiple attachment count-->
+              <button mat-stroked-button class="moreAttach" color="primary" type="button" (click)="openMultipleAttachmentModal()"
+                id="emailTemp-documentAttachmentPopupShow" tabindex
+                *ngIf="this.fileAttachments.length>2">{{fileAttachments?.length-2}} {{'label_more' |
+                translate}}..</button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      
+      <div class="html-editor-kendo" id="html-editor-template">
+      <mat-label class="editor-label" [ngStyle]="this.addEmailTemplateForm.controls['TemplateText'].hasError('required') &&
+        this.addEmailTemplateForm.controls['TemplateText'].touched &&
+         {'color': '#f44336'}">{{'label_templateBody' |translate}} <span class="required-show">*</span></mat-label>
+
+        <kendo-editor #editor tabindex="3" formControlName="TemplateText" [pasteCleanupSettings]="pasteCleanupSettings"
+          required class="note-editor" [iframe]="false">
+          <kendo-toolbar [overflow]="false" tabindex="7">
+            <kendo-toolbar-buttongroup>
+              <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorStrikethroughButton>
+              </kendo-toolbar-button>
+          </kendo-toolbar-buttongroup>
+          <kendo-toolbar-buttongroup>
+              <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorSuperscriptButton>
+              </kendo-toolbar-button>
+          </kendo-toolbar-buttongroup>
+          <kendo-toolbar-buttongroup>
+              <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorAlignCenterButton>
+              </kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorAlignRightButton>
+              </kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorAlignJustifyButton>
+              </kendo-toolbar-button>
+          </kendo-toolbar-buttongroup>
+          <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+          <kendo-toolbar-dropdownlist kendoEditorFontSize>
+          </kendo-toolbar-dropdownlist>
+          <kendo-toolbar-dropdownlist kendoEditorFontFamily>
+          </kendo-toolbar-dropdownlist>
+          <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+          <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+          </kendo-toolbar-colorpicker>
+          <kendo-toolbar-buttongroup>
+              <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+              </kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+              </kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+          </kendo-toolbar-buttongroup>
+          <!-- @When: 13-03-2023 @who:Amit @why: EWM-10776 @what: select all button hide  -->
+          <!-- <kendo-toolbar-button kendoEditorSelectAllButton></kendo-toolbar-button> -->
+          <kendo-toolbar-buttongroup>
+              <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+          </kendo-toolbar-buttongroup>
+          <kendo-toolbar-buttongroup>
+              <kendo-toolbar-button kendoEditorCreateLinkButton>
+              </kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+          </kendo-toolbar-buttongroup>
+          <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+          <!-- <kendo-toolbar-button kendoEditorInsertImageButton></kendo-toolbar-button> -->
+          <!-- @When: 13-03-2023 @who:Amit @why: EWM-10776 @what: view source button hide  -->
+          <!-- <kendo-toolbar-button kendoEditorViewSourceButton></kendo-toolbar-button> -->
+          <kendo-toolbar-button kendoEditorCleanFormattingButton>
+          </kendo-toolbar-button>
+          <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+          <kendo-toolbar-buttongroup>
+              <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+              </kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+              </kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorAddRowBeforeButton>
+              </kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorAddRowAfterButton>
+              </kendo-toolbar-button>
+          </kendo-toolbar-buttongroup>
+          <kendo-toolbar-buttongroup>
+              <kendo-toolbar-button kendoEditorDeleteColumnButton>
+              </kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+              <kendo-toolbar-button kendoEditorDeleteTableButton>
+              </kendo-toolbar-button>
+          </kendo-toolbar-buttongroup>
+          <!-- <kendo-toolbar-button kendoEditorPrintButton></kendo-toolbar-button> -->
+            <kendo-toolbar-separator></kendo-toolbar-separator>
+            <!-- <kendo-toolbar-dropdownbutton [text]="'People'" [icon]="'rss'" [data]="peopledata"></kendo-toolbar-dropdownbutton>
+                  <kendo-toolbar-dropdownbutton [text]="'Clients'" [icon]="'user'" [data]="clientdata"></kendo-toolbar-dropdownbutton>
+                  <kendo-toolbar-dropdownbutton [text]="'Jobs'" [icon]="'myspace'" [data]="jobdata"></kendo-toolbar-dropdownbutton>
+                  <kendo-toolbar-dropdownbutton [text]="'Roster'" [icon]="'globe'" [data]="rosterdata"></kendo-toolbar-dropdownbutton> -->
+            <kendo-toolbar-splitbutton *ngFor="let item of (toolButtons$ | async)" [text]="item.text" [icon]="item.icon"
+              [data]="item.data">
+            </kendo-toolbar-splitbutton>
+             <!---------@When: 31-07-2023 @who:Adarsh singh @why: EWM-13233 @Desc- Added image upload button --------->
+             <kendo-toolbar-button text="Upload Image" (click)="openImageUpload()" [style]="{'padding': '2px 7px', 'font-size': '12px'}"></kendo-toolbar-button>
+             <!-- End  -->
+          </kendo-toolbar>
+        </kendo-editor>
+      <mat-error class="matErrorDesc" *ngIf="this.addEmailTemplateForm.controls['TemplateText'].hasError('required') && addEmailTemplateForm.controls['TemplateText'].touched">
+        {{'label_EmailTemplates' |translate}} {{ 'label_errorreqired' |translate}}
+    </mat-error>
+      </div>
+
+      <div class="form-group-box form-group-box-two">
+        <div class="ng-slectBox">
+                            <!-- who:maneesh,what:ewm-11605 for cross icon not display [clearable]="false" when:20/04/2023 -->
+          <ng-select [clearable]="false" placeholder="{{'label_templateStatus'|translate}}" tabindex="8"
+            formControlName="Status" id="ddlStatus" class="show-required" (change)="onChangeStatus($event)" required>
+            <ng-option *ngFor="let status of statusList" [value]="status">
+              {{status.StatusName}}
+          </ng-option>
+          </ng-select>
+          <mat-error
+            *ngIf="this.addEmailTemplateForm.controls['Status'].hasError('required') && addEmailTemplateForm.controls['Status'].touched">
+            {{ 'label_templateStatus' |translate}} {{ 'label_errorreqired' |translate}}
+          </mat-error>
+        </div>
+        <mat-checkbox color="primary" formControlName="IsShared" id="EmailTemp-IsShared">
+          {{'label_shareWithOther' |translate}}
+        </mat-checkbox>
+      </div>
+
+      <div class="signature-info">
+        <div>
+          <p>
+            <strong>{{'label_emailSignature' |translate}}</strong> : {{'label_emailSignatureTxt1'| translate}} <a class="txtUnderline"
+            href="javascript:void(0)">{{'label_emailSignatureTxtLink'| translate}}</a>
+          {{'label_emailSignatureTxt2'| translate}}
+          </p>
+        </div>
+        <div class="slide-toggle-box">
+          <mat-slide-toggle formControlName="defSignature" tabindex="9" (change)="setDefaultSignature($event)"
+            color="primary">
+          </mat-slide-toggle>
+        </div>
+      </div>
+
+      <p *ngIf="IsEdit">
+          <strong>{{'label_emailTemplateCreatedBy' |translate}}</strong> : {{ createdByText }} {{ createdOn | date:userpreferences.timeformate:userpreferences.timezone }}
+      </p>
+
+    </form>
+  </mat-card>
+</mat-drawer-container>

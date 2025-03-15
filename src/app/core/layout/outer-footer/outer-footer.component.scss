@@ -1,0 +1,38 @@
+.outer-footer{
+    
+    .footer-container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1920px;
+        margin: 0px auto;
+        @media only screen and (max-width: 767px) and (min-width: 240px){
+            justify-content: center;
+        }
+        .footer-logo{
+            display: flex;
+            align-items: center;
+            @media only screen and (max-width: 767px) and (min-width: 240px){
+                display: none;
+            }
+        }
+        .footer-link{
+            display: flex;
+            font-size: 14px;
+            align-items: center;
+            .mat-button{
+                font-weight: bold;
+                font-family: "Bariol";
+                @media only screen and (max-width: 767px) and (min-width: 240px){
+                    display: none;
+                }
+            }
+            p{
+                margin: 0px;
+                font-weight: bold;
+                font-family: "Bariol";
+            }
+        }
+    }
+}

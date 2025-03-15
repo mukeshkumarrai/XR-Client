@@ -1,0 +1,286 @@
+<!-- 
+  @Type: File, <html>
+  @Name: candidate-job.component.html
+  @Who: Anup Singh
+  @When: 19-oct-2021
+  @Why:EWM-3039 EWM-3407
+  @What: Job list of candidate
+  -->
+
+  <!---
+    modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 07-Apr-2022
+    @Why: EWM-5654 EWM-6057
+    @What:  This page is creted for Common Component HTML of candidate job mapped 
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<mat-card class="candidate-job" id="candidate-job-card">
+  <mat-card-header>
+    <mat-card-title id="allAssignJobBtn">
+      {{'label_viewAllAssignedJob' |translate}}
+    </mat-card-title>
+  <!-- who:maneesh,when:13/02/2033,what :ewm-10466 -->
+  <!-- @When: 04-05-2023 @who:Amit @why: EWM-12313 @what:class remove-->
+<button mat-raised-button class="header-button p-0" id="btnRefresh" (click)="refreshComponent()"
+matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+(mouseenter)="mouseoverAnimation(animationVar?.RefreshButton?.id, animationVar?.RefreshButton?.animation)"
+(mouseleave)="mouseleaveAnimation(animationVar?.RefreshButton?.id, animationVar?.RefreshButton?.animation)">
+<mat-icon id="{{animationVar?.RefreshButton?.id}}" class="{{animationVar?.RefreshButton?.isAnimClass}}">
+  {{animationVar?.RotateButton?.iconName}}</mat-icon>
+</button>
+    <div class="actionButton listGridButton">
+      <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="listButton"
+        (click)="switchListMode('listMode')" id="job-landing-viewModeInactive">
+        <span class="material-icons">
+          format_list_bulleted
+        </span>
+      </button>
+      <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? 'active' : '']" class="gridButton"
+        (click)="switchListMode('cardMode')" id="job-landing-viewModeactive">
+        <span class="material-icons">
+          view_module
+        </span>
+      </button>
+    </div>
+</mat-card-header>
+<mat-divider class="margin0"></mat-divider>
+
+    <div class="data-header candidate-data-header sticky mb-5">
+      <div class="filter-refresh">
+        <button mat-raised-button class="buttonForDesktopMobile" tabindex="1" color="primary" id="btnContinue" (click)="openAsignJob()"
+          cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+                <mat-icon matTooltip="{{ 'label_assignJob' | translate }}" matTooltipPosition="right"
+                class="assignment_return-flip">assignment_return</mat-icon>
+                <span class="buttonTxt">{{ "label_assignJob" | translate }}</span>
+              </button>
+      </div>
+      <div class="search-viewicon">
+        <mat-form-field class="searchInput">
+          <mat-label>{{'label_search'|translate}}</mat-label>
+          <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="{{''|translate}}"
+            [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}">
+          <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+          <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+            (click)="searchValue=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="p-10" [ngClass]="[ viewMode === 'listMode' ? 'listMode' : 'hide']">
+      <!-- @Who: Satya Prakash Gupta ,@When: 19-April-2023, @Why: EWM-11966 EWM-11967 ,What: locked comumn false -->
+      <div class="joblanding-kendo  kendo-table-container locked-column-by-css kendo-grid-appearance">
+        <ng-template #template let-anchor>
+          <span>{{ anchor.nativeElement.innerText}}</span>
+        </ng-template>
+        <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+        (mouseover)="showTooltip($event)">
+          <kendo-grid [kendoGridBinding]="gridListData" [sortable]="true" [sort]="sort" [scrollable]="'virtual'"
+            [reorderable]="false" [resizable]="true" (sortChange)="sortChange($event)"
+            (scrollBottom)="pageChange($event)">
+
+            <kendo-grid-column *ngFor="let column of columnsWithAction" [field]="column.Field"
+            [title]="column.Title |customTranslate" [width]="column.width"
+            [headerStyle]="column.Type=='Numeric' || column.Type=='Date' ?{'text-align': 'right'}:''"
+            [filter]="column.Type" [format]="column.Format">
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Type=='Action'">
+              <button mat-flat-button id="dataActionBtn" [matMenuTriggerFor]="beforegridMenu" class="dataActionButton">
+                <mat-icon>
+                  more_vert
+                </mat-icon>
+              </button>
+
+              <mat-menu #beforegridMenu="matMenu" xPosition="after"
+                class="candidateQuickMenu candidate-data-dropdown listactionMenu">
+                <span class="material-icons headerDroupDownUp">
+                  arrow_drop_up
+                </span>
+                <!-- who:maneesh,what:ewm-13861 for hide edit btn ,when:22/09/2023/ -->
+                <button mat-menu-item id="jobViewBtn" (click)="openjobDetailsView(trigger,true,dataItem.JobId,dataItem?.IsJobClosed)"
+                cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+                  <div class="two-icons">
+                      <mat-icon>preview</mat-icon>
+                    </div> {{'jobdetails_View' | translate}}
+                  </button>
+
+                  <button mat-menu-item id="unAssignCndidtebtn" (click)="unassignJobFromCandidate(dataItem)" [disabled]="dataItem?.IsJobClosed==1">
+                    <div class="two-icons">
+                  <mat-icon>remove_circle_outline</mat-icon>
+                  </div>{{'label_unassingCandidate'|translate}}
+                  </button>
+
+              </mat-menu>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobTitle'" id="JobTitle" class="p-0">
+              <a (click)="viewJobSummery(dataItem.JobId,dataItem.WorkflowId)" class="cursor" id="btnviewClient">{{dataItem?.JobTitle}}</a>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastUpdated'">
+              <span class="textRight" matTooltipClass="custom-tooltip">
+                {{dataItem.LastUpdated| date:userpreferences.timeformate:userpreferences.timezone}}</span>
+            </ng-template>
+            </kendo-grid-column>
+          
+          </kendo-grid>
+          <div *ngIf="loadingscroll"
+          class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt top-75">
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- new card start -->
+     <mat-drawer-container class="page-container-cardview" id="card-view-container" [ngClass]="[ viewMode === 'cardMode' ? 'cardtMode' : 'hide']">
+      <div class="cardview-container" id="cardview-container" infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pagesize">
+        <mat-card class="grid-card-mode shop-card-mode" id="carModeBox_{{i}}" *ngFor="let data of gridListData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+          <div class="grid-card-access-data">
+            <span class="badge light-green">
+              <strong>{{data?.JobStatus}}</strong>
+            <mat-icon *ngIf="data?.JobStatusReason" class="infoStyle" matTooltipPosition="left" matTooltip="{{data?.JobStatusReason}}">info</mat-icon>
+            </span>
+          </div>
+          <div class="grid-card-half-data" id="grid-card-half-data">
+            <div class="card-half-data">
+                <small>{{'label_jobTitle' | translate}}</small>
+                <span class="cardListTxt word-wrap" matTooltip="{{data?.JobTitle}}"
+                matTooltipClass="custom-tooltip">{{data?.JobTitle}}</span>
+            </div>
+            <div class="card-half-data">
+              <small>{{'label_Company' | translate}}</small>
+              <span class="cardListTxt word-wrap" matTooltip="{{data?.Company}}"
+              matTooltipClass="custom-tooltip">{{data?.Company}}</span>
+            </div>
+            <div class="card-half-data">
+                <small>{{'label_JobOwner' | translate}}</small>
+                <span class="cardListTxt word-wrap" matTooltip="{{data?.JobOwner}}"
+                matTooltipClass="custom-tooltip">{{data?.JobOwner}}</span>
+            </div>
+            <div class="card-half-data">
+              <small>{{'label_HiringStage' | translate}}</small>
+              <span class="cardListTxt word-wrap systemAuditEyeIcon cursor" matTooltip="{{data?.HiringStage}}"
+                matTooltipClass="custom-tooltip" (click)="openJobWorkFlowStage(data?.WorkflowId)">
+                <mat-icon class="peopleShareIcon">stream</mat-icon>
+                  {{data?.HiringStage}}</span>
+            </div>
+
+            <div class="card-half-data">
+              <small>{{'label_JobOwners_Primary' | translate}}</small>
+              <span class="cardListTxt word-wrap" matTooltip="{{data?.PrimaryOwner}}"
+              matTooltipClass="custom-tooltip">{{data?.PrimaryOwner}}</span>
+            </div>
+
+            <div class="card-half-data">
+              <small>{{'label_Location' | translate}}</small>
+              <span class="cardListTxt word-wrap" matTooltip="{{data?.Location}}"
+              matTooltipClass="custom-tooltip">{{data?.Location}}</span>
+            </div>
+
+          </div>
+          <!-- <div class="grid-card-mode-data pt-0" id="grid-card-mode-data">
+            <div class="full-data">
+              <small>{{'label_Location' | translate}}</small>
+              <span class="cardListTxt word-wrap" matTooltip="{{data?.Location}}"
+              matTooltipClass="custom-tooltip">{{data?.Location}}</span>
+            </div>
+          </div> -->
+          <!-- @Who: Ankit Rawat,@Why: EWM-17602,@When: 23Jul24,@What:Added Primary Owner -->
+          <!-- <div class="grid-card-mode-data pt-0" id="grid-card-mode-data">
+            <div class="full-data">
+              <small>{{'label_JobOwners_Primary' | translate}}</small>
+              <span class="cardListTxt word-wrap" matTooltip="{{data?.PrimaryOwner}}"
+              matTooltipClass="custom-tooltip">{{data?.PrimaryOwner}}</span>
+            </div>
+          </div> -->
+          <div class="grid-card-mode-footer footer-fix without-person-user" id="grid-card-mode-footer">
+            <div class="button-group" id="button-group">
+              <button mat-icon-button color="primary"
+              id="jobdetailsView-Id" matTooltipClass="card-list-tooltip" matTooltipPosition="before" matTooltip="{{'jobdetails_View'|translate}}" 
+              (click)="openjobDetailsView(trigger,true,data.JobId,'')"
+              cdkOverlayOrigin #trigger="cdkOverlayOrigin" >
+                <mat-icon>preview</mat-icon>
+              </button>
+              <button mat-icon-button color="primary"
+              id="usertype-visiButtonId" matTooltipClass="card-list-tooltip" matTooltipPosition="before" matTooltip="{{'label_unassingCandidate'|translate}}"
+              (click)="unassignJobFromCandidate(data)">
+                <mat-icon>remove_circle_outline</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </mat-drawer-container>
+    <!-- new card end -->
+  
+</mat-card>
+
+<!---------@When: 03-Feb-2023 @who:Adarsh singh @why: EWM-9386 EWM-10393 Desc- open drawer --------->
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="triggerOrigin"  [cdkConnectedOverlayOpen]="overlayCandidateProfile">
+    <!-- @When: 02-11-2023 @who:Amit @why: EWM-14964 @what: drawer structure change -->
+    <mat-drawer-container class="overlay-drawer-container" autosize>
+      <mat-drawer #candidateSummary opened class="overlay-drawer overlay-md-drawer" mode="over"
+        disableClose="true" position="end">
+        <div class="closePanel">
+            <button class="closeDrawerIcon" mat-stroked-button id="closeDrawerIcon"
+              (click)="CloseShareAssessmentFromJobAction()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button class="sidebarSectionName overlay-md-btn" mat-raised-button color="primary" type="button"
+              id="btnAssignCandidate">
+              <span *ngIf="!candidateProfileDrwerForEdit">{{'quickjob_JobDetailView'|translate }}</span>
+              <span *ngIf="candidateProfileDrwerForEdit">{{'quickjob_quickEditJob'|translate }}</span>
+            </button>
+          </div>
+        <!-- this is for view and Edit mode both will work from here with Flotting button -->
+        <!-- @When: 02-11-2023 @who:Amit @why: EWM-14964 @what: drawer structure change -->
+        <div class="view-profile-summary view-job-details job-details-edit-view" *ngIf="userType" id="panel-sidebar-information">
+          <mat-card class="candidate-job-mat-card drawer-first-view" *ngIf="candidateProfileDrwer">
+<!---------@When: 22-sep-2023 @who:maneesh @why: EWM-13861 Desc- hide edit icon when IsJobClosed --------->
+            <app-job-manage [hideForJobDetailsView]="true" [jobId]="JobId" [floatingEditButton]="true" [IsJobClosed]="IsJobClosed" (onEditJobToFloatButton)='receivedEventForEditModeJob($event)'></app-job-manage>
+          </mat-card>
+          <mat-card class="candidate-job-mat-card drawerfooter-height-remove" *ngIf="candidateProfileDrwerForEdit">
+            <app-job-manage [hideUpperSaveCancelButton]="false" (valueChange)='closeDrawerOfEditMode($event)'></app-job-manage>
+          </mat-card>
+        </div>
+        <!-- End  -->
+        <!-- this is for view mode only while click from another page  -->
+        <div class="panelSidebarInformation jobDetailInformation" *ngIf="!userType" id="panel-sidebar-information">
+          <mat-card class="candidate-job-mat-card drawerfooter-view" *ngIf="candidateProfileDrwer">
+            <app-job-manage [hideForJobDetailsView]="true" [jobId]="JobId"></app-job-manage>
+          </mat-card>
+        </div>
+        <!-- End  -->
+  
+      </mat-drawer>
+    </mat-drawer-container>
+</ng-template>
+<!---------@When: 03-Feb-2023 @who:Adarsh singh @why: EWM-9386 EWM-10393 END --------->
+
+<!---------@When: 07-Feb-2023 @who:Adarsh singh --------->
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="overlayAssignJob">
+    <mat-drawer-container class="overlay-drawer-container" autosize>
+      <!-- share Application form --> 
+      <mat-drawer #candidateSummary opened class="overlay-drawer overlay-sm-drawer" mode="over"
+        disableClose="true" position="end">
+        <div class="closePanel">
+            <button class="closeDrawerIcon closeDrawerIcon" mat-stroked-button id="closeDrawerIcon"
+              (click)="CloseAssessmentJob()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button class="sidebarSectionName overlay-sm-btn" mat-raised-button color="primary" type="button"
+              id="btnAssignCandidate">{{'label_addJobToCandidate'|translate }}</button>
+        </div>
+        <div class="view-profile-summary link-job-summary" id="panel-sidebar-information" *ngIf="isAsignJob">
+            <app-asign-job (childButtonEvent)="receivedMessageHandler($event,asignJob)" (refreshgetjobApi)="fetchRefreshgetjobApi($event)"></app-asign-job>
+        </div>
+      </mat-drawer>
+      <!--share Application form -->
+    </mat-drawer-container>
+</ng-template>
+<!--------- END @When: 11-Jan-2023 @who:Adarsh singh --------->

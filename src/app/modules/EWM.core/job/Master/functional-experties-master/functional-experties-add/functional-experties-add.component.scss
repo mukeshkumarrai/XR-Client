@@ -1,0 +1,126 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <scss>
+  @Who: Anup
+  @When: 18-June-2021
+  @Why: EWM-1746 EWM-1843
+  @What:  This page will be use for the Functional Experties add Component scss file
+
+*/
+
+.col-1{
+    width: 40%;
+}
+.col-2{
+    width: 20%;
+}
+.col-3{
+    width: 10%;
+}
+
+@media only screen and (min-width:1270px){
+    .cardWidth{
+        width: 33%;
+    }
+}
+
+@media only screen and (min-width:1024px) and (max-width:1270px){
+    .cardWidth{
+        width: 50%;
+    }
+}
+@media only screen and (min-width:320px) and (max-width:1024px){
+    .cardWidth{
+        width: 100%;
+    }
+    .maxData{
+        max-height: 100%;
+        overflow: auto;
+    }
+}
+
+.inputSearch{
+    display: block !important;
+    z-index: 9999999999;
+    position: absolute;
+    top: inherit;
+    left: inherit;
+    right: inherit;
+    bottom: inherit;
+    font-size: 64px;
+    background-color: rgba(0, 0, 0, 0);
+    right: 20px;
+    bottom: 18px;
+    font-size: 26px;
+  }
+
+  .list{
+    display: block !important;
+    z-index: 9999999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 64px;
+    background-color: rgba(0, 0, 0, 0.32);
+  }
+  .scrollloading{
+    height:75px;
+    position: relative;
+    background-color: transparent;
+    top: inherit;
+    right: inherit;
+    left: inherit;
+    bottom: inherit;
+  }
+  .search-results {
+    height: 300px;
+    overflow: auto;
+  }
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+    height: 70px;
+}
+.maxData:hover {
+    height: 70px;
+}
+.dropdownwithbutton{
+    .mat-raised-button{
+        margin-top: 7px;
+        min-width: 20px;
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-left: 0px;
+    }
+    .s3{
+        text-align: center;
+    }
+    
+    
+}
+
+.counterTxt{margin-top: -20px; text-align: right; color:#fe7000; font-size: 80%;}
+.k-toolbar{justify-content:flex-end;}
+.matEyeIcon{float:right; margin-right:20px}
+  
+::ng-deep {
+  .jobcategoryBox{
+    .ng-select.ng-select-multiple{
+      .ng-select-container{
+        .ng-value-container{
+          .ng-value{
+            .ng-value-label{
+              @media only screen and (max-width: 1300px) and (min-width: 601px){   
+                max-width: 70px;
+              }
+              @media only screen and (max-width: 480px) and (min-width: 320px){   
+                  max-width: 110px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }  
+  }

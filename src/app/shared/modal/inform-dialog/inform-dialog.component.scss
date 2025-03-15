@@ -1,0 +1,13 @@
+
+// @When: 15-03-2024 @who:Amit @why: EWM-16212 @what: inform dialog style
+@import "../../../../styles-var.scss";
+@import "../../../../mixinStyle.scss";
+.login-btn{
+    color: $primary-bg-color;
+    position: relative;
+    z-index: 3;
+    &::after{
+        @include color-bg-after;
+        opacity: 0.03;
+    }
+}

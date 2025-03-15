@@ -1,0 +1,43 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: image-upload-popup.component.scss
+    @Who: Satya Prakash Gupta
+    @When: 11-Feb-2021
+    @Why: EWM-849 EWM-881
+    @What: You can add image-upload-popup component styles to this file, and also import other style files
+*/
+@import "../../../../../styles-var.scss";
+.crpperpreview {
+  position: relative;
+  max-width: 200px;
+  margin: 0px auto;
+  margin-bottom: 20px;
+}
+.crpperpreview::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  width: 200px;
+  height: 200px;
+  border: 1px solid #000000;
+  border-radius: 100%;
+}
+p {
+  margin-top: 3px;
+}
+.uploadPhoto {
+  box-shadow: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  color: $default-bg-color;
+  padding: 0px;
+  margin: 0px;
+  font-weight: 500;
+  font-size: 100%;
+}
+input[type=file]::-webkit-file-upload-button {
+  cursor: pointer !important;
+}

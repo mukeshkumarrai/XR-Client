@@ -1,0 +1,79 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: landing.component
+    @Who: Satya Prakash Gupta
+    @When: 24-Feb-2021
+    @Why: EWM-892 EWM-1029
+    @What: You can add landing page styles to this file, and also import other style files
+*/
+.logoBox {
+    top: 20px;
+}
+.headerDroupDownUp {
+    position: absolute;
+    top: -14px;
+    right: 22px;
+  }
+  
+  .headerMenuDropdown {
+    position: relative;
+  }
+  
+.DroupDownUp {
+    position: absolute;
+    top: -15px;
+    left: 22px;
+}
+.main-container {
+    height: calc(100vh - 111px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div{
+        text-align: center;
+        svg{
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        p{
+            margin: 0px;
+            margin-top: 10px;
+        }
+    }
+}
+.login-overlay{
+    background: none;
+}
+.login-overlay::before, .login-overlay::after, .login-overlay::before, .login-overlay::after {
+    display: none;
+}
+@media only screen and (max-width: 945px) and (min-width: 320px) {
+    .main-container {
+        height: calc(100vh - 90px);
+    }
+
+    .logoBox {
+        top: 16px;
+        margin-left: 0px;
+    }
+}
+@media only screen and (max-width: 945px) and (min-width: 320px) {
+    .main-container {
+        height: calc(100vh - 90px);
+    }
+
+    .logoBox {
+        top: 16px;
+        margin-left: 0px;
+    }
+}
+@media only screen and (max-width: 1060px) and (min-width: 320px) {
+    .main-container {
+        height: calc(100vh - 90px);
+    }
+    .logoBox {
+        top: 16px;
+        margin-left: 0px;
+    }
+}

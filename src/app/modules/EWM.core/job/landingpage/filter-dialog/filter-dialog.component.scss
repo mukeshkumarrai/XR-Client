@@ -1,0 +1,72 @@
+/*
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: filter-dialog.component.html
+  @Who: Satya Prakash Gupta
+  @When: 02-June-2022
+  @Why: EWM-6620 EWM-5645
+  @What: This page will be use for the filter dialog
+*/
+
+@import "../../../../../../mixinStyle.scss";
+
+.popup-footer-spacer {
+  flex: 1 1 auto;
+}
+.add-manage {
+  display: flex;
+  background: #f5f5f5;
+  align-items: center;
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .ng-dropdown-panel .scroll-host {
+    margin-top: -15px;
+  }
+}
+.no-bottom {
+  margin-bottom: -1.25em !important;
+}
+.dropdowm-barloader {
+  position: absolute;
+}
+.rotate-loader {
+  animation: rotate-animation 0.8s infinite linear;
+}
+@keyframes rotate-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.filter-modal-content{
+  padding-bottom: 50px;
+  min-height: 287px;
+  padding-top: 2px;
+  max-height: 58vh;
+  @include for-small-smartphones{
+    min-height: 283px;
+  }
+}
+.actionBoxFooter{
+  position: relative;
+  .add-filter{
+    position: absolute;
+    right: 0px;
+    top: -50px;
+  }
+  .clear-all-filter{
+    @include for-small-smartphones{
+      position: absolute;
+      left: 0px;
+      top: -50px;
+    }
+  }
+}

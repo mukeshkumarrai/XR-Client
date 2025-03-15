@@ -1,0 +1,175 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<mat-drawer-container id="lead-list-card" class="candidate-list-card">
+  <mat-card-header class="page-header" id="lead-list-card-header">
+    <mat-card-title>
+      <!-- <button mat-mini-fab class="mainAddButton" 
+        matTooltip="{{'label_Add_LeadSource_master'| translate | titlecase }}" [routerLink]="['AddLead-SourceMaster']"
+        matTooltipClass="custom-tooltip" color="primary" id="btnCreate" 
+        (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">
+          {{animationVar?.CreateButton?.iconName}}</mat-icon>
+      </button> -->
+      <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_Add_LeadSource_master'|customTranslate}}"
+      matTooltipClass="custom-tooltip" color="primary" id="btnAdd" [routerLink]="['manage-lead-source']"
+      [queryParams]="{activestatus:'Add'}"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <mat-icon id="{{animationVar?.CreateButton?.id}}"
+        class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+    </button>
+      <div class="sub-title">
+        <span>{{'label_LeadSourceMasterComponent' |customTranslate}}: {{totalContactCount}}</span><br>
+        <app-breadcrumb [pageLabel]="pageLabel" class="bread-crumb"></app-breadcrumb>
+      </div>
+    </mat-card-title>
+    <div class="header-action-button" id="lead-list-actionButton">
+      <div class="header-form">
+        <mat-form-field class="searchInput" floatLabel="never">
+          <mat-label>{{'label_search'|translate}}</mat-label>
+          <input matInput id="btnSearch" tabindex (input)="onFilter()" placeholder="Search" [(ngModel)]="searchValue"
+            [ngModelOptions]="{standalone: true}">
+          <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+
+          <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()"
+            (click)="searchValue=''" id="lead-list-onSearchFilterClear">
+            <mat-icon>close</mat-icon>
+          </button>
+          <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+        </mat-form-field>
+      </div>
+
+      <div class="group-header-button">
+        <a mat-raised-button class="header-button" *ngIf="formtitle=='grid'" id="user-invitation-btnViewAudit"
+        [routerLink]="['../../system-settings/system-audit-log/',auditParameter]"
+        matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip"
+        matTooltipPosition="before">
+        <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+      </a>
+        <button mat-raised-button class="header-button" id="btnRefresh" (click)="refreshComponent()"
+          matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+          (mouseenter)="mouseoverAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)">
+          <mat-icon id="{{animationVar?.RotateButton?.id}}" class="{{animationVar?.RotateButton?.isAnimClass}}">
+            {{animationVar?.RotateButton?.iconName}}</mat-icon>
+        </button>
+
+
+
+
+      </div>
+
+    </div>
+
+  </mat-card-header>
+
+  <mat-drawer-container class="xeople-container-listing-without-breadCrumb"
+    id="xeople-container-listing-without-breadCrumb">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+      <div class="kendo-grid-appearance without-column-popup" id="lead-list-clientlanding-kendo">
+        <ng-template #template let-anchor>
+          <span>{{ anchor.nativeElement.innerText }}</span>
+        </ng-template>
+        <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+          (mouseover)="showTooltip($event)">
+          <kendo-grid #grid [sortable]="true" [sort]="state.sort" [filter]="state.filter" id="overflowCustom"
+            [reorderable]="false" [resizable]="false" (dataStateChange)="dataStateChange($event)" [filterable]="false"
+            [data]="data" [selectable]="true" class="page-without-dropdown" [pageable]="{buttonCount: 3,
+                      info: true,
+                      type: 'numeric',
+                      pageSizes: true,
+                      previousNext: true,
+                      responsive: true}" [pageSize]="state.take" [skip]="state.skip">
+            <kendo-grid-column field="" title="" [width]="40" [minResizableWidth]="40">
+              <ng-template kendoGridCellTemplate let-dataItem>
+
+                <button mat-flat-button id="dataActionBtn" (click)="overlay()" [matMenuTriggerFor]="beforegridMenu"
+                  class="dataActionButton">
+                  <mat-icon>
+                    more_vert
+                  </mat-icon>
+                </button>
+
+                <mat-menu #beforegridMenu="matMenu" xPosition="{{xPosition}}"
+                  class="candidateQuickMenu candidate-data-dropdown listactionMenu">
+                  <span class="material-icons headerDroupDownUp">
+                    arrow_drop_up
+                  </span>
+                
+
+                
+                  <button mat-menu-item id="btnDelete"
+                  [routerLink]="['manage-lead-source', {id: dataItem?.Id,activestatus:'Edit'}]"
+                    [disabled]="dataItem?.IsBuiltIn==1" *appHasPermission="['Delete']">
+                    <mat-icon>edit</mat-icon>
+                    {{'label_edit'|translate}}
+                  </button>
+                  <button mat-menu-item id="btnDelete" (click)=deleteLead(dataItem?.Id) *appHasPermission="['Delete']"
+                  [disabled]="dataItem?.IsBuiltIn==1">
+                    <mat-icon>delete</mat-icon>
+                    {{'label_delete'|translate}}
+                  </button>
+                </mat-menu>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="Name" title="{{'label_Lead_Source_coloum' | customTranslate}}" [minResizableWidth]="170"
+              [width]="170" title="Category">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <span> {{dataItem?.Name}}</span>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="Description" title="{{'label_Lead_Source_Description'|translate}}" [width]="260"
+              [minResizableWidth]="260">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <span> {{dataItem?.Description}}</span>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="DisplaySequence" title="{{'label_Lead_Source_Display_sequence' | translate}}"
+              [width]="140" [minResizableWidth]="140" [headerStyle]="{'text-align': 'right'}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <span class="textRight"> {{dataItem?.DisplaySequence}}</span>
+              </ng-template>
+            </kendo-grid-column>
+
+          
+            <kendo-grid-column field="Status" title="{{'label_Lead_Source_status' | translate}}" [width]="100"
+              [minResizableWidth]="100">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <span> {{dataItem?.Status}}</span>
+              </ng-template>
+            </kendo-grid-column>
+          <kendo-grid-column field="IsBuiltIn" title="{{'label_Lead_Source_built_in' | translate}}" [width]="90"
+          [minResizableWidth]="90">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span *ngIf="dataItem?.IsBuiltIn==1"> Yes</span>
+            <span *ngIf="dataItem?.IsBuiltIn==0"> No</span>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="LastUpdated" title="{{'label_lastupdate' | translate}}" [width]="200" [minResizableWidth]="200"
+        [headerStyle]="{'text-align': 'right'}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span class="textRight">
+              {{dataItem?.LastUpdatedOn| date:userpreferences?.timeformate:userpreferences.timezone}}
+            </span>
+          </ng-template>
+        </kendo-grid-column>
+            <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+              <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+              <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+              <kendo-pager-next-buttons></kendo-pager-next-buttons>
+              <kendo-pager-info></kendo-pager-info>
+              <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+            </ng-template>
+          </kendo-grid>
+          <div *ngIf="loadingscroll" class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt">
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </mat-drawer-container>
+
+</mat-drawer-container>

@@ -1,0 +1,130 @@
+
+
+    <!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: custom-dropdown.component.html
+    @Who: Renu
+    @When: 21-Aug-2021
+    @Why: EWM-2276 EWM-2447
+    @What:  This page wil be used for common dropdown based on given endpoint
+-->
+ <span *ngIf="config.multiple">
+
+    <!--@when:2-nov-2021;@who:Priti Srivastva;@why: EWM-3304;@what:handled error msg in case of required -->
+    <ng-select tabindex [multiple]="true"
+    class="dropdown-body" #select [searchable]="false" [formControl]="selectedValue" appendTo="body" [clearable]="true"
+        [closeOnSelect]="true" [(ngModel)]="selectedIn" (change)="getValues()" [compareWith]="compareFn"
+        placeholder="{{ config.placeholder!='' && config.placeholder!=undefined ?(config.placeholder|customTranslate):''}}  {{config.IsRequired?'*':''}}"
+        [disabled]="config.IsDisabled" id="ddl_{{ config.placeholder!='' && config.placeholder!=undefined ?(config.placeholder):''}}"
+     [items]="dropList" [bindLabel]="keyValue" required={{config.IsRequired}}>
+         <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+            <div class="ng-value ngselect-tag" *ngFor="let item of items | slice:0:maxMoreLength">
+                <span class="ng-value-label text-overflow" matTooltip="{{item[keyValue]}}" matTooltipClass="custom-tooltip"> {{item[keyValue]}}</span>
+                <span class="ng-value-icon right" (click)="clear(item)"
+                    aria-hidden="true">×</span>
+            </div>
+            <div class="ng-value" *ngIf="items.length > maxMoreLength">
+                <span class="ng-value-label">{{items.length - maxMoreLength}} 
+                    {{'label_more'|translate}}...</span>
+            </div>
+        </ng-template>
+        <ng-template ng-header-tmp>
+            <ng-container>
+                <div class="add-manage">
+                    <span class="spacer"></span>
+                    <button mat-icon-button class="dropdown-manage" id="favIcon" (click)="redirect()"  *ngIf="config.IsManage!=''" color="primary" matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                    (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                                    (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+                      <!-- {{'label_Manage' |translate}} -->
+                      <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                      class="{{animationVar?.ManageButton?.isAnimClass}}">
+                        <mat-icon>subject</mat-icon>
+                        <mat-icon class="secondIcon">settings</mat-icon>
+                    </div>
+                    </button>
+                    <button mat-icon-button class="dropdown-reload" (click)="getUpdateOptions()" *ngIf="IsRefresh" color="primary" type="button" [ngClass]="loader?'rotate-loader':''"  matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                    (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                          <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">refresh</mat-icon>
+                    </button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="config.searchEnable">
+                <!-- <label class="customNgSelect_searchHeadingTxt">{{ config.placeholder!=''&& config.placeholder!=undefined
+                    ?(config.placeholder|translate):''}} </label> -->
+                    <div class="pl-15 pr-15">
+                        <mat-form-field class="no-bottom">
+                            <input matInput class="selectSearch" autocomplete="off" placeholder="{{'label_search' |translate}} {{ config.placeholder!=''&& config.placeholder!=undefined ?(config.placeholder|translate):''}}" type="text" (input)="select.filter($event.target.value)" />
+                        </mat-form-field>
+                    </div>
+                    <!-- <mat-progress-bar mode="indeterminate" class="dropdowm-barloader" color="primary" *ngIf="loader"></mat-progress-bar> -->
+            </ng-container>
+        </ng-template>
+    </ng-select>
+    </span>
+    
+    <span *ngIf="!config.multiple">
+    <ng-select class="dropdown-body" #select [searchable]="false" [formControl]="selectedValue" appendTo="body" [clearable]="isClearable" [multiple]="config.multiple"
+        [ngClass]="config.IsRequired? 'without-ng-required' : ''"
+        [closeOnSelect]="true" [(ngModel)]="selectedIn" (change)="getValues()" [compareWith]="compareFn"
+        placeholder="{{ config.placeholder!='' && config.placeholder!=undefined ?(config.placeholder|customTranslate):''}}  {{config.IsRequired?'':''}}"
+        [disabled]="config?.IsDisabled" required={{config.IsRequired}} [bindLabel]="keyValue"
+        id="ddl_{{config.placeholder!='' && config.placeholder!=undefined ?(config.placeholder):''}}">
+    
+        <ng-template ng-header-tmp>
+            <ng-container>
+                <div class="add-manage">
+                    <span class="spacer"></span>
+                    <button mat-icon-button id="favIcon" class="dropdown-manage" (click)="redirect()"  *ngIf="config.IsManage!=''" color="primary" matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                    (mouseenter)="mouseoverAnimation(animationVar?.CustomManageButton?.id, animationVar?.CustomManageButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.CustomManageButton?.id, animationVar?.CustomManageButton?.animation)">
+                        <!-- {{'label_Manage' |translate}} -->
+                        <div class="two-icons" id="{{animationVar?.CustomManageButton?.id}}" class="{{animationVar?.CustomManageButton?.isAnimClass}}">
+                            <mat-icon>subject</mat-icon>
+                            <mat-icon class="secondIcon">settings</mat-icon>
+                        </div>
+                    </button>
+                    <button mat-icon-button class="dropdown-reload" (click)="getUpdateOptions()" *ngIf="IsRefresh" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                    (mouseenter)="mouseoverAnimation(animationVar?.CustomBarRotateButton?.id, animationVar?.CustomBarRotateButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.CustomBarRotateButton?.id, animationVar?.CustomBarRotateButton?.animation)">
+                          <mat-icon id="{{animationVar?.CustomBarRotateButton?.id}}" class="{{animationVar?.CustomBarRotateButton?.isAnimClass}}">rotate_right</mat-icon>
+                    </button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="config.searchEnable">
+                <!-- <label class="customNgSelect_searchHeadingTxt">{{ config.placeholder!=''&& config.placeholder!=undefined
+                    ?(config.placeholder|translate):''}} </label> -->
+                    <div class="pl-15 pr-15">
+                        <mat-form-field class="no-bottom">
+                            <input matInput class="selectSearch" autocomplete="off"  [(ngModel)]="searchValue"
+                             placeholder="{{'label_search' |customTranslate}} {{ config.placeholder!=''&& config.placeholder!=undefined ?(config.placeholder|customTranslate):''}}" type="text" (input)="select.filter($event.target.value)" />
+                             <!-- <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon> -->
+                             <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()"
+                               (click)="searchValue=''">
+                               <mat-icon>close</mat-icon>
+                             </button>
+                             <!-- <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div> -->
+                        </mat-form-field>
+                    </div>
+                    <!-- <mat-progress-bar mode="indeterminate" class="dropdowm-barloader" color="primary" *ngIf="loader"></mat-progress-bar> -->
+            </ng-container>
+        </ng-template>
+        <!-- <ng-option [value]="0" >{{'label_selectAll'| translate}} {{ config.placeholder!='' && config.placeholder!=undefined ?(config.placeholder|customTranslate):''}} </ng-option>-->
+        <ng-option [value]="0" *ngIf="config.isselectAll?config.isselectAll:false">{{'label_selectAll'| translate}}</ng-option>
+        <ng-option [value]="item"  *ngFor="let item of dropList">
+            {{item[bindNameFirst]}} - {{item[bindNamesecond]}}
+           
+        </ng-option>
+        <!-- {{item.SalaryBandName}} ({{item.SalaryRange}} -->
+    
+    </ng-select>
+    </span>
+    <mat-error
+    *ngIf="selectedValue.hasError('required') && selectedValue.touched">
+    {{config.placeholder|translate}} {{'label_errorreqired'|translate}}
+    </mat-error>
+    
+
+
+

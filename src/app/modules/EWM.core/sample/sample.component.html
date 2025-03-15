@@ -1,0 +1,70 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: sample.component.html
+  @Who: Suika
+  @What: For sample html
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+
+
+  <mat-card-header class="dashboard-mat-card-header" id="sample-mat-card-header">
+    <mat-card-title class="only-for-title">{{'label_comingSoon' |translate}} </mat-card-title>
+
+  </mat-card-header>
+ 
+  <mat-drawer-container class="xeople-container-with-one-card-no-buttons" autosize id="sample-drawer">
+  <mat-card class="component-card mat-elevation-z2 " id="industry-card">
+  
+    <!---<div cdkDropListGroup>
+      <div class="example-container" *ngFor="let f of fleet">
+        <h2>{{f.item}}</h2>
+        <div class="example-list" *ngIf="f.children"
+          cdkDropList
+          [cdkDropListData]="f.children"
+          (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let item of f.children" cdkDrag>{{item.item}}</div>
+        </div>
+      </div>
+    </div>-->
+
+
+    <!---<div cdkDropListGroup>
+      <div class="example-container" *ngFor="let s of stage">
+        <h2>{{s.stageName}}</h2>        
+          <div class="example-list"
+          cdkDropList
+          [cdkDropListData]="candidates"
+          (cdkDropListDropped)="drop($event)"> 
+          <div class="example-box" *ngFor="let item of candidates" cdkDrag>      
+            <div  class="example-box"  *ngIf="s.stageId ==item.stageId" >
+              {{item.candidateName}}
+              </div>
+            </div>        
+        </div>
+      
+      </div>
+    </div>
+
+
+    <div class="col-md-3" *ngFor="let s of stage">
+      <div class="drag-container">
+        <div class="section-heading"> {{s.stageName}}</div>
+
+        <div cdkDropList id="{{s.stageName}}" [cdkDropListData]="s.candidates"
+          [cdkDropListConnectedTo]="connectedTo" class="item-list" (cdkDropListDropped)="drop($event)">
+          <div class="item-box" *ngFor="let item of s.candidates" cdkDrag> {{item.candidateName}}          
+
+          </div>
+        </div>
+      </div>
+    </div>
+   -->
+
+ 
+</mat-card>
+</mat-drawer-container>

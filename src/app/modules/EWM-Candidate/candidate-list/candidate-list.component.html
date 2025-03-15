@@ -1,0 +1,553 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: candidate-list.component.html
+  @Who: Renupdash
+  @When: 10-Aug-2021
+  @Why: EWM-2020 EWM-2363
+  @What: This page wil be use only for the candidate list page Component HTML
+ -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<mat-card-header class="page-header" id="candidate-list-card-header">
+  <mat-card-title>
+    <button mat-mini-fab class="mainAddButton" matTooltip="{{'label_addCandidate'|translate}}" matTooltipClass="custom-tooltip" color="primary" id="btnCreate" (click)="openQuickCandidateModal()"
+    (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+    (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">{{animationVar?.CreateButton?.iconName}}</mat-icon>
+    </button>
+    <div class="sub-title">
+    <span id="totalCandidateTitle">{{'label_totalCandidates' |customTranslate}} {{totalDataCount}}</span>
+    </div>
+  </mat-card-title>
+  <div class="header-action-button" id="client-dashboard-actionButton">
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal" [ngModelOptions]="{standalone: true}">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()"
+          (click)="searchVal=''" id="candidate-list-searchVal">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+    <div class="group-header-button">
+      <button mat-raised-button class="refreshBtn header-button" id="btnRefresh" (click) ="refreshComponent()"
+      matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+      (mouseenter)="mouseoverAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)" >
+      <mat-icon id="{{animationVar?.RotateButton?.id}}" class="{{animationVar?.RotateButton?.isAnimClass}}">{{animationVar?.RotateButton?.iconName}}</mat-icon>
+    </button>
+
+    <!-- @When: 29-02-2024 @who:Amit @why: EWM-16254 @what: proximity search btn -->
+    <div class="button-with-clear blank-count" id="proximity-search">
+      <button mat-raised-button (click)="openProximitySearchDialog()"  class="header-button"
+        matTooltip="{{'label_proximity' | translate}} {{'label_search' | translate}}" matTooltipClass="card-list-tooltip"
+         matTooltipPosition="before" id="proximity-area" [ngClass]="[IsProximitySearch==true ? 'addFilter' : 'blankFilter']"
+        (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)">
+        <mat-icon id="{{animationVar?.ActionsButton?.id}}" class="{{animationVar?.ActionsButton?.isAnimClass}}">share_location</mat-icon>
+      </button>
+      <div class="clear-with-data blank-text" *ngIf="IsProximitySearch==true" (click)="onClearProximitySearch()">
+        <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+      (click)="switchListMode('listMode')" id="job-landing-viewModeInactive"
+      (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+          matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+      <span class="material-icons" id="{{animationVar?.ListButton?.id}}" class="{{animationVar?.ListButton?.isAnimClass}}">
+        {{animationVar?.ListButton?.iconName}}
+      </span>
+    </button>
+    <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+      (click)="switchListMode('cardMode')" id="job-landing-viewModeactive"
+      (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+          matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+      <span class="material-icons" id="{{animationVar?.GridButton?.id}}" class="{{animationVar?.GridButton?.isAnimClass}}">
+        {{animationVar?.GridButton?.iconName}}
+      </span>
+    </button>
+    <!--@When: 23-11-2023 @who:Amit @why: EWM-15215 @what: three dot show desktop view-->
+    <button mat-raised-button [matMenuTriggerFor]="mobileViewButtonsMenu" class="header-button">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #mobileViewButtonsMenu="matMenu" class="threedot-inside-menu">
+      <ng-container *ngTemplateOutlet="buttonRef"></ng-container>
+    </mat-menu>
+    <!-------ng template for buttons---->
+    <ng-template #buttonRef>
+      <button mat-menu-item [disabled]="selectedCandidate == null || 0 >= selectedCandidate?.length" id="candidatesBulkBtn"
+        (click)="onBulkEmail()" class="header-button br-0" id="candidate-list-manage-search">
+      <mat-icon>{{animationVar?.MailButton?.iconName}}</mat-icon>
+      <span class="text-for-mobile-view">{{'label_candidatesendEmail'|translate}}</span>
+    </button>
+
+    <button mat-menu-item id="addCandidateToJobBtn" class="share-job-app br-0" [disabled]="0 >= selectedCandidate?.length || getBulkSmsFlag() || !SMSCheckStatus" (click)="openJobBulkSMSForCandidate()" [ngClass]="selectedCandidate?.length!=0 && getBulkSmsFlag()? 'same-stage-show' : ''">
+      <mat-icon fontSet="material-icons-outlined">sms</mat-icon>
+      <span class="share-job">
+        <span class="text-for-mobile-view">{{'label_candidatebulksms' | translate}}</span>
+        <span class="new badge red" style="color:red" *ngIf="selectedCandidate?.length!=0 && getBulkSmsFlag()">{{'label_stageCanPhoneErr' | translate}}</span>
+      </span>
+    </button>
+    <div class="button-with-clear">
+      <button mat-menu-item id="folderBtn" class="header-button"
+        [ngClass]="[ folderId!=0 ? 'addFilter' : 'blankFilter']"
+        (click)="getFolderListAll()">
+        <mat-icon fontSet="material-icons-outlined">{{animationVar?.FolderButton?.iconName}}</mat-icon>
+        <span class="text-for-mobile-view">{{'candidate_folders'|translate}}</span>
+      </button>
+      <div class="clear-with-data" *ngIf="folderId!=0 && folderId!=undefined " (click)="clearFolderData()">
+        <span class="text-overflow filterCount" matTooltip="{{folderName}}">{{folderName}}</span>
+        <button mat-icon-button color="warn" id="candidate-list-close">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <button mat-menu-item (click)="toggleDrwer(advancedsearch)" class="header-button" id="candidate-list-manage-search">
+      <mat-icon>{{animationVar?.AdvanceSearchButton?.iconName}}</mat-icon>
+      <span class="text-for-mobile-view">{{'label_candidateListquickSearch'|translate}}</span>
+    </button>
+    <div class="button-with-clear">
+      <button mat-menu-item class="more-filter header-button"
+        [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']"
+        (click)="openFilterModalDialog()">
+        <mat-icon fontSet="material-icons-outlined">{{animationVar?.FilterButton?.iconName}}</mat-icon>
+        <span class="text-for-mobile-view">{{'label_filters'|translate}}</span>
+      </button>
+      <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData()">
+        <span class="text-overflow filterCount">{{filterCount}}</span>
+        <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <button mat-menu-item id="callToActionBtn" class="header-button" (click)="openActionModalDialog()">
+      <mat-icon fontSet="material-icons-outlined">{{animationVar?.ActionsButton?.iconName}}</mat-icon>
+      <span class="text-for-mobile-view">{{'label_actions'|translate}}</span>
+    </button>
+</ng-template>
+<!--------ng teplate end-->
+  </div>
+  </div>
+</mat-card-header>
+<mat-drawer-container autosize id="candidate-list-advancedsearch-container" [ngClass]="viewMode === 'cardMode'?'page-container-cardview':'page-container-listcard'">
+  <mat-drawer #advancedsearch class="advancedsearchDrawer" mode="over" disableClose="true" position="end" id="candidate-list-advancedsearchDrawer">
+    <div style="display: flex; height: 100%;">
+      <div class="drawerTitleSec">
+        <h4 class="text-overflow">
+          {{'label_candidateListquickSearch'|translate}}
+          <button class="closeDrawerIcon" mat-stroked-button  (click)="closeDrawer(advancedsearch)" id="candidate-list-advancedsearch">
+            <mat-icon>close</mat-icon>
+          </button>
+        </h4>
+      </div>
+      <mat-card class="advancedsearchDrawerData" id="candidate-list-advancedsearchDrawerData" style="height: 100%;">
+        <div class="row mb-0">
+          <div class="ng-slectBox">
+            <ng-select class="dropdown-body" #select [searchable]="false" appendTo="body" [clearable]="true" [multiple]="false"
+            [closeOnSelect]="true" [compareWith]="compareFn" (change)="onStatuschange($event)"
+            placeholder=" {{'label_statusMaster' |translate}}">
+          <ng-template ng-header-tmp>
+                <ng-container>
+                    <div class="add-manage">
+                      <span class="spacer"></span>
+                        <button mat-icon-button id="favIcon" class="dropdown-manage" (click)="redirect()" color="primary" matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                        (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                        (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+                          <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                          class="{{animationVar?.ManageButton?.isAnimClass}}">
+                            <mat-icon>subject</mat-icon>
+                            <mat-icon class="secondIcon">settings</mat-icon>
+                        </div>
+                        </button>
+
+                        <button mat-icon-button class="dropdown-reload"  (click)="getUpdateOptions()" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" id="candidate-list-getUpdateOptions" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                        (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                        (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                            <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">rotate_right</mat-icon>
+                        </button>
+                    </div>
+
+                </ng-container>
+
+                <ng-container>
+                        <div class="pl-15 pr-15">
+                            <mat-form-field class="no-bottom">
+                                <input matInput class="selectSearch"  placeholder="Search" type="text" (input)="select.filter($event.target.value)" />
+                            </mat-form-field>
+                        </div>
+                </ng-container>
+            </ng-template>
+            
+            <ng-option [value]="item" *ngFor="let item of statusList">
+              {{item.Code}}
+            </ng-option>
+        </ng-select>
+          </div>
+          <div class="ng-slectBox">
+            <app-custom-dropdown  [resetFormSubject]="resetFormSubjectParentClient.asObservable()" [selectedIn]="selectedRelation" (selectedOut)="onDesignationchange($event)" (isDataLoad)="onDataload($event)" [config]="dropDoneConfigParentClient"></app-custom-dropdown>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </mat-drawer>
+  <mat-card class="mat-elevation-z2 listmode-card" id="component-card" *ngIf="viewMode === 'listMode'">
+      <!-- @Who: Satya Prakash Gupta ,@When: 19-April-2023, @Why: EWM-11966 EWM-11967 ,What: locked comumn false -->
+      <!--@When: 12-10-2023 @who:Amit @why: EWM-14757 @what: add class-->
+
+      <div class="kendo-grid-appearance without-column-popup" id="candidate-list-kendo-table-container">
+        <ng-template #template let-anchor>
+        <span>{{anchor.nativeElement.innerText}}</span>
+        </ng-template>
+        <div class="kendo-settings" kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+          (mouseover)="showTooltip($event)">
+          <!---------@When: 29-06-20223 @who:Amit @why: EWM-12957 @what: add filter row--------->
+          <!-- @Who: bantee ,@When: 18-09-2023, @Why: EWM-14057 ,What: Managing kendo grid via data state -->
+          <kendo-grid #grid  [sortable]="true"
+                      [sort]="state.sort" [filter]="state.filter" id="overflowCustom"
+                      [reorderable]="false" [resizable]="true" (dataStateChange)="onDataStateChange($event)"
+                      [filterable]="true" [data]="data" [selectable]="true" [pageable]="{buttonCount: 3,
+                          info: true,
+                          type: 'numeric',
+                          pageSizes: true,
+                          previousNext: true,
+                          responsive: true}" [pageSize]="state.take" [skip]="state.skip"
+                          (selectedKeysChange)="selectionChange($event)"  [kendoGridSelectBy]="selectedCallback"
+                          [(selectedKeys)]="selectedCandidate" [selectable]="selectableSettings">
+            <kendo-grid-checkbox-column [columnMenu]="false" [showSelectAll]="true"></kendo-grid-checkbox-column>
+            <!-- @When: 13-07-2023,@who:Nitin, @why: EWM-13108 @what: add [filter] -->
+            <!--  who:maneesh,what:ewm-13417 for change width   "column.width<40?150:column.width" when:19/07/2023 -->
+            <kendo-grid-column *ngFor="let column of columnsWithAction, let i = index" [field]="column.Field"
+            [filter]="column?.Type?.toLowerCase()=='dropdown'?'text':column.Type|lowercase"
+              [title]="column.Title |customTranslate"  [width]="column.width<40?150:column.width"
+              [headerStyle]="column.Type=='Numeric' ||column.Type=='Date' || column.Field=='JobApplications' || column.Field=='FirstJobApplication'  ||  column.Field=='LastJobApplication'?{'text-align': 'right'}:''"
+                [format]="column?.Type?.toLowerCase()=='date'?dateFormatKendo:column.Format" [reorderable]="column.Type=='Action'?false:true" [filterable]="column.Filterable"
+                [style]="{'padding':column?.Field?.toLowerCase()=='statusname'?'0px':''}">
+<!--  who:suika,what:EWM-13301 stop drag and drop for action column-- [reorderable]="column.Type=='Action'?false:true" -->
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Type=='Action'">
+                <button mat-flat-button [matMenuTriggerFor]="menu" class="dataActionButton" id="candidate-list-dataActionButton">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" class="dataActionButtonGroup candidate-mat-menu menu-dropdown">
+                  <a mat-menu-item id="btnView" [routerLink]="['../candidate']"
+                  [queryParams]="{CandidateId:dataItem.CandidateId, Type: 'CAND'}"
+                  >
+                  <mat-icon>subject</mat-icon>
+                  {{'label_view_summary'|translate}}
+                </a>
+
+                <button class="push-candidate-icon-button" *ngIf="(extractEnableCanCheck == 1) && (IsEOHIntergrated)"  mat-button id="sharePersonalToEOHBtn" (click)="pushCandidateToEOH(dataItem)">
+                  <!-- <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z"/></svg>  -->
+                  <img src="../../../../assets/brand/{{EOHLogo}}">
+                  {{'pushCandidateToEoh_pushCandidate' | translate}}
+              </button>
+              <a *ngIf="!(extractEnableCanCheck == 1) || (!IsEOHIntergrated)" class="push-candidate-icon-button logo-with-text" mat-button
+              (click)="redirectOnMarketPlace()" id="pushEOH_redirectPush1">
+                  <div class="groups">
+                      <!-- <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z"/></svg>  -->
+                      <!-- not connected message  -->
+                      <img src="../../../../assets/brand/{{EOHLogo}}" />
+                      <div class="list-view-name" *ngIf="!IsEOHIntergrated">
+                          <div class="txt">{{'pushCandidateToEoh_pushCandidate' |translate}}</div>
+                          <div class="text-label">{{'pushCandidateToEoh_marketplace'|translate}}</div>
+                      </div>
+                      <!-- connected but not subscribe message -->
+                      <div class="list-view-name" *ngIf="IsEOHIntergrated">
+                        <div class="txt">{{'pushCandidateToEoh_pushCandidate' |translate}}</div>
+                        <div class="text-label">{{'pushCandidateToEoh_marketplace_Subs'|translate}}</div>
+                    </div>
+                  </div>
+              </a>
+              </mat-menu>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Name'">
+                <div class="eoh-synced">
+                  <mat-icon svgIcon="tick" *ngIf="dataItem?.EOHId && dataItem?.EOHId!==null"></mat-icon>
+                 <a [routerLink]="['../candidate']" [queryParams]="{CandidateId:dataItem.CandidateId, Type: 'CAND'}"
+                  id="btnViewCandiateName">
+                  {{dataItem.Name}}
+                </a>
+                </div>
+              </ng-template>
+              <!--Who:Ankit Rawat, What:EWM-16075-EWM-16120 Added Recruiter label on Grid, When:23Feb24 -->
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Recruiters'">
+                <div class="grid-chips" id="grid-chips-recruiter">
+                  <mat-chip-list #chipList aria-label="tag selection">
+                    <ng-container *ngFor="let recruiter of dataItem.Recruiters, let i = index;">
+                      <mat-chip *ngIf="i<2"  id="recruiterchiplist" [disabled]="readOnly" [removable]="false" class="text-overflow">
+                        <span>{{recruiter.Name}}</span>
+                      </mat-chip>
+                    </ng-container>
+                  </mat-chip-list>
+                  <button mat-icon-button color="primary" *ngIf="dataItem.Recruiters?.length>2" class="more-owner-show"
+                    [matMenuTriggerFor]="showAllRecruiter" name="btnMore" id="btnMore_recruiters">
+                    +{{dataItem.Recruiters?.length-2}}
+                  </button>
+                  <mat-menu #showAllRecruiter="matMenu" class="menu-dropdown" id="recruiter_view" xPosition="before">
+                    <ng-container *ngFor="let recruiter of dataItem?.Recruiters, let i = index;">
+                      <button mat-button *ngIf="i>=2" id="recruiter_tooltip">
+                        {{recruiter.Name}}
+                      </button>
+                    </ng-container>
+                  </mat-menu>
+                </div>
+                </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ExpectedSalary'">
+                <span class="textRight">{{dataItem.ExpectedSalary | PipeCurrencyCustome}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CurrentSalary'">
+                <span class="textRight">{{dataItem.CurrentSalary | PipeCurrencyCustome}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='NoticePeriod'">
+                <span class="textRight">{{dataItem.NoticePeriod}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Experience'">
+                <span class="textRight">{{dataItem.Experience>0?dataItem.Experience+' Year(s)':dataItem.Experience+' Year'}}</span>
+              </ng-template>
+              <!--Who:Ankit Rawat, What:EWM-16158-EWM-16310 Added Proximity column on Grid, When:04March24 -->
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Proximity'">
+                <span class="textRight">{{ IsProximitySearch ? dataItem.Proximity : ' ' }}</span>
+              </ng-template>
+              <!-------------@suika @EWM-13288 @EWM-13412 @whn 24-07-2023---------------------------------->
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Email'"  let-rowIndex="rowIndex">
+                  <div class="copy-content" id="newEmail" >
+                    <button mat-icon-button color="primary" type="button" id="url-copy-btn__{{i}}"
+                      class="content-copy" (click)="copyCandidateEmailId(dataItem.Email,rowIndex);" *ngIf="dataItem.Email!=null && dataItem.Email!=''"
+                      matTooltip="{{'label_copy' | translate}}"
+                  matTooltipClass="custom-tooltip">
+                      <mat-icon>content_copy</mat-icon>
+                    </button>
+                    <span class="email-text" (click)="openNewEmailModal(undefined,'',dataItem.Email,dataItem)">
+                      {{dataItem.Email}}
+                    </span>
+                    <div class="copyMessage email-hide" id="autoHide{{rowIndex}}">
+                      <div class="alert-primary alert-green">
+                        <mat-icon>check</mat-icon>
+                        <span>{{'label_emailAddressCipied'| translate }}</span>
+                      </div>
+                    </div>
+                  </div>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='PhoneNumber'"  class="p-0">
+                <div [hidden]= "dataItem.PhoneNumber == null || dataItem.PhoneNumber ==''">
+                    <div *ngIf="dataItem.PhoneNumber != null || dataItem.PhoneNumber != undefined || dataItem.PhoneNumber != blank" class="callAction">
+                    <!--@When: 21-May-2024 @who:Amit @why: EWM-17148 @what: disabled remove-->
+                    <a href="tel:{{dataItem.PhoneNumber}}" mat-icon-button matTooltip="{{'label_call' | translate}} - {{dataItem.PhoneNumber}}"
+                    matTooltipClass="custom-tooltip"><mat-icon   id="{{animationVar?.CallButton?.id}}"
+                    class="{{animationVar?.CallButton?.isAnimClass}}">call</mat-icon>
+                    </a>
+                  <div class="sms-view">
+                    <button mat-mini-fab color="primary" class="share" id="smsBtn"
+                      [disabled]="!isSMSStatus"  matTooltipClass="custom-tooltip" matTooltip="{{'label_sms' | translate}}"
+                      (click)="smsHistoryDetails(dataItem)">
+                      <mat-icon id="{{animationVar?.ShareButton?.id}}"
+                        class="{{animationVar?.ShareButton?.isAnimClass}}">sms</mat-icon>
+                    </button>
+                  </div>
+                    {{dataItem.PhoneNumber}}
+                  </div>
+              </div>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Tags'"><!-- @When: 02-Nov-2023 @who:Satya Prakash Gupta @why: EWM-15031 @what: add chip -->
+                <div class="grid-chips" id="grid-chips">
+                  <mat-chip-list #chipList aria-label="tag selection">
+                    <ng-container *ngFor="let tagList of dataItem.Tags, let i = index;">
+                      <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false" class="text-overflow">
+                        <span>{{tagList}}</span>
+                      </mat-chip>
+                    </ng-container>
+                  </mat-chip-list>
+                  <button mat-icon-button color="primary" *ngIf="dataItem.Tags?.length>2" class="more-owner-show"
+                    [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                    +{{dataItem.Tags?.length-2}}
+                  </button>
+                  <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                    <ng-container *ngFor="let tagList of dataItem?.Tags, let i = index;">
+                      <button mat-button *ngIf="i>=2">
+                        {{tagList}}
+                      </button>
+                    </ng-container>
+                  </mat-menu>
+                </div>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Skills'">
+                <!-- @When: 11-10-2023 @who:Amit @why: EWM-14609 @what: chip design -->
+                <div class="grid-chips" id="grid-chips">
+                  <mat-chip-list #chipList aria-label="skill selection">
+                    <ng-container *ngFor="let skillList of dataItem.Skills, let i = index;">
+                      <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false" class="text-overflow">
+                        <span>{{skillList}}</span>
+                      </mat-chip>
+                    </ng-container>
+                  </mat-chip-list>
+                  <!-- @When: 11-10-2023 @who:Amit @why: EWM-14609 @what: btn change -->
+                  <button mat-icon-button color="primary" *ngIf="dataItem.Skills?.length>2" class="more-owner-show"
+                    [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                    +{{dataItem.Skills?.length-2}}
+                  </button>
+                  <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                    <ng-container *ngFor="let skillList of dataItem?.Skills, let i = index;">
+                      <button mat-button *ngIf="i>=2">
+                        {{skillList}}
+                      </button>
+                    </ng-container>
+                  </mat-menu>
+                </div>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastModifiedDate'">
+                <span class="textRight">{{(dataItem.LastModifiedDate?dataItem.LastModifiedDate:'')|
+                  date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CreatedDate'">
+                <span class="textRight">{{(dataItem.CreatedDate!=0?dataItem.CreatedDate:'')|
+                  date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ZipCode'">
+                <span>{{dataItem.ZipCode}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobApplications'">
+                <span class="textRight">{{dataItem.JobApplications}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastActivityDate'">
+                <span class="textRight">{{(dataItem.LastActivityDate!=0?dataItem.LastActivityDate:'')|
+                  date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastCallDate'">
+                <span class="textRight">{{(dataItem.LastCallDate!=0?dataItem.LastCallDate:'')|
+                  date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastMeetingDate'">
+                <span class="textRight">{{(dataItem.LastMeetingDate!=0?dataItem.LastMeetingDate :'')|
+                  date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='FirstJobApplication'">
+                <span class="textRight">{{(dataItem.FirstJobApplication!=0?dataItem.FirstJobApplication :'')|
+                  date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastJobApplication'">
+                <span class="textRight">{{(dataItem.LastJobApplication!=0?dataItem.LastJobApplication :'')|
+                  date:userpreferences.timeformate:userpreferences.timezone}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='source'">
+                <span>{{dataItem.Source}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='StatusName'">
+                <span [style.background-color]="dataItem?.StatusColorCode" class="cell-color">{{dataItem?.StatusName}}</span>
+                </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Actions'" class="expanIconCol">
+                <a [routerLink]="['../candidate']" [queryParams]="{CandidateId:dataItem.CandidateId}"
+                  id="btnActionView" class="clientTitlePurpleTxt">
+                  <mat-icon class="clientTitlePurpleTxt">subject</mat-icon>
+                </a>
+              </ng-template>
+              <!-- @Who: bantee ,@When: 18-09-2023, @Why: EWM-14057 ,What: Managing kendo grid via data state -->
+              <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='dropdown'">
+                <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+                  <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                  <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                    <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                </kendo-grid-string-filter-cell>
+                </ng-template>
+                <!-- @Who: Nitin Bhati,@When:18-10-2023, @Why: EWM-14856 -->
+                <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='text'">
+                  <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+                    <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                    <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                      <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                  </kendo-grid-string-filter-cell>
+                  </ng-template>
+                  <!-- @Who: Nitin Bhati,@When:18-10-2023, @Why: EWM-14856 -->
+                <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='numeric'">
+                <kendo-grid-numeric-filter-cell    [column]="column" [filter]="filter" operator="eq">
+                  <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                  <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                  <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                  <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                  <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                </kendo-grid-numeric-filter-cell>
+            </ng-template>
+            </kendo-grid-column>
+            <ng-template kendoPagerTemplate let-totalPages="totalPages"
+                let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+                <kendo-pager-info></kendo-pager-info>
+                <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+            </ng-template>
+
+          </kendo-grid>
+          <div *ngIf="loadingscroll" class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt"></div>
+        </div>
+      </div>
+  </mat-card>
+  <div class="cardview-container" id="cardview-container" *ngIf="viewMode === 'cardMode'" infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="70" (scrolled)="onScrollDown()" [scrollWindow]="false">
+      <div class="cardview-norecord" id="cardview-norecord" *ngIf="this.gridListData==undefined ||this.gridListData.length==0">
+        <span>{{'label_noRecordAvailable'|translate}}</span>
+      </div>
+      <mat-card class="grid-card-mode" id="grid-card-mode" *ngFor="let listDataList of gridListData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+        <div class="grid-card-mode-header" id="grid-card-mode-header">
+          <div class="userAvtaarAndName">
+              <span *ngIf="!listDataList.ImageUrl" [style.color]="getBackgroundColor(listDataList?.ShortName)">{{listDataList.ShortName}}</span>
+              <img alt="{{listDataList.Name?listDataList.Name:'--'}}" src="{{(listDataList.ImageUrl !=undefined && listDataList.ImageUrl !=null && listDataList.ImageUrl !='')?listDataList.ImageUrl:ProfileImagePreviewURL}}" *ngIf="listDataList.ImageUrl" (click)="imagePreview(listDataList.ImageUrl)">
+          </div>
+          <div class="grid-card-mode-header-data" id="grid-card-mode-header-data">
+            <span>{{listDataList.Name?listDataList.Name:'--'}}</span>
+            <small>{{listDataList.Location?listDataList.Location:'--'}}</small>
+          </div>
+        </div>
+        <div class="grid-card-mode-data" id="grid-card-mode-data">
+          <div class="full-data">
+            <small>Email</small>
+            <span>{{listDataList.Location?listDataList.Email:'--'}}</span>
+          </div>
+          <div class="full-data">
+              <small>{{'label_Source'|translate}}</small>
+              <span>{{listDataList.Source }}</span>
+          </div>
+        </div>
+        <div class="grid-card-mode-footer" id="grid-card-mode-footer">
+          <div>
+            <span class="color-data" [style.background-color]="listDataList.StatusColorCode">{{listDataList.StatusName ?listDataList.StatusName :'--'}}</span>
+          </div>
+          <div class="button-group" id="button-group">
+            <button mat-icon-button [routerLink]="['../candidate']" [queryParams]="{CandidateId: listDataList.CandidateId}" color="primary" id="candidate-visiButtonId" matTooltipClass="card-list-tooltip" matTooltipPosition="before" matTooltip="{{'label_view_summary'|translate}}" >
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card>
+  </div>
+  <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+  <!-- //Entire Software : Bantee Kumar : 22-Sep-2023 : getIntegrationCheckSMSstatus EWM-14292 -->
+  <mat-drawer #smsHistoryDrawer mode="over" *ngIf="smsHistoryToggel" disableClose="true" position="end"
+    class="sms-history-drawer">
+    <div class="closePanel">
+      <button class="closeDrawerIcon" id="closeDrwerMapedsms" mat-stroked-button
+        (click)="toggleDrawer(smsHistoryDrawer)">
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+      <button class="sidebarSectionName addCandidateToJobBtn" mat-raised-button color="primary" type="button"
+        id="btnsmsHistory">{{'label_sms_history'|translate }}</button>
+    </div>
+    <div class="panelSidebarInformation" id="getsmsHistory">
+      <!-- @When: 23-09-2023 @who:Amit @why: EWM-14293 @what:sms drawer -->
+      <mat-card *ngIf="isSmsHistoryForm" class="drawer-mat-card candidate-sms-drawer">
+        <app-sms-history  [ConTactPhoneNumber]="contactPhone"
+          [SMSHistory]="SMSHistory" [candidateIdData]="candidateId" [candidateDetails]="candidateDetails" 
+          [UserType]="userType"(onSmsHistoryForm)="fetchDataFromSMSHistory($event)"></app-sms-history>
+      </mat-card>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>

@@ -1,0 +1,638 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: customizing-widgets.scss
+    @Who: Naresh Singh
+    @When: 12-Jul-2021
+    @Why: EWM-2009 EWM-2049
+    @What: This file is used for Customizing Widgets css styles
+*/
+
+/*
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 27-Apr-2023
+    @Why: EWM-12189 EWM-12230
+    @What:  Dashboard page re design styles,
+*/
+
+@import '../../../../../mixinStyle.scss';
+@import '../../../../../styles-var.scss';
+.dashboard-sec{
+  // display: grid;
+  // grid: auto/ calc(50% - 5px) calc(50% - 5px);
+  // gap: 10px;
+  @include for-large-smartphones {
+    grid: auto/ calc(100% - 0px);
+    gap: 0px;
+  }
+  @include for-smartphones {
+    grid: auto/ calc(100% - 0px);
+    gap: 0px;
+  }
+  @include for-small-smartphones{
+    grid: auto/ calc(100% - 0px);
+    gap: 0px;
+  }
+}
+
+.vertical-center-align-createjob {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0px 15px;
+  @media only screen and (max-width: 720px) {
+    align-items: flex-start;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: auto;
+  }
+
+  .col {
+    @media only screen and (max-width: 720px) and (min-width: 601px) {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  }
+  .mat-card-container.mat-card {
+    width: calc(100% - 10px);
+    max-width: 520px;
+    padding: 30px 15px;
+    margin-bottom: 0px;
+    border-radius: 15px;
+    max-width: 475px;
+    padding: 30px 15px;
+    @media only screen and (max-width: 720px) and (min-width: 320px) {
+      max-width: 235px;
+    }
+    .mat-card {
+      @media only screen and (max-width: 600px) and (min-width: 320px) {
+        margin-bottom: 15px;
+      }
+    }
+  }
+  .add-mat-card-container.mat-card{
+    max-width: 300px;
+    width: calc(100% - 10px);
+  }
+}
+.singleAddJobButton{
+  height: calc(100% - 65px);
+}
+.selectTemplateOrCreatejob.mat-card {
+  box-sizing: border-box;
+  transition: all 0.25s;
+  cursor: pointer;
+  margin: 0px 0px;
+  padding: 30px 10px;
+  label {
+    cursor: pointer;
+    padding: 5px 0px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 18px;
+    font-size: 18px;
+  }
+  .cltImgBox {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    border-radius: 100%;
+    margin: 0px auto;
+    margin-bottom: 15px;
+    transition: all 0.25s;
+    .mat-icon {
+      font-size: 62px;
+      height: 62px;
+      width: 62px;
+      line-height: 62px;
+      transition: all 0.25s;
+    }
+  }
+}
+.selectTemplateOrCreatejob:hover .cltImgBox .mat-icon{
+  transform: scale(1.35);
+  transition: all 0.25s;
+}
+.selectTemplateOrCreatejob:hover .cltImgBox{
+  box-shadow: 0px 0px 14px 0px rgb(0 0 0 / 42%) inset;
+}
+.selectTemplateOrCreatejob:hover{
+  transform: scale(1.05);
+}
+
+.new-card-box{
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(2, calc(50% - 7.5px));
+  @include for-small-smartphones{
+    grid-template-columns: repeat(1, calc(100% - 0px));
+  }
+  @include for-smartphones{
+    grid-template-columns: repeat(1, calc(100% - 0px));
+  }
+  @include for-large-smartphones{
+    grid-template-columns: repeat(1, calc(100% - 0px));
+  }
+  @include for-small-smartphones{
+    grid-template-columns: repeat(1, calc(100% - 0px));
+  }
+  .dashboardCardBoxNew{
+    padding:10px;
+    .mat-card-header{
+      padding:0px;
+      .mat-card-title{
+        display: grid;
+        column-gap: 10px;
+        font-size: 16px;
+        grid-template-columns: calc(100% - 34px) 24px;   
+        span{
+          font-size: 16px;
+          font-weight: 500;
+          min-height: 25px;
+        }
+        .mat-icon{
+          font-size: 18px;
+          background: $primary-bg-color;
+          border-radius: 50%;
+          color: $primary-txt-color;
+          text-align: center;
+          line-height: 22px;
+          position: relative;
+          right: 5px;
+          top: 3px;
+        }
+      }
+    }
+    .content{
+      margin-bottom: 5px;
+      .data.mat-card{
+        padding: 7px;
+        margin-bottom: 10px;
+        color: #fff;
+        p.heading{
+          font-size:16px;
+          font-weight: 600;
+          text-shadow: 0px 1px 0px #000;
+        }
+        p{
+          margin:0px 0px 5px 0px;
+          font-size:13px;
+          &:last-child{
+            margin-top: 10px;
+            text-align: right;
+          }
+        }
+      }
+      .data.mat-card.past{
+        background-color: rgb(244 67 54 / 66%);
+      }
+      .data.mat-card.present{
+        background-color: rgb(33 150 243 / 66%);
+      }
+      .data.mat-card.future{
+        background-color: rgb(127 183 52 / 66%);
+      }
+      .actionButtonNew{
+        text-align: right;
+        .mat-raised-button{
+          min-width:40px;
+          margin:0px 5px;
+          padding: 0px 10px;
+          .mat-icon {
+            color: $primary-bg-color;
+            width:20px;
+            height:20px;
+            font-size:20px;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.dashboard-drawer-content{
+  padding: 20px 10px;
+}
+
+.page-header.mat-card-header{
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 60px;
+  }
+  .header-action-button .group-header-button .header-button.mat-raised-button .mat-icon.secondIcon{
+    width: 14px;
+    height: 14px;
+    font-size: 11px;
+    line-height: 14px;
+    border-radius: 100%;
+    position: absolute;
+    right: 0px;
+    background: $white-color;
+  }
+} 
+
+// @When: 23-03-2023 @who:Amit @why: EWM-11380 @what:searchbar add then height decrease
+.xeople-container-without-header-buttons.mat-drawer-container{
+  height: calc(100% - 46px);
+}
+
+.dashboard-sec{
+  display: inherit;
+  display: grid;
+  grid: auto/calc(50% - 5px) calc(50% - 5px);
+  gap: 10px;
+  @media only screen and (max-width: 767px) and (min-width: 320px) {
+    grid: auto/100%;
+  }
+  .dashboardColBox{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    .dashboardCardBox{
+      border-radius: 8px;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      margin-top: 15px;
+      margin-bottom: 0px;
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+      transition: all 0.25s;
+      position: relative;
+      // min-height: 242px;
+      .mat-card-title{
+        padding: 4px 15px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 15px;
+        position: absolute;
+        left: 10px;
+        top: -14px;
+        color: $white-color;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 1px, rgba(0, 0, 0, 0.02) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+      }
+      .cardContent{
+        padding: 0px;
+        margin-bottom: 0px;
+        .cardContentBox{
+          display: grid;
+          grid-template-columns: repeat(3, calc(33.33% - 7px));
+          gap: 10px;
+          padding: 20px 15px 10px;
+          overflow: hidden;
+          .card-box{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: all 0.3s ease-in;
+            cursor: default;
+            gap: 2px;
+            &:hover{
+              transform: scale(1.18);
+              transition: all 0.3s ease-out;
+              .count{
+                text-shadow: 0px 1px 2px #333;
+                transition: all 0.3s ease-out;
+              }
+              .count-title{
+                text-shadow: 0px 0px 1px #333;
+                transition: all 0.3s ease-out;
+              }
+            }
+            .count{
+              position: relative;
+              text-align: center;
+              font-size: 26px;
+              font-weight: 400;
+              line-height: 14px;
+              width: 100px;
+              padding: 5px 0px;
+              text-shadow: 0 2px 3px rgba(0,0,0,.25);
+              transition: all 0.3s ease-in;
+              @media only screen and (max-width: 1060px) and (min-width: 320px) {
+                font-size: 26px;
+              }
+            }
+            .count-title{
+              font-size: 12px;
+              font-weight: 900;
+              text-align: center;
+              width: 100%;
+            }
+          }
+        }
+        .cardContentBox.four-card{
+          grid-template-columns: repeat(4, calc(25% - 8px));
+        }
+        .cardContentBox.two-card{
+          grid-template-columns: repeat(2, calc(50% - 5px));
+        }
+      }
+      .matCardFooter{
+        margin: 0px;
+        background: #fff;
+        text-align: right;
+        padding: 5px 10px;
+        border-radius: 0px 0px 8px 8px;
+        .mat-icon-button{
+          width: 24px;
+          height: 24px;
+          line-height: 24px;
+          color: $primary-bg-color;
+          font-size: 11px;
+          position: relative;
+          &::before{
+            content: "";
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            background: currentColor;
+            opacity: 0.08;
+            position: absolute;
+            border-radius: 15px;
+          }
+          .mat-icon{
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            font-size: 20px;
+          }
+        }
+      }
+      &:hover{
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+        border-left: none;
+        animation-duration: 0.30s;
+        .question-list-sec.dashboard-list-sec{
+          border-radius: 0px 0px 8px 8px;
+        }
+      }
+      .inbox-btn-group{
+        position: absolute;
+        top: -14px;
+        right: 10px;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        .white-btn.mat-fab{
+          width: 25px;
+          height: 25px;
+          line-height: 24px;
+          .mat-icon{
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// new listing
+.question-list-sec.dashboard-list-sec{
+  overflow-y: hidden;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 0px 0px 8px 8px;
+  position: relative;
+  transition: all 0.5s ease;
+  .new-data-list-header{
+    grid:auto/calc(50% - 80px) calc(50% - 80px) 160px;
+    min-width: 270px;
+    line-height: 25px;
+    background: $gray-bg-color;
+    box-shadow: rgba(60, 64, 67, 0.1) 0px -1px 2px 0px, rgba(60, 64, 67, 0.10) 0px -1px 3px 1px;
+    @media only screen and (max-width: 1060px) and (min-width: 768px) {
+      grid: auto/calc(52% - 65px) calc(48% - 65px) 130px;
+    }
+    div{
+      border-right: none;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+  .new-data-list-content{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - 40px);
+    min-width: 270px;
+    box-shadow: rgba(60, 64, 67, 0.03) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 2px 6px 2px;
+    .new-data-list-list{
+      grid:auto/calc(50% - 79px) calc(50% - 79px) 158px;
+      min-width: 270px;
+      box-shadow: none;
+      background: $white-bg;
+      min-height: 25px;
+      line-height: 25px;
+      @media only screen and (max-width: 1060px) and (min-width: 768px) {
+        grid: auto/calc(52% - 64px) calc(48% - 64px) 128px;
+      }
+      .new-data{
+        font-size: 12px;
+        min-height: 25px;
+        line-height: 25px;
+        .material-icons{
+          vertical-align: middle;
+        }
+        .info-icon{
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          font-size: 20px;
+        }
+        .data-count{
+          position: relative;
+          font-weight: 500;
+          text-align: center;
+          font-size: 11px;
+          &::before{
+            content: "";
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            background: inherit;
+            opacity: 0.08;
+            position: absolute;
+            border-radius: 15px;
+          }
+        }
+      }
+      &:hover{
+        box-shadow: 0px 0px 6px 1px #b3b3b3;
+        position: relative;
+      }
+    }
+  }
+}
+
+.progress-loader-box{
+  .progress-loader{
+    top: -5px;
+  }
+}
+
+:host ::ng-deep{
+  .xeople-container-without-header-buttons.mat-drawer-container{
+    .mat-drawer-content{
+      @media only screen and (max-width: 580px) and (min-width: 320px) {
+        height: calc(100% - 40px);
+      }
+      .dashboard-sec{
+        .dashboardColBox{
+          .dashboardCardBox{
+            .white-btn.mat-fab{
+              .mat-button-wrapper{
+                padding: 0px;
+                line-height: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.dashboard-mat-card-header{
+  height: 48.3px;
+  box-sizing: border-box;
+}
+.main-configure-dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0px 15px;
+  .configure-dashboard-card {
+    display: flex;
+    gap: 40px;
+    width: clamp(270px, 640px, 100%);
+    max-width: 520px;
+    padding: 30px 15px;
+    margin-bottom: 0px;
+    border-radius: 15px;
+    max-width: 640px;
+    padding: 30px 15px;
+    @media (width <= 800px){
+      flex-direction: column;
+    }
+    a{
+      cursor: pointer;
+      .card-box{
+        display: flex;
+        margin: auto;
+        width: 300px;
+        height: 200px;
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16), #e3e3e3 0px 0px 0px 8px;
+        border-radius: 15px;
+        transition: all 2s;
+        justify-content: center;
+        font-family: "Belanosima", sans-serif;
+        align-items: flex-start;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        .abstract-bg{
+          position: absolute;
+          right: 0px;
+          width: 100%;
+          height: 100%;
+          top: 0px;
+          left: 0px;
+          /* transform: rotate(360deg); */
+          width: 530px;
+          opacity: 0.6;
+          cursor: pointer;
+          scale: 1.5;
+        }
+        &:hover{
+          p{
+            color: $white-color;
+          }
+          .circle{
+            background-color: $primary-bg-color;
+            width: 300px;
+            height: 200px;
+            border-radius: 15px;
+            transition: all 0.3s;
+            margin-top: 0px;
+          }
+          .mat-icon{
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            margin-top: 57px;
+            text-align: center;
+            border-radius: 100%;
+            color: $primary-bg-color;;
+            background-color: $white-bg;
+          }
+        }
+        .circle{
+          position: absolute;
+          margin: auto;
+          width: 60px;
+          height: 60px;
+          background-color: $primary-bg-color;
+          border-radius: 50%;
+          transition: all 0.3s;
+          margin-top: 56px;
+          cursor: pointer;
+        }
+        .mat-icon{
+          position: absolute;
+          margin: auto;
+          color: $white-color;
+          margin-top: 69px;
+          font-size: 35px;
+          width: 35px;
+          height: 35px;
+          line-height: 35px;
+          transition: all 0.3s;
+          text-align: center;
+        }
+        p{
+          z-index: 100;
+          color: rgba(0, 0, 0, 0.87);
+          font-weight: 500;
+          margin: auto;
+          position: absolute;
+          bottom: 48px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+.hide-section{
+  display: none;
+}
+
+.full-iframe{
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+}
+
+

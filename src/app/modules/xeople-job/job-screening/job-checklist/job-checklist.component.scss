@@ -1,0 +1,26 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Satya Prakash
+    @When: 12-Sep-2023
+    @Why: EWM-12599 EWM-13987
+    @What:  This page will be use for the job checklist scss file
+*/
+.checklist-container{
+    height:65vh;
+    position: relative;
+    .checkbox-container{
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+.add-client-btn{
+    position: absolute;
+    bottom: 14px;
+    right: 12px;
+}
+.content-checklist{
+    overflow: auto;
+    height: 100%;
+    padding: 0px 24px;
+}

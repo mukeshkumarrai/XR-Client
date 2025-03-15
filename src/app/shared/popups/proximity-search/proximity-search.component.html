@@ -1,0 +1,70 @@
+<!-- @When: 23-02-2024 @who:Amit @why: EWM-16185 @what: proximity search html create-->
+<!-- <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div> -->
+
+<div class="modal-header" id="modal-header">
+    <!-- @When: 11-03-2024 @who:Amit @why: EWM-16399 @what: label change -->
+    <h2 matDialogTitle class="mb-0">{{'label_proximitySearch_DistanceProximitySearch' | translate}}</h2>
+    <button mat-icon-button  id="btncloseinfo" color="warn" (click)="onDismiss()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content id="sendSMSJobForCan" applyTabIndexes class="proximity-card-content">
+    <form [formGroup]="proximityForm" id="proximitySearch">
+    <p class="search-address"><mat-label>{{ ProximitySearchResult.Source |translate}}</mat-label></p>
+    <div class="location">
+        <!-- @When: 11-03-2024 @who:Amit @why: EWM-16399 @what: label change -->
+        <div class="address">
+            <p>{{ 'label_ProxmitySearch_ForExample' |translate}} {{ 'label_ProxmitySearch_LocationIs' |translate}} 
+                "{{ 'label_ProxmitySearch_Melbourne' |translate}}" {{ 'label_ProxmitySearch_RangeWithin' |translate}} 
+                "{{ 'label_ProxmitySearch_10_KMS' |translate}}"</p>
+        </div>
+    </div>
+    <!-- //by maneesh changes ewm-18154 when:21/10/2024-->
+    <mat-radio-group aria-label="Select an option" class="contact-radio-group" *ngIf="contactPageProximityData==true" Id="ShowClientContactsProximity">
+        <mat-radio-button value="0" (change)="onItemChange($event)" [checked]="ShowClientContactsProximity==0" >{{ 'label_ProxmitySearch_Contacts' |translate}}</mat-radio-button>
+        <mat-radio-button value="1" (change)="onItemChange($event)" [checked]="ShowClientContactsProximity==1">{{ 'label_ProxmitySearch_Clients' |translate}}</mat-radio-button>
+      </mat-radio-group>
+    <mat-form-field>
+        <mat-label>{{ 'label_from' |translate}} {{ 'label_address' |translate}} {{ 'label_location' |translate}} *</mat-label>
+        <input matInput tabindex formControlName="proximityLocation" ngx-google-places-autocomplete placeholder="" id="proximityLocation-AddressLinkToMap" (onAddressChange)="fetchDataFromAddressBar($event)" (focusout)="focusOutAddress()">
+        <mat-error *ngIf="proximityForm.controls['proximityLocation'].hasError('required')">
+            {{ 'label_from' |translate}} {{ 'label_address' |translate}} {{ 'label_location' |translate}} {{ 'label_errorreqired' |translate}}
+        </mat-error>
+        <mat-error *ngIf="proximityForm.controls['proximityLocation'].hasError('selectAddress') && !proximityForm.controls['proximityLocation'].hasError('required')">
+            {{ 'label_ProxmitySearch_Location_ErrorMsg' |translate}}
+        </mat-error>
+    </mat-form-field>
+
+    <!-- @When: 01-03-2024 @who:Amit @why: EWM-16254 @what: label position change -->
+    <div class="distance" id="area-distance">
+        <div class="search-km" id="search-area">
+            <mat-form-field class="searchInput">
+                <mat-label>{{ 'label_ProxmitySearch_ProximityDistanceRange' |translate}} *</mat-label>
+                <input type="number" matInput tabindex formControlName="proximityKM" id="proximityLocation-KM" placeholder="" min="0" max="99999999" maxlength="8" (keyup)="onProximityValidation($event)">
+                <div matSuffix class="kilo-metre">{{ 'label_Proximity_Unit' |translate}}</div>
+                <mat-error *ngIf="proximityForm.controls['proximityKM'].hasError('required')">
+                    {{ 'label_proximity' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <mat-error *ngIf="proximityForm.controls['proximityKM'].hasError('pattern')">
+                    {{'label_proximity' |translate}} {{'label_errorspecialcharDecimal' |translate}}
+                </mat-error>
+                <mat-error *ngIf="proximityForm.controls['proximityKM'].hasError('numbercheck') && !proximityForm.controls['proximityKM'].hasError('required')">
+                    {{'label_proximity' |translate}} {{'label_proximitySearch_Distance_Number_Error' |translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+   </form>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter" id="actionBoxFooter">
+    <button mat-stroked-button color="primary" tabindex type="button" id="btnSearch" [disabled]="!proximityForm.valid" (click)="onProximiySearch(this.proximityForm.value)">
+        {{'label_search'|translate}}
+    </button>
+</div>
+
+
+
+

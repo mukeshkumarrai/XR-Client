@@ -1,0 +1,145 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash
+    @When: 16-Nov-2020
+    @Why: ROST-364 ROST-394
+    @What:  This page wil be use only for the profile setting Component HTML
+-->
+<!-- Entire Software : Satya Prakash Gupta : 16-Nov-2020 : profile setting : ROST-364 ROST-394 -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="profile-setting-mat-card-header">
+  <mat-card-title class="only-title">{{'label_profile' |translate}}</mat-card-title>
+  <div class="actionButton">
+    <button mat-raised-button tabindex="9" color="primary" id="btnSave"
+      [disabled]="!userFrom.valid" (click)="updateUserProfile(this.userFrom.value)">
+      {{'label_save' |translate}}
+    </button>
+  </div>
+</mat-card-header>
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="profile-setting-drawer">
+  <mat-card class="component-card mat-elevation-z2" id="component-card">
+    <div class="profile-setting">
+      <div class="prifile-info">
+        <div class="profile-pic" id="profilePic">
+          <img *ngIf="profileImagePreview!=''" src="{{profileImagePreview}}" tabindex="10" (click)="openDialog(profileImagePreview)" />
+          <span *ngIf="profileImagePreview==''" [style.background]="getBackgroundColor(profileShortName)">{{profileShortName | titlecase}}</span>
+          <button mat-icon-button class="profile-update-button" color="primary" (click)="croppingImage()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+        <!-- Entire Software : Satya Prakash Gupta : 13-Jan-2020 : profile form scroll : ROST-618 ROST-687 -->
+        <div class="profile-name" id="profileName">
+          <p><strong>{{firstname + " " + lastname | titlecase}}</strong></p>
+          <p class="job-title" *ngIf="jobTitle!=''">{{jobTitle}}</p>
+          <div class="email-address" id="profileAddress">
+            <small>{{emailid}}</small>
+          </div>
+        </div>
+      </div>
+      <form class="profilesetting-scroll" novalidate [formGroup]="userFrom" id="profile-form">
+        <h3 id="cardSubTitle">{{'label_aboutMe' |translate}}</h3>
+        <div class="two-col-form" id="two-col-form">
+          <mat-form-field>
+            <mat-label>{{'label_firstName' |translate}}</mat-label>
+            <input matInput placeholder="" tabindex="1" id="profile-firstName" formControlName="UserFirstName" required>
+            <mat-error *ngIf="this.userFrom.controls['UserFirstName'].hasError('required')">
+              {{ 'label_firstName' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="userFrom.get('UserFirstName').hasError('minlength')">
+              {{'label_firstName' |translate}} {{'label_errorreqiredMinlength' |translate}}
+            </mat-error>
+            <mat-error *ngIf="userFrom.get('UserFirstName').hasError('maxlength')">
+              {{'label_firstName' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'label_jobTitle' |translate}}</mat-label>
+            <input matInput placeholder="" tabindex="2" id="profile-jobTitle" formControlName="JobTitle">
+            <mat-error *ngIf="userFrom.get('JobTitle').hasError('minlength')">
+              {{'label_jobTitle' |translate}} {{'label_errorreqiredMinlength' |translate}}
+            </mat-error>
+            <mat-error *ngIf="userFrom.get('JobTitle').hasError('maxlength')">
+              {{'label_jobTitle' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'label_lastName' |translate}}</mat-label>
+            <input matInput placeholder="" tabindex="3" id="profile-lastName" formControlName="UserLastName" required>
+            <mat-error *ngIf="this.userFrom.controls['UserLastName'].hasError('required')">
+              {{ 'label_lastName' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="userFrom.get('UserLastName').hasError('minlength')">
+              {{'label_lastName' |translate}} {{'label_errorreqiredMinlength' |translate}}
+            </mat-error>
+            <mat-error *ngIf="userFrom.get('UserLastName').hasError('maxlength')">
+              {{'label_lastName' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'label_departname' |translate}}</mat-label>
+            <input matInput placeholder="" tabindex="4" id="profile-department" formControlName="Department">
+            <mat-error *ngIf="userFrom.get('Department').hasError('minlength')">
+              {{'label_departname' |translate}} {{'label_errorreqiredMinlength' |translate}}
+            </mat-error>
+            <mat-error *ngIf="userFrom.get('Department').hasError('maxlength')">
+              {{'label_departname' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'label_publicName' |translate}}</mat-label>
+            <input matInput placeholder="" tabindex="5" formControlName="UserPublicName" id="profile-publicName"
+              required>
+            <mat-error *ngIf="this.userFrom.controls['UserPublicName'].hasError('required')">
+              {{ 'label_publicName' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="userFrom.get('UserPublicName').hasError('minlength')">
+              {{'label_publicName' |translate}} {{'label_errorreqiredMinlength' |translate}}
+            </mat-error>
+            <mat-error *ngIf="userFrom.get('UserPublicName').hasError('maxlength')">
+              {{'label_publicName' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'label_organization' |translate}}</mat-label>
+            <input matInput placeholder="" tabindex="6" formControlName="Organization" id="profile-Organisation">
+            <mat-error *ngIf="userFrom.get('Organization').hasError('minlength')">
+              {{'label_organization' |translate}} {{'label_errorreqiredMinlength' |translate}}
+            </mat-error>
+            <mat-error *ngIf="userFrom.get('Organization').hasError('maxlength')">
+              {{'label_organization' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- who:maneesh,what:ewm-16207 ewm-16359 for fixed new editor functionlity,when:13/03/2024 -->
+        <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+          <mat-label class="editor-label">{{'label_jobProfileDescription' |translate}} <span></span></mat-label>
+          <app-mention-editor [configuration]="editorConfig" [getEditorVal]="getEditorVal"
+            (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)">
+          </app-mention-editor>
+        </div>
+        <mat-divider></mat-divider>
+        <h3 id="cardSubTitle">{{'label_socialMedia' |translate}}</h3>
+        <div class="two-col-form">
+          <mat-form-field>
+            <mat-label>{{'label_facebook' |translate}}</mat-label>
+            <input matInput placeholder="" tabindex="7" formControlName="Facebook" id="profile-facebook">
+            <mat-error *ngIf="userFrom.get('Facebook').hasError('pattern')">
+              {{'label_errorreqiredPattern' |translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'label_linkedin' |translate}}</mat-label>
+            <input matInput placeholder="" tabindex="8" formControlName="Linkedin" id="profile-linkedin">
+            <mat-error *ngIf="userFrom.get('Linkedin').hasError('pattern')">
+              {{'label_errorreqiredPattern' |translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</mat-drawer-container>
+<!-- Entire Software : Satya Prakash Gupta : 16-Nov-2020 : profile setting : ROST-364 ROST-394 -->

@@ -1,0 +1,155 @@
+/*@(C): Entire Software:@Type: File, <css>:@Name: searchheader.component.scss:@Who: Satya Prakash:@When: 05-April-2022:@Why: For implementing new structure:@What: You can add style for search header, and also import other style files:*/
+@import "../../../../styles-var.scss";
+.hiddenMenu:hover,
+.hiddenMenu:active {
+    background: rgba(#5844DA, 0.1);
+}
+.headerSearch {
+    height: 50px;
+    padding: 0px 0px;
+    display: flex;
+    align-items: center;
+    // Respinsive Sidebar Dropdown
+    .respinsiveSidebarMenu {
+        display: none;
+        @media only screen and (max-width: 580px) and (min-width: 320px) {
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+        // new mobile menu
+        .swiper-container {
+            padding: 0px 30px;
+            height: 50px;
+            .mat-button {
+                height: 50px;
+                top: 0px;
+                font-size: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .text {
+                    display: block;
+                    line-height: 16px;
+                }
+            }
+            .swiper-button-prev,
+            .swiper-button-next {
+                background: $white-bg;
+                top: calc(50% - 30px);
+                margin-top: 0px;
+                height: 60px;
+                box-shadow: 0px 0px 10px 0px #979797;
+            }
+            .swiper-button-next:after,
+            .swiper-container-rtl .swiper-button-prev:after,
+            .swiper-button-prev:after,
+            .swiper-container-rtl .swiper-button-next:after {
+                font-size: 26px;
+            }
+            .swiper-button-prev.swiper-button-disabled,
+            .swiper-button-next.swiper-button-disabled {
+                opacity: 0;
+            }
+        }
+        .mat-button.active {
+            color: $primary-bg-color;
+            background: #e3dfeb;
+            border-radius: 0px;
+        }
+        // new mobile menu
+        .mat-button {
+            padding: 6px 5px;
+            line-height: 22px;
+            position: relative;
+            top: -4px;
+            white-space: pre-wrap;
+            .mat-icon {
+                font-size: 20px;
+            }
+            img {
+                width: 20px;
+                max-width: 24px;
+                max-height: 24px;
+                padding-right: 10px;
+                line-height: 24px;
+            }
+            div.text {
+                display: block;
+                font-size: 12px;
+                line-height: 14px;
+                max-width: 110px;
+                white-space: nowrap;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+        .active {
+            background-color: $primary-bg-color;
+            padding: 6px 5px;
+            color: $primary-txt-color;
+        }
+        .mat-icon-button {
+            width: 20px;
+            float: right;
+        }
+    }
+    // Respinsive Sidebar Dropdown
+    // advanced search
+    .advanced-search {
+        padding: 0px 10px;
+        display: grid;
+        grid: auto/70px calc(100% - 160px) 68px;
+        width: 100%;
+        gap: 10px;
+        @media only screen and (max-width: 580px) and (min-width: 320px) {
+            display: none;
+        }
+        .list-and-grid {
+            display: flex;
+            width: 70px;
+            .mat-raised-button {
+                width: 35px;
+                height: 35px;
+                line-height: 35px;
+                padding: 0px;
+                min-width: auto;
+                margin-left: 0px;
+                &:first-child {
+                    border-radius: 4px 0px 0px 4px;
+                }
+                &:last-child {
+                    border-radius: 0px 4px 4px 0px;
+                }
+            }
+        }
+    }
+    .searchMain {
+        position: relative;
+        input {
+            border-radius: 6px;
+            border: 0px;
+            height: 35px;
+            width: calc(100% - 50px);
+            padding: 0px 15px 0px 35px;
+        }
+        input:focus {
+            outline: none;
+        }
+        .searchIcon {
+            left: 6px;
+            position: absolute;
+            top: 6px;
+            color: #6d6b6e;
+        }
+    }
+    .searchAddButton.mat-raised-button {
+        width: 60px;
+        height: 35px;
+        line-height: 35px;
+        padding: 0px;
+        color: $highlight-txt-color;
+        min-width: auto;
+    }
+    // advanced search
+}

@@ -1,0 +1,33 @@
+<div class="pageContainerNav" id="pageContainerNav">
+  <ul>
+    <li id='fade-in'>
+      <a id="menuData__{{i}}" *ngFor="let menu of ActiveSubmenuList; let i = index" mat-button
+        (click)="routerUrl(menu.Router,menu.Name)" [ngClass]="selectedSubMenu===menu.Name ? 'active' : ''" class="">
+        <!-- who:maneesh,what:ewm-13919 for show tooltip add customTranslate when:22/08/2023 -->
+        <mat-icon *ngIf="menu.IconPath===''" class="material-icons" matTooltip="{{ menu.MenuLabel|customTranslate }}"
+          [matTooltipDisabled]="tooltipStatus?false:true" matTooltipPosition="right"
+          svgIcon="{{menu.Icon}}"></mat-icon>
+        <img *ngIf="menu.IconPath!=''" src="{{menu.IconPath}}" matTooltip="{{ menu.MenuLabel|customTranslate }}"
+          [matTooltipDisabled]="tooltipStatus?false:true" matTooltipPosition="right" />
+        <span class="text">
+          <ng-container *ngIf="menu.MenuLabel=='label_Menuclients'; else second">
+            {{ 'label_Menuclients' | customTranslate }}
+          </ng-container>
+          <ng-template #second>
+            <ng-container *ngIf="menu.MenuLabel=='label_Menuemployees'; else third">
+              {{ 'label_Menuemployees' | customTranslate }}
+            </ng-container>
+          </ng-template>
+          <ng-template #third>
+            <ng-container *ngIf="menu.MenuLabel=='label_Menuleads'; else newDeb">
+              {{ 'label_Menuleads' | customTranslate }}
+            </ng-container>
+          </ng-template>
+          <ng-template #newDeb>
+            {{ menu.MenuLabel|translate }}
+          </ng-template>
+        </span>
+      </a>
+    </li>
+  </ul>
+</div>

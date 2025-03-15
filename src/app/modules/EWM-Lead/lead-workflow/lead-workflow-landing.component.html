@@ -1,0 +1,113 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="page-header" id="jobs-mat-card-header">
+    <mat-card-title class="icon-with-title" id="job_workflow_title">
+        <button mat-mini-fab class="mainAddButton" matTooltip="{{'label_AddLead'|customTranslate}}"
+            matTooltipClass="custom-tooltip" color="primary" tabindex="1" id="btnCreate" (click)="createLead()"
+            (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+            <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">add
+            </mat-icon>
+        </button>
+        <div class="page-header-title ml-5">
+            {{'label_leadlandingheader'|customTranslate}}
+            <span *ngIf="(listData != null) && (listData != undefined) && (listData?.length>0)" class="title-count" matTooltip="{{'label_Menuleads' |customTranslate}}" matTooltipClass="custom-tooltip">{{listData?.length>0?listData?.length:''}}</span>
+          </div>
+    </mat-card-title>
+
+    <div class="header-action-button" id="jobs-actionButton">
+        <div class="header-form" id="header-form">
+            <mat-form-field class="searchInput" floatLabel="never">
+                <mat-label>{{'label_search'|translate}}</mat-label>
+                <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="Search"
+                    [(ngModel)]="searchVal" [ngModelOptions]="{standalone: true}">
+                <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()"
+                    (click)="searchVal=''" id="candidate-list-searchVal">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+            </mat-form-field>
+        </div>
+    </div>
+</mat-card-header>
+<mat-drawer-container class="xeople-container-without-header-buttons job-container-without-buttons" autosize
+    id="jobs-drawer">
+    <mat-card-content class="jobs-container" id="jobs-container">
+        <div class="mb-0" *ngIf="(listData != null) && (listData != undefined) && (listData?.length>0)">
+            <mat-card-subtitle class="subTitle">{{'label_selectWorkflow' |translate}}</mat-card-subtitle>
+        </div>
+        <div class="jobs-main-flow" id="jobs-main-flow"
+            *ngIf="(listData != null) && (listData != undefined) && (listData?.length>0)">
+            <div *ngFor="let workFlow of listData; let i = index" id="workFlowList_{{i}}" tabindex="selected+3">
+                <mat-card class="select-Workflow job-select-workflow mat-elevation-z2"
+                    [ngStyle]="{'border-bottom': '3px solid' + workFlow?.ColorCode}">
+                    <mat-card-title>
+                        <div class="bg-color"></div>
+                        <a id="btnView"
+                        [routerLink]="['/client/leads/lead/lead-details']" [queryParams]="{workflowId:workFlow?.WorkflowId,WorkflowName:workFlow?.WorkflowName}"
+                            matTooltip="{{(workFlow?.WorkflowName.length>maxCharacterLength)? (workFlow?.WorkflowName):'' }}"
+                            matTooltipClass="custom-tooltip">
+                            {{(workFlow?.WorkflowName?.length>maxCharacterLength)? (workFlow?.WorkflowName |
+                            slice:0:maxCharacterLength)+'...':(workFlow?.WorkflowName) }}
+                        </a>
+                    </mat-card-title>
+                    <div class="tenant-Box">
+                        <mat-card class="mat-elevation-z0" id="total-Jobs-Btn{{i}}">
+                            <div class="icon-text">
+                                <mat-icon color="primary" svgIcon="groups"></mat-icon>
+                                <span>{{'label_totalleads'|translate}}</span>
+                            </div>
+                            <span class="count" matTooltip="{{workFlow?.TotalLeads}}"
+                                matTooltipClass="custom-tooltip">{{workFlow?.TotalLeads}}</span>
+                        </mat-card>
+                        <mat-card class="mat-elevation-z0" id="total-Jobs-Btn{{i}}">
+                            <div class="icon-text">
+                                <mat-icon color="primary" svgIcon="person_add"></mat-icon>
+                                <span>{{'label_NewLead'|customTranslate}}</span>
+                            </div>
+                            <span class="count" matTooltip="{{workFlow?.NewLeads}}"
+                                matTooltipClass="custom-tooltip">{{workFlow?.NewLeads}}</span>
+                        </mat-card>
+                        <mat-card class="mat-elevation-z0" id="total-Active-Jobs-Btn{{i}}">
+                            <div class="icon-text">
+                                <mat-icon color="primary" svgIcon="support_agent"></mat-icon>
+                                <span>{{'label_Discovery'|translate}}</span>
+                            </div>
+                            <span class="count" matTooltip="{{workFlow?.Discovery}}"
+                                matTooltipClass="custom-tooltip">{{workFlow?.Discovery}}</span>
+                        </mat-card>
+
+                        <mat-card class="mat-elevation-z0" id="total-Expired-Jobs-Btn{{i}}">
+                            <div class="icon-text">
+                                <mat-icon color="primary" svgIcon="diversity"></mat-icon>
+                                <span>{{'label_Negotiation'|translate}}</span>
+                            </div>
+                            <span class="count" matTooltip="{{workFlow?.Negotiation}}"
+                                matTooltipClass="custom-tooltip">{{workFlow?.Negotiation}}</span>
+                        </mat-card>
+                        <mat-card class="mat-elevation-z0" id="total-Expired-Jobs-Btn{{i}}">
+                            <div class="icon-text">
+                                <mat-icon color="primary" svgIcon="person_cancel"></mat-icon>
+                                <span>{{'label_leadsStageLanding'|translate}}</span>
+                            </div>
+                            <span class="count" matTooltip="{{workFlow?.Closing}}"
+                                matTooltipClass="custom-tooltip">{{workFlow?.Closing}}</span>
+                        </mat-card>
+                    </div>
+                    <div class="tenant-footer" id="tenant-footer">
+                        <a mat-stroked-button color="primary" id="btnView"
+                            (click)="viewWorkflowStages(workFlow?.WorkflowId)">
+                            {{'label_view_Lead'|customTranslate}} {{'label_Workflow'|translate}}
+                        </a>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <div class="centerBox" id="centerBox"
+            *ngIf="(listData == null) || (listData == undefined) || (listData?.length == '0')">
+            <p>{{'label_NoLeadsData' |customTranslate}}</p>
+        </div>
+    </mat-card-content>
+</mat-drawer-container>

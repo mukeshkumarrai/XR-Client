@@ -1,0 +1,272 @@
+@import '../job-publish.component.scss';
+.publish-job-form{
+    height: 100%;
+    padding: 15px 10px;
+    padding-bottom: 50px;
+    .publish_form{
+      padding: 0px 5px;
+    }
+    .re-publish-card{
+      height: calc(100% - 85px);
+      @media only screen and (max-width: 907px) and (min-width: 621px) {
+        height: calc(100% - 85px);
+      }
+    }
+}
+small{
+    font-style: italic;
+}
+.allJobPublish{
+    position: relative;
+    // height: 100%;
+    padding: 15px 0px;
+}
+.publishJobFooter{
+    box-shadow: none;
+    position: sticky;
+    bottom: 0px;
+    padding: 0px 15px;
+    display: flex;
+    justify-content: flex-end;
+    width: calc(100% - 50px);
+    position: absolute;
+    bottom: 0px;
+    .mat-stroked-button{
+        margin-left: 8px;
+    }
+}
+.jobpublish-subcategory{
+    padding-left: 35px;
+    position: relative;
+    .mat-icon{
+        position: absolute;
+        left: 0px;
+        top: 10px;
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+    }
+}
+.tenantMainInner{
+  .tenantLogoBox { 
+    margin-bottom: 0px;
+    width: calc(25% - 20px);
+    @media only screen and (max-width: 991px) and (min-width: 481px) {
+      width: calc(50% - 0px);
+    }
+    @include for-small-smartphones{
+      width: calc(100% - 0px);
+    } 
+    .tenantBox {
+      // box-shadow: 0 0 6px 0 rgb(0 0 0 / 16%);
+      cursor: pointer;
+      border: 0px solid transparent;
+      border-radius: 6px;
+      position: relative;
+      transition: all 0.25s;
+      .mat-icon{
+        position: absolute;
+        top: 10px;
+        right: 24px;
+        opacity: 0;
+        font-size: 36px;
+      }
+    }
+    label {
+      // display: block;
+      // font-size: 14px;
+      cursor: pointer;
+      // margin: 0px auto;
+      // width: 100%;
+      padding: 5px 15px;
+      height: 33px;
+      text-align: center;
+      display: flex;
+      justify-content: left;
+      align-items: center;
+      background: transparent;
+      border-top: none;
+      // position:relative;
+      // top:5px;
+      font-weight: 400;
+    }
+    .cltImgBox {
+      // width:150px;
+      height: 120px;
+      // display: flex;
+      // margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      // display: inline-block;
+      img {
+        // display:flex;
+        // margin:auto auto;
+        // width:auto;
+        // max-width:
+        // 150px;
+        // max-height: 150px;
+        height: 120px;
+        max-height: 120px;
+        max-width: 100%;
+      }
+    }
+    .logoImgBox {
+      height: 50px;
+      text-align: left;
+      padding: 15px;
+      img {
+        height: 50px;
+        max-width: 100%;
+      }
+    }
+  }
+  .tenantLogoBox.active .tenantBox {
+    .mat-icon{
+      opacity: 1;
+    }
+  }
+  .tenantLogoBox:hover .tenantBox {
+    transition: all 0.25s;
+    transform: scale(1.05);
+  } 
+}  
+  
+  .tenantLogoBox.active .tenantBox {
+    .mat-icon{
+      opacity: 1;
+    }
+  }
+  .tenantLogoBox:hover .tenantBox {
+    transition: all 0.25s;
+    transform: scale(1.1);
+    box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.73);
+  }  
+
+  .divTextAreaLavel{
+    opacity: 0.54;
+  }
+
+  .divTextArea{
+
+    border-bottom: 1px solid rgba(0,0,0,0.42);
+
+    height: 40px;
+
+    overflow: auto;
+
+    padding: 2px 0px;
+
+    resize: both;
+
+    margin-bottom: 15px;
+
+    p{
+
+      margin: 0px;
+
+      margin-bottom: 3px;
+
+    }
+
+  }
+
+.publish_job {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    .publish-menu{
+      display: flex;
+      align-items: center;
+    }
+    .mat-card-header-text{
+      margin:0px;
+      padding: 0px 10px;
+      a{
+        text-decoration: underline;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      span{
+        color: #f44336;
+      }
+    }
+}
+.publishJobRadio{
+ .mat-radio-label{
+   white-space:inherit;
+ }
+}  
+
+.branding-data{
+  .jobAdTypeBranding{
+    padding: 15px;
+  }
+}
+
+.publish-raidio-group{
+  border-radius: 4px;
+  padding: 5px;
+  display: inline-block;
+  font-size: 13px;
+  min-width: 40%;
+}
+.publish-raidio-group-worktype{
+  display: inline-grid;
+  min-width: 40%;
+  border-radius: 4px;
+  padding: 5px;
+  gap: 5px;
+  grid: auto/ auto auto;
+  font-size: 13px;
+  .publishJobRadio{
+    padding-bottom: 0px;
+  }
+}
+.share-url{
+  width: 100%;
+  display: flex;
+  gap: 3px;
+  position: relative;
+  padding: 15px 0px 2px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  .copyMessage{
+    position: absolute;
+    z-index: 3;
+    top: 10px;
+    right: 0px;
+    .alert-primary{
+        gap: 5px;
+        padding: 4px 10px;
+        color: #7fb734;
+        background: #fff;
+        border-radius: 4px;
+        .mat-icon{
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            font-size: 18px;
+        }
+        span{
+            font-size: 12px;
+            width: auto;
+        }
+    }
+    &::after{
+        position: inherit;
+    }
+  }
+}
+.comment-group-btn{
+  position: relative;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  .mat-icon{
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      font-size: 18px;
+  }
+}

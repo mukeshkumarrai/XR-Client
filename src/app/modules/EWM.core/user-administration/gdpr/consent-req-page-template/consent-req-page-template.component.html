@@ -1,0 +1,177 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 11-Feb-2022
+    @Why: EWM-4671 EWM-5185
+    @What: This page wil be use only for consent req. page tempalate Component HTML
+-->
+<!---
+    @Modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash
+    @When: 17-Mar-2022
+    @Why: EWM-5456 EWM-5564
+    @What:  Bug
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div id="pageTempalate" class="drawer-data-continer">
+    <div class="hederConsent">
+        <h3 class="m-0"> {{'label_consentReqPageTemplate' | translate}}</h3>
+        <p *ngIf="isCandidate">{{'label_drawerPageTemplateTitleCandmsg' |translate}}</p>
+        <p *ngIf="isEmployee">{{'label_drawerPageTemplateTitleEmplmsg' |translate}}</p>
+    </div>
+    <mat-tab-group id="pageTempalate-tabGroup" (selectedTabChange)="selectedTabValue($event)" dir="{{positionMatTab}}">
+        <mat-tab id="pageTempalate-candidateTab">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">group</mat-icon>
+                {{'label_Candidate' | translate}}
+            </ng-template>
+
+
+
+            <span *ngIf="isCandidate">
+                <form [formGroup]="pageTempalateCandidateForm" id="pageTempalateCandidateForm">
+                    <!-- <div class="mb-10">
+                        <div class="col l12 m12 s12"> -->
+                                                 <!-- //who:maneesh,what:ewm-15630 for fixed speech text,when:12/12/2024 -->
+         <div  class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+            <mat-label
+            [ngStyle]="pageTempalateCandidateForm.controls['CandidatePageTemplate'].hasError('required') && showErrorDesc? 
+            {'color': '#f44336'}:''">{{ 'label_pageTemplate' | translate}} <span class="required-show">*</span></mat-label>
+           <app-mention-editor #mentionEditor [configuration]="editorConfig" [getEditorVal]="getEditorVal" [resetConfiguration]="resetEditorValue.asObservable()"
+            (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"></app-mention-editor>
+            
+        </div>
+                          
+                        <!-- </div>
+                    </div> -->
+                </form>
+            </span>
+        </mat-tab>
+
+        <mat-tab id="pageTempalate-candidateTab">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">group</mat-icon>
+                {{'label_Employee' | customTranslate}}
+            </ng-template>
+
+            <span *ngIf="isEmployee">
+                <form [formGroup]="pageTempalateEmployeeForm" id="pageTempalateEmployeeForm">
+                    <!-- <div class="mb-0">
+                        <div class="col l12 m12 s12"> -->
+             <!-- //who:maneesh,what:ewm-15686 for fixed speech text,when:19/04/2024 -->
+         <div  class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+            <mat-label
+            [ngStyle]="pageTempalateEmployeeForm.controls['EmployeePageTemplate'].hasError('required') && showErrorDescEmployee? 
+            {'color': '#f44336'}:''">{{ 'label_pageTemplate' | translate}} <span class="required-show">*</span></mat-label>
+           <app-mention-editor #mentionEditor [configuration]="editorConfig" [getEditorVal]="getEditorValEmployee"  
+            (editorValueEmit)="getEditorFormInforEmployee($event)" (editorImageValueEmit)="getEditorImageFormInforEmployee($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"></app-mention-editor>    
+        </div>
+                            <!-- <div class="html-editor-kendo" id="pageTempalate-htmleditorEmployee">
+                                <mat-label class="editor-label" [ngStyle]="pageTempalateEmployeeForm.controls['EmployeePageTemplate'].hasError('required') && 
+                            pageTempalateEmployeeForm.controls['EmployeePageTemplate'].touched &&
+                           {'color': '#f44336'}">{{ 'label_pageTemplate' | translate}} *</mat-label>
+                                <kendo-editor #editorEmployee tabindex="2" class="setting-editor"
+                                    formControlName="EmployeePageTemplate" [(ngModel)]="emplPageTemp"
+                                    id="activity-editor" [iframe]="false">
+                                    <kendo-toolbar [overflow]="false">
+                                        <kendo-toolbar-buttongroup>
+                                            <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorStrikethroughButton></kendo-toolbar-button>
+                                        </kendo-toolbar-buttongroup>
+                                        <kendo-toolbar-buttongroup>
+                                            <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorSuperscriptButton></kendo-toolbar-button>
+                                        </kendo-toolbar-buttongroup>
+                                        <kendo-toolbar-buttongroup>
+                                            <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorAlignCenterButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorAlignRightButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorAlignJustifyButton></kendo-toolbar-button>
+                                        </kendo-toolbar-buttongroup>
+                                        <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+                                        <kendo-toolbar-dropdownlist kendoEditorFontSize></kendo-toolbar-dropdownlist>
+                                        <kendo-toolbar-dropdownlist kendoEditorFontFamily></kendo-toolbar-dropdownlist>
+                                        <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+                                        <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+                                        </kendo-toolbar-colorpicker>
+                                        <kendo-toolbar-buttongroup>
+                                            <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+                                            </kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+                                            </kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+                                        </kendo-toolbar-buttongroup>
+                                        <kendo-toolbar-buttongroup>
+                                            <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+                                        </kendo-toolbar-buttongroup>
+                                        <kendo-toolbar-buttongroup>
+                                            <kendo-toolbar-button kendoEditorCreateLinkButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+                                        </kendo-toolbar-buttongroup>
+                                        <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+                                        <kendo-toolbar-button kendoEditorCleanFormattingButton></kendo-toolbar-button>
+                                        <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                                        <kendo-toolbar-buttongroup>
+                                            <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+                                            </kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+                                            </kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorAddRowBeforeButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorAddRowAfterButton></kendo-toolbar-button>
+                                        </kendo-toolbar-buttongroup>
+                                        <kendo-toolbar-buttongroup>
+                                            <kendo-toolbar-button kendoEditorDeleteColumnButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+                                            <kendo-toolbar-button kendoEditorDeleteTableButton></kendo-toolbar-button>
+                                        </kendo-toolbar-buttongroup>
+                                        <kendo-toolbar-separator></kendo-toolbar-separator>
+                                        <kendo-toolbar-splitbutton *ngFor="let item of (toolButtonsEmployee$ | async)"
+                                            [text]="item.text" [icon]="item.icon" [data]="item.data">
+                                        </kendo-toolbar-splitbutton>
+                                        <kendo-toolbar-button text="Upload Image" (click)="openImageUpload(2)" [style]="{'padding': '2px 7px', 'font-size': '12px'}"></kendo-toolbar-button>                               
+                                    </kendo-toolbar>
+                                </kendo-editor>
+                                <mat-error class="matErrorDesc"
+                                    *ngIf="pageTempalateEmployeeForm.controls['EmployeePageTemplate'].hasError('required') && pageTempalateEmployeeForm.controls['EmployeePageTemplate'].touched">
+                                    {{'label_pageTemplate'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+
+                            </div> -->
+                        <!-- </div>
+                    </div> -->
+                </form>
+            </span>
+        </mat-tab>
+
+    </mat-tab-group>
+
+    <mat-card class="drawer-data-continer-footer mb-0" id="drawer-data-continer-footer">
+        <button mat-stroked-button color="warn" tabindex="3" type="button" id="btnCancel" (click)="onDismiss()">
+            {{'button_cancel'|translate}}</button>
+
+        <span *ngIf="isCandidate">
+            <button mat-raised-button color="primary"
+                (click)="OnSave(this.pageTempalateCandidateForm.value,'Candidate')" tabindex="4" type="button"
+                id="btnActivitySave" [disabled]="!pageTempalateCandidateForm.valid || showErrorDesc">
+                {{'label_save'|translate}}
+            </button>
+        </span>
+
+        <span *ngIf="isEmployee">
+            <button mat-raised-button color="primary" (click)="OnSave(this.pageTempalateEmployeeForm.value,'Employee')"
+                tabindex="5" type="button" id="btnActivitySave" [disabled]="!pageTempalateEmployeeForm.valid || showErrorDescEmployee">
+                {{'label_save'|translate}}
+            </button>
+        </span>
+    </mat-card>
+
+</div>

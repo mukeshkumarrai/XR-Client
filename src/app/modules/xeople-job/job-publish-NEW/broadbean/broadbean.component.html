@@ -1,0 +1,10 @@
+<div  class="logo-loader" id="logo-loader" *ngIf="isDomainExist">
+    <div class="logo-loading"></div>
+</div>
+<button *ngIf="isDataLoaded" mat-button color="primary" class="backButton" (click)="onBack()">
+    Back
+</button>
+
+<span *ngIf="isDataLoaded" class="frameMainBox">
+<iframe [src]="urlBraodbean" width="100%" height="100%" title="BroadBean" frameborder="0"></iframe>
+</span>

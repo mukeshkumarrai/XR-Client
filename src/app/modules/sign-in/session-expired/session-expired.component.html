@@ -1,0 +1,26 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 08-July-2022
+    @Why: EWM-6871
+    @What: This component is used forsession expired templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0"><mat-icon class="token" color="warn">warning</mat-icon>{{'label_dublicate_session_detected' |translate}}</h2>
+</div>
+<mat-dialog-content id="publish-dialog-content">
+    <p><strong>{{'label_sessionExpiredMessage'|translate}}</strong></p>
+    <p>{{'label_sessionExpiredMessageNext'|translate}}</p>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+        {{'button_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" tabindex type="button" (click)="onSave()" id="btnSave">
+        {{'label_continue'|translate}}</button>
+</div>

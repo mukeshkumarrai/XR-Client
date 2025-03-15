@@ -1,0 +1,224 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: industry.compenent.html
+  @Who:  Suika
+  @When: 11-May-2021
+  @Why: ROST-1452.
+  @What: For Master Region .
+ -->
+ <!---
+    modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 18-Nov-2021
+    @Why: EWM-3768 EWM-3818
+    @What:  This page is creted for Common Component HTML of candidate job mapped 
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-skill-mat-card-header">
+    <mat-card-title class="only-title" *ngIf="actionStatus=='Add'">{{'label_add' |translate}} {{'label_skills' |translate}}
+    </mat-card-title>
+    <mat-card-title class="only-title" *ngIf="actionStatus=='Edit'"> {{'label_edit' |translate}} {{'label_skills' |translate}}
+    </mat-card-title>
+
+    <div class="actionButton">
+      <button mat-raised-button color="warn" tabindex="13" id="btnCancel" (click)="onCancel($event)"
+        class="buttonForDesktopMobile">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+      </button>
+      <button mat-raised-button color="primary" tabindex="14" (click)="onSave(this.addForm.value,this.actionStatus)"
+        type="button" id="btnSave" [disabled]="!addForm.valid || !isSkillValidation || !isSkillduplicateValidation"
+        class="buttonForDesktopMobile">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save'|translate}}</span>
+      </button>
+    </div>
+  </mat-card-header>
+
+
+  <mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-skill-drawer">
+  <mat-card id="industry-manage-card" class="component-card mat-elevation-z2">
+  
+  <div class="row">
+    <form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data' class="col l12 m12 s12">
+      <div class="row mb-0">
+
+        <!---------name----------------->
+        <div class="col l4 m6 s12 position-relative" *ngIf="actionStatus=='Add'">
+          <mat-form-field class="show-required">
+            <mat-chip-list #chipList tabindex="1" id="skill-chip">
+              <mat-chip *ngFor="let skill of Skills" [selectable]="selectable" [removable]="removable"
+                (removed)="removeSkill(skill)">
+                {{skill.SkillName}}
+                <!-- <mat-icon matChipRemove *ngIf="removable" class="redColor">cancel</mat-icon> -->
+                <button mat-icon-button color="warn" matChipRemove *ngIf="removable">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input placeholder="{{'label_skillsName' |translate}}" [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addSkill($event)">
+            </mat-chip-list>
+          </mat-form-field>
+          <mat-error class="chipError" *ngIf="!isSkillduplicateValidation">
+            <span *ngFor="let errdata of ErrorField">
+              {{errdata.FieldName}},
+            </span>
+            {{'label_skillsName'|translate}} {{'label_errorreqiredAlready'|translate}}
+          </mat-error>
+          <mat-error class="chipError" *ngIf="!isSkillValidation">
+            {{'label_skillsName' |translate}} {{'label_errorreqired' |translate}}
+          </mat-error>
+          <mat-error class="chipError" *ngIf="isSkillMax">
+            {{'label_skillsName' |translate}} {{'label_errormaxlength50long' |translate}}
+          </mat-error>
+          <mat-error class="chipError" *ngIf="isSkillMin">
+            {{'label_skillsName' |translate}} {{'label_errorminlength3' |translate}}
+          </mat-error>
+          <mat-icon class="infoIconStyle" tabindex="2" id="skill-helpMsg" [matMenuTriggerFor]="SkillsHelp">info_outline
+          </mat-icon>
+          <mat-menu #SkillsHelp="matMenu" xPosition="after" class="infoIconContentBox">
+            <span class="material-icons headerDroupDownUp">
+              arrow_drop_up
+            </span>
+            <h4 class="helpHeading">{{'label_skillHelpMsgheading'|translate}}</h4>
+            {{'label_skillHelpMsg'|translate}}
+          </mat-menu>
+        </div>
+
+        <div class="col l4 m6 s12 position-relative" *ngIf="actionStatus=='Edit'">
+          <mat-form-field>
+            <mat-label>{{'label_skillsName' |translate}}</mat-label>
+            <input matInput required formControlName="name" tabindex="1" text="name" (blur)="onNameChanges()"
+              id="industry-name">
+  
+            <mat-error *ngIf="addForm.controls['name'].hasError('nameTaken')">
+              <span *ngFor="let errdata of ErrorField">
+                {{errdata.FieldName}},
+              </span>
+              {{'label_skillsName'|translate}} {{'label_errorreqiredAlready'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['name'].hasError('required')">
+              {{'label_skillsName' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['name'].hasError('maxlength')">
+              {{'label_skillsName' |translate}} {{'label_errormaxlength50long' |translate}}  
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['name'].hasError('minlength')">
+              {{'label_skillsName' |translate}} {{'label_errorminlength3' |translate}}
+            </mat-error>
+          </mat-form-field>
+       
+        </div>
+
+        <div class="clear"></div>
+        <div class="col l4 m6 s12 position-relative">
+          <div class="ng-slectBox">
+            <app-custom-dropdown [selectedIn]="selectedSkillTags" tabindex="3" (selectedOut)="onSkillTagschange($event)"
+              [config]="dropDownSkillTagsConfig">
+            </app-custom-dropdown>
+
+          </div>
+          <mat-icon class="infoIconStyle" tabindex="4" id="skillTag-helpMsg" [matMenuTriggerFor]="SkillsTagHelp">
+            info_outline</mat-icon>
+          <mat-menu #SkillsTagHelp="matMenu" xPosition="after" class="infoIconContentBox">
+            <span class="material-icons headerDroupDownUp">
+              arrow_drop_up
+            </span>
+            <h4 class="helpHeading">{{'label_skillTagHelpMsgheading'|translate}}</h4>
+            {{'label_skillTagHelpMsg'|translate}}
+          </mat-menu>
+        </div>
+
+
+        <div class="clear"></div>
+        <div class="col l4 m6 s12">
+          <div class="ng-slectBox">
+            <app-custom-dropdown [selectedIn]="selectedWeightage" tabindex="5" (selectedOut)="onWeightagechange($event)"
+              [config]="dropDownWeightageConfig">
+            </app-custom-dropdown>
+          </div>
+        </div>
+
+
+        <div class="clear"></div>
+        <div class="col l4 m6 s12">
+          <div class="ng-slectBox">
+            <app-custom-dropdown [selectedIn]="selectedIndustry" tabindex="6" (selectedOut)="onIndustrychange($event)"
+              [config]="dropDownIndustryConfig">
+            </app-custom-dropdown>
+          </div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="col l4 m6 s12">
+          <div class="ng-slectBox">
+            <app-custom-dropdown [selectedIn]="selectedQualification" tabindex="7"
+              (selectedOut)="onQualificationchange($event)" [config]="dropDownQualificationConfig">
+            </app-custom-dropdown>
+          </div>
+        </div>
+
+        <div class="clear"></div>
+        <!---------status---->
+        <div class="col l4 m6 s12">
+          <div class="ng-slectBox">
+            <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data--->    
+            <ng-select placeholder="{{'label_industryStatus'|translate}}" class="show-required" tabindex="8" [clearable]="false"
+              formControlName="StatusName" id="skill-status" (change)="onchangeStatus($event)" required>
+              <ng-option value="null" disabled>{{'label_status'|translate}}</ng-option>
+              <ng-option *ngFor="let list of statusList" [value]="list">{{list.StatusName}}</ng-option>
+
+            </ng-select>
+            <mat-error
+              *ngIf="addForm.controls['StatusName'].hasError('required') && addForm.controls['StatusName'].touched">
+              {{'label_industryStatus'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+          </div>
+        </div>
+        <div class="clear"></div>
+        <mat-form-field class="col l4 m6 s12">
+          <input matInput formControlName="DisplaySequence" min=1 tabindex="9" id="skill-displaySequnce" text="Name"
+            placeholder="{{'label_displaySequence'|translate}}">
+          <!-- who:maneesh,what:ewm-12281 for handel validation issu,when:24/05/2023 -->
+          <mat-error *ngIf="addForm.controls['DisplaySequence'].hasError('pattern')">
+            {{'label_displaySequence'|translate}} {{'label_errornumeric'|translate}}
+          </mat-error>
+          <mat-error *ngIf="this.addForm.controls['DisplaySequence'].hasError('maxlength') && !addForm.controls['DisplaySequence'].hasError('pattern')">
+            {{ 'label_displaySequence' |translate}} {{ 'label_errormaxlength8' |translate}}
+          </mat-error>
+          <!-- who:maneesh,what:ewm-12281 for handel validation issu,when:24/05/2023 -->
+        </mat-form-field>
+
+        <div class="clear"></div>
+        <!---hide externally-->
+
+        <div class="col l4 m6 s12">
+          <mat-slide-toggle class="mb-10" formControlName="HideExternal" name="hideExternally" id="skill-hideExternally" tabindex="10"
+            (change)="setDefaultSignature($event)" color="primary">
+            {{'label_industryHideExternally' |translate}}
+          </mat-slide-toggle>
+          <div class="clear"></div>
+          <mat-slide-toggle class="mb-10" formControlName="Renewal" name="Renewal" id="skill-Renewal" tabindex="11"
+            (change)="setDefaultRenewal($event)" color="primary">
+            {{'label_Expiry' |translate}}
+          </mat-slide-toggle>
+          <div class="clear"></div>
+          <mat-slide-toggle class="mb-10" formControlName="DocumentRequired" name="DocumentRequired" id="skill-DocumentRequired"
+            tabindex="12" (change)="setDefaultDocumentRequired($event)" color="primary">
+            {{'label_DocumentRequired' |translate}}
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+
+</mat-card>
+</mat-drawer-container>

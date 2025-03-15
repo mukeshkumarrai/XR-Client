@@ -1,0 +1,211 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: search-candidate.component.scss
+    @Who: Satya Prakash
+    @When: 23-Sep-2022
+    @Why: EWM-7480 EWM-8859
+    @What: You can add search-candidate.component to this file, and also import other style files
+*/
+.search-candidate-sec{
+    padding: 0px 10px;
+    // @When: 27-03-2023 @who:Amit @why: EWM-11380 @what: searchbar add height decrease
+    height: calc(100vh - 425px);
+    .candidate-data-header{
+        display: flex;
+        align-items: center;
+        padding: 7px 0px;
+        gap: 10px;
+        justify-content: space-between;
+        @media screen and (min-width:240px) and (max-width: 767px) {
+          display: grid;
+          grid: auto/100%;
+        }
+        .mat-raised-button{
+          min-width: 36px;
+          padding: 0px;
+          .mat-icon{
+            font-size: 20px;
+            line-height: 24px;
+          }
+        }
+        .filter-refresh{
+          display: flex;
+          position: relative;
+          flex-basis: 90px;
+          button{
+            margin-left: 0px;
+            margin-right: 5px;
+          }
+        }
+        .search-viewicon{
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          margin-bottom: 0px;
+          flex-basis: 100%;
+          .button-with-clear{
+            display: inline-flex;
+            .addFilter{
+              padding-left: 5px;
+              padding-right: 55px;
+            }
+            .mat-stroked-button{
+              min-width: 36px;
+              padding: 0px 8px;
+              .mat-icon{
+                font-size: 20px;
+                line-height: 24px;
+              }
+            }  
+          }
+          .list-grid-button{
+            min-width: 36px;
+            padding: 0px;
+          }
+          .active-list-grid{
+            display: none;
+          }
+          .searchInput{
+            margin: 0px;
+            height: 36px;
+            margin-top: -15px;
+            width: 100%;
+            max-width: 100%;
+            min-width: 140px;
+          }
+        }
+    }
+  }
+  .kendo-table-container {
+    .k-grid {
+      height: calc(100vh - 475px);
+      border-color: transparent;
+      min-width: auto;
+      .textRight{
+        text-align: right;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+      }
+      .candidateRank,.candidateStatus{
+        color: #fff;
+        text-align: center;
+        padding: 1px 2px;
+        border-radius: 2px;
+        text-shadow: 0px 0px 8px #000;
+      }
+      .candidateStatus{
+        padding: 3px 9px;
+      }
+      .textLeft{
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+      }
+    }
+  }
+  .kendocardData{
+    height: calc(100vh - 475px);
+    overflow: auto;
+  }
+  .candidate-job-maped-data{
+    display: grid;
+    gap: 10px;
+    overflow: auto;
+    padding: 10px;
+    grid-template-columns: repeat(3, calc(33.33% - 7px));
+    @media only screen and (max-width: 767px) and (min-width: 581px){
+        grid-template-columns: repeat(2, calc(50% - 7px));
+    }
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+        grid-template-columns: repeat(1, calc(100% - 0px));
+    }
+    .candidateJobBox{
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      height: 122px;
+      .candidate-card{
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 10px;
+        align-items: center;
+      }
+      .minHeightTxtBox{
+        height: 77px;
+        width: calc(100% - 60px);
+      }
+      .userAvtaarAndName{
+          width: 50px;
+          height: 50px;
+          span, img{
+              width: 50px;
+              height: 50px;
+          } 
+      }  
+      .txtValueStyle{
+        display: block;
+        margin: 5px 0px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .txtValueStyle{
+          .mat-button{
+              text-align: left;
+              line-height: 20px;
+              padding: 0px;
+          }
+      }
+      .connectedBtn {
+        background: #7FB734;
+      }
+    }
+    .candidateJobBox:hover{
+      border-top-left-radius: 10px;
+      transform: scale(1.02);
+      border-bottom-left-radius: 10px;
+      border-radius: 10px;
+      animation-duration: 0.30s;
+      box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+    }
+  }
+  
+  .nodata-search {    
+    position: relative;
+    top: 40px;
+  }
+  ::ng-deep{
+    .kendo-table-container .k-grid td:last-child {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+    .container-collapse-layout.job-detail-container{
+      .search-candidate-sec{
+        padding: 0px 10px;
+        height: calc(100vh - 293px);
+        @media only screen and (max-width: 580px) and (min-width: 240px){
+            height: calc(100vh - 295px);
+        }
+        .kendo-table-container .k-grid{
+          height: calc(100vh - 345px);
+          @media only screen and (max-width: 580px) and (min-width: 240px){
+            height: calc(100vh - 398px);
+          }
+        }
+        .kendocardData{
+          height: calc(100vh - 345px);
+          @media only screen and (max-width: 580px) and (min-width: 240px){
+            height: calc(100vh - 398px);
+          }
+        }
+      }
+    }
+  }
+  
+  .logo-loader.logo-loader-candidate{
+    cursor: inherit;
+  }
+  

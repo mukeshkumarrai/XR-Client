@@ -1,0 +1,239 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Who: Priti srivastava
+  @When: 3-sep-2021
+  @Why: EWM-2702
+  @What: For document of candidate
+ -->
+<div *ngIf="loading" class="logo-loader document-loading">
+  <div class="logo-loading"></div>
+</div>
+
+<div *ngIf="(this.gridView!=undefined && this.gridView.length>0)||searchVal!=''||isvisible" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-card class="list-header" style="display: none;">
+    <div class="list-view">
+
+      <button type="button" class="folder-drawer-button" mat-raised-button (click)="drawer.toggle()">
+        <mat-icon *ngIf="!drawer.opened; else showCross" matTooltip="{{'label_showFolderList' | translate}}"
+        matTooltipClass="custom-tooltip">
+          menu
+        </mat-icon>
+        <ng-template #showCross>
+          <mat-icon  matTooltip="{{'label_hideFolderList' | translate}}"
+          matTooltipClass="custom-tooltip">close</mat-icon>
+        </ng-template>
+      </button>
+
+      <button mat-raised-button type="button" (click)="openPopUp()" class="buttonForDesktopMobile" color="primary"
+        id="btnAdd">
+        <mat-icon>add</mat-icon>
+        <span class="buttonTxt">{{'label_add' |translate}}</span>
+      </button>
+    </div>
+    <span class="spacer"></span>
+    <div class="list-search">
+      <mat-form-field class="searchInput">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="document-category-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+  </mat-card>
+  <mat-drawer-container class="document-container" autosize>
+    <mat-drawer #drawer class="document-sidenav document-drawer" [mode]="mobileQuery.matches ? 'over' : 'side'"
+    [fixedInViewport]="mobileQuery.matches" [opened]="mobileQuery.matches ? 'false' : 'true'">
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node [ngClass]="activeNode.name === node.name? 'background-highlight':''" *matTreeNodeDef="let node;" matTreeNodePadding matTreeNodePaddingIndent="10">
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          <span  *ngIf="node.name.split('#')[2]=='1'" class="curser with-icon" (click)="getListData(node,dataSource.data,node.name);mobileQuery.matches ?drawer.close():'';">
+            <mat-icon [style.color]="background70">folder_open</mat-icon>{{node.name.split('#')[0]}}</span>
+          <span *ngIf="node.name.split('#')[2]=='0'" class="curser with-icon"   (click)="getListData(node,dataSource.data,node.name);mobileQuery.matches ?drawer.close():'';">
+            <mat-icon [style.color]="background70">description_outlined</mat-icon>{{node.name.split('#')[0]}}</span>
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node [ngClass]="activeNode.name === node.name? 'background-highlight':''"  *matTreeNodeDef="let node;when: hasChild"  matTreeNodePadding matTreeNodePaddingIndent="10">
+          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" (click)="saveExpandedNodes(node)">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          <span class="curser with-icon"  (click)="getListData(node,dataSource.data,node.name);mobileQuery.matches ?drawer.close():'';">
+          <mat-icon [style.color]="background70">folder_open</mat-icon>{{node.name.split('#')[0]}}</span>
+        </mat-tree-node>
+      </mat-tree>
+    </mat-drawer>
+
+    <mat-drawer-content class="document-sidenav-content candidate-document">
+      <div class="data-header candidate-data-header transparent mb-5 sticky ">
+        <div class="filter-refresh">
+          <button type="button" class="folder-drawer-button ml-5" mat-raised-button (click)="drawer.toggle()">
+            <mat-icon *ngIf="!drawer.opened; else showCross" matTooltip="{{'label_showFolderList' | translate}}"
+            matTooltipClass="custom-tooltip">
+              menu
+            </mat-icon>
+            <ng-template #showCross>
+              <mat-icon  matTooltip="{{'label_hideFolderList' | translate}}"
+              matTooltipClass="custom-tooltip">close</mat-icon>
+            </ng-template>
+          </button>
+        </div>
+        <div class="search-viewicon">
+            <!--@When: 18-10-2023 @who:Amit @why: EWM-14846 @what: animation change -->
+            <button mat-raised-button class="header-button p-0" id="btnRefresh" (click)="refreshComponent()"
+  matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+  (mouseenter)="mouseoverAnimation(animationVar?.RefreshButton?.id, animationVar?.RefreshButton?.animation)"
+  (mouseleave)="mouseleaveAnimation(animationVar?.RefreshButton?.id, animationVar?.RefreshButton?.animation)">
+  <mat-icon id="{{animationVar?.RefreshButton?.id}}" class="{{animationVar?.RefreshButton?.isAnimClass}}">
+    {{animationVar?.RotateButton?.iconName}}</mat-icon>
+  </button>
+          <mat-form-field class="searchInput" floatLabel="never">
+            <mat-label>{{'label_search'|translate}}</mat-label>
+            <input matInput id="document-category-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+              [(ngModel)]="searchVal">
+            <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+     <!-- @Who: Bantee Kumar,@Why:EWM-10728,@When: 1-Mar-2023,@What:no need of two click method. -->
+    
+            <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="document-sidenav-content-container" id="document-sidenav-content-container">
+        <div class="listcardContentMaxData list-infinite-scroll" infinite-scroll [infiniteScrollDistance]="pageOption"
+        [infiniteScrollThrottle]="pageSize" (scrolled)="onScrollDown()" [scrollWindow]="false">
+          <div class="row mb-0 listHeader pl-0 pr-0 sticky" id="document-category-listHeader">
+
+            <div class="col col-8 listActionBox">
+              <strong>&nbsp;</strong>
+            </div>
+
+            <div class="col col-1" (click)="onSort('Name')">
+              <button mat-button [disableRipple]="true" id="document-category-UserTypeName">
+                <strong>{{'label_file/folder'|translate}}</strong>
+                <mat-icon *ngIf="sortedcolumnName === 'Name' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                <mat-icon *ngIf="sortedcolumnName === 'Name' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+              </button>
+            </div>
+            <div class="col col-3" (click)="onSort('DocumentName')" id="document-category-builtin">
+              <button mat-button [disableRipple]="true">
+                <strong>{{'label_documentname'|translate}}</strong>
+                <mat-icon *ngIf="sortedcolumnName === 'DocumentName' && sortDirection === 'asc'">{{ascIcon}}
+                </mat-icon>
+                <mat-icon *ngIf="sortedcolumnName === 'DocumentName' && sortDirection === 'desc'">{{descIcon}}
+                </mat-icon>
+              </button>
+            </div>
+            <!--@When: 19-10-2023 @who:Amit @why: EWM-14846 @what: column change -->
+            <div class="col col-2" (click)="onSort('Category')" id="document-category-CategoryName">
+              <button mat-button [disableRipple]="true">
+                <strong>{{'label_document'|translate}}</strong>
+                <mat-icon *ngIf="sortedcolumnName === 'Category' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                <mat-icon *ngIf="sortedcolumnName === 'Category' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+              </button>
+            </div>
+           
+            <div class="col col-4" (click)="onSort('ExpiryDate')" id="document-category-status">
+              <button mat-button [disableRipple]="true">
+                <strong>{{'label_expirydate'|translate}}</strong>
+                <mat-icon *ngIf="sortedcolumnName === 'ExpiryDate' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                <mat-icon *ngIf="sortedcolumnName === 'ExpiryDate' && sortDirection === 'desc'">{{descIcon}}
+                </mat-icon>
+              </button>
+            </div>
+            <div class="col col-5" (click)="onSort('LastActivity')" id="document-category-LastUpdated">
+              <button mat-button [disableRipple]="true">
+                <strong>{{'label_lastupdated'|translate}}</strong>
+                <mat-icon *ngIf="sortedcolumnName === 'LastActivity' && sortDirection === 'asc'">{{ascIcon}}
+                </mat-icon>
+                <mat-icon *ngIf="sortedcolumnName === 'LastActivity' && sortDirection === 'desc'">{{descIcon}}
+                </mat-icon>
+              </button>
+            </div>
+            <div class="col col-6" (click)="onSort('DocumentType')" id="document-category-LastUpdated">
+              <button mat-button [disableRipple]="true">
+                <strong>{{'label_templatetype'|translate}}</strong>
+                <mat-icon *ngIf="sortedcolumnName === 'DocumentType' && sortDirection === 'asc'">{{ascIcon}}
+                </mat-icon>
+                <mat-icon *ngIf="sortedcolumnName === 'DocumentType' && sortDirection === 'desc'">{{descIcon}}
+                </mat-icon>
+              </button>
+            </div>
+            <div class="col col-7" (click)="onSort('Owner')" id="document-category-LastUpdated">
+              <button mat-button [disableRipple]="true">
+                <strong>{{'label_owner'|translate}}</strong>
+                <mat-icon *ngIf="sortedcolumnName === 'Owner' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                <mat-icon *ngIf="sortedcolumnName === 'Owner' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+              </button>
+            </div>
+
+            <div class="col col-9" (click)="onSort('Comments')" id="document-category-LastUpdated">
+              <button mat-button [disableRipple]="true">
+                <strong>{{'label_comment'|translate}}</strong>
+                <mat-icon *ngIf="sortedcolumnName === 'Comments' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+                <mat-icon *ngIf="sortedcolumnName === 'Comments' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+              </button>
+            </div>
+           
+          </div>
+          <div class="listCardView" id="listCardView">
+            <div id="contentdata" class="listContent">
+              <div class="row">
+                <div *ngIf="loadingPopup" class="list"></div>
+                <app-grid-tree-view [opened]="true" (updatedata)="getAlldocument($event)" [isShowtoggle]="false"
+                  [candidateId]="candidateId" [documentFor]="documentFor" [treeNodelevel]="activeNode.level" [folderName]="activeNode.name"
+                   [gridView]="dataToBind"></app-grid-tree-view>
+              </div>
+              <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+            </div>
+          </div>
+        </div>
+        <button mat-fab color="primary" id="createPlanmenuBtn" class="floating-menu" (click)="mobileQueryClick.matches? createPlanmenuTrigger.openMenu():''" (mouseenter)="desktopQueryOver.matches? createPlanmenuTrigger.openMenu():''" (mouseleave)="$event.stopPropagation();createPlanmenuTrigger.openMenu()">
+          <mat-icon #createPlanmenuTrigger="matMenuTrigger" [matMenuTriggerFor]="createPlan">add</mat-icon>
+        </button>
+        <mat-menu #createPlan="matMenu" class="floatbutton-list">
+          <div class="floatin-list" id="addDocBtn" (click)="OpenDocuemntPopUp(undefined)">
+            <button mat-button>{{'label_adddocuments'|translate}}</button>
+            <button mat-mini-fab color="primary" >
+              <div class="two-icons">
+                <mat-icon>description_outlined</mat-icon>
+                <mat-icon class="secondIcon">add</mat-icon>
+            </div>
+          </button>
+          </div>
+          <div>
+          <div class="floatin-list" id="addFolderBtn" (click)="OpenFolderPopUp(undefined)">
+            <button mat-button>{{'label_addfolder'|translate}}</button>
+            <button mat-mini-fab color="primary">
+              <div class="two-icons">
+                <mat-icon>folder_open</mat-icon>
+                <mat-icon class="secondIcon">add</mat-icon>
+            </div>
+            </button>
+          </div>
+        </div>
+      </mat-menu>
+      </div>
+      
+    </mat-drawer-content>
+
+  </mat-drawer-container>
+
+
+
+</div>
+<!-- @When: 19-04-2024 @who:Amit @why: EWM-16777 @what: document section loader work -->
+<div *ngIf="(this.gridView==undefined ||this.gridView.length==0)&&searchVal==''&& !isvisible" class="addSection document-section">
+  <div class="centerBox">
+    <p>{{'label_nodocument'|translate}}</p>
+    <button mat-raised-button color="primary" type="button" (click)="openPopUp()">
+      <mat-icon>add</mat-icon> {{'label_add'|translate}}
+    </button>
+  </div>
+</div>

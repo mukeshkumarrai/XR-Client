@@ -1,0 +1,94 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+// Light theme
+// $light-primary: mat-palette($mat-deep-purple);
+// $light-accent:  mat-palette($mat-red, 800, A100, A400);
+// $light-theme:   mat-light-theme($light-primary, $light-accent);
+
+// .light-theme {
+//   @include angular-material-theme($light-theme);
+//   // @include custom-components-theme($light-theme);
+// }
+@import "styles-var.scss";
+$mat-my-theme: (
+  50: #ede7f6,
+  100: #d1c4e9,
+  200: #b39ddb,
+  300: #9575cd,
+  400: #7e57c2,
+  500: $primary-bg-color,
+  600: $dark-primary,
+  700: #512da8,
+  800: #4527a0,
+  900: #311b92,
+  A100: #b388ff,
+  A200: #7c4dff,
+  A400: #651fff,
+  A700: #6200ea,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+$my-app-primary: mat-palette($mat-my-theme);
+$my-app-accent:  mat-palette($mat-red, 800, A100, A400);
+$my-app-warn:    mat-palette($mat-red);
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+@include angular-material-theme($my-app-theme);
+
+// .alternate-theme {
+//   $alternate-primary: mat-palette($mat-light-blue);
+//   $alternate-accent:  mat-palette($mat-yellow, 400);
+//   $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+//   @include angular-material-theme($alternate-theme);
+// }
+
+// Dark theme
+$dark-primary: mat-palette($mat-my-theme, 600);
+$dark-accent:  mat-palette($mat-red, A200, A100, A400);
+$dark-warn:    mat-palette($mat-deep-orange);
+$dark-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+  // @include custom-components-theme($dark-theme);
+}
+
+
+.light-theme{
+  .mat-drawer-container {
+    background-color: transparent;
+  }
+  .mat-drawer-side{
+    border-right: 0px;
+  }
+  .mat-card:not([class*=mat-elevation-z]){
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+  }
+  .listContent .mat-card{
+    box-shadow: none;
+  }
+  .mat-header-cell{
+    color: #ffffff;
+  }
+  .mat-card-subtitle{
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+

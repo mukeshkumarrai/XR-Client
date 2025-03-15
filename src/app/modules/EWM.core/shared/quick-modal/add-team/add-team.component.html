@@ -1,0 +1,106 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 25-Nov-2021
+    @Why: EWM-3700 EWM-3918
+    @What:  This component is used for Quick add contact templates.
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+<form [formGroup]="addTeamForm" id= "addTeamFormId" applyTabIndexes>
+    <div class="quick-dialog">
+        <h2 mat-dialog-title>
+            {{ "label_add" | translate }}  {{'label_Team' | translate}}
+        </h2>
+        <mat-dialog-content class="col">
+
+            <div class="row mb-0">
+                <div class="col l12 m12 s12  ng-slectBox">
+                    <ng-select placeholder="{{'label_group_customization_employees' | translate}}" id="addContact-Gender"
+                        formControlName="Employee" name="Employee" class="dropdown-body show-required" (change)="onChangeEmployee($event)" 
+                        appendTo="body" [clearable]="true" tabindex  (clear)="resetForm();">
+                        <ng-option *ngFor="let item of filteredOwnerList" value="{{item.UserId}}">{{item.UserName}}</ng-option>
+                    </ng-select>
+                <mat-error
+                    *ngIf="addTeamForm.controls['Employee'].hasError('required') && addTeamForm.controls['Employee'].touched">
+                    {{'label_group_customization_employees'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+                <mat-error *ngIf="addTeamForm.controls['Employee'].hasError('codeTaken')">
+                    {{'label_group_customization_employees'|translate}} {{'label_errorreqiredAlready'|translate}}
+                </mat-error>
+              </div>
+                </div>
+
+            <div class="row mb-0">
+                <div class="col l12 m12 s12">                 
+                    <mat-form-field>
+                        <mat-label>{{'label_CL_Email' | customTranslate}}</mat-label>
+                        <input type="text" tabindex formControlName="Email" name="Email" readonly matInput placeholder="" id="addTeam-Email"
+                         >
+                         
+                        <!-- <mat-error
+                        *ngIf="this.addTeamForm.controls['Email'].hasError('required')">
+                        {{ 'label_CL_Email' |customTranslate}} {{ 'label_errorreqired' |translate}}
+                      </mat-error> -->
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row mb-10">
+                <div class="col l12 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_contact' | customTranslate}}</mat-label>
+                        <input type="text" tabindex formControlName="Contact" name="Contact" readonly matInput placeholder="" id="addTeam-Contact"
+                         >
+                        <!-- <mat-error
+                        *ngIf="addTeamForm.controls['Contact'].hasError('required')  && addTeamForm.controls['Contact'].touched">
+                        {{ 'label_Contacts' |customTranslate}} {{ 'label_errorreqired' |translate}}
+                      </mat-error> -->
+                    </mat-form-field>
+                </div>
+            </div>
+     <!-- who:maneesh,what:ewm-16207 ewm-16673 for fixed new editor,when:13/03/2024 -->
+     <div class="col l12 m12 s12">
+        <div class="html-editor-kendo mb-15" tabindex id="kendoHTMLEditer">
+            <mat-label *ngIf="clientType?.toLowerCase()=='lead'" [ngStyle]="this.addTeamForm.controls['RoleOfEmpWithClient'].hasError('required') &&
+            this.addTeamForm.controls['RoleOfEmpWithClient'].touched &&
+             {'color': '#f44336'}">{{ 'label_rolewith_lead' | customTranslate}} <span class="required-show"> *</span></mat-label>
+             <mat-label *ngIf="clientType?.toLowerCase()!='lead'" [ngStyle]="this.addTeamForm.controls['RoleOfEmpWithClient'].hasError('required') &&
+             this.addTeamForm.controls['RoleOfEmpWithClient'].touched &&
+              {'color': '#f44336'}">{{ 'label_rolewith_client' | customTranslate}} <span class="required-show"> *</span></mat-label>
+            <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal"
+            (editorValueEmit)="getEditorFormInfo($event)"  [maxlengthValidation]="maxLengthEditorValue.asObservable()"
+            (editorImageValueEmit)="getEditorImageFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()">
+      </app-mention-editor>   
+      </div>
+    </div>
+
+            <div class="row mb-0">
+                <div class="col l12 m12 s12  ng-slectBox">
+                    <ng-select placeholder="{{'label_tagStatus'|translate}}" appendTo="body" class="show-required" tabindex [clearable]="true"
+                    formControlName="Status" name="StatusName"  id="addTeam-Status" required>
+                    <ng-option *ngFor="let status of statusList" [value]="status.StatusId">
+                        {{status.StatusName}}
+                    </ng-option>
+                  </ng-select>
+                <mat-error
+                    *ngIf="addTeamForm.controls['Status'].hasError('required') && addTeamForm.controls['Status'].touched">
+                    {{'label_tagStatus'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+              
+                   </div>
+            </div>
+        </mat-dialog-content>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+           <span>
+            <button mat-stroked-button color="warn" tabindex type="button"   (click)="onDismiss()" id="btnCancel"
+            > {{'button_cancel'|translate}}</button>
+            </span>
+      
+            <button mat-stroked-button color="primary" tabindex type="button"
+          (click)="onConfirm(this.addTeamForm.getRawValue())"  [disabled]="!addTeamForm.valid || showMaxlengthError" id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+</form>
+
+

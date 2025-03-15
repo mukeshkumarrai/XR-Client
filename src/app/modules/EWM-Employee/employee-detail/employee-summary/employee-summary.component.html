@@ -1,0 +1,1053 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: candidate-summary.component.html
+    @Who: Renu
+    @When: 29-Oct-2021
+    @Why: EWM-1734 EWM-3271
+    @What:  This page wil be use only for the employee summary Component HTML
+-->
+
+<div class="candidate-summry employee-summry common-card-summary" id="employee-summry">
+  <div class="row mb-0">
+    <div class="col s12 m12 l6 " style="display:grid;">
+      <mat-card class="s12 m12 l6" [style.Order]="getOrderListLeftSide('General Information')"
+        id="candidate-general-information" class="matCardEmployee">
+        <mat-card-header [style.background-color]="background20">
+          <mat-card-title>{{'candidate_generalInformation' | translate}}</mat-card-title>
+          <span class="summryeheader-spacer"></span>
+          <!-- @Who: Bantee Kumar,@Why:EWM-10891,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+          <button type="button" id="btnEdit" mat-mini-fab mat-icon-button
+            matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}"
+            (click)="openQuickGeneralInfoModal('Edit')">
+            <mat-icon>
+              edit
+            </mat-icon>
+          </button>
+        </mat-card-header>
+
+        <div class="progress-loader-box" *ngIf="generalLoader">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+
+        <mat-divider class="mt-0"></mat-divider>
+        <mat-card-content>
+          <div class="card-fadeloader" *ngIf="generalLoader"></div>
+          <div class="general-info-data">
+            <p>
+              <strong>{{'label_EmployeeName' | customTranslate}}</strong>
+            </p>
+            <div>
+              <p>{{generalInformationData?.Name}}</p>
+            </div>
+          </div>
+          <div class="general-info-data">
+            <p>
+              <strong>{{'label_employeeEmailAddress' | customTranslate}}</strong>
+            </p>
+            <div>
+              <p *ngIf="generalInformationData.EmailTypeId!='0'">
+                {{generalInformationData?.Email}}({{generalInformationData?.EmailType}})</p>
+            </div>
+          </div>
+          <div class="general-info-data">
+            <p>
+              <strong>{{'label_employeePhoneNumber' | customTranslate}}</strong>
+            </p>
+            <div>
+              <!--Who:Ankit Rawat, What:EWM-16433 EWM-17048 Phone number with Proper format as per country code, When:14May24 -->
+              <p *ngIf="generalInformationData.PhoneTypeId!='0'">{{generalInformationData?.PhoneNumber | customPhoneFormat:generalInformationData?.CountryCode}}
+                ({{generalInformationData?.PhoneType}})</p>
+            </div>
+          </div>
+          <div class="general-info-data">
+            <p>
+               <!-- who:maneesh,what:ewm-14915 change label when:26/10/2023 -->
+              <strong>{{'label_CurrentEmployerName' | translate}}</strong>
+            </p>
+            <div>
+              <p>{{generalInformationData?.CurrentCompany}}</p>
+            </div>
+          </div>
+          <div class="general-info-data">
+            <p>
+              <strong>{{'candidate_jobTitle' | translate}}</strong>
+            </p>
+            <div>
+              <p>{{generalInformationData?.JobTitle}}</p>
+            </div>
+          </div>
+          <div class="general-info-data">
+            <p>
+              <strong>{{'candidate_experienceYear' | translate}}</strong>
+            </p>
+            <div>
+              <p>{{generalInformationData?.TotalExperience}}</p>
+            </div>
+          </div>
+          <div class="general-info-data">
+            <p>
+               <!-- who:maneesh,what:ewm-14915 change label when:26/10/2023 -->
+              <strong>{{'label_CurrentEmployerLocation' | translate}}</strong>
+            </p>
+ <!-- @Who: Bantee Kumar,@Why:EWM-11603,@When: 16-jun-2023,@What: employee-summary. --> 
+            <div>
+              <p>{{generalInformationData?.City}}{{generalInformationData.CurrentLocation?',':''}}
+                {{generalInformationData?.CurrentLocation}}</p>
+            </div>
+          </div>
+
+          <div class="general-info-data">
+            <p>
+              <strong>{{'candidate_currentSalary' | translate}}</strong>
+            </p>
+            <div>
+              <p>{{generalInformationData?.Currency}}{{generalInformationData?.Salary | PipeCurrencyCustome}}
+                {{generalInformationData?.SalaryUnit }}</p>
+            </div>
+          </div>
+          <div class="general-info-data">
+            <p>
+              <strong>{{'candidate_noticePeriodDays' | translate}}</strong>
+            </p>
+            <div>
+              <p>{{generalInformationData?.NoticePeriod}}</p>
+            </div>
+          </div>
+          <div class="general-info-data employee-status">
+            <p>
+              <strong>{{'label_removeReasonStatus' | translate}}</strong>
+              <mat-icon matTooltip="{{'label_reason'|translate}} : {{generalInformationData?.Reasonname}}"
+                matTooltipClass="card-tooltip-left" matTooltipPosition="after">info</mat-icon>
+            </p>
+            <div>
+              <p>{{generalInformationData?.StatusName}}</p>
+            </div>
+          </div>
+
+          <div class="general-info-data candidate-status">
+            <p>
+              <strong>{{'label_socialProfile' | translate}}</strong>
+            </p>
+            <div>
+              <div class="socail-links">
+                <a (click)="socialURL(socialLinks?.ProfileUrl)" target="_blank"
+                  *ngFor="let socialLinks of generalInformationData?.SocialProfile">
+                  <img src="{{socialLinks?.PreviewProfileTypeLogo}}" matTooltip="{{socialLinks?.ProfileUrl}}"
+                    matTooltipClass="custom-tooltip">
+                </a>
+                <div *ngIf="generalInformationData?.SocialProfile?.length == 0">--</div>
+              </div>
+
+            </div>
+          </div>
+
+        </mat-card-content>
+        <div class="resizeBarSec">
+          <div class="resizeBar"></div>
+          <div class="resizeBar"></div>
+        </div>
+      </mat-card>
+
+      <mat-card id="candidate-addresses" [style.Order]="getOrderListLeftSide('Addresses')">
+        <mat-card-header [style.background-color]="background20">
+          <mat-card-title>{{'candidate_addresses' | translate}}</mat-card-title>
+          <span class="summryeheader-spacer"></span>
+          <!-- @Who: Nitin Bhati,@Why:EWM-12672,@When:30-05-2023,@What:Hide Add button on Address Header-->
+          <button type="button" id="btnAdd" class="hide"
+            *ngIf="(this.candidateAddressData != undefined)&&(this.candidateAddressData != null)&&(this.candidateAddressData.length>0)"
+             mat-mini-fab matTooltipClass="custom-tooltip"
+            (click)="getAdressById('Add','')" matTooltip="{{'label_add'|translate}}">
+            <mat-icon>
+              add
+            </mat-icon>
+          </button>
+        </mat-card-header>
+
+        <div class="progress-loader-box" *ngIf='addressLoader'>
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <mat-card-content id="addressContent">
+          <div class="card-fadeloader" *ngIf="addressLoader"></div>
+          <div class="addSection"
+            *ngIf="(this.candidateAddressData == undefined)||(this.candidateAddressData==null)||(this.candidateAddressData.length==0)">
+            <p class="mb-15">{{'label_noAddressAddedYet' | translate}}</p>
+            <button type="button" id="btnAdd" color="primary" mat-raised-button matTooltipClass="custom-tooltip"
+              (click)="getAdressById('Add','')">
+              <mat-icon>
+                add
+              </mat-icon> {{'label_add' | translate}}
+            </button>
+          </div>
+
+          <div *ngFor="let data of candidateAddressData" class="employee-panel" id="employee-panel">
+
+            <mat-accordion class="employee-accordion" id="employee-accordion">
+              <mat-expansion-panel [expanded]="true" hideToggle="true" class="mb-10">
+                <mat-expansion-panel-header #panelH (click)="panelH._toggle()" class="no-cursor panel-height">
+                  <div class="title-description">
+                    <mat-panel-title>
+                      <div class="title-data">
+                        <p>{{data?.AddressLine1}}</p>
+                        <p>{{data?.AddressLine2}}</p>
+                        <p>{{data?.AddressLinkToMap}}</p>
+                        <p>{{data?.TownCity}}</p>
+                        <p>{{data?.StateName}}</p>
+                        <p>{{data?.CountryName}}</p>
+                        <p>{{data?.PostalCode}}</p>
+                      </div>
+                    </mat-panel-title>
+                    <mat-panel-description class="mr-0">
+                      <div class="panelActionButton" id="panelActionButton">
+                        <button mat-icon-button type="button" (click)="getAdressById('View',data.Id)" id="btnView"
+                          matTooltipClass="custom-tooltip" matTooltip="{{'label_view'|translate}}">
+                          <mat-icon color="primary">
+                            arrow_forward_ios
+                          </mat-icon>
+                        </button>
+                        <button mat-icon-button id="btnEdit" type="button" (click)="getAdressById('Edit',data.Id)"
+                          matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}">
+                          <mat-icon color="primary">
+                            edit
+                          </mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" id="btnDelete" (click)="deleteConfirmAddress(data)"
+                          mat-icon-button matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}">
+                          <mat-icon color="warn">
+                            delete
+                          </mat-icon>
+                        </button>
+                      </div>
+                    </mat-panel-description>
+                  </div>
+
+                </mat-expansion-panel-header>
+
+              </mat-expansion-panel>
+            </mat-accordion>
+            
+          </div>
+
+        </mat-card-content>
+        <div class="resizeBarSec">
+          <div class="resizeBar"></div>
+          <div class="resizeBar"></div>
+        </div>
+      </mat-card>
+
+      <mat-card id="candidate-dependents" [style.Order]="getOrderListLeftSide('Dependents')">
+        <mat-card-header [style.background-color]="background20">
+          <mat-card-title>{{'candidate_dependents' | translate}}</mat-card-title>
+          <span class="summryeheader-spacer"></span>
+          <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+          <button type="button" id="btnAdd" (click)="openDependentModal('','Add')"
+            *ngIf="(this.candidateDependentsData != undefined)&&(this.candidateDependentsData != null)&&(this.candidateDependentsData.length>0)"
+             mat-mini-fab matTooltipClass="custom-tooltip"
+            matTooltip="{{'label_add'|translate}}">
+            <mat-icon>
+              add
+            </mat-icon>
+          </button>
+        </mat-card-header>
+
+        <div class="progress-loader-box" *ngIf="loaderDependent">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+
+
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="card-fadeloader" *ngIf="loaderDependent"></div>
+          <div class="addSection"
+            *ngIf="(this.candidateDependentsData == undefined)||(this.candidateDependentsData == null)||(this.candidateDependentsData.length==0)">
+            <p class="mb-15">{{'label_noDependentsAddedYet' | translate}}</p>
+            <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+            <button type="button" id="btnAdd" (click)="openDependentModal('','Add')" color="primary" mat-raised-button
+              matTooltipClass="custom-tooltip">
+              <mat-icon>
+                add
+              </mat-icon> {{'label_add' | translate}}
+            </button>
+          </div>
+          <div *ngFor="let data of candidateDependentsData" class="employee-panel" id="employee-panel">
+
+            <mat-accordion class="employee-accordion" id="employee-accordion">
+              <mat-expansion-panel [expanded]="true" hideToggle="true" class="mb-10">
+                <mat-expansion-panel-header #panelH (click)="panelH._toggle()" class="no-cursor">
+                  <div class="title-description">
+                    <mat-panel-title>
+                      <div class="title-data">
+                        <span>{{'label_candidateName'|translate}} <span class="required-show">*</span></span>
+                        <p>{{data?.Name}}</p>
+                      </div>
+                      <div class="title-data">
+                        <span>{{'label_Gender'|translate}}</span>
+                        <p *ngIf="data?.GenderName == ''">--</p>
+                        <p>{{data?.GenderName}}</p>
+                      </div>
+                    </mat-panel-title>
+                    <mat-panel-description class="mr-0">
+                      <div class="panelActionButton">
+                        <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+                        <button mat-icon-button type="button" (click)="openDependentModal(data.Id,'View')" id="btnView"
+                          matTooltipClass="custom-tooltip" matTooltip="{{'label_view'|translate}}">
+                          <mat-icon color="primary">
+                            arrow_forward_ios
+                          </mat-icon>
+                        </button>
+                        <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+                        <button mat-icon-button id="btnEdit" type="button" (click)="openDependentModal(data.Id,'Edit')"
+                          matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}">
+                          <mat-icon color="primary">
+                            edit
+                          </mat-icon>
+                        </button>
+
+                        <button mat-icon-button type="button" id="btnDelete" (click)="DeleteDependentById(data)"
+                          mat-icon-button matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}">
+                          <mat-icon color="warn">
+                            delete
+                          </mat-icon>
+                        </button>
+
+                      </div>
+                    </mat-panel-description>
+                  </div>
+                </mat-expansion-panel-header>
+                <div class="title-data">
+                  <span>{{'label_relationship'|translate}} <span class="required-show">*</span></span>
+                  <p>{{data?.RelationshipName}}</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_bithdate'|translate}}</span>
+                  <p>{{data?.DateBirth ==0 ? '--' : data?.DateBirth|date:userpreferences.dateformate}}</p>
+
+                </div>
+                <div class="title-data">
+                  <span>{{'label_Phone'|translate}}</span>
+                  <p *ngIf="data?.Phone == ''">--</p>
+
+                  <div *ngIf="data.Phone.length>0">
+                    <span>
+                      <p *ngFor="let phonedata of data.Phone">{{phonedata.PhoneNumber}}</p>
+                    </span>
+                  </div>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_address'|translate}}</span>
+                  <p *ngIf="data?.Location!=null">{{data?.Location?.AddressLinkToMap}}
+                  </p>
+                  <p *ngIf="data?.Location==null">--</p>
+
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+
+          </div>
+
+        </mat-card-content>
+        <div class="resizeBarSec">
+          <div class="resizeBar"></div>
+          <div class="resizeBar"></div>
+        </div>
+      </mat-card>
+
+      <mat-card id="emergencyContactContent" [style.Order]="getOrderListLeftSide('Emergency Contacts')">
+        <mat-card-header [style.background-color]="background20">
+          <mat-card-title>{{'candidate_emergencyContacts' | translate}}</mat-card-title>
+          <span class="summryeheader-spacer"></span>
+          <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+          <button type="button" id="btnAdd"
+            *ngIf="(this.emergencyContactsData != undefined)&&(this.emergencyContactsData != null)&&(this.emergencyContactsData.length>0)"
+             mat-mini-fab matTooltipClass="custom-tooltip"
+            matTooltip="{{'label_add'|translate}}" (click)="getEmergencyContactById('Add','')">
+            <mat-icon>
+              add
+            </mat-icon>
+          </button>
+        </mat-card-header>
+
+        <div class="progress-loader-box" *ngIf='EmergencyContactLoader'>
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="card-fadeloader" *ngIf="EmergencyContactLoader"></div>
+          <div class="addSection"
+            *ngIf="(this.emergencyContactsData==undefined) || (this.emergencyContactsData==null) || (this.emergencyContactsData.length==0)">
+            <p class="mb-15">{{'label_noEmergencyContactAddedYet' | translate}}</p>
+            <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+            <button type="button" id="btnAdd" color="primary" (click)="getEmergencyContactById('Add','')"
+              mat-raised-button matTooltipClass="custom-tooltip">
+              <mat-icon>
+                add
+              </mat-icon> {{'label_add' | translate}}
+            </button>
+          </div>
+          <div class="employee-panel" *ngFor="let data of emergencyContactsData" id="employee-panel">
+
+            <mat-accordion class="employee-accordion" id="employee-accordion">
+               <!---------@When: 21-07-2023 @who:Amit @why: EWM-13377 @what: add active class--------->
+              <mat-expansion-panel [expanded]="true" hideToggle="true" class="mb-10" [ngClass]="data?.PrimaryContact==0?'':'active'">
+                <mat-expansion-panel-header #panelH (click)="panelH._toggle()" class="no-cursor">
+                  <!---------@When: 21-07-2023 @who:Amit @why: EWM-13377 @what: add label--------->
+                  <span class="current">{{ 'label_canPrimaryContact' |translate}}</span>
+                  <div class="title-description">
+                    <mat-panel-title>
+                      <div class="title-data">
+                        <span>{{'label_candidateName'|translate}} <span class="required-show">*</span></span>
+                        <p>{{data?.FirstName}} {{data?.LastName}}</p>
+                      </div>
+                      <div class="title-data">
+                        <span>{{'label_relationship'|translate}} <span class="required-show">*</span></span>
+                        <p>{{data?.Relationship}}</p>
+                      </div>
+                    </mat-panel-title>
+                    <mat-panel-description class="mr-0">
+                      <div class="panelActionButton">
+                        <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+                        <button mat-icon-button type="button" (click)="getEmergencyContactById('View',data.Id)"
+                          id="btnView" matTooltipClass="custom-tooltip" matTooltip="{{'label_view'|translate}}">
+                          <mat-icon color="primary">
+                            arrow_forward_ios
+                          </mat-icon>
+                        </button>
+                        <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+                        <button mat-icon-button id="btnEdit" type="button"
+                          (click)="getEmergencyContactById('Edit',data.Id)" matTooltipClass="custom-tooltip"
+                          matTooltip="{{'label_edit'|translate}}">
+                          <mat-icon color="primary">
+                            edit
+                          </mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" id="btnDelete"
+                          (click)="deleteConfirmEmergencyContacts(data)" mat-icon-button
+                          matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}">
+                          <mat-icon color="warn">
+                            delete
+                          </mat-icon>
+                        </button>
+                      </div>
+                    </mat-panel-description>
+                  </div>
+                </mat-expansion-panel-header>
+
+                <div class="title-data">
+                  <span>{{'label_canEmergencyPhoneNo'|translate}} <span class="required-show">*</span></span>
+                  <ng-container *ngFor="let phone of data.Phone">
+                    <p>{{phone?.PhoneNumber}}</p>
+                  </ng-container>
+                </div>
+                <div class="title-data title-data-haff">
+                  <span>{{'label_canEmergencyAddress'|translate}} <span class="required-show">*</span></span>
+                  <p>{{data?.Location?.AddressLinkToMap}}
+                  </p>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+
+          </div>
+        </mat-card-content>
+        <div class="resizeBarSec">
+          <div class="resizeBar"></div>
+          <div class="resizeBar"></div>
+        </div>
+      </mat-card>
+
+      <mat-card id="candidate-folders" [style.Order]="getOrderListLeftSide('Folders')">
+        <mat-card-header [style.background-color]="background20">
+          <mat-card-title>{{"candidate_folders" | translate}}</mat-card-title>
+          <span class="summryeheader-spacer"></span>
+          <button type="button" id="btnAdd"
+            *ngIf="(this.candidateFoldersData != undefined)&&(this.candidateFoldersData != null)&&(this.candidateFoldersData.length>0)"
+             mat-mini-fab matTooltipClass="custom-tooltip"
+            matTooltip="{{'label_add'|translate}}" (click)="openQuickFolderModal()">
+            <mat-icon>
+              add
+            </mat-icon>
+          </button>
+        </mat-card-header>
+
+        <div class="progress-loader-box" *ngIf="folderLoader">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <mat-card-content id="folderContent" class="pr-30">
+          <div class="card-fadeloader" *ngIf="folderLoader"></div>
+          <div class="addSection"
+            *ngIf="(this.candidateFoldersData == undefined)||(this.candidateFoldersData == null)||(this.candidateFoldersData.length==0)">
+            <p class="mb-15">{{'label_noFolderAddedYet' | translate}}</p>
+            <button type="button" id="btnAdd" color="primary" mat-raised-button matTooltipClass="custom-tooltip"
+              (click)="openQuickFolderModal()">
+              <mat-icon>
+                add
+              </mat-icon> {{'label_add' | translate}}
+            </button>
+          </div>
+          <div *ngFor="let data of candidateFoldersData">
+            <div class="row mb-10 folderList candidateJobsList">
+              <div class="col s12 m8 l9">
+                <p>{{data?.FolderName}}</p>
+                <p>{{data?.Description}}</p>
+              </div>
+              <div class="col s12 m4 l3 canididatebyAdded" [style.background-color]="background20">
+                {{'label_addedBy' | translate}} <br>{{data?.FolderOwner}}
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+          </div>
+
+        </mat-card-content>
+        <div class="resizeBarSec">
+          <div class="resizeBar"></div>
+          <div class="resizeBar"></div>
+        </div>
+      </mat-card>
+    </div>
+
+
+    <div class="col s12 m12 l6" style="display:grid;">
+      <mat-card id="candidate-skils" [style.Order]="getOrderListRightSide('Skills')">
+        <mat-card-header [style.background-color]="background20">
+          <mat-card-title>{{'candidate_skils' | translate}}</mat-card-title>
+          <span class="summryeheader-spacer"></span>
+
+          <button type="button" id="btnAdd"
+            *ngIf="(this.skillsData != undefined)&&(this.skillsData != null)&&(this.skillsData.length>0)"
+            (click)="openSkillsModal('add')" mat-mini-fab
+            matTooltipClass="custom-tooltip" matTooltip="{{'label_add'|translate}}">
+            <mat-icon>
+              add
+            </mat-icon>
+          </button>
+        </mat-card-header>
+
+        <div class="progress-loader-box" *ngIf="skillLoader">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <mat-card-content class="skills-mat-chip mat-chip-align">
+          <div class="card-fadeloader" *ngIf="skillLoader"></div>
+          <div class="addSection"
+            *ngIf="(this.skillsData == undefined)||(this.skillsData == null)||(this.skillsData.length==0)">
+            <p class="mb-15">{{'label_noSkillsAddedYet' | translate}}</p>
+            <button type="button" id="btnAdd" color="primary" (click)="openSkillsModal('add')" mat-raised-button
+              matTooltipClass="custom-tooltip">
+              <mat-icon>
+                add
+              </mat-icon> {{'label_add' | translate}}
+            </button>
+          </div>
+
+          <mat-chip color="primary" *ngFor="let data of skillsData" selected>
+            <span class="number cursor" (click)="openQuickSkillEdidModal(data,'view')">{{data?.Weightage}}</span>
+            <span class="cursor skill-name" (click)="openQuickSkillEdidModal(data,'view')">{{data?.SkillName}}</span>
+
+            <div class="btnActioncolor">
+              <button type="button" id="btnEdit"
+                *ngIf="(this.skillsData != undefined)&&(this.skillsData != null)&&(this.skillsData.length>0) && (data?.Renewal==1 || data?.DocumentRequired==1)"
+                mat-mini-fab color="white" matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}"
+                (click)="openQuickSkillEdidModal(data,'edit')" class="edit-btn">
+                <mat-icon>
+                  edit
+                </mat-icon>
+              </button>
+
+              <button type="button" id="btnDelete" mat-mini-fab color="warn" matTooltipClass="custom-tooltip"
+                matTooltip="{{'label_delete'|translate}}" (click)="deleteConfirmskills(data)">
+                <mat-icon>
+                  delete
+                </mat-icon>
+              </button>
+            </div>
+          </mat-chip>
+
+        </mat-card-content>
+        <div class="resizeBarSec">
+          <div class="resizeBar"></div>
+          <div class="resizeBar"></div>
+        </div>
+      </mat-card>
+
+      <mat-card id="candidate-additional-information" [style.Order]="getOrderListRightSide('Additional Information')">
+        <mat-card-header [style.background-color]="background20">
+          <mat-card-title>{{'candidate_additionalInformation' |translate}}</mat-card-title>
+          <span class="summryeheader-spacer"></span>
+          <button type="button" id="btnEdit" (click)="editPopupAdditionalInfo()"
+            mat-mini-fab matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}">
+            <mat-icon>
+              edit
+            </mat-icon>
+          </button>
+        </mat-card-header>
+
+        <div class="progress-loader-box" *ngIf="loaderAddInfo">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="card-fadeloader" *ngIf="loaderAddInfo"></div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'candidate_currentDepartment' | translate}} </strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <p>{{candidateAdditionalInfoData?.CurrentDepartment}}</p>
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'label_industry' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <p>{{candidateAdditionalInfoData?.Industry}}</p>
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'label_ExpectedSalaryInfo' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <p>{{candidateAdditionalInfoData?.ExpectedSalary ===0 ? ' ' :candidateAdditionalInfoData?.ExpectedSalary}}</p>
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'candidate_currentBenefits' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <p>{{candidateAdditionalInfoData?.CurrentBenifits}}</p>
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'candidate_expectedBenefits' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <p>{{candidateAdditionalInfoData?.ExpectedBenifits}}</p>
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'label_dependent_gender' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <p>{{candidateAdditionalInfoData?.GenderName}}</p>
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'candidate_dateOfBirth' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8" id="DateBirthBlank">
+              <!-- who:maneesh,what:ewm-10635 no date then show blank,when:06/03/2023 -->
+              <!-- <p>{{candidateAdditionalInfoData?.DateBirth | date:userpreferences.dateformate}}</p> -->
+              <p>{{candidateAdditionalInfoData?.DateBirth ===0 ? ' ' :
+                candidateAdditionalInfoData?.DateBirth|date:userpreferences.dateformate}}</p>
+
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'candidate_nationalities' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <mat-chip-list>
+                <mat-chip [style.background-color]="background20"
+                  *ngFor="let nationalities of candidateAdditionalInfoData?.Nationalities">
+                  {{nationalities?.NationalityName}}</mat-chip>
+
+              </mat-chip-list>
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'candidate_languages' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <mat-chip-list>
+                <mat-chip [style.background-color]="background20"
+                  *ngFor="let languages of candidateAdditionalInfoData?.LanguageList">
+                  {{languages?.LanguageName}}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <!-- change label by maneesh ewm-18494 employee_additional_Description -->
+              <strong>{{'employee_additional_Description' | translate}}</strong> 
+            </div>
+            <div class="col s12 m7 l8">
+              <!-- <div class="innerHtmlSummary" [innerHTML]="candidateAdditionalInfoData?.Description"></div> -->
+              <div class="innerHtmlSummary" [innerHTML]="(isReadMore[0]) ? candidateAdditionalInfoData?.Description : candidateAdditionalInfoData?.Description | safeHtml"></div>
+            </div>
+          </div>
+          <div class="row mb-10">
+            <div class="col s12 m5 l4">
+              <strong>{{'candidate_GDPRConsent' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <p *ngIf="(candidateAdditionalInfoData?.ConsentStatus==0) || 
+                (candidateAdditionalInfoData?.ConsentStatus==undefined) || 
+                (candidateAdditionalInfoData?.ConsentStatus==null) ||
+                (candidateAdditionalInfoData?.ConsentStatus=='')">
+                Pending</p>
+              <p *ngIf="candidateAdditionalInfoData?.ConsentStatus==1">Given</p>
+              <p *ngIf="candidateAdditionalInfoData?.ConsentStatus==2">Withheld</p>
+            </div>
+          </div>
+          <div class="row mb-10"
+            *ngIf="candidateAdditionalInfoData?.ConsentStatus==1 || candidateAdditionalInfoData?.ConsentStatus==2">
+            <div class="col s12 m5 l4">
+              <strong>{{'candidate_GDPRConsentDate' | translate}}</strong>
+            </div>
+            <div class="col s12 m7 l8">
+              <p>{{candidateAdditionalInfoData?.ConsentDate|date:userpreferences.timeformate:userpreferences.timezone}}
+              </p>
+            </div>
+          </div>
+        </mat-card-content>
+        <div class="resizeBarSec">
+          <div class="resizeBar"></div>
+          <div class="resizeBar"></div>
+        </div>
+      </mat-card>
+
+      <mat-card id="candidate-experience" [style.Order]="getOrderListRightSide('Experience')">
+        <mat-card-header [style.background-color]="background20">
+          <mat-card-title>{{'quickjob_experience' | translate}}</mat-card-title>
+          <span class="summryeheader-spacer"></span>
+          <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+          <button type="button" id="btnAdd"
+            *ngIf="(this.candidateExperienceData != undefined)&&(this.candidateExperienceData != null)&&(this.candidateExperienceData.length>0)"
+             mat-mini-fab matTooltipClass="custom-tooltip"
+            matTooltip="{{'label_add'|translate}}" (click)="openQuickExperiencrModal(id,'Add')">
+            <mat-icon>
+              add
+            </mat-icon>
+          </button>
+        </mat-card-header>
+
+        <div class="progress-loader-box" *ngIf="experienceLoader">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+
+
+        <mat-divider></mat-divider>
+        <mat-card-content id="experience-contentId">
+          <div class="card-fadeloader" *ngIf="experienceLoader"></div>
+          <div class="addSection"
+            *ngIf="(this.candidateExperienceData == undefined)||(this.candidateExperienceData==null)||(this.candidateExperienceData.length==0)">
+            <p class="mb-15">{{'label_noExperienceAddedYet' | translate}}</p>
+            <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+            <button type="button" id="btnAdd" color="primary" mat-raised-button matTooltipClass="custom-tooltip"
+              (click)="openQuickExperiencrModal(id,'Add')">
+              <mat-icon>
+                add
+              </mat-icon> {{'label_add' | translate}}
+            </button>
+          </div>
+          <div class="employee-panel" id="employee-panel">
+
+            <mat-accordion class="employee-accordion">
+              <!---------@When: 21-07-2023 @who:Amit @why: EWM-13213 @what: add active class--------->
+              <mat-expansion-panel *ngFor="let data of candidateExperienceData; let i=index" #panel2 hideToggle class="mb-10" [ngClass]="data?.IsCurrent=='1'? 'active':''">
+                <mat-expansion-panel-header #panelH (click)="panelH._toggle()">
+                  <!---------@When: 25-07-2023 @who:Amit @why: EWM-13578 @what: add label--------->
+                  <span class="current">{{ 'label_currentCompnay' |translate}}</span>
+                  <div class="title-description">
+                    <mat-panel-title>
+                      <div class="title-data">
+                        <span>{{'label_candidatePositionName'|translate}} <span class="required-show">*</span></span>
+                        <p matTooltipClass="custom-tooltip" matTooltip="{{data?.PositionName}}">{{data?.PositionName}}
+                        </p>
+                      </div>
+                      <div class="title-data">
+                        <span>{{'label_candidateEmployer'|translate}} <span class="required-show">*</span></span>
+                        <p>{{data?.Employer}}</p>
+                      </div>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <div class="panelActionButton">
+
+                        <button mat-icon-button id="btnEdit1" type="button"
+                          (click)="openQuickExperiencrModal(data.Id,'Edit')" matTooltipClass="custom-tooltip"
+                          matTooltip="{{'label_edit'|translate}}">
+                          <mat-icon color="primary">
+                            edit
+                          </mat-icon>
+                        </button>
+                        <button type="button" id="btnDelete6" color="warn" mat-icon-button
+                          matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}"
+                          (click)="DeleteExperienceById(data)">
+                          <mat-icon>
+                            delete
+                          </mat-icon>
+                        </button>
+                        <button mat-icon-button tabindex *ngIf="!panel2.expanded" class="more-less" id="btn_expand"
+                          (click)="panelH._toggle()">
+                          <mat-icon>expand_more</mat-icon>
+                        </button>
+                        <button mat-icon-button tabindex *ngIf="panel2.expanded" class="more-less" id="btn_less"
+                          (click)="panelH._toggle()">
+                          <mat-icon>expand_less</mat-icon>
+                        </button>
+                      </div>
+                    </mat-panel-description>
+                  </div>
+                </mat-expansion-panel-header>
+
+                <div class="title-data">
+                  <span>{{'quickjob_salary'|translate}}</span>
+                  <p *ngIf="data?.Salary == ''">--</p>
+                  <p *ngIf="data.Salary!='0'">{{data?.Currency}} {{data?.Salary | PipeCurrencyCustome}}
+                    /{{data?.SalaryUnit}}</p>
+                </div>
+                  <!-- who:maneesh,what :ewm-13216 for current company toggel on then hide this,when:28/07/2023 -->
+                <div class="title-data" [hidden]="data?.IsCurrent=='1'" id="strdate">
+                  <span>{{'label_startDate'|translate}} <span class="required-show">*</span></span>
+                  <p *ngIf="data.IsCurrent=='0'">{{data?.DateStart | date:userpreferences.dateformate}}</p>
+                  <p *ngIf="data.IsCurrent!='0'">--</p>
+                </div>
+                  <!-- who:maneesh,what :ewm-13216 for current company toggel on then hide this,when:28/07/2023 -->
+                <div class="title-data" [hidden]="data?.IsCurrent=='1'" id="enddate">
+                  <span>{{'label_endDate'|translate}}</span>
+                  <p *ngIf="data.IsCurrent=='0'">{{data?.DateEnd | date:userpreferences.dateformate}}</p>
+                  <p *ngIf="data.IsCurrent!='0'">--</p>
+                </div>
+                  <!-- who:maneesh,what :ewm-13794 for current company toggel on then hide this,when:16/08/2023 -->
+                <div class="title-data" [hidden]="data?.IsCurrent=='1'">
+                  <span>{{'label_Total'|translate}} {{'label_Experience'|translate}}</span>
+                  <p *ngIf="data.IsCurrent=='0'">{{data?.TotalExperience|numbertomonth:'M'}}</p>
+                  <p *ngIf="data.IsCurrent!='0'">--</p>
+                </div>
+                  <!-- who:maneesh,what :ewm-13216 for current company toggel on then hide this,when:28/07/2023 -->
+                <div class="title-data" [hidden]="data?.IsCurrent=='0'" id="strdateCurrent">
+                  <span>{{'label_startDate'|translate}}</span>
+                  <p *ngIf="data.IsCurrent=='1'">{{data?.DateStart | date:userpreferences.dateformate}}</p>
+                  <p *ngIf="data.IsCurrent!='1'">--</p>
+                </div>
+                  <!-- who:maneesh,what :ewm-13216 for current company toggel on then hide this,when:28/07/2023 -->
+                <div class="title-data" [hidden]="data?.IsCurrent=='0'" id="presentdate">
+                  <span>{{'label_Present'|translate}}</span>
+                  <p *ngIf="data.IsCurrent=='1'">{{data?.TotalExperience|numbertomonth:'M'}}</p>
+                  <p *ngIf="data.IsCurrent!='1'">--</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_location'|translate}}</span>
+                  <!-- who:maneesh,what : i am comment this line and add new <p>{{data?.Location?.AddressLinkToMap}}</p> ewm-10464,when:13/12/2022 -->
+                  <!---------@When: 27-04-2023 @who:Amit @why: EWM-12232 @what: add class--------->
+                  <p matTooltip="{{data?.Location?.AddressLinkToMap}}" class="full-location">
+                    {{data?.Location?.AddressLinkToMap}}</p>
+
+                  <p *ngIf="data?.Location==null">--</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_description'|translate}}</span>
+                  <p *ngIf="data?.Description==''">--</p>
+             <!-- who:maneesh,what:ewm-13505 for show and more btn fixed  when:31/07/2023 -->
+             <p *ngIf="data?.Description!=''">
+             {{!isReadMore[i] && data?.Description.length > 250 ? (data?.Description | slice: 0:250) +'...' : data?.Description}}
+              <button mat-stroked-button color="primary" id="show-less-text" *ngIf="data?.Description.length > 250"  (click)="isReadMore[i]=!isReadMore[i]" >
+                {{isReadMore[i]?'Show Less':'Show More'}}
+              </button>       
+            </p>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+
+          </div>
+
+        </mat-card-content>
+        <div class="resizeBarSec">
+          <div class="resizeBar"></div>
+          <div class="resizeBar"></div>
+        </div>
+      </mat-card>
+
+      <mat-card id="candidate-education" [style.Order]="getOrderListRightSide('Education')">
+        <mat-card-header [style.background-color]="background20">
+          <mat-card-title>{{'candidate_education' | translate}}</mat-card-title>
+          <span class="summryeheader-spacer"></span>
+          <!-- @Who: Bantee Kumar,@Why:EWM-10893,@When: 09-Mar-2023,@What: Add, edit, and View prefix word is missing in General information, Experience section, Education section, Dependent section, Emergency contact section. -->
+
+          <button type="button" (click)="openEducationModal(id,'Add')"
+            *ngIf="(this.candidateEducationData != undefined)&&(this.candidateEducationData != null)&&(this.candidateEducationData.length>0)"
+             mat-mini-fab matTooltipClass="custom-tooltip"
+            matTooltip="{{'label_add'|translate}}">
+            <mat-icon>
+              add
+            </mat-icon>
+          </button>
+        </mat-card-header>
+
+        <div class="progress-loader-box" *ngIf="loaderEducation">
+          <div class="progress-loader">
+            <div class="loaderBar"></div>
+          </div>
+        </div>
+
+
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="card-fadeloader" *ngIf="loaderEducation"></div>
+          <div class="addSection"
+            *ngIf="(this.candidateEducationData == undefined)||(this.candidateEducationData == null)">
+            <p class="mb-15">{{'label_noEducationAddedYet' | translate}}</p>
+            <button type="button" (click)="openEducationModal('','Add')" color="primary" mat-raised-button
+              matTooltipClass="custom-tooltip">
+              <mat-icon>
+                add
+              </mat-icon> {{'label_add' | translate}}
+            </button>
+          </div>
+          <div *ngFor="let data of candidateEducationData; let i=index " class="employee-panel" id="employee-panel">
+
+            <mat-accordion class="employee-accordion" id="employee-accordion">
+              <mat-expansion-panel #panel hideToggle class="mb-10">
+                <mat-expansion-panel-header #panelH (click)="panelH._toggle()">
+                  <div class="title-description">
+                    <mat-panel-title>
+                      <div class="title-data">
+                        <span>{{'label_degreeType'|translate}}</span>
+                        <p *ngIf="data?.DegreeType == null">--</p>
+                        <p>{{data?.DegreeType}}</p>
+                      </div>
+                      <div class="title-data">
+                        <span>{{'label_qualification'|translate}} <span class="required-show">*</span></span>
+                        <p>{{data?.QualificationName}}</p>
+                      </div>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <div class="panelActionButton">
+                        <button mat-icon-button type="button" (click)="openEducationModal(data.Id,'View')" id="btnView"
+                          matTooltipClass="custom-tooltip" matTooltip="{{'label_view'|translate}}">
+                          <mat-icon color="primary">
+                            arrow_forward_ios
+                          </mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" (click)="openEducationModal(data.Id,'Edit')"
+                          matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}">
+                          <mat-icon color="primary">
+                            edit
+                          </mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" id="btnDelete7" (click)="DeleteEducationById(data)"
+                          mat-icon-button matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}">
+                          <mat-icon color="warn">
+                            delete
+                          </mat-icon>
+                        </button>
+                        <button mat-icon-button tabindex *ngIf="!panel.expanded" class="more-less" id="btn_expand"
+                          (click)="panelH._toggle()">
+                          <mat-icon>expand_more</mat-icon>
+                        </button>
+                        <button mat-icon-button tabindex *ngIf="panel.expanded" class="more-less" id="btn_less"
+                          (click)="panelH._toggle()">
+                          <mat-icon>expand_less</mat-icon>
+                        </button>
+                      </div>
+                    </mat-panel-description>
+                  </div>
+                </mat-expansion-panel-header>
+                <div class="title-data">
+                  <span>{{'label_degreeTitle'|translate}}</span>
+                  <p *ngIf="data?.DegreeTitle == ''">--</p>
+                  <p>{{data?.DegreeTitle}}</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_institute'|translate}}</span>
+                  <p *ngIf="data?.Institute == ''">--</p>
+                  <p>{{data?.Institute}}</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_university'|translate}}</span>
+                  <p *ngIf="data?.University == ''">--</p>
+                  <p>{{data?.University}}</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_startDate'|translate}}</span>
+                  <p>{{(data?.DateStart == '0' )? '--' : data?.DateStart | date:userpreferences.dateformate}}</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_endDate'|translate}}</span>
+                  <p>{{(data?.DateEnd == '0') ? '--': data?.DateEnd | date:userpreferences.dateformate}}</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_scopeType'|translate}}</span>
+                  <p *ngIf="data?.ScoreType == null">--</p>
+                  <p>{{data?.ScoreType}}</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_finalScore'|translate}}</span>
+                  <p>{{(data?.FinalScore == '0') ? '--' : data?.FinalScore}}</p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_Location'|translate}}</span>
+                  <!-- who:maneesh,what : i am comment this line and add new for and tooltip ewm-10464,when:13/12/2022 -->
+                  <p *ngIf="data?.CandidateLocation == null">--</p>
+                  <!---------@When: 27-04-2023 @who:Amit @why: EWM-12232 @what: add class--------->
+                  <p *ngIf="data?.CandidateLocation!=null" matTooltip="{{data?.CandidateLocation?.AddressLinkToMap}}"
+                    class="full-location">
+                    {{data?.CandidateLocation?.AddressLinkToMap}}
+                  </p>
+                </div>
+                <div class="title-data">
+                  <span>{{'label_description'|translate}}</span>
+                  <p *ngIf="data?.Description == ''">--</p>
+             <!-- who:maneesh,what:ewm-13653 for show and more btn fixed  when:01/07/2023 -->
+                  <p *ngIf="data?.Description!=''">
+                    {{!isReadMoreText[i] && data?.Description.length > 250 ? (data?.Description | slice: 0:250) +'...' : data?.Description}}
+                     <button mat-stroked-button color="primary" id="show-less-text"  *ngIf="data?.Description.length > 250" (click)="isReadMoreText[i]=!isReadMoreText[i]" >
+                       {{isReadMoreText[i]?'Show Less':'Show More'}}
+                     </button>        
+                   </p>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+
+          </div>
+
+        </mat-card-content>
+        <div class="resizeBarSec">
+          <div class="resizeBar"></div>
+          <div class="resizeBar"></div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

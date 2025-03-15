@@ -1,0 +1,388 @@
+@import '../../styles-var.scss';
+.dark-theme {
+    .cdk-drag-preview.jobcandidate-card-preview{
+      background-color: #424242;
+    }
+    .dynamic-filter-area{
+      color: $dark-primary;
+      p{
+        color: $white-color;
+      }
+      .mat-divider{
+        border-top-color: rgba(0, 0, 0, 0.32);
+      }
+      .dynamic-filter-area-footer{
+        color: $white-color;
+        .mat-checkbox-frame {
+          border: 2px solid rgba(255, 255, 255, 1);
+        }
+        .mat-checkbox-checked.mat-primary .mat-checkbox-background:after {
+          border-bottom: 3px solid $white-color;
+          border-right: 2px solid $white-color;
+        }
+        .mat-checkbox-checked.mat-primary .mat-checkbox-background:before {
+          border-right: 5px solid $dark-primary;
+        }
+      }
+      .dynamic-filter-txt{
+        color: $white-color;
+        .mat-icon-button{
+          color: #c1c1c1;
+          &:hover{
+             color: $warn-bg;
+          }
+       }
+      }
+    }
+    .job-detail-header{
+      border-bottom: 1px solid #6a6767;
+      .dynmic-bg-color{
+        color: $dark-primary;
+      }
+      .header-expand-collapse{
+        color: $dark-primary;
+      }
+      .canidate-header-container{
+        .canidate-header-left{
+          .candidate-profile-info {
+            .icon-with-detail.job-name{
+              cursor: pointer;
+              p{
+                color: $dark-primary;
+              }
+            }
+            .icon-with-detail.client-location{
+              .mat-icon{
+                cursor: pointer;
+              }
+              p{
+                color: $white-color;
+              }
+            }
+          }
+          .job-detail-chart{
+            color: $dark-primary !important;
+          }
+        }
+      }
+    }
+    .header-collapse-layout{
+      .canidate-header-container{
+        .canidate-header-left{
+          .candidate-profile-info.collapseExpandData{
+            .jobdetail-header-info .jobdetail-header-info-txt{
+              .mat-icon{
+                color: $dark-primary !important;
+              }
+            }
+          }
+        }
+      }
+    }
+    .job-status {
+      .jobAge {
+        .jobAgeBox {
+          .jobAgeBoxLabel {
+            color: $dark-primary;
+            &::after {
+              border-left: 16px solid #3a3a3a;
+            }
+          }
+          .jobAgeBoxTimer {
+            color:#ffffff;
+          }
+        }
+      }
+    }
+    .quickFiltr-container{
+      .quickFiltr-sidenav-content{
+        .quick-filter-button{
+          color: $dark-primary;
+        }
+      }
+    }
+    .job-details-overlay-sidebar {
+        .drawerSidenavQuickJob{
+          .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+            color:rgba(255, 255, 255, 0.65);
+          }
+          .ng-select.ng-select-disabled .ng-select-container .ng-value-container .ng-value{
+            color:rgba(255, 255, 255, 0.65);
+          }
+          .mat-chip.mat-standard-chip.mat-chip-disabled{
+            opacity:0.68;
+          }
+          .disabledDescriptionDiv{
+            opacity: 0.68;
+          }
+          .mat-slide-toggle.mat-disabled{
+            opacity: 0.68;
+          }
+          .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label{
+            color: rgba(255, 255, 255, 0.68);
+          }
+        }
+    }
+    .jobcandidate-card.cdk-drag-preview, .jobcandidate-card {
+      .user-detail {
+        .userAvtaarAndName {
+          .mat-icon {
+            color: $dark-primary;
+          }
+        }
+      }
+      .resume{
+        color: $dark-primary;
+      }
+      .candidate-status{
+        color: #ffffff;
+      }
+      .proximity{
+        color: $dark-primary;
+      }
+      .mat-card-actions{
+        background: #3b3b3b;
+      }
+    }
+    .number-counter{
+      background: #424242;
+      color: #ffffff
+    }
+    .mat-card.jobcandidate-card.cdk-drag-placeholder {
+      background: #3a3a3a;
+      border: dotted 2px #000 !important;
+    }
+    .companyNameInitial{
+      background: #789abb;
+    }
+    .job-detail-container{
+      .jobdetail-card.mat-card {
+        .jobDetailsPage.mat-card-content{
+          .mat-tab-group.jobdetail-tab{
+            .mat-tab-label {
+              .numbers {
+                background: $dark-primary;;
+                color: $white-color;
+              }
+            }
+            .mat-tab-label {
+              .numbers{
+                background: $gray-txt;
+              }
+            }
+            .mat-tab-label.mat-tab-label-active {
+              color: $dark-primary;
+              background: rgba(0, 0, 0, 0.05);
+              .numbers{
+                background: $dark-primary;
+              }
+            }
+          }
+          .kanban-header-sticky{
+            background: #424242;
+            .kanban-header {
+              color: #424242;
+              background: #303030;
+            }
+          }
+          .kanban {
+            .kanban-step {
+              border: 1px solid #3a3a3a;
+              background: #424242;
+              .card-summary-candidates{
+                .mat-expansion-panel{
+                  .mat-expansion-panel-header-title, .mat-expansion-panel-header-description{
+                    .card-summary-candidates-header-resume{
+                      .resume-view.resume-card-view{
+                        .share.mat-button-disabled{
+                          background: rgb(120, 154, 171, .2);
+                        }
+                      }
+                    }
+                  }
+                  .selected{
+                    background: $dark-primary;
+                    color: $white-color;
+                    .mat-expansion-panel-header-title, .mat-expansion-panel-header-description{
+                      color: $white-color;
+                      .mat-checkbox-checked.mat-primary .mat-checkbox-frame, .mat-checkbox-indeterminate .mat-checkbox-frame {
+                        border: 2px solid $white-color;
+                      }
+                      .mat-checkbox-checked.mat-primary .mat-checkbox-background:before{
+                        border-right: 5px solid $dark-primary;
+                      }
+                      .mat-checkbox-checked.mat-primary .mat-checkbox-background:after {
+                        border-bottom: 3px solid $white-color;
+                        border-right: 2px solid $white-color;
+                      }
+                      .mat-button.mat-primary, .mat-icon-button.mat-primary, .mat-stroked-button.mat-primary{
+                        color: $white-color;
+                      }
+                      .card-summary-candidates-header-resume{
+                        .resume-view.resume-card-view{
+                          .share.mat-button-disabled{
+                            color: $dark-primary;
+                            background: rgba(255, 255, 255, 0.5);
+                          }
+                        }
+                      }
+                      .resume.mat-icon-button.mat-button-disabled.mat-button-disabled{
+                        color:rgba(255, 255, 255, 0.5);
+                      }
+                    }
+                  }
+                }
+                .jobcandidate-card{
+                  .resume.mat-icon-button.mat-button-disabled.mat-button-disabled{
+                    color: rgb(120, 154, 171, .2);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .cdk-drop-list-disabled{
+      .drop-overlay{
+        background: #3a3a3a;
+      }
+    }
+    .seekIntegrationSection{
+      .positionRelative{
+          .infoIconStyle{
+              background: #424242;
+          }
+      }
+    }
+    .job-short-info{
+      color: $dark-primary;
+      .mat-icon{
+        color: $dark-primary;
+      }
+      span{
+        color: $default-text-color;
+      }
+    }
+    .mobile-job-chart-sec{
+      .job-chart{
+        color: $dark-primary;
+        .job-chart-list{
+          color: $white-color;
+          .chart-number{
+            background: $dark-primary;
+          }
+        }
+      }
+    }
+    .canidate-header-left{
+      .candidate-profile-info{
+        .jobdetail-header-info{
+          color: $dark-primary;
+          .jobdetail-header-info-txt{
+            .mat-icon.dark-btn{
+              background-color: $dark-primary;
+            }
+            span{
+              color: $default-text-color !important;
+            }
+          }
+        }
+      }
+    }
+    .job-status{
+      .jobAge{
+        .jobAgeBox{
+          color: $dark-primary;
+          .jobAgeBoxLabel{
+            .mat-icon{
+              background-color: $dark-primary;
+            }
+          }
+        }
+      }
+    }
+    .all-owner-list.owner-hover-list.mat-menu-panel .mat-list-base .mat-list-item{
+      &:hover{
+        background-color: $dark-primary;
+      }
+    }
+    /* @When: 08-09-2023 @who:Amit @why: EWM-13899 @what: close job dark mode start here */
+    .close-job-form{
+      .mat-dialog-content{
+        h3{
+          .mat-icon{
+            color: $dark-primary;
+          }
+        }
+        .selected-candidate{
+          border: 1px solid $gray-txt;
+          .action-candidate{
+            background: #515151;
+          }
+        }
+        .send-email{
+          .mat-icon{
+            color: $dark-primary;
+          }
+        }
+      }
+    }
+    // @When: 17-09-2023 @who:Amit @why: EWM-13830 @what: job detail description
+    .candidate-summry{
+      .resumeHeader.mat-card{
+        .search-and-parsebutton{
+          .btn-group .mat-icon-button{
+            color: $dark-primary;
+          }
+        }
+      }
+    }
+    /* @When: 08-09-2023 @who:Amit @why: EWM-13899 @what: close job dark mode start here */
+    // @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: update activity start here
+    .activity-related{
+      .activityDetails{
+        .details-main{
+          .details span{
+            color: $gray-button;
+          }
+        }
+      }
+    }
+    // @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: update activity end here
+    // @When: 21-09-2023 @who:Amit @why: EWM-14386 @what: group btn skill
+    .group-btn-skill{
+      .mat-icon-button{
+        color: $white-color;
+      }
+    }
+    // @When: 17-10-2023 @who:Amit @why: EWM-14846 @what: btn group files
+    .btn-group-files{
+      .view-files{
+        color: $dark-primary;
+      }
+    }
+    .job-detail-list-view{
+      .kendo-grid-appearance{
+        .k-grid{
+
+          tr {
+            td:nth-child(2){
+              background-color: #424242;
+            }
+          }
+          tr.k-alt td:nth-child(2) {
+            background-color:#484848 !important;
+          }
+          .k-filter-row td:nth-child(2) {
+            background: #424242 !important;
+          }
+          .k-filter-row{
+            td:nth-child(2){
+              background: #696969 !important;
+            }
+          }
+        }  
+      }
+    }
+}

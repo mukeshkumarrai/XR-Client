@@ -1,0 +1,57 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 19-Dec-2024
+    @Why: EWM-19049
+    @What: This page wil be use only for HTML
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="qualification-mat-card-header">
+    <mat-card-title class="only-title">{{'title_LeadNameManage' |customTranslate:val | titlecase}}</mat-card-title>
+    <div class="actionButton">
+        <a mat-raised-button class="viewAuditlog" id="user-invitation-btnViewAudit"
+            [routerLink]="['/client/core/system-settings/system-audit-log/',auditParameter]">
+            <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+        </a>
+        <button mat-raised-button color="warn" [routerLink]="['/client/core/administrators/masterdata']" id="btnCancel">
+            {{buttonStatus==false?('label_back' |translate) : ('label_cancel' |translate)}}
+        </button>
+        <button mat-raised-button tabindex="4" color="primary" id="btnSave"
+            *ngIf="buttonStatus==true" [disabled]="!manageNameFrom.valid || isDirty==true"
+            (click)="updateLeadManageName(this.manageNameFrom.getRawValue())">
+            {{'label_save' |translate}}
+        </button>
+    </div>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" id="manage-name-drawer">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+        <form novalidate [formGroup]="manageNameFrom" id="manageNameFrom">
+            <p class="mt-0">{{'label_ManageName'|customTranslate | titlecase}} {{'label_MasterReplace'|customTranslate}}{{'label_lead_master'|customTranslate}}{{'label_SelectedNameDynamically'|customTranslate}}</p>
+            <div class="gdpr-slde-toggle">
+                <mat-label>{{'label_Enable' |translate}}</mat-label>
+                <mat-slide-toggle labelPosition="before" formControlName="Status" id="manageName-Status"
+                tabindex="1" (change)="setDefault($event)" color="primary">
+                </mat-slide-toggle>
+            </div>
+
+            <div class="ng-slectBox">
+                <ng-select placeholder="{{'label_LeadName'|customTranslate}}" tabindex="2"
+                    [clearable]="true" formControlName="leadNameId" (change)="clickLeadNameManageID($event)"
+                    id="manageName-clientName" required>
+                    <ng-option *ngFor="let clientname of gridClientName" [value]="clientname.Id">
+                        {{clientname.Name}}
+                    </ng-option>
+                </ng-select>
+                <mat-error *ngIf="this.manageNameFrom.controls['leadNameId'].hasError('required')  && manageNameFrom.controls['leadNameId'].touched">
+                    {{ 'label_LeadName' |customTranslate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+            </div>
+            <app-custom-table [gridData]="griddata"></app-custom-table>
+        </form>
+    </mat-card>
+</mat-drawer-container>
+<!-- Entire Software : Nitin Bhati : 16 July 2021 : Client Manage Name : EWM-2056 -->

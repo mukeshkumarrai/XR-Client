@@ -1,0 +1,118 @@
+<!---
+   @Type: File, <html>
+   @Name: schedule.component.html
+   @Who: Anup Singh
+   @When: 08-jan-2022
+   @Why:EWM-4467 EWM-4529
+   @What: popup component for schedule
+-->
+<!---
+   @Modified 
+   @Type: File, <html>
+   @Name: schedule.component.html
+   @Who: Satya Prakash Gupta
+   @When: 12-Mar-2023
+   @Why:EWM-10688 EWM-10942
+   @What: modify html structure
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_schedule' | translate}}</h2>
+</div>
+<mat-dialog-content class="add-contact-modal" applyTabIndexes>
+    <form novalidate [formGroup]="ScheduleForm">
+        <div class="ng-slectBox" id="removeCandidate-reason" tabindex>
+            <ng-select placeholder="{{'label_timeZone' |translate}} *" tabindex="3" [clearable]="true"
+                formControlName="TimeZone" id="schedule-UserTimezone" (change)="getTimezone($event)"
+                [compareWith]="compareFn" required appendTo="body" class="dropdown-body">
+                <ng-option *ngFor="let timezone of timezoneDetails" [value]="timezone">
+                    {{timezone.Timezone}}</ng-option>
+            </ng-select>
+            <mat-error
+                *ngIf="this.ScheduleForm.controls['TimeZone'].hasError('required') && ScheduleForm.controls['TimeZone'].touched">
+                {{ 'label_timeZone' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+        </div>
+        <div class="date-and-time">
+            <div>
+                <mat-form-field>
+                    <mat-label>{{'label_startDate' | translate}}</mat-label>
+                    <input matInput [matDatepicker]="DateStart" tabindex
+                        id="schedule-DateStart" (dateChange)="addDateStart($event)" [(ngModel)]="currentStartDate"
+                        formControlName="DateStart"   [placeholder]="getDateFormat"  [min]="StartDateMin" required>
+                    <button *ngIf="ScheduleForm.value.DateStart" id="clearBtn" matSuffix mat-icon-button
+                        aria-label="Clear" (click)="clearStartDate()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-datepicker-toggle matSuffix [for]="DateStart"></mat-datepicker-toggle>
+                    <mat-datepicker #DateStart></mat-datepicker>
+                    <mat-error
+                        *ngIf="ScheduleForm.controls['DateStart'].hasError('required') && ScheduleForm.controls['DateStart'].touched">
+                        {{'label_startDate'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                    <!---------@When: 12-03-2023 @who:Adarsh singh @why: EWM-10940 --------->
+                    <mat-error *ngIf="ScheduleForm.get('DateStart').hasError('invalidDate') && !ScheduleForm.controls['DateStart'].hasError('required')">
+                        {{'label_invalidDate' | translate}} 
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'label_endDate' | translate}}</mat-label>
+                    <input  matInput [matDatepicker]="DateEnd" tabindex id="schedule-DateEnd"
+                        [min]="EndDateMin" (dateChange)="addDateEnd()"   [placeholder]="getDateFormat"  formControlName="DateEnd" required>
+                    <button *ngIf="ScheduleForm.value.DateEnd" id="clearBtn" matSuffix mat-icon-button
+                        aria-label="Clear" (click)="clearEndDate()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-datepicker-toggle matSuffix [for]="DateEnd"></mat-datepicker-toggle>
+                    <mat-datepicker #DateEnd></mat-datepicker>
+                    <mat-error
+                        *ngIf="ScheduleForm.controls['DateEnd'].hasError('required') && ScheduleForm.controls['DateEnd'].touched">
+                        {{'label_endDate'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                    <mat-error *ngIf="ScheduleForm.controls['DateEnd'].hasError('matDatepickerMin')">
+                        {{'label_endDate'|translate}} {{'label_salaryBanderrmax'|translate}} {{'label_startDate'|translate}}
+                  </mat-error>
+                  <!---------@When: 12-03-2023 @who:Adarsh singh @why: EWM-10940 --------->
+                    <mat-error *ngIf="ScheduleForm.get('DateEnd').hasError('invalidDate')  && !ScheduleForm.controls['DateEnd'].hasError('required') && !ScheduleForm.controls['DateEnd'].hasError('matDatepickerMin')">
+                        {{'label_invalidDate' | translate}} 
+                    </mat-error>
+                </mat-form-field>
+                <div class="same-as-start">
+                    <!-- <label>{{'label_endDate' | translate}} * : </label> -->
+                    <mat-checkbox color="primary" [(ngModel)]="isSameAsDateStart" [ngModelOptions]="{standalone: true}"
+                        type="checkbox" id="schedule-DateEndcheck" (change)=onChecked($event) tabindex>
+                        {{'label_sameAsStartDate' | translate}}</mat-checkbox>
+                </div>
+            </div>
+            <div>
+                <div class="kendo-input-box">
+                    <kendo-floatinglabel text="{{ 'label_startTime' | translate }} *">
+                        <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a" [value]="TimeStartValue"
+                            (valueChange)="handleChangeStartTime($event)">
+                        </kendo-timepicker>
+                    </kendo-floatinglabel>
+                </div>
+                <div class="kendo-input-box">
+                    <kendo-floatinglabel text="{{ 'label_endTime' | translate }} *">
+                        <kendo-timepicker [formatPlaceholder]="{hour: 'HH',minute: 'MM'}" format="hh:mm a" [value]="TimeEndValue"
+                            (valueChange)="handleChangeEndTime($event)">
+                        </kendo-timepicker>
+                    </kendo-floatinglabel>
+                </div>
+            </div>
+        </div>
+        <mat-error *ngIf="isMinTimeCondotion===true">
+            {{'label_endTimeStartTimeMsg'|translate}}
+        </mat-error>
+    </form>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" id="btnClose" tabindex (click)="onDismiss()"> {{'button_close' |
+        translate}}</button>
+    <button mat-stroked-button color="primary" id="btnAdd" tabindex
+        [disabled]="!ScheduleForm.valid || isMinTimeCondotion"
+        (click)="onConfirm(this.ScheduleForm.getRawValue())">{{'label_add' |translate}}</button>
+</mat-dialog-actions>

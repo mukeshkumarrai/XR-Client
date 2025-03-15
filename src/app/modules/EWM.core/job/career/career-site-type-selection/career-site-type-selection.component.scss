@@ -1,0 +1,174 @@
+.col-1{
+    width: 50%;
+}
+
+.career-selection{
+    display: grid;
+    grid-template-columns: calc(50% - 10px) calc(50% - 10px);
+    gap: 20px;
+    @media only screen and (max-width: 767px) and (min-width: 320px) {
+      grid-template-columns: 1fr;
+    }
+    .mat-card{
+        padding: 10px;
+        .mat-card-title{
+            font-size: 16px;
+            position: relative;
+        }
+        .subTitle{
+          font-weight: 500;
+          margin: 15px 0px;
+        }
+        .mat-divider{
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .layout-column-logo{
+            background: #f7f7f7;
+            padding: 6px;
+        }
+        .layout-column-welcome{
+            background-color: #f1f1f1;
+            padding: 5px;
+        }
+        .layout-column-guidelies{
+            background-color: #f1f1f1;
+            padding: 5px;
+        }
+        .layout-column-buttons{
+            .mat-raised-button{
+                margin-left: 0px;
+            }
+        }
+        .mat-icon{
+          color: #7fb734;
+          position: absolute;
+          top: 5px;
+          right: 10px;
+          opacity: 0;
+          font-size: 26px;
+        }
+    }
+  
+    .mat-card.active{
+      background: rgba(127, 183, 52, 0.1);
+      .mat-icon{
+        opacity: 1;
+      }
+    }
+  
+  
+    // advance section layout start //
+    .advance-section{
+      .header-simple-layout{
+        display: grid;
+        grid-template-columns: calc(40% - 5px) calc(60% - 5px);
+        gap: 10px;
+        background: #d6d6d6;
+        padding: 6px;
+        align-items: center;
+        .header-column-logo{
+          .dark-box{
+            background: #fff;
+            width: 80px;
+            height: 30px;
+          }
+        }
+        .header-menu-box{
+          display: grid;
+          grid-template-columns: calc(65% - 5px) calc(35% - 5px);
+          gap: 10px;
+          align-items: center;
+          .header-menu-part{
+            display: grid;
+            grid-template-columns: repeat(3, calc(33.33% - 3.33px)) ;
+            gap: 5px;
+            align-items: center;
+            .menu{
+              background: #fff;
+              width: 100%;
+              height: 20px;
+            }
+          }
+          .layout-column-buttons{
+            align-items: flex-end;
+            .btn{
+              width: 100%;
+              height: 30px;
+              float: right;
+              background-color: #fff;
+            }
+          }
+        }
+      }
+      .blank-box{
+        display: grid;
+        grid-template-columns: 1fr;
+        background: #fff;
+        padding: 6px;
+        align-items: center;
+        height: 30px;
+      }
+      .blank-box.lightblue{
+        background: rgb(167, 181, 241);
+        padding:30px;
+        height: auto;
+        .white-bar{
+          background:#fff;
+          height: 30px;
+          width: 80%;
+          margin: 0 auto;
+          &:first-child{
+            margin-bottom: 20px;
+          }
+          &:last-child{
+            width: 60%;
+            height: 30px;
+          }
+        }
+      }
+      .blank-box.gray{
+        background: #d2d2d2;
+        height: 80px;
+      }
+      .blank-box.lightgray{
+        background: #f2f2f2;
+      }
+      .blank-box.blue{
+        background: rgb(33, 104, 211, 50%);
+      }
+    }
+    // advance section layout end //
+  
+    // advance section layout start //
+    .advance-section.job-section{
+      .header-simple-layout{
+        background:#f2f2f2;
+        .header-column-logo{
+          .dark-box{
+            display: none;
+          }
+        }
+      }
+      .blank-box.lightblue{
+        background: #d6d6d6;
+        .white-bar{
+          margin:0px 0px 20px;
+          &:last-child{
+            height:80px;
+            width: 80%;
+          }
+        }
+      }
+      .blank-box.bigwhite{
+        height: 130px;
+      }
+      .blank-box.darkgray{
+        background: #d6d6d6;
+      }
+    }
+  
+    // advance section layout end //
+  
+  }
+

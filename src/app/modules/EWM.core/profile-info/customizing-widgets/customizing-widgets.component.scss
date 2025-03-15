@@ -1,0 +1,84 @@
+/*
+  @(C): Entire Software
+  @Type: File, <scss>
+  @Who: Satya Prakash Gupta
+  @When: 28-April-2023
+  @Why: EWM-12257
+  @What:  Add style for dashboard widget
+*/
+.widget-section{
+  display: grid;
+  gap: 10px;
+  grid: auto/calc(50% - 5px) calc(50% - 5px);
+  @media only screen and (min-width: 320px) and (max-width: 640px){
+    grid: auto/calc(100% - 0px);
+  }
+  .drag-area{
+    padding: 10px;
+    .left-scroll-area{
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+      min-height: 52px;
+      .custWidgetCols,
+      .center-align-item {
+        display: flex;
+        align-items: center;
+        padding: 5px 10px 5px 0px;
+        border-radius: 4px;
+        transition: all .3s cubic-bezier(.25,.8,.25,1);
+        box-shadow: inherit;
+        justify-content: space-between;
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+        column-gap: 3px;
+        // @When: 25-09-2023 @who:Amit @why: EWM-14461 @what: drag style
+        .drag-name{
+          display: flex;
+          align-items: center;
+          column-gap: 3px;
+          .textSpan{
+            font-weight: 500;
+            font-size: 14px;
+            word-break: break-word;
+          }
+        }
+        .threeDotIconPadding {
+          display: flex;
+          align-items: center;
+          column-gap: 3px;
+        }
+        .moveCurson{
+          cursor: move;
+        }
+      }
+  
+      .custWidgetCols:hover,
+      .center-align-item:hover {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        animation-duration: 0.30s;
+        box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+      }
+    }
+  }
+}
+
+.cdk-drag-placeholder.custWidgetCols {
+  min-height: 42px;
+  padding: 0px 0px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  .threeDotIconPadding {
+    display: none !important;
+  }
+  .textSpan,
+  .mat-icon-button,
+  .selectGrid {
+    opacity: 0;
+  }
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+

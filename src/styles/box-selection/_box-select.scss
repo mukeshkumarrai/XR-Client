@@ -1,0 +1,150 @@
+@use "../../colors";
+@import "../../mixinStyle.scss";
+// Curve start here
+$curve: cubic-bezier(0.650, 0.000, 0.450, 1.000);
+// Curve end here
+.area-selection{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  row-gap: 18px;
+  column-gap: 15px;
+  padding: 12px 0px;
+  &-box{
+    padding: 0px 7px;
+    min-height: 58px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+    position: relative;
+    justify-content: space-between;
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgb(232 231 231 / 90%) 0px 0px 0px 1px;
+    .check-mark{
+      display: none;
+    }
+    &-data{
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      .userAvtaarAndName{
+        width: 26px;
+        height: 26px;
+        span,img{
+          width: 26px;
+          height: 26px;
+          font-size: 14px;
+          padding: 0px;
+        }
+      }
+      .mat-icon{
+        font-size: 20px;
+        height: 20px;
+        margin-inline-end: 5px;
+        border-inline-end: 1px solid rgba(0, 0, 0, 0.16);
+      }
+      .buttonTxt{
+        word-break: break-word;
+      }
+    }
+  }
+  .area-selection-box.area-selection-box-selected{
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(127, 183, 52, 0.9) 0px 0px 0px 1px;
+    background: #fafafa;
+    .check-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: block;
+      stroke-width: 2;
+      stroke: #ffffff;
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      display: block;
+      stroke-miterlimit: 10;
+      box-shadow: inset 0px 0px 0px colors.$green-color;
+      animation: fill .2s ease-in-out .2s forwards, scale .2s ease-in-out .6s both;
+      &-circle {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        stroke-width: 2;
+        stroke-miterlimit: 10;
+        stroke: colors.$green-color;
+        fill: none;
+        animation: stroke .3s $curve forwards;
+      }
+      &-path {
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        stroke-width: 3px;
+        animation: stroke .2s $curve .5s forwards;
+      }
+      @keyframes stroke {
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes scale {
+        0%, 100% {
+          transform: none;
+        }
+        50% {
+          transform: scale3d(1.1, 1.1, 1);
+        }
+      }
+      @keyframes fill {
+        100% {
+          box-shadow: inset 0px 0px 0px 30px colors.$green-color;
+        }
+      }
+    }
+  }
+}
+
+.area-selection.category-area-selection{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0px;
+  padding-bottom: 0px;
+  &:last-child{
+    margin-bottom: 20px;
+  }
+  .area-selection-box{
+    width: clamp(186px, 186px, 100%);
+  }
+}
+
+// dark theme start here
+.dark-theme{
+  .area-selection{
+    &-box{
+      &-data{
+        .mat-icon{
+          border-inline-end: 1px solid rgba(255, 255, 255, 0.5);
+        }
+      }
+    }
+    &-box.area-selection-box-selected{
+      background: #2f2f2f;
+      box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(120, 154, 171, 0.9) 0px 0px 0px 1px;
+      .check-mark{
+        box-shadow: inset 0px 0px 0px colors.$dark-primary;
+        animation: darkfill .2s ease-in-out .2s forwards, scale .2s ease-in-out .6s both;
+      }
+      .check-mark-circle {
+        stroke: colors.$dark-primary;
+      }
+      @keyframes darkfill {
+        100% {
+          box-shadow: inset 0px 0px 0px 30px colors.$dark-primary;
+        }
+      }
+    }
+  }
+}
+// dark theme end here
+
+
+

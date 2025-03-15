@@ -1,0 +1,102 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 19-Sep-2023
+    @Why: EWM-13752 EWM-14377
+    @What:  This page is created for push members
+-->
+
+<!--- @When: 30-11-2023 @Who:Amit @Why: EWM-15250 @What: structure change -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+
+<div class="eoh-result-show" id="eoh-result-member">
+
+    <div class="result-show" id="result-show-member" *ngIf="!resultShow">
+<div class="modal-header" id="modal-header" *ngIf="!resultShow">
+    <h2 matDialogTitle class="mb-0">{{'label_xeopleSearchBroadcastEntireApp' | translate}} </h2>
+</div>
+
+<mat-dialog-content>
+    <mat-card-content id="push-JobMembers" applyTabIndexes *ngIf="!resultShow">
+        <form novalidate [formGroup]="addForm" class="xeople-push-form">
+            <mat-form-field class="searchInput">
+                <mat-label class="push-heading">{{'label_xeopleSearchEnterSubjectlineMember'| translate}} <span>{{'label_xeopleSearchMaxSeventyFive'| translate}}</span></mat-label>
+                <input matInput formControlName="notificationTitle" tabindex id="xeople-pushmembers-notificationTitle"
+                    placeholder="" required>
+                   
+            </mat-form-field>
+            <mat-error
+            *ngIf="addForm.controls['notificationTitle'].hasError('required') && addForm.controls['notificationTitle'].touched">
+            {{'label_templateTitle'|translate}} {{'label_errorreqired'|translate}}
+        </mat-error>
+        <mat-error
+            *ngIf="addForm.controls['notificationTitle'].hasError('maxlength') && addForm.controls['notificationTitle'].touched">
+            {{'label_templateTitle' |translate}} {{'label_errormaxlength75' |translate}}
+        </mat-error>
+            <p class="example">{{'label_xeopleSearchBusinessAnalystOppertunity'| translate}}</p>
+
+            <div class="counterTxt">
+                <mat-form-field class="searchInput">
+                    <mat-label class="push-heading">{{'label_xeopleSearchEnterMessageIncludeAutomatically'| translate}} <span>{{'label_xeopleSearchMaxOneHunderedSixety'| translate}}</span></mat-label>
+                    <textarea type="text" tabindex matInput formControlName="notificationDescription"
+                        id="xeople-pushmembers-desc"  required></textarea>
+                        
+                </mat-form-field>
+                <mat-error
+                        *ngIf="addForm.controls['notificationDescription'].hasError('required')  && addForm.controls['notificationDescription'].touched">
+                        {{ 'label_description' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="addForm.controls['notificationDescription'].hasError('maxlength')  && addForm.controls['notificationDescription'].touched">
+                        {{ 'label_description' |translate}} {{ 'label_errormaxlength160' |translate}}
+                    </mat-error>
+                <p class="example">{{'label_xeopleSearchForExamplePermanentOpportunity'| translate}}</p>
+            </div>
+
+            <div class="matching-records-box xeople-output" id="apply-type">
+                <div class="xeople-push">
+                    <label class="search-label">{{'label_xeopleSearchHowMembersApplyJob'| translate}}</label>
+                    <mat-divider></mat-divider>
+                    <div class="apply-type-radio">
+                        <mat-radio-group color="primary" id="eoh-apply-type" class="eoh-radio-group"
+                            formControlName="applyType"  tabindex>
+                            <mat-radio-button [value]="1">{{'label_xeopleSearchQuickApplyProfileDetails'| translate}}</mat-radio-button>
+                            <mat-radio-button [value]="0">{{'label_xeopleSearchXeopleApplicationPage'| translate}}</mat-radio-button>
+                        </mat-radio-group>
+                        
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-dialog-content>
+
+<mat-divider *ngIf="!resultShow"></mat-divider>
+<div mat-dialog-actions class="push-member-app-msg-footer" *ngIf="!resultShow">
+    <button mat-stroked-button color="warn" id="btncancel" (click)="onDismiss()">{{'label_cancel'|translate}}</button>
+    <button mat-raised-button tabindex class="buttonForDesktopMobile" color="primary" type="button" id="btnSave"
+        [disabled]="!addForm.valid" (click)="onConfirm(this.addForm.value)">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save'|translate}}</span>
+    </button>
+</div>
+</div>
+
+<div class="result-push" id="result-push-member" *ngIf="resultShow">
+    <mat-card-content class="push-member-app" id="push-JobMembers" *ngIf="resultShow">
+        <p><strong>{{'label_pushMembertitle1'|translate}} {{sucessPushedMembers?.length}}/{{memberInfo?.length}}
+            {{'label_pushMemberstitle2'|translate}}</strong></p>
+        <p><button mat-button color="primary" (click)="generatePushMembersExcel()">{{'label_clickHere'|translate}}</button>
+            {{'label_pushMembertitle3'|translate}}</p>
+    </mat-card-content>
+    <mat-divider *ngIf="resultShow"></mat-divider>
+    <div mat-dialog-actions class="push-member-app-footer" *ngIf="resultShow">
+        <button mat-stroked-button color="primary" id="pushMmeners_btncancel"
+            (click)="onDismiss()">{{'label_ok'|translate}}</button>
+    </div>
+</div>
+</div>

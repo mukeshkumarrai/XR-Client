@@ -1,0 +1,60 @@
+<p>sms-history works!</p>
+<div class="searchGreyBgBox" *ngIf="!hideCanselBtn">
+    <mat-icon>chat</mat-icon>
+</div>
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<div class="sms-history-sec" #target  [scrollTop]="target.scrollHeight">
+    <div class="sms-history" *ngFor="let sms of SMSHistory">
+        <div class="chat">
+            <div class="owner-name">
+              {{sms.UserName}}
+            </div>
+            <div class="chat-data">
+                <div class="chat-data-bg"></div>
+                <div class="triangle"></div>
+                <div class="sms-body">{{sms.MessageBody}}</div>
+                <div class="date-and-time">
+                    <div class="date">{{sms.SendDate | date:userpreferences.timeformate:userpreferences.timezone}}</div>
+                </div>
+            </div>
+            
+            <div class="sms-status">
+                <div class="resend">
+                    <button mat-button color="primary"  *ngIf="sms.IsDelivered==0" (click)="resendSMS(sms);">
+                        <mat-icon>refresh</mat-icon>{{'label_resendOn'| translate}} {{sms.MobileNumber}}
+                    </button>
+                </div>
+                <div class="failed" *ngIf="sms.IsDelivered==0">
+                    <mat-icon>error_outline</mat-icon> {{'label_failed'| translate}}
+                </div>
+                <div class="pending" *ngIf="sms.IsDelivered==1">
+                    <mat-icon>check</mat-icon> {{'label_pending'| translate}}
+                </div>
+                <div class="delivered" *ngIf="sms.IsDelivered==2">
+                    <mat-icon>done_all</mat-icon> {{'label_deliveredOn'| translate}} {{sms.MobileNumber}}
+                </div>
+            </div>
+        </div>
+        <div class="chat-owner">
+            <div class="short-and-time">
+                <div class="userAvtaarAndName">                    
+                    <span *ngIf="sms.UserProfilePictureURL==''" >{{sortName(sms.UserName,'')}}</span>
+                    <img *ngIf="sms.UserProfilePictureURL &&  sms.UserProfilePictureURL!=''" src="{{sms.UserProfilePictureURL}}" />  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-card class="drawerFooter">
+        <button mat-icon-button  (click)="getSMSHistory()" color="primary"
+                                                type="button">
+                                                <mat-icon>refresh</mat-icon>
+                                            </button>
+    <button mat-stroked-button *ngIf="!hideCanselBtn" color="warn" tabindex type="button" id="btnCancel" (click)="closeToggel()">
+        {{'button_cancel'|translate}}</button>
+    <button mat-raised-button tabindex color="primary" type="button" id="btnSave" (click)="openJobSMSForCandidate(candidateDetails)">
+        {{'label_newSMS'|translate}}
+    </button>
+</mat-card>

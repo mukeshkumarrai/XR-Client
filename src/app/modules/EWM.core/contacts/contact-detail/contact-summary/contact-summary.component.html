@@ -1,0 +1,246 @@
+ <!---
+@(C): Entire Software
+@Type: File, <html>
+@Who: bantee
+@When:12-sept-2023
+@Why: EWM-13712
+@What:  This component is used for summary for contact
+-->
+<div class="candidate-summry employee-summry common-card-summary" id="employee-summry">
+    <div class="row mb-0"> 
+        <div class="col s12 m12 l6">
+            <mat-card 
+                id="candidate-general-information" class="matCardEmployee">
+                <mat-card-header [style.background-color]="background20">
+                    <mat-card-title>{{'label_contacts_PersonalDetails' | translate}}</mat-card-title>
+                    <span class="summryeheader-spacer"></span>
+                    <button type="button" id="btnEdit" mat-mini-fab
+                        mat-icon-button matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}"
+                        (click)="editPersonalInfoModal()">
+                        <mat-icon>
+                            edit
+                        </mat-icon>
+                    </button>
+                </mat-card-header>
+                <div class="progress-loader-box" *ngIf="generalLoader">
+                    <div class="progress-loader">
+                        <div class="loaderBar"></div>
+                    </div>
+                </div>
+                <mat-divider class="mt-0"></mat-divider>
+                <mat-card-content>
+                    <div class="card-fadeloader" *ngIf="generalLoader" id="contact-name"></div>
+                    <div class="general-info-data">
+                        <p>
+                            <strong>{{'label_contacts_name'|translate}}</strong>
+                        </p>
+                        <div>
+                            <p>{{contactPersonalData?.FullName}}</p>
+                        </div>
+                    </div>
+                    <!-- //who:maneesh,what:ewm-15941 for add position field,when:06/02/2024 -->
+                    <div class="general-info-data">
+                      <p>
+                          <strong>{{'label_position'|translate}}</strong>
+                      </p>
+                      <div>
+                          <p>{{contactPersonalData?.Position}}</p>
+                      </div>
+                  </div>
+                    <div class="general-info-data" id="contact-email">
+                        <p>
+                            <strong>{{'label_contacts_email'|translate}}</strong>
+                        </p>
+                        <!-- @When: 13-09-2023 @who:Amit @why: EWM-14068 @what: add class --> 
+                        <div class="newEmailBtn newEmailBtn-right" id="email-copy" [hidden]="contactPersonalData?.EmailId==null || contactPersonalData?.EmailId=='' ">
+                          <div class="copy-content" color="primary"
+                          id="newEmail">
+                          <button mat-icon-button color="primary" type="button"
+                               class="content-copy" [disabled]="contactPersonalData?.EmailId==null || contactPersonalData?.EmailId=='' "
+                              (click)="copyContactEmailId(contactPersonalData?.EmailId);" matTooltip="{{'label_copy' | translate}} {{'label_emailAddressInput' | translate}}"
+                              matTooltipClass="custom-tooltip">
+                              <mat-icon>content_copy</mat-icon>
+                          </button>
+                          <div class="copyMessage email-hide" id="autoHide">
+                              <div class="alert-primary alert-green">
+                                  <mat-icon>check</mat-icon>
+                                  <span>{{'label_emailAddressCipied'| translate }}</span>
+                              </div>
+                          </div>
+                      </div>
+                              <!-- // who:maneesh,waht:ewm-16066 for send email,when:29/02/2024 -->
+                            <span class="buttonTxt systemAuditEyeIcon cursor"
+                            (click)="openNewEmailModal(contactPersonalData?.Id,contactPersonalData?.EmailId)"> {{contactPersonalData?.EmailId}}</span> <p>({{contactPersonalData?.EmailType}})</p>  
+                        </div>
+                    </div>
+                    <div class="general-info-data" id="contact-phoneno">
+                        <p>
+                            <strong>{{'label_contacts_PhoneNumber'|translate}}</strong>
+                        </p>
+                        <div class="newEmailBtn newEmailBtn-right" id="sms-copy">
+                          <div class="copy-content" color="primary"
+                          id="newEmail">
+                            <button mat-icon-button color="primary" class="content-copy" id="smsBtn" *ngIf="contactPersonalData?.PhoneNo!=null && contactPersonalData?.PhoneNo!=''"
+                              [disabled]="!isSMSStatus"  matTooltipClass="custom-tooltip" matTooltip="{{'label_sms' | translate}}"
+                              (click)="openJobSMSForCandidate()">
+                              <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.ShareButton?.id}}"
+                                class="{{animationVar?.ShareButton?.isAnimClass}}">sms</mat-icon>
+                            </button>
+                          <div class="copyMessage email-hide" id="autoHide">
+                              <div class="alert-primary alert-green">
+                                  <mat-icon>check</mat-icon>
+                                  <span>{{'label_emailAddressCipied'| translate }}</span>
+                              </div>
+                          </div>
+                      </div>
+                      <p> <span *ngIf="contactPersonalData?.PhoneType">
+                         <!-- who:renu,what:EWM-11296.EWM-15905,When:26/03/2024  
+                     {{contactPersonalData?.PhoneCode.startsWith('+')?contactPersonalData?.PhoneCode:'+'+contactPersonalData?.PhoneCode}} {{contactPersonalData?.PhoneNo }} ({{contactPersonalData?.PhoneType}})-->
+                     <!--Who:Ankit Rawat, What:EWM-16433 EWM-17048 Phone number with Proper format as per country code, When:14May24 -->
+                     {{ contactPersonalData?.PhoneNo | customPhoneFormat:contactPersonalData?.CountryCode }}
+                        </span>
+                      </p>
+                        </div>
+                          <!-- // who:maneesh,what:ewm-14781 for space between phonecode and number,when:17/10/2023 -->
+                    </div>
+                    <div class="general-info-data" id="contact-gender">
+                        <p>
+                            <strong>{{'label_Gender'|translate}}</strong>
+                        </p>
+                        <div>
+                            <p>{{contactPersonalData?.Gender}}</p>
+                        </div>
+                    </div>
+                    <div class="general-info-data" id="contact-status">
+                        <p>
+                            <strong>{{'label_contacts_status'|translate}}</strong>
+                        </p>
+                        <div>
+                            <p>{{contactPersonalData?.StatusName}}</p>
+                        </div>
+                    </div>
+                    <div class="general-info-data" id="contact-owners">
+                      <p>
+                          <strong>{{'label_contactOwner'|translate}}</strong>
+                      </p>
+                      <!-- who:maneesh,what:ewm-16068 for add contact owners,when:21/02/2024 -->
+                      <div class="owner-data" id="owners-data">
+                      <mat-chip-list class="name-chips" *ngIf="largeScreenTag" id="name-chips-list">
+                        <ng-container  *ngFor="let selectTag of largeScreenTagData">
+                          <mat-chip  id="ownerchiplist" [removable]="false" matTooltip="{{OwnerName?.OwnerName }}" 
+                          matTooltipClass="custom-tooltip">
+                            <span class="skill-name"> {{selectTag?.OwnerName }}</span>
+                          </mat-chip>
+                        </ng-container>
+                        <button id="btn-viewMore" mat-flat-button #mobileSide="matMenuTrigger" [matMenuTriggerFor]="mobileViewTag"
+                        class="hiddenMenu" matRipple [matRippleColor]="myColor" class="max-count-box"
+                        *ngIf="smallScreenTagData?.length>0">+{{smallScreenTagData?.length}}
+                        <!-- <mat-icon>more_vert</mat-icon> -->
+                        </button>
+                      </mat-chip-list>
+                      <mat-chip-list class="name-chips" *ngIf="mobileScreenTag" id="name-chips-list">
+                        <ng-container  *ngFor="let selectTag of MobileMapTagSelected">
+                          <mat-chip  id="ownerchiplist" [removable]="false" matTooltip="{{OwnerName?.OwnerName }}" 
+                          matTooltipClass="custom-tooltip">
+                            <span class="skill-name"> {{selectTag?.OwnerName }}</span>
+                          </mat-chip>
+                        </ng-container>
+                      <button id="btn-viewMore" mat-flat-button #mobileSide="matMenuTrigger" [matMenuTriggerFor]="mobileViewTag"
+                        class="hiddenMenu" matRipple [matRippleColor]="myColor" class="max-count-box"
+                        *ngIf="smallScreenTagData?.length>0">+{{smallScreenTagData?.length}}
+                        <!-- <mat-icon>more_vert</mat-icon> -->
+                        </button>
+                      </mat-chip-list>
+                    </div>
+                      <mat-menu #mobileViewTag="matMenu" class="light-hover-dropdown" id="respinsiveSidebarDropdown"
+                      [overlapTrigger]="false" xPosition="before">
+                      <button *ngFor="let Owner of smallScreenTagData" mat-button class="light-hover"
+                        id="job-btn-smallScreenTagId">
+                        <!-- <mat-icon [style.color]="tag.Color">local_offer</mat-icon> -->
+                        {{ Owner?.OwnerName }}
+                      </button>
+                    </mat-menu>
+                  </div>
+                </mat-card-content>
+                <div class="resizeBarSec" id="contact-resize">
+                    <div class="resizeBar"></div>
+                    <div class="resizeBar"></div>
+                </div>
+            </mat-card>
+        </div>
+        <div class="col s12 m12 l6">
+        <mat-card id="contact-addresses">
+          <mat-card-header [style.background-color]="background20">
+            <mat-card-title>{{'label_contacts_location' | translate}}</mat-card-title>
+            <span class="summryeheader-spacer"></span>
+          </mat-card-header>
+          <div class="progress-loader-box" *ngIf='addressLoader'>
+            <div class="progress-loader">
+              <div class="loaderBar"></div>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <mat-card-content id="addressContent">
+            <div class="card-fadeloader" *ngIf="addressLoader"></div>
+            <div class="addSection"
+              *ngIf="(this.contactAddressData == undefined)||(this.contactAddressData==null)">
+              <p class="mb-15">{{'label_noAddressAddedYet' | translate}}</p>
+              <button type="button" id="btncontactAdd" color="primary" mat-raised-button matTooltipClass="custom-tooltip"
+                (click)="getAdressById('Add')">
+                <mat-icon>
+                  add
+                </mat-icon> {{'label_add' | translate}}
+              </button>
+            </div>
+            <div   class="employee-panel" id="contact-panel"  *ngIf="!(this.contactAddressData == undefined || this.contactAddressData==null)">
+              <mat-accordion class="employee-accordion" id="employee-accordion">
+                <mat-expansion-panel [expanded]="true" hideToggle="true" class="mb-10">
+                  <mat-expansion-panel-header #panelH (click)="panelH._toggle()" class="no-cursor panel-height">
+                    <div class="title-description">
+                      <mat-panel-title>
+                        <div class="title-data">
+                          <p>{{contactAddressData?.AddressLinkToMap}}</p>
+                          <p>{{contactAddressData?.AddressLine1}}</p>
+                          <p>{{contactAddressData?.AddressLine2}}</p>
+                          <p>{{contactAddressData?.TownCity}}</p>
+                          <p>{{contactAddressData?.StateName}}</p>
+                          <p>{{contactAddressData?.CountryName}}</p>
+                          <p>{{contactAddressData?.PostalCode}}</p>
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description class="mr-0">
+                        <div class="panelActionButton" id="panelActionButtoncontact">
+                          <button mat-icon-button type="button" (click)="getAdressById('View')" id="btnView"
+                            matTooltipClass="custom-tooltip" matTooltip="{{'label_view'|translate}}">
+                            <mat-icon color="primary">
+                              arrow_forward_ios
+                            </mat-icon>
+                          </button>
+                          <button mat-icon-button id="btnEditcontact" type="button" (click)="getAdressById('Edit')"
+                            matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}">
+                            <mat-icon color="primary">
+                              edit
+                            </mat-icon>
+                          </button>
+                          <button mat-icon-button type="button" id="btnDeleteContact" (click)="deleteContactAddress()"
+                            mat-icon-button matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}">
+                            <mat-icon color="warn">
+                              delete
+                            </mat-icon>
+                          </button>
+                        </div>
+                      </mat-panel-description>
+                    </div>
+                  </mat-expansion-panel-header>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </mat-card-content>
+          <div class="resizeBarSec" id="contact-resizebar">
+            <div class="resizeBar"></div>
+            <div class="resizeBar"></div>
+          </div>
+        </mat-card>
+        </div>
+    </div>
+</div>

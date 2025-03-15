@@ -1,0 +1,93 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 21-May-2021
+    @Why: EWM-1449 EWM-1583
+    @What:  This component is used for Quick add social profile templates.
+-->
+<form [formGroup]="socialForm" id="Socialform-people" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_socialProfileHead' | translate}}</h2>
+    </div>
+    <div class="quick-dialog quick-email">
+        
+    </div>
+    <mat-dialog-content #target>
+        <ng-container formArrayName="socialInfo">
+            <mat-card *ngFor="let social of socialInfo().controls; let i=index" [formGroupName]="i" class="pb-0">
+                <div class="add-socail-box">
+                    <mat-form-field>
+                            <!-- fixed dynamic star required by maneesh ewm-17455--> 
+                        <mat-label>{{'label_socialProfileLink' | translate}}</mat-label>
+                        <input tabindex type="text" formControlName="ProfileURL"
+                            (blur)="checkforLink(social.get('ProfileURL').value)" matInput
+                            placeholder="{{'label_socialProfileLink' | translate}}" id="social-link{{i}}"
+                            required >
+                        <!--  @Who: maneesh, @When: 29-dec-2022,@Why: EWM-9653 required validator -->
+                        <mat-error 
+                            *ngIf="social.get('ProfileURL').errors?.required">
+                            {{ 'label_socialProfileLink' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                        <mat-error
+                            *ngIf="social.get('ProfileURL').errors?.pattern && social.get('ProfileURL').touched">
+                            {{ 'label_errorreqiredPattern' |translate}}
+                        </mat-error>
+                        <mat-error
+                            *ngIf="social.get('ProfileURL').errors?.maxlength && social.get('ProfileURL').touched">
+                            {{'label_socialProfileLink' | translate}} {{ 'label_errormaxlength100' |translate}}
+                        </mat-error>
+                        <mat-error
+                            *ngIf="social.get('ProfileURL').errors?.unique && social.get('ProfileURL').touched">
+                            {{ 'label_socialProfileLink' |translate}} {{ 'label_errorunique' |translate}}
+                        </mat-error>
+                        <span class="ng-slectBox ngSelectBoxFontSize" *ngIf="linkDuplicate">
+                            {{ 'label_socialProfileLink' |translate}} {{'label_areadyExists'|translate}}</span>
+                    </mat-form-field>
+                    <div class="ng-slectBox add-email-ng-select">
+                        <ng-select appendTo="body" tabindex placeholder="{{'label_templatetype' | translate}}"
+                            formControlName="TypeId" [clearable]="true" class="show-required"
+                            placeholder="{{'label_templatetype'|translate}}" id="social-profiletype{{i}}">
+
+                            <ng-option *ngFor="let profile of socialProfile" [value]="profile.Id">
+                                {{profile.ProfileName}}</ng-option>
+
+                        </ng-select>
+                        <mat-error *ngIf="social.get('TypeId').errors?.required && social.get('TypeId').touched">
+                            {{ 'label_templatetype' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="social.get('TypeId').errors?.unique && social.get('TypeId').touched">
+                            {{ 'label_templatetype' |translate}} {{ 'label_errorunique' |translate}}
+                        </mat-error>
+                    </div>
+                    <button *ngIf="i!==0" mat-raised-button tabindex color="warn" class="remove-row"
+                        (click)="removeRow(i)" id="btnCloseMul">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </mat-card>
+        </ng-container>
+        <!-- <div class="row">
+            <div class="col l12 m12 s12">
+                <button mat-button color="primary" id="btnAddmul" tabindex (click)="addSocialRow()">{{'label_add' | translate}}</button>
+            </div>
+        </div> -->
+
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-mini-fab color="primary" id="mul-add" type="button" class="add-phone" (click)="addSocialRow(target)"
+            matTooltip="{{'label_addedToJob'|translate}}" matTooltipPosition="left" [disabled]="!socialForm.valid || linkDuplicate"
+            (mouseenter)="mouseoverAnimation(animationVar?.AddPhoneButtonDialog?.id, animationVar?.AddPhoneButtonDialog?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.AddPhoneButtonDialog?.id, animationVar?.AddPhoneButtonDialog?.animation)">
+            <mat-icon id="{{animationVar?.AddPhoneButtonDialog?.id}}"
+                class="{{animationVar?.AddPhoneButtonDialog?.isAnimClass}}">
+                {{animationVar?.AddEmailButtonDialog?.iconName}}</mat-icon>
+        </button>
+        <button mat-stroked-button color="warn" (click)="onDismissSocial()" tabindex id="btnCancel" type="button">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" (click)="onConfirmSocial()" tabindex id="btnSave" type="button"
+            [disabled]="!socialForm.valid || linkDuplicate">
+            {{'label_save'|translate}}</button>
+    </div>
+</form>

@@ -1,0 +1,159 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Naresh Singh
+    @When: 05-Sep-2021
+    @Why: EWM-2511 EWM-2707
+    @What:  This page is creted for Common Component HTML of NEW / Compose Email
+    @Who:Priti Srivastava
+    @When: 06-oct-2021
+    @Why: EWM-2970
+    @what: dynamic data integarted with all field
+-->
+<div *ngIf="timeLinePopUp" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<div class="modal-header mb-0">
+  <h2 mat-dialog-title class="mb-0" *ngIf="timelineData!=null && timelineData[0]?.Timeline!=undefined">
+    {{timelineData[0]?.Timeline?.CandidateName | titlecase}}
+    <ng-container
+      *ngIf="timelineData[0]?.Timeline?.Location!=undefined && timelineData[0]?.Timeline?.Location!=null && timelineData[0]?.Timeline?.Location!=''">
+     - ({{timelineData[0]?.Timeline?.Location==''?'-': (timelineData[0]?.Timeline?.Location) }})
+    </ng-container>
+  </h2>
+  <button mat-icon-button id="btncloseversion" (click)="onDismiss()" color="warn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content id="timeLinePopUp" class="candidate-timeline">
+  <div class="total-job" *ngIf="timelineData?.length>0">
+    <h3>{{'label_totalJobs'|translate}}</h3><span>{{timelineData?.length}}</span>
+  </div>
+  <div class="timeline-data" *ngFor="let candidateData of timelineData;let i=index">
+    <h4 *ngIf="candidateData?.Timeline?.IsCurrentJob=='1'">{{'label_JobAction_CureentJob'|translate}}</h4>
+    <mat-card class="mat-elevation-z2" *ngIf="candidateData?.Timeline?.IsCurrentJob=='1'">
+      <mat-card-title class="center-align">
+        <span>{{'label_job'| translate}}: {{candidateData?.Timeline?.JobTitle}}</span> 
+        <span class="refid">
+           {{candidateData?.Timeline?.JobReferenceId}}
+        </span>
+      </mat-card-title>
+      <div class="candidate-time">
+        <div class="candidateTimeStamp">
+          <label>{{'jobdetails_totalTime'| translate}}</label>
+          <span class="spanTimeTxt">
+            <!-- 4 days 14 hours (10-09-2021 15:30:45) -->
+            {{candidateData.Timeline.AddedToJob|dayscounttillsecontsbydate:'FromWithHour'}}
+            ({{candidateData.Timeline.AddedToJob|date:userpreferences.timeformate:userpreferences.timezone}})
+          </span>
+        </div>
+        <div class="candidateTimeStamp">
+          <label>{{candidateData.Timeline.CurrentStage}}</label>
+          <span class="spanTimeTxt">
+            {{candidateData.Timeline.AddedToStage|dayscounttillsecontsbydate:'FromWithHour'}}
+            ({{candidateData.Timeline.AddedToStage|date:userpreferences.timeformate:userpreferences.timezone}})
+          </span>
+        </div>
+      </div>
+      <div class="candidateTimeline">
+        <div class="arrowDownIconBox">
+          <mat-icon *ngIf="candidateData?.TimelinesDetails?.length>0"
+            (click)="toggle(candidateData,candidateData?.TimelinesDetails?.length)" [ngClass]="candidateData.isOpen===false? 'expand_more' : 'expand_less'"
+            class="matIcon">{{candidateData.isOpen===false? 'expand_more' : 'expand_less'}}</mat-icon>
+        </div>
+        <div class="timelineContainer" [@toggleBox]="candidateData.isOpen===true ? 'open' : 'closed'"
+          *ngIf="candidateData!=undefined && candidateData.TimelinesDetails!=undefined">
+
+          <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0" [navigation]="true" (swiper)="onSwiper($event)"
+            (slideChange)="onSlideChange()" [ngClass]="screenPreviewClass" class="urOrderList">
+
+            <ng-template class="carousel-cell" swiperSlide
+              *ngFor="let timeline of candidateData.TimelinesDetails;let i=index">
+              <div class="stageListItems">
+                <div class="timelene-circle" [style.background-color]="background30">
+                  <div class="timeline-color" [style.background-color]="timeline.ColorCode"></div>
+                </div>
+                <div class="timelene-border" [ngClass]="timeline.IsPending? 'pending-timeline': ''">
+                </div>
+                <div class="timestamp" [ngClass]="(i%2)===0?'':'dataPositionTop'">
+                  {{timeline.StageName}}
+                  <br *ngIf="timeline.StageDate!=0" />
+                  {{timeline.StageDate==0?'':timeline.StageDate|date:userpreferences.timeformate:userpreferences.timezone}}
+                  <br *ngIf="timeline.StageDate!=0">
+                  {{timeline.StageDate==0?'':timeline.StageAge}}
+                  <br>
+                  {{timeline.Status}}
+                </div>
+              </div>
+            </ng-template>
+          </swiper>
+        </div>
+      </div>
+    </mat-card>
+    <!-- by maneesh ewm-17228 when:20/06/2024 for add  ApplicantList list condition -->
+    <h4 *ngIf="i=='1' && !ApplicantList && !jobdetailsPipeline ">{{'label_JobAction_OtherJobs'|translate}}</h4>
+    <h4 *ngIf="(i=='0' && jobdetailsPipeline && piplinetype=='OtherPipeline') && candidateData?.Timeline?.IsCurrentJob=='0'">{{'label_JobAction_OtherJobs'|translate}}</h4>
+     <!-- ewm.17586 by maneesh when:11/07/2024 -->
+    <h4 *ngIf="(i=='0' && !ApplicantList && piplinetype=='YourPipeline') && candidateData?.Timeline?.IsCurrentJob=='0'">{{'label_JobAction_OtherJobs'|translate}}</h4>
+    <h4 *ngIf="(i=='0' && timelineDataLength>1 && candidateData?.Timeline?.IsCurrentJob=='1'&& !TimelinePopup )">{{'label_JobAction_OtherJobs'|translate}}</h4>
+   
+    <mat-card class="mat-elevation-z2" *ngIf="candidateData?.Timeline?.IsCurrentJob=='0'">
+      <mat-card-title class="center-align">
+        <span>{{'label_job'| translate}}: {{candidateData?.Timeline?.JobTitle}}</span> 
+        <span class="refid">
+          {{candidateData?.Timeline?.JobReferenceId}} 
+        </span>
+      </mat-card-title>
+      <div class="candidate-time">
+        <div class="candidateTimeStamp">
+          <label>{{'jobdetails_totalTime'| translate}}</label>
+          <span class="spanTimeTxt">
+            <!-- 4 days 14 hours (10-09-2021 15:30:45) -->
+            {{candidateData.Timeline.AddedToJob|dayscounttillsecontsbydate:'FromWithHour'}}
+            ({{candidateData.Timeline.AddedToJob|date:userpreferences.timeformate:userpreferences.timezone}})
+          </span>
+        </div>
+        <div class="candidateTimeStamp">
+          <label>{{candidateData.Timeline.CurrentStage}}</label>
+          <span class="spanTimeTxt">
+            {{candidateData.Timeline.AddedToStage|dayscounttillsecontsbydate:'FromWithHour'}}
+            ({{candidateData.Timeline.AddedToStage|date:userpreferences.timeformate:userpreferences.timezone}})
+          </span>
+        </div>
+      </div>
+      <div class="candidateTimeline">
+        <div class="arrowDownIconBox">
+          <mat-icon *ngIf="candidateData?.TimelinesDetails?.length>0"
+            (click)="toggle(candidateData,candidateData?.TimelinesDetails?.length)"
+            class="matIcon">{{candidateData.isOpen===false? 'expand_more' : 'expand_less'}}</mat-icon>
+        </div>
+        <div class="timelineContainer" [@toggleBox]="candidateData.isOpen===true ? 'open' : 'closed'"
+          *ngIf="candidateData!=undefined && candidateData.TimelinesDetails!=undefined">
+          <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0" [navigation]="true" (swiper)="onSwiper($event)"
+            (slideChange)="onSlideChange()" [ngClass]="screenPreviewClass" class="urOrderList">
+            <ng-template class="carousel-cell" swiperSlide
+              *ngFor="let timeline of candidateData.TimelinesDetails;let i=index">
+              <div class="stageListItems">
+                <div class="timelene-circle" [style.background-color]="background30">
+                  <div class="timeline-color" [style.background-color]="timeline.ColorCode"></div>
+                </div>
+                <div class="timelene-border" [ngClass]="timeline.IsPending? 'pending-timeline': ''">
+                </div>
+                <div class="timestamp" [ngClass]="(i%2)===0?'':'dataPositionTop'">
+                  <!-- {{'jobdetails_allCandidates' |translate}} -->
+                  {{timeline.StageName}}
+                  <br *ngIf="timeline.StageDate!=0" />
+                  {{timeline.StageDate==0?'':timeline.StageDate|date:userpreferences.timeformate:userpreferences.timezone}}
+                  <br *ngIf="timeline.StageDate!=0">
+                  {{timeline.StageDate==0?'':timeline.StageAge}}
+                  <br>
+                  {{timeline.Status}}
+                </div>
+              </div>
+            </ng-template>
+          </swiper>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</mat-dialog-content>

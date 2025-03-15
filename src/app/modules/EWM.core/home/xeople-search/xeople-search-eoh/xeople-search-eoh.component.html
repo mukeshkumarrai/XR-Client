@@ -1,0 +1,714 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who:Satya Prakash Gupta
+    @When: 30-Dec-2022
+    @Why: EWM-9370 EWM-4523
+    @What:  This page is creted for xeople search component HTML
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<form novalidate [formGroup]="filterSearchForm" class="myActivityContainer" applyTabIndexes style="height: 100%;">
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="xeople-search-mat-card-header">
+        <mat-card-title class="only-title">{{'Xeople Search' |translate}}
+        </mat-card-title>
+        <div class="actionButton">
+            <button mat-raised-button class="buttonForDesktopMobile" tabindex color="warn" id="btnReset"
+                (click)="resetAllFilter()" type="button">
+                <mat-icon matTooltip="{{'label_resetBtn' | translate}}" matTooltipClass="card-list-tooltip"
+                    matTooltipPosition="before">restart_alt</mat-icon>
+                <span class="buttonTxt">{{'label_resetBtn' |translate}}</span>
+            </button>
+            <button mat-raised-button class="buttonForDesktopMobile" type="button" tabindex color="primary" id="btnSaveFilter"
+                (click)="openSaveFilterModal()" [disabled]="!filterSearchForm.valid">
+                <mat-icon matTooltip="{{'label_saveFilter' | translate}}" matTooltipClass="card-list-tooltip"
+                    matTooltipPosition="before" fontSet="material-icons-outlined">filter_alt</mat-icon>
+                <span class="buttonTxt">{{'label_saveFilter' |translate}}
+                </span>
+            </button>
+            <!--- @When: 03-03-2023 @Who:Renu @Why: EWM-10970 EWM-11007 @What: button will open in all conditions -->
+            <button type="button" mat-raised-button class="buttonForDesktopMobile" tabindex color="primary" id="btnSearch"
+                style="padding: 0px 7px;" (click)="searchResults()" [disabled]="!filterSearchForm.valid">
+                <!-- <mat-icon matTooltip="{{'label_searchXeoplers' | translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">check</mat-icon> -->
+                <img src="/assets/fab.png" alt="fab" />
+                <span class="buttonTxt">{{'label_searchXeoplers' |translate}}</span>
+            </button>
+
+        </div>
+    </mat-card-header>
+
+    <mat-drawer-container class="advancedsearch-container
+        xeople-search-container" autosize id="xeople-search-container"
+        [ngClass]="searchResult==true?'search-xeoplers-list':''">
+
+
+
+        <!---------@When: 04-04-2023 @who:Amit @what: add class--------->
+        <mat-drawer-content class="xeople-search-drawer" id="xeople-drawer">
+            <!---------@When: 11-04-2023 @who:Amit @why: EWM-11845 @what: add class--------->
+            <div class="xeople-search-main p-10">
+
+                <div class="xeople-search-first-sec" id="xeople-search-first-sec">
+                    <div class="xeople-search-first-sec-form-col" id="xeople-search-first-sec-form-col">
+                        <div class="ng-slectBox ng-select-with-info-icon mb-0"
+                            [ngClass]="(selectedJobSaved | json) != '{}'?'job-parameter':''">
+                            <ng-select class="dropdown-body" #select [searchable]="false" formControlName="JobTitle"
+                                appendTo="body" [clearable]="true" [closeOnSelect]="true"
+                                (change)="onJobchange($event,'onChange')" placeholder="{{'candidate_job' | translate}}"
+                                bindLabel="JobTitle" [compareWith]="compareFnJobs" id="xeopleSearch-Jobworkflow">
+                                <ng-template ng-header-tmp>
+                                    <ng-container>
+                                        <div class="flex-add-manage">
+                                            <span class="spacer"></span>
+                                            <button mat-icon-button (click)="getUpdateOptions()"
+                                                [ngClass]="loaderRefresh?'rotate-loader':''"
+                                                matTooltip="{{'label_refreshBtn'|translate}}"
+                                                class="refreshBtn radius-call" color="primary" type="button"
+                                                matTooltip="{{'label_refreshBtn'|translate}}"
+                                                matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                                (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                                                (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                                                <mat-icon id="{{animationVar?.BarRotateButton?.id}}"
+                                                    class="{{animationVar?.BarRotateButton?.isAnimClass}}">refresh</mat-icon>
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container>
+                                        <mat-form-field class="dropdown-search" floatLabel="never">
+                                            <input matInput class="selectSearch" autocomplete="off" formControlName="inputValue"
+                                                placeholder="{{'label_search' |customTranslate}} {{ 'candidate_job'|translate}}"  (input)="searchData($event.target.value)" />
+                                            <button type="button" *ngIf="inputVal!=''" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()">
+                                                <mat-icon>close</mat-icon>
+                                            </button>
+                                        </mat-form-field>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-option *ngFor="let item of JobWorkFlow" [value]="item">
+                                    <div class="dropdown-value-box with-owners" *ngIf="item.IsJobClosed!=1">
+                                        <div class="value text-overflow" id="xeople-dropdown-jobtitle">{{item?.JobTitle}}</div>
+
+                                        <!-- Who: Satya Prakash Gupta : What:EWM-14571 EWM-14606 : Add owners ,when:04/Oct/2023 -->
+                                        <div class="second-value" id="xeople-dropdown-refID">
+                                            <span class="refid text-overflow">{{item?.JobReferenceId}}</span>
+                                            <div class="job-owners">
+                                                    <div class="userAvtaarAndName" id="screening-userAvtaar" *ngFor="let ownerInfo of item?.Owners| slice:0:2;">
+                                                        <img class="tooltip-trigger" *ngIf="(ownerInfo?.OwnerProfileImageUrl && ownerInfo?.OwnerProfileImageUrl !== '');else shortNameBlock" src="{{ownerInfo?.OwnerProfileImageUrl}}"
+                                                          tabindex>
+                                                          <ng-template #shortNameBlock><span tabindex  id="short-name-expand">{{ownerInfo?.ShortName}}</span></ng-template>
+                                                    </div>
+                                                    <button type="button" mat-flat-button color="primary" class="more-owners" id="btnMore" *ngIf="item?.Owners?.length>2">
+                                                        +{{item?.Owners?.length-2}}
+                                                     </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-option>
+                            </ng-select>
+
+                            <div class="infoStyle" id="infoStyle">
+                                <mat-icon matTooltipPosition="left" matTooltip="{{'label_jobhelpIcon' |translate}}">
+                                    info
+                                </mat-icon>
+                                <button type="button" mat-icon-button *ngIf="(selectedJobSaved | json) != '{}'" id="btn-job"
+                                    (click)="onJobchange(selectedJobSaved,'onClick')">
+                                    <mat-icon matTooltip="{{'label_searchJobParameters' | translate}}"
+                                        matTooltipClass="card-list-tooltip"
+                                        matTooltipPosition="before">pageview</mat-icon>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="ng-slectBox mb-0">
+                            <ng-select placeholder="{{'label_usertype' | translate}}" [readonly]="true"
+                                formControlName="UserType" id="search_usertype" class="dropdown-body" appendTo="body"
+                                [dropdownPosition]="'bottom'" tabindex>
+                                <!-- <ng-option>{{'label_select' | translate}} {{'label_usertype' | translate}}</ng-option> -->
+                                <ng-option value="Candidate">Candidate</ng-option>
+                                <ng-option value="Employee" disabled>Employee</ng-option>
+                            </ng-select>
+                            <mat-error *ngIf="filterSearchForm.controls['UserType'].hasError('required')
+                                && filterSearchForm.controls['UserType'].touched">
+                                {{ 'label_usertype' |translate}} {{ 'label_errorreqired'
+                                |translate}}
+                            </mat-error>
+                        </div>
+                        <div class="save-filter-input">
+                            <mat-form-field class="mb-0">
+                                <div *ngIf="loadingSearchFilter" class="k-i-loading
+                                inputSearch"></div>
+                                <input matInput #trigger="matAutocompleteTrigger" tabindex
+                                    placeholder="{{'label_searchFilter'|translate}} ({{TotalFilter}})"
+                                    [matAutocomplete]="auto" id="name-filterFrom" formControlName="filterName"
+                                    (keyup)="onsearchByFilter($event.target.value)" [(ngModel)]="filterVal"
+                                    #inputAutoComplete>
+
+                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFilterCheck($event)"
+                                    class="xeople-search-autocomplete">
+                                    <div class="mat-auto-complete">
+
+                                        <ng-container *ngFor="let filterData of SavedfilterList">
+                                            <div class="main-email-list">
+                                                <mat-option class="auto-mat-option"
+                                                    *ngIf="filterVal!==filterData?.FilterName" id="searchFilter-Name"
+                                                    [value]="filterData">
+                                                    <div class="user-email-searchlist">
+                                                        <span class="search-txt">{{filterData.FilterName}}</span>
+                                                        <span class="spacer"></span>
+
+                                                    </div>
+                                                </mat-option>
+
+                                                <mat-select-trigger>
+                                                    <button type="button"
+                                                        [style.visibility]="filterData?.Delete==1 && filterData?.IsAdminFilter==0? 'visible' : 'hidden'"
+                                                        mat-icon-button color="warn" id="btnAddFilter" type="button"
+                                                        (click)="onDeleteFilter(filterData)">
+                                                        <mat-icon class="mr-0">delete</mat-icon>
+                                                    </button>
+                                                </mat-select-trigger>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </mat-autocomplete>
+
+                                <button type="button" mat-button *ngIf="filterVal" matSuffix mat-icon-button
+                                    aria-label="Clear" (click)="resetValue($event)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <button mat-icon-button matSuffix type="button"></button>
+                            </mat-form-field>
+                            <mat-error class="filter-mat-error" *ngIf="filternotFoundMsg">
+                                {{ 'label_filterMentionMsg' |translate}}
+                            </mat-error>
+                            <button class="search-filter-matSuffix" mat-icon-button id="btnAddFilter" color="primary"
+                                type="button" (click)="openFilterListModal()"
+                                (mouseenter)="mouseoverAnimation(animationVar?.ExpandArrowButton?.id, animationVar?.ExpandArrowButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.ExpandArrowButton?.id, animationVar?.ExpandArrowButton?.animation)"
+                                matTooltip="{{'label_AllFilters' | translate}}" matTooltipClass="card-list-tooltip"
+                                matTooltipPosition="before">
+                                <mat-icon class="mr-0" id="{{animationVar?.ExpandArrowButton?.id}}"
+                                    class="{{animationVar?.ExpandArrowButton?.isAnimClass}}">open_in_new</mat-icon>
+                            </button>
+
+                        </div>
+
+                        <div class="ng-slectBox ng-select-with-info-icon search-pool mb-0" id="search-pool">
+
+                            <ng-select tabindex [multiple]="false" [(ngModel)]="selectedPool" class="dropdown-body show-required" #selectpool [searchable]="false"
+                                formControlName="SearchPool" appendTo="body" [clearable]="false" [closeOnSelect]="true"
+                                [compareWith]="compareFn" placeholder="{{'label_searchPool'|translate}}" id="Search-pool" (change)="onChangeSearchPool($event)"
+                               bindLabel="SearchPoolName" required>
+                                <ng-template ng-header-tmp>
+                                    <ng-container>
+                                        <mat-form-field class="dropdown-search" floatLabel="never">
+                                            <input matInput class="selectSearch" autocomplete="off"
+                                                placeholder=" {{'label_searchPool'|translate}}" type="text"
+                                                (input)="selectpool.filter($event.target.value)" />
+                                        </mat-form-field>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-option *ngFor="let item of poolInfo" [value]="item"
+                                [disabled]="item?.SearchPoolName.toLowerCase()=='Entire OnHire'.toLowerCase() && (IsEOHIntergrated && IsSearchExtractNotificationEnable)?false:item?.IsEnabled==0">
+                                    <div class="dropdown-value-box" id="dropdown-value-box">
+                                        <div class="value text-overflow"
+                                            id="xeople-dropdown-jobtitle">{{item?.SearchPoolName}}</div>
+                                        <div class="second-value" id="xeople-dropdown-serachPool"
+                                        *ngIf="item?.SearchPoolName.toLowerCase()=='Entire OnHire'.toLowerCase() && !(IsSearchExtractNotificationEnable && IsEOHIntergrated)">
+                                            <a [routerLink]="['../../administrators/integration-interface-board']"
+                                                id="btnBackForIndustry">
+                                                {{'label_xeopleEOH_title'|translate}}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </ng-option>
+                                </ng-select>
+                            <mat-error *ngIf="filterSearchForm.controls['SearchPool'].hasError('required') && filterSearchForm.controls['SearchPool'].touched">
+                            {{ 'label_searchPool' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+
+                            <mat-icon class="infoStyle" matTooltipPosition="left"
+                                matTooltip="{{'label_poolIcon' |translate}}">info</mat-icon>
+                        </div>
+                    </div>
+
+                    <div class="xeople-search-first-sec-data-col" id="xeople-search-first-sec-data-col"
+                        [ngClass]="searchResult==true?'xeople-job-section':''">
+                        <div class="xeople-search-first-data"
+                            [ngClass]="showAllJobResults? 'xeople-job-section-show':'abcd'">
+                            <div class="data-cols" id="xeople-search-job"
+                                (mouseenter)="mouseoverAnimation(animationVar?.jobtitle?.id, animationVar?.jobtitle?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.jobtitle?.id, animationVar?.jobtitle?.animation)">
+                                <mat-icon matTooltip="{{'label_jobTitle' | translate}}"
+                                    matTooltipClass="custom-tooltip" id="{{animationVar?.jobtitle?.id}}"
+                                    class="{{animationVar?.jobtitle?.isAnimClass}}">work</mat-icon>
+                                <!---@When: 10-03-2023 @Who:Renu @Why: EWM-10970 EWM-11012 @What: href removed-->
+                                <a mat-button class="no-cursor" matTooltip="{{jobObj?.JobTitle}}"
+                                    matTooltipClass="custom-tooltip">{{jobObj?.JobTitle}}</a>
+                            </div>
+                            <div class="data-cols" id="xeople-search-ref-id"
+                                (mouseenter)="mouseoverAnimation(animationVar?.jobid?.id, animationVar?.jobid?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.jobid?.id, animationVar?.jobid?.animation)">
+                                <mat-icon color="primary" matTooltip="{{'label_job_reference_Id' | translate}}"
+                                    matTooltipClass="custom-tooltip" id="{{animationVar?.jobid?.id}}"
+                                    class="{{animationVar?.jobid?.isAnimClass}}">badge</mat-icon>
+                                <!---@When: 10-03-2023 @Who:Renu @Why: EWM-10970 EWM-11012 @What: href removed-->
+                                <a mat-button color="primary" matTooltip="{{jobObj?.JobReferenceId}}"
+                                    matTooltipClass="custom-tooltip"
+                                    [routerLink]="['/client/jobs/job/job-detail/detail']" [queryParams]="{jobId:jobObj?.JobId,workflowId:jobObj?.WorkflowId}" target="_blank">{{jobObj?.JobReferenceId}}</a>
+                            </div>
+
+                            <div class="data-cols" id="xeople-search-company-name"
+                                (mouseenter)="mouseoverAnimation(animationVar?.jobclient?.id, animationVar?.jobclient?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.jobclient?.id, animationVar?.jobclient?.animation)">
+                                <mat-icon matTooltip="{{'label_cover_client_name' | translate}}"
+                                    matTooltipClass="custom-tooltip" id="{{animationVar?.jobclient?.id}}"
+                                    class="{{animationVar?.jobclient?.isAnimClass}}">diversity_3</mat-icon>
+                                <!---@When: 10-03-2023 @Who:Renu @Why: EWM-10970 EWM-11012 @What: href removed-->
+                                <a mat-button class="no-cursor" matTooltip="{{jobObj?.ClientName}}"
+                                    matTooltipClass="custom-tooltip">{{jobObj?.ClientName}}</a>
+                            </div>
+
+                            <!---------@When: 31-03-2023 @who:Amit @why: EWM-11644 @what: recruiter design modified start here--------->
+                            <div class="data-cols" id="xeople-search-owner">
+                                <span class="person"
+                                    (mouseenter)="mouseoverAnimation(animationVar?.jobname?.id, animationVar?.jobname?.animation)"
+                                    (mouseleave)="mouseleaveAnimation(animationVar?.jobname?.id, animationVar?.jobname?.animation)">
+                                    <mat-icon color="primary"
+                                        matTooltip="{{'label_recruiter' | translate}} {{'label_name' | translate}}"
+                                        matTooltipClass="custom-tooltip" id="{{animationVar?.jobname?.id}}"
+                                        class="{{animationVar?.jobname?.isAnimClass}}">person_3</mat-icon>
+                                </span>
+                                <div class="multiple-owner-sec">
+                                    <div class="multiple-owner" *ngFor="let OwnersNameData of largeScreenTagDataOwner">
+                                        <div class="userAvtaarAndName tooltip
+                                        tooltip-bottom">
+                                            <img class="tooltip-trigger" *ngIf="OwnersNameData?.OwnerProfileImageUrl!=''"
+                                src="{{OwnersNameData?.OwnerProfileImageUrl}}" alt="user-name" />
+                                            <span class="tooltip-trigger"
+                                                *ngIf="OwnersNameData?.OwnerProfileImageUrl==''">{{sortName(OwnersNameData?.OwnerName)}}</span>
+                                            <div class="tooltip-drop">
+                                <img class="short-image" *ngIf="OwnersNameData?.OwnerProfileImageUrl!=''"
+                                src="{{OwnersNameData?.OwnerProfileImageUrl}}" alt="user-name" />
+                                <span class="short-name" *ngIf="OwnersNameData?.OwnerProfileImageUrl==''">{{sortName(OwnersNameData.OwnerName)}}</span>
+                                <div class="user-name">{{OwnersNameData?.OwnerName}}</div>
+                                </div>
+                                        </div>
+                                    </div>
+        <!--  who:maneesh,when:30/03/2023,what:ewm-11203 for button show when owner more than 10 -->
+        <button type="button" mat-icon-button color="primary"
+        *ngIf="((jobObj?.OwnersList != undefined)&&(jobObj?.OwnersList != null)&&(jobOwner>10))"
+        class="more-owner-show" id="btnMore">
+        <span class="extra-more" *ngIf="jobObj?.OwnersList?.length<=999" matTooltipClass="custom-tooltip"
+            matTooltip="{{jobObj?.OwnersList?.length-10}} {{'label_more' | translate}}..">+{{jobObj?.OwnersList?.length-10}}</span>
+        <mat-icon *ngIf="jobObj?.OwnersList?.length>999" matTooltipClass="custom-tooltip"
+            matTooltip="999 {{'label_more' | translate}}..">more_horiz</mat-icon>
+        </button>
+        <mat-menu #showAllOwner="matMenu" class="all-owner-list owner-hover-list" id="respinsiveSidebarDropdown">
+        <mat-list role="list">
+            <ng-container *ngFor="let OwnersNameData of smallScreenTagDataOwner, let i = index;">
+            <mat-list-item>
+                <div class="userAvtaarAndName mr-5">
+                <img *ngIf="OwnersNameData?.OwnerProfileImageUrl!=''"
+                    src="{{OwnersNameData?.OwnerProfileImageUrl}}"  alt="user-name" />
+                <span
+                    *ngIf="OwnersNameData?.OwnerProfileImageUrl==''">{{sortName(OwnersNameData.OwnerName)}}</span>
+                </div>
+                <span class="jobAgeBoxTimer">{{OwnersNameData?.OwnerName | titlecase}}</span>
+            </mat-list-item>
+            </ng-container>
+        </mat-list>
+        </mat-menu>
+        <div class="group-btn">
+        <!-- [disabled]="this.OwnersList!= null && (this.OwnersList?.length>3 )== false" -->
+        <button type="button" mat-icon-button color="primary" id="Job-btn-ThreedotId" [matMenuTriggerFor]="showAllOwner"
+        [disabled]="this.jobObj?.OwnersList!= null && (this.jobObj?.OwnersList.length>10 )== false"
+            (mouseenter)="mouseoverAnimation(animationVar?.OwnerSouthEastButton?.id, animationVar?.OwnerSouthEastButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.OwnerSouthEastButton?.id, animationVar?.OwnerSouthEastButton?.animation)">
+            <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.OwnerSouthEastButton?.id}}"
+            class="{{animationVar?.OwnerSouthEastButton?.isAnimClass}}">
+            south_east
+            </mat-icon>
+        </button>
+        </div>
+        <!--  who:maneesh,when:30/03/2023,what:ewm-11203 for button show when owner more than 10 -->
+
+                                </div>
+                            </div>
+                            <!---------@When: 31-03-2023 @who:Amit @why: EWM-11644 @what: recruiter design modified end here--------->
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <ng-container *ngIf="secondThirdFourthSec">
+                    <div class="xeople-search-second-sec" id="xeople-search-second-sec">
+                        <div class="xeople-search-card" id="xeople-search-card">
+                            <p>{{'label_chooseSearchFields'| translate}} <span class="mark-mandatory">*</span><mat-icon
+                                    class="infoStyle" matTooltipPosition="left" color="primary"
+                                    matTooltip="{{'lable_inputIcon' |translate}}">info</mat-icon>
+                            </p>
+                            <div class="xeople-search-main-section">
+                                <div class="xeople-search-chips-container" id="xeople-search-chips-container">
+                                    <!-- @When: 13-April-2023 @who:Satya Prakash @why: EWM-11076 @what:Hide and show expand button -->
+                                    <button *ngIf="getHeight.offsetHeight>56" mat-icon-button color="primary"
+                                        class="showMoreDataButton" id="showMoreData" (click)="showMoreData()" type="button">
+                                        <span
+                                            (mouseenter)="mouseoverAnimation(animationVar?.chooseSearchDown?.id, animationVar?.chooseSearchDown?.animation)"
+                                            (mouseleave)="mouseleaveAnimation(animationVar?.chooseSearchDown?.id, animationVar?.chooseSearchDown?.animation)">
+                                            <mat-icon [ngClass]="showAllResults===20? '':'hide'"
+                                                id="{{animationVar?.chooseSearchDown?.id}}"
+                                                class="{{animationVar?.chooseSearchDown?.isAnimClass}}">expand_more</mat-icon>
+                                        </span>
+                                        <span
+                                            (mouseenter)="mouseoverAnimation(animationVar?.chooseSearchUp?.id, animationVar?.chooseSearchUp?.animation)"
+                                            (mouseleave)="mouseleaveAnimation(animationVar?.chooseSearchUp?.id, animationVar?.chooseSearchUp?.animation)">
+                                            <mat-icon [ngClass]="showAllResults===20? 'hide':''"
+                                                id="{{animationVar?.chooseSearchUp?.id}}"
+                                                class="{{animationVar?.chooseSearchUp?.isAnimClass}}">expand_less</mat-icon>
+                                        </span>
+                                    </button>
+                                    <!-- [ngStyle]="{'min-height' : showAllResults + 'px'}" -->
+                                    <div #getHeight>
+                                        <mat-chip-list #getHeight class="chips-box"
+                                            [ngClass]="showAllResults===20? 'min-data':'max-data'">
+                                            <mat-chip *ngFor="let inputInfo of inputFields;let
+                                                j=index" [ngClass]="{'active': inputInfo.selected}"
+                                                [disabled]="(inputInfo.InputColumnName=='Proximity' && (JobLatitude==null || JobLongitude==null || JobLatitude=='' || JobLongitude==''))?true:false"
+                                                (click)="(inputInfo.InputColumnName=='Proximity' && (JobLatitude==null || JobLongitude==null || JobLatitude=='' || JobLongitude==''))?'':inputFieldChange(inputInfo)">{{inputInfo.InputColumnName}}
+                                            </mat-chip>
+                                        </mat-chip-list>
+                                    </div>
+                                </div>
+                                <!--- @When: 30-03-2023 @Who:Satya Prakash Gupta @Why: EWM-11081 @What: add class -->
+                                <div class="advanced-filters-box" id="advanced-filters-box" formArrayName="SearchQuery"
+                                    *ngIf="checkvalInput?.length!==0">
+                                    <div class="bg"></div>
+                                    <div class="advanced-filters" id="advanced-filters">
+                                        <div><i>{{'label_queryString'|translate}}</i>
+                                            {{'label_where'|translate}}
+                                        </div>
+                                        <div class="dynmic-filter-box"
+                                            *ngFor="let con of searchInfo().controls; let i=index" [formGroupName]="i"
+                                            [style.flex-wrap]="con.get('InputColumnName').value=='Keyword'?'wrap':''"
+                                            [style.min-height]="con.get('InputColumnName').value=='Keyword'?'':'43px'"
+                                            [ngClass]="con.controls['InputColumnValue'].hasError('numeric') ||con.controls['InputColumnValue'].hasError('required') ?'validError':''">
+                                            <div class="field" id="field">{{con.get('InputColumnName').value}}</div>
+                                            <ng-container
+                                                *ngIf="con.get('InputColumnName').value=='Keyword'; then keywordIn; else keywordOut">
+                                            </ng-container>
+                                            <ng-template #keywordIn formArrayName="InputColumnValue">
+                                                <div class="keyword-box"
+                                                    *ngFor="let ckey of  con.get('InputColumnValue').controls; let j=index"
+                                                    [formGroupName]="j"
+                                                    [ngClass]="ckey.controls['InputColumnValue'].hasError('required') ?'validError':''">
+                                                    <div class="add-filter-condition">
+                                                        <div class="ng-slectBox">
+                                                            <ng-select appendTo="body"
+                                                                class="xeople-search-ngselect-dropdown" tabindex
+                                                                [clearable]="false" [searchable]="false" placeholder=""
+                                                                bindLabel="ConditionName" #selectCon
+                                                                [dropdownPosition]="'bottom'"
+                                                                formControlName="InputColumnCondition"
+                                                                id="filter-param1_{{j}}"
+                                                                (change)="onKeywordChangeCondition(i,con,j)">
+                                                                <ng-template ng-header-tmp>
+                                                                    <input class="selectSearch" tabindex placeholder="{{'label_search'
+                                                                    |translate}}" type="text"
+                                                                        (input)="selectCon.filter($event.target.value)" />
+                                                                </ng-template>
+                                                                <ng-option *ngFor="let ckey of
+                                                                filterCondition[i]" [value]="ckey">
+                                                                    {{ckey.ConditionName}}
+                                                                </ng-option>
+                                                            </ng-select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="add-filter-value" id="add-filter-text">
+                                                        <mat-form-field floatLabel="never" class="matchip-input">
+                                                            <mat-chip-list #chipListFrom
+                                                                formControlName="InputColumnValue">
+                                                                <mat-chip matTooltip="{{item}}"
+                                                                    matTooltipClass="custom-tooltip" tabindex
+                                                                    *ngFor="let item of keywordList[j] | slice : 0 : maxMoreLengthKeywordList;let k=index"
+                                                                    [selectable]="true" [removable]="true"
+                                                                    [editable]="true"
+                                                                    (removed)="removeKeyWord(item,k,con,j)"
+                                                                    class="email-chip">
+                                                                    <span class="text-overflow">{{item}}</span>
+                                                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                                                </mat-chip>
+                                                                <button  type="button"mat-flat-button class="max-count-box"
+                                                                    [matMenuTriggerFor]="addInterviewMenu"
+                                                                    *ngIf="keywordList[j]?.length>maxMoreLengthKeywordList">
+                                                                    +{{(keywordList[j] | slice :
+                                                                    maxMoreLengthKeywordList :
+                                                                    keywordList[j]?.length)?.length}}
+                                                                </button>
+                                                                <mat-menu #addInterviewMenu="matMenu"
+                                                                    class="keywordList-mat-menu-panel"
+                                                                    id="respinsiveSidebarDropdown1" xPosition="before">
+                                                                    <mat-chip-list>
+                                                                        <mat-chip class="keywordList-chip"
+                                                                            *ngFor="let item of keywordList[j]| slice : maxMoreLengthKeywordList : keywordList[j]?.length"
+                                                                            [removable]="true"
+                                                                            (removed)="removeKeyWord(item,k,con,j)"
+                                                                            matTooltip="{{item}}"
+                                                                            matTooltipClass="custom-tooltip">
+                                                                            <span class="chip-data">{{item}}</span>
+                                                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                                                        </mat-chip>
+                                                                    </mat-chip-list>
+                                                                </mat-menu>
+                                                                <input tabindex placeholder=""
+                                                                    [matChipInputFor]="chipListFrom"
+                                                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                                    [matChipInputAddOnBlur]="true"
+                                                                    (matChipInputTokenEnd)="addKeyWord($event,i,j,con.get('InputColumnCondition').value)"
+                                                                    tabindex>
+                                                            </mat-chip-list>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <button type="button" mat-raised-button *ngIf="j!==0" class="chip-remove" id="keyword-remove"
+                                                        (click)="removeKeywordParam(ckey,i,j)"
+                                                        tabindex><mat-icon>close</mat-icon></button>
+                                                </div>
+                                                <button type="button" mat-icon-button class="add-more-keyword" aria-label="Clear"
+                                                    (click)="addKeywordControl(con.get('InputColumnCondition').value,i)">
+                                                    <mat-icon>add</mat-icon>
+                                                </button>
+                                            </ng-template>
+                                            <ng-template #keywordOut>
+                                                <div class="add-filter-condition">
+                                                    <div class="ng-slectBox">
+                                                        <ng-select appendTo="body"
+                                                            class="xeople-search-ngselect-dropdown" tabindex
+                                                            [clearable]="false" [searchable]="false" placeholder=""
+                                                            bindLabel="ConditionName" #selectCon
+                                                            [dropdownPosition]="'bottom'"
+                                                            formControlName="InputColumnCondition"
+                                                            id="filter-param1_{{i}}">
+                                                            <ng-template ng-header-tmp>
+                                                                <input class="selectSearch" tabindex placeholder="{{'label_search'
+                                                                    |translate}}" type="text"
+                                                                    (input)="selectCon.filter($event.target.value)" />
+                                                            </ng-template>
+                                                            <ng-option *ngFor="let col of
+                                                                filterCondition[i]" [value]="col">
+                                                                {{col.ConditionName}}
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                                <!-- @When: 02-03-2023 @Who:Renu @Why: EWM-10611 EWM-11021 @What: for check dropdown multiple or single -->
+                                                <div class="add-filter-value" id="add-filter-dropdown"
+                                                    *ngIf="con.get('InputColumnType').value==='Dropdown' && con.get('IsMultiple').value===false">
+                                                    <div class="ng-slectBox">
+                                                        <ng-select tabindex class="xeople-search-ngselect-dropdown"
+                                                            formControlName="InputColumnValue" #select [loading]="apiWaitLoader[i]" loadingText='Loading...'
+                                                            [searchable]="false" appendTo="body" [clearable]="false"
+                                                            placeholder="" [items]="dropList[i]"
+                                                            [bindLabel]="keyValue[i]" [(ngModel)]="multiDropDownData[i]"
+                                                            (change)="onDropdownDatachange($event,i,con.get('IsMultiple').value)">
+                                                            <ng-template ng-header-tmp>
+                                                                <input class="selectSearch" tabindex placeholder="{{'label_search'
+                                                                    |translate}}" type="text"
+                                                                    (input)="select.filter($event.target.value)" />
+                                                            </ng-template>
+                                                            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                                                                <div class="ng-value">
+                                                                    <span class="ng-value-label">
+                                                                        {{item[keyValue[i]]}}</span>
+                                                                </div>
+                                                            </ng-template>
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="add-filter-value" id="add-filter-dropdown"
+                                                    *ngIf="con.get('InputColumnType').value==='Dropdown' && con.get('IsMultiple').value===true">
+                                                    <div class="ng-slectBox">
+                                                        <ng-select tabindex [multiple]="true" [loading]="apiWaitLoader[i]" loadingText='Loading...'
+                                                            class="xeople-search-ngselect-dropdown"
+                                                            formControlName="InputColumnValue" #select
+                                                            [searchable]="false" appendTo="body" [clearable]="false"
+                                                            placeholder="" [items]="dropList[i]"
+                                                            [bindLabel]="keyValue[i]" [(ngModel)]="multiDropDownData[i]"
+                                                            (change)="onDropdownDatachange($event,i,con.get('IsMultiple').value)">
+                                                            <ng-template ng-header-tmp>
+                                                                <input class="selectSearch" tabindex placeholder="{{'label_search'
+                                                                    |translate}}" type="text"
+                                                                    (input)="select.filter($event.target.value)" />
+                                                            </ng-template>
+                                                            <ng-template ng-multi-label-tmp let-items="items"
+                                                                let-clear="clear">
+                                                                <div class="ng-value" *ngFor="let
+                                                                    item of items |
+                                                                    slice:0:maxMoreLength">
+                                                                    <span class="ng-value-label">
+                                                                        {{item[keyValue[i]]}}</span>
+                                                                    <span class="ng-value-icon
+                                                                        right" (click)="clear(item)"
+                                                                        aria-hidden="true">×</span>
+                                                                </div>
+                                                                <span class="add-count"
+                                                                    *ngIf="items?.length> maxMoreLength">
+                                                                    <mat-icon>add</mat-icon>{{items?.length
+                                                                    - maxMoreLength}}
+                                                                </span>
+                                                            </ng-template>
+
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="add-filter-value" id="add-filter-text"
+                                                    *ngIf="con.get('InputColumnType').value==='Text'">
+                                                    <mat-form-field floatLabel="never">
+                                                        <input matInput formControlName="InputColumnValue" id="xeopleInput{{i}}"  placeholder="">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- @When: 27-Jul-2023 @Who:Satya Prakash Gupta @Why: EWM-13284 EWM-13359 @What: Add class for two input field -->
+                                                <div class="add-filter-value"
+                                                    [ngClass]="(con.get('InputColumnName').value|lowercase) ==('Proximity'|lowercase)?'with-two-num-field':''"
+                                                    id="add-filter-text"
+                                                    [style.width]="con.get('InputColumnType').value==='Numeric'? '55px':''"
+                                                    *ngIf="con.get('InputColumnType').value==='Numeric'">
+                                                    <mat-form-field floatLabel="never">
+                                                        <input matInput type="number" formControlName="InputColumnValue"
+                                                            min="0" oninput="this.value = Math.abs(this.value)"
+                                                            placeholder="">
+                                                    </mat-form-field>
+                                                    <!-- @When: 26-07-2023 @Who:Renu @Why: EWM-13249 EWM-13526 @What: for prioximity filter -->
+                                                    <mat-form-field floatLabel="never"
+                                                        *ngIf="(con.get('InputColumnName').value|lowercase) ==('Proximity'|lowercase) ">
+                                                        <input matInput disabled id="proximity-unit"
+                                                            value="KMS">
+                                                    </mat-form-field>
+                                                </div>
+
+                                            </ng-template>
+                                            <button type="button" mat-raised-button class="chip-remove" id="xeople_removeSearch{{i}}"
+                                                (click)="removeSearchParam(con,i)"
+                                                tabindex><mat-icon>close</mat-icon></button>
+                                            <div class="add-filter-more" *ngIf=" searchInfo().controls.length>i+1">AND
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--- @When: 27-April-2023 @Who:Satya Prakash Gupta @Why: EWM-11193 @What: add red color in error -->
+                                <span class="badge red show-alert-message" *ngIf="checkvalInput?.length==0">
+                                    {{'label_pleaseSelectRequiredSearchField' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="xeople-search-fourth-sec" id="xeople-search-fourth-sec">
+                        <div class="xeople-search-first-sec-form-col" id="xeople-search-first-sec-form-col">
+
+                            <div class="matching-records-box xeople-output" id="matching-records-box">
+                                <label>{{'label_numberResults'| translate}}<span class="mark-mandatory required-show">*</span>
+                                </label>
+                                <div class="matching-records-box-radio">
+                                    <mat-radio-group color="primary" id="searchfilter-record-matching"
+                                        formControlName="ShowAllMatchingRecord" (change)="radioChange($event)" tabindex>
+                                        <mat-radio-button [value]="1" >{{'label_all'|
+                                            translate}}</mat-radio-button>
+                                        <mat-radio-button [value]="0">{{'label_top'|
+                                            translate}}</mat-radio-button>
+                                    </mat-radio-group>
+                                    <div class="ng-slectBox">
+                                        <ng-select placeholder="" id="searchfilter-matchingrecord" [readonly]="topVal"
+                                            formControlName="ShowTopMatchingRecordNumber" class="dropdown-body xeople-search-ngselect-dropdown
+                                            xeople-search-page-number" appendTo="body" [clearable]="false" tabindex>
+                                            <ng-option [value]="10" selected>10</ng-option>
+                                            <ng-option [value]="20">20</ng-option>
+                                            <ng-option [value]="50">50</ng-option>
+                                            <ng-option [value]="100">100</ng-option>
+                                            <ng-option [value]="200">200</ng-option>
+                                            <ng-option [value]="500">500</ng-option>
+                                        </ng-select>
+
+                                    </div>
+                                    <!-- <div>{{'label_ofResults'| translate}}</div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="xeople-search-third-sec" id="xeople-search-third-sec">
+                        <div class="xeople-search-third-sec-show-reults" id="xeople-search-third-sec-show-reults">
+                            <p>{{'label_outputResults'| translate}} <span class="mark-mandatory required-show">*</span>
+                                <mat-icon class="infoStyle" matTooltipPosition="left" color="primary"
+                                    matTooltip="{{'label_outfiledLabel' |translate}}">info</mat-icon>
+                            </p>
+
+                            <button type="button" mat-icon-button color="primary" class="showMoreDataButton" id="showOutputResults"
+                                (click)="showOutputResults()">
+                                <span
+                                    (mouseenter)="mouseoverAnimation(animationVar?.outputSearchDown?.id, animationVar?.outputSearchDown?.animation)"
+                                    (mouseleave)="mouseleaveAnimation(animationVar?.outputSearchDown?.id, animationVar?.outputSearchDown?.animation)">
+                                    <mat-icon [ngClass]="showOutputResilts===121? 'hide':''"
+                                        id="{{animationVar?.outputSearchDown?.id}}"
+                                        class="{{animationVar?.outputSearchDown?.isAnimClass}}">expand_more</mat-icon>
+                                </span>
+                                <span
+                                    (mouseenter)="mouseoverAnimation(animationVar?.outputSearchUp?.id, animationVar?.outputSearchUp?.animation)"
+                                    (mouseleave)="mouseleaveAnimation(animationVar?.outputSearchUp?.id, animationVar?.outputSearchUp?.animation)">
+                                    <mat-icon [ngClass]="showOutputResilts===121? '':'hide'"
+                                        id="{{animationVar?.outputSearchUp?.id}}"
+                                        class="{{animationVar?.outputSearchUp?.isAnimClass}}">expand_less</mat-icon>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="xeople-search-third-sec-expand-data" id="xeople-search-third-sec-expand-data"
+                            [ngStyle]="{'height' :
+                            showOutputResilts + 'px'}">
+                            <div class="xeople-search-chips-container" id="xeople-search-chips-container">
+
+                                <mat-chip-list class="chips-box">
+                                    <mat-chip *ngFor="let outputInfo of outputFields"
+                                        [ngClass]="{'active': outputInfo.selected}">{{outputInfo.OutputFieldName}}</mat-chip>
+                                </mat-chip-list>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="xeople-search-search-results" [ngClass]="searchResult?'show-results':'hide-results'"
+                    *ngIf="hideResults">
+                    <div class="results-header">
+                        <div class="total-records">
+                            <span>{{'label_XeopleSearch_totalMatches'|translate}} : </span>
+                            <strong>{{totalRecords}}</strong>
+                        </div>
+                        <div class="actions">
+                            <button type="button" mat-stroked-button color="primary" id="xeopleEOH_BulkExtract"  [disabled]="selectedCanForExtractCount && selectedCanForExtractCount==0"
+                                (click)="OnClickExtractMap('Extract')">{{'label_xeopleEOH_BulkExtract'|translate}}
+                                {{selectedCanForExtractCount && selectedCanForExtractCount!=0?'('+selectedCanForExtractCount+')':''}}</button>
+                            <button type="button" mat-stroked-button color="primary" id="xeopleEOH_BulkExtractMap"
+                                [disabled]="selectedCanForExtractCount==0 || (jobId && jobId!=''?false:true)"
+                                (click)="OnClickExtractMap('ExtractMap')">{{'label_xeopleEOH_BulkExtractMap'|translate}}
+                                {{selectedCanForExtractCount && selectedCanForExtractCount!=0?'('+selectedCanForExtractCount+')':''}}</button>
+                            <button type="button" mat-stroked-button color="primary" color="warn" class="closeDrawerIcon"
+                                (click)="closeResults()"
+                                (mouseenter)="mouseoverAnimation(animationVar?.btnFolderIcon?.id, animationVar?.btnFolderIcon?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.btnFolderIcon?.id, animationVar?.btnFolderIcon?.animation)">
+                                <mat-icon id="{{animationVar?.btnFolderIcon?.id}}"
+                                    class="{{animationVar?.btnFolderIcon?.isAnimClass}}">close</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <app-eoh-search-card-view (xeopleSearchEOHdata)="xeopleSearchEOHdata($event)"
+                        (membersEOHExtract)="membersEOHExtract($event)" [ExtractedStatus]="ExtractedStatus"></app-eoh-search-card-view>
+                </div>
+            </div>
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+</form>

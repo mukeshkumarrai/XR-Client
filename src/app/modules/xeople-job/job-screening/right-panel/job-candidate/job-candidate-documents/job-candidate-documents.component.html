@@ -1,0 +1,124 @@
+<!--- @(C): Entire Software @Who: Satya Prakash Gupta @When: 23-Aug-2023 @Why: EWM-13772 EWM-13939 @What:  HTML page --->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="documents-container" id="documents-container">
+    <div class="right-tab-header" id="right-tab-header" *ngIf="!doubleClickStatus">
+        <mat-form-field class="mb-0" floatLabel="never">
+            <mat-label>{{'label_search'|translate}}</mat-label>
+            <input matInput id="document-searchBox" [(ngModel)]="searchDocument" tabindex="1" placeholder="Search" [ngModelOptions]="{standalone: true}">
+            <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+            <button *ngIf="searchDocument" id="document-searchClose" matSuffix mat-icon-button aria-label="Clear" (click)="searchDocument=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        <div *ngIf="searchDocument?.length>0 && searchDocument?.length<3" class="k-i-loading inputSearch"></div>
+        </mat-form-field>
+        <div class="right-box">
+            <button mat-stroked-button id="manageBtnId" color="primary" (click)="manageCandidateDocument()">
+                <mat-icon fontSet="material-icons-outlined">manage_accounts</mat-icon>
+                {{'label_Manage' |translate}}
+            </button>
+            <mat-icon class="info" color="primary" matTooltip="{{'label_JobActionMangeDocumentInfoIcon'|translate}}" matTooltipPosition="before">info</mat-icon>
+        </div>
+    </div>
+    <div class="breadcrumb-backbutton" *ngIf="!doubleClickStatus && BackToMainDocList?.length>0">
+        <div class="breadcrumb">
+            <div class="breadcrumb-link" (click)="showingAllRecord()"><mat-icon class="folder-icon" id="root">more_horiz</mat-icon></div>
+            <ng-container *ngFor="let breadcrumb of breadcrumbs">
+                <mat-icon class="breadcrumb-divider" id="arrow-root">chevron_right</mat-icon>
+                <div class="breadcrumb-link" (click)="getBreadcrumbs(breadcrumb?.Id)">
+                    <span>{{breadcrumb?.FolderName}}</span>
+                </div>
+            </ng-container>
+        </div>
+        <button *ngIf="backBtnStatus" mat-stroked-button id="backPressBtnId" color="primary" (click)="backToListDoc()">
+            <mat-icon fontSet="material-icons-outlined">keyboard_backspace</mat-icon>
+        </button>
+    </div>
+    <div class="folders-documents" [ngClass]="showHideDocumentButtons? 'with-actions' :''" id="folders-documents" *ngIf="!doubleClickStatus">
+        <ng-container *ngIf="( DocumentsModel | filterPipeInterview:searchDocument:'Name') as result">
+        <div class="nodata" *ngIf="result==undefined || result?.length==0 || result?.length==null">
+            <p class="mb-15">{{'label_JobActionNoDocumentsAvailable'|translate}}</p>
+        </div>
+        <div class="document-folder-sec" id="document-folder-sec">
+            <ng-container *ngFor="let documentsData of result">
+            <mat-card *ngIf="(documentsData?.DocumentType?.toLowerCase()=='folder' && documentsData?.Children?.length>0) || (documentsData?.DocumentType?.toLowerCase()=='document')" [ngClass]="documentsData?.Id==documentId?'opened':''" (dblclick)="eventEmitDoubleClick(documentsData?.PreviewUrl,documentsData?.Name,documentsData?.UploadDocument)"
+            (click)="eventEmitSingleClick(documentsData)" id="mat-cardId">
+                <mat-icon class="folder-icon" id="folder-icon" *ngIf="documentsData?.DocumentType?.toLowerCase()=='folder'">folder</mat-icon>
+                <mat-icon class="document-icon" id="document-icon" *ngIf="documentsData?.DocumentType?.toLowerCase()=='document'">description</mat-icon>
+                <div class="file-name" id="file-name" matTooltip="{{documentsData?.Name}}">{{documentsData?.Name}}</div>
+                <div class="files" id="files-count" *ngIf="documentsData?.DocumentType?.toLowerCase()=='folder'">{{documentsData?.Children?.length}} files</div>
+                <div class="format pdf" id="format" *ngIf="documentsData?.DocumentType?.toLowerCase()=='document'" [style.background]="getIconColor(documentsData?.FileExtention)">{{documentsData?.FileExtention}}</div>
+                <div class="files" *ngIf="documentsData?.DocumentType?.toLowerCase()=='document'" id="document-size">{{documentsData?.DocumentSize}}KB</div>
+            </mat-card>
+        </ng-container>
+        </div>
+    </ng-container>
+        <div class="actions" id="actions" [style.bottom]="showHideDocumentButtons?'0px':'-40px'">
+            <div class="actions-container" id="actions-container">
+                <button mat-icon-button color="primary" id="btnInternalShare" (click)="internalShareDocument()"
+                matTooltip="{{'label_jobActionDocumentInternalShare' | translate}}" matTooltipPosition="above">
+                    <div class="two-icons">
+                        <mat-icon fontSet="material-icons-outlined">share</mat-icon>
+                        <mat-icon fontSet="material-icons-outlined" class="secondIcon">expand_circle_down</mat-icon>
+                    </div>
+                </button>
+                <button mat-icon-button color="primary" id="btnExternalShare" (click)="onSharableLink()"
+                matTooltip="{{'label_jobActionDocumentExternalShare' | translate}}" matTooltipPosition="above">
+                    <div class="two-icons">
+                        <mat-icon fontSet="material-icons-outlined">share</mat-icon>
+                        <mat-icon fontSet="material-icons-outlined" class="secondIcon" style="transform: rotate(180deg);left: 14px;">expand_circle_down</mat-icon>
+                    </div>
+                </button>
+                <button mat-icon-button color="primary" id="btnShareAsAttachmen" (click)="confirmShareAttachment()"
+                matTooltip="{{'label_jobActionDocumentShareAsAttachment' | translate}}" matTooltipPosition="above">
+                <div class="two-icons">
+                    <mat-icon fontSet="material-icons-outlined">attach_email</mat-icon>
+                </div>    
+                </button>
+                <button mat-icon-button color="primary" id="btnViewDetails" (click)="OpenViewPopUp()"
+                matTooltip="{{'label_jobActionDocumentViewDetails' | translate}}" matTooltipPosition="above">
+                <div class="two-icons">
+                    <mat-icon fontSet="material-icons-outlined">view_headline</mat-icon>
+                </div>    
+                </button>
+                <button mat-icon-button [disabled]="!statusViewDoc" color="primary" id="btnViewDoc" (click)="previewDoc()"
+                matTooltip="{{'label_jobActionDocumentViewDoc' | translate}}" matTooltipPosition="above">
+                <div class="two-icons">
+                    <mat-icon fontSet="material-icons-outlined">preview</mat-icon>
+                </div>    
+                </button>
+                <button mat-icon-button color="primary" id="btnDownload" (click)="downloadData()"
+                matTooltip="{{'label_jobActionDocumentDownload'|translate}}" matTooltipPosition="above">
+                <div class="two-icons">
+                    <mat-icon fontSet="material-icons-outlined">file_download</mat-icon>
+                </div>    
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="doubleClickStatus" class="view-files-sec" id="view-files-sec">
+        <div class="view-files-header" id="view-files-header">
+        <button target="_blank" mat-icon-button [hidden]="UploadFileName==undefined" id="fullscreenBtnId" color="primary"
+            (click)="showDocument(PreviewUrl,UploadDocument)">
+            <mat-icon>fullscreen</mat-icon>
+        </button>
+        <button type="button" mat-icon-button [hidden]="disableDownloadBtn" color="primary" id="downloadResumeBtnId"
+            (click)="onDownloadResume(PreviewUrl,UploadFileName)">
+            <mat-icon>file_download</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="onDismiss()" id="closeBtnId">
+            <mat-icon>close</mat-icon>
+        </button>
+        </div>
+        <div class="view-files" id="view-files">
+            <ngx-doc-viewer *ngIf="docStatus" [url]="PreviewUrl" [viewer]="viewer" (loaded)="docsLoading=false" style="width:100%;height:99%;" id="docViewerId">
+                <div>Loading</div>
+            </ngx-doc-viewer>
+            <div *ngIf="loadingImage" class="logo-loader" id="image-loader">
+                <div class="logo-loading"></div>
+            </div>
+            <img *ngIf="!docStatus" src="{{PreviewUrl}}" class="image" id="imageViewerId"/>
+        </div>
+    </div>
+</div>

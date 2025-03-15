@@ -1,0 +1,669 @@
+
+/* @When: 18-02-2025 @who:Amit @why: EWM-19569 @what: hide global search style */
+.hideSearchHeader.main-mat-drawer-container{
+    .mat-drawer-content{
+       .activity-table-container{
+            .k-grid {
+                height: calc(100vh - 173px);
+                @media (1000px <= width <= 1060px){
+                    height: calc(100vh - 213px);
+                }
+                @media (684px <= width <= 999px){
+                    height: calc(100vh - 222px);
+                }
+                @media (320px <= width <= 683px){
+                    height: calc(100vh - 310px);
+                }
+           }
+       }
+       .outer-container{
+            .kendo-grid-appearance{
+                .k-grid{
+                    height: calc(100vh - 315px);
+                    @media (481px <= width <= 1060px){
+                        height: calc(100vh - 368px);
+                    }
+                    @media (240px <= width <= 480px){
+                        height: calc(100vh - 495px);
+                    }
+                }
+            }
+       }
+       .advancedsearch-sidenav-content{
+           height: calc(100vh - 148px);
+          @media (320px <= width <= 580px){
+            height: calc(100vh - 235px);
+          }
+           .kendo-grid-appearance{
+                .k-grid.k-widget{
+                    height: calc(100vh - 188px);
+                    @media (width <= 580px) {
+                        height: calc(100vh - 278px);
+                    }
+                }
+           }
+           .kendocardData{
+               height: calc(100vh - 165px);
+               @media (320px <= width <= 580px){
+                height: calc(100vh - 257px);
+              }
+           }
+       }
+       .advancedsearch-sidenav-content.employee-sidenav-content{
+            height: calc(100vh - 98px);
+            .kendo-grid-appearance{
+                .k-grid.k-widget.employee-kendo-grid{
+                    height: calc(100vh - 190px);
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 328px);
+                    }
+                }
+            }
+            .kendocardData {
+                height: calc(100vh - 167px);
+                @media only screen and (max-width: 549px) and (min-width: 320px) {
+                  height: calc(100vh - 300px);
+                }
+            }
+       }
+       .client-detail-container{
+            .client-jobs-list.kendo-grid-appearance{
+                .k-grid{
+                    height: calc(100vh - 340px);
+                    @media (581px <= width <= 1024px){
+                        height: calc(100vh - 372px);
+                    }
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 410px);
+                    }
+                } 
+            }
+            .kendo-grid-appearance.contact-grid{
+                .k-grid{
+                    height: calc(100vh - 332px);
+                    @media (581px <= width <= 1024px){
+                        height: calc(100vh - 352px);
+                    }
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 440px);
+                    }
+                }
+            } 
+            .candidate-history-container {
+                height: calc(100vh - 274px);
+            }
+            .email-container{
+                height: calc(100vh - 325px);
+            }
+            .document-sidenav-content{
+                height: calc(100vh - 274px);
+                @media (581px <= width <= 1024px){
+                    height: calc(100vh - 293px);
+                }
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 384px);
+                }
+            }
+       }
+       .summary-small-layout.client-detail-container{
+            .client-jobs-list.kendo-grid-appearance{
+                .k-grid{
+                    height: calc(100vh - 286px);
+                    @media (581px <= width <= 1024px){
+                        height: calc(100vh - 300px);
+                    }
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 358px);
+                    }
+                }
+            }
+            .kendo-grid-appearance.contact-grid{
+                .k-grid{
+                    height: calc(100vh - 280px);
+                    @media (581px <= width <= 1024px){
+                        height: calc(100vh - 285px);
+                    }
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 398px);
+                    }
+                }
+            }
+            .candidate-history-container {
+                height: calc(100vh - 221px);
+            }
+            .email-container {
+                height: calc(100vh - 272px);
+            }
+            .document-sidenav-content{
+                height: calc(100vh - 222px);
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 332px);
+                }
+            }
+       }
+       .client-summary-container{
+            .kendo-table-container{
+                .k-grid{
+                    height: calc(100vh - 340px);
+                    @media (581px <= width <= 1024px){
+                        height: calc(100vh - 362px);
+                    }
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 338px);
+                    }
+                }
+            }
+            .sms-history-drawer.sms-contact-detail{
+                height: calc(100vh - 275px);
+                @media (581px <= width <= 1025px){
+                    height: calc(100vh - 295px);
+                }
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 326px);
+                }
+            }
+       }
+       .summary-small-layout.client-summary-container{
+            .kendo-table-container{
+                .k-grid{
+                    height: calc(100vh - 290px);
+                    @media (581px <= width <= 1024px){
+                        height: calc(100vh - 292px);
+                    }
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 358px);
+                    }
+                }
+            }
+            .sms-history-drawer.sms-contact-detail{
+                height: calc(100vh - 223px);
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 273px);
+                }
+            }
+       } 
+       .quickFiltr-container{
+            .quickFiltr-sidenav-content{
+                .kendo-grid-appearance.without-column-popup{
+                    .k-grid.k-widget{
+                        height: calc(100vh - 284px);
+                        @media (320px <= width <= 580px){
+                            height: calc(100vh - 435px);
+                        }
+                    }
+                } 
+            } 
+       } 
+       .job-landing-card-sec{
+           height: calc(100vh - 323px);
+           @media (320px <= width <= 580px){
+                height: calc(100vh - 377px);
+           }
+       }
+       .xeople-container-listing-without-breadCrumb{
+            .component-card{
+                .kendo-grid-appearance{
+                    .k-grid{
+                        height: calc(100vh - 188px);
+                        @media (240px <= width <= 580px){
+                            height: calc(100vh - 326px);
+                        }
+                    }
+                }
+            } 
+       }
+       .kendo-grid-appearance.lead-listing-grid{
+           .k-grid{
+               height: calc(100vh - 296px);
+               @media (767px >= width) {
+                    height: calc(100vh - 340px);
+                }
+               @media (580px >= width) {
+                    height: calc(100vh - 428px);
+               }
+           }
+       }
+       .leads-container{
+            .job-details-kanban{
+                height: calc(100vh - 299px);
+                @media (767px >= width) {
+                    height: calc(100vh - 347px);
+                }
+                @media (580px >= width) {
+                    height: calc(100vh - 433px);
+                }
+                .kanban-sec{
+                    .viewport{
+                        height: calc(100vh - 343px);
+                        @media (767px >= width) {
+                            height: calc(100vh - 392px);
+                        }
+                        @media (580px >= width) {
+                            height: calc(100vh - 470px);
+                        }
+                    }
+                }
+            }
+       }
+       .profile-detail-container,.client-summary-container,.job-summary-container{
+            .common-notes-sec{
+                height: calc(100vh - 274px);
+                @media (581px <= width <= 1024px){
+                    height: calc(100vh - 293px);
+                }
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 380px);
+                }
+            }
+       }
+       .profile-detail-container.summary-small-layout,.client-summary-container.summary-small-layout{
+            .common-notes-sec{
+                height: calc(100vh - 221px);
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 327px);
+                }
+            }
+       }
+       .profile-summary-container,.job-detail-container,.client-detail-container{
+            .notes-details-sec{
+                height: calc(100vh - 274px);
+                @media (581px <= width <= 1024px){
+                    height: calc(100vh - 293px);
+                }
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 380px);
+                }
+            }
+       }
+       .summary-small-layout.profile-summary-container,.summary-small-layout.job-detail-container,.summary-small-layout.client-detail-container{
+            .notes-details-sec{
+                height: calc(100vh - 221px);
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 327px);
+                }
+            }
+       }
+       .job-summary-container{
+            .kendo-grid-appearance{
+                .k-grid{
+                    height: calc(100vh - 490px);
+                }
+            }
+            .viewport {
+                height: calc(100vh - 533px);
+            }
+            .kanban-sec {
+                height: calc(100vh - 489px);
+            }
+            .call-log-grid{
+                .kendo-grid-appearance{
+                    .k-grid {
+                        height: calc(100vh - 420px);
+                    }
+                }
+            }
+            .common-notes-sec.job-notes-sec{
+                height: calc(100vh - 370px);
+            }
+       }
+       .container-collapse-layout{
+            .kendo-grid-appearance{
+                .k-grid{
+                height: calc(100vh - 368px);
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 508px);
+                    }
+                }
+            }
+            .viewport{
+                height: calc(100vh - 408px);
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 552px);
+                }
+            }
+            .kanban-sec {
+                height: calc(100vh - 364px);
+                @media (581px <= width <= 767px){
+                    height: calc(100vh - 412px);
+                }
+                @media (240px <= width <= 580px){
+                    height: calc(100vh - 512px);
+                }
+            }
+            .call-log-grid{
+                .kendo-grid-appearance .k-grid {
+                    height: calc(100vh - 297px);
+                }
+            }
+       }
+       .search-candidate-sec{
+           height: calc(100vh - 375px);
+           .kendo-table-container{
+                .k-grid{
+                    height: calc(100vh - 425px);
+                }
+            }
+            .kendocardData{
+                height: calc(100vh - 295px);
+                @media (240px <= width <= 580px){
+                  height: calc(100vh - 398px);
+                }
+            }
+       }
+       .jobDetailsMatDrawerEnd{
+            .mat-card-content .notes-details-sec{
+                height: calc(100vh - 373px);
+            }
+       }
+       .job-summary-container.container-collapse-layout{
+            .common-notes-sec.job-notes-sec{
+                height: calc(100vh - 242px);
+                @media (240px <= width <= 580px){
+                    height: calc(100vh - 350px);
+                }
+            }
+       }
+       .job-log-content{
+           height: calc(100vh - 374px);
+       }
+       .container-collapse-layout.job-detail-container{
+            .job-log-content{
+                height: calc(100vh - 245px);
+                @media (240px <= width <= 580px){
+                    height: calc(100vh - 345px);
+                }
+            }
+            .search-candidate-sec{
+                height: calc(100vh - 243px);
+                @media (240px <= width <= 580px){
+                    height: calc(100vh - 295px);
+                }
+                .kendo-table-container{
+                    .k-grid{
+                        height: calc(100vh - 295px);
+                    }
+                }
+                .kendocardData{
+                    height: calc(100vh - 295px);
+                    @media (240px <= width <= 580px){
+                      height: calc(100vh - 398px);
+                    }
+                }
+            }
+            .notes-details-sec{
+                height: calc(100vh - 242px);
+                @media (240px <= width <= 580px){
+                    height: calc(100vh - 350px);
+                }
+            }
+            .jobdetail-card.mat-card {
+                .jobDetailsPage{
+                    .mat-drawer-content.candidate-document {
+                        height: calc(100vh - 244px);
+                        @media (240px <= width <= 580px){
+                            height: calc(100vh - 348px);
+                        }
+                    }
+                }
+            }
+            .interfaceBoardContainer.manage-job-posting{
+                height: calc(100vh - 244px);
+                @media (240px <= width <= 580px){
+                    height: calc(100vh - 345px);
+                }
+            }
+       }
+       .job-detail-container{
+            .jobdetail-card.mat-card {
+               .jobDetailsPage.mat-card-content{
+                    .mat-drawer-content.candidate-document {
+                        height: calc(100vh - 368px);
+                    }
+                }
+            }
+            .interfaceBoardContainer{
+                height: calc(100vh - 374px);
+            }
+       }
+       .profile-summary-container{
+            .PDFViewer{
+                height: calc(100vh - 380px);
+                @media (581px <= width <= 1060px){
+                    height: calc(100vh - 370px);
+                }
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 475px);
+                }
+            }
+            .parse-resume-tab-container{
+                height: calc(100vh - 335px);
+                @media (581px <= width <= 1060px){
+                    height: calc(100vh - 335px);
+                }
+                @media (240px <= width <= 580px){
+                    height: calc(100vh - 442px);
+                }
+            }
+            .question-list-sec{
+                .new-data-list-content{
+                    height: calc(100vh - 430px);
+                    @media (581px <= width <= 1060px){
+                        height: calc(100vh - 438px);
+                    }
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 524px);
+                    }
+                } 
+            }
+            .candidate-sms-outer{
+                .candidate-sms-inner{
+                  .sms-history-sec{
+                    height: calc(100vh - 323px);
+                  }
+                }
+            } 
+            .candidate-job{
+                .kendo-table-container{
+                    .k-grid{
+                        height: calc(100vh - 400px);
+                        @media (581px <= width <= 1024px){
+                            height: calc(100vh - 410px);
+                        }
+                        @media (320px <= width <= 580px){
+                            height: calc(100vh - 516px);
+                        }
+                    }
+                }
+            }
+            .email-container{
+                height: calc(100vh - 325px);
+            }
+            .document-sidenav-content{
+                height: calc(100vh - 274px);
+                @media (581px <= width <= 1024px){
+                    height: calc(100vh - 280px);
+                }
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 385px);
+                }
+            }
+            .call-log-grid{
+                .kendo-grid-appearance{
+                    .k-grid{
+                        height: calc(100vh - 324px);
+                    }
+                }
+            }
+       }
+       .summary-small-layout.profile-summary-container{
+            .PDFViewer{
+                height: calc(100vh - 333px);
+                @media (581px <= width <= 1060px){
+                    height: calc(100vh - 333px);
+                }
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 422px);
+                }
+            }
+            .parse-resume-tab-container{
+                height: calc(100vh - 282px);
+                @media (581px <= width <= 1060px){
+                    height: calc(100vh - 282px);
+                }
+                @media (240px <= width <= 580px){
+                    height: calc(100vh - 392px);
+                }
+            }
+            .question-list-sec{
+                .new-data-list-content{
+                    height: calc(100vh - 375px);
+                    @media (581px <= width <= 1060px){
+                        height: calc(100vh - 385px);
+                    }
+                    @media (320px <= width <= 580px){
+                        height: calc(100vh - 472px);
+                    }
+                }
+            }
+            .candidate-sms-outer{
+                .candidate-sms-inner{
+                  .sms-history-sec{
+                    height: calc(100vh - 270px);
+                  }
+                }
+            }
+            .candidate-job{
+                .kendo-table-container{
+                    .k-grid{
+                        height: calc(100vh - 345px);
+                        @media (581px <= width <= 1024px){
+                            height: calc(100vh - 358px);
+                        }
+                        @media (320px <= width <= 580px){
+                            height: calc(100vh - 463px);
+                        }
+                    }
+                }
+            }
+            .email-container {
+                height: calc(100vh - 272px);
+            }
+            .document-sidenav-content{
+                height: calc(100vh - 229px);
+                @media (320px <= width <= 1060px){
+                    height: calc(100vh - 225px);
+                }
+            }
+            .call-log-grid{
+                .kendo-grid-appearance{
+                    .k-grid{
+                        height: calc(100vh - 270px);
+                    }
+                }
+            }
+       }
+       .profile-detail-container{
+            .candidate-history-container {
+                height: calc(100vh - 274px);
+            }
+       }
+       .summary-small-layout.profile-detail-container{
+            .candidate-history-container {
+                height: calc(100vh - 221px);
+            }
+       }
+       .profile-summary-container.contact-summary-container{
+            .contact-client-content{
+                .kendo-grid-appearance{
+                    .k-grid{
+                        height: calc(100vh - 305px);
+                    }
+                }
+            } 
+            .call-log-grid{
+                .kendo-grid-appearance{
+                    .k-grid{
+                        height: calc(100vh - 280px);
+                    }
+                }
+            }
+       }
+       .contact-summary-container{
+            .sms-history-drawer.sms-contact-detail{
+                height: calc(100vh - 231px);
+            }
+       }
+       .tab-user-invitation {
+            .tabInfinoteScroll {
+                height: calc(100vh - 225px);
+                @media (581px <= width <= 1115px){
+                    height: calc(100vh - 275px);
+                }
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 345px);
+                }
+            }
+       }
+       .access-container{
+            .tabInfinoteScroll {
+              height: calc(100vh - 225px);
+              @media (386px <= width <= 580px){
+                height: calc(100vh - 295px);
+              }
+              @media (320px <= width <= 385px){
+                height: calc(100vh - 350px);
+              }
+            }
+       }
+       .email-template-grid{
+            .k-grid{
+                height: calc(100vh - 190px);
+                @media (581px <= width <= 1060px){       
+                    height: calc(100vh - 200px);
+                }
+                @media (320px <= width <= 580px){ 
+                    height: calc(100vh - 280px);
+                }
+            }
+       }
+       .integration-interface-group{
+            .tabInfinoteScroll {
+                height: calc(100vh - 212px);
+                @media (320px <= width <= 580px){ 
+                    height: calc(100vh - 263px);
+                }
+            }
+       } 
+       .kendo-table-container{
+            .qualification-grid .k-grid{
+                height: calc(100vh - 188px);
+                @media (581px <= width <= 1060px){
+                    height: calc(100vh - 230px);
+                }
+                @media (320px <= width <= 580px){
+                    height: calc(100vh - 275px);
+                }
+            }
+       }
+       .kendo-card-view.kendocardData{
+            height: calc(100vh - 167px);
+            @media (320px <= width <= 1060px){
+                height: calc(100vh - 205px);
+            }
+       }
+       .xeople-container-listing-with-breadCrumb.mat-drawer-container.document-drawer-container{
+            .mat-card.component-card{
+                height: calc(100vh - 325px);
+                @media (581px <= width <= 1060px){
+                    height: calc(100vh - 365px);
+                }
+                @media (481px <= width <= 580px){
+                    height: calc(100vh - 420px);
+                }
+                @media (320px <= width <= 480px){
+                    height: calc(100vh - 455px);
+                }
+            }
+       }
+    }
+}

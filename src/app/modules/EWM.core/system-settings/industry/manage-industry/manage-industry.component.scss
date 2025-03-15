@@ -1,0 +1,125 @@
+/* 
+ @Type: File, <ts>
+ @Name: css
+ @Who: Suika
+ @When: 13-May-2021
+ @Why: ROST-1506
+ 
+*/
+
+.col-1 {
+  width: 10%;
+}
+.col-2 {
+  width: 22%;
+}
+.col-3 {
+  width: 30%;
+}
+.col-4 {
+  width: 8%;
+}
+.col-5 {
+  width: 20%;
+}
+.col-6 {
+  width: 10%;
+}
+
+@media only screen and (min-width:1270px) {
+  .cardWidth {
+    width: 33%;
+  }
+}
+
+@media only screen and (min-width:1024px) and (max-width:1270px) {
+  .cardWidth {
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width:320px) and (max-width:1024px) {
+  .cardWidth {
+    width: 100%;
+  }
+
+  .maxData {
+    max-height: 100%;
+    overflow: auto;
+  }
+}
+.inputSearch{
+  display: block !important;
+  z-index: 9999999999;
+  position: absolute;
+  top: inherit;
+  left: inherit;
+  right: inherit;
+  bottom: inherit;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0);
+  right: 20px;
+  bottom: 18px;
+  font-size: 26px;
+}
+
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  
+  position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+font-size: 64px;
+background-color: rgba(0, 0, 0, 0.32);
+}
+@media only screen and (max-width: 1023px) and (min-width: 320px){
+  .separateLabel{
+    height: 35px;
+  }
+}
+@media only screen and (max-width: 374px) and (min-width: 320px){
+  .iconUploadSec .iconUploadbox .mat-button.mat-primary {
+      position: relative;
+      border: 3px;
+      left: 0px;
+      margin: 5px 0px;
+  }
+  .faviconUpload{
+      margin-top: 15px;
+  }
+}
+@media only screen and (max-width: 852px) and (min-width: 584px){
+  .iconUploadSec .iconUploadbox .mat-button.mat-primary {
+      position: relative;
+      top: 2px;
+      border: 3px;
+      left: 0px;
+      margin: 5px 0px;
+      display: block;
+  }
+}
+
+.mat-form-field-infix, .mat-form-field{
+  width: 100%;
+}
+
+.scrollloading{
+  height:75px;
+  position: relative;
+  background-color: transparent;
+  top: inherit;
+  right: inherit;
+  left: inherit;
+  bottom: inherit;
+}
+.mgTop9{
+  margin-top:15px
+}
+.align-right{
+  margin-left: 20px;
+  position: relative;
+  top: 2px;
+}

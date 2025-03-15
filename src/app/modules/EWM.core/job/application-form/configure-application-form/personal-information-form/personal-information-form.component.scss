@@ -1,0 +1,66 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: Satya Prakash Gupta
+    @When: 12-May-2022
+    @Why:  EWM-6553 EWM-6710
+    @What:  This page will be use for the personal information form Component scss file
+*/
+@import "../../../../../../../mixinStyle.scss";
+.configure-application-card-title{
+    h3{
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+    p{
+        margin-top: 0px;
+    }
+}
+.personal-information-form{
+    padding-bottom: 5px;
+    .personal-information-form-box{
+        display: grid;
+        grid: auto/calc(100% - 175px) 33px 120px;
+        gap: 10px;
+        align-items: center;
+        padding-left: 10px;
+        min-height: 40px;
+        margin-bottom: 10px;
+        @include for-small-smartphones{
+            grid: auto/50% 50%;
+            padding: 10px;
+            gap: 0px;
+            min-height: 65px;
+        }
+        div:first-child{
+            @include for-small-smartphones{
+                grid-column-start: span 2;
+            }
+        }
+        div:last-child{
+            @include for-small-smartphones{
+                justify-content: flex-end;
+            }
+        }
+        span{
+            padding: 0px 15px;
+        }
+    } 
+}
+.currancy-list{
+    padding: 10px;
+    padding-top: 0px;
+}
+.application-fade-sec{
+    // width: 100%;
+    // height: 100%;
+    left: -10px;
+    right: -10px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+    // background: #0000004a;
+    z-index: 2;
+    cursor: not-allowed;
+}
+

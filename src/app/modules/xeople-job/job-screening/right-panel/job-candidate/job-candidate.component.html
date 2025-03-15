@@ -1,0 +1,84 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: job-candidate.component.html
+    @Who: Bantee Kumar
+    @When: 26-May-2023
+    @Why: EWM-11776 EWM-12534
+    @What:  This page wil be use only for the candidate Component HTML
+-->
+
+
+<div class="screening-and-interview-area-right-seccol tab-container sub-tab"
+    id="screening-and-interview-area-right-seccol">
+    <mat-tab-group t-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="summary-tabs" (selectedTabChange)="selectedTabValue($event)">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">description</mat-icon>
+                {{'candidate_resume' | translate}}
+            </ng-template>
+            <app-job-candidate-resume *ngIf="candId"
+                [resumeInfo]="candidateData ? candidateData.Resume : undefined" [candId]="candId"
+                (docFileUrlEmit)="getResumeInfo($event)" [loaderAddInfo]="loaderAddInfo">
+            </app-job-candidate-resume>
+        </mat-tab>
+        <mat-tab label="activity">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">description</mat-icon>
+                {{'label_Acitvity' | translate}}
+            </ng-template>
+            <!-- *ngIf="showingCandidateActivity" -->
+            <app-job-candidate-activity  *ngIf="tabActive === 'activity'"></app-job-candidate-activity>
+        </mat-tab>
+        <mat-tab label="mailbox">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">inbox</mat-icon>
+                {{'label_maxilbox' | translate}}
+            </ng-template>
+            <app-job-candidate-mailbox *ngIf="showingCandidateMailbox" [jobId]="jobId"[candidateEmail]="candidateEmail"></app-job-candidate-mailbox>
+        </mat-tab>
+        <mat-tab  label="notes">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">source</mat-icon>
+                {{'candidate_notes' | translate}}
+            </ng-template>
+            <!-- who:maneesh,what:ewm-13870 for notes tab ,when:24/08/2023 -->
+            <app-job-action-candidate-notes *ngIf="candId && showingCandidateNotes" [candId]="candId" [jobId]="jobId" [candidateName]=" candidateName"></app-job-action-candidate-notes>
+        </mat-tab>
+        <!------------@Suika @EWM-13090 change the sequence number of tabs-------------------->
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">description</mat-icon>
+                {{'label_keyWordSearch'| translate}}
+            </ng-template>
+            <app-job-candidate-key-word-search *ngIf="candId"
+                [keywordSearchData]="candidateData ? candidateData.KeywordSearch : undefined"
+                [loaderAddInfo]="loaderAddInfo">
+            </app-job-candidate-key-word-search>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">description</mat-icon>
+                {{'label_coverpage'| translate}}
+            </ng-template>
+            <app-job-candidate-cover-page *ngIf="candId" (docFileUrlEmit)="getResumeInfo($event)"
+                [coverInfo]="candidateData ? candidateData.CoverLetter : undefined" [candId]="candId"
+                [loaderAddInfo]="loaderAddInfo">
+            </app-job-candidate-cover-page>
+        </mat-tab>
+        <mat-tab label="candidate">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">source</mat-icon>
+                {{'candidate_documents' | translate}}
+            </ng-template>
+            <app-job-candidate-documents *ngIf="candId && showingCandidateDoc" [candId]="candId" [jobId]="jobId" [jobActionTabName]="jobActionTabName">
+            </app-job-candidate-documents>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+<!-- Multiple candidate template -->
+<ng-template #multiple>
+    <div class="multiple-no-data">
+        <p>{{'label_dataNotAvailable' | translate}}</p>
+    </div>
+</ng-template>

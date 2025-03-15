@@ -1,0 +1,66 @@
+<!-- @(C): Entire Software
+ @Type: File, <TS>
+ @Who: Adarsh Singh
+ @When: 16-Dec-2022
+ @Why: EWM-9627 EWM-9907
+ @What: xeople smart email.component.Html 
+-->
+
+<!-- @(C): Entire Software
+ @Type: File, <TS>
+ @Who: Amit Rajput
+ @When: 19-Dec-2022
+ @Why: EWM-9627 EWM-9909
+ @What: Modified 
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<form id="xeople-smart-mail" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_xeopleSmartE-mail' |translate}}</h2>
+        <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content class="candidate-mail">
+        <p>{{"label_featureAddCandidate" | translate}}</p>
+        <p>{{"label_createCandidateIntoXeople" | translate}}</p>
+        <p>{{"label_thereWillBeOptions" | translate}}</p>
+
+        <ol class="pl-15">
+            <li>{{"label_forCandiateAddedWithoutJob" | translate}}</li>
+            <li>{{"label_emailIdCreatedCombination" | translate}}</li>
+        </ol>
+
+        <p>{{"label_pleaseNoteUsingOffice" | translate}}</p>
+        <p>{{"label_emailAddingForCandidate" | translate}}</p>
+
+        <!---------@When: 22-08-2023 @who:Amit @what: add class--------->
+        <div class="url-link" [ngClass]="emailConnection? '' : 'url-link-full'">
+            <span>{{'label_emailPleaseNoteList1'|customTranslate}}-
+                <button mat-icon-button color="primary" type="button" id="url-copy-btn" 
+                   (click)="copyCandidateEmailId(labelCandidate+'+'+fullEmail,1)">
+                   <mat-icon>content_copy</mat-icon>
+               </button>
+                <a (click)="openNewEmailModal(undefined,'','',$event)" class="text-overflow newEmailBtn cursor"
+                matTooltip="{{labelCandidate}}+{{fullEmail}}"
+                   matTooltipClass="custom-tooltip">{{labelCandidate}}+{{fullEmail}}                
+                   <div class="copyMessage email-hide" id="autocanHide{{1}}">
+                    <div class="alert-primary alert-green">
+                      <mat-icon>check</mat-icon>
+                      <span>{{'label_emailAddressCipied'| translate }}</span>
+                    </div>
+                  </div>
+                </a>                   
+            </span>
+            <button mat-raised-button tabindex="9" color="primary" id="btnSave" class="mt-5" *ngIf="emailConnection"
+            (click)="openNewEmailModal(undefined,'','',$event)">
+            <span class="buttonTxt">{{'label_sendEmail' |translate}}</span>
+            </button>
+        </div>
+
+    </mat-dialog-content>
+</form>

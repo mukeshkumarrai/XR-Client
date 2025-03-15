@@ -1,0 +1,165 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: manage-qualification.component.html
+  @Who: Nitin Bhati
+  @When: 23-Aug-2021
+  @Why: EWM-2595
+  @What: For ADD/edit client Qualification master
+ -->
+
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-qualification-mat-card-header">
+        <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_add' |translate}} {{'label_qualification'|translate}}
+        </mat-card-title>
+        <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_edit' |translate}} {{'label_qualification'|translate}}
+        </mat-card-title>
+        <div class="actionButton">
+
+            <button mat-raised-button color="warn" tabindex="8" [routerLink]="['../']" [queryParams]="{V:viewMode}"
+                id="btnBack" class="buttonForDesktopMobile backBtncolor" *ngIf="visibilityStatus">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'label_back' |translate}}</span>
+            </button>
+            <button mat-raised-button color="warn" tabindex="7" [routerLink]="['../']" [queryParams]="{V:viewMode}"
+                id="btnCancel" class="buttonForDesktopMobile" *ngIf="!visibilityStatus">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+            </button>
+            <button mat-raised-button tabindex="6" class="buttonForDesktopMobile" color="primary"
+                (click)="onSave(this.addForm.value)" type="button" id="btnSave" [disabled]="!addForm.valid"
+                *ngIf="!visibilityStatus">
+                <mat-icon>check</mat-icon>
+                <span class="buttonTxt">{{'label_save'|translate}}</span>
+            </button>
+        </div>
+    </mat-card-header>
+
+    <mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-qualification-drawer">
+<mat-card class="component-card mat-elevation-z2" id="component-card">
+    
+        <div class="row addEditSec">
+            <ng-template #template let-anchor>
+                <span>{{ anchor.nativeElement.innerText }}</span>
+            </ng-template>
+            <form novalidate [formGroup]="addForm" (ngSubmit)="onSave(this.addForm.value)" accept-charset="utf-8"
+                enctype='multipart/form-data' class="col l12 m12 s12">
+                <!-- <div *ngIf="loading" class="k-i-loading loadercustom"></div> -->
+                <div class="row mb-0">
+                    <mat-form-field class="col l4 m6 s12">
+                        <mat-label>{{'label_qualification'|translate}}</mat-label>
+                        <input matInput formControlName="QualificationName" id="QualificationName" tabindex="1" 
+                            placeholder="{{'label_qualification'|translate}}" (blur)="duplicayCheck(false)" required>
+                        <mat-error *ngIf="addForm.controls['QualificationName'].hasError('codeTaken')&&!addForm.controls['QualificationName'].hasError('whitespace')">
+                            {{'label_qualification'|translate}} {{'label_errorreqiredAlready'|translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addForm.controls['QualificationName'].hasError('maxlength')&&!addForm.controls['QualificationName'].hasError('whitespace')">
+                            {{'label_qualification'|translate}} {{'label_errormaxlength100'|translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addForm.controls['QualificationName'].hasError('required')">
+                            {{'label_qualification'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                                <!--  @Who: maneesh, @When: 21-dec-2022,@Why: EWM-9956 addnoWhitespaceValidator -->
+
+             <mat-error *ngIf="addForm.controls['QualificationName'].hasError('whitespace') && !addForm.controls['QualificationName'].hasError('required')">
+                {{'label_qualification' |translate}} {{'label_nameValidation' |translate}}
+              </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row mb-0">
+                    <div class="col l4 m6 s12 ng-slectBox" >
+                        <app-custom-dropdown  [selectedIn]="selectedRelation"  (selectedOut)="onRelationchange($event)"  [config]="dropDoneConfig"></app-custom-dropdown>
+                        <!-- <ng-select placeholder="{{'label_industry'|translate}}" [clearable]="true" tabindex="4"
+                            formControlName="IndustryId" id="Qualification-IndustryId">
+                            <ng-option *ngFor="let list of industryList" value="{{list.Id}}">{{list.Description}}
+                            </ng-option>
+                        </ng-select> -->
+                    </div>
+                </div>
+                <div class="row mb-0">
+                    <div class="ng-slectBox col l4 m6 s12" > 
+                        <!-- <input type="hidden" formControlName="ID" id="Id"> -->
+                    <ng-select placeholder="{{'label_weightage'|translate}}" [clearable]="true" tabindex="1" 
+                    formControlName="Weightage" (change)="clickWeightage($event)" id="Weightage" >
+                    <ng-option disabled="true" value=""disabled>{{'label_weightage'|translate}}</ng-option>
+                    <ng-option *ngFor="let list of getWeightageType" [value]="list.Id">{{list.Weightage}}
+                        
+                    </ng-option>
+                    <mat-menu #allJobStatus="matMenu" xPosition="after" class="infoIconContentBox">
+                        <span class="material-icons headerDroupDownUp">
+                          arrow_drop_up
+                        </span>
+                        {{'label_weightageDesc'|translate}}
+                      </mat-menu>
+                </ng-select>
+               
+                <mat-error
+                    *ngIf="addForm.controls['Weightage'].hasError('required') && addForm.controls['Weightage'].touched">
+                    {{'label_weightage'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+                    </div>
+                 </div>
+                <div class="row mb-0">
+                    <mat-form-field class="col l4 m6 s12">
+                        <mat-label>{{'label_displaySequence'|translate}}</mat-label>
+                        <input type="hidden" formControlName="ID" id="Id">
+                        <!-- who:maneesh,what:ewm.9956 appDigitOnly ,when:03/22/2023 -->
+                        <!-- <input matInput type="number" min="0" formControlName="DisplaySequence" tabindex="3" appDigitOnly
+                            id="Qualification-DisplaySequence" placeholder="{{'label_displaySequence'|translate}}" > -->
+                           <!-- <input matInput formControlName="DisplaySequence" tabindex="3" id="skill-displaySequnce" text="Name"
+                           placeholder="{{'label_displaySequence'|translate}}"> -->
+                        <!-- <mat-error *ngIf="addForm.controls['DisplaySequence'].hasError('pattern')">
+                            {{'label_clientTagSeq'|translate}} {{'label_errornumeric'|translate}}
+                        </mat-error>
+                        <mat-error *ngIf="addForm.controls['DisplaySequence'].hasError('maxlength')">
+                            {{'label_clientTagSeq'|translate}} {{'label_errormaxlength8'|translate}}
+                        </mat-error> -->
+                      <!-- who:maneesh,what:ewm-12281 for handel validation issu,when:24/05/2023 -->
+                        <input matInput formControlName="DisplaySequence" min=1 tabindex="9" id="skill-displaySequnce" text="Name"
+                        placeholder="{{'label_displaySequence'|translate}}">
+                      <mat-error *ngIf="addForm.controls['DisplaySequence'].hasError('pattern')">
+                        {{'label_displaySequence'|translate}} {{'label_errornumeric'|translate}}
+                      </mat-error>
+                      <mat-error *ngIf="this.addForm.controls['DisplaySequence'].hasError('maxlength') && !addForm.controls['DisplaySequence'].hasError('pattern')">
+                        {{ 'label_displaySequence' |translate}} {{ 'label_errormaxlength8' |translate}}
+                      </mat-error>
+                    </mat-form-field>
+                </div>
+            
+                <div class="row mb-0">
+                    <div class="ng-slectBox col l4 m6 s12">
+                        <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data---->
+                        <ng-select placeholder="{{'Status'|translate}}" [clearable]="false" tabindex="4" class="show-required"
+                            formControlName="Status" (change)="clickStatusID($event)" id="Qualification-status" required>
+                            <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">{{list.StatusName}}
+                            </ng-option>
+                        </ng-select>
+                        <mat-error
+                        *ngIf="addForm.controls['Status'].hasError('required') && addForm.controls['Status'].touched">
+                        {{'label_status'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                    </div>
+                </div>
+                <div class="row mb-0" >
+                    <div class="col l4 m6 s12">
+                        <div class="row mb-0">
+                            <div class="col l8 m8 s8">
+                                <mat-label>{{'label_industryHideExternally' |translate}}</mat-label>
+                            </div>
+                            <div class="col l4 m4 s4 textRight" >
+                                <mat-slide-toggle formControlName="HideExternally" 
+                                    (change)="setDefaultExternally($event)" id="Qualification-hideExternally"
+                                    tabindex="5" color="primary">
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+            </form>
+        </div>
+
+</mat-card>
+</mat-drawer-container>

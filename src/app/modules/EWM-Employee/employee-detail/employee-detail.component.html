@@ -1,0 +1,326 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: employee-detail.component.html
+    @Who: Renu
+    @When: 27-Oct-2021
+    @Why: EWM-3278 EWM-3580
+    @What:  This page wil be use only for the Employee Component HTML
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+<mat-card id="canidate-card" class="canidate-card canidate-card-notfound"
+    *ngIf="(this.gridDataCandidate == undefined) || (this.gridDataCandidate == null) || (this.gridDataCandidate.length==0)">
+    <mat-card-content>
+        <div class="addSection">
+            <p class="mb-15">{{'label_canidateCardNotfound' | translate}}</p>
+            <a type="button" *ngIf="candidateId == undefined" id="btnAdd" color="primary" mat-raised-button
+                [routerLink]="['candidate-list']">
+                <mat-icon>
+                    keyboard_backspace
+                </mat-icon>
+                {{'label_backToEmployeeList' | customTranslate | titlecase}}
+            </a>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<div class="profile-summary-header" id="canidate-header" [style.background-color]="background20"
+    [ngClass]="isOpen ? '' : 'summary-small-layout'"
+    *ngIf="(this.gridDataCandidate != undefined) && (this.gridDataCandidate != null) && (this.gridDataCandidate.length != 0)">
+    <div class="candidate-profile">
+        <div class="k-i-loading profile-loading" *ngIf="imagePreviewloading"></div>
+        <!-- who:maneesh,what:ewm-11687 for no image then short name fixed and background color fixed ,when:13/07/2023 -->
+        <span *ngIf="gridDataCandidate.ImageUrl==''"
+            [style.background]="getBackgroundColor(gridDataCandidate?.ShortName)"
+            class="short-name">{{gridDataCandidate?.ShortName}}</span>
+        <img *ngIf="gridDataCandidate.ImageUrl!=''" [src]="profileImagePreview"
+            (click)="openDialog(profileImagePreview)" id="candidate-profile">
+        <button mat-button>
+            <mat-icon (click)="croppingImage()">edit</mat-icon>
+        </button>
+    </div>
+    <div class="candidate-profile-info">
+        <p>{{gridDataCandidate?.Name}}</p>
+        <small id="candidate-location">
+            <mat-icon
+                *ngIf="gridDataCandidate?.CurrentLocation">location_on</mat-icon>{{gridDataCandidate?.CurrentLocation}}
+        </small>
+        <div class="tagName" id="tag-name">
+            <span><strong>{{'label_statusMaster'|translate}}</strong></span>
+            <!-- //by maneesh,what:ewm-17168 for while update status,when:23/05/2024 -->
+            <div class="candidateStatus cursor" id="candidate-btn-add2" [style.color]="gridDataCandidate?.StatusColorCode" [matMenuTriggerFor]="addClientStatusMenu"
+            (click)="searchTextTag=''">
+                <span>{{gridDataCandidate?.StatusName}}</span>
+                <mat-icon>keyboard_arrow_down</mat-icon>
+            </div>
+            <mat-menu #addClientStatusMenu="matMenu" class="tagOpentMenu clientNameDropdown">
+                <div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+                    <mat-form-field class="remove-bottom-matinput">
+                    <input matInput type="text" id="candidate-tagSearch" [(ngModel)]="searchTextTag" name="searchTextEWM"
+                        placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}" />
+                    </mat-form-field>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+                <div class="tag-list-data">
+                    <button class="tagList mat-menu-item"
+                    *ngFor="let data of StatusName | NameFilter:searchTextTag:'Code'"
+                    (click)="clickStatusID(data?.Code,data?.Id)">
+                    <span>
+                        {{data?.Code}}
+                    </span>
+                    <span class="spacer"></span>
+                    </button>
+                    <!-- when add filter then please add search key inside pipe -->
+                    <ng-container *ngIf="( StatusName | NameFilter:searchTextTag:'Code') as result">
+                    <p *ngIf="result.length === 0" class="pl-15 pr-15 mt-0 mb-0">{{'lable_Record_not_found'|translate}}
+                    </p>
+                    </ng-container>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+            </mat-menu>
+
+            <button mat-button class="addTag" id="candidate-btn-add" [matMenuTriggerFor]="addCandidateMenu">
+                <mat-icon>add</mat-icon>
+                {{'candidate_tag' | translate}}
+            </button>
+            <mat-menu #addCandidateMenu="matMenu" class="tagOpentMenu">
+                <div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+                    <mat-form-field class="remove-bottom-matinput">
+                        <input matInput type="text" id="candidate-tagSearch" (click)="input($event)"
+                            [(ngModel)]="searchTextTag" name="searchTextEWM" tabindex="5"
+                            placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}" />
+                    </mat-form-field>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+                <div class="tag-list-data">
+                    <!-- @When: 17-01-2023 @who:Satya Prakash Gupta @why: EWM-10012 @what:add ... dot in tags -->
+                    <!-- @When: 16-02-2024 @who:maneesh @why: EWM-16080 @what:fixed shortdiscription in tags -->
+                    <button class="tagList mat-menu-item"
+                        *ngFor="let tag of candidateMapTagAll | NameFilter:searchTextTag:'ShortDescription'"
+                        (click)="selectTagList($event,tag)" [ngClass]="{'selected':tag.IsSelected===1}"
+                        matTooltip="{{tag?.ShortDescription}}" matTooltipClass="custom-tooltip">
+                        <mat-icon [style.color]="tag.Color">local_offer</mat-icon>
+                        <span class="text-overflow">{{tag?.ShortDescription}}</span>
+                        <span class="spacer"></span>
+                        <mat-slide-toggle class="mat-slide-toggle" id="profile-summary-tag"
+                            [checked]="tag.IsSelected===1?'true':'false'" color="primary"></mat-slide-toggle>
+
+                    </button>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+            </mat-menu>
+            <!-- @When: 06-12-2023 @who:maneesh @why: EWM-15323 @what:add tooltip in tags -->
+            <ng-container *ngIf="largeScreenTag">
+                <button mat-button *ngFor="let selectTag of largeScreenTagData" class="blacklisted"
+                    id="candidate-btn-blacklisted" matTooltip="{{selectTag?.ShortDescription}}" matTooltipClass="custom-tooltip">
+                    <mat-icon [style.color]="selectTag.Color">local_offer</mat-icon>
+                    {{selectTag?.ShortDescription}}
+                </button>
+            </ng-container>
+            <ng-container *ngIf="mobileScreenTag">
+                <button mat-button *ngFor="let selectTag of MobileMapTagSelected" class="blacklisted"
+                    id="candidate-btn-blacklisted" matTooltip="{{selectTag?.ShortDescription}}" matTooltipClass="custom-tooltip">
+                    <mat-icon [style.color]="selectTag.Color">local_offer</mat-icon>
+                    {{selectTag?.ShortDescription}}
+                </button>
+            </ng-container>
+            <button mat-raised-button #mobileSide="matMenuTrigger" [matMenuTriggerFor]="mobileSidebarMenu"
+                class="hiddenMenu" matRipple [matRippleColor]="myColor"
+                *ngIf="((this.candidateMapTagSelected != undefined)&&(this.candidateMapTagSelected != null)&&(this.candidateMapTagSelected.length>6)) || (mobileScreenTag && (this.smallScreenTagData.length>0))">
+                <!-- More -->
+                <mat-icon>more_vert</mat-icon>
+            </button>
+        </div>
+        <!-- Three DOT Start -->
+        <mat-menu #mobileSidebarMenu="matMenu" class="respinsiveSidebarDropdown" id="respinsiveSidebarDropdown"
+            [overlapTrigger]="false">
+            <button *ngFor="let tag of smallScreenTagData" mat-button class="respinsiveSidebarDropdownMenu">
+                <mat-icon [style.color]="tag.Color">local_offer</mat-icon>
+                <span class="text" matTooltip="{{tag?.ShortDescription}}" matTooltipClass="custom-tooltip">{{ tag?.ShortDescription
+                    }}</span>
+            </button>
+        </mat-menu>
+        <!-- three dot End -->
+    </div>
+    <span class="candidateheader-spacer"></span>
+    <div class="candidate-action">
+        <!--@When: 29-11-2023 @who:Amit @why: EWM-15264 @what: add back btn-->
+        <button type="button" id="backButton" color="primary" *ngIf="candidateId == undefined" mat-mini-fab
+            [routerLink]="['candidate-list']" matTooltip="{{'label_BackToEmployeeList' | customTranslate}}"
+            matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+            (mouseenter)="mouseoverAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)">
+            <mat-icon id="{{animationVar?.BackButton?.id}}" class="{{animationVar?.BackButton?.isAnimClass}}">
+                keyboard_backspace
+            </mat-icon>
+        </button>
+        <button type="button" color="primary" mat-mini-fab [matMenuTriggerFor]="beforeMenu"
+            (mouseenter)="mouseoverAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)">
+            <mat-icon id="{{animationVar?.ThreeDotButton?.id}}" class="{{animationVar?.ThreeDotButton?.isAnimClass}}">
+                more_vert
+            </mat-icon>
+        </button>
+
+        <!---------@When: 24-04-2023 @who:Amit @why: EWM-12101 @what: add class--------->
+        <mat-menu #beforeMenu="matMenu" xPosition="before" class="candidateQuickMenu summary-candidateQuickMenu">
+            <span class="material-icons headerDroupDownUp">
+                arrow_drop_up
+            </span>
+            <button type="button" mat-button (click)="candidateConfigureDashboard()">
+                <mat-icon>
+                    vertical_split
+                </mat-icon> {{'candidate_configureDashboard' | translate}}
+            </button>
+            <mat-divider class="mt-5 mb-5"></mat-divider>
+            <button mat-button (click)="openQuickFolderModal()">
+                <div class="two-icons">
+                    <mat-icon>folder_open</mat-icon>
+                    <mat-icon class="secondIcon">add</mat-icon>
+                </div> {{'candidate_addToFolder' | translate}}
+            </button>
+            <button mat-button [disabled]="downloadresumeEnable" (click)="onDownloadResume(fileUrl,fileName)">
+                <mat-icon>download</mat-icon>{{'candidate_downloadResume' | translate}}
+            </button>
+
+            <button *ngIf="isGdprSettings===1" mat-button id="gdprEnableBtn" (click)="requestGDPRConsent()">
+                <mat-icon>handshake</mat-icon>{{'candidate_requestGDPRConsent' | translate}}
+            </button>
+            <button *ngIf="isGdprSettings===0" mat-button id="gdprDisableBtn" disabled>
+                <mat-icon>handshake</mat-icon>{{'candidate_requestGDPRConsent' | translate}}
+            </button>
+            <!--  who:maneesh,what:ewm-13277 for disable delete btn so that match current user emailId and employee emailId ,when:28/07/2023 -->
+            <!--  who:Nitin Bhati,what:Pass hard code value true in disable button, ,when:25/08/2023 -->
+            <button mat-button *ngIf="candidateId == undefined" (click)="deleteemployee()" id="deletbtn"
+                [disabled]="true">
+                <mat-icon>delete</mat-icon>{{'label_delete' | translate}}
+            </button>
+        </mat-menu>
+    </div>
+    <button mat-stroked-button class="summary-header-toggle" [style.background-color]="background20" (click)="toggle()"
+        (mouseenter)="mouseoverAnimation(animationVar?.ExpandArrowButton?.id, animationVar?.ExpandArrowButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ExpandArrowButton?.id, animationVar?.ExpandArrowButton?.animation)">
+        <mat-icon *ngIf="isOpen" id="{{animationVar?.ExpandArrowButton?.id}}"
+            class="{{animationVar?.ExpandArrowButton?.isAnimClass}}">
+            expand_less
+        </mat-icon>
+        <mat-icon *ngIf="!isOpen" id="{{animationVar?.ExpandArrowButton?.id}}"
+            class="{{animationVar?.ExpandArrowButton?.isAnimClass}}">
+            expand_more
+        </mat-icon>
+    </button>
+</div>
+
+<!--@When: 09-11-2023 @who:Amit @why: EWM-15076 @what: add class-->
+<mat-drawer-container class="advancedsearch-container p-10 profile-summary-container profile-detail-container" autosize
+    id="employee-detail-drawer" [ngClass]="isOpen ? '' : 'summary-small-layout'">
+    <mat-card id="canidate-card" class="canidate-card profile-summary-card"
+        *ngIf="(this.gridDataCandidate != undefined) && (this.gridDataCandidate != null) && (this.gridDataCandidate.length != 0)">
+        <mat-card-content class="profile-summary-card-content">
+
+            <mat-tab-group class="assignJobHideArrows summary-tabs" id="candidate-tab"
+                [selectedIndex]='selectedTabIndex' (selectedTabChange)="ActiveTab($event)" dir="{{positionMatTab}}">
+                <mat-tab id="sammary-tab" *ngIf="showSummary">
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">contact_page</mat-icon>
+                        {{'candidate_sammary' | translate}}
+                    </ng-template>
+                    <!--@who:priti @why:EWM-2973 @what:pass candidate id as input data @when:28-sep-2021-->
+                    <app-employee-summary [candidateIdData]="candidateIdData"
+                        (candidateEmail)="getCandidateEmailInfo($event)"
+                        (childConsentTypeEvent)="receivedMessageConsentTypeHandler($event)"></app-employee-summary>
+
+                </mat-tab>
+
+                <mat-tab id="resume-tab" *ngIf="showResume">
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">description</mat-icon>
+                        {{'candidate_resume' | translate}}
+                    </ng-template>
+                    <!--@who:priti @why:EWM-2973 @what:pass candidate id as input data @when:28-sep-2021-->
+                    <app-candidate-resume [candidateId]="candidateIdData"
+                        (docFileUrlEmit)="getResumeInfo($event)"></app-candidate-resume>
+
+                </mat-tab>
+
+                <mat-tab id="social-tab" *ngIf="showSocial" disabled>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">share</mat-icon>
+                        {{'candidate_social' | translate}}
+                    </ng-template>
+
+                    Content 3
+                </mat-tab>
+                <!--@who:@Nitin Bhati,@when:24-04-2023, @why:EWM-12065-->
+                <!-- @Who: Nitin Bhati,@Why:EWM-12672,@When:30-05-2023,@What:Hide Add button on Address Header-->
+                <mat-tab id="job-tab" *ngIf="showJob" disabled>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">work</mat-icon>
+                        {{'label_Jobs' | translate}}
+                        <!-- <span class="numbers">{{dataTotalAssignJob}}</span> -->
+                    </ng-template>
+                    <app-candidate-job *ngIf="tabActive.toLowerCase()=='job'" [GridId]="JobEmployeeGridId"
+                        [candidateId]="candidateIdData"
+                        (assignJobCount)="fetchassignJobCount($event)"></app-candidate-job>
+                </mat-tab>
+                <mat-tab id="History-tab" *ngIf="showHistory" disabled>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">history</mat-icon>
+                        {{'candidate_History' | translate}}
+                    </ng-template>
+                    <app-employee-history *ngIf="tabActive.toLowerCase()=='history'"></app-employee-history>
+                </mat-tab>
+                <mat-tab id="MenuInbox-tab" *ngIf="showInbox" disabled>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">inbox</mat-icon>
+                        {{'label_mail' | translate}}
+                        <!-- <span class="numbers">{{dataTotalMail}}</span> -->
+                    </ng-template>
+                    <!--@who:Renu @why:EWM-3126 @what:pass candidate id as input data @when:19-Oct-2021-->
+                    <app-candidate-inbox *ngIf="tabActive.toLowerCase()=='inbox'" [candidateId]="candidateIdData" [category]="documentForEmployee" (scrollChanges)="divScroll($event)"
+                        [candidateEmail]="candidateEmail"
+                        (mailInBoxCount)="fetchDataFromInbox($event)"></app-candidate-inbox>
+                </mat-tab>
+                <mat-tab id="notes-tab" *ngIf="showNotes">
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">text_snippet</mat-icon>
+                        {{'candidate_notes' | translate}}<span class="numbers">{{dataTotalNotes}}</span>
+                    </ng-template>
+                    <app-employee-notes *ngIf="tabActive.toLowerCase()=='notes'" [GridId]="'EmployeeNotes_grid_001'"
+                        [category]="category" [candidateIdData]="candidateIdData" [candidateName]="candidateName"
+                        (clientNotesCount)="fetchEmployeeNotesCount($event)"></app-employee-notes>
+                    <!--@who:priti @why:EWM-2973 @what:pass candidate id as input data @when:28-sep-2021-->
+                    <!-- <app-recentnotes [candidateIdData]="candidateIdData" (totalNotes)="fetchDataFromNotes($event)"></app-recentnotes> -->
+                </mat-tab>
+                <mat-tab id="recentActivities-tab" *ngIf="showRecent_Activities">
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">local_activity</mat-icon>
+                        {{'label_MenuActivity' | translate}}<span class="numbers">{{dataTotalActivity}}</span>
+                    </ng-template>
+                    <app-employee-activity *ngIf="tabActive.toLowerCase()=='activities'" [selectedCand]="selectedEmployeeObj"
+                        [Names]="candidateName" [Employee]="documentForEmployee" [GridId]="GridId" [category]="category"
+                        [candidateIdData]="candidateIdData"
+                        (clientActivityCount)="fetchEmployeeActivityCount($event)"></app-employee-activity>
+                    <!-- <app-employee-activity [GridId]="GridId" [category]="category" [candidateIdData]="candidateIdData"  (clientNotesCount)="fetchEmployeeNotesCount($event)"></app-employee-activity> -->
+                    <!-- Content 3 -->
+                </mat-tab>
+                <mat-tab id="sms-tab" *ngIf="showSMS" disabled>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon" fontSet="material-icons-outlined">sms</mat-icon>
+                        {{'label_sms' | translate}}
+                    </ng-template>
+                    <app-employee-sms *ngIf="tabActive.toLowerCase()=='sms'"></app-employee-sms>
+                </mat-tab>
+                <mat-tab id="attachments-tab" *ngIf="showDocuments">
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">attachment</mat-icon>
+                        {{'candidate_documents' | translate}}<span class="numbers">{{dataTotalDocCount}}</span>
+                    </ng-template>
+                    <app-candidate-document [candidateId]="candidateIdData" [documentFor]="documentForEmployee"
+                        (totalDocs)="fetchDataFromDocs($event)"></app-candidate-document>
+                </mat-tab>
+            </mat-tab-group>
+
+        </mat-card-content>
+    </mat-card>
+</mat-drawer-container>

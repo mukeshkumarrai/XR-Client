@@ -1,0 +1,1902 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: job-styles.scss
+    @Who: Naresh Singh
+    @When: 30-Sep-2021
+    @Why:
+    @What: You can add global styles to this file, and also import other style files
+*/
+
+@import '../../styles-var.scss';
+@import '../../mixinStyle.scss';
+.add_manageAccess{
+    .mat-dialog-container{
+        overflow: hidden;
+    }
+}
+.jobDetailsMatDrawerEnd{
+  .mat-drawer.mat-drawer-end.addJobCandidateSummarySidebar,
+  .mat-drawer.mat-drawer-end.candidateSummarySidenav,
+  .mat-drawer.mat-drawer-end.drawerSidenavQuickJob,
+  .mat-drawer.mat-drawer-end.addJobCandidateSummarySidebar{
+    position: fixed;
+  }
+}
+.job-details-overlay-sidebar {
+  .drawerSidenavQuickJob{
+    max-width:850px;
+    position: fixed;
+    .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+      color:rgba(0, 0, 0, 0.65);
+    }
+    .ng-select.ng-select-disabled .ng-select-container .ng-value-container .ng-value{
+      color:rgba(0, 0, 0, 0.65);
+    }
+    .mat-chip.mat-standard-chip.mat-chip-disabled{
+      opacity:0.68;
+    }
+    .disabledDescriptionDiv{
+      opacity: 0.68;
+    }
+    .mat-slide-toggle.mat-disabled{
+      opacity: 0.68;
+    }
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label{
+      color: rgba(0, 0, 0, 0.68);
+    }
+  }
+  // @When: 26-09-2023 @who:Amit @why: EWM-14465 @what: job details view drawer
+  .drawerSidenavQuickJob.three-dot-job-details-view{
+    .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+      .mat-drawer-content{
+        .mat-card-content{
+          height: calc(100vh - 0px) !important;
+          .addEditSec{
+            height: calc(100% - 0px);
+            @media only screen and (max-width: 580px) and (min-width: 240px) {
+              height: calc(100% - 47px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.jobDetailsViewbtn{
+  left: -59px;
+  top: 50px;
+  width: 140px;
+}
+.addCandidateToJobBtn{
+  left: -68px;
+  top: 60px;
+  width: 160px;
+}
+.candidateSummaryBtnSidebar{
+  left: -78px;
+  top: 70px;
+  width: 180px;
+}
+.candidateMappngLoadingBgFix{
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:calc(50% - 45px);
+}
+.candidateJobBox{
+  .shortName{
+    width:50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 50%;
+    float: right;
+    margin:10px 0px;
+  }
+}
+.sidebarDrawer-QuickJob{
+  height:calc(100vh - 15px) !important;
+  margin-top:0px !important;
+}
+.panelSidebarInformation{
+  .mat-card{
+    .mat-card-content.sidebarDrawer-QuickJob,
+    .mat-card-content{
+      padding: 10px 0px;
+      height:calc(100vh - 20px) !important;
+    }
+  }
+  .mat-card.addJobCandidate{
+    border-radius: 0px;
+    .mat-card-content{
+      padding-top: 0px;
+      height:calc(100vh - 70px) !important;
+      .mat-card{
+        border-radius: 0px;
+        .mat-card-content{
+          height:calc(100vh - 20px) !important;
+        }
+      }
+    }
+  }
+}
+.jobDetailInformation .mat-card .mat-card-content{
+  padding: 0px 15px;
+}
+.job-details-overlay-sidebar .drawerSidenav.candidateSummarySidenav{
+  max-width:1180px;
+  position: fixed;
+  z-index: 10;
+}
+.number-counter{
+  display: inline-block;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 4px;
+  padding: 1px 3px;
+  font-size: 12px;
+  font-weight: 400;
+  margin-left: 5px;
+  min-width: 30px;
+  max-width: 45px;
+  height: 20px;
+  line-height: 20px;
+  box-shadow: 0px 0px 5px 0px #444 inset;
+}
+.jobcandidate-card.cdk-drag-preview, .jobcandidate-card {
+  .k-i-loading{
+    font-size: 40px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
+  .candidate-status{
+    min-width: 3rem;
+    padding: 3px 6px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    height: 20px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: rgba(26, 158, 93, 0.5);
+    color: #17732b;
+    position: absolute;
+    left: 10px;
+    margin-top: 2px;
+  }
+  .card-border{
+    position: absolute;
+    width: 4px;
+    height: calc(100% - 0px);
+    top: 0;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.87);
+  }
+  .user-detail {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    height: 20px;
+    line-height: 14px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: break-spaces;
+    width: 215px;
+    gap: 5px;
+    .userAvtaarAndName {
+      text-align: center;
+      width: 25px;
+      height: 25px;
+      .mat-icon {
+        height: 20px;
+        line-height: 25px;
+        font-size: 18px;
+        font-weight: 600;
+        width: 32px;
+      }
+    }
+    .mat-icon-button {
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      .mat-icon{
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 20px;
+      }
+    }
+    .active-job{
+      display: flex;
+      align-items: center;
+      .numbers{
+        background: $orange-color;
+        color: $white-color;
+        border-radius: 50px;
+        padding: 0px;
+        font-size: 11px;
+        font-size: 12px;
+        font-weight: 400;
+        margin-left: 2px;
+        min-width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+      }
+    }
+  }
+
+  .user-detail-name{
+    height: auto;
+    margin-bottom: 10px;
+    font-size: 14px;
+    padding-right: 35px;
+    width: auto;
+    gap: 10px;
+    .userAvtaarAndName {
+      text-align: center;
+      width: inherit;
+      height: inherit;
+    }
+  }
+  .mat-divider-horizontal {
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+  }
+  .mat-card-actions {
+    padding: 3px 10px;
+    margin-bottom: 0px;
+    background: #f2f2f2;
+    .mat-icon-button {
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      .mat-icon {
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+  }
+  &:hover{
+    transition: transform 0.4s;
+    @include card-zoom-hover-1-06;
+  }
+}
+.jobcandidate-card.cdk-drag-placeholder {
+  background: #f5f5f5;
+  border: dotted 2px #999 !important;
+  .card-border,
+  .user-detail,
+  .resume,
+  .proximity,
+  .mat-card-actions{
+    opacity: 0.1;
+  }
+}
+.companyNameInitial{
+  background: $primary-bg-color;
+  color: #fff;
+}
+.seekIntegrationHeader{
+  .mat-card-header-text{
+    width:calc(100% - 320px) !important;
+  }
+}
+.seekIntegrationSection{
+  .positionRelative{
+    position: relative;
+    .infoIconStyle{
+      position: absolute;
+      top:15px;
+      right:12px;
+      width: 30px;
+      height: 20px;
+      cursor: pointer;
+      font-size: 20px;
+      text-align: right;
+      background: #ffffff;
+    }
+  }
+}
+.drawerSidenavQuickJob{
+  .jobDetailsViewLoading{
+    top:0px;
+    left:40px;
+    bottom: 0px;
+    right: 0px;
+  }
+}
+/******job detail style********/
+.job-detail-header{
+  border-bottom: 1px solid #d2d6de;
+  .dynmic-bg-color{
+    color: $primary-bg-color;
+  }
+  .header-expand-collapse{
+    color: $primary-bg-color;
+  }
+  .canidate-header-container{
+    .canidate-header-left{
+      .candidate-profile-info {
+        .icon-with-detail.job-name{
+          cursor: pointer;
+          p{
+            color: $primary-bg-color;
+          }
+        }
+        .icon-with-detail.client-location{
+          .mat-icon{
+            cursor: pointer;
+          }
+          p{
+            color: $info-color;
+          }
+        }
+      }
+    }
+  }
+}
+.job-detail-container{
+  .jobdetail-card.mat-card {
+    .jobDetailsPage.mat-card-content{
+      padding-top: 0px;
+      .mat-tab-group.jobdetail-tab{
+        .mat-tab-label {
+          opacity: 1;
+          .rotate-icon{
+            transform: rotate(-30deg);
+          }
+          .numbers {
+            position: relative;
+            top: -6px;
+            background: $primary-bg-color;
+            color: $primary-txt-color;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 400;
+            margin-inline-start: 5px;
+            width: min-content;
+            min-width: 8px;
+            max-width: 45px;
+            height: 16px;
+            line-height: 16px;
+            padding: 0px 4px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+        }
+        .mat-tab-label-active {
+          color: $primary-bg-color;
+          background: rgba(0, 0, 0, 0.05);
+        }
+        .mat-tab-body-content{
+          padding: 0px 0px;
+        }
+      }
+      .mat-drawer-content.candidate-document {
+        height: calc(100vh - 418px);
+        .candidate-data-header .search-viewicon .searchInput{
+          margin-bottom: 0px;
+        }
+      }
+      .canidate-header {
+        background-color: rgba(103, 58, 183, 0.2);
+        .pipeLine {
+          @media only screen and (max-width:1480px) and (min-width: 1280px) {
+            margin-right: 30px;
+          }
+          .mat-raised-button {
+            .matBadge {
+              left: -7px;
+            }
+          }
+        }
+        .job-status {
+          .jobAge {
+            .jobAgeBox {
+              .jobAgeBoxLabel {
+                background-color: #f5f5f5;
+                color: $primary-bg-color;
+                &::after {
+                  border-left: 16px solid #f5f5f5;
+                  right: -11px;
+                }
+              }
+              .jobAgeBoxTimer {
+                color:#000000;
+              }
+            }
+          }
+        }
+
+        .candidate-action {
+          @media screen and (min-width: 320px) and (max-width: 1480px) {
+            position: absolute;
+            top: 15px;
+            right: 45px;
+          }
+        }
+
+      }
+    }
+  }
+}
+.container-collapse-layout.job-detail-container{
+  .jobdetail-card.mat-card {
+    .jobDetailsPage{
+      .mat-drawer-content.candidate-document {
+        height: calc(100vh - 294px);
+        @media only screen and (max-width: 580px) and (min-width: 240px) {
+          height: calc(100vh - 348px);
+        }
+      }
+    }
+  }
+}
+/******job detail style********/
+.filterButton {
+  margin-right: 8px;
+}
+.cdk-drop-list-disabled{
+  .drop-overlay{
+    background: rgba(245, 245, 245, 1);
+  }
+}
+.jobDetailInformation{
+  .summary-page{
+    .summary-normal-layout.bottom-0 {
+      height: calc(100vh - 0px) !important;
+      .candidate-tab{
+        height: calc(100vh - 150px);
+      }
+    }
+  }
+}
+.add-canidate-summry-view{
+  .panelSidebarInformation{
+    .summary-page.canidate-card .mat-card-content.summary-normal-layout{
+      height: calc(100vh - 0px) !important;
+      padding: 0px;
+    }
+    .summary-page.canidate-card .mat-card-content.summary-normal-layout {
+      .candidate-tab{
+        height: calc(100vh - 130px);
+      }
+      .PDFViewer {
+        height: calc(100vh - 280px);
+      }
+      .versionHistory {
+        height: calc(100vh - 280px);
+      }
+      .mailboxCardContent.mat-card-content{
+        height: calc(100vh - 183px) !important;
+      }
+      .mailbox-container.mat-drawer-container {
+        padding-top: 3px;
+        height: calc(100vh - 245px);
+      }
+      .kendo-table-container .k-grid {
+        height: calc(100vh - 298px);
+      }
+      .notes-details-sec {
+        height: calc(100vh - 180px);
+      }
+      .document-sidenav-content {
+        height: calc(100vh - 180px);
+      }
+    }
+  }
+}
+.drawerSidenavQuickJob{
+  .xeople-container-with-one-card.mat-drawer-container{
+    padding: 0px 0px;
+    .mat-drawer-content{
+      padding: 0px;
+      height: 100%;
+      .mat-card-content{
+        padding-top: 0px;
+        .quick-job{
+          padding: 10px;
+        }
+      }
+    }
+  }
+}
+.add-canidate-summry-view{
+  .drawer-first-view{
+    .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+      height: 100%;
+      .mat-drawer-content{
+        overflow: hidden !important;
+      }
+    }
+  }
+  .drawer-first-view.edit-job-drawer{
+    height: 100%;
+    .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+      height: calc(100% - 50px);
+      .user-contact-type{
+        height: 100%;
+        .mat-card-content{
+          height: 100% !important;
+          .addEditSec{
+            height: calc(100% - 55px);
+            padding-bottom: 0px;
+          }
+        }
+      }
+    }
+  }
+  .drawerfooter-height-remove{
+    .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+      .mat-drawer-content{
+        overflow: hidden !important;
+        .addEditSec{
+          height: calc(100% - 65px);
+        }
+      }
+    }
+  }
+  .drawerfooter-view{
+    .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+      height: 100%;
+      .mat-drawer-content{
+        overflow: hidden !important;
+        .mat-card-content{
+          height: calc(100vh - 0px) !important;
+          margin-bottom: 0px;
+          .addEditSec{
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+.quickFiltr-container{
+  .quickFiltr-sidenav-content{
+    .quick-filter-button{
+      color: $primary-bg-color;
+    }
+    .quick-filter-button.button-disabled{
+      color: rgba(0, 0, 0, 0.26);
+      background: rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+.job-status {
+  .jobAge {
+    display: flex;
+    flex-direction: column;
+    .jobAgeBox {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      box-shadow: none;
+      margin-bottom: 6px;
+      font-size: 13px;
+      overflow: hidden;
+      border: 0px solid $primary-bg-color;
+      width: 300px;
+      border-radius: 15px 8px 8px 15px;
+      position: relative;
+      color: $primary-bg-color;
+      z-index: 1;
+      height: 25px;
+      padding: 0px;
+      padding-right: 3px;
+      &:after{
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        border-radius: 15px 8px 8px 15px;
+        background-color: currentColor;
+        opacity: 0.10;
+        left: 0px;
+        top: 0px;
+      }
+      &:hover:after{
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.50);
+      }
+      &:hover{
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+      }
+      .jobAgeBoxLabel {
+        .mat-icon{
+          background-color: $primary-bg-color;
+          color: #fff;
+          font-size: 12px;
+          height: 25px;
+          width: 25px;
+          min-width: 25px;
+          line-height: 25px;
+          text-align: center;
+          border-radius: 20px;
+          opacity: 1;
+          cursor: inherit;
+        }
+      }
+      .jobAgeBoxTimer {
+        margin: 0px;
+        border-radius: 4px;
+        margin-top: 0px;
+        color: $primary-bg-color;
+      }
+      .all-status{
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        // margin-left: 3px;
+        z-index: 2;
+        .mat-icon{
+          font-size: 18px;
+          height: 18px;
+          width: 18px;
+          line-height: 16px;
+        }
+      }
+      .mat-icon{
+        font-size: 18px;
+        height: 18px;
+        width: 18px;
+        line-height: 18px;
+        cursor: pointer;
+        margin-left: 0px;
+        opacity: 0.6;
+          &:hover{
+            opacity: 1;
+        }
+      }
+      .no-cursor{
+        cursor: inherit;
+      }
+      .currentJobStatus {
+        flex-basis: auto;
+        width: auto;
+        padding: 4px 5px;
+        font-size: 10px;
+      }
+      .skils-job-detail{
+        max-width: 55px;
+        background: $green-color;
+        color: $white-color;
+        display: inline-block;
+        padding: 3px;
+        text-align: center;
+        border-radius: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+.job-status {
+  .jobAge {
+    .jobAgeBox {
+      .job-box-data{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        z-index: 2;
+        .jobAgeBoxLabel {
+          &::after {
+            border-left: 8px solid #ebebeb;
+          }
+        }
+        .skilss-lists{
+          width: 100px;
+        }
+        .company-contacts-btn-groups{
+          .mat-button{
+            font-size: 12px;
+            height: 16px;
+            line-height: 16px;
+            padding: 0px 3px;
+            min-width: auto;
+            font-weight: 400;
+          }
+        }
+      }
+      .group-btn{
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+      .reverseCounterred {
+        color: $warn-bg;
+      }
+      .currentJobStatus {
+        background: $green-color;
+        color: $white-color;
+      }
+    }
+  }
+}
+.desktop-job-status-sec{
+  @media only screen and (max-width:875px) and (min-width: 240px) {
+    display: none;
+  }
+}
+.mobile-job-status-sec{
+  display: none;
+  @media only screen and (max-width: 876px) {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .publish-sec{
+    padding: 10px 15px;
+  }
+}
+.mobile-job-chart-sec{
+  display: none;
+  @media only screen and (max-width:1299px) and (min-width: 240px) {
+    display: block;
+  }
+  .job-chart{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 15px 7px;
+    box-sizing: border-box;
+    position: relative;
+    color: $primary-bg-color;
+    &:after{
+      content: "";
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-color: currentColor;
+      opacity: 0.05;
+      left: 0px;
+      top: 0px;
+      z-index: 0;
+    }
+    .job-chart-list{
+      position: relative;
+      font-size: 13px;
+      .chart-number{
+          position: absolute;
+          top: -5px;
+          background: $primary-bg-color;
+          color: $primary-txt-color;
+          border-radius: 50px;
+          padding: 0px;
+          font-size: 10px;
+          font-weight: 400;
+          margin-left: 5px;
+          width: 14px;
+          height: 14px;
+          line-height: 14px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          text-align: center;
+      }
+    }
+  }
+}
+.dynamic-filter-area{
+  display: grid;
+  grid: auto/auto;
+  align-items: center;
+  font-size: 12px;
+  position: absolute;
+  left: calc(100% + 10px);
+  top: -3px;
+  width: 200px;
+  color: $primary-bg-color;
+  z-index: 2;
+  padding: 5px 10px;
+  border-radius: 4px;
+  z-index: 4;
+  &::before{
+    content: "";
+    background-color: currentColor;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    opacity: 0.9;
+    z-index: 0;
+    border-radius: 4px;
+  }
+  .mat-icon.arrow_left{
+    position: absolute;
+    left: -25px;
+    top: 0px;
+    font-size: 45px;
+  }
+  p{
+    font-weight: 400;
+    line-height: 16px;
+    text-align: justify;
+    color: $primary-txt-color;
+    position: relative;
+  }
+  .mat-divider{
+    position: relative !important;
+    border-top-color: rgba(255, 255, 255, 0.32);
+  }
+  .dynamic-filter-area-footer{
+    display: flex;
+    padding: 3px 0px;
+    align-items: center;
+    position: relative;
+    color: $primary-txt-color;
+    .mat-checkbox-frame {
+      border: 2px solid rgba(255, 255, 255, 1);
+    }
+    .mat-checkbox-checked.mat-primary .mat-checkbox-background:after {
+      border-bottom: 3px solid $primary-txt-color;
+      border-right: 2px solid $primary-txt-color;
+    }
+    .mat-checkbox-checked.mat-primary .mat-checkbox-background:before {
+      border-right: 5px solid $primary-bg-color;
+    }
+  }
+  .dynamic-filter-txt{
+    display: grid;
+    grid: auto/ 25px calc(100% - 60px) 30px;
+    align-items: flex-start;
+    line-height: 16px;
+    gap: 5px;
+    align-items: center;
+    color: $primary-txt-color;
+    position: relative;
+    .mat-icon-button{
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      color: #c1c1c1;
+      .mat-icon{
+         width: 30px;
+         height: 30px;
+         line-height: 30px;
+      }
+      &:hover{
+         color: $warn-bg;
+      }
+   }
+  }
+  .mat-icon.info{
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: 700;
+  }
+}
+.job-short-info{
+  line-height: 18px;
+  font-size: 12px;
+  width: 136px;
+  height: 25px;
+  align-items: center;
+  margin-top: 6px;
+  display: flex;
+  display: grid;
+  grid: auto/ calc(100% - 20px) 18px;
+  gap: 2px;
+  border: 0px solid $primary-bg-color;
+  border-radius: 15px;
+  padding: 0px 3px;
+  color: $primary-bg-color;
+  position: relative;
+  &:after{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+    background-color: currentColor;
+    opacity: 0.10;
+    left: 0px;
+    top: 0px;
+    z-index: 0;
+  }
+  &:hover:after{
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.50);
+  }
+  &:hover{
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  }
+  span{
+    padding: 0px 4px;
+    color: $primary-bg-color;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 1;
+  }
+  .mat-icon{
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    line-height: 18px;
+    text-align: center;
+    z-index: 1;
+    opacity: 0.6;
+    &:hover{
+      opacity: 1;
+    }
+  }
+}
+.candidate-btn-publish.mat-raised-button{
+  padding: 0px 7px;
+  line-height: 25px;
+  height: 25px;
+  font-size: 12px;
+  width: 140px;
+  border-radius: 16px;
+  font-size: 12px;
+  .published-button-txt{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 400;
+    .mat-icon-button{
+      font-size: 18px;
+      height: 18px;
+      width: 18px;
+      line-height: 18px;
+      .mat-icon{
+        font-size: 18px;
+        height: 18px;
+        width: 18px;
+        line-height: 18px;
+        opacity: 0.6;
+        &:hover{
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+// cleint detail styling
+.client-detail-header {
+  background-color: rgba(103, 58, 183, 0.2);
+  .pipeLine {
+    @media only screen and (max-width:1480px) and (min-width: 1280px) {
+      margin-right: 30px;
+    }
+    .mat-raised-button {
+      .matBadge {
+        left: -7px;
+      }
+    }
+  }
+  .job-status {
+    .jobAge {
+      .jobAgeBox {
+        .jobAgeBoxLabel {
+          background-color: #f5f5f5;
+          color: $primary-bg-color;
+          &::after {
+            border-left: 16px solid #f5f5f5;
+            right: -11px;
+          }
+        }
+        .jobAgeBoxTimer {
+          color:#000000;
+        }
+      }
+    }
+  }
+}
+.client-detail-container{
+  .client-jobs-list.kendo-table-container {
+    .k-grid {
+      height: calc(100vh - 402px);
+      @media only screen and (max-width: 1024px) and (min-width: 581px){
+        height: calc(100vh - 422px);
+      }
+      @media only screen and (max-width: 580px) and (min-width: 320px){
+        height: calc(100vh - 460px);
+      }
+    }
+    // @When: 27-10-2023 @who:Amit @what: location grid style
+    .k-grid.set-full-grid{
+      .k-grid-aria-root{
+        .k-grid-header{
+          .k-grid-header-wrap{
+            table{
+              min-width: 100% !important;
+            }
+          }
+        }
+        .k-grid-container{
+          .k-grid-content{
+            .k-grid-table-wrap{
+              table{
+                min-width: 100% !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .notes-details-sec{
+    height: calc(100vh - 324px);
+    @media only screen and (max-width: 1024px) and (min-width: 581px){
+      height: calc(100vh - 343px);
+    }
+    @media screen and (min-width: 320px) and (max-width: 580px){
+      height: calc(100vh - 385px);
+    }
+    .notes-yearfilter-drawer{
+      .yearsFilter{
+        padding: 10px;
+      }
+    }
+  }
+  .document-sidenav-content{
+    height: calc(100vh - 324px);
+    @media only screen and (max-width: 1024px) and (min-width: 581px){
+      height: calc(100vh - 343px);
+    }
+    @media screen and (min-width: 320px) and (max-width: 580px){
+      height: calc(100vh - 384px);
+    }
+  }
+}
+.summary-small-layout.client-detail-container{
+  .client-jobs-list.kendo-table-container {
+    .k-grid {
+      height: calc(100vh - 340px);
+      @media only screen and (max-width: 1024px) and (min-width: 581px){
+        height: calc(100vh - 350px);
+      }
+      @media only screen and (max-width: 580px) and (min-width: 320px){
+        height: calc(100vh - 408px);
+      }
+    }
+  }
+  .notes-details-sec{
+    height: calc(100vh - 271px);
+    @media only screen and (max-width: 580px) and (min-width: 320px){
+      height: calc(100vh - 336px);
+    }
+  }
+  .mailbox-container.mat-drawer-container {
+    @media only screen and (max-width: 580px) and (min-width: 320px){
+      height: calc(100vh - 400px);
+    }
+  }
+  .document-sidenav-content{
+    height: calc(100vh - 272px);
+    @media only screen and (max-width: 580px) and (min-width: 320px){
+      height: calc(100vh - 332px);
+    }
+  }
+}
+// client detail styling
+// job detail styling
+.container-collapse-layout.job-detail-container{
+  .interfaceBoardContainer.manage-job-posting{
+    height: calc(100vh - 294px);
+    @media only screen and (max-width: 580px) and (min-width: 240px) {
+      height: calc(100vh - 345px);
+    }
+  }
+}
+// add style for new card design
+@mixin flex-center-gap{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+@mixin initial-name-width-height{
+  width: 24px;
+  height: 24px;
+}
+/* @When: 01-09-2023 @who:Amit @why: EWM-13874 @what: new avtaar width & height */
+@mixin avtaar-name-width-height{
+  width: 30px;
+  height: 30px;
+}
+.card-summary-candidates{
+  .mat-expansion-panel{
+    margin-bottom: 5px;
+    &:last-child{
+      margin-bottom: 0px;
+    }
+    .mat-expansion-panel-header{
+      padding: 0px 12px;
+      cursor: default;
+      height: 40px;
+      .mat-expansion-panel-header-title, .mat-expansion-panel-header-description{
+        margin-right: 0px;
+      }
+    }
+    // Xeople : Satya Prakash Gupta : 09-Aug-2023 : EWM-12869: Name gets fainted issue
+    .selected, .mat-expansion-panel-header.cdk-program-focused{
+      background: $primary-bg-color;
+      color: $primary-txt-color;
+      &:hover,
+      &:hover:not([aria-disabled=true]){
+        background: $primary-bg-color;
+        color: $primary-txt-color;
+      }
+      .mat-expansion-panel-header-title, .mat-expansion-panel-header-description{
+        color: $primary-txt-color;
+        .mat-checkbox-checked.mat-primary .mat-checkbox-frame, .mat-checkbox-indeterminate .mat-checkbox-frame {
+          border: 2px solid $primary-txt-color;
+        }
+        .mat-checkbox-checked.mat-primary .mat-checkbox-background:before{
+          border-right: 5px solid $primary-bg-color;
+        }
+        .mat-checkbox-checked.mat-primary .mat-checkbox-background:after {
+          border-bottom: 3px solid $primary-txt-color;
+          border-right: 2px solid $primary-txt-color;
+        }
+        .mat-button.mat-primary, .mat-icon-button.mat-primary, .mat-stroked-button.mat-primary{
+          color: $primary-txt-color;
+        }
+        .userAvtaarAndName span{
+          background: $white-bg !important;
+          color: $primary-bg-color;
+        }
+        .card-summary-candidates-header-resume{
+          .resume-view.resume-card-view{
+            .resume.mat-icon-button.mat-button-disabled{
+              color: rgba(255, 255, 255, 0.5);
+            }
+            .share.mat-button-disabled{
+              background: rgba(255, 255, 255, .9);
+            }
+          }
+        }
+      }
+      // @When: 05-07-2023 @who:Amit @why: EWM-12939 @what:icon color change
+      .card-summary-candidates-header-resume{
+        .resume.mat-icon-button.mat-button-disabled.mat-button-disabled,.share.mat-button-disabled{
+          color: rgba(255, 255, 255, 0.40);
+        }
+      }
+    }
+    // @When: 05-07-2023 @who:Amit @why: EWM-12939 @what:add bold text
+    .unread{
+      .card-summary-candidates-header.mat-expansion-panel-header-title{
+        .card-summary-candidates-header-candidate{
+          .name{
+            font-weight: 600;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    .mat-expansion-panel-header.mat-expanded{
+      height: 48px;
+      margin-bottom: 5px;
+      border-radius: 0px;
+    }
+  }
+  &-header{
+    &-resume{
+      .mat-icon-button{
+        width: 24px;
+        height: 20px;
+        line-height: 20px;
+        .mat-icon{
+          width: 24px;
+          height: 20px;
+          line-height: 20px;
+          font-size: 20px;
+        }
+      }
+      .more-less-btn{
+        .mat-icon{
+          font-size: 28px;
+        }
+        &:hover{
+          .mat-icon{
+            animation-name: fadeOutDown;
+            animation-duration: 2s;
+            animation-duration: calc(var(--animate-duration)*2);
+            animation-fill-mode: both;
+            animation-iteration-count: 2;
+            animation-iteration-count: calc(var(--animate-repeat)*2);
+          }
+          @keyframes fadeOutDown {
+            0% {
+              opacity: 1;
+            }
+            to {
+              opacity: 0;
+              transform: translate3d(0,100%,0);
+            }
+          }
+        }
+      }
+      .more-less-btn.more-less-btn-up{
+        .mat-icon{
+          font-size: 28px;
+        }
+        &:hover{
+          .mat-icon{
+            animation-name: fadeOutUp;
+          }
+          @keyframes fadeOutUp {
+            0% {
+              opacity: 1;
+            }
+            to {
+              opacity: 0;
+              transform: translate3d(0,-100%,0);
+            }
+          }
+        }
+      }
+      .share{
+        color: #00ACC1;
+      }
+      .share.mat-button-disabled{
+        color: rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
+  .mat-expansion-panel-body{
+    padding: 0 5px 0px;
+    .card-summary-candidates-body{
+      display: grid;
+      grid: auto/ calc(100% - 75px) 70px;
+      .actions{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+}
+.cdk-drag-preview.jobcandidate-card-preview{
+  padding: 0px 12px;
+  width: 300px;
+  height: 48px;
+  background-color: #ffffff;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  .card-summary-candidates-header.mat-expansion-panel-header-title{
+    display: grid;
+    align-items: center;
+    gap: 5px;
+    grid: auto/20px calc(100% - 90px) 60px;
+    padding: 0px 0px;
+    .card-summary-candidates-header-candidate{
+      @include flex-center-gap;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      .userAvtaarAndName{
+        @include initial-name-width-height;
+        cursor: pointer;
+        font-size: 13px;
+        span, img{
+          @include initial-name-width-height;
+        }
+      }
+      .name{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.card-summary-candidates-header.mat-expansion-panel-header-title{
+  display: grid;
+  align-items: center;
+  gap: 10px;
+  grid: auto/20px calc(100% - 112px) 72px;
+  padding: 0px 0px;
+  .card-summary-candidates-header-candidate{
+    @include flex-center-gap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    .userAvtaarAndName{
+      @include initial-name-width-height;
+      cursor: pointer;
+      font-size: 13px;
+      span, img{
+        @include initial-name-width-height;
+      }
+    }
+    .name{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      text-transform: capitalize;
+      font-weight: normal;
+      font-size: 13px;
+    }
+  }
+}
+/* @When: 08-09-2023 @who:Amit @why: EWM-13899 @what: close job style start here */
+.close-job-form{
+  .mat-dialog-content{
+    h3{
+      .mat-icon{
+        color: $primary-bg-color;
+      }
+    }
+    .selected-candidate{
+      border: 1px solid #ebebeb;
+      .action-candidate{
+        background: #eef5f9;
+      }
+    }
+    .send-email{
+      .mat-icon{
+        color: $primary-bg-color;
+      }
+    }
+  }
+}
+// @When: 17-09-2023 @who:Amit @why: EWM-13830 @what: job detail description
+.candidate-summry{
+  .resumeHeader.mat-card{
+    .search-and-parsebutton{
+      .btn-group .mat-icon-button{
+        color: $primary-bg-color;
+      }
+    }
+  }
+}
+/* @When: 08-09-2023 @who:Amit @why: EWM-13899 @what: close job style end here */
+// @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: update activity start here
+.activity-related{
+  .activityDetails{
+    .details-main{
+      .details span{
+        color: $dark-primary-bg;
+      }
+    }
+  }
+}
+// @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: update activity end here
+// @When: 22-09-2023 @who:Amit @why: EWM-14386 @what: group btn skill
+.group-btn-skill{
+  .mat-chip-list{
+    .mat-chip-list-wrapper{
+      flex-wrap: nowrap;
+      gap: 3px;
+    }
+  }
+  .mat-icon-button{
+    color: $primary-bg-color;
+  }
+}
+// @When: 17-10-2023 @who:Amit @why: EWM-14846 @what: btn group files
+.btn-group-files{
+  .view-files{
+    color: $primary-bg-color;
+  }
+}
+/************************dark mode start here**************************************/
+.dark-theme {
+  .cdk-drag-preview.jobcandidate-card-preview{
+    background-color: #424242;
+  }
+  .dynamic-filter-area{
+    color: $dark-primary;
+    p{
+      color: $white-color;
+    }
+    .mat-divider{
+      border-top-color: rgba(0, 0, 0, 0.32);
+    }
+    .dynamic-filter-area-footer{
+      color: $white-color;
+      .mat-checkbox-frame {
+        border: 2px solid rgba(255, 255, 255, 1);
+      }
+      .mat-checkbox-checked.mat-primary .mat-checkbox-background:after {
+        border-bottom: 3px solid $white-color;
+        border-right: 2px solid $white-color;
+      }
+      .mat-checkbox-checked.mat-primary .mat-checkbox-background:before {
+        border-right: 5px solid $dark-primary;
+      }
+    }
+    .dynamic-filter-txt{
+      color: $white-color;
+      .mat-icon-button{
+        color: #c1c1c1;
+        &:hover{
+           color: $warn-bg;
+        }
+     }
+    }
+  }
+  .job-detail-header{
+    border-bottom: 1px solid #6a6767;
+    .dynmic-bg-color{
+      color: $dark-primary;
+    }
+    .header-expand-collapse{
+      color: $dark-primary;
+    }
+    .canidate-header-container{
+      .canidate-header-left{
+        .candidate-profile-info {
+          .icon-with-detail.job-name{
+            cursor: pointer;
+            p{
+              color: $dark-primary;
+            }
+          }
+          .icon-with-detail.client-location{
+            .mat-icon{
+              cursor: pointer;
+            }
+            p{
+              color: $white-color;
+            }
+          }
+        }
+        .job-detail-chart{
+          color: $dark-primary !important;
+        }
+      }
+    }
+  }
+  .header-collapse-layout{
+    .canidate-header-container{
+      .canidate-header-left{
+        .candidate-profile-info.collapseExpandData{
+          .jobdetail-header-info .jobdetail-header-info-txt{
+            .mat-icon{
+              color: $dark-primary !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .job-status {
+    .jobAge {
+      .jobAgeBox {
+        .jobAgeBoxLabel {
+          color: $dark-primary;
+          &::after {
+            border-left: 16px solid #3a3a3a;
+          }
+        }
+        .jobAgeBoxTimer {
+          color:#ffffff;
+        }
+      }
+    }
+  }
+  .quickFiltr-container{
+    .quickFiltr-sidenav-content{
+      .quick-filter-button{
+        color: $dark-primary;
+      }
+    }
+  }
+  .job-details-overlay-sidebar {
+      .drawerSidenavQuickJob{
+        .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+          color:rgba(255, 255, 255, 0.65);
+        }
+        .ng-select.ng-select-disabled .ng-select-container .ng-value-container .ng-value{
+          color:rgba(255, 255, 255, 0.65);
+        }
+        .mat-chip.mat-standard-chip.mat-chip-disabled{
+          opacity:0.68;
+        }
+        .disabledDescriptionDiv{
+          opacity: 0.68;
+        }
+        .mat-slide-toggle.mat-disabled{
+          opacity: 0.68;
+        }
+        .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label{
+          color: rgba(255, 255, 255, 0.68);
+        }
+      }
+  }
+
+  .jobcandidate-card.cdk-drag-preview, .jobcandidate-card {
+    .user-detail {
+      .userAvtaarAndName {
+        .mat-icon {
+          color: $dark-primary;
+        }
+      }
+    }
+    .resume{
+      color: $dark-primary;
+    }
+    .candidate-status{
+      color: #ffffff;
+    }
+    .proximity{
+      color: $dark-primary;
+    }
+    .mat-card-actions{
+      background: #3b3b3b;
+    }
+  }
+
+  .number-counter{
+    background: #424242;
+    color: #ffffff
+  }
+
+  .mat-card.jobcandidate-card.cdk-drag-placeholder {
+    background: #3a3a3a;
+    border: dotted 2px #000 !important;
+  }
+
+  .companyNameInitial{
+    background: #789abb;
+  }
+
+
+  .job-detail-container{
+    .jobdetail-card.mat-card {
+      .jobDetailsPage{
+        .mat-tab-group.jobdetail-tab{
+          .mat-tab-label {
+            .numbers {
+              background: $dark-primary;;
+              color: $white-color;
+            }
+          }
+          .mat-tab-label {
+            .numbers{
+              background: $gray-txt;
+            }
+          }
+          .mat-tab-label.mat-tab-label-active {
+            color: $dark-primary;
+            background: rgba(0, 0, 0, 0.05);
+            .numbers{
+              background: $dark-primary;
+            }
+          }
+        }
+        .kanban-header-sticky{
+          background: #424242;
+          .kanban-header {
+            color: #424242;
+            background: #303030;
+          }
+        }
+        .kanban {
+          .kanban-step {
+            border: 1px solid #3a3a3a;
+            background: #424242;
+            .card-summary-candidates{
+              .mat-expansion-panel{
+                .mat-expansion-panel-header-title, .mat-expansion-panel-header-description{
+                  .card-summary-candidates-header-resume{
+                    .resume-view.resume-card-view{
+                      .share.mat-button-disabled{
+                        background: rgb(120, 154, 171, .2);
+                      }
+                    }
+                  }
+                }
+                .selected{
+                  background: $dark-primary;
+                  color: $white-color;
+                  .mat-expansion-panel-header-title, .mat-expansion-panel-header-description{
+                    color: $white-color;
+                    .mat-checkbox-checked.mat-primary .mat-checkbox-frame, .mat-checkbox-indeterminate .mat-checkbox-frame {
+                      border: 2px solid $white-color;
+                    }
+                    .mat-checkbox-checked.mat-primary .mat-checkbox-background:before{
+                      border-right: 5px solid $dark-primary;
+                    }
+                    .mat-checkbox-checked.mat-primary .mat-checkbox-background:after {
+                      border-bottom: 3px solid $white-color;
+                      border-right: 2px solid $white-color;
+                    }
+                    .mat-button.mat-primary, .mat-icon-button.mat-primary, .mat-stroked-button.mat-primary{
+                      color: $white-color;
+                    }
+                    .card-summary-candidates-header-resume{
+                      .resume-view.resume-card-view{
+                        .share.mat-button-disabled{
+                          color: $dark-primary;
+                          background: rgba(255, 255, 255, 0.5);
+                        }
+                      }
+                    }
+                    .resume.mat-icon-button.mat-button-disabled.mat-button-disabled{
+                      color:rgba(255, 255, 255, 0.5);
+                    }
+                  }
+                }
+              }
+              .jobcandidate-card{
+                .resume.mat-icon-button.mat-button-disabled.mat-button-disabled{
+                  color: rgb(120, 154, 171, .2);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .cdk-drop-list-disabled{
+    .drop-overlay{
+      background: #3a3a3a;
+    }
+  }
+
+  .seekIntegrationSection{
+    .positionRelative{
+        .infoIconStyle{
+            background: #424242;
+        }
+    }
+  }
+
+  .job-short-info{
+    color: $dark-primary;
+    .mat-icon{
+      color: $dark-primary;
+    }
+    span{
+      color: $default-text-color;
+    }
+  }
+
+  .mobile-job-chart-sec{
+    .job-chart{
+      color: $dark-primary;
+      .job-chart-list{
+        color: $white-color;
+        .chart-number{
+          background: $dark-primary;
+        }
+      }
+    }
+  }
+
+  .canidate-header-left{
+    .candidate-profile-info{
+      .jobdetail-header-info{
+        color: $dark-primary;
+        .jobdetail-header-info-txt{
+          .mat-icon.dark-btn{
+            background-color: $dark-primary;
+          }
+          span{
+            color: $default-text-color !important;
+          }
+        }
+      }
+    }
+  }
+
+  .job-status{
+    .jobAge{
+      .jobAgeBox{
+        color: $dark-primary;
+        .jobAgeBoxLabel{
+          .mat-icon{
+            background-color: $dark-primary;
+          }
+        }
+      }
+    }
+  }
+
+  .all-owner-list.owner-hover-list.mat-menu-panel .mat-list-base .mat-list-item{
+    &:hover{
+      background-color: $dark-primary;
+    }
+  }
+
+  /* @When: 08-09-2023 @who:Amit @why: EWM-13899 @what: close job dark mode start here */
+  .close-job-form{
+    .mat-dialog-content{
+      h3{
+        .mat-icon{
+          color: $dark-primary;
+        }
+      }
+      .selected-candidate{
+        border: 1px solid $gray-txt;
+        .action-candidate{
+          background: #515151;
+        }
+      }
+      .send-email{
+        .mat-icon{
+          color: $dark-primary;
+        }
+      }
+    }
+  }
+  // @When: 17-09-2023 @who:Amit @why: EWM-13830 @what: job detail description
+  .candidate-summry{
+    .resumeHeader.mat-card{
+      .search-and-parsebutton{
+        .btn-group .mat-icon-button{
+          color: $dark-primary;
+        }
+      }
+    }
+  }
+  /* @When: 08-09-2023 @who:Amit @why: EWM-13899 @what: close job dark mode start here */
+
+  // @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: update activity start here
+  .activity-related{
+    .activityDetails{
+      .details-main{
+        .details span{
+          color: $gray-button;
+        }
+      }
+    }
+  }
+  // @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: update activity end here
+  // @When: 21-09-2023 @who:Amit @why: EWM-14386 @what: group btn skill
+  .group-btn-skill{
+    .mat-icon-button{
+      color: $white-color;
+    }
+  }
+  // @When: 17-10-2023 @who:Amit @why: EWM-14846 @what: btn group files
+  .btn-group-files{
+    .view-files{
+      color: $dark-primary;
+    }
+  }
+}
+/************************dark mode end here**************************************/
+
+/************************RTL Style css start here**************************************/
+[dir="rtl"] {
+  .job-detail-header{
+    .header-expand-collapse{
+      left: 10px;
+      right: inherit !important;
+    }
+  }
+  .job-status {
+    .jobAge {
+      .jobAgeBox {
+        .jobAgeBoxLabel {
+          margin-left: 15px;
+          &::after {
+            left: -11px;
+            right:unset;
+            transform: rotate(180deg);
+          }
+        }
+        .jobAgeBoxTimer {
+          color:#000000;
+        }
+      }
+    }
+  }
+  .job-details-overlay-sidebar {
+    z-index: 9;
+    .drawerSidenav {
+      left:0px;
+      .closePanel{
+        .closeDrawerIcon{
+            border-radius: 0px 0px 0px 4px;
+            transform: rotate(180deg);
+        }
+        .sidebarSectionName{
+            transform: rotate(90deg);
+            border-radius: 0px 4px 0px 0px;
+
+        }
+      }
+    }
+  }
+  .jobDetailsViewbtn{
+    left: 50px;
+    top: 50px;
+  }
+  .addCandidateToJobBtn{
+    left: 60px;
+    top: 60px;
+  }
+ .candidateSummaryBtnSidebar{
+    left: 70px;
+    top: 70px;
+  }
+  .searchGreyBgBox{
+    .textRight{
+      text-align: left;
+    }
+  }
+  .candidateMappngLoadingBgFix{
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom: 0px;
+  }
+  .candidateJobBox{
+    .addToJobBtnBox{
+      text-align: left;
+    }
+    .shortName{
+      float: left;
+    }
+  }
+  .panelSidebarInformation{
+    width: calc(100% - 40px);
+    margin-right: 40px;
+  }
+  .seekIntegrationSection{
+    .positionRelative{
+        .infoIconStyle{
+            right:unset;
+            left:12px;
+            text-align: left;
+        }
+    }
+  }
+  .jobdetail-card {
+    .mat-card-content {
+      .canidate-header {
+        .pipeLine {
+          @media only screen and (max-width:1480px) and (min-width: 1280px) {
+            margin-right: 0px;
+            margin-left: 45px;
+          }
+          .mat-raised-button {
+            .matBadge {
+              left: 7px;
+            }
+          }
+        }
+        .candidate-action {
+          @media screen and (min-width: 320px) and (max-width: 1480px) {
+            right: unset;
+            left:45px;
+          }
+        }
+
+      }
+    }
+  }
+
+  .drawerSidenavQuickJob{
+    .jobDetailsViewLoading{
+      left:0px;
+      right: 40px;
+    }
+  }
+
+
+}
+/************************RTL Style css end here**************************************/

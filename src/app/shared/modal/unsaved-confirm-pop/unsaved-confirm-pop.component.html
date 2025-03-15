@@ -1,0 +1,24 @@
+<!-- /*
+@(C): Entire Software
+@Type: File, <ts>
+@Who: Adarsh singh
+@When: 06-June-2023
+@Why: EWM-11779.EWM-12547
+@What: This component is used forUnsavedConfirmPopComponent
+*/ -->
+<div mat-dialog-content class="center-align confirm-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        help
+    </span>
+    <h2 mat-dialog-title>
+        {{'label_confirmation'|translate}}
+    </h2>
+    <p> {{message | translate}} </p>
+
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter add-cancel">
+    <button mat-stroked-button color="warn" class="cancel-btn" id="btncloseinfo" (click)="onPopupClose()"> {{'label_cancel'| translate}}</button>
+    <button mat-stroked-button color="warn" (click)="onDismiss()"> {{'label_proceedWithout'| translate}}</button>
+    <button mat-stroked-button color="primary" (click)="onConfirm()"> {{'label_saveProceed'|translate}}</button>
+</div>

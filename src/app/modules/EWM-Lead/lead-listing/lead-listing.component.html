@@ -1,0 +1,319 @@
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<div class="candidate-data-header" id="candidate-data-header">
+  <div class="filter-refresh">
+    <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+      matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip"
+      (mouseenter)="mouseoverAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)">
+      <mat-icon id="{{animationVar?.RotateButton?.id}}" class="{{animationVar?.RotateButton?.isAnimClass}}">
+        {{animationVar?.RotateButton?.iconName}}</mat-icon>
+    </button>
+    <button mat-raised-button color="primary"
+      matTooltip="{{'label_View' | translate}} {{'label_Workflow' | translate}}"
+      matTooltipClass="custom-tooltip" id="redirectToJobWorkflow" (click)="viewWorkflowStages()"
+      (mouseenter)="mouseoverAnimation(animationVar?.AccountTreeButton?.id, animationVar?.AccountTreeButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.AccountTreeButton?.id, animationVar?.AccountTreeButton?.animation)">
+      <mat-icon id="{{animationVar?.AccountTreeButton?.id}}"
+        class="{{animationVar?.AccountTreeButton?.isAnimClass}}">account_tree</mat-icon>
+    </button>
+  </div>
+  <div class="search-viewicon" id="search-viewicon">
+    <mat-form-field class="searchInput" floatLabel="never">
+      <mat-label>{{'label_search'|translate}}</mat-label>
+      <input matInput id="btnSearch" tabindex (input)="onFilter($event?.target?.value)" placeholder="Search"
+        [(ngModel)]="searchVal" [ngModelOptions]="{standalone: true}">
+      <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+      <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" id="clear"
+        (click)="onSearchFilterClear()" (click)="searchVal=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+    </mat-form-field>
+    <div class="button-with-clear">
+      <button mat-raised-button class="filterButton header-button" id="moreFilter" (click)="openFilterModalDialog()"
+        [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" matTooltip="{{'label_filters'|translate}}"
+        matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)">
+        <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.FilterButton?.id}}"
+          class="{{animationVar?.FilterButton?.isAnimClass}}">{{animationVar?.FilterButton?.iconName}}
+        </mat-icon>
+        <!-- <span class="text-for-mobile-view">{{'label_filters'|translate}}</span> -->
+      </button>
+      <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData(viewMode)">
+        <span class="text-overflow filterCount">{{filterCount}}</span>
+        <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <button mat-raised-button class="header-button" (click)="openActionModalDialog()" id="actionColumn"
+      matTooltip="{{'label_Actions'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+      (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)">
+      <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.ActionsButton?.id}}"
+        class="{{animationVar?.ActionsButton?.isAnimClass}}">
+        {{animationVar?.ActionsButton?.iconName}}
+      </mat-icon>
+      <!-- <span class="text-for-mobile-view">{{'label_Actions'|translate}}</span> -->
+    </button>
+    <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? 'active' : '']"
+      class="header-button" (click)="switchListMode('listMode')" id="job-landing-viewModeactive"
+      (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+      matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+      <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+        class="{{animationVar?.GridButton?.isAnimClass}}">
+        {{animationVar?.GridButton?.iconName}}
+      </span>
+    </button>
+  </div>
+</div>
+<div class="job-detail-list-view">
+<div class="kendo-grid-appearance lead-listing-grid without-column-popup">
+  <ng-template #template let-anchor>
+    <span>{{ anchor?.nativeElement?.innerText }}</span>
+  </ng-template>
+  <div kendoTooltip showOn="none" position="bottom"
+    (mouseover)="showTooltip($event)">
+    <kendo-grid #grid [sortable]="true" [sort]="sort" [filter]="state?.filter" id="overflowCustom" [reorderable]="false"
+      [resizable]="true" [filterable]="true" [data]="data" [selectable]="true" [pageable]="{buttonCount: 3,
+                info: true,
+                type: 'numeric',
+                pageSizes: true,
+                previousNext: true,
+                responsive: true}" [pageSize]="state?.take" [skip]="skip" (pageChange)="pageChanges($event)"
+      (dataStateChange)="onDataStateChange($event)" (sortChange)="sortChange($event)">
+      <kendo-grid-checkbox-column [minResizableWidth]="120" [columnMenu]="false" [showSelectAll]="true"  >
+        <ng-template kendoGridHeaderTemplate>
+          <mat-checkbox color="primary" tabindex matTooltip="" matTooltipClass="custom-tooltip"
+          (change)="setAll($event?.checked)" [checked]="allComplete" [indeterminate]="IsIntermediate">
+          </mat-checkbox>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem >
+          <div class="menu-pin" id="menu-pin">
+            <mat-checkbox color="primary" tabindex matTooltip="" matTooltipClass="custom-tooltip"
+            (change)="onHideField($event,dataItem)" [checked]="dataItem?.CheckboxStatus==1">
+          </mat-checkbox>
+            <div class="pin-unpin" id="pin-unpin"
+            (click)="markPinUnPinGridView(dataItem)">
+              <div *ngIf="dataItem?.IsPin === 1" class="two-icons" id="two-icons-unpin">
+                <mat-icon class="first-icon" color="warn" id="first-icon-unpin" fontSet="material-icons-outlined">push_pin</mat-icon>
+                <mat-icon class="secondIcon" color="warn" id="second-icon-unpin" fontSet="material-icons-outlined">horizontal_rule</mat-icon>
+              </div>
+              <mat-icon *ngIf="dataItem?.IsPin === 0" fontSet="material-icons-outlined" id="pin-icon">push_pin</mat-icon>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-checkbox-column>
+      
+      <ng-template kendoGridNoRecordsTemplate>
+        <p *ngIf="TotalNoOfLead==0">{{'label_noRecordAvailable'|translate}}</p>
+      </ng-template>
+      <kendo-grid-column width="35" class="p-0">
+        <ng-template kendoGridCellTemplate let-dataItem>
+
+          <button type="button" id="moreActionBtns" mat-flat-button [matMenuTriggerFor]="listactionMenu"
+            class="dataActionButton" (click)="selectedCandThreeDot(dataItem)">
+            <mat-icon>
+              more_vert
+            </mat-icon>
+          </button>
+
+          <mat-menu #listactionMenu="matMenu" xPosition="after" class="listactionMenu">
+            <button mat-menu-item id="btnAccepted" (click)="likeLead(dataItem)" [disabled]="isLastStageCandidate || dataItem?.IsLastStage==1">
+              <mat-icon class="mr-0" fontSet="material-icons-outlined" >thumb_up</mat-icon>
+              {{'label_jobDetails_Accept' | customTranslate}}
+            </button>
+            <button mat-menu-item id="btnRejected" (click)="dislikeLead(dataItem)" 
+            [disabled]="!isAnyRejectedStageTypeListView">
+              <mat-icon class="mr-0" fontSet="material-icons-outlined">thumb_down</mat-icon>
+              {{'label_jobDetails_Reject' | customTranslate}} 
+            </button>
+            <a mat-menu-item id="btnCall" href="tel:{{dataItem?.PhoneNumber}}"
+            [disabled]="dataItem?.PhoneNumber==null || dataItem?.PhoneNumber==undefined || dataItem?.PhoneNumber=='' || dataItem?.PhoneNumber==' '"
+            >
+              <mat-icon class="mr-0"  fontSet="material-icons-outlined">call</mat-icon>
+              {{'label_lead_Call' | customTranslate}}
+            </a>
+            <button mat-menu-item id="bulkmailBtn" [disabled]="dataItem?.EmailId==null || dataItem?.EmailId ==undefined || dataItem?.EmailId=='' "
+            (click)="openNewEmailModal(undefined,'',dataItem?.EmailId,dataItem)">
+              <mat-icon class="mr-0"  fontSet="material-icons-outlined">mail</mat-icon>
+              {{'Client_SendMailContact'|customTranslate}}
+            </button>
+            <button mat-menu-item id="bulksmsBtn" [disabled]="dataItem?.PhoneNumber==null || dataItem?.PhoneNumber ==undefined || dataItem?.PhoneNumber==''" (click)="openJobSMSForCandidate(dataItem)">
+              <mat-icon class="mr-0"  fontSet="material-icons-outlined">sms</mat-icon>
+              {{'Client_SendSMSContact'|customTranslate}}
+            </button>
+            <button mat-menu-item id="btnPin" class="pin-unpin-button" (click)="markPinUnPinGridView(dataItem)">
+              <div class="pin-unpin" id="pin-unpin">
+                <div *ngIf="dataItem?.IsPin == 1" class="two-icons" id="two-icons-unpin">
+                  <mat-icon class="first-icon" id="first-icon-unpin" fontSet="material-icons-outlined">push_pin</mat-icon>
+                  <mat-icon class="secondIcon" id="second-icon-unpin" fontSet="material-icons-outlined">horizontal_rule</mat-icon>
+                </div>
+                <mat-icon *ngIf="dataItem?.IsPin == 0" fontSet="material-icons-outlined" id="pin-icon">push_pin</mat-icon>
+              </div>
+              <span *ngIf="dataItem?.IsPin == 0">{{'label_jobDetails_Pin'| translate}}</span>
+              <span *ngIf="dataItem?.IsPin == 1">{{'label_jobDetails_UnPin'| translate}}</span>
+            </button>
+            <a mat-menu-item (click)="setPreviousUrl(dataItem?.LeadId)"
+              id="btnView">
+              <mat-icon class="mr-0"  fontSet="material-icons-outlined">subject</mat-icon>
+              {{'label_lead_Summary' | customTranslate}}
+            </a>
+            <button mat-menu-item  id="convertLead" (click)="conertIntoLead(dataItem?.LeadId)"
+            [disabled]="dataItem?.IsLastStage==0">
+              <mat-icon class="mr-0"  fontSet="material-icons-outlined">bento</mat-icon>
+              {{'label_lead_convertTo' | customTranslate}} {{'label_client' | customTranslate}}            </button>
+            <button mat-menu-item id="workflowmoveLeadBtn" (click)="openMoveBoxModal(dataItem)">
+              <mat-icon fontSet="material-icons-outlined" class="maticonforward mr-0">reply_all</mat-icon>
+              {{'label_workflowmove' |translate}}
+            </button>
+          </mat-menu>
+
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column *ngFor="let column of columns , let i = index" [field]="column.Field"
+        [filter]="column?.Type?.toLowerCase()=='dropdown'?'text':column.Type|lowercase"
+        [title]="column?.Title |customTranslate" [width]="column?.width<40?150:column.width"
+        [headerStyle]="column?.Type=='Numeric' ||column?.Type=='Date'?{'text-align': 'right'}:''"
+        [format]="column?.Type?.toLowerCase()=='date'?dateFormatKendo:column.Format"
+        [reorderable]="column?.Type=='Action'?false:true" [filterable]="column?.Filterable">
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='LeadName'">
+          <a (click)="setPreviousUrl(dataItem?.LeadId)" class="cursor"
+            id="btnViewCandiateName" matTooltipClass="custom-tooltip" matTooltip="{{dataItem?.LeadName}}">
+            {{dataItem?.LeadName|customTranslate}}
+          </a>
+        </ng-template>
+
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='WorkflowDateIn'">
+          <span class="textRight" matTooltipClass="custom-tooltip"
+          matTooltip="{{(dataItem.WorkflowDateIn?dataItem.WorkflowDateIn:'')|
+          date:userpreferences.timeformate:userpreferences.timezone}}">{{(dataItem.WorkflowDateIn?dataItem.WorkflowDateIn:'')|
+            date:userpreferences.timeformate:userpreferences.timezone}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='LeadGeneratedOn'">
+          <span class="textRight" matTooltipClass="custom-tooltip"
+          matTooltip="{{(dataItem.LeadGeneratedOn?dataItem.LeadGeneratedOn:'')|
+          date:userpreferences.timeformate:userpreferences.timezone}}">{{(dataItem.LeadGeneratedOn?dataItem.LeadGeneratedOn:'')|
+            date:userpreferences.timeformate:userpreferences.timezone}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='LastActivity'">
+          <span class="textRight"  matTooltipClass="custom-tooltip"
+          matTooltip="{{(dataItem.LastActivity?dataItem.LastActivity:'')|
+          date:userpreferences.timeformate:userpreferences.timezone}}">{{(dataItem.LastActivity?dataItem.LastActivity:'')|
+            date:userpreferences.timeformate:userpreferences.timezone}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='EmailId'" let-rowIndex="rowIndex">
+          <div class="copy-content" color="primary" id="newEmail">
+            <button mat-icon-button color="primary" type="button" id="url-copy-btn__{{i}}" class="content-copy"
+              matTooltip="{{'label_copy' | translate}}" matTooltipClass="custom-tooltip"
+              (click)="copyCandidateEmailId(dataItem.EmailId,rowIndex);"
+              *ngIf="dataItem.EmailId!=null && dataItem.EmailId!=''">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+            <span class="email-text" (click)="openNewEmailModal(undefined,'',dataItem?.EmailId,dataItem)">{{dataItem?.EmailId}}</span>
+            <div class="copyMessage email-hide" id="autoHide{{rowIndex}}">
+              <div class="alert-primary alert-green">
+                <mat-icon>check</mat-icon>
+                <span>{{'label_emailAddressCipied'| translate }}</span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Tags'">
+          <div class="grid-chips" id="grid-chips-recruiter">
+            <mat-chip-list #chipList aria-label="tag selection">
+              <ng-container *ngFor="let recruiter of dataItem.Tags, let i = index;">
+                <mat-chip *ngIf="i<2"  id="recruiterchiplist" [disabled]="readOnly" [removable]="false" class="text-overflow"
+                matTooltipClass="custom-tooltip" class="text-overflow" matTooltip="{{recruiter.TagName}}">
+                  <span>{{recruiter.TagName}}</span>
+                </mat-chip>
+              </ng-container>
+            </mat-chip-list>
+            <button mat-icon-button color="primary" *ngIf="dataItem.Tags?.length>2" class="more-owner-show"
+              [matMenuTriggerFor]="showAllRecruiter" name="btnMore" id="btnMore_recruiters">
+              +{{dataItem.Tags?.length-2}}
+            </button>
+            <mat-menu #showAllRecruiter="matMenu" class="menu-dropdown" id="recruiter_view" xPosition="before">
+              <ng-container *ngFor="let recruiter of dataItem?.Tags, let i = index;">
+                <button mat-button *ngIf="i>=2" id="recruiter_tooltip">
+                  {{recruiter.TagName}}
+                </button>
+              </ng-container>
+            </mat-menu>
+          </div>
+          </ng-template>
+
+          <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='MappedWithFolder'">
+            <div class="resume-view">
+              <button mat-mini-fab color="primary" class="cursor mr-10" id="folderBtn"
+                matTooltip="{{'candidate_folders' | translate}} {{dataItem.MappedWithFolder}}" matTooltipClass="custom-tooltip">
+                <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.ViewResumeButton?.id}}"
+                  class="{{animationVar?.ViewResumeButton?.isAnimClass}}"
+                  matBadge="{{dataItem.MappedWithFolder}}" matBadgeColor="accent">folder</mat-icon>
+              </button>
+            </div>
+          </ng-template>
+
+        <!-- <ng-template kendoGridFilterCellTemplate let-filter let-column="column"
+          *ngIf="column?.Type?.toLowerCase()=='numeric'">
+          <kendo-grid-numeric-filter-cell [column]="column" [filter]="filter" operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-cell>
+        </ng-template> -->
+         <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='dropdown'">
+          <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+          </kendo-grid-string-filter-cell>
+          </ng-template>
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='text'">
+            <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            </kendo-grid-string-filter-cell>
+            </ng-template>
+        <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='numeric'">
+          <kendo-grid-numeric-filter-cell    [column]="column" [filter]="filter" operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-cell>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='PhoneNumber'" class="p-0">
+          <div [hidden]="dataItem?.PhoneNumber == null || dataItem?.PhoneNumber ==''">
+            <div *ngIf="dataItem?.PhoneNumber != null || dataItem?.PhoneNumber != undefined || dataItem?.PhoneNumber != blank" class="callAction">
+              <a href="tel:{{dataItem?.PhoneNumber}}" mat-icon-button matTooltip="{{'label_call' | translate}} - {{dataItem?.PhoneNumber}}"
+                matTooltipClass="custom-tooltip"><mat-icon id="{{animationVar?.CallButton?.id}}" class="{{animationVar?.CallButton?.isAnimClass}}">call</mat-icon>
+              </a>
+              {{dataItem?.PhoneCode?.startsWith('+')?dataItem?.PhoneCode:'+'+dataItem?.PhoneCode}} {{dataItem?.PhoneNumber}}
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+      <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+        <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+        <kendo-pager-info></kendo-pager-info>
+        <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+      </ng-template>
+    </kendo-grid>
+    <div *ngIf="loadingscroll" class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt"></div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,187 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: Satya Prakash Gupta
+    @When: 12-May-2022
+    @Why:  EWM-6554 EWM-6680
+    @What:  This page will be use for the Configure application form Component scss file
+*/
+@import "../../../../../../styles-var.scss";
+.configure-application-card-title{
+    height: 25px;
+    display: flex;
+    font-size: 16px;
+    @media only screen and (max-width: 1024px) and (min-width: 581px){
+        font-size: 13px;
+        height: 40px;
+        align-items: center;
+    }
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+        font-size: 12px;
+        height: 40px;
+        align-items: center;
+    }
+}
+
+.configure-application-card-sub-title{
+    p{
+        margin-top: 0px;
+        margin-bottom: 5px;
+        strong{
+            color: $default-bg-color;
+        }
+    }
+}
+.configure-application-container{
+    // configure application stepper start here
+    .configure-application-stepper{
+        // position: relative;
+        .stepper-button-group{
+            padding-right: 9px;
+            .stepper-button{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                height: 50px;
+                background-color: #ececec;
+                border-radius: 4px 0px 0px 4px;
+                position: relative;
+                font-size: 13px;
+                padding-right: 7px;
+                cursor: pointer;
+                &:last-child{
+                    .stepper-name{
+                        span.step-number{
+                            &::after{
+                                display: none;
+                            }
+                        }
+                    } 
+                }
+                &::after{
+                    content: "";
+                    position: absolute;
+                    width: 0; 
+                    height: 0; 
+                    right: -8px;
+                    border-top: 25px solid transparent;
+                    border-bottom: 25px solid transparent; 
+                }
+                .stepper-name{
+                    display: grid;
+                    grid: auto/ 30px calc(100% - 30px);
+                    align-items: center;
+                    padding: 0px 7px;
+                    span.step-number{
+                        background-color: #ccc;
+                        border-radius: 100%;
+                        width: 25px;
+                        height: 25px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: relative;
+                        &::after{
+                            content: "";
+                            position: absolute;
+                            width: 1px;
+                            height: 20px;
+                            background-color: #ccc;
+                            top: 37px;
+                        }
+                    }
+                }
+                .edit-toogle{
+                    display: flex;
+                    align-items: center;
+                    gap:5px;
+                    .mat-icon-button{
+                        width: 28px;
+                        height: 28px;
+                        line-height: 28px;
+                        .mat-icon{
+                            width: 28px;
+                            height: 28px;
+                            line-height: 28px;
+                            font-size: 20px;
+                            opacity: 0.6;
+                            &:hover{
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+            .stepper-button.active{
+                background-color: $default-bg-color;
+                color: #fff;
+                &::after{
+                    border-left:8px solid $default-bg-color;
+                }
+                .stepper-name{
+                    span.step-number{
+                        background-color: #fff;
+                        color: rgba($color: #000000, $alpha: 0.87);
+                    }
+                }
+            }
+            .stepper-button.completed{
+                background-color: $green-color;
+                color: #fff;
+                .stepper-name{
+                    span.step-number{
+                        background-color: #fff;
+                        color: rgba($color: #000000, $alpha: 0.87);
+                    }
+                }
+            }
+            .stepper-button.deactive{
+                background-color: #b7b7b7;
+                cursor: default;
+            }
+        }
+        
+    }
+    // configure application stepper end here
+    
+    // configure application section start here
+    .configure-application-sec{
+        overflow: auto;
+        height: 100%;
+        padding-top: 0px;
+        .personal-information-status{
+            position: relative;
+        }
+    }
+    .knockoutStatus.configure-application-sec, .importantLinks.configure-application-sec{
+        padding-left: 0px;
+        padding-right: 0px;
+        overflow: hidden;
+        div{
+            height: 100%;
+        }
+    }
+    // configure application section end here
+    
+
+    
+}
+
+.configure-mat-card-header{
+    .actionButton{
+        .search-viewicon{
+            .mat-raised-button{
+                margin-inline-start: 8px;
+            }
+        }
+    }
+}
+
+
+
+// Start : Satya Prakash Gupta : 16-Dec-2022 : Configure rules : EWM-9629 EWM-9900
+.configure-rules{
+    width: 500px;
+}
+// end : Satya Prakash Gupta : 16-Dec-2022 : Configure rules : EWM-9629 EWM-9900

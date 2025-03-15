@@ -1,0 +1,68 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: folder.component.scss
+    @Who: Priti Srivastava
+    @When: 23-sep-2021
+    @Why: EWM-2847
+    @What: You can add candidate folder details styles to this file, and also import other style files
+*/
+
+
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Satya Prakash Gupta
+    @When: 23-Mar-2022
+    @Why: EWM-5813
+    @What:  bug 
+*/
+
+.col-1{
+    width: 30%;
+}
+.col-2{
+    width: 10%;
+}
+.col-3{
+    width: 20%;
+}
+.revoke-fix{
+    overflow: auto;
+    min-height: 200px;
+    .alternetBG{
+        .mat-card{
+            padding: 0px;
+            margin-bottom: 0px;
+            border-radius: 0px;
+            .mat-card-content{
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+    }
+    .listcardContentMaxData, .sticky-width{
+        min-width: 950px;
+        .cardListTxt {
+            line-height: 20px;
+            padding: 10px 0px;
+            display: inline-block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: pre;
+            min-height: 17px;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+    }
+    .nodata{      
+        display: block;
+        text-align: center;
+        width: 100%;
+        padding: 10px 0px;
+    }
+}
+
+
+

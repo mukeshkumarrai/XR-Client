@@ -1,0 +1,240 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<!-- add vertical title -->
+<div class="activitydrawer-innercontainer">
+    <div class="activitydrawer-innercontainer-drawerTitleSec" id="drawerTitleSec">
+        <h4 class="text-overflow">
+          <span>{{'label_all' |translate}} {{'label_activities' |translate}}</span>
+          <button class="closeDrawerIcon" mat-stroked-button (click)="onDismiss()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </h4>
+    </div>
+    <mat-card class="activitydrawer-innercontainer-mat-card job-detail-container job-activity-container">
+        <div class="notes-details-sec">
+            <div class="mat-drawer-content">
+                <div class="notes-detail" *ngFor="let list of gridList;let i=index">
+                    <div class="notes-detail-linebar left-gap"></div>
+                    <div class="flex-box" id="flex-box-hover">
+                        <div class="notes-created-info-icon">
+                            <button mat-mini-fab color="primary" id="noteIconBtn__{{i}}" disableRipple="true"
+                                matTooltip="{{list.CategoryName}}" matTooltipClass="custom-tooltip">
+                                <mat-icon>{{list.IconName}}</mat-icon>
+                            </button>
+                        </div>
+                        <div class="notes-info {{list.AccessName| lowercase }} mat-elevation-z1">
+                            <div class="notes-created-by-action">
+                                <div class="notes-created-header">
+                                    <mat-icon class="{{list.AccessName| lowercase }}" matTooltip="{{list.AccessName}}"
+                                        matTooltipClass="custom-tooltip">privacy_tip</mat-icon>
+                                    <div>
+                                        <div class="notes-created">{{list.CreatedBy}} <span
+                                                style="font-weight: bold;font-style: italic;">added</span>
+                                            {{'label_activityKey'|translate}}
+                                        </div>
+                                        <div class="notes-created-date">
+                                            <span style="font-weight: bold;font-style:italic;" class="{{list.AccessName| lowercase }}">
+                                                {{list.StartDate|
+                                                date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notes-created-action" *ngIf="activityStatus">
+
+                                    <button type="button"  mat-icon-button id="editBtn" color="primary"
+                                    (click)="editActivity(list.Id,'edit',list)"
+                                    matTooltip="{{'label_edit'|translate}}" matTooltipClass="custom-tooltip" [disabled]="list.Edit=='0'?true:false">
+                                    <mat-icon>edit</mat-icon>
+                                   </button>
+                                    <button type="button"  mat-icon-button id="deleteBtn" color="warn" (click)="deleteActivity(list)"
+                                    matTooltip="{{'label_delete'|translate}}" matTooltipClass="custom-tooltip" [disabled]="list.Delete=='0'?true:false">
+                                    <mat-icon>delete</mat-icon>
+                                    </button>
+                                      <ng-container *ngIf="list.IsOwner=='0'">
+                                        <button mat-icon-button id="markAsDoneBtn"
+                                            (click)="openQuickMarkDoneModal(list.Id,list.IsCompleted,list.Remarks)"
+                                            matTooltip="{{'label_markAsdone'|translate}}" matTooltipClass="custom-tooltip"
+                                            disabled>
+                                            <mat-icon class="done-icon">assignment_turned_in</mat-icon>
+                                        </button>
+                                       </ng-container>
+        
+                                    <ng-container *ngIf="list.IsOwner=='1' && list.IsCompleted=='0'">
+                                        <button mat-icon-button id="markDoneBtn__{{i}}"
+                                            (click)="openQuickMarkDoneModal(list.Id,list.IsCompleted,list.Remarks)"
+                                            matTooltip="{{'label_markAsdone'|translate}}" matTooltipClass="custom-tooltip">
+                                            <mat-icon class="done-icon">assignment_turned_in</mat-icon>
+                                        </button>
+                                    </ng-container>       
+                                    <ng-container *ngIf="list.IsOwner=='1' && list.IsCompleted=='1'">
+                                        <button mat-icon-button id="onrMarkBtn__{{i}}"
+                                            (click)="openQuickMarkDoneModal(list.Id,list.IsCompleted,list.Remarks)"
+                                            matTooltip="{{'label_markAsdone'|translate}}" matTooltipClass="custom-tooltip">
+                                            <mat-icon class="done-icon">assignment_turned_in</mat-icon>
+                                        </button>
+                                       
+                                    </ng-container>
+                                </div>
+    
+                            </div>
+                            <mat-divider class="mt-5 mb-0 mob-divider"></mat-divider>
+                            <mat-card class="notes-created-details row mat-elevation-z0 mb-5">
+    
+                                <div class="notes-content">
+                                    <p><strong>{{list.ActivityTitle}}</strong></p>
+                                </div>
+    
+                                <div class="notes-content">
+                                    <mat-card-header>
+                                        <div mat-card-avatar class="example-header-image">
+                                            <mat-icon matTooltip="{{'label_CreatedOn'|translate}}"
+                                                matTooltipClass="custom-tooltip">schedule</mat-icon>
+                                        </div>
+                                        <mat-card-subtitle>
+                                            {{list.CreatedOn|date:userpreferences.timeformate:userpreferences.timezone}}
+                                        </mat-card-subtitle>
+                                    </mat-card-header>
+    
+                                    <mat-card-header>
+                                        <div mat-card-avatar class="example-header-image">
+                                            <mat-icon matTooltip="{{'label_Organiser'|translate}}"
+                                                matTooltipClass="custom-tooltip">manage_accounts</mat-icon>
+                                        </div>
+                                        <mat-card-subtitle>{{list.OrganizersName}}</mat-card-subtitle>
+                                    </mat-card-header>
+                                </div>
+    
+                                <div class="notes-content">
+                                    <mat-card-header>
+                                        <div mat-card-avatar class="example-header-image">
+                                            <mat-icon matTooltip="{{'label_Attendees'|translate}}"
+                                                matTooltipClass="custom-tooltip">perm_contact_calendar</mat-icon>
+                                        </div>
+                                        <mat-card-subtitle>{{list.AttendeesName}}</mat-card-subtitle>
+                                    </mat-card-header>
+    
+    
+                                    <mat-card-header>
+                                        <div mat-card-avatar class="example-header-image">
+                                            <mat-icon matTooltip="{{'label_duration'|translate}}"
+                                                matTooltipClass="custom-tooltip">watch_later</mat-icon>
+                                        </div>
+                                        <mat-card-subtitle>{{list.Duration}}</mat-card-subtitle>
+                                    </mat-card-header>
+                                </div>
+                                <!--@Who: Nitin Bhati,@When:31-March-2023,@Why:EWM-11404-->
+                                <div class="notes-content">
+                                    <div class="recording-url">
+                                        <mat-icon class="title" fontSet="material-icons-outlined" matTooltipClass="custom-tooltip"
+                                            matTooltip="{{'label_OnlineMeetingRecording'|translate}}">ondemand_video</mat-icon>
+                                        <div class="all-buttons">
+                                            <a mat-icon-button color="primary" href="{{list?.PlayUrl}}" target="_blank"
+                                                matTooltipClass="custom-tooltip" matTooltip="{{'lebel_open'|translate}}"
+                                                [disabled]="list?.PlayUrl?false:true">
+                                                <mat-icon>play_circle_outline</mat-icon>
+                                            </a>
+                                            <button mat-icon-button color="primary" (click)="copyActivityPlayUrl(list?.PlayUrl)"
+                                                matTooltipClass="custom-tooltip"
+                                                matTooltip="{{'label_copyMeetingRecordingUrl'|translate}}"
+                                                [disabled]="list?.PlayUrl?false:true">
+                                                <mat-icon class="secondIcon">content_copy</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="primary"
+                                                (click)="showpassword(list?.Password,showpassstatus)" matTooltipClass="custom-tooltip"
+                                                matTooltip="{{'label_showPasscode'|translate}}" [disabled]="list?.Password?false:true">
+                                                <mat-icon class="secondIcon">password</mat-icon>
+                                            </button>
+                                            <span *ngIf="showpassstatus">{{Zoopplaypassword}}</span>
+                                            <button mat-icon-button color="primary" (click)="copyZoomRecordingPassword(list?.Password)"
+                                                matTooltipClass="custom-tooltip" matTooltip="{{'label_copyPassword'|translate}}"
+                                                [disabled]="list?.Password?false:true">
+                                                <mat-icon class="secondIcon">content_copy</mat-icon>
+                                            </button>
+                                            <a mat-icon-button color="primary" href="{{list?.DownloadUrl}}" target="_blank"
+                                                matTooltipClass="custom-tooltip" matTooltip="{{'label_download'|translate}}"
+                                                [disabled]="list?.DownloadUrl?false:true">
+                                                <mat-icon>download</mat-icon>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="flex">
+                                        <div *ngIf="messageCopy" class="alert-primary alert-green"><mat-icon>check</mat-icon>
+                                            <span>{{label_copied| translate }}</span></div>
+                                    </div>
+                                </div>
+    
+                                <ng-container>
+                                    <div class="user-main-data close" id="user-notes-data{{list.Id}}"
+                                        [ngClass]="{'user-notes-desc': selectedItemListForActiveClass === i}">
+                                        <div class="user-notes-data gradient dark-gradient"
+                                            [ngClass]="list?.Description?.length>150?'':'withoutShadow'"
+                                            [innerHTML]="(isReadMore[i]) ? list.Description : list.Description | mailBodySanitizer">
+                                        </div>
+                                        <!--@Who: Bantee Kumar,@When:15-May-2023,@Why:EWM-11943-->
+                                        <button mat-mini-fab class="addClientButton clps-button" color="green" id="btnCreate"
+                                            *ngIf="list?.Description?.length>150"
+                                            (click)="selectedItemListForActiveClass != i ? selectedItemListForActiveClass = i: selectedItemListForActiveClass = null;">
+                                            <mat-icon>expand_more</mat-icon>
+                                        </button>
+                                    </div>   
+    
+                                    <div class="attachment-data">
+                                        <ng-container *ngIf="list?.Files">
+                                            <a *ngFor="let files of list.Files | slice : 0 : 4" mat-icon-button
+                                                href="{{files.PreviewUrl}}" target="_blank" matTooltipPosition="left"
+                                                matTooltip="{{'label_download' | translate}} - {{files.Name}}">
+                                                <mat-icon class="cursor">
+                                                    {{getIcon(files.Name)}}
+                                                </mat-icon>
+                                            </a>
+                                        </ng-container>
+                                        <ng-container>
+                                            <button mat-icon-button *ngIf="list.Files?.length>4" id="all-Attachement"
+                                                class="all-Attachement hiddenMenu" color="primary"
+                                                [matMenuTriggerFor]="showAttachement">
+                                                <mat-icon>more_vert</mat-icon>
+                                            </button>
+    
+                                            <mat-menu #showAttachement="matMenu" class="all-owner-list owner-hover-list"
+                                                id="respinsiveSidebarDropdown" xPosition="before">
+                                                <mat-list role="list">
+                                                    <ng-container *ngFor="let files of list.Files | slice : 4 : list.Files?.length">
+                                                        <mat-list-item>
+                                                            <a mat-icon-button href="{{files?.PreviewUrl}}" target="_blank"
+                                                                matTooltipClass="custom-tooltip"
+                                                                matTooltip="{{'label_download' | translate}} - {{files?.Name}}">
+                                                                <mat-icon class="cursor">{{getIcon(files?.Name)}}</mat-icon>
+                                                                {{files?.Name}}
+                                                            </a>
+                                                        </mat-list-item>
+                                                    </ng-container>
+                                                </mat-list>
+                                            </mat-menu>
+    
+                                        </ng-container>
+                                    </div>
+    
+                                    <a href="javascript:;" *ngIf="isReadMore[i]" (click)="isReadMore[i]=false">[less]</a>
+                                </ng-container>
+    
+    
+                                <div class="attachment-data">
+                                    <ng-container *ngIf="list.AttachmentName">
+                                        <a mat-icon-button href="{{list.PreviewUrl}}" target="_blank" matTooltipPosition="left"
+                                            matTooltip="{{'label_download' | translate}} - {{list.AttachmentName}}">
+                                            <mat-icon class="cursor">
+                                                {{getIcon(list.AttachmentName)}}
+                                            </mat-icon>
+                                        </a>
+                                    </ng-container>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

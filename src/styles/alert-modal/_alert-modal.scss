@@ -1,0 +1,206 @@
+@use "../../colors";
+/*******************Alert modal styleing start here***************/
+.custom-modalbox {
+    width: 100%;
+    .material-icons {
+        position: relative;
+        font-size: 60px;
+        margin: 10px 0px;
+    }
+    .mat-dialog-title {
+        margin-top: 0px;
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+    .mat-dialog-container {
+        position: relative;
+        border-radius: 12px;
+        padding-top: 0px;
+        .mat-dialog-content {
+            padding-top: 25px;
+            position: relative;
+            p {
+                margin-top: 0px;
+                font-size: 16px;
+                font-weight: 400;
+                word-break: break-word;
+            }
+            &::before {
+                content: "";
+                width: 100%;
+                height: 18px;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+            }
+        }
+        &::before {
+            content: "";
+            width: 0;
+            height: 0;
+            position: absolute;
+            left: 0px;
+            top: 50px;
+            border-top: 26px solid transparent;
+            border-bottom: 26px solid transparent;
+            border-left: 30px solid #def8d0;
+        }
+        &::after {
+            content: "";
+            width: 0;
+            height: 0;
+            position: absolute;
+            right: 0px;
+            top: 100px;
+            border-top: 16px solid transparent;
+            border-bottom: 16px solid transparent;
+            border-right: 20px solid #f8d9dd;
+        }
+    }
+    .actionBoxFooter {
+        margin: 0px;
+        min-height: auto;
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        .mat-stroked-button {
+            width: calc(50% - 7px);
+            height: 40px;
+        }
+    }
+    .inform-dialog-footer {
+        .mat-stroked-button {
+            width: calc(100% - 0px);
+            height: 40px;
+            margin: 0px;
+        }
+    }
+}
+.confirm-dialog {
+    .material-icons {
+        background: transparent linear-gradient(180deg, #3f51b5 0%, #5265ce 100%) 0% 0% no-repeat padding-box;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    &::before {
+        background: transparent linear-gradient(180deg, #3f51b5 0%, #5265ce 100%) 0% 0% no-repeat padding-box;
+    }
+    .mat-dialog-title {
+        color: #5265ce;
+    }
+}
+.error-dialog {
+    .material-icons {
+        background: transparent linear-gradient(180deg, #f44336 0%, #e5655b 100%) 0% 0% no-repeat padding-box;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .mat-dialog-title {
+        color: #f44336;
+    }
+    &::before {
+        background: transparent linear-gradient(180deg, #f44336 0%, #e5655b 100%) 0% 0% no-repeat padding-box;
+    }
+}
+.inform-dialog {
+    .material-icons {
+        background: transparent linear-gradient(180deg, #558b2f 0%, #aaeb5f 100%) 0% 0% no-repeat padding-box;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .mat-dialog-title {
+        color: #558b2f;
+    }
+    &::before {
+        background: transparent linear-gradient(180deg, #558b2f 0%, #aaeb5f 100%) 0% 0% no-repeat padding-box;
+    }
+}
+.warning-dialog {
+    .material-icons {
+        background: transparent linear-gradient(180deg, #fb8c00 0%, #ffc277 100%) 0% 0% no-repeat padding-box;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .mat-dialog-title {
+        color: #fb8c00;
+    }
+    &::before {
+        background: transparent linear-gradient(180deg, #fb8c00 0%, #ffc277 100%) 0% 0% no-repeat padding-box;
+    }
+}
+.custom-modalbox.animate__zoomIn {
+    --animate-duration: 0.3s;
+}
+.material-icons.animate__flash {
+    --animate-delay: 0.3s;
+}
+/*******************Alert modal styleing end here***************/
+.custom-modalbox.custom-confirmation {
+    .button-row.actionBoxFooter {
+        .mat-stroked-button {
+            text-transform: inherit;
+        }
+    }
+}
+// custom modalbox three btn use style start here
+.custom-modalbox {
+    .actionBoxFooter.add-cancel {
+        .mat-stroked-button {
+            width: auto;
+            padding: 0px 10px;
+            height: 38px;
+            &:nth-child(2),
+            &:last-child {
+                margin-inline-start: 3px;
+            }
+            &:nth-child(2) {
+                color: colors.$info-color;
+            }
+        }
+    }
+}
+// custom modalbox three btn use style end here
+.custom-modalbox .mat-dialog-content.center-align.confirm-dialog div>p {
+    padding: 0 10px
+}
+.dark-theme {
+    /*******************Alert modal styleing start here***************/
+    .custom-modalbox {
+        .mat-dialog-container {
+            &::before {
+                border-left: 30px solid #65715f30;
+            }
+            &::after {
+                border-right: 20px solid #5a5a5a30;
+            }
+        }
+    }
+    .confirm-dialog {
+        .material-icons {
+            background: transparent linear-gradient(180deg, #6078ff 0%, #8d9eff 100%) 0% 0% no-repeat padding-box;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .mat-dialog-title {
+            color: #6078ff;
+        }
+        &::before {
+            background: transparent linear-gradient(180deg, #3f51b5 0%, #5265ce 100%) 0% 0% no-repeat padding-box;
+        }
+    }
+    .inform-dialog {
+        .mat-dialog-title {
+            color: #aaeb5f;
+        }
+    }
+    /*******************Alert modal styleing end here***************/
+    .custom-modalbox .actionBoxFooter .mat-stroked-button.mat-primary {
+        color: #aed8ec;
+    }
+}

@@ -1,0 +1,130 @@
+<!--
+    @Type: File, <Html>
+    @Name: Grid tree compnent 
+    @Who: priti
+    @When: 15-Sep-2021
+    @Why: EWM-2380
+    @What: to generate nth level grid withdata and event 
+  -->
+<!-- <button mat-button class="togglebutton-document" *ngIf="isShowtoggle" (click)="toggle.emit()">
+  <mat-icon>arrow_drop_down</mat-icon>
+</button> -->
+<div class="row mb-0" *ngIf="opened">
+  <div class="col l12 m12 s12 pl-0 pr-0 alternetBG" >
+    <mat-card>
+      <mat-card-content class="listcardContent pt-0 pb-0">
+        <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView?.length==0 ||this.gridView==null">
+          <span>{{'label_noRecordAvailable'|translate}}</span>
+      </div>
+        <div class="row mb-0"  *ngFor="let listDataList of gridView;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+          <div class="col listActionBox col-8">
+            <button mat-flat-button [matMenuTriggerFor]="menu" id="btnMoreAction" class="dataActionButton">
+              <mat-icon> more_vert </mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="candidateQuickMenu document-listaction listactionMenu">
+              <span class="material-icons headerDroupDownUp">
+                arrow_drop_up
+              </span>
+              <button (click)="OpenDocuemntPopUp(listDataList.Id,listDataList.Hierarchy)" *ngIf="listDataList.DocumentType=='Folder'" id="btn-document-adddocument"
+              mat-menu-item>
+                <div class="two-icons">
+                  <mat-icon>description</mat-icon>
+                  <mat-icon class="secondIcon">add</mat-icon>
+              </div>
+               {{'label_adddocuments'|translate}}</button>
+              <button (click)="OpenFolderPopUp(listDataList.Id,listDataList.Hierarchy)" *ngIf="listDataList.DocumentType=='Folder'" id="btn-document-addfolder"
+              mat-menu-item>
+              <div class="two-icons">
+                <mat-icon>folder_open</mat-icon>
+                <mat-icon class="secondIcon">add</mat-icon>
+              </div>
+              {{'label_addfolder'|translate}}</button>
+              <button mat-menu-item id="btn-document-share"  *ngIf="listDataList.IsEditAccess==1" (click)="confirmShareDocument(listDataList)"><mat-icon>share</mat-icon>{{'label_internalShare'|translate}}</button>
+              <button mat-menu-item id="btn-document-shareable" (click)="onSharableLink(listDataList.Id,listDataList.Name,listDataList.DocumentType,listDataList.UploadDocument)">
+                <mat-icon>link</mat-icon>
+                {{'label_externalShare'|translate}}</button>
+              <button mat-menu-item id="btn-document-shareasAttach" *ngIf="listDataList.DocumentType!='Folder'" (click)="confirmShareAttachment(listDataList)"><mat-icon>attach_email</mat-icon>{{'label_share_as_attachment'|translate}}</button>
+              <button mat-menu-item id="btnManageAccessId" *ngIf="listDataList.IsOwner==1"
+               (click)="openManageAccessModal(listDataList.Id,listDataList.Name,listDataList.AccessModeId)"><mat-icon>accessibility</mat-icon>{{'label_manageaccess'|translate}}</button>
+              <button mat-menu-item id="btn-document-rename" *ngIf="listDataList.Edit==1"
+                (click)="OpenRenameFolderPopUp(listDataList.Id,listDataList.Name,listDataList.DocumentType,listDataList.ParentId)"><mat-icon>drive_file_rename_outline</mat-icon>{{'label_rename'|translate}}</button>
+              <button mat-menu-item id="btn-document-delete" (click)="deletedata(listDataList)" *ngIf="listDataList.Delete==1"><mat-icon>delete</mat-icon>{{'label_delete'|translate}}</button>
+              <button mat-menu-item id="btn-document-download" (click)="downloadData(listDataList.Id,listDataList.Name)"><mat-icon>download</mat-icon>{{'label_download'|translate}}</button>
+              <button mat-menu-item [routerLink]="['/client/core/system-settings/system-audit-log/',auditParameter]"
+              [queryParams]="{CandidateId:candidateId,pageName:'Documents',Id:listDataList.Id}"><mat-icon>visibility</mat-icon>{{'label_auditlog'|translate}}</button>
+              <button mat-menu-item id="btn-document-view"(click)="OpenViewPopUp(listDataList.Id)"><mat-icon>subject</mat-icon>{{'label_view'|translate}}  {{'label_details'|translate}}</button>
+              <button mat-menu-item *ngIf="listDataList.DocumentType!='Folder' && listDataList.IsEditAccess==1" id="btn-document-version"
+                (click)="OpenVersionPopUp(listDataList)"><mat-icon>history</mat-icon>{{'label_tootipVersion'|translate}}</button>
+            </mat-menu>
+          </div>
+
+          <div class="col  col-1" style="position: relative;" (click)="loadViewer(listDataList?.PreviewUrl,listDataList?.DocumentType)" [ngClass]="listDataList.DocumentType!='Folder' ? 'cursor' :'cursor'">
+            <span  class="cardListTxt word-wrap with-icon" matTooltip="{{ listDataList?.Name }}" matTooltipClass="custom-tooltip">
+              <mat-icon *ngIf="listDataList?.DocumentType=='Folder'" [style.color]="background70">folder_open</mat-icon>
+              <ng-container *ngIf="!listDataList?.UploadDocument">
+              <mat-icon class="cursor"  *ngIf="listDataList.DocumentType!='Folder'" [style.color]="background70">
+                {{getIcon(listDataList?.UploadDocument)}}
+              </mat-icon>
+                {{listDataList?.Name}}
+              </ng-container>
+              <ng-container *ngIf="listDataList?.UploadDocument">
+                <mat-icon class="cursor"  *ngIf="listDataList?.DocumentType!='Folder'" [style.color]="background70">
+                  description
+                </mat-icon>
+                  {{listDataList?.Name}}
+                </ng-container>
+            </span>
+          </div>
+<!---------@When: 04-05-2023 @who:bantee @why: EWM-11814 EWM-12315 Wrong document name and category is showing in document list grid--------->
+          <div class="col  col-2" >
+            <span class="cardListTxt word-wrap"  matTooltip="{{listDataList?.DocumentName}}"
+              matTooltipClass="custom-tooltip">
+              {{listDataList?.DocumentName}}
+            </span>
+          </div>
+
+          <div class="col col-3">
+            <span class="cardListTxt word-wrap"  matTooltip="{{ listDataList?.Category }}"
+              matTooltipClass="custom-tooltip">
+              {{listDataList?.Category }}
+            </span>
+          </div>
+
+        
+          <div class="col  col-4" >
+            <span class="cardListTxt word-wrap" 
+              matTooltip="  {{listDataList?.ExpiryDate==0?'':listDataList?.ExpiryDate| date:userpreferences.dateformate:userpreferences.timezone}}"
+              matTooltipClass="custom-tooltip">
+              {{listDataList?.ExpiryDate==0?'':listDataList?.ExpiryDate| date:userpreferences.dateformate:userpreferences.timezone}}
+            </span>
+          </div>
+          <div class="col  col-5" >
+            <span class="cardListTxt word-wrap" 
+              matTooltip="{{listDataList?.LastActivity| date:userpreferences.timeformate:userpreferences.timezone}}"
+              matTooltipClass="custom-tooltip">
+          {{listDataList?.LastActivity| date:userpreferences.timeformate:userpreferences.timezone}}
+            </span>
+          </div>
+          <div class="col  col-6" >
+            <span class="cardListTxt word-wrap" matTooltip="{{listDataList?.DocumentType}}" 
+              matTooltipClass="custom-tooltip">
+         {{listDataList?.DocumentType}}
+            </span>
+          </div>
+          <div class="col  col-7" >
+            <span class="cardListTxt word-wrap"  matTooltip="{{listDataList?.Owner}}" matTooltipClass="custom-tooltip">
+              {{listDataList?.Owner}}
+            </span>
+          </div>
+
+          <div class="col  col-9" >
+            <span class="cardListTxt word-wrap"  matTooltip="{{listDataList?.Comments}}" matTooltipClass="custom-tooltip">
+              {{listDataList?.Comments}}
+            </span>
+          </div>
+          
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

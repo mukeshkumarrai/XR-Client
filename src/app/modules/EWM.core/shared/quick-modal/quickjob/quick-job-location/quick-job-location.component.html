@@ -1,0 +1,29 @@
+<!---
+@(C): Entire Software
+@Type: File, <html>
+@Who: Nitin Bhati
+@When:09-March-2023
+@Why: EWM-11009
+@What:  This component is used for adding address for job client
+-->
+
+<div class="quick-dialog-candidateAdd-address">
+    <h2 mat-dialog-title>
+      {{'label_candidateAddress'|translate}}
+    </h2>
+    <mat-dialog-content class="col">
+      
+      <app-custom-location [googleAddressValueIn]="addressData" [configIn]="methodType"
+       (googleAddressValueOut)="googleMapAddress($event)" (googleAddressValidOut)="AddressFormValid($event)">
+         </app-custom-location> 
+
+    </mat-dialog-content>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button"  id="btnCancel" (click)="onDismiss()">
+      {{'button_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" tabindex type="button"  [disabled]= "!validAddressForm"  
+       id="btnSave"  (click)="onSubmit()"> {{'label_save'|translate}}</button>
+  </div>
+

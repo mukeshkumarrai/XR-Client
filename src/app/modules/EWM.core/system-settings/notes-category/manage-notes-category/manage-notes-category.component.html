@@ -1,0 +1,134 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: manage-note-weightage.component.html
+  @Who: Nitin Bhati
+  @When: 10-Dec-2021
+  @Why: EWM-4140
+  @What: For ADD/edit client Note category master
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="client-dashboard-dashboard-mat-card-header">
+    <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_add' |translate}}
+        {{'label_notesCategory'|translate}}
+    </mat-card-title>
+    <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_edit' |translate}}
+        {{'label_notesCategory'|translate}}
+    </mat-card-title>
+    <div class="actionButton">
+        <button mat-raised-button color="warn" tabindex="6" [routerLink]="['../']" [queryParams]="{V:viewMode}"
+            id="btnCancel" class="buttonForDesktopMobile">
+            <mat-icon>close</mat-icon>
+            <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+        </button>
+        <button mat-raised-button tabindex="5" class="buttonForDesktopMobile" color="primary"
+            (click)="onSave(this.addForm.value,this.activestatus)" type="button" id="btnSave"
+            [disabled]="!addForm.valid" *ngIf="!visibilityStatus">
+            <mat-icon>check</mat-icon>
+            <span class="buttonTxt">{{'label_save'|translate}}</span>
+        </button>
+    </div>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="dashboard-drawer">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+        
+            <div class="row addEditSec">
+                <ng-template #template let-anchor>
+                    <span>{{ anchor.nativeElement.innerText }}</span>
+                </ng-template>
+                <form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data' class="col l12 m12 s12"
+                    id="notecategory-form">
+                    <div class="row mb-0">
+                        <div class="col l8 m12 s12">
+                            <div class="row mb-0">
+                                <div class="col l6 m6 s12 ">
+                                    <div class="ng-slectBox">
+                                        <ng-select placeholder="{{'label_usertype'|translate}}" class="show-required" [clearable]="true"
+                                            (click)="changeCategory()" tabindex="1" formControlName="UserType"
+                                            id="notecategory-usertType" required>
+                                            <ng-option value="" disabled>{{'label_usertype'|translate}}</ng-option>
+                                            <!-- who:maneesh,what:duplicate record display so that comment this,when:22/06/2023 -->
+                                            <!-- <ng-option value="JOB">Job</ng-option> -->
+                                            <ng-option *ngFor="let list of userTypeList" value="{{list.CodeInternal}}">
+                                                {{list.PublicName}}</ng-option>
+                                        </ng-select>
+                                        <mat-error
+                                            *ngIf="addForm.controls['UserType'].hasError('required') && addForm.controls['UserType'].touched">
+                                            {{'label_usertype'|translate}} {{'label_errorreqired'|translate}}
+                                        </mat-error>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-0">
+                                <mat-form-field class="col l6 m6 s12">
+                                    <mat-label>{{'label_notesCategory'|translate}}</mat-label>
+                                    <input type="hidden" formControlName="Id" id="Id">
+                                    <input matInput formControlName="NoteCategory" tabindex="2" id="notecategory-Name"
+                                        placeholder="{{'label_notesCategory'|translate}}" required
+                                        (blur)="duplicayCheck(addForm.controls['NoteCategory'].value)">
+                                    <mat-error *ngIf="addForm.controls['NoteCategory'].hasError('required')">
+                                        {{'label_notesCategory'|translate}} {{'label_errorreqired'|translate}}
+                                    </mat-error>
+                                    <mat-error *ngIf="addForm.controls['NoteCategory'].hasError('codeTaken')">
+                                        {{'label_notesCategory'|translate}} {{'label_errorreqiredAlready'|translate}}
+                                    </mat-error>
+                                    <mat-error *ngIf="addForm.controls['NoteCategory'].hasError('minlength')">
+                                        {{'label_notesCategory'|translate}} {{'label_errorreqiredMinlength'|translate}}
+                                    </mat-error>
+                                    <mat-error *ngIf="addForm.controls['NoteCategory'].hasError('maxlength')">
+                                        {{'label_notesCategory'|translate}} {{'label_errormaxlength50'|translate}}
+                                    </mat-error>
+                                     <!--  @Who: maneesh, @When: 29-dec-2022,@Why: EWM-10075 addnoWhitespaceValidator -->
+                    <mat-error *ngIf="addForm.controls['NoteCategory'].hasError('whitespace') && !addForm.controls['NoteCategory'].hasError('required')">
+                        {{'label_notesCategory' |translate}} {{'label_nameValidation' |translate}} 
+                      </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="row mb-0">
+                                <div class="col l6 m6 s12 ">
+                                    <div class="ng-slectBox">
+                                        <ng-select placeholder="{{'label_categoryIcon'|translate}}" [clearable]="true"
+                                            tabindex="3" formControlName="CategoryIcon" id="note-iconname" required
+                                            class="categoryIcon show-required">
+                                            <ng-option value="" disabled>{{'label_categoryIcon'|translate}}</ng-option>
+                                            <ng-option *ngFor="let list of iconData?.iconList" value="{{list}}">
+                                                <mat-icon>{{list}}</mat-icon> {{list}}
+                                            </ng-option>
+                                        </ng-select>
+                                        <mat-error
+                                            *ngIf="addForm.controls['CategoryIcon'].hasError('required') && addForm.controls['CategoryIcon'].touched">
+                                            {{'label_categoryIcon'|translate}} {{'label_errorreqired'|translate}}
+                                        </mat-error>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-0">
+                                <div class="col l6 m6 s12 ">
+                                    <div class="ng-slectBox">
+                                        <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data---->
+                                        <ng-select placeholder="{{'label_status'|translate}}" [clearable]="false" class="show-required"
+                                            tabindex="4" formControlName="Status" id="notecategory-status" required>
+                                            <ng-option value="" disabled>{{'label_status'|translate}}</ng-option>
+                                            <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">
+                                                {{list.StatusName}}</ng-option>
+                                        </ng-select>
+                                        <mat-error
+                                            *ngIf="addForm.controls['Status'].hasError('required') && addForm.controls['Status'].touched">
+                                            {{'label_status'|translate}} {{'label_errorreqired'|translate}}
+                                        </mat-error>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+    </mat-card>
+</mat-drawer-container>

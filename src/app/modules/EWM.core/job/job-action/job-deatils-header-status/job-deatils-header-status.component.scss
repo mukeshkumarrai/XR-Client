@@ -1,0 +1,33 @@
+// who:maneesh,what:ewm-11774 create component for edit status when:19/09/2023 -->
+.add-manage {
+    display: flex;
+    background: #f5f5f5;
+    align-items: center;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .ng-dropdown-panel .scroll-host {
+      margin-top: -15px;
+    }
+  }
+  .no-bottom {
+    margin-bottom: -1.25em !important;
+  }
+  .dropdowm-barloader {
+    position: absolute;
+  }
+   
+  .rotate-loader {
+    animation: rotate-animation 0.8s infinite linear;
+  }
+  @keyframes rotate-animation {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }

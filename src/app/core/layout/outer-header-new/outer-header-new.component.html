@@ -1,0 +1,52 @@
+<!-- @(C): Entire Software @Type: File, <html> @Who: Satya Prakash Gupta @When: 03-Nov-2020  @Why: EWM-15045 EWM-15046  @What: Login page design -->
+<mat-toolbar class="outer-header" id="outer-header">
+    <div class="header-container" id="header-container">
+        <div class="logo-box" id="logo-box">
+            <div id="logo-link" class="logo-link">
+                <img src="/assets/outer-screen/xeople-logo.svg" class="light-theme-logo" alt="xeople">
+                <img src="/assets/outer-screen/footer-logo.svg" class="dark-theme-logo" alt="xeople">
+            </div>
+        </div>
+        <!-- <div class="menu" id="menu">
+            <ng-container *ngTemplateOutlet="headerMenuButtons"></ng-container>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <button mat-stroked-button id="mbilemenu-open-close" (click)="toggleShowDiv('mobile-menu-links')">
+                <mat-icon *ngIf="this.animationState === 'out'">menu</mat-icon>
+                <mat-icon *ngIf="this.animationState != 'out'">close</mat-icon>
+            </button>
+            <div [@slideInOut]="animationState" class="mobile-menu-links" id="mobile-menu-links">
+                <ng-container *ngTemplateOutlet="headerMenuButtons"></ng-container>
+                <div class="footer-mobile-menu" id="footer-mobile-menu">
+                    <a [href]="loginFooterSecurityNoticeboard" mat-button [disabled]="!loginFooterSecurityNoticeboard" target="_blank">
+                        {{'label_loginFooterSecurityNoticeboard' | translate}}
+                    </a>
+                    <a [href]="loginFooterTermsOfUse" mat-button [disabled]="!loginFooterTermsOfUse" target="_blank">
+                        {{'label_loginFooterTermsOfUse' | translate}}
+                    </a>
+                    <a [href]="loginFooterPrivacyPolicy" mat-button [disabled]="!loginFooterPrivacyPolicy" target="_blank">
+                        {{'label_loginFooterPrivacyPolicy' | translate}}
+                    </a>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</mat-toolbar>
+
+<!-- <ng-template #headerMenuButtons>
+    <a [href]="anouncmenturlOne" mat-button [disabled]="!anouncmenturlOne" target="_blank">
+        {{'label_loginHeaderAnnouncement'| translate}}
+    </a>
+    <a [href]="loginHeaderKnowledgeBase" mat-button [disabled]="!loginHeaderKnowledgeBase" target="_blank">
+        {{'label_loginHeaderKnowledgeBase' | translate}}
+    </a>
+    <a [href]="loginHeaderResources" mat-button [disabled]="!loginHeaderResources" target="_blank">
+        {{'label_loginHeaderResources' | translate}}
+    </a>
+    <a [href]="loginHeaderSignUpCreateAccount" mat-button [disabled]="!loginHeaderSignUpCreateAccount" target="_blank">
+        {{'label_loginHeaderSignUpCreateAccount' | translate}}
+    </a>
+    <a [href]="loginHeaderHelpCenter" mat-button [disabled]="!loginHeaderHelpCenter" target="_blank">
+        {{'label_loginHeaderHelpCenter' | translate}}
+    </a>
+</ng-template> -->

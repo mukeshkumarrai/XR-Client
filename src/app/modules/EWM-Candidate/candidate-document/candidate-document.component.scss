@@ -1,0 +1,139 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Priti
+    @When: 3-sep-2021
+    @Why: EWM-2702
+    @What: You can add  styles to this file, and also import other style files
+*/
+
+.folder-drawer-button{
+  min-width: 36px;
+  padding: 0px 0px;
+  display: none;
+  @media only screen and (max-width: 900px) and (min-width: 240px){
+    display: inline-block;
+  }
+}
+.document-loading{
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+}
+.addSection {
+  // @When: 27-03-2023 @who:Amit @why: EWM-11380 @what: searchbar add height decrease
+  height: calc(100vh - 325px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .centerBox{
+    display: block;
+    text-align: center;
+  }
+  .mat-raised-button {
+    margin-left: 0px;
+  }
+}
+::ng-deep {
+  .container-collapse-layout.job-detail-container{
+    .addSection {
+      height: calc(100vh - 294px);
+      @media only screen and (max-width: 580px) and (min-width: 240px) {
+        height: calc(100vh - 394px);
+      }
+    }
+  }
+}
+.mat-card {
+  .mat-card-content.card-content {
+    height: calc(100vh - 390px);
+    overflow: hidden;
+    .list-infinite-scroll {
+      height: calc(100vh - 442px);
+      overflow: auto;
+    }
+  }
+}
+.togglebutton-document {
+  position: absolute;
+  left: calc(18% - 35px);
+}
+.listcardContentMaxData {
+  min-width: 1140px;
+  width: calc(100% - 5px);
+  height: 100%;
+}
+.document-container {
+  padding-right: 10px;
+}
+.col-1 {
+  width: 15%;
+}
+.col-2 {
+  width: 14%;
+}
+.col-3 {
+  width: 12%;
+}
+.col-4 {
+  width: 11%;
+}
+.col-5 {
+  width: 12%;
+}
+.col-6 {
+  width: 12%;
+}
+.col-7 {
+  width: 10%;
+}
+.col-8 {
+  width: 3%;
+}
+.col-9 {
+  width: 11%;
+}
+.inputSearch {
+  display: block !important;
+  z-index: 9999999999;
+  position: absolute;
+  top: inherit;
+  left: inherit;
+  background-color: rgba(0, 0, 0, 0);
+  right: 20px;
+  bottom: 18px;
+  font-size: 26px;
+}
+.list {
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.curser{
+  cursor: pointer;
+}
+.search-viewicon{
+  display: flex;
+  align-items: baseline;
+  .searchInput{
+    max-width: 100%;
+    margin-bottom: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+    justify-content: flex-end;
+    display: flex;
+    align-items: flex-end;
+  }
+}
+.header-button{
+  min-width: 36px;
+  // top: -0px;
+} 

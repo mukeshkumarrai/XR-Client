@@ -1,0 +1,60 @@
+.modal-header{
+    margin-bottom: 0px;
+    h2{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
+.share-dialog-content{
+    max-height: 75vh;
+    .share-client-note{
+        color: #ffa000;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(255, 160, 0, 0.3);
+        margin-block: 13px 20px;
+        border-radius: 5px;
+        position: relative;
+        h3{
+            margin: 0px;
+            border-radius: 5px 0px 0px 5px;
+            border-inline-end: 1px solid rgba(255, 160, 0, 0.3);
+            font-weight: 500;
+            background: #fff7ea;
+            padding-inline: 8px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            bottom: 0px;
+            width: 45px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            @media (240px <= width <= 580px){
+                font-size: 14px;
+            }
+        }
+        p{
+            margin: 0px;
+            padding-inline: 50px 10px;
+            width: 100%;
+            padding-block: 5px;
+            font-size: 11px;
+            @media (240px <= width <= 580px){
+                padding-block: 3px;
+                font-size: 12px;
+            }
+        }
+    }
+    .share-inner-section{
+        padding: 0px;
+        display: grid;
+        grid-template-columns: 1fr;
+        column-gap: 15px;
+        row-gap: 5px;
+    }
+}

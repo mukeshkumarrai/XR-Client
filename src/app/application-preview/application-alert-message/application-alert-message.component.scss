@@ -1,0 +1,35 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Satya Prakash Gupta
+    @When: 09-Aug-2022
+    @Why: EWM-7404 EWM-7517
+    @What: You can add application alert message style, and also import other style file
+*/
+@import "../../../styles-var.scss";
+.alert-message.mat-card{
+    max-width: calc(100% - 22px);
+    margin-top: 10px;
+    margin-bottom: 2px;
+    justify-content: flex-start;
+    padding: 5px 10px;
+    flex-direction: inherit;
+    font-weight: 300;
+}
+.count-show{
+    min-width: 30px;
+    padding: 0px 3px;
+    margin: 0px 10px 0px 0px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    height: 24px;
+    background: #5844DA36;
+    color: $default-bg-color;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-grid;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}

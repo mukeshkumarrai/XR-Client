@@ -1,0 +1,50 @@
+/* @When: 20-Nov-2023 @who:Amit @why: EWM-15076 @what: job note list style */
+@use "../../../../../../colors";
+@import "../../../../../modules/EWM-Employee/employee-detail/employee-notes/employee-notes.component.scss";
+
+.job-summary-container {
+  overflow: hidden;
+  padding: 10px;
+  .job-note-list {
+    height: 100%;
+    .job-modal-header {
+      span {
+        font-size: 14px;
+        cursor: pointer;
+        a {
+          color: colors.$primary-bg-color;
+          text-decoration: underline;
+        }
+      }
+    }
+    .input-btn{
+      display: flex;
+      gap: 5px;
+      .mat-raised-button{
+        min-width: 36px;
+        height: 36px;
+        padding: 0px;
+        position: relative;
+        top: 5px;
+        .mat-icon{
+          font-size: 20px;
+          line-height: 24px;
+        }
+      }
+    }
+    .common-notes-sec {
+      height: calc(100% - 30px);
+      overflow: auto;
+      .common-notes-content {
+        height: 100%;
+        padding-bottom: inherit;
+        overflow: inherit;
+        box-sizing: border-box;
+        .mat-drawer-content{
+          padding-top: 5px;
+          height: calc(100% - 45px);
+        }
+      }
+    }
+  }
+}

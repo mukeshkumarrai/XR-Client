@@ -1,0 +1,23 @@
+
+// @(C): Entire Software
+// @Type: File, <html>
+// @Who: Anup Singh
+// @When: 17-Nov-2021
+// @Why: EWM-3131 EWM-3796
+
+
+// Entire Software : Satya Prakash Gupta : 06-May-2023 : create common style : EWM-12258 EWM-12262
+.copy-job{
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 5px));
+    padding: 5px 0px 10px;
+    gap: 10px;
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+      grid-template-columns: repeat(1, calc(100% - 0px));
+    }
+    &-category{
+      padding: 0px;
+      margin-bottom: 0px;
+    }
+  }
+  

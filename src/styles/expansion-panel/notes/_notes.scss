@@ -1,0 +1,107 @@
+@use "../../../colors";
+@use "notes-dark-mode";
+/* small smartphones (portrait and landscape) ----------- */
+@mixin for-small-smartphones{
+    @media (min-width : 320px) and (max-width : 480px) { @content; }
+}
+/* Smartphones (portrait and landscape) ----------- */
+.profile-detail-container,.client-summary-container,.job-summary-container{
+    .common-notes-sec{
+        height: calc(100vh - 324px);
+        @media only screen and (max-width: 1024px) and (min-width: 581px){
+          height: calc(100vh - 343px);
+        }
+        @media screen and (min-width: 320px) and (max-width: 580px){
+          height: calc(100vh - 380px);
+        }
+        .notes-yearfilter-drawer{
+            background: #eceff1;
+        }
+        .advancedsearchDrawer{
+            .drawerTitleSec{
+                h4{
+                    background: colors.$primary-bg-color;
+                }
+            }
+        }
+        .common-notes-content{
+            .notes-detail-action{
+                background: #eceff1;
+                .left-data-header{
+                    .searchInput{
+                        .mat-form-field-wrapper{
+                            .mat-form-field-infix{
+                              min-width: 50px;
+                              width: 100%;
+                            }
+                        }
+                    }
+                } 
+            }
+            .notes-detail{
+                .notes-detail-linebar {
+                    background: #ccc;
+                }
+                .flex-box{
+                    .notes-created-info-icon{
+                        .mat-mini-fab {
+                            border: 1px solid colors.$default-bg-color;
+                            background: #fff;
+                            color: colors.$default-bg-color;
+                        }
+                        .mat-mini-fab.notes-category-btn{
+                            background: #eeebf1;
+                        }
+                    }
+                    .notes-created-by-action {
+                        .notes-created-action{
+                            .up-down{
+                                .mat-icon{
+                                    color: rgba(255, 255, 255, 0.87);
+                                    color: rgba(0, 0, 0, 0.87);
+                                }
+                            }
+                        }
+                        .mat-content{
+                            display: flex;
+                            align-items: center;
+                            gap: 5px;
+                            @media only screen and (max-width: 767px) and (min-width: 240px){
+                                flex-direction: column;
+                                align-items: inherit;
+                            }
+                        }    
+                    }
+                }
+            }
+        }
+        .mat-expansion-panel-content{
+            overflow: auto;
+            width: 100%;
+            .mat-expansion-panel-body{
+                padding: 5px 10px;
+            }
+        }
+    }
+}
+.profile-detail-container.summary-small-layout,.client-summary-container.summary-small-layout{
+    .common-notes-sec{
+        height: calc(100vh - 271px);
+        @media only screen and (max-width: 480px) and (min-width: 320px){
+          height: calc(100vh - 327px);
+        }
+    }
+}
+.job-summary-container{
+    .common-notes-sec{
+        height: calc(100vh - 420px);
+    }
+}
+.job-summary-container.container-collapse-layout{
+    .common-notes-sec{
+        height: calc(100vh - 292px);
+        @media only screen and (max-width: 580px) and (min-width: 240px) {
+            height: calc(100vh - 350px);
+        }
+    }
+}

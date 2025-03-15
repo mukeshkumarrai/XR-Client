@@ -1,0 +1,351 @@
+
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: reasons.component.scss
+    @Who: Renu
+    @When: 18-may-2021
+    @Why: ROST-1540
+    @What: You can add group details styles to this file, and also import other style files
+*/
+
+@import "../../../../../../styles-var.scss";
+@import "../../../../../../mixinStyle.scss";
+
+.col-1 {
+    width: 60%;
+  }
+  .col-2 {
+    width: 19%;
+  }
+  .col-3 {
+    width:18%;
+  }
+  .col-4 {
+    width: 3%;
+  }
+ 
+ 
+  
+  // @media only screen and (min-width:1270px) {
+  //   .cardWidth {
+  //     width: 33%;
+  //   }
+  // }
+  
+  // @media only screen and (min-width:1024px) and (max-width:1270px) {
+  //   .cardWidth {
+  //     width: 50%;
+  //   }
+  // }
+  
+  // @media only screen and (min-width:320px) and (max-width:1024px) {
+  //   .cardWidth {
+  //     width: 100%;
+  //   }
+  
+  //   .maxData {
+  //     max-height: 100%;
+  //     overflow: auto;
+  //   }
+  // }
+.inputSearch{
+    display: block !important;
+    z-index: 9999999999;
+    position: absolute;
+    top: inherit;
+    left: inherit;
+    right: inherit;
+    bottom: inherit;
+    font-size: 64px;
+    background-color: rgba(0, 0, 0, 0);
+    right: 20px;
+    bottom: 18px;
+    font-size: 26px;
+  }
+
+  .list{
+    display: block !important;
+    z-index: 9999999999;
+    
+    position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+  }
+  @media only screen and (max-width: 1023px) and (min-width: 320px){
+    .separateLabel{
+      height: 35px;
+    }
+}
+@media only screen and (max-width: 374px) and (min-width: 320px){
+    .iconUploadSec .iconUploadbox .mat-button.mat-primary {
+        position: relative;
+        border: 3px;
+        left: 0px;
+        margin: 5px 0px;
+    }
+    .faviconUpload{
+        margin-top: 15px;
+    }
+}
+@media only screen and (max-width: 852px) and (min-width: 584px){
+    .iconUploadSec .iconUploadbox .mat-button.mat-primary {
+        position: relative;
+        top: 2px;
+        border: 3px;
+        left: 0px;
+        margin: 5px 0px;
+        display: block;
+    }
+}
+
+  .mat-form-field-infix, .mat-form-field{
+    width: 100%;
+  }
+
+  .scrollloading{
+    height:75px;
+    position: relative;
+    background-color: transparent;
+    top: inherit;
+    right: inherit;
+    left: inherit;
+    bottom: inherit;
+  }
+
+  .matEyeIcon{float:right; margin-right:20px}
+
+
+  ////  Styling For Back button and Breadcum BY Anup Singh //////
+
+  .matCardTitleStyle{
+    margin-bottom: 0px !important;
+  }
+
+  .matbtnBack{
+    line-height: 25px;
+    position: relative;
+      top: -3px;
+  }
+  
+  .heading{
+    margin-left: 15px;
+  }
+  .breadcum{
+    height: auto;
+    width: 70%;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0px; 
+    .threeDotStyle{
+      width:30%;
+    }
+  .breadcumContent{
+    font-size: 12px;
+    padding: 0px;
+    min-width: 45px;
+  
+  }
+  
+  .breadcumContentopen{
+    font-size: 12px;
+    padding: 0px;
+    font-style: italic;
+    min-width: 45px;
+  }
+
+
+  .label_breadcum{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    text-align: left;
+  }
+
+  .arrowIcon{
+    position: relative;
+    top: 7px;
+    font-size: 20px;
+   }
+
+  .threeDotStyleMobile{
+   display: none;
+  }
+  
+  }
+  
+  @media only screen and (max-width: 1150px) and (min-width: 850px) {
+
+    .matCardTitleStyle {
+      display: unset!important;
+    }
+    .breadcum{
+      width: 98%;
+      position: absolute;
+      left:13px;
+      top:36px;
+      white-space: break-spaces;
+      .line{
+        display: none;
+      }
+      .label_breadcum{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        text-align: left;
+      }
+      // .threeDotStyleMobile{
+      //   position: absolute;
+      //   right:0px;
+      //   top: -1px;
+      //   z-index: 99;
+      //   text-align: right;
+      //   display: unset;
+      // }
+    }
+    .mat-card .mat-divider-horizontal{
+      top:65px !important
+    }
+  }
+
+
+  @media only screen and (max-width: 850px) and (min-width: 400px) {
+ .matCardTitleStyle {
+      display: unset!important;
+    }
+    .breadcum{
+      width: 98%;
+      position: absolute;
+      left:13px;
+      top:36px;
+      white-space: break-spaces;
+      .line{
+        display: none;
+      }
+      .breadcumContent{
+        font-size: 10px;
+      }
+
+      .breadcumContentopen{
+          font-size: 10px;
+      }
+
+      .label_breadcum{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        text-align: left;
+      }
+      // .threeDotStyleMobile{
+      //   position: absolute;
+      //   right:0px;
+      //   top: -1px;
+      //   z-index: 99;
+      //   text-align: right;
+      //   display: unset;
+      // }
+    }
+    .mat-card .mat-divider-horizontal{
+      top:65px !important
+    }
+   }
+
+   @media only screen and (max-width:359px) and (min-width: 150px) {
+     .breadcum{
+       display:none;
+     }
+    }
+
+   @media only screen and (max-width:599px) and (min-width: 360px) {
+      .matHeader{
+        align-items: end;
+      }  
+    .matCardTitleStyle {
+         display: unset!important;
+       }
+       .breadcum{
+         width: 98%;
+         position: absolute;
+         left:10px;
+         top:42px;
+         white-space: break-spaces;
+         .line{
+           display: none;
+         }
+         .breadcumContent{
+           font-size: 10px;
+         }
+   
+         .breadcumContentopen{
+             font-size: 10px;
+         }
+   
+         .label_breadcum{
+           white-space: nowrap;
+           overflow: hidden;
+           text-overflow: ellipsis;
+           display: inline-block;
+           text-align: left;
+         }
+       }
+       .mat-card .mat-divider-horizontal{
+         top:75px !important;
+         z-index:99999;
+       }
+       
+      }
+
+      @media only screen and (max-width:1150px) and (min-width: 600px) {
+          .matHeader{
+            align-items: end;
+          }  
+           .breadcum{
+             left:10px;
+             top:42px;
+           }
+           .mat-card .mat-divider-horizontal{
+             top:75px !important;
+             z-index:99999;
+           }
+           
+          }
+
+          .page-header.mat-card-header{
+            @media only screen and (max-width: 1060px) and (min-width: 633px){
+              flex-direction: column;
+              height: 78px;
+              padding: 5px 10px 5px 15px;
+              align-items: inherit;
+            }
+            @media only screen and (max-width: 632px) and (min-width: 581px){
+              flex-direction: column;
+              height: 102px;
+              padding: 5px 10px;
+            }
+            @media only screen and (max-width: 552px) and (min-width: 320px){
+              height: 97px;
+            }
+            .header-action-button{
+              width: 55%;
+              @media only screen and (max-width: 1060px) and (min-width: 320px){
+                width: 100%;
+              }
+            }
+          }          
+
+
+   
+
+
+
+
+
+
+

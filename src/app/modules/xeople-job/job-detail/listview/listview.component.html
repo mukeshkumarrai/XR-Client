@@ -1,0 +1,460 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<div class="kendo-grid-appearance">
+  <ng-template #template let-anchor>
+    <span>{{ anchor?.nativeElement?.innerText}}</span>
+  </ng-template>
+  <div kendoTooltip showOn="none">
+
+      <kendo-grid #grid  [sortable]="true"
+      [sort]="sort" [filter]="filter" id="overflowCustom"
+                [reorderable]="false" [resizable]="true"
+                [filterable]="false" [data]="data" [selectable]="true"
+                 [pageable]="{buttonCount: 3,
+                    info: true,
+                    type: 'numeric',
+                    pageSizes: true,
+                    previousNext: true,
+                    responsive: true}" [pageSize]="state.take" [skip]="skip"
+                    (pageChange)="pageChanges($event)"
+                    (filterChange)="filterChange($event)" (sortChange)="sortChange($event)">
+
+
+
+      <kendo-grid-checkbox-column [minResizableWidth]="50" [reorderable]="false">
+        <ng-template kendoGridHeaderTemplate>
+          <mat-checkbox appDisableIfJobClosed [isJobClosed]="IsJobClosed" color="primary" tabindex matTooltip="" matTooltipClass="custom-tooltip"
+          (change)="setAll($event.checked)" [checked]="allComplete" [indeterminate]="IsIntermediate">
+          </mat-checkbox>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem >
+          <div class="menu-pin" id="menu-pin">
+            <mat-checkbox appDisableIfJobClosed [isJobClosed]="IsJobClosed" color="primary" tabindex matTooltip="" matTooltipClass="custom-tooltip"
+              (change)="onHideField($event,dataItem)" [checked]="dataItem.CheckboxStatus==1">
+            </mat-checkbox>
+            <div appDisableIfJobClosed [isJobClosed]="IsJobClosed" class="pin-unpin" id="pin-unpin"
+            (click)="markPinUnPinGridView(dataItem)">
+              <div appDisableIfJobClosed [isJobClosed]="IsJobClosed" *ngIf="dataItem?.IsPin === 1" class="two-icons" id="two-icons-unpin">
+                <mat-icon class="first-icon" color="warn" id="first-icon-unpin" fontSet="material-icons-outlined">push_pin</mat-icon>
+                <mat-icon class="secondIcon" color="warn" id="second-icon-unpin" fontSet="material-icons-outlined">horizontal_rule</mat-icon>
+              </div>
+              <mat-icon *ngIf="dataItem?.IsPin === 0" fontSet="material-icons-outlined" id="pin-icon">push_pin</mat-icon>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-checkbox-column>
+      <kendo-grid-column *ngFor="let column of columnsWithAction, let i = index" [field]="column.Field"
+        title="{{column?.Title |customTranslate}} {{column?.Title=='label_proximity'?'('+distanceUnit+')':''}}"
+          [width]="column.width<40?150:column.width" [reorderable]="column.Type=='Action'?false:true"
+           [filter]="column?.Type?.toLowerCase()=='dropdown'?'text':column.Type|lowercase"
+        [headerStyle]="column.Type=='Numeric' ||column.Type=='Date' ?{'text-align': 'right'}:''"
+         [format]="column?.Type?.toLowerCase()=='date'?dateFormatKendo:column.Format"
+         [filterable]="column.Filterable" >
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Type=='Action'">
+          <button appDisableIfJobClosed 
+          [isJobClosed]="IsJobClosed"  mat-flat-button [matMenuTriggerFor]="beforegridMenu" id="dataActionButtonBtn"
+            class="dataActionButton" (click)="selectedCandThreeDot(dataItem)">
+            <mat-icon>
+              more_vert
+            </mat-icon>
+          </button>
+          <mat-menu #beforegridMenu="matMenu" xPosition="after" class="listactionMenu listview-mat-menu">
+            <span class="material-icons headerDroupDownUp">
+              arrow_drop_up
+            </span>
+            <button *ngIf="showScreeningInterview" mat-menu-item id="screening" (click)="openSingleCanActionView(dataItem)"
+              matTooltipClass="custom-tooltip" matTooltip="{{'label_actions'|translate}}">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">fact_check</mat-icon>
+              {{'label_actions'|translate}}
+            </button>
+            <button mat-menu-item id="jobDetailsAcceptBtn" id="thumb_up_btn_{{dataItem?.CandidateId}}"
+              (click)="likeCandidateGridView(dataItem)" [disabled]="isLastStageCandidate">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">thumb_up</mat-icon>
+              {{'label_jobDetails_Accept' | translate}}
+            </button>
+            <button mat-menu-item id="jobDetailsRejectBtn" [disabled]="!isAnyRejectedStageTypeListView"
+              (click)="dislikeCandidateGridView(dataItem, gridListData,dataItem?.CandidateId)">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">thumb_down</mat-icon>
+              {{'label_jobDetails_Reject' |translate}}
+            </button>
+            <button mat-menu-item id="removeCandidateBtn"
+              (click)="openRemoveCandidate(dataItem)">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">remove_circle_outline</mat-icon>
+              {{'label_jobDetails_Remove' |translate}}
+            </button>
+            <button *ngIf="dataItem?.IsProfileRead == 0" mat-menu-item id="jobDetailsRejectBtn"
+              (click)="markAsReadGridView(dataItem)">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">mark_as_unread</mat-icon>
+              {{'label_jobDetails_Read'| translate}}
+            </button>
+            <button *ngIf="dataItem?.IsProfileRead == 1" mat-menu-item id="jobDetailsRejectBtn"
+              (click)="markAsUnReadGridView(dataItem)">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">mark_as_unread</mat-icon>
+              {{'label_jobDetails_UnRead'| translate}}
+            </button>
+            <a mat-menu-item id="phoneBtn" (click)="createCallLog()" [disabled]="dataItem.PhoneNumber==''"
+              href="tel:{{dataItem.PhoneNumber}}">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">phone</mat-icon>
+              {{'label_call' |translate}}
+            </a>
+            <button mat-menu-item id="mailBtn" [disabled]="dataItem?.EmailId=='' || dataItem?.EmailId==null"
+              (click)="openMailSync(dataItem, false)">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">mail</mat-icon>
+              {{'label_send' | translate}} {{'label_mail' |translate}}
+            </button>
+            <button mat-menu-item id="smsBtn" [disabled]="!SMSCheckStatus" (click)="smsHistoryDetails(dataItem);">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">sms</mat-icon>
+              {{'label_send' | translate}} {{'label_sms' |translate}}
+            </button>
+            <button mat-menu-item id="menuActivity"
+              (click)=" formType('Add',dataItem.CandidateId,dataItem.CandidateName)">
+              <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.CreateActivityButton?.id}}"
+                class="{{animationVar?.CreateActivityButton?.isAnimClass}} mr-0">
+                {{animationVar?.CreateActivityButton?.iconName}}</mat-icon>
+              {{'label_MenuActivity' |translate}}
+            </button>
+            <button appDisableIfJobClosed [isJobClosed]="IsJobClosed" mat-menu-item class="pin-unpin-button" id="jobDetailsRejectBtn" (click)="markPinUnPinGridView(dataItem)">
+              <div class="pin-unpin" id="pin-unpin">
+                <div *ngIf="dataItem?.IsPin == 1" class="two-icons" id="two-icons-unpin">
+                  <mat-icon class="first-icon" id="first-icon-unpin" fontSet="material-icons-outlined">push_pin</mat-icon>
+                  <mat-icon class="secondIcon" id="second-icon-unpin" fontSet="material-icons-outlined">horizontal_rule</mat-icon>
+                </div>
+                <mat-icon *ngIf="dataItem?.IsPin == 0" fontSet="material-icons-outlined" id="pin-icon">push_pin</mat-icon>
+              </div>
+              <span *ngIf="dataItem?.IsPin == 0">{{'label_jobDetails_Pin'| translate}}</span>
+              <span *ngIf="dataItem?.IsPin == 1">{{'label_jobDetails_UnPin'| translate}}</span>
+            </button>
+            <button mat-menu-item id="jobDetailsRejectBtn" (click)="onMappCandidateFolderGridView(dataItem)">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">drive_file_move</mat-icon>
+              {{'label_jobDetails_MovetoFolder'
+              | translate}}
+            </button>
+            <button mat-menu-item id="candidateSummaryBtn" matTooltip="{{'label_candidateSummary' |translate}}"
+              (click)="candidate(true,dataItem.CandidateId)" >
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">badge</mat-icon>
+              {{'label_candidateSummary' |translate}}
+            </button>
+
+            <button mat-menu-item id="rank" (click)="onCandidateRankPop(dataItem)">
+              <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.RankButton?.id}}"
+                class="{{animationVar?.RankButton?.isAnimClass}} mr-0">{{animationVar?.RankButton?.iconName}}
+              </mat-icon>
+              {{'label_Candidate' |translate}} {{'label_Rank' |translate}}
+            </button>
+            <button appDisableIfJobClosed 
+            [isJobClosed]="IsJobClosed"  mat-menu-item id="viewResumeBtn" [disabled]="dataItem.IsResume ==0"
+              (click)="viewResumeByCandidateId(dataItem.CandidateId)">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">description_outlined</mat-icon>
+              {{'candidate_resume' |translate}}
+            </button>
+            <button appDisableIfJobClosed 
+            [isJobClosed]="IsJobClosed"  mat-menu-item id="workflowmoveBtn" (click)="openMoveBoxModal(dataItem)">
+              <mat-icon fontSet="material-icons-outlined" class="maticonforward mr-0">reply_all</mat-icon>
+              {{'label_workflowmove' |translate}}
+            </button>
+            <a target="_blank" mat-menu-item id="viewcandidateapplication" [disabled]="dataItem.IsPreviewResponse==0"
+              [routerLink]="['/client/cand/candidate/view-candidate-application']"
+              [queryParams]="{CandidateId:dataItem.CandidateId,appId:applicationFormId,JobId:JobId}">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">pin_drop</mat-icon>
+              {{'label_viewcandidateapplication' |translate}}
+            </a>
+            <button mat-menu-item id="proximityBtn1" (click)="openForLatLongDistance(dataItem)"
+              *ngIf="(dataItem.Latitude!=''  && dataItem.Longitude!='') && (JobLatitude!=''  && JobLongitude!='')">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">pin_drop</mat-icon>
+              {{'label_proximity' |translate}}
+            </button>
+            <button mat-menu-item id="proximityBtn2" disabled (click)="openForLatLongDistance(dataItem)"
+              *ngIf="(dataItem.Latitude=='' || dataItem.Longitude=='') || (JobLatitude==''  || JobLongitude=='')">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">pin_drop</mat-icon>
+              {{'label_proximity' |translate}}
+            </button>
+            <button mat-menu-item id="timelineBtn" (click)="openTimelinePopup(dataItem.CandidateId,dataItem.WorkFlowId)">
+              <mat-icon fontSet="material-icons-outlined" class="mr-0">schedule</mat-icon>
+              {{'label_timeline' |translate}}
+            </button>
+
+            <button *ngIf="(EOHIntegrationObj?.candExtractEnable == 1) && (IsEOHIntergrated)"
+            (click)="pushCandidateToEOH(dataItem.CandidateId, dataItem)"
+             class="push-candidate-icon-button logo-with-text" mat-menu-item id="deleteBtn">
+              <!-- <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z"/></svg>  -->
+              <img src="../../../../../assets/brand/{{EOHLogo}}" />{{'pushCandidateToEoh_pushCandidate' | translate}}
+            </button>
+            
+            <a *ngIf="!(EOHIntegrationObj?.candExtractEnable == 1) || (!IsEOHIntergrated)" class="push-candidate-icon-button logo-with-text"
+              mat-menu-item (click)="redirectOnMarketPlace()" id="pushEOH_redirectPush">
+              <div class="groups">
+                <!-- <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                  width="24">
+                  <path
+                    d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z" />
+                </svg> -->
+                <img src="../../../../../assets/brand/{{EOHLogo}}" />
+                <!-- not connected message  -->
+                <div class="list-view-name" *ngIf="!IsEOHIntergrated">
+                  <div class="txt">{{'pushCandidateToEoh_pushCandidate' |translate}}</div>
+                  <div class="text-label">{{'pushCandidateToEoh_marketplace'|translate}}</div>
+                </div>
+                <!-- connected but not subscribe message -->
+                <div class="list-view-name" *ngIf="IsEOHIntergrated">
+                  <div class="txt">{{'pushCandidateToEoh_pushCandidate' |translate}}</div>
+                  <div class="text-label">{{'pushCandidateToEoh_marketplace_Subs'|translate}}</div>
+                </div>
+              </div>
+            </a>
+
+
+            <button *ngIf="(EOHIntegrationObj?.candExtractEnable == 1) && (IsEOHIntergrated)"
+            (click)="shareJob(dataItem.CandidateId, dataItem)"
+             class="push-candidate-icon-button logo-with-text" mat-menu-item id="deleteBtn">
+              <img src="../../../../../assets/brand/{{EOHLogo}}" />{{'label_ShareJob' | translate}}
+            </button>
+            <a *ngIf="!(EOHIntegrationObj?.candExtractEnable == 1) || (!IsEOHIntergrated)" class="push-candidate-icon-button logo-with-text"
+              mat-menu-item (click)="redirectOnMarketPlace()" id="pushEOH_redirectPush">
+              <div class="groups">
+                  <img src="../../../../../assets/brand/{{EOHLogo}}" />
+                <!-- not connected message  -->
+                <div class="list-view-name" *ngIf="!IsEOHIntergrated">
+                  <div class="txt">{{'label_ShareJob' |translate}}</div>
+                  <div class="text-label">{{'pushCandidateToEoh_marketplace'|translate}}</div>
+                </div>
+                <!-- connected but not subscribe message -->
+                <div class="list-view-name" *ngIf="IsEOHIntergrated">
+                  <div class="txt">{{'label_ShareJob' |translate}}</div>
+                  <div class="text-label">{{'pushCandidateToEoh_marketplace_Subs'|translate}}</div>
+                </div>
+              </div>
+            </a>
+          </mat-menu>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CandidateTags'">
+          <span class="textRight" matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.CandidateTags}}">{{dataItem.CandidateTags}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CandidateRank'">
+          <div class="candidateRank"
+            [style.background-color]="dataItem.RankColorCode == null ? '#fff' : dataItem.RankColorCode"
+            [style.color]="dataItem.RankColorCode == null ? '#000' : '' "
+            matTooltipClass="custom-tooltip" matTooltip="{{dataItem.CandidateRank}}">{{
+            dataItem.CandidateRank}}
+          </div>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='CandidateName'">
+          <buttton appDisableIfJobClosed [isJobClosed]="IsJobClosed" [ngClass]="{'unread':  dataItem.IsProfileRead === 0,'button-disabled':IsJobClosed==1}"
+          mat-button type="button" id="btnViewCandiateName" class="CandidateName" (click)="openSingleCanActionView(dataItem)" matTooltip="{{dataItem.CandidateName}}"
+          matTooltipClass="custom-tooltip" class="kendo-link cursor CandidateNameBtn btnViewCandiateName__{{dataItem?.CandidateId}}">{{dataItem.CandidateName}}</buttton>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='ApplicationReferenceNo'">
+          <span id="ApplicationReferenceNo"target="_blank"
+            matTooltip="{{dataItem.ApplicationReferenceNo}}" matTooltipClass="custom-tooltip">
+            {{dataItem.ApplicationReferenceNo}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='jobtitle'">
+          <span class="textRight" matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.JobTitle}}">{{dataItem.JobTitle}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='IsResume'">
+          <div class="resume-view">
+            <button appDisableIfJobClosed [isJobClosed]="IsJobClosed" mat-mini-fab color="primary" id="descBtn" [disabled]="dataItem.IsResume ==0"
+              class="resume" matTooltipClass="custom-tooltip" matTooltip="{{'label_View' | translate}} {{'candidate_resume' | translate}}"
+              (click)="viewResumeByCandidateId(dataItem.CandidateId)">
+              <mat-icon id="{{animationVar?.FolderButton?.id}}"
+                class="{{animationVar?.FolderButton?.isAnimClass}}">description</mat-icon>
+            </button>
+            <button appDisableIfJobClosed [isJobClosed]="IsJobClosed" mat-mini-fab color="accent" class="share" id="shareBtn"
+              [disabled]="dataItem.IsResume ==0"  matTooltipClass="custom-tooltip" matTooltip="{{'label_share' | translate}} {{'candidate_resume' | translate}}"
+              (click)="confirmShareDocument(dataItem.CandidateId, dataItem.CandidateName)">
+              <mat-icon id="{{animationVar?.ShareButton?.id}}"
+                class="{{animationVar?.ShareButton?.isAnimClass}}">share</mat-icon>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='AppliedOn'">
+          <span class="textRight" matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.AppliedOn| date:userpreferences.timeformate:userpreferences.timezone}}">
+            {{dataItem.AppliedOn==0?'':dataItem.AppliedOn| date:userpreferences.timeformate:userpreferences.timezone}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='GenderName'">
+          <span matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.GenderName}}">{{dataItem.GenderName}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='EmailId'"
+          let-rowIndex="rowIndex">
+          <div class="copy-content" id="newEmail" matTooltipClass="custom-tooltip">
+            <button appDisableIfJobClosed 
+            [isJobClosed]="IsJobClosed"  mat-icon-button color="primary" type="button" id="url-copy-btn__{{i}}"  matTooltip="{{'label_copy' | translate}}"
+            class="content-copy" matTooltipClass="custom-tooltip"
+            (click)="copyCandidateEmailId(dataItem.EmailId,rowIndex);" *ngIf="dataItem.EmailId!=null && dataItem.EmailId!=''">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+            <span appDisableIfJobClosed [isJobClosed]="IsJobClosed" class="email-text" (click)="openNewEmailModal(undefined,'',dataItem.EmailId,dataItem)" matTooltip="{{dataItem.EmailId}}">{{dataItem.EmailId}}</span>
+            <div class="copyMessage email-hide" id="autoHide{{rowIndex}}">
+              <div class="alert-primary alert-green">
+                <mat-icon>check</mat-icon>
+                <span>{{'label_emailAddressCipied'| translate }}</span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='PhoneNumber'">
+          <div>
+            <div *ngIf="dataItem.PhoneNumber != '' "  appDisableIfJobClosed [isJobClosed]="IsJobClosed"  class="callAction" matTooltipClass="custom-tooltip"
+              matTooltip="{{'label_call' | translate}} - {{dataItem.PhoneNumber}}">
+              <a href="tel:{{dataItem.PhoneNumber}}" mat-icon-button
+                matTooltipClass="custom-tooltip">
+                <mat-icon id="{{animationVar?.CallButton?.id}}"
+                  class="{{animationVar?.CallButton?.isAnimClass}}">call</mat-icon>
+              </a> {{dataItem.PhoneNumber}}
+            </div>
+          </div>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='stateName'">
+          <span matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.StateName}}">{{dataItem.StateName}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Location'">
+          <span appDisableIfJobClosed [isJobClosed]="IsJobClosed" class="systemAuditEyeIcon cursor pointer" matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem?.Location}}" (click)="openForLatLongDistance(dataItem)"
+              [ngClass]="dataItem.Latitude!=null && dataItem.Longitude!=null && dataItem.Latitude!='' && dataItem.Longitude!='' && this.JobLatitude != undefined && this.JobLatitude != null && this.JobLatitude != ''&&
+              this.JobLongitude != undefined && this.JobLongitude != null && this.JobLongitude != ''  ? '' : 'without-location'">
+            {{dataItem?.Location}}
+          </span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='Proximity'">
+          <span id="JobMatchProximity" class=" cursor pointer" matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem?.Proximity}}">
+            {{dataItem?.Proximity}}
+          </span>
+        </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='JobMatch'">
+              <span id="JobMatch" class=" pointer" matTooltipClass="custom-tooltip"
+                matTooltip="{{dataItem.JobMatch}}">
+                {{dataItem.JobMatch}}
+              </span>
+            </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Skills'">
+            <div class="grid-chips">
+          <mat-chip-list id="matchipSkills" [hidden]="dataItem.SkillsList.length==0">
+          <mat-chip matTooltipClass="custom-tooltip" class="text-overflow"
+          matTooltip="{{dataItem.SkillsList[0]}}">{{dataItem.SkillsList[0]}}</mat-chip>
+          <mat-chip matTooltipClass="custom-tooltip" class="text-overflow" [hidden]="dataItem.SkillsList.length==1"
+          matTooltip="{{dataItem.SkillsList[1]}}">{{dataItem.SkillsList[1]}}</mat-chip>
+          </mat-chip-list>
+          <button mat-icon-button color="primary" *ngIf="dataItem.SkillsList?.length>2"
+            class="more-owner-show" [matMenuTriggerFor]="showSkills" name="btnMore" id="btnMore">
+            <span class="extra-more" *ngIf="dataItem.SkillsList?.length<=99"
+              matTooltipClass="custom-tooltip"
+              matTooltip="{{dataItem.SkillsList?.length-2}} {{'label_more' | translate}}..">+{{dataItem.SkillsList?.length-2}}</span>
+            <mat-icon *ngIf="dataItem.SkillsList?.length>99" matTooltipClass="custom-tooltip"
+              matTooltip="99 {{'label_more' | translate}}..">more_horiz</mat-icon>
+          </button>
+            <mat-menu #showSkills="matMenu" class="all-owner-list owner-hover-list"
+              id="respinsiveSkillsSidebarDropdown">
+              <mat-list role="list">
+                <ng-container *ngFor="let skilldata of dataItem.SkillsList, let i = index;">
+                  <mat-list-item class="contact-mat-list" *ngIf="i>=2">
+                    <div class="company-contacts-btn-groups">
+                      <span  id="respinsiveSkills"
+                        class="jobAgeBoxTimer text-overflow" >{{skilldata}}</span>
+                      <div class="group-btn">
+                      </div>
+                    </div>
+                  </mat-list-item>
+                </ng-container>
+              </mat-list>
+            </mat-menu>
+          </div>
+          </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastAction'">
+                <span  id="JobLastAction" class=" pointer" matTooltipClass="custom-tooltip"
+                  matTooltip="{{dataItem.LastAction}}">
+                  {{dataItem.LastAction}}
+                </span>
+              </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='WorkFlowStageName'">
+          <span matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.WorkFlowStageName}}">{{dataItem.WorkFlowStageName}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='StatusName'">
+          <span appDisableIfJobClosed [isJobClosed]="IsJobClosed" class="cell-color"
+            [style.background-color]="dataItem.StatusColorCode == null ? '#fff' : dataItem.StatusColorCode "
+            [style.color]="dataItem.StatusColorCode == null ? '#000' : '' "
+            matTooltipClass="custom-tooltip" matTooltip="{{dataItem.StatusName| titlecase}}">{{
+            dataItem.StatusName| titlecase}}
+          </span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Source'">
+          <span matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.Source}}">{{dataItem.Source}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Timeline'">
+          <span class="textRight" matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.Timeline}}">{{dataItem.Timeline}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Experience'">
+          <span matTooltipClass="custom-tooltip" class="textRight"
+            matTooltip="{{dataItem.Experience|numbertomonth:'M'}}">{{dataItem.Experience|numbertomonth:'M'}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='currentcompany'">
+          <span class="textRight" matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.CurrentCompany}}">{{dataItem.CurrentCompany}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastActivity'">
+          <span class="textRight" matTooltipClnpmass="custom-tooltip"
+            matTooltip="{{dataItem.LastActivity| date:userpreferences.timeformate:userpreferences.timezone}}">
+            {{dataItem.LastActivity==0?'':dataItem.LastActivity| date:userpreferences.timeformate:userpreferences.timezone}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='workflowname'">
+          <span class="textRight" matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.WorkFlowName}}">{{dataItem.WorkFlowName}}</span>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='MappedWithFolder'">
+          <div class="resume-view">
+            <button mat-mini-fab appDisableIfJobClosed [isJobClosed]="IsJobClosed" color="primary" class="cursor mr-10" id="folderBtn"
+              (click)="openQuickFolderModal(dataItem.CandidateId)"
+              matTooltip="{{'candidate_folders' | translate}}" matTooltipClass="custom-tooltip">
+              <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.ViewResumeButton?.id}}"
+                class="{{animationVar?.ViewResumeButton?.isAnimClass}}"
+                matBadge="{{dataItem.MappedWithFolder}}" matBadgeColor="accent">folder</mat-icon>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='designation'">
+          <span class="textRight" matTooltipClass="custom-tooltip"
+            matTooltip="{{dataItem.Designation}}">{{dataItem.Designation}}</span>
+        </ng-template>
+        <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='dropdown'">
+          <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+          </kendo-grid-string-filter-cell>
+          </ng-template>
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='text'">
+            <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains">
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-cell>
+            </ng-template>
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='numeric'">
+          <kendo-grid-numeric-filter-cell    [column]="column" [filter]="filter" operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+          </kendo-grid-numeric-filter-cell>
+      </ng-template>
+      </kendo-grid-column>
+
+      <ng-template kendoPagerTemplate let-totalPages="totalPages"
+      let-currentPage="currentPage">
+      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+      <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+      <kendo-pager-info></kendo-pager-info>
+      <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+  </ng-template>
+
+    </kendo-grid>
+  </div>
+</div>
+
+

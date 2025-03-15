@@ -1,0 +1,29 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who:Renu
+    @When: 12-Jul-2021
+    @Why: EWM-2094
+    @What: You can add this page styles on same file, and also import other style files
+*/
+.quick-dialog{
+    .row{
+        margin-bottom: 10px;
+    }
+    &:first-child{
+        margin-top: 0px;
+    }
+}
+.ng-slectBox{
+    font-size: 14px !important;
+}
+.mat-chip.mat-standard-chip .mat-chip-remove {
+    color: #f44336;
+    opacity: 1;
+}
+::ng-deep {
+    .location-icon-withchip .mat-form-field-label-wrapper .mat-form-field-label {
+        top: 1.28125em;
+        left: 0px;
+    }
+}

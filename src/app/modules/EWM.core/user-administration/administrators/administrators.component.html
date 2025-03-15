@@ -1,0 +1,349 @@
+<!---
+     @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 16-Nov-2020
+    @Why: ROST-404
+    @What:  This page wil be use only for the administrator Component HTML
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="administrator-mat-card-header">
+  <mat-card-title>
+    <div #revAdd #revAdd1 >
+      <!-- Xeople : Satya Prakash Gupta : 10-May-2022 : add tooltip on add button : EWM-5654 EWM-6007 -->
+      <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_addAdministratorUser'|translate}}"
+      [routerLink]="['manage-administrators']" 
+      matTooltipClass="custom-tooltip" color="primary" id="btnAdd"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <mat-icon id="{{animationVar?.CreateButton?.id}}"
+        class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+    </button>
+
+    </div>
+    <div class="sub-title">
+    <span>{{'label_administrators' |translate}}</span><br>
+  </div>
+  </mat-card-title>
+
+  <div class="header-action-button" id="administrators-actionButton" *ngIf="formtitle=='grid'">
+
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="administrator-searchBox" (keyup)="onFilter($event.target.value)" [(ngModel)]="searchValue" placeholder="Search">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()" (click)="searchValue=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+
+    <div class="group-header-button">
+    <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+     matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+     (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+     <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+        {{animationVar?.BarRotateButton?.iconName}}
+     </mat-icon>
+    </button>
+        
+    <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+      (click)="switchListMode('listMode')" id="administrator-viewCardInActive"
+      matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+      (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+      <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+        class="{{animationVar?.ListButton?.isAnimClass}}">
+        {{animationVar?.ListButton?.iconName}}
+      </span>
+    </button>
+
+    <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+      (click)="switchListMode('cardMode')" id="administrator-viewCardActive"
+      matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+      (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+      <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+        class="{{animationVar?.GridButton?.isAnimClass}}">
+        {{animationVar?.GridButton?.iconName}} 
+      </span>
+    </button>
+    </div>
+  </div>
+
+  <div class="header-action-button" id="administrators-actionButton" *ngIf="formtitle=='Add'">
+    <button mat-raised-button tabindex="5" class="buttonForDesktopMobile" color="warn" (click)="onCancel($event)" id="btnCancel">
+      <mat-icon>close</mat-icon>
+      <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+    </button>
+  </div>
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-listing-without-breadCrumb" autosize id="administrator-drawer" [ngClass]="[ viewMode === 'cardMode' ? 'mat-card-mode' : '']">
+<mat-card class="component-card mat-elevation-z2" id="component-card">
+  <div class="new-list-card-content" id="new-list-card-content">
+    <mat-card-subtitle class="subTitle">{{ (('label_administratorsSubHead' |translate).length>maxCharacterLengthSubHead)? (('label_administratorsSubHead' |translate) | slice:0:maxCharacterLengthSubHead)+'...':(('label_administratorsSubHead' |translate)) }}</mat-card-subtitle>
+    <div class="new-list-content" [ngClass]="[ viewMode === 'cardMode' ? 'hide' : '']">
+      
+      <div class="new-list-data-header sticky-width" style="position: sticky; top: 0px; z-index: 9999;">
+        <div class="new-data-list-header">
+          <div class="actions">
+          </div>
+          <div (click)="onSort('UserFirstName')" id="administrator-Name">
+            {{'label_mailName'|translate}}
+            <mat-icon *ngIf="sortedcolumnName === 'UserFirstName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'UserFirstName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </div>
+          <div (click)="onSort('UserEmail')" id="administrator-email">
+            {{'label_email'|translate}}
+            <mat-icon *ngIf="sortedcolumnName === 'UserEmail' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'UserEmail' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col nodata center-align" *ngIf="this.gridData==undefined ||this.gridData.length==0">
+        <span>{{'label_noRecordAvailable'|translate}}</span>
+      </div>
+      <div class="new-list-data-content" id="new-list-data-content">
+        <div class="new-data-list-list" *ngFor="let listDataList of gridData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+          <div class="actions">
+            <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+           
+            <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+            <button mat-menu-item id="btnDeleteList" [disabled]="!(listDataList.SuperUser=='0')" *appHasPermission="['Delete']"
+              (click)="DeleteAdmministratorInfo(listDataList.UserId)">
+              <mat-icon>delete</mat-icon>
+              {{'label_delete' | translate}}
+            </button>
+            </mat-menu>
+          </div>
+
+          <div class="new-data img-new-data">
+            <span class="cardListImg">
+              <img src="{{listDataList.PreviewUrl}}" *ngIf="listDataList.PreviewUrl" (click)="imagePreview(listDataList.PreviewUrl)">
+              <img src="{{PreviewUrl}}" *ngIf="!listDataList.PreviewUrl" (click)="imagePreview(PreviewUrl)">
+            </span>
+            <span class="cardListTxt word-wrap cardListImgWord" matTooltip="{{ listDataList.UserFirstName }}" matTooltipClass="custom-tooltip">
+              {{ listDataList.UserFirstName }}  {{ listDataList.UserLastName}}
+            </span>
+          </div>
+
+          <div class="new-data">
+            <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.UserEmail }}" matTooltipClass="custom-tooltip">
+              {{ (listDataList.UserEmail.length>maxCharacterLengthName)? (listDataList.UserEmail | slice:0:maxCharacterLengthName)+'...':(listDataList.UserEmail) }}
+             </span>
+          </div>
+
+        </div>
+        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+      </div>
+
+    </div>
+
+    <div class="new-card-content cardContent" [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+      <div *ngFor="let listDataList of gridData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+        <!-- card mode -->
+        <mat-card class="card-mode">
+          <div class="card-height">
+            <div class="card-mode-line">
+              <img class="image cursor"  src="{{listDataList.PreviewUrl }}"
+                      *ngIf="listDataList.PreviewUrl" (click)="imagePreview(listDataList.PreviewUrl)">
+                      <img src="{{PreviewUrl}}" class="image cursor"  *ngIf="!listDataList.PreviewUrl" (click)="imagePreview(PreviewUrl)">
+                    <span class="spacer"></span>
+            </div>
+            
+            <div class="card-column two-column">
+              <div>
+                <div class="card-header">
+                  <strong>{{'label_mailName'|translate}}</strong>
+                </div>
+                <div class="card-data" id="org-img">
+                  <span class="cardListTxt word-wrap cursor" matTooltip=" {{ listDataList.UserFirstName }}  {{ listDataList.UserLastName}}"
+                  matTooltipClass="custom-tooltip">
+                  {{ listDataList.UserFirstName }}  {{ listDataList.UserLastName}}
+                </span>
+                </div>
+              </div>
+
+              <div>
+                <div class="card-header">
+                  <strong>{{'label_email'|translate}}</strong>
+                </div>
+                <div class="card-data" id="org-email">
+                  <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.UserEmail }}" matTooltipClass="custom-tooltip">
+                    {{ (listDataList.UserEmail.length>maxCharacterLengthName)? (listDataList.UserEmail | slice:0:maxCharacterLengthName)+'...':(listDataList.UserEmail) }}
+                   </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="corner-btns">
+              <button *appHasPermission="['Delete']" [disabled]="!(listDataList.SuperUser=='0')" mat-icon-button color="warn" id="btnDelete" 
+                (click)="DeleteAdmministratorInfo(listDataList.UserId)" matTooltip="{{'label_delete' | translate}}" matTooltipClass="custom-tooltip">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+
+          </div>
+        </mat-card>
+        <!-- card mode -->
+      </div>
+      <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+    </div>
+
+  </div>
+
+  <!-- <div class="list-container" infinite-scroll
+  [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pagesize" (scrolled)="onScrollDown()" [scrollWindow]="false">
+   
+    
+    <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+      <mat-card-subtitle class="subTitle">{{ (('label_administratorsSubHead' |translate).length>maxCharacterLengthSubHead)? (('label_administratorsSubHead' |translate) | slice:0:maxCharacterLengthSubHead)+'...':(('label_administratorsSubHead' |translate)) }}</mat-card-subtitle>
+      <div class="row mb-0 listHeader" id="listHeader" [class.hide]="isvisible">
+
+        <div class="col col-3 listActionBox">
+          <strong>&nbsp;</strong>
+        </div>
+
+        <div class="col col-1" (click)="onSort('UserFirstName')">
+        
+          <button mat-button [disableRipple]="true" id="administrator-Name">  <strong>{{'label_mailName'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'UserFirstName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'UserFirstName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+      
+          </button>
+          
+        </div>
+
+        <div class="col col-2" (click)="onSort('UserEmail')">
+    
+          <button mat-button [disableRipple]="true" id="administrator-email">     <strong>{{'label_email'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'UserEmail' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'UserEmail' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+      
+          </button>
+          
+        </div>
+      
+      </div>
+    </div>
+    <div class="listCardView" id="listCardView" [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']"
+      *ngIf="formtitle=='grid'" >
+      <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+        <div class="row">
+          <div class="col nodata" *ngIf="this.gridData==undefined ||this.gridData.length==0">
+            <span>{{'label_noRecordAvailable'|translate}}</span>
+          </div>
+          <div *ngIf="loadingPopup" class="list"></div>
+          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+            *ngFor="let listDataList of gridData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+            <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+              <mat-card-content class="listcardContent" [ngClass]="[ viewMode === 'cardMode' ? 'cardHeightWithImage' : 'pt-0 pb-0']">
+                 
+                  <div [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+                    <div class="cardModeLine">
+                      <img class="image cursor"  src="{{listDataList.PreviewUrl }}"
+                      *ngIf="listDataList.PreviewUrl" (click)="imagePreview(listDataList.PreviewUrl)">
+                      <img src="{{PreviewUrl}}" class="image cursor"  *ngIf="!listDataList.PreviewUrl" (click)="imagePreview(PreviewUrl)">
+                    <span class="spacer"></span>
+                  
+                    </div>
+                    <div class="row mb-5 mt-15">
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_mailName'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="org-img" >
+                          <span class="cardListTxt word-wrap cursor" matTooltip=" {{ listDataList.UserFirstName }}  {{ listDataList.UserLastName}}"
+                              matTooltipClass="custom-tooltip">
+                              {{ listDataList.UserFirstName }}  {{ listDataList.UserLastName}}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_email'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="org-email" >
+                          <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.UserEmail }}" matTooltipClass="custom-tooltip">
+                            {{ (listDataList.UserEmail.length>maxCharacterLengthName)? (listDataList.UserEmail | slice:0:maxCharacterLengthName)+'...':(listDataList.UserEmail) }}
+                           </span>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="go-corner">
+                      <button *appHasPermission="['Delete']" [disabled]="!(listDataList.SuperUser=='0')" mat-icon-button color="warn" id="btnDelete" 
+                      (click)="DeleteAdmministratorInfo(listDataList.UserId)" matTooltip="{{'label_delete' | translate}}" matTooltipClass="custom-tooltip">
+                      <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  
+                <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 's6 hide' : 'hide']"><strong>{{'label_productImage'|translate}}</strong></div>
+
+                      <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-3']">
+                        <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                       
+                        <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                        <button mat-menu-item id="btnDeleteList" [disabled]="!(listDataList.SuperUser=='0')" *appHasPermission="['Delete']"
+                          (click)="DeleteAdmministratorInfo(listDataList.UserId)">
+                          <mat-icon>delete</mat-icon>
+                          {{'label_delete' | translate}}
+                        </button>
+                        </mat-menu>
+                      </div>
+
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_mailName'|translate}}</strong>
+                  </div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                    <span class="cardListImg" [ngClass]="[ viewMode === 'cardMode' ? 'hide' : '']">
+                      <img src="{{listDataList.PreviewUrl}}" *ngIf="listDataList.PreviewUrl" (click)="imagePreview(listDataList.PreviewUrl)">
+                      <img src="{{PreviewUrl}}" *ngIf="!listDataList.PreviewUrl" (click)="imagePreview(PreviewUrl)">
+                    </span>
+                    <span class="cardListTxt word-wrap cardListImgWord" matTooltip="{{ listDataList.UserFirstName }}" matTooltipClass="custom-tooltip">
+                      {{ listDataList.UserFirstName }}  {{ listDataList.UserLastName}}
+                      </span>
+                  </div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_email'|translate}}</strong></div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.UserEmail }}" matTooltipClass="custom-tooltip">
+                      {{ (listDataList.UserEmail.length>maxCharacterLengthName)? (listDataList.UserEmail | slice:0:maxCharacterLengthName)+'...':(listDataList.UserEmail) }}
+                     </span>
+                  </div>
+                 
+                </div>
+                 
+              </mat-card-content>
+             
+            </mat-card>
+          </div>
+        </div>
+        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+      </div>
+    </div>
+     
+  </div> -->
+
+</mat-card>
+</mat-drawer-container>

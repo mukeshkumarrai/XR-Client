@@ -1,0 +1,31 @@
+// Xeople : Nitin Bhati : 29-01-2024 : folder html change change add new loader : EWM-15818,EWM-15835
+.folder-list-sec{
+    height: calc(65vh - 59px);
+    overflow: auto;
+    padding: 0px 5px 10px 0px;
+    .nodata{
+      display: block;
+      text-align: center;
+    }
+  }
+  .custWidgetCols {
+    margin-top: 10px;
+    border-radius: 8px;
+    padding: 0px 0px 0px 0px;
+    box-shadow: 0 0px 6px 0px rgb(0 0 0 / 22%);
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    .folder-toggle {
+      display: flex;
+      height: auto;
+      padding: 10px;
+    }
+    .folder-name-icon {
+      display: flex;
+    }
+  }
+  
+  .custWidgetCols:hover {
+    animation-duration: 0.3s;
+    box-shadow: 0 0px 12px 0px rgb(0 0 0 / 42%);
+  }

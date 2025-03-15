@@ -1,0 +1,95 @@
+<!---
+@(C): Entire Software
+@Type: File, <html>
+@Who: Adarsh singh
+@When: 19-05-2022
+@Why: EWM-6550 EWM-6696
+@What:  This component is used for add qualification from document page 
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<form [formGroup]="addSkillForm" id="addskill-people" class="skillsForm" applyTabIndexes>
+    <div class="quick-dialog">
+        <h2 mat-dialog-title *ngIf="actionType=='Add'"> {{'label_add' | translate}} {{'label_qualification' |
+            translate}} </h2>
+        <h2 mat-dialog-title *ngIf="actionType=='Edit'">{{'label_edit' | translate}} {{'label_qualification' |
+            translate}} </h2>
+
+        <mat-dialog-content>
+
+     <!-- who:maneesh,what:ewm-10553 apply  custom-dropdown   when:03/03/2023 -->
+
+            <div class="clear"></div>
+            <div class="col l6 m6 s12" id="Qualification">
+                <div class="ng-slectBox" id="slectBox">
+                    <app-custom-dropdown [selectedIn]="qualificationSelectedList" tabindex="14"
+                        [resetFormSubject]="resetFormSubjectQualification.asObservable()"
+                        (selectedOut)="onQualificationchange($event)"
+                        [config]="dropDownQualificationConfig">
+                    </app-custom-dropdown>
+                </div>
+            </div>
+     <!-- who:maneesh,what: comment this for ewm.10553  when:03/03/2023 -->
+
+            <!-- <mat-form-field class="manage-skill-list">
+                <mat-label>{{'label_qualification' | translate}}</mat-label>
+                <mat-chip-list #chipList aria-label="Skills selection" class="quick-chip-list">
+                    <mat-chip *ngFor="let selectedList of qualificationSelectedList  | slice:0:this.skillListLengthMore"
+                        [selectable]="selectable" [removable]="removable" (removed)="remove(selectedList.Id)">
+                        {{selectedList?.QualificationName}}
+                        <button mat-icon-button color="warn" matChipRemove *ngIf="removable">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip>
+                    <mat-chip *ngIf="qualificationSelectedList?.length > this.skillListLengthMore">
+                        <span class="ng-value-label" (click)="clickForMoreRecord()">{{qualificationSelectedList?.length
+                            -
+                            this.skillListLengthMore}} more...</span>
+                    </mat-chip>
+                    <input matInput placeholder="" #skillInput [formControl]="skillCtrl" [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [(ngModel)]="searchValue" (keyup)="onsearchSkills($event.target.value)" autocomplete="off">
+                    <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                </mat-chip-list>
+
+                <a mat-icon-button matSuffix class="dropdown-manage" target="_blank" color="primary" matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip"
+                    routerLink="./client/core/administrators/qualification" id="ManageBtn"
+                    (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+                    <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                      class="{{animationVar?.ManageButton?.isAnimClass}}">
+                        <mat-icon>subject</mat-icon>
+                        <mat-icon class="secondIcon">settings</mat-icon>
+                    </div>
+                </a>
+
+                <button mat-icon-button matSuffix class="refreshBtn radius-call" (click)="refreshComponent()"
+                    id="btnRefresh" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip"
+                    (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                    <mat-icon color="primary" id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">rotate_right</mat-icon>
+                </button>
+
+                <mat-autocomplete #auto="matAutocomplete" class="skills-name" (optionSelected)="selectedSkills($event)">
+                    <mat-option *ngFor="let qualificationData of searchskillList " [value]="qualificationData">
+                        {{qualificationData.QualificationName}}
+                        <span class="skill-data" *ngIf="qualificationData.IsTag=='1'">
+                            <mat-icon matBadge="{{skillCount}}" color="primary">local_offer</mat-icon>
+                        </span>                       
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field> -->
+
+        </mat-dialog-content>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addSkillForm.valid"
+            (click)="onConfirm()" id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+</form>

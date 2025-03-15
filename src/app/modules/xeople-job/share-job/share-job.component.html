@@ -1,0 +1,24 @@
+<ng-container applyTabIndexes>
+    <div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0"><img src="{{EOHLogo}}">{{'label_ShareJob' | translate}} </h2>
+    
+        <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content [ngClass]="!selectedMemberStatus? '' : 'member-dialog-content'">
+      Hi Nitin Bhati
+   <app-sharejob-client-member-order [candidateScreening]="candidateScreening" (sendPushApplicantMemberStatus)="sendPushApplicantMemberStatus($event)"></app-sharejob-client-member-order> 
+    </mat-dialog-content>
+    <mat-divider *ngIf="!selectedMemberStatus"></mat-divider>
+    <div mat-dialog-actions class="eoh-dialog-footer">
+        <div class="button-group">
+          <button mat-stroked-button color="warn" tabindex type="button" id="btnCancel" (click)="onDismiss()">
+            {{'button_cancel'|translate}}</button>
+          <button mat-stroked-button class="eoh-bg-button" tabindex color="primary" type="button" id="btnSave"  [disabled]="isFormValid" (click)="onSubmit()">
+            <!-- <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z"/></svg>  -->
+            <img src="{{EOHLogo}}">{{'label_ShareJob'|translate}}</button>
+        </div>
+    </div>
+    </ng-container>
+    

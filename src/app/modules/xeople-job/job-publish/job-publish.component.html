@@ -1,0 +1,95 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="publish-job-mat-card-header">
+        <mat-card-title *ngIf="Published===1||Published===2" class="ml-5">{{'label_editJob' |translate}}-{{JobTitle}} (Job Ref ID:{{jobRefId}})</mat-card-title>
+        <mat-card-title *ngIf="Published===0" class="ml-5">{{'label_publishJob' |translate}}</mat-card-title>
+        <span class="heading-spacer"></span>
+
+        <div class="actionButton" *ngIf="selectedIndex===0">
+         <button mat-stroked-button color="warn" tabindex type="button" id="btnCancel" (click)="oncancel()" class="buttonForDesktopMobile">
+            <mat-icon>close</mat-icon>
+             <span class="buttonTxt">{{'button_cancel' |translate}}</span>
+            </button>   
+          <button mat-stroked-button color="primary" tabindex type="button" id="btnSave" (click)="nextTab(this.addForm.value,1); checkTypeForRedirect()" 
+          [disabled]="formValidateStatusJobBoard" class="buttonForDesktopMobile"> 
+          <mat-icon>chevron_right</mat-icon>
+          <span class="buttonTxt">{{'label_continue'|translate}}</span>
+        </button>
+        </div>
+
+        <div class="actionButton" *ngIf="selectedIndex===1">
+            <button mat-stroked-button color="warn" tabindex type="button" id="btnCancel" (click)="oncancel()" class="buttonForDesktopMobile">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'button_cancel'|translate}}</span>
+            </button>    
+             <button mat-stroked-button color="primary" tabindex type="button" id="btnSave" (click)="nextTab(this.addForm.value,2); checkTypeForRedirect()" class="buttonForDesktopMobile" 
+             [disabled]="formValidateStatus"> 
+             <mat-icon>chevron_right</mat-icon>
+             <span class="buttonTxt">{{'label_continue'|translate}}</span>
+            </button>
+        </div>
+
+        <div class="actionButton" *ngIf="selectedIndex===2">
+            <button mat-stroked-button color="warn" tabindex type="button" id="btnCancel" (click)="oncancel()" class="buttonForDesktopMobile">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'button_cancel'|translate}}</span>
+            </button>    
+             <button mat-stroked-button color="primary" tabindex type="button" id="btnSave" (click)="movePublished()" class="buttonForDesktopMobile"  
+             [disabled]="formValidateStatus"> 
+             <mat-icon>publish</mat-icon>
+             <span class="buttonTxt">{{'label_publish'|translate}}</span>
+            </button>
+        </div>
+    </mat-card-header>
+   
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="publish-job-drawer"> 
+<mat-card class="component-card mat-elevation-z2 p-0" id="component-card">
+    <mat-card-content class="pb-0 mt-0">
+        <mat-tab-group class="candidate-tab publishJob-group" (selectedTabChange)="ActiveTab($event)" selectedIndex="{{selectedIndex}}" dir="{{positionMatTab}}">
+            <mat-tab label="0" disabled>
+                <ng-template mat-tab-label>
+                    <div (click)="clickIndexId(0)" class="tab-cover">
+                    <span class="step numbers">1</span> {{'label_selectJobBoard'|translate}}
+                    </div>
+                </ng-template>
+                <div class="row">
+                    <!---------@When: 16-03-2023 @who:Bantee Kumar @why: EWM-10959--------->
+                    <div class="col s12 m6 l3 mt-15" *ngFor="let jobBoard of dataListBoard">
+                         <button  class="tenantLogoBox center-align" (click)="onClickJobBoard(jobBoard?.Name.toLowerCase(),jobBoard?.LogoUrl)" [ngClass]="{'active': selectedName == jobBoard?.Name.toLowerCase()}"
+                        style="border: none; width: 100%;">
+                            <div class="tenantBox mat-elevation-z2">
+                              <mat-icon> task_alt </mat-icon>
+                              <div class="cltImgBox">
+                                <img src="{{jobBoard.LogoUrl}}" alt="{{jobBoard?.Name}}"/>
+                              </div>
+                            </div>
+                             </button>
+                    </div> 
+                </div>
+               </mat-tab>            
+            <mat-tab label="1" [disabled]='true' >
+                <ng-template mat-tab-label>
+                    <div (click)="clickIndexId(1)" class="tab-cover">
+                    <span class="numbers">2</span> {{'label_jobAddetails'|translate}}
+                 </div>
+                </ng-template>
+                    <app-job-add-details *ngIf="selectedName=='seek' && selectedIndex==1"   (tabOneEvent)="getDataFromAddJob($event)" [selectedIndexId]="selectedIndex"></app-job-add-details>
+                    <app-job-indeed *ngIf="selectedName=='indeed' && selectedIndex==1"   (tabOneEvent)="getDataFromAddJob($event)" [selectedIndexId]="selectedIndex"></app-job-indeed>
+            </mat-tab>
+
+            <mat-tab  [disabled]='true' >
+                <ng-template mat-tab-label>
+                    <div (click)="clickIndexId(2)" class="tab-cover">
+                    <span class="numbers">3</span> {{'label_previewNdPublish'|translate}}
+                    </div>
+                </ng-template>
+                <app-job-publish-details *ngIf="selectedIndexTabTwo=='2' && selectedName=='seek'" [selectedIndexId]="selectedIndexTabTwo"></app-job-publish-details>
+                <app-job-publish-indeed-details *ngIf="selectedIndexTabTwo=='2' && selectedName=='indeed'"[selectedIndexId]="selectedIndexTabTwo"></app-job-publish-indeed-details>
+            </mat-tab>
+        </mat-tab-group>  
+    </mat-card-content>
+</mat-card>
+</mat-drawer-container>

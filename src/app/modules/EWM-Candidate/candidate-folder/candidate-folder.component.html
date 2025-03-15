@@ -1,0 +1,179 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 19-Aug-2021
+    @Why: EWM-2494
+    @What:  This component is used for Quick add Candidate Folder templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<form id="addCandidateFolderId" applyTabIndexes>
+  <div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_AddtoFolder' | translate}}</h2>
+  </div>
+  <mat-dialog-content class="candidate-folder">
+    <div class="contentScroll">
+      <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+        <div class="row mb-0">
+          <div class="listCardViewButtonroup col l8 m6 s4">
+            <button mat-raised-button tabindex color="primary" id="btnAdd"
+              (click)="openQuickAddFolderModal('0','Add')">
+              {{'label_add' |translate}}
+            </button>
+          </div>
+          <div #search class="col l4 m6 s8">
+            <mat-form-field class="searchInput">
+              <mat-label>{{'label_search'|translate}}</mat-label>
+              <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="Search"
+                name="searchVal" [(ngModel)]="searchVal">
+              <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+              <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" id="btnClearFilterId"
+                (click)="onFilterClear()" (click)="searchVal=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row mb-0 listHeader pd-0" id="folder-listHeader" [class.hide]="isvisible">
+          <div class="col col-3 listActionBox">
+            <strong>&nbsp;</strong>
+
+          </div>
+          <div class="col col-1" (click)="onSort('FolderName')">
+            <button mat-button [disableRipple]="true" id="brands-Name">
+              <strong>{{'label_folderName'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'FolderName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'FolderName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+            </button>
+          </div>
+          <div class="col col-2" (click)="onSort('FolderOwner')">
+            <button mat-button [disableRipple]="true" id="folder-Status">
+              <strong>{{'label_owner'|translate}}</strong>
+              <mat-icon *ngIf="sortedcolumnName === 'FolderOwner' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+              <mat-icon *ngIf="sortedcolumnName === 'FolderOwner' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="listCardView" id="folderType-listCardView"
+        [ngClass]="[ viewMode === 'cardMode' ? 'cardViewContentMaxData card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']"
+        infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()"
+        [scrollWindow]="false">
+        <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+          <div class="row">
+            <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView.length==0">
+              <span>{{'label_NoData'|translate}}</span>
+            </div>
+            <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+              *ngFor="let listDataList of gridView;let i =index">
+              <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                <mat-card-content class="listcardContent"
+                  [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                  <!-----list data start------------>
+                  <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+                    <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-3']">
+                      <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                        <button mat-menu-item tabindex (click)="openQuickAddFolderModal(listDataList.FolderId,'Edit')"
+                          id="btnEditList">
+                          <mat-icon>edit</mat-icon>
+                          {{'label_edit'|translate}}
+                        </button>
+                        <button mat-menu-item tabindex id="btnDeleteList" (click)="DeleteFolderInfo(listDataList)">
+                          <mat-icon>delete</mat-icon>
+                          {{'label_delete'|translate}}
+                        </button>
+                      </mat-menu>
+                    </div>
+                    <div class="col cursor" (click)="clickFolderRouter(listDataList.FolderId,listDataList.FolderName)"
+                      [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                      <a class="cardListTxt word-wrap"
+                        matTooltip="{{listDataList.FolderName}}({{listDataList.Count}})"
+                        matTooltipClass="custom-tooltip">
+                        {{listDataList.FolderName}}(<strong>{{listDataList.Count}}</strong>)
+                      </a>
+                    </div>
+                    <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                      <span class="cardListTxt word-wrap" matTooltip="{{listDataList.FolderOwner}}"
+                        matTooltipClass="custom-tooltip">
+                        {{listDataList.FolderOwner}}
+                      </span>
+                    </div>
+                  </div>
+                  <!------list data end------->
+                </mat-card-content>
+
+              </mat-card>
+            </div>
+          </div>
+          <div class="listContent" style="display: none;">
+            <!-- <div *ngIf="loadingPopup" class="list"></div> -->
+            <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView.length==0">
+              <span>{{'label_noRecordAvailable'|translate}}</span>
+            </div>
+            <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+              *ngFor="let listDataList of gridView;let i =index">
+              <mat-card class="padding0" [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                <mat-card-content class="listcardContent"
+                  [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                  <!-----list data start------------>
+                  <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+                    <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-3']">
+                      <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                        <button mat-menu-item tabindex (click)="openQuickAddFolderModal(listDataList.FolderId,'Edit')"
+                          id="btnEditList">
+                          <mat-icon>edit</mat-icon>
+                          {{'label_edit'|translate}}
+                        </button>
+                        <button mat-menu-item tabindex id="btnDeleteList" (click)="DeleteFolderInfo(listDataList)">
+                          <mat-icon>delete</mat-icon>
+                          {{'label_delete'|translate}}
+                        </button>
+                      </mat-menu>
+                    </div>
+                    <div class="col cursor" (click)="clickFolderRouter(listDataList.FolderId,listDataList.FolderName)"
+                      [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                      <span class="cardListTxt word-wrap"
+                        matTooltip="{{listDataList.FolderName}}({{listDataList.Count}})"
+                        matTooltipClass="custom-tooltip">
+                        {{listDataList.FolderName}}(<strong>{{listDataList.Count}}</strong>)
+                      </span>
+                    </div>
+                    <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                      <span class="cardListTxt word-wrap" matTooltip="{{listDataList.FolderOwner}}"
+                        matTooltipClass="custom-tooltip">
+                        {{listDataList.FolderOwner}}
+                      </span>
+                    </div>
+
+
+
+                  </div>
+                  <!------list data end------->
+                </mat-card-content>
+
+              </mat-card>
+            </div>
+          </div>
+          <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+      {{'button_cancel'|translate}}</button>
+  </div>
+</form>

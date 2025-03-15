@@ -1,0 +1,105 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: Satya Prakash Gupta
+    @When: 14-May-2022
+    @Why:  EWM-6555 EWM-6704
+    @What:  This page will be use for the importantLinks question Component scss file
+*/
+@import "../../../../../../../mixinStyle.scss";
+.configure-application-card-sub-title{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    div{
+        font-weight: 500;
+        font-size: 16px;
+    }
+    .mat-raised-button{
+        background-color: #7fb734;
+    }
+}
+.move-cursor{
+    cursor: move;
+}
+.add-importantLinks-floating.mat-fab{
+    position: absolute;
+    bottom: 20px;
+    right: 8px;
+    background-color: #7fb734;
+    color: #fff;
+    z-index: 2;
+}
+.add-importantLinks-floating.mat-fab.mat-button-disabled{
+    background-color: rgba(0, 0, 0, 0.12);
+}
+.importantLinks-section{
+    overflow: auto;
+    padding: 3px;
+    padding-bottom: 70px;
+    height: calc(100% - 95px);
+}
+.label-with-radio {
+	.impt-data {
+		display: grid;
+		grid: auto/80px 5px calc(100% - 95px);
+		align-items: flex-start;
+		margin-bottom: 5px;
+		gap: 5px;
+		span {
+			font-weight: 500;
+			&:last-child {
+				font-weight: inherit;
+				word-break: break-word;
+			}
+		}
+	}
+}
+
+.importantLinks-section{
+    .importantLinks-mat-panel{
+        height: auto;
+        .knock-question{
+            padding: 15px 0px;
+            word-break: break-word;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            .mat-icon{
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                font-size: 20px;
+            }
+        }
+    }
+}
+.application-fade-sec{
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    // background: #0000004a;
+    z-index: 3;
+    cursor: not-allowed;
+}
+.documents-application-card-title{
+    .title{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        h3{
+            margin-top: 0px;
+            margin-bottom: 5px;
+            &:last-child{
+                font-weight: 500;
+            }
+        }
+    }
+    .sub-title{
+        p{
+            margin-top: 0px;
+        }
+    }
+}

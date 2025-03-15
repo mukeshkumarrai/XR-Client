@@ -1,0 +1,27 @@
+<!----@suika@EWM-10675 EWM-10947 comment cross icon-->
+<!-- @When: 27-03-2024 @who:Amit @what: different class use -->
+<ng-select class="countrySelect dropdown-body country-phone-code" #select
+[ngClass]="IsRequired? 'show-required' : ''"
+                placeholder="{{ placeholder!=''&& placeholder!=undefined ?(placeholder|translate):('label_countryCode'|translate)}}{{IsRequired?'':''}}"
+                appendTo="body"
+                [searchable]="false"
+                [disabled]="IsDisabled"
+                [clearable]="false"  
+                [closeOnSelect]="true"
+                [(ngModel)]="selectedIn"
+                [formControl]="selectedValue"
+                (change)="getValues()"  required={{IsRequired}}>
+                <ng-template ng-header-tmp>
+                    <label class="customNgSelect_searchHeadingTxt">{{'label_search' | translate}} {{'label_code' | translate}}</label>
+                    <input class="selectSearch" placeholder="{{'label_code' | translate}}" type="text" (input)="select.filter($event.target.value)"/>
+                </ng-template>
+                <!-- <ng-option [value]="0">{{'label_countryCode'|translate}}</ng-option> -->
+                <ng-option [value]="item.Id" *ngFor="let item of countryList">
+                    <img src="{{item.ImageUrl}}" width="20px" height="20px" class="listWithImage" />
+                    {{item.CountryCode}}
+                </ng-option>
+    </ng-select>   
+    <mat-error
+    *ngIf="selectedValue.hasError('required') && selectedValue.touched">
+    {{'label_code' |translate}} {{'label_errorreqired'|translate}}
+    </mat-error>

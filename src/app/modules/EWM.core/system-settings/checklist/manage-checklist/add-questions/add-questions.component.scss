@@ -1,0 +1,42 @@
+.mat-checkbox{
+    width: 100%;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.fileUpload{
+    bottom: 12px;
+    position: absolute;
+    cursor: pointer;
+    left: 24px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+}
+.uploadMultiple-files{
+    display: grid;
+    grid: auto/ 33% 33% 33%;
+    gap: 10px;
+    .matCardAttach{
+        height: 38px;
+        .matCloseIcon{
+            cursor: pointer;
+        }
+    }
+    .moreAttach{
+        cursor: pointer;
+    }
+    .email-attachment{
+        display: flex;
+        justify-content: space-between;
+        .file-detail{
+            display: block;
+            span{
+                display: block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}

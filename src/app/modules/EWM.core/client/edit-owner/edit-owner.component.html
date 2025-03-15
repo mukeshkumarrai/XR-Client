@@ -1,0 +1,58 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who:  Suika
+    @When: 03-Dec-2021
+    @Why:  EWM-3867
+    @What:  This component is used for manage access templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<div class="modal-header" id="edit-ownership-page">
+    <h2 matDialogTitle class="mb-0">{{'label_edit_ownership'|translate}}</h2> 
+</div>
+<mat-dialog-content>
+<div class="tagName" id="owner-name">
+    <mat-form-field class="searchInput">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="btnSearch" tabindex="2" (input)="onFilter($event.target.value)"
+          placeholder="{{''|translate}}" [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchValue" id="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+          (click)="searchValue=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+      <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+      <div class="tag-list-data">
+           <!-- who:maneesh,what:ewm.9126,when:24/01/2023 -->
+           <div class="col nodata center-align" *ngIf="this.gridListData==undefined ||this.gridListData.length==0">
+            <span>{{'lable_Record_not_found'|translate}}</span>
+            </div>
+        <button id="selectTag" [disabled]="team.IsCurrent==1"  class="owner-list mat-menu-item"  *ngFor="let team of gridListData" (click)="selectTeamList($event,team)" [ngClass]="{'selected':team.IsOwner===1}">
+                   <span>
+            <div class="userAvtaarAndName" style="height: auto; width: auto; min-width: auto; min-height: auto;">
+              <img src="{{team.PreviewUrl1}}" tabindex
+                *ngIf="team.ProfileImage!=null" class="gridImage circle">
+              <span  *ngIf="team.ProfileImage==null">{{sortName(team.EmployeeName,'')}}</span>
+            </div> 
+            {{team.EmployeeName}}
+          </span>
+          <mat-slide-toggle [disabled]="team.IsCurrent==1"  class="mat-slide-toggle" id="teams-preview-button_team.EmployeeId" (click)="selectTeamList($event,team)"
+          [checked]="team.IsOwner===1?'true':'false'" color="primary">
+        </mat-slide-toggle>
+         <!--<input type="checkbox" [disabled]="team.IsCurrent" tabindex="26" [(ngModel)]="team.IsOwner" (change)="selectTeamList($event,team)"  [checked]="team.IsOwner===1" class="overflow-control-input" id="teams-preview-button">      
+         --></button>
+      </div>
+      <div class="blank-height10" (click)="$event.stopPropagation();"></div>   
+  </div>  
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row mat-dialog-actions">
+    <button mat-stroked-button color="warn" tabindex type="button"   (click)="onDismiss()" id="btnCancel"> {{'button_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" [disabled]="updateListData.length==0" tabindex type="button" id="btnSave" (click)="UpdateTeamList()"> {{'label_save'|translate}}</button>
+     
+</div>

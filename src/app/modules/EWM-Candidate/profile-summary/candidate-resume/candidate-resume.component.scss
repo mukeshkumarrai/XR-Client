@@ -1,0 +1,114 @@
+// @When: 02-08-2023 @who:Amit @why: EWM-13667 @what: style change
+
+@import "../../../../../styles-var.scss";
+
+.candidate-resume-summary{
+  .resumeHeader {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    align-items: center;
+    h2{
+      font-weight: 500;
+      margin: 0px;
+      font-size: 18px;
+    }
+    .mat-raised-button{
+      padding: 0px 12px;
+      line-height: 30px;
+      font-size: 13px;
+      margin-inline-start: 5px;
+      @media only screen and (max-width: 770px) and (min-width: 320px){
+        padding: 0px 5px;
+        min-width: auto;
+      }
+    }
+  }
+  .resumeDownloadBtn {
+    text-decoration: none;
+    border-radius: 4px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    width: auto;
+    max-width: 36px;
+    transition: max-width 0.5s;
+    position: absolute;
+    right: 3px;
+    top: 60px;
+    z-index: 99999;
+    .buttonForDesktopMobile {
+      margin-left: 0px !important;
+      border-radius: 4px;
+    }
+    &:hover{
+      max-width: 120px;
+    }
+    .matIconDownload {
+      font-size: 20px;
+      display: unset !important;
+      text-align: center;
+      position: relative;
+      left: -8px;
+      @media screen and (min-width: 240px) and (max-width: 660px) {
+        left: 0px;
+      }
+    }
+  }
+  .buttonTxt {
+    white-space: nowrap;
+  }
+  .buttonForDesktopMobile.mat-raised-button{
+    .mat-icon{
+      @media only screen and (max-width: 770px) and (min-width: 320px){
+        display: inline-block;
+      }
+    } 
+    .buttonTxt{
+      @media only screen and (max-width: 770px) and (min-width: 320px){
+        display: none;
+      }
+    }
+  }
+
+  // new listing
+  .question-list-sec{
+    overflow-y: hidden;
+    height: 100%;
+    margin-bottom: 0px;
+    .new-data-list-header{
+      grid:auto/40px calc(25% - 40px) 25% 20% 30%;
+    }
+    .new-data-list-content{
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: calc(100vh - 470px);
+      .new-data-list-list{
+        grid:auto/40px calc(25% - 32px) 25% 20% 30%;
+        .new-data{
+          &:first-child{
+            padding:0px;
+            text-align: center;
+          }
+          .material-icons{
+            vertical-align: middle;
+          }
+        }
+        .new-data.right-align{
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep{
+  .resumeTab{
+    .mat-tab-header{
+      padding: 10px 10px 0px;
+    }
+  }
+}
+
+

@@ -1,0 +1,94 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: manage-groups.component.html
+  @Who: Renu
+  @When: 14-May-2021
+  @Why: ROST-1501
+  @What: For ADD/edit reasons in status- master
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<!-- who:maneesh,EWM-11425 for change label,when:21/03/2023, -->
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-reason-mat-card-header">
+        <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_add' |translate}} {{'label_reasonMaster' |translate}}</mat-card-title>
+        <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_edit' |translate}} {{'label_reasonMaster' |translate}}</mat-card-title>
+        <div class="actionButton">
+
+            <button mat-raised-button color="warn" tabindex="4" [routerLink]="['../reason']" [queryParams]="{GroupId:groupId,statusId: statusId,V:viewMode}" id="btnCancel"
+                class="buttonForDesktopMobile">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+            </button>
+            <button mat-raised-button tabindex="5" class="buttonForDesktopMobile" color="primary"
+                (click)="onSave(this.addReasonForm.value)" type="button" id="btnSave"
+                [disabled]="!addReasonForm.valid">
+                <mat-icon>check</mat-icon>
+                <span class="buttonTxt">{{'label_save'|translate}}</span>
+            </button>
+        </div>
+    </mat-card-header>
+   
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-reason-drawer">
+<mat-card class="component-card " id="component-card">
+    <div class="row addEditSec">
+        <ng-template #template let-anchor>
+            <span>{{ anchor.nativeElement.innerText }}</span>
+        </ng-template>
+        <form novalidate [formGroup]="addReasonForm" (ngSubmit)="onSave(this.addReasonForm.value)"
+            accept-charset="utf-8" enctype='multipart/form-data' class="col l12 m12 s12" id="reasons-formId">
+            
+            <div class="row mb-0">
+                <div class="col l8 m12 s12">
+                    <div class="row mb-0">
+                        <mat-form-field class="col l6 m6 s12">
+                            <mat-label>{{'label_ReasonDesc'|translate}}</mat-label>
+                            <textarea matInput formControlName="ReasonDescription" id="ReasonDescription"
+                                tabindex="1" placeholder="{{'label_ReasonDesc'|translate}}" required></textarea>
+
+                            <mat-error *ngIf="addReasonForm.controls['ReasonDescription'].hasError('required')">
+                                {{'label_ReasonDesc'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addReasonForm.controls['ReasonDescription'].hasError('maxlength')">
+                                {{'label_ReasonDesc'|translate}} {{'label_errormaxlength100'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    
+                        <div class="row mb-0">
+                        <div class="col l6 m6 s12 ">
+                            <div class="ng-slectBox">
+                                  <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data---->
+                                <ng-select placeholder="{{'label_status'|translate}}" [clearable]="false" class="show-required"
+                                    tabindex="2" formControlName="status" id="reason-status" required>
+                                    <!--Commented By Subhojit for bug no. EWM-6319 on 25-May-2022-->
+                                    <!--<ng-option value="">{{'label_status'|translate}}</ng-option>-->
+                                    <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">{{list.StatusName}}</ng-option>
+        
+                                </ng-select>
+
+                                <mat-error
+                                    *ngIf="addReasonForm.controls['status'].hasError('required') && addReasonForm.controls['status'].touched">
+                                    {{'label_status'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row mb-0">
+                        <div class="col l6 m6 s12">
+                            <mat-label class="toggle-label"><strong>{{'label_isbuiltIn' |translate}}:</strong>
+                            </mat-label>
+                            <mat-slide-toggle formControlName="IsBuiltIn" id="IsBuiltIn" tabindex="3"
+                                color="primary">
+                            </mat-slide-toggle>
+                        </div>
+                    </div> -->
+                </div>
+
+            </div>
+        </form>
+    </div>
+</mat-card>
+</mat-drawer-container>

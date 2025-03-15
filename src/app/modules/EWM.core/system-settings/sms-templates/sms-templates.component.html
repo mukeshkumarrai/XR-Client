@@ -1,0 +1,247 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 15-Dec-2020
+    @Why: ROST-487
+    @What:  This page wil be use only for the Sms template Component HTML
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="sms-template-mat-card-header">
+  <mat-card-title>
+    <div #revAdd #revAdd1 *ngIf="formtitle =='grid'">
+      <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_add'|translate}} {{'label_smsTemplate'|translate}}"
+      matTooltipClass="custom-tooltip" color="primary" id="btnAdd"
+      [routerLink]="['manage-sms-template']"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+      <mat-icon id="{{animationVar?.CreateButton?.id}}"
+        class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+    </button>
+    </div>
+    <div class="sub-title">
+    <span *ngIf="formtitle =='grid'">{{'label_smsTemplates' |translate}}</span>
+    <span *ngIf="formtitle =='Add'">{{'label_add' |translate}} {{'label_smsTemplate' |translate}}</span>
+    <span *ngIf="formtitle =='Edit' ">{{'label_edit' |translate}} {{'label_smsTemplate' |translate}}</span>
+  </div>
+
+  </mat-card-title>
+
+  <div class="header-action-button" id="sms-templates-actionButton" *ngIf="formtitle=='grid'">
+
+    <div class="header-form">
+      <!---------@When: 10-05-2023 @who:Amit @why: EWM-12353 @what: add float label--------->
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="sms-searchBox" (keyup)="onFilter($event)" placeholder="Search" [(ngModel)]="searchValue">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchFilterClear()"
+        (click)="searchValue=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      </mat-form-field>
+    </div>
+
+    <div class="group-header-button">
+
+      <!-- @When: 19-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+      <a mat-raised-button class="header-button" *ngIf="formtitle=='grid'" id="user-invitation-btnViewAudit"
+        [routerLink]="['../../system-settings/system-audit-log/',auditParameter]"
+        matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+      </a>
+
+     <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+     matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+     (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+     <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+        {{animationVar?.BarRotateButton?.iconName}}
+     </mat-icon>
+    </button>
+
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('listMode')" id="sms-viewModeInactive"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('cardMode')" id="sms-viewModeactive"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}}
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="header-action-button" id="user-roles-actionButton" *ngIf="formtitle=='Add' || formtitle=='Edit'">
+    <button mat-raised-button class="buttonForDesktopMobile" tabindex="8" color="warn" (click)="onCancel($event)"
+    id="btnCancel">
+    <mat-icon>close</mat-icon>
+    <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+  </button>
+
+  <button mat-raised-button class="buttonForDesktopMobile" color="primary" tabindex="7"
+    (click)="onSave(this.addUserSmsForm.value,this.activestatus)" type="button" id="btnSave"
+    [disabled]="!addUserSmsForm.valid">
+    <mat-icon>check</mat-icon>
+    <span class="buttonTxt">{{'label_save'|translate}}</span>
+  </button>
+
+  </div>
+
+</mat-card-header>
+
+<mat-drawer-container autosize id="sms-template-drawer-container" [ngClass]="viewMode === 'cardMode'?'page-container-cardview':'page-container-listcard'">
+  <mat-card class="mat-elevation-z2 listmode-card" id="component-card" *ngIf="viewMode === 'listMode'">
+  <mat-card-subtitle class="subTitle" *ngIf="viewMode === 'listMode'">{{ (('label_smsSubHead' |translate).length>maxCharacterLengthSubHead)? (('label_smsSubHead' |translate) | slice:0:maxCharacterLengthSubHead)+'...':(('label_smsSubHead' |translate)) }}</mat-card-subtitle>
+    <div class="kendo-grid-appearance without-column-popup system-email kendo-sms-template" *ngIf="formtitle=='grid'">
+      <ng-template #template let-anchor>
+        <span>{{ anchor.nativeElement.innerText }}</span>
+      </ng-template>
+  <div class="kendo-settings" kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+  (mouseover)="showTooltip($event)">
+  <kendo-grid #gridAdd #gridAdd1  id="emailTemplatesList"
+     [pageSize]="pagesize" [sort]="state.sort"  [pageable]="{buttonCount: 3,
+      info: true,
+      type: 'numeric',
+      pageSizes: true,
+      previousNext: true,
+      responsive: true}"  [pageSize]="state.take" [skip]="state.skip" [sort]="sort"
+    [sortable]="true" [groupable]="false"
+    [reorderable]="false" [resizable]="true" (dataStateChange)="dataStateChange($event)" [data]="data" [filterable]="false"
+    [columnMenu]="{ filter: false }" class="set-full-grid">
+
+
+    <kendo-grid-command-column [columnMenu]="false" title="" width="35" [resizable]="false"
+      [reorderable]="false"  class="listactionMenu">
+      <ng-template kendoGridCellTemplate let-dataItem>
+
+
+        <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+          <button mat-menu-item [routerLink]="['manage-sms-template']"
+          [queryParams]="{id: dataItem?.Id}" id="btnEditList">
+            <mat-icon>edit</mat-icon>
+            {{'label_edit'|translate}}
+          </button>
+          <button mat-menu-item id="btnDeleteList" (click)="DeleteSmsInfo(dataItem.Id,index)">
+            <mat-icon>delete</mat-icon>
+            {{'label_delete'|translate}}
+          </button>
+        </mat-menu>
+      </ng-template>
+    </kendo-grid-command-column>
+    <kendo-grid-column field="Title" title="{{'label_nameSmsTemplates' |translate}}" [columnMenu]="false"
+      >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="customer-name word-wrap ellipsisText"><span
+            class="cardListTxt word-wrap">{{ dataItem?.Title}}</span>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="ModuleName" title="{{'label_moduleName' |translate}}" [columnMenu]="false">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="customer-name word-wrap ellipsisText"><span
+            class="cardListTxt word-wrap">{{ dataItem?.ModuleName}}</span>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="Status" title="{{'label_templateStatus' |translate}}" [columnMenu]="false"
+    >
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <div class="customer-name word-wrap ellipsisText"><span
+          class="cardListTxt word-wrap">{{ dataItem?.Status}}</span>
+      </div>
+    </ng-template>
+  </kendo-grid-column>
+
+    <kendo-grid-column field="CreatedByName" title="{{'label_templateCreatedBy' |translate}}" [columnMenu]="false"
+      >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="customer-name word-wrap ellipsisText"><span
+            class="cardListTxt word-wrap">{{ dataItem?.CreatedByName}}</span>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  <ng-template kendoPagerTemplate let-totalPages="totalPages"
+  let-currentPage="currentPage">
+  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+  <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+  <kendo-pager-info></kendo-pager-info>
+  <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+</ng-template>
+  </kendo-grid>
+</div>
+
+    </div>
+  </mat-card>
+
+  <mat-card-subtitle class="subTitle" *ngIf="viewMode === 'cardMode'">{{ (('label_smsSubHead' |translate).length>maxCharacterLengthSubHead)? (('label_smsSubHead' |translate) | slice:0:maxCharacterLengthSubHead)+'...':(('label_smsSubHead' |translate)) }}</mat-card-subtitle>  
+  <div class="cardview-container sms-card-container" id="cardview-container" *ngIf="viewMode === 'cardMode'">
+    <mat-card class="grid-card-mode shop-card-mode" *ngFor="let listDataList of smslistData;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+        <div class="grid-card-access-data">
+          <span class="badge light-green">
+            <strong>{{listDataList.Status}}</strong>
+          </span>
+        </div>
+        <div class="grid-card-half-data" id="grid-card-half-data">
+          <div class="card-half-data">
+              <small>{{'label_nameSmsTemplates' | translate}}</small>
+              <span class="cardListTxt word-wrap" matTooltip=" {{listDataList.Title}}" matTooltipClass="custom-tooltip">
+                  {{listDataList.Title}}
+              </span>
+          </div>
+          <div class="card-half-data">
+            <small>{{'label_moduleName' | translate}}</small>
+            <span class="cardListTxt word-wrap" matTooltip="{{listDataList.ModuleName}}" matTooltipClass="custom-tooltip">
+                {{listDataList.ModuleName}}
+            </span>
+          </div>
+          <div class="card-half-data">
+              <small>{{'label_templateCreatedBy' | translate}}</small>
+              <span class="cardListTxt word-wrap" matTooltip="{{listDataList.ModuleName}}" matTooltipClass="custom-tooltip">
+                {{listDataList.CreatedByName}}
+              </span>
+          </div>
+        </div>
+        <div class="grid-card-mode-footer footer-fix without-person-user" id="grid-card-mode-footer">
+          <div class="button-group" id="button-group">
+
+            <button mat-icon-button color="primary" [routerLink]="['manage-sms-template']"
+            [queryParams]="{id: listDataList.Id}" id="btnEditList" matTooltipClass="card-list-tooltip" matTooltipPosition="before" 
+            matTooltip="{{'label_edit'|translate}}">
+              <mat-icon class="svg-icon" svgIcon="edit"></mat-icon>
+            </button>
+            <button mat-icon-button color="warn" class="delete-btn" id="btnDeleteList" (click)="DeleteSmsInfo(listDataList.Id,index)"
+            matTooltipClass="card-list-tooltip" matTooltipPosition="before" 
+            matTooltip="{{'label_delete'|translate}}">
+            <mat-icon class="svg-icon" svgIcon="delete"></mat-icon>
+            </button>
+          </div>
+        </div>
+    </mat-card>
+    <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+  </div>
+</mat-drawer-container>

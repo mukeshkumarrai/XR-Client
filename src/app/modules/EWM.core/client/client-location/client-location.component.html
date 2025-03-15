@@ -1,0 +1,137 @@
+<!-- 
+  @Type: File, <html>
+  @Name: candidate-job.component.html
+  @Who: Suika
+  @When: 18-nov-2021
+  @Why:EWM-3641 EWM-3840
+  @What: Job list of candidate
+  -->
+
+<div *ngIf="loading" class="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<div class="data-header candidate-data-header sticky">
+  <div class="filter-refresh">
+    <button mat-raised-button class="buttonForDesktopMobile" tabindex="1" color="primary" id="btnContinue"
+      (click)="addData()">
+      <mat-icon>add</mat-icon>
+      <span class="buttonTxt">{{ "label_add" | translate }}</span>
+    </button>
+  </div>
+  <div class="search-viewicon">
+    <mat-form-field class="searchInput">
+      <mat-label>{{'label_search'|translate}}</mat-label>
+      <input matInput id="btnSearch" tabindex="2" (input)="onFilter($event.target.value)"
+        placeholder="{{'label_search'|translate}}" [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}">
+      <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+      <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+        (click)="searchValue=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+    </mat-form-field>
+    <!-- <button mat-stroked-button color="primary" id="filterBtn" class="filterButton" (click)="openFilterModalDialog()" matTooltip="{{'label_filters'|translate}}" 
+     matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+      <mat-icon fontSet="material-icons-outlined">filter_alt</mat-icon>
+      <span class="badge text-overflow" id="clearBtn" *ngIf="filterCount!=0"
+        (click)="clearFilterData(viewMode)">{{filterCount}}
+        <mat-icon class="clearFilter">
+          close</mat-icon>
+      </span>
+    </button> -->
+    <!-- who:Bantee,why:ewm.11723 Two popup open on on click filter button ,when:10/04/2023 -->
+    <div class="button-with-clear">
+      <!-- @When: 27-09-2023 @who:Amit @why: EWM-14465 @what: add animation -->
+      <button mat-raised-button class="filterButton" id="moreFilter" (click)="openFilterModalDialog()"
+        [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" matTooltip="{{'label_filters'|translate}}"
+        matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.AssignFilterButton?.id, animationVar?.AssignFilterButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.AssignFilterButton?.id, animationVar?.AssignFilterButton?.animation)">
+        <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.AssignFilterButton?.id}}" class="{{animationVar?.AssignFilterButton?.isAnimClass}}">filter_alt
+        </mat-icon>
+      </button>
+      <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData(viewMode)">
+        <span class="text-overflow filterCount">{{filterCount}}</span>
+        <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="p-10" [ngClass]="[ viewMode === 'listMode' ? 'listMode' : 'hide']">
+  <!-- @Who: Satya Prakash Gupta ,@When: 21-April-2023, @Why: EWM-11977 EWM-11976 ,What: locked comumn false -->
+  <div class="kendo-table-container client-jobs-list locked-column-by-css">
+    <ng-template #template let-anchor>
+      <span>{{ anchor.nativeElement.innerText}}</span>
+    </ng-template>
+    <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+      (mouseover)="showTooltip($event)">
+      <!--@When: 02-11-2023 @who:Amit @why:EWM-15034 @what: class change -->
+      <kendo-grid [kendoGridBinding]="gridListData" [sortable]="true" [sort]="sort" [scrollable]="'virtual'"
+      [reorderable]="false" [resizable]="true" (sortChange)="sortChange($event)"
+      (scrollBottom)="pageChange($event)" class="set-full-grid">
+      <!-- --------@When: 26-APR-2023 @who:Adarsh singh @why: EWM-12059 -------- -->
+        <kendo-grid-column *ngFor="let column of columnsWithAction" [field]="column.Field"
+            [title]="column.Title |customTranslate" [width]="column.width"
+            [headerStyle]="column.ColumnAlignment=='Right' ?{'text-align': 'right'}:''"
+            [filter]="column.Type" [format]="column.Format">
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Type=='Action'">
+              <button mat-flat-button [matMenuTriggerFor]="listactionMenu" id="actionMoreBtn" class="dataActionButton">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                <button type="button" id="viewLocationbtn" [disabled]="isViewDisable" mat-menu-item
+                  (click)="viewData(dataItem.Id)">
+                  <mat-icon>arrow_forward_ios
+                  </mat-icon>
+                  {{'label_view_location'|translate}}
+                </button>
+  
+                <button mat-menu-item id="editBtn" [disabled]="isEditDisable"
+                  (click)="editData(dataItem.Id,dataItem.IsDefault)">
+                  <mat-icon>edit</mat-icon>
+                  {{'label_edit'|translate}}
+                </button>
+  
+                <button mat-menu-item id="deletebtn" (click)="deleteClientLocation(dataItem)"
+                  [disabled]="dataItem.IsDefault == 1">
+                  <mat-icon>delete</mat-icon>
+                  {{'label_delete'|translate}}
+                </button>
+              </mat-menu>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='LastUpdated'">
+              <span class="textRight" matTooltipClass="custom-tooltip">
+                {{dataItem.LastUpdated| date:userpreferences.timeformate:userpreferences.timezone}}</span>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='PhoneNo'">
+              <span class="textRight" matTooltipClass="custom-tooltip">
+                {{dataItem.PhoneNo}}</span>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='IsDefault'">
+              <mat-slide-toggle color="primary" [checked]="(dataItem.IsDefault==1)?1:0"
+                (change)="toggleVisibility($event.checked,dataItem)" [(ngModel)]="dataItem.IsDefault">
+              </mat-slide-toggle>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='IsDefault'">
+              <mat-slide-toggle color="primary" [checked]="(dataItem.IsDefault==1)?1:0"
+                (change)="toggleVisibility($event.checked,dataItem)" [(ngModel)]="dataItem.IsDefault">
+              </mat-slide-toggle>
+            </ng-template>
+        </kendo-grid-column>
+        <!-- End  -->
+      </kendo-grid>
+      <div *ngIf="loadingscroll" class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt top-75">
+      </div>
+    </div>
+  </div>
+</div>

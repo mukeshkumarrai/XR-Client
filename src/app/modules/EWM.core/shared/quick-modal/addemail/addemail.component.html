@@ -1,0 +1,106 @@
+<!---
+@(C): Entire Software
+@Type: File, <html>
+@Who: Satya Prakash Gupta
+@When: 21-May-2021
+@Why: EWM-1449 EWM-1583
+@What:  This component is used for Quick add email templates.
+-->
+<form [formGroup]="emailForm" id="emailFrom-people" applyTabIndexes>
+    <div class="quick-dialog quick-email">
+        <h2 mat-dialog-title class="mb-10">
+            {{'label_email' | translate}}
+        </h2>
+         <!--<span class="ng-slectBox ngSelectBoxFontSize" *ngIf="typeDuplicate">{{'lable_peopleMainEmail'|translate}}</span>
+       <span class="ng-slectBox ngSelectBoxFontSize" *ngIf="emailDuplicate"> {{ 'label_emailAddressInput' |translate}} {{'label_areadyExists'|translate}}</span>-->
+
+        <mat-dialog-content #target class="email-mat-dialog" id="email-mat-dialog">
+
+            <ng-container formArrayName="emailInfo">
+                <mat-card *ngFor="let email of emailInfo().controls; let i=index" [formGroupName]="i">
+                    <div class="email-details" id="email-details">
+                       
+                            <mat-form-field>
+                                <mat-label>{{'label_emailAddressInput' | translate}}</mat-label>
+                                <input type="text" tabindex formControlName="EmailId" id="EmailId{{i}}" matInput (blur)="checkforEmail(email.get('EmailId').value,i)"
+                                 placeholder="{{'label_emailAddressInput' | translate}}" required>
+                                <mat-error *ngIf="email.get('EmailId').errors?.required && email.get('EmailId').touched">
+                                    {{ 'label_emailAddressInput' |translate}} {{ 'label_errorreqired' |translate}}
+                                  </mat-error>
+                                  <mat-error *ngIf="email.get('EmailId').errors?.pattern && email.get('EmailId').touched">
+                                    {{ 'label_emailAddressInput' |translate}} {{ 'label_errorEmail' |translate}}
+                                  </mat-error>
+                                  <mat-error *ngIf="email.get('EmailId').errors?.maxlength && email.get('EmailId').touched">
+                                    {{ 'label_emailAddressInput' |translate}} {{ 'label_errormaxlength100' |translate}}
+                                  </mat-error>
+                                  <mat-error
+                                  *ngIf="email.get('EmailId').errors?.unique && email.get('EmailId').touched">
+                                  {{ 'label_emailAddressInput' |translate}} {{ 'label_errorunique' |translate}}
+                                </mat-error>
+         <!-- /*@Who: Bantee kumar,@When: 26-july-2023,@Why: EWM-13328,@What: Main Email id across system should be editable*/ -->
+
+                                <!-- <mat-error
+                                *ngIf="email.get('EmailId').errors?.nameTaken && email.get('EmailId').touched">
+                                {{'label_emailAddressInput'|translate}} {{'label_errorreqiredAlready'|translate}}
+                            </mat-error> -->
+                            </mat-form-field>
+                        
+                            <div class="ng-slectBox">
+                            <ng-select class="dropdown-body show-required" [clearable]="false"  appendTo="body" tabindex (change)="checkMainType($event,i)" placeholder="{{'label_templatetype' | translate}}" formControlName="Type" id="email-category{{i}}" [required]="true">
+            
+                                <ng-option *ngFor="let category of contactCategory" [disabled]="category.Name === 'Main' && isMainEmailIdOptionDisabled" [value]="category.Id">
+                                    {{category.Name}}
+                                
+                               </ng-option>
+                                    
+                            </ng-select>
+                            <mat-error *ngIf="email.get('Type').errors?.required && email.get('Type').touched">
+                            {{ 'label_templatetype' |translate}} {{ 'label_errorreqired' |translate}}
+                          </mat-error>
+                          <mat-error
+                          *ngIf="email.get('Type').errors?.unique && email.get('Type').touched">
+                          {{ 'label_templatetype' |translate}} {{ 'label_errorunique' |translate}}
+                        </mat-error>
+                        <mat-error
+                        *ngIf="email.get('Type').errors?.TypeTaken && email.get('Type').touched">
+                        {{'label_templatetype'|translate}} {{'label_errorreqiredAlready'|translate}}
+                    </mat-error>
+
+                               
+                          </div>
+        <!-- /*@Who: Bantee kumar,@When: 10-08-2023,@Why: EWM-13746,@What: Main Email Id should be dynamic*/ -->
+                       
+                        <div class="right-align">
+                            <button tabindex type="button" id="btnRemove" [disabled]="IsDisabled || emailInfo().controls.length==1"  *ngIf="(email.get('Type').value!=mainId)" mat-raised-button color="warn" class="remove-row"
+                                (click)="removeRow(i)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div> 
+                    </div>
+                    <!-- <span class="ng-slectBox ngSelectBoxFontSize" *ngIf="mainExistVal">{{'label_peoplecustomerr'|translate}}</span> -->
+
+                </mat-card>
+                <span class="ng-slectBox ngSelectBoxFontSize" *ngIf="mainExistVal">{{'label_peoplecustomerr'|translate}}</span>
+
+            </ng-container>
+            
+            <!-- <button mat-button type="button" *ngIf="!isAdd"  [disabled]="IsDisabled" tabindex id="btnSave-mul" color="primary" (click)="addEmailRow()">{{'label_add'|translate}}</button>
+                 -->
+
+        </mat-dialog-content>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+
+        <button mat-mini-fab color="primary" *ngIf="!showAddBtn" id="btnSave-mul" type="button" class="add-email" [disabled]="!emailForm.valid  || IsDisabled"
+         (click)="addEmailRow(target)" matTooltip="{{'label_add'|translate}} {{'label_email'|translate}}"
+        matTooltipPosition="left" (mouseenter)="mouseoverAnimation(animationVar?.AddEmailButtonDialog?.id, animationVar?.AddEmailButtonDialog?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.AddEmailButtonDialog?.id, animationVar?.AddEmailButtonDialog?.animation)">
+        <mat-icon id="{{animationVar?.AddEmailButtonDialog?.id}}" class="{{animationVar?.AddEmailButtonDialog?.isAnimClass}}">{{animationVar?.AddEmailButtonDialog?.iconName}}</mat-icon>
+    </button>
+
+        <button mat-stroked-button color="warn" tabindex type="button" id="btnCancel" (click)="onDismissemail()"> {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" id="btnSave"  [disabled]="!emailForm.valid || mainExistVal" (click)="onConfirmemail()"> {{'label_save'|translate}}</button>
+    </div>
+</form>

@@ -1,0 +1,313 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: styles.scss
+    @Who: Satya Prakash Gupta
+    @When: 10-Sep-2020
+    @Why:
+    @What: You can add global mixin to this file, and also import other style files
+*/
+
+@mixin single-add-button-style {
+  .selectTemplateOrCreatejob.mat-card{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px 10px;
+    cursor: pointer;
+    transition: all 0.25s;
+    .icon-box{
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 150px;
+      margin: 0px auto;
+      border-radius: 100%;
+      margin-bottom: 15px;
+      transition: all 0.25s;
+      background: #f5f5f5;
+      box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 22%) inset;
+      .mat-icon{
+        font-size: 62px;
+        height: 62px;
+        width: 62px;
+        line-height: 62px;
+        transition: all 0.25s;
+        color: $primary-bg-color;
+      }
+    }
+    &:hover .icon-box .mat-icon{
+      transform: scale(1.35);
+      transition: all 0.25s;
+    }
+    &:hover .icon-box{
+      box-shadow: 0px 0px 14px 0px rgb(0 0 0 / 42%) inset;
+      transition: all 0.25s;
+    }
+    &:hover{
+      transform: scale(1.05);
+      transition: all 0.25s;
+    }
+  }
+}
+
+@mixin buttonSepratorColor {
+  box-shadow: rgb(255 255 255 / 5%) 0 -5px 0px 0px inset;
+  background: -webkit-radial-gradient(
+    center,
+    ellipse cover,
+    rgba(41, 137, 216, 0.51) 30%,
+    rgba(30, 87, 153, 0.01) 73%,
+    rgba(30, 87, 153, 0) 74%,
+    rgba(30, 87, 153, 0) 80%
+  );
+  background: rgb(210, 210, 210);
+  background: -moz-linear-gradient(
+    180deg,
+    rgba(210, 210, 210, 1) 0%,
+    rgba(145, 145, 145, 1) 51%,
+    rgba(212, 212, 212, 1) 100%
+  );
+  background: -webkit-linear-gradient(
+    180deg,
+    rgba(210, 210, 210, 1) 0%,
+    rgba(145, 145, 145, 1) 51%,
+    rgba(212, 212, 212, 1) 100%
+  );
+  background: linear-gradient(
+    180deg,
+    rgba(210, 210, 210, 1) 0%,
+    rgba(145, 145, 145, 1) 51%,
+    rgba(212, 212, 212, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d2d2d2",endColorstr="#d4d4d4",GradientType=1);
+}
+.refreash.mat-raised-button {
+  &::after {
+    @include buttonSepratorColor;
+  }
+  &::before {
+    @include buttonSepratorColor;
+  }
+}
+
+// audit icon animation
+@mixin audit-icon-flash {
+  @keyframes flash {
+    0%, 50%, 100% {
+      opacity: 1;
+   }
+   25%, 75% {
+      opacity: 0;
+      color:$primary-bg-color;
+   }
+  }
+}
+// audit icon animation
+
+// zoom hover
+@mixin card-zoom-hover-1-06{
+  -ms-transform: scale(1.06);
+  /* IE 9 */
+  -webkit-transform: scale(1.06);
+  /* Safari 3-8 */
+  transform: scale(1.06);
+}
+@mixin card-zoom-time {
+    -webkit-transition: all .4s;
+    -moz-transition: all .4s;
+    -o-transition: all .4s;
+    transition: all .4s;
+}
+@mixin card-zoom-hover-1-05{
+  -ms-transform: scale(1.05);
+      /* IE 9 */
+      -webkit-transform: scale(1.05);
+      /* Safari 3-8 */
+      transform: scale(1.05);
+}
+// zoom hover
+
+// style mixin start here
+@mixin flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+@mixin grid {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+@mixin grid-between {
+  display: grid;
+  align-items: center;
+  justify-content: space-between;
+}
+// style mixin end here
+
+// grid extends start here
+.grid-10{
+  display: grid;
+  gap: 10px;
+}
+// grid extends ebd here
+
+// number max show start here
+@mixin number{
+  height: 16px;
+  line-height: 16px;
+  padding: 0px 4px;
+  border-radius: 3px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+// number max show end here
+
+// current color bg start here
+@mixin color-bg-after{
+  position: absolute;
+  content: "";
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: currentColor;
+}
+// current color bg end here
+
+
+// all media query start here
+
+/* small smartphones (portrait and landscape) ----------- */
+@mixin for-small-smartphones{
+  @media (min-width : 320px) and (max-width : 480px) { @content; }
+}
+/* Smartphones (portrait and landscape) ----------- */
+
+/* small smartphones (landscape) ----------- */
+@mixin for-small-smartphones-landscape {
+  @media (min-width : 320px) and (max-width : 480px) and (orientation : landscape) { @content; }
+}
+/* Smartphones (landscape) ----------- */
+
+/* smartphones (portrait and landscape) ----------- */
+@mixin for-smartphones {
+  @media (min-width : 481px) and (max-width : 640px) { @content; }
+}
+/* Smartphones (portrait and landscape) ----------- */
+
+/* smartphones (landscape) ----------- */
+@mixin for-smartphones-landscape {
+  @media (min-width : 481px) and (max-width : 640px) and (orientation : landscape)  { @content; }
+}
+/* Smartphones (landscape) ----------- */
+
+/* Large smartphones (portrait and landscape) ----------- */
+@mixin for-large-smartphones {
+  @media (min-width : 641px) and (max-width : 767px) { @content; }
+}
+/* Smartphones (portrait and landscape) ----------- */
+
+/* Large smartphones (landscape) ----------- */
+@mixin for-large-smartphones-landscape {
+  @media (min-width : 641px) and (max-width : 767px) and (orientation : landscape)  { @content; }
+}
+/* Smartphones ( landscape) ----------- */
+
+/* iPads (portrait and landscape) ----------- */
+@mixin for-ipads-portrait-landscape {
+  @media (min-width : 768px) and (max-width : 1024px) { @content; }
+}
+@mixin for-ipads {
+  @media (min-width : 768px) and (max-width : 1024px) { @content; }
+}
+/* iPads (portrait and landscape) ----------- */
+
+/* iPads (portrait and landscape) ----------- */
+@mixin for-ipads-landscape {
+  @media (min-width : 768px) and (max-width : 1024px) and (orientation : landscape)  { @content; }
+}
+/* iPads (portrait and landscape) ----------- */
+
+/* mat-icon button size 30/30 ----------- */
+@mixin mat-icon-button-25{
+  .mat-icon-button{
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    .mat-icon{
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+}
+@mixin mat-icon-button-35{
+  .addClientButton{
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    .mat-icon{
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+}
+
+@mixin mat-icon-button-size($button-size, $font-size){
+  .mat-icon-button{
+    width: $button-size;
+    height: $button-size;
+    line-height: $button-size;
+    .mat-icon{
+      width: 35px;
+      height: $button-size;
+      line-height: $button-size;
+      font-size: $font-size;
+      text-align: center;
+    }
+  }
+}
+
+@mixin mat-raised-button-height($button-height){
+  .mat-raised-button{
+    height: $button-height;
+    line-height: $button-height;
+    .mat-icon{
+      height: $button-height;
+      line-height: $button-height;
+    }
+  }
+}
+/* mat-icon button size 30/30 ----------- */
+
+// all media query end here
+
+// dark theme start here
+.dark-theme {
+    .refreash.mat-raised-button {
+        &::after {
+            background: #fff;
+        }
+        &::before {
+            background: #fff;
+        }
+    }
+}
+// dark theme end  here

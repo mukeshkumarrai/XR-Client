@@ -1,0 +1,119 @@
+/*
+  @(C): Entire Software
+  @Type: File, <css>
+  @Who: priti sri
+  @When:07-July-2021
+  @Why: EWM-1991
+  @What:  This page will be use for the System Audit log Component ts file
+*/
+
+@import "../../../../../mixinStyle.scss";
+
+.listHeader.sticky{
+  top: 50px;
+  min-width: 1220px;
+}
+.col-1{
+    width: 20%;
+}
+.col-2{
+    width: 22%;
+}
+.col-3{
+    width: 15%;
+}
+.col-4{
+    width: 40%;
+}
+.col-5{
+  width: 3%;
+  min-width: 30px;
+}
+.listActionBox{
+  position: sticky;
+  min-width: 30px;
+  padding: 0px;
+  text-align: center;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.search-results {
+  height: 300px;
+  overflow: auto;
+}
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+    height: 70px;
+}
+.maxData:hover {
+    height: 70px;
+}
+.clearIcon{
+  position: absolute;
+  right: -5px;
+  font-size: 18px;
+  top: 7px;
+}
+.auditLogFilter{
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 15px;
+}
+.list-infinite-scroll {
+  height: calc(100% - 125px);
+  overflow: auto;
+}
+.card-infinite-scroll {
+  height: calc(100% - 105px);
+  overflow: auto;
+}
+.dashboard-mat-card-header.mat-card-header{
+  .listGridButton{
+    .search-viewicon{
+      .mat-raised-button{
+        .mat-icon {
+          color: inherit;
+        }
+      }
+    }
+  }
+}
+.xeople-container-listing-without-breadCrumb.mat-drawer-container{
+  .component-card.mat-card{
+    // @When: 22-03-2023 @who:Amit @why: EWM-11249 @what:add media
+    @media only screen and (max-width: 1060px) and (min-width: 581px) {
+      height: calc(100% - 18px);
+    }
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100% - 36px);
+    }
+  }
+}
+.page-header.mat-card-header{
+  .header-action-button{
+    .header-form{
+      @include for-small-smartphones{
+        max-width: 125px;
+      }
+    }
+  }
+}
+.buttonForDesktopMobile.mat-raised-button{
+  @media only screen and (max-width: 660px) and (min-width: 320px){
+    padding: 0px 10px;
+  }
+}
+.page-header.mat-card-header{
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 55px;
+  }
+}

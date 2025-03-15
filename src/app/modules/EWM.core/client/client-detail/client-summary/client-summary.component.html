@@ -1,0 +1,650 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: client-summary.component.html
+    @Who: Nitin Bhati
+    @When: 22-Nov-2021
+    @Why: EWM-3929
+    @What:  This page wil be use only for the Client summary Component HTML
+-->
+
+<div class="client-summary common-card-summary" id="employee-summry">
+    <div class="summary-cards">
+      <div class="left-cards">
+        <mat-card id="candidate-general-information" class="summary-card matCardEmployee">
+          <mat-card-header [style.background-color]="background20">
+            <mat-card-title>{{'label_details' | translate}}</mat-card-title>
+            <span class="summryeheader-spacer"></span>
+            <button type="button" id="btnEdit3" mat-mini-fab mat-icon-button
+              matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}"
+              (click)="openQuickClientDetailsInfoModal()">
+              <mat-icon>
+                edit
+              </mat-icon>
+            </button>
+          </mat-card-header>
+
+          <div class="progress-loader-box" *ngIf="generalLoader">
+            <div class="progress-loader">
+                <div class="loaderBar"></div>
+            </div>
+          </div>
+
+          <mat-divider class="mt-0"></mat-divider>
+          <mat-card-content>
+            <div class="card-fadeloader" *ngIf="generalLoader"></div>
+            <div class="general-info-data">
+              <p>
+                <strong>{{'label_templateName' | customTranslate}}</strong>
+              </p>
+              <div>
+                <p>{{clientDetailsData?.ClientName}}</p>
+              </div>
+            </div>
+            <div class="general-info-data">
+              <p>
+                <strong>{{'label_industry' | customTranslate}}</strong>
+              </p>
+              <div>
+                <p *ngFor="let list of clientDetailsDataIndustry">{{list.Name}} </p>
+              </div>
+            </div>
+            <div class="general-info-data">
+              <p>
+                <strong>{{'label_subHeadSubIndustrypMaster' | customTranslate}}</strong>
+              </p>
+              <div>
+                <p *ngFor="let list of clientDetailsDataSubIndustry">{{list.Name}}</p>
+              </div>
+            </div>
+            <div class="general-info-data">
+              <p>
+                <strong>{{'label_brand' | translate}}</strong>
+              </p>
+              <div>
+                <p>{{clientDetailsData?.Brand}}</p>
+              </div>
+            </div>
+            <div class="general-info-data">
+              <p>
+                <strong>{{'label_templatetype' | translate}}</strong>
+              </p>
+              <div>
+                <p>{{clientDetailsData?.Type}}</p>
+              </div>
+            </div>
+            <div class="general-info-data">
+              <p>
+                <strong>{{'label_templateStatus' | translate}}</strong>
+              </p>
+              <div>
+                <p>{{clientDetailsData?.Status}}</p>
+              </div>
+            </div>
+            <div class="general-info-data">
+              <div >
+                <strong>{{'label_reasonMaster' | translate}}</strong>
+              </div>
+              
+              <div>
+                <p>{{clientDetailsData?.Reason}}</p>
+              </div>
+            </div>
+  
+            <div class="general-info-data">
+              <p>
+                <strong>{{'label_parentName' | translate}}</strong>
+              </p>
+              <div>
+                <p>{{clientDetailsData?.ParentName}}</p>
+              </div>
+            </div>
+           
+            <div class="general-info-data">
+              <p>
+                <strong>{{'label_Lead_Source_coloum' | customTranslate}}</strong>
+              </p>
+              <div>
+                <p>{{clientDetailsData?.LeadSourceName}}</p>
+              </div>
+            </div>
+            <div class="general-info-data">
+              <p>
+                <strong>{{'Lead_Generated_By' | customTranslate}}</strong>
+              </p>
+              <div>
+                <p>{{clientDetailsData?.LeadGeneratedbyName}}</p>
+              </div>
+            </div>
+            <div class="general-info-data">
+              <p>
+                <strong>{{'Lead_Generated_On' | customTranslate}}</strong>
+              </p>
+              <div *ngIf="clientDetailsData?.LeadGeneratedOn!=0">
+                <!-- <p>{{clientDetailsData?.LeadGeneratedOn}}</p> -->
+                <p>{{clientDetailsData?.LeadGeneratedOn|date:userpreferences.timeformate:userpreferences.timezone}}</p>
+              </div>
+            </div>
+            <div class="general-info-data">
+              <p>
+                <strong>{{'Lead_Workflow' | customTranslate}}</strong>
+              </p>
+              <div>
+                <p>{{clientDetailsData?.ClientWorkflowName}}</p>
+              </div>
+            </div>
+          
+           </mat-card-content>
+          <div class="resizeBarSec">
+            <div class="resizeBar"></div>
+            <div class="resizeBar"></div>
+          </div>
+        </mat-card>
+        <mat-card class="summary-card" id="candidate-addresses">
+          <mat-card-header [style.background-color]="background20">
+            <mat-card-title>{{'label_locationAddress' | translate}}</mat-card-title>
+            <span class="summryeheader-spacer"></span>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <!-- who:maneesh,what:ewm-14614 for hide total location found and count  when no location found,when:18/10/2023 -->
+            <a class="totalrecord cursor" *ngIf="clientLocationDataList!=null" (click)="openLocationTab()">{{'label_totalLocationFound' | translate}} {{LocationCount?.Count}}</a>
+            
+          <div class="progress-loader-box" *ngIf='addressLoader'>
+            <div class="progress-loader">
+                <div class="loaderBar"></div>
+            </div>
+          </div>
+
+
+          <mat-divider></mat-divider>
+        
+          <mat-card-content id="addressContent">
+            <div class="card-fadeloader" *ngIf="addressLoader"></div>
+            <!-- who:maneesh,what:ewm-14614 for hide view and delete btn when no location found,when:18/10/2023 -->
+            <div *ngIf="clientLocationDataList!=null">
+              <div class="row mb-10">
+                <div class="col s12 m9 l8">
+                 
+                  <p>{{clientLocationData?.AddressLinkToMap}}</p>
+                  <p>{{clientLocationData?.AddressLine1}}</p>
+                  <p>{{clientLocationData?.TownCity}}</p>
+                  <p>{{clientLocationData?.StateName}}</p>
+                  <p>{{clientLocationData?.CountryName}}</p>
+                  <p>{{clientLocationData?.ZipCode}}</p>
+                  <p>{{clientLocationData?.Longitude}}</p>
+                  <p>{{clientLocationData?.Latitude}}</p>
+                </div>
+                <div class="col s12 m3 l4 right-align candidateActionButton">
+            <!-- who:maneesh,what:ewm-14982 for redirect location tab,when:27/10/2023 -->
+                  <button type="button"  id="btnView3" color="primary" mat-icon-button matTooltipClass="custom-tooltip"
+                    matTooltip="{{'label_view'|translate}}" (click)="openLocationTab()">
+                    <mat-icon>
+                      arrow_forward_ios
+                    </mat-icon>
+                  </button>
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+            </div>
+            <!-- who:maneesh,what:ewm-14614 for no record found display,when:18/10/2023 -->
+            <div  *ngIf="clientLocationDataList==null">
+              <p class="mb-15 center-align">{{'label_noRecordAvailable' | translate}}</p>
+            </div>
+          </mat-card-content>
+          <div class="resizeBarSec">
+            <div class="resizeBar"></div>
+            <div class="resizeBar"></div>
+          </div>
+        </mat-card>
+  
+        <mat-card class="summary-card" id="client-description">
+          <mat-card-header [style.background-color]="background20">
+            <mat-card-title *ngIf="clientType!='LEAD'">{{'label_clientDescription' | customTranslate}}</mat-card-title>
+            <mat-card-title *ngIf="clientType=='LEAD'">{{'label_lead_description' | customTranslate}}</mat-card-title>
+            <span class="summryeheader-spacer"></span>
+            <button type="button" id="btnAdd1" (click)="openDescriptionModal('','add','')"
+              *ngIf="(this.descriptionList != undefined)&&(this.descriptionList != null)&&(this.descriptionList.length>0)"
+               mat-mini-fab matTooltipClass="custom-tooltip"
+              matTooltip="{{'label_add'|translate}}">
+              <mat-icon>
+                add
+              </mat-icon>
+            </button>
+          </mat-card-header>
+
+          <div class="progress-loader-box" *ngIf="loaderDependent">
+            <div class="progress-loader">
+                <div class="loaderBar"></div>
+            </div>
+          </div>
+
+
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <div class="card-fadeloader" *ngIf="loaderDependent"></div>
+            <div class="addSection"
+              *ngIf="(this.descriptionList == undefined)||(this.descriptionList == null)||(this.descriptionList.length==0)">
+              <p class="mb-15">{{'label_nodescription' | translate}}</p>
+              <button type="button" id="btnAdd2" (click)="openDescriptionModal('','add','')" color="primary" mat-raised-button
+                matTooltipClass="custom-tooltip">
+                <mat-icon>
+                  add
+                </mat-icon> {{'label_add' | translate}}
+              </button>
+            </div>
+            <div *ngFor="let data of descriptionList" class="candidate-panel" id="candidate-panel">
+
+
+              <mat-accordion class="candidate-accordion" id="candidate-accordion">
+                <mat-expansion-panel [expanded]="true" hideToggle="true" class="mb-10">
+                  <mat-expansion-panel-header #panelH (click)="panelH._toggle()" class="no-cursor panel-height">
+                    <mat-panel-title>
+                      <div class="title-data">
+                        <p [innerHTML]="data?.Description.length>1000?(data.Description.substring(0,999)).concat('...') :data.Description"></p>
+                      </div>
+                      <mat-panel-description class="mr-0">
+                        <div class="panelActionButton"> 
+                          <button mat-icon-button type="button" (click)="openDescriptionModal(data.Id,'view',data.Description)" id="btnView4"
+                            matTooltipClass="custom-tooltip" matTooltip="{{'label_view'|translate}}">
+                            <mat-icon color="primary">
+                              arrow_forward_ios
+                            </mat-icon>
+                          </button>
+                          <button mat-icon-button id="btnEdit4" type="button" (click)="openDescriptionModal(data.Id,'edit',data.Description)"
+                            matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}">
+                            <mat-icon color="primary">
+                              edit
+                            </mat-icon>
+                          </button>
+                          <button mat-icon-button type="button" id="btnDelete3" (click)="deleteDescription(data)"
+                            mat-icon-button matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}">
+                            <mat-icon color="warn">
+                              delete
+                            </mat-icon>
+                          </button>
+                        </div>
+                      </mat-panel-description>
+                    </mat-panel-title>
+                    
+                  </mat-expansion-panel-header>
+  
+                </mat-expansion-panel>
+              </mat-accordion>
+
+
+            </div>
+  
+          </mat-card-content>
+          <div class="resizeBarSec">
+            <div class="resizeBar"></div>
+            <div class="resizeBar"></div>
+          </div>
+        </mat-card>
+
+        <mat-card class="summary-card" id="candidate-folders" *ngIf="clientType !='LEAD'">
+          <mat-card-header [style.background-color]="background20">
+            <mat-card-title>{{"candidate_folders" | translate}} </mat-card-title>
+            <span class="summryeheader-spacer"></span>
+            <button type="button" id="btnAdd9"
+              *ngIf="(this.candidateFoldersData != undefined)&&(this.candidateFoldersData != null)&&(this.candidateFoldersData?.length>0)"
+               mat-mini-fab matTooltipClass="custom-tooltip"
+              matTooltip="{{'label_add'|translate}}" (click)="openQuickFolderModal()">
+              <mat-icon>
+                add
+              </mat-icon>
+            </button>
+          </mat-card-header>
+        
+  
+          <div class="progress-loader-box" *ngIf="folderLoader">
+            <div class="progress-loader">
+              <div class="loaderBar"></div>
+            </div>
+          </div>
+  
+          <mat-divider></mat-divider>
+          <mat-card-content id="folderContent" class="pr-30">
+            <div class="card-fadeloader" *ngIf="folderLoader"></div>
+            <div class="addSection"
+              *ngIf="(this.candidateFoldersData == undefined)||(this.candidateFoldersData == null)||(this.candidateFoldersData?.length==0)">
+              <p class="mb-15">{{'label_noFolderMappedYet' | translate}}</p>
+              <button type="button" id="btnAdd10" color="primary" mat-raised-button matTooltipClass="custom-tooltip"
+                (click)="openQuickFolderModal()">
+                <mat-icon>
+                  add
+                </mat-icon> {{'label_add' | translate}}
+              </button>
+            </div>
+            <div *ngFor="let data of candidateFoldersData">
+              <div class="row mb-10 folderList candidateJobsList">
+                <div class="col s12 m8 l9">
+                  <p>{{data?.FolderName}}</p>
+                  <p>{{data?.Description}}</p>
+                </div>
+                <div class="col s12 m4 l3 canididatebyAdded" [style.background-color]="background20">
+                  {{'label_addedBy' | translate}} <br>{{data?.FolderOwner}}
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+            </div>
+  
+          </mat-card-content>
+          <div class="resizeBarSec">
+            <div class="resizeBar"></div>
+            <div class="resizeBar"></div>
+          </div>
+        </mat-card>
+
+      </div>
+
+      <div class="right-cards">
+        <mat-card id="client-organization" class="summary-card" *ngIf="clientType !='LEAD'">
+          <mat-card-header [style.background-color]="background20" class="use-wrap">
+            <mat-card-title>{{'label_organizationSturcture' | translate}}</mat-card-title>
+            <span class="summryeheader-spacer"></span>
+
+            <div class="button-with-clear align-fil">
+              <button mat-stroked-button color="primary" id="filterBtn" class="more-filter" [disabled]="clientType=='LEAD'?true:false"
+               [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" 
+                (click)="openFilterModalDialog()" matTooltip="{{'label_filters'|translate}}"
+                 matTooltipClass="custom-tooltip">
+                <mat-icon fontSet="material-icons-outlined" >filter_alt</mat-icon>
+              </button>
+              <div class="clear-with-data" id="clearFilterBtn" *ngIf="filterCount!=0" (click)="clearFilterData(viewMode)">
+                <span class="text-overflow filterCount">{{filterCount}}</span>
+                <button mat-icon-button color="warn">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div> 
+            </div>
+            <button mat-mini-fab id="backBtn" color="primary" (click)="backOrgChartData()" [disabled]="clientType=='LEAD'?true:false">
+              <mat-icon fontSet="material-icons-outlined" 
+                matTooltip="{{'label_back'|translate}}" matTooltipClass="custom-tooltip">keyboard_backspace</mat-icon>             
+            </button>
+              <button mat-mini-fab id="refreshBtn" color="primary" (click)="reloadOrgChartData()" [disabled]="clientType=='LEAD'?true:false">
+                <mat-icon fontSet="material-icons-outlined" 
+                  matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip">refresh</mat-icon>             
+              </button>
+            <button type="button" id="btnDownload"              
+               mat-mini-fab matTooltipClass="custom-tooltip"
+              matTooltip="{{'label_download'|translate}}" (click)="downloadOrgStructure()" [disabled]="clientType=='LEAD'?true:false">
+              <mat-icon>
+                download 
+              </mat-icon>
+            </button>
+            <button type="button" id="btnView5"              
+               mat-mini-fab matTooltipClass="custom-tooltip"
+              matTooltip="{{'label_View'|translate}}" (click)="openOrganisationStructureModal()" [disabled]="clientType=='LEAD'?true:false">
+              <mat-icon>
+                open_in_new
+              </mat-icon>
+            </button>
+          </mat-card-header>
+
+          <div class="progress-loader-box" *ngIf="organisationLoader">
+            <div class="progress-loader">
+                <div class="loaderBar"></div>
+            </div>
+          </div>
+
+          
+          <mat-divider></mat-divider>
+          <mat-card-content id="experience-contentId">
+            <div class="card-fadeloader" *ngIf="organisationLoader"></div>
+          
+            <app-client-org #content (organisationInfo)="getOrganisationInfo($event)" [clientIdData]="clientIdData" [clientName]="clientName"></app-client-org>
+          </mat-card-content>
+          <div class="resizeBarSec">
+            <div class="resizeBar"></div>
+            <div class="resizeBar"></div>
+          </div>
+        </mat-card>
+        <mat-card id="client-business" class="summary-card matCardEmployee" *ngIf="clientType !='LEAD'">
+          <mat-card-header [style.background-color]="background20">
+            <mat-card-title>{{'label_bussinessRegistrationDetails' | translate}}</mat-card-title>
+            <span class="summryeheader-spacer"></span>
+            <button type="button" id="btnEdit5" mat-mini-fab mat-icon-button
+              matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}"
+              (click)="openBusinessRegistrationModal()">
+              <mat-icon>
+                edit
+              </mat-icon>
+            </button>
+          </mat-card-header>
+
+
+          <div class="progress-loader-box" *ngIf="businessLoader">
+            <div class="progress-loader">
+                <div class="loaderBar"></div>
+            </div>
+          </div>
+
+
+          <mat-divider class="mt-0"></mat-divider>
+          <mat-card-content>
+            <div class="card-fadeloader" *ngIf="businessLoader"></div>
+            <div class="row mb-10">
+              <div class="col s12 m5 l4">
+                <strong>{{'label_registeredName' | customTranslate}}</strong>
+              </div>
+              <div class="col s12 m7 l8">
+                <p *ngIf="!isRegisteredName">{{businessRegistrationData?.RegisteredName}}</p>
+                <p *ngIf="isRegisteredName">{{holdingCompany}}</p>
+              </div>
+            </div>
+            <div class="row mb-10">
+              <div class="col s12 m5 l4">
+                <strong>{{'label_tradingName' | customTranslate}}</strong>
+              </div>
+              <div class="col s12 m7 l8">
+                <p>{{businessRegistrationData?.TradingName}} </p>
+              </div>
+            </div>
+            <div class="row mb-10">
+              <div class="col s12 m5 l4">
+                <strong>{{'label_registrationNumber' | customTranslate}}</strong>
+              </div>
+              <div class="col s12 m7 l8">
+                <p>{{businessRegistrationData?.RegistrationNumber}}</p>
+              </div>
+            </div>
+            <div class="row mb-10">
+              <div class="col s12 m5 l4">
+                <strong>{{'label_companyNumber' | translate}}</strong>
+              </div>
+              <div class="col s12 m7 l8">
+                <p>{{businessRegistrationData?.CompanyNumber}}</p>
+              </div>
+            </div>
+            <div class="row mb-10">
+              <div class="col s12 m5 l4">
+                <strong>{{'label_businessType' | translate}}</strong>
+              </div>
+              <div class="col s12 m7 l8">
+                <p>{{businessRegistrationData?.BusinessType}}</p>
+              </div>
+            </div>
+           
+  
+          </mat-card-content>
+          <div class="resizeBarSec">
+            <div class="resizeBar"></div>
+            <div class="resizeBar"></div>
+          </div>
+        </mat-card>
+        <mat-card class="summary-card" id="candidate-email">
+          <mat-card-header [style.background-color]="background20">
+            <mat-card-title>{{'label_emailDetails' |translate}}</mat-card-title>
+            <span class="summryeheader-spacer"></span>
+            <button type="button" id="btnadd3" (click)="openEmailModal('Add','','')"
+              mat-mini-fab matTooltipClass="custom-tooltip" matTooltip="{{'label_add'|translate}}">
+              <mat-icon>
+                add
+              </mat-icon>
+            </button>
+          </mat-card-header>
+
+
+         
+
+          <div class="progress-loader-box" *ngIf="loaderAddInfo">
+            <div class="progress-loader">
+                <div class="loaderBar"></div>
+            </div>
+          </div>
+
+
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <div class="card-fadeloader" *ngIf="loaderAddInfo"></div>
+            <div class="addSection"
+            *ngIf="(this.emailData == undefined)||(this.emailData==null)||(this.emailData.length==0)">
+            <p class="mb-15">{{'label_noemailaddedyet' | translate}}</p>
+            <button type="button" id="btnAdd4" color="primary" (click)="openEmailModal('Add','','')" mat-raised-button matTooltipClass="custom-tooltip">
+              <mat-icon>
+                add
+              </mat-icon> {{'label_add' | translate}}
+            </button>
+          </div>
+          <div *ngFor="let data of emailData" class="candidate-panel" id="candidate-panel">
+
+            <mat-accordion class="candidate-accordion" id="candidate-accordion">
+              <mat-expansion-panel [expanded]="true" hideToggle="true" class="mb-10">
+                <mat-expansion-panel-header #panelH (click)="panelH._toggle()" class="no-cursor panel-height">
+                  <mat-panel-title>
+                    <div class="title-data">
+                      <p><strong>{{'label_type'|translate}} - {{data.EmailType}}</strong></p>
+                      <p class="pl-5">{{data.EmailId}}</p>
+                      <p class="pl-5">{{data.CreatedBy}}</p>
+                      <p class="pl-5">{{data.CreatedOn| date:userpreferences.dateformate}}</p>
+                    </div>
+                    <mat-panel-description class="mr-0">
+                      <div class="panelActionButton">
+                        <button mat-icon-button type="button" (click)="openEmailModal('view',data.Id,data)" id="btnView1"
+                          matTooltipClass="custom-tooltip" matTooltip="{{'label_view'|translate}}">
+                          <mat-icon color="primary">
+                            arrow_forward_ios
+                          </mat-icon>
+                        </button>
+        <!-- /*@Who: Bantee kumar,@When: 10-08-2023,@Why: EWM-13746,@What: Main Email Id should be dynamic*/ -->
+
+                        <button mat-icon-button id="btnEdit1" type="button" (click)="openEmailModal('edit',data.Id,data)"
+                          matTooltipClass="custom-tooltip"  matTooltip="{{'label_edit'|translate}}">
+                          <mat-icon color="primary">
+                            edit
+                          </mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" id="btnDelete4"  (click)="deleteEmail(data)"
+                          mat-icon-button matTooltipClass="custom-tooltip" *ngIf="data.EmailType != 'Main' " matTooltip="{{'label_delete'|translate}}">
+                          <mat-icon color="warn">
+                            delete
+                          </mat-icon>
+                        </button>
+                      </div>
+                    </mat-panel-description>
+                  </mat-panel-title>
+                  
+                </mat-expansion-panel-header>
+
+              </mat-expansion-panel>
+            </mat-accordion>
+
+           
+
+
+         
+        </div>
+          </mat-card-content>
+          <div class="resizeBarSec">
+            <div class="resizeBar"></div>
+            <div class="resizeBar"></div>
+          </div>
+        </mat-card>
+        <mat-card class="summary-card" id="client-phone">
+          <mat-card-header [style.background-color]="background20">
+            <mat-card-title>{{'label_phoneDetails' | translate}}</mat-card-title>
+            <span class="summryeheader-spacer"></span>
+            <button type="button"
+              *ngIf="(this.phoneData != undefined)&&(this.phoneData != null)&&(this.phoneData.length>0)"
+               mat-mini-fab matTooltipClass="custom-tooltip" (click)="openPhoneModal('Add','','','')"
+              matTooltip="{{'label_add'|translate}}">
+              <mat-icon>
+                add
+              </mat-icon>
+            </button>
+          </mat-card-header>
+
+
+
+          <div class="progress-loader-box" *ngIf="loaderPhone">
+            <div class="progress-loader">
+                <div class="loaderBar"></div>
+            </div>
+          </div>
+
+
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <div class="card-fadeloader" *ngIf="loaderPhone"></div>
+            <div class="addSection"
+              *ngIf="(this.phoneData == undefined)||(this.phoneData == null)||(this.phoneData.length==0)">
+              <p class="mb-15">{{'label_noPhoneAddedYet' | translate}}</p>
+              <button type="button" (click)="openPhoneModal('Add','','','')" color="primary" mat-raised-button
+                matTooltipClass="custom-tooltip">
+                <mat-icon>
+                  add
+                </mat-icon> {{'label_add' | translate}}
+              </button>
+            </div>
+            <!-- // add index let i=index ewm-18042 by maneesh when:25/10/2024 -->
+            <div *ngFor="let data of phoneData;let i=index" class="candidate-panel" id="candidate-panel">
+
+              <mat-accordion class="candidate-accordion" id="candidate-accordion">
+                <mat-expansion-panel [expanded]="true" hideToggle="true" class="mb-10">
+                  <mat-expansion-panel-header #panelH (click)="panelH._toggle()" class="no-cursor panel-height">
+                    <mat-panel-title>
+                      <div class="title-data">
+                        <p><strong>{{'label_type'|translate}} - {{data.PhoneTypeName}}</strong></p>
+                        <p class="pl-5">{{data.PhoneNumber}}</p>
+                        <p class="pl-5">{{data.CreatedBy}}</p>
+                        <p class="pl-5">{{data.Created| date:userpreferences.dateformate}}</p>
+                      </div>
+                      <mat-panel-description class="mr-0">
+                        <div class="panelActionButton">
+                          <button mat-icon-button type="button" (click)="openPhoneModal('view',data.Id,this.phoneData,i)" id="btnView2"
+                            matTooltipClass="custom-tooltip" matTooltip="{{'label_view'|translate}}">
+                            <mat-icon color="primary">
+                              arrow_forward_ios
+                            </mat-icon>
+                          </button>
+                          <button mat-icon-button id="btnEdit2" type="button" (click)="openPhoneModal('edit',data.Id,this.phoneData,i)"
+                            matTooltipClass="custom-tooltip" matTooltip="{{'label_edit'|translate}}">
+                            <mat-icon color="primary">
+                              edit
+                            </mat-icon>
+                          </button>
+                          <button mat-icon-button type="button" id="btnDelete1"  (click)="deletePhone(data)"
+                            mat-icon-button matTooltipClass="custom-tooltip" matTooltip="{{'label_delete'|translate}}">
+                            <mat-icon color="warn">
+                              delete
+                            </mat-icon>
+                          </button>
+                        </div>
+                      </mat-panel-description>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                </mat-expansion-panel>
+              </mat-accordion>
+              
+          </div>
+  
+          </mat-card-content>
+          <div class="resizeBarSec">
+            <div class="resizeBar"></div>
+            <div class="resizeBar"></div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  

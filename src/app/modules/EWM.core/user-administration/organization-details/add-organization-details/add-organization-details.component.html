@@ -1,0 +1,353 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 16-Nov-2020
+    @Why: ROST-404
+    @What:  This page wil be use only for the buynow Component HTML
+-->
+<!-- Entire Software : Renu : 20-Nov-2020 : Contact info : ROST-404 -->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  <!-- comment by adarsh singh the work will start sp22 EWM-5862 -->
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="organization-details-mat-card-header">
+    <mat-card-title class="only-title" *ngIf="actionType=='Add'">{{'label_add' |translate}} {{'label_organizationDetails' |translate}}</mat-card-title>
+    <mat-card-title class="only-title" *ngIf="actionType=='Edit'">{{'label_edit' |translate}} {{'label_organizationDetails' |translate}}</mat-card-title>
+
+   
+    <div class="actionButton" id="actionButton">
+      <button mat-raised-button class="buttonForDesktopMobile" tabindex="16" color="warn" [routerLink]="['../']"
+        id="btnCancel">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+      </button>
+      <button mat-raised-button class="buttonForDesktopMobile" tabindex="15" color="primary"
+        (click)="onSave(this.organizationFrom.getRawValue(),this.activestatus)" type="button" id="btnSave"
+        [disabled]="!organizationFrom.valid">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save'|translate}}</span>
+      </button>
+    </div>
+  
+  </mat-card-header>
+  
+  <mat-drawer-container class="xeople-container-with-one-card" autosize id="organization-details-drawer">
+  <mat-card class="component-card mat-elevation-z2" id="component-card">
+        <div class="kendo-table-container" id="kendo-table-container">
+            <ng-template #template let-anchor>
+              <span>{{ anchor.nativeElement.innerText }}</span>
+            </ng-template>
+            <form novalidate [formGroup]="organizationFrom" accept-charset="utf-8"
+              enctype='multipart/form-data' id="organization-form">
+              <!-- @when:23-Mar-2021 @who:Renu @why:EWM-1054  @What: issue of double loading while removing image -->
+              <!-- <div *ngIf="loading" class="k-i-loading loadercustom"></div> -->
+              <div class="kendodialof-body" id="kendodialof-body">
+                <div class="row">
+                  <mat-form-field class="col s12 m6 l4">
+                    <mat-label>{{'label_organizationName' |translate}}</mat-label>
+                    <input type="hidden" formControlName="OrgId" id="OrgId" name="OrgId">
+                    <input matInput placeholder="" tabindex="1" formControlName="OrganizationName" id="organization-name"
+                      required>
+                    <mat-error *ngIf="organizationFrom.get('OrganizationName').hasError('required')">
+                      {{'label_organizationName' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('OrganizationName').hasError('minlength')">
+                      {{'label_organizationName' |translate}} {{'label_errorminlength4' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('OrganizationName').hasError('maxlength')">
+                      {{'label_organizationName' |translate}} {{'label_errormaxlength50' |translate}}
+                    </mat-error>
+                  </mat-form-field>
+                  <div class="col l4 m6 s12">
+                    <div class="ng-slectBox">
+                      <!--@Nitin Bhtai,@EWM-13251,@when:31-07-2023, Handle countryList API Callingfrom custom drop-->
+                      <app-custom-ng-select [countryList]="countryList" [selectedIn]="selectedValue" [IsRequired]="true" id="Country_ID"
+                        (selectedOut)="ddlchange($event)"></app-custom-ng-select>
+                      <!--<ng-select [loading]="loading" [virtualScroll]="true" (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" placeholder="{{'label_country'|translate}}" tabindex="2"  [clearable]="true"  formControlName="Country_ID" 
+                    (keyup)="getsearchDataList($event)" id="organization-country" required> 
+                      <ng-option value="">Select Country</ng-option>
+                      <ng-option *ngFor="let country of countryList" [value]="country.id">{{country.name}}</ng-option>
+                   </ng-select>-->
+                      <div *ngIf="loadingPopup" class="k-i-loading inputSearch"></div>
+                      <!-- <mat-error 
+                        *ngIf="this.organizationFrom.controls['Country_ID'].hasError('required') && organizationFrom.controls['Country_ID'].touched">
+                        {{'label_country' |translate}} {{ 'label_errorreqired' |translate}}
+                      </mat-error> -->
+                    </div>
+                  </div>
+                  <!-- </mat-form-field> -->
+      
+                  <div class="col s12 m6 l4">
+                    <div class="row mb-0">
+                      <mat-form-field class="col s11 m11 l11">
+                        <mat-label>{{'label_addressLine1' |translate}}</mat-label>
+      
+                        <input matInput tabindex="3" placeholder="" formControlName="Address1" id="organization-address1"
+                          required>
+                        <mat-error *ngIf="organizationFrom.get('Address1').hasError('required')">
+                          {{'label_addressLine1' |translate}} {{'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="organizationFrom.get('Address1').hasError('minlength')">
+                          {{'label_addressLine1' |translate}} {{'label_errorreqiredMinlength' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="organizationFrom.get('Address1').hasError('maxlength')">
+                          {{'label_addressLine1' |translate}} {{'label_errormaxlength100' |translate}}
+                        </mat-error>
+                      </mat-form-field>
+      
+                      <div class="col s1 m1 l1 pd-0">
+                        <span class="material-icons cursor" matSuffix (click)="openDialogforAddressBar()">my_location </span>
+                      </div>
+      
+                    </div>
+      
+      
+                  </div>
+      
+      
+                  <mat-form-field class="col s12 m6 l4">
+                    <mat-label>{{'label_addressLine2' |translate}}</mat-label>
+                    <!--@who:priti;@why:EWM-4090;@when:9-dec-2021;@What:put required field-->
+                    <input matInput placeholder="" tabindex="4" formControlName="Address2" id="organization-address2" >
+                    <mat-error *ngIf="organizationFrom.get('Address2').hasError('required')">
+                      {{'label_addressLine2' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error> 
+                    <mat-error *ngIf="organizationFrom.get('Address2').hasError('minlength')">
+                      {{'label_addressLine2' |translate}} {{'label_errorreqiredMinlength' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('Address2').hasError('maxlength')">
+                      {{'label_addressLine2' |translate}} {{'label_errormaxlength100' |translate}}
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="col s12 m6 l4">
+                    <mat-label>{{'label_city' |translate}}</mat-label>
+                    <input matInput placeholder="" tabindex="5" formControlName="City" id="organization-city" required>
+                    <mat-error *ngIf="organizationFrom.get('City').hasError('required')">
+                      {{'label_city' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('City').hasError('minlength')">
+                      {{'label_city' |translate}} {{'label_errorreqiredMinlength' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('City').hasError('maxlength')">
+                      {{'label_city' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="col s12 m6 l4">
+                    <mat-label>{{'label_state' |translate}}</mat-label>
+                    <input matInput placeholder="" tabindex="6" formControlName="State" id="organization-state" required>
+                    <mat-error *ngIf="organizationFrom.get('State').hasError('required')">
+                      {{'label_state' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('State').hasError('minlength')">
+                      {{'label_state' |translate}} {{'label_errorreqiredMinlength' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('State').hasError('maxlength')">
+                      {{'label_state' |translate}} {{'label_errormaxlength50' |translate}}
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="col s12 m6 l4">
+                    <mat-label>{{'label_zipCodePostalCode' |translate}}</mat-label>
+                    <input matInput placeholder="" tabindex="7" formControlName="Zip" id="organization-zip" required>
+                    <mat-error *ngIf="organizationFrom.get('Zip').hasError('required')">
+                      {{'label_zipCodePostalCode' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('Zip').hasError('minlength')">
+                      {{'label_zipCodePostalCode' |translate}} {{'label_errorreqiredMinlength' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('Zip').hasError('maxlength')">
+                      {{'label_zipCodePostalCode' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('Zip').hasError('pattern')">
+                      {{'label_zipCodePostalCode' |translate}} {{'label_numericerr' |translate}}
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="col s12 m6 l4">
+                    <mat-label>{{'label_ABN' |translate}}</mat-label>
+                    <input matInput placeholder="" oninput="this.value = this.value.toUpperCase()" tabindex="8" formControlName="BRN" id="organization-brn" required>
+                    <mat-error *ngIf="organizationFrom.get('BRN').hasError('required')">
+                      {{'label_ABN' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('BRN').hasError('minlength')">
+                      {{'label_ABN' |translate}} {{'label_errorreqiredMinlength' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.get('BRN').hasError('maxlength')">
+                      {{'label_ABN' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="organizationFrom.controls['BRN'].hasError('pattern')">
+                      {{'label_ABN'|translate}} {{'label_errorpatternAlphanumeric'|translate}}
+                    </mat-error>
+                  </mat-form-field>
+      
+      
+                  <div class="col s12 m6 l4">
+                    <div class="row mb-0">
+                      <mat-form-field class="col s11 m11 l11">
+                        <mat-label>{{'label_key' |translate}}</mat-label>
+                        <input matInput placeholder="" tabindex="9" formControlName="Key" appUppercase id="organization-Key" (blur)="duplicayCheck()" required>
+                        <mat-error *ngIf="organizationFrom.get('Key').hasError('required')">
+                          {{'label_key' |translate}} {{'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="organizationFrom.controls['Key'].hasError('codeTaken')">
+                          {{'label_key'|translate}} {{'label_errorreqiredAlready'|translate}}
+                      </mat-error>
+                        <!-- <mat-error *ngIf="organizationFrom.get('Key').hasError('minlength')">
+                          {{'label_key' |translate}} {{'label_errorminlength2' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="organizationFrom.get('Key').hasError('maxlength')">
+                          {{'label_key' |translate}} {{'label_errorreqiredMaxlengthFive' |translate}}
+                        </mat-error> -->
+                        <mat-error *ngIf="organizationFrom.controls['Key'].hasError('pattern')">
+                          {{'label_key'|translate}} {{'label_keyValidation' |translate}} 
+                        </mat-error>
+                      </mat-form-field>
+      
+                      <div class="col s1 m1 l1 pd-0">
+                        <mat-icon class="infoIconStyle" [matMenuTriggerFor]="allJobStatus">info_outline</mat-icon>
+                        <mat-menu #allJobStatus="matMenu" xPosition="after" class="infoIconContentBox">
+                          <span class="material-icons headerDroupDownUp">
+                            arrow_drop_up
+                          </span>
+                          {{'msg1_helpIconOrg'|translate}}
+                          {{'msg2_helpIconOrg'|translate}}
+                        </mat-menu>
+                      </div>
+      
+                    </div>
+                  </div>
+      
+
+                  <div class="col s12 m6 l4">
+                        <!-- @When: 20-09-2023 @who:Amit @why: EWM-13995 @what: label flat -->
+                        <mat-form-field class="icon-withchip page-label-flat" tabindex>
+                            <mat-label>{{'label_email' | translate}}</mat-label>
+                            <!-- @Who: bantee ,@When: 11-april-2023, @Why: EWM-11809 ,What: pop up on input field-->
+                            <mat-chip-list #emailList aria-label="emails selection"  id="candidate-emailchiplist" required>
+                                <mat-chip *ngFor="let emaildata of emails" [selectable]="selectable" [removable]="removable"
+                                    (removed)="remove(emaildata,'email')">
+                                    <span class="chip-text" matTooltip="{{emaildata.email}} ({{emaildata.Name}})"
+                                    matTooltipClass="custom-tooltip">{{emaildata.email}} ({{emaildata.Name}})</span> 
+                                    <!-- who:maneesh,what:ewm-12031 for display cross icon when:21/04/2023 -->
+                                    <mat-icon color="warn" matChipRemove *ngIf="removable">cancel</mat-icon>
+                                    <!-- <span *ngIf="!(emaildata?.Name== 'Main')">
+                                      <mat-icon color="warn" matChipRemove *ngIf="removable">cancel</mat-icon>
+                                    </span> -->
+                                </mat-chip>
+                                <!-- <input placeholder="" #emailInput [formControl]="fruitCtrl" [matChipInputFor]="chipList"
+                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"> -->
+                                    <input readonly (click)="addEmail()"
+                                    [matChipInputFor]="emailList">
+                            </mat-chip-list>
+                            <mat-icon matPrefix class="matPrefix-icon">email</mat-icon>
+                            <button tabindex id="candidate-addbtn-Email" mat-raised-button matSuffix color="primary" type="button" class="matSuffix-icon"  (click)="addEmail()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                            
+                        </mat-form-field>
+                        <div class=" ng-slectBox">
+                        <mat-error *ngIf="this.organizationFrom.controls['emailmul'].hasError('required')">
+                            {{ 'label_email' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                    </div>
+                </div>
+
+                <div class="col s12 m6 l4">
+                   <!-- @When: 20-09-2023 @who:Amit @why: EWM-13995 @what: label flat -->
+                    <mat-form-field class="icon-withchip page-label-flat place-form-field">
+                      <mat-label>{{'label_phone' | translate}}</mat-label>
+                      <!-- @Who: bantee ,@When: 11-april-2023, @Why: EWM-11809 ,What: pop up on input field-->
+                      <mat-chip-list #phoneList aria-label="phone selection" tabindex>
+                        <mat-chip *ngFor="let number of phone" [selectable]="selectable" id="phonechiplist"
+                          [disabled]="matchipDisabled" [removable]="removable" (removed)="remove(number,'phone')">
+                          <span class="chip-text" matTooltip="{{number.PhoneNumber}} ({{number.Name}})"
+                                    matTooltipClass="custom-tooltip">
+                          {{number.PhoneNumber}} ({{number.Name}})
+                          </span>
+
+                          <!-- {{number.TypeName != '' ? (number.TypeName): ''}}
+                          {{number.Name != '' ? (number.Name): ''}} -->
+                          <span *ngIf="!(number?.Name== 'Main')">
+                            <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                          </span>
+                        </mat-chip>
+                        <input readonly (click)="addPhone()"
+                                  [matChipInputFor]="phoneList">
+                      </mat-chip-list>  
+                      <mat-icon matPrefix class="matPrefix-icon">phone</mat-icon>
+                      <button tabindex mat-raised-button matSuffix color="primary" type="button" class="matSuffix-icon"
+                        id="btnAdd-company" (click)="addPhone()">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </mat-form-field>
+                </div>
+
+                <div class="col s12 m6 l4">
+                  <div class="row mb-0">
+                    <mat-form-field class="col s11 m11 l11">
+                      <mat-label>{{'label_OrgCareerWebsiteURL' |translate}}</mat-label>
+                      <input matInput placeholder="http://" formControlName="CareerSiteURL" appLowercase id="career-url" (blur)="duplicayCheckCareerUrl()">
+                     <mat-error *ngIf="this.organizationFrom.controls['CareerSiteURL'].hasError('pattern') && !organizationFrom.controls['CareerSiteURL'].hasError('codeTakenUrl') && !organizationFrom.controls['CareerSiteURL'].hasError('maxlength')">
+                      {{ 'label_OrgCareerNotValidURL' |translate}}
+                      </mat-error>     
+                      <mat-error *ngIf="organizationFrom.controls['CareerSiteURL'].hasError('codeTakenUrl') && !this.organizationFrom.controls['CareerSiteURL'].hasError('pattern') && !organizationFrom.controls['CareerSiteURL'].hasError('maxlength')">
+                        {{ 'label_OrgCareerNotValidURL' |translate}}
+                    </mat-error>   
+                    <mat-error *ngIf="organizationFrom.controls['CareerSiteURL'].hasError('maxlength') && !organizationFrom.controls['CareerSiteURL'].hasError('codeTakenUrl') && !this.organizationFrom.controls['CareerSiteURL'].hasError('pattern')">
+                      {{'label_OrgCareerWebsiteURL' |translate}} {{'label_errorreqiredMaxlength253' |translate}}
+                    </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                </div>
+                <mat-divider></mat-divider>
+                <div class="row">
+                  <div class="col s6 m6 l4 left-align  cardBottomSpaceOnMobile">
+      
+                    <mat-card class="p-15 matCardWidth margin0">
+                      <h2 class="cardSubTitle txtCenter fontWeight500" id="cardSubTitle">{{'label_organizationLogo'
+                        |translate}}</h2>
+                      <small>{{'label_logoSizeInfo' |translate}}</small>
+      
+                      <div class="uploadImage">
+                        <span class="uploadTxt" *ngIf="!imagePreviewStatus">
+                          <img class="uploadImgIcon" src="/assets/uploadFileIcon.png" />
+                          <!-- Entire Software : priti srivastava : 29-Jan-2021 :  image crop : EWM-589 EWM-681 -->
+                          <button mat-button (click)="croppingImage('1')" tabindex="10" type="button"
+                            id="btnCropImage">{{'label_browseFileToUpload' |translate}}</button>
+                          <!-- Entire Software : Satya Prakash Gupta : 20-Jan-2020 : language file add : EWM-589 EWM-731 -->
+                          <!-- <button mat-button (click)="fileInput.click()" type="button">{{'label_browseFileToUpload' |translate}}</button> -->
+                          <!-- Entire Software : Satya Prakash Gupta : 20-Jan-2020 : language file add : EWM-589 EWM-731 -->
+                          <!-- <input hidden  (change)="selectFile($event)" required #fileInput type="file" id="file"> -->
+                        </span>
+                        <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+                        <div class="previewImage" *ngIf="imagePreviewStatus">
+                          <img src="{{filePatImagePreview}}" tabindex="11" *ngIf="filePatImagePreview"
+                            (click)="openDialog(filePatImagePreview)" />
+                          <!-- <img src="../../../../assets/logo1.png" /> -->
+                          <div class="removeImage">
+                            <!-- Entire Software : priti srivastava : 29-Jan-2021 : image crop : EWM-589 EWM-681 -->
+                            <button mat-mini-fab (click)="croppingImage('1')" tabindex="12" type="button" color="primary"
+                              id="btnrestorepreview">
+                              <!-- <button mat-icon-button (click)="fileInput.click()" type="button" color="primary" id="restorepreview">
+                           <input hidden  (change)="selectFile($event)" required #fileInput type="file" id="file"> -->
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-mini-fab color="warn" tabindex="13" (click)="removeImage()" id="btnCancelImage">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card>
+      
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- </kendo-dialog> -->
+        </div>
+  </mat-card>
+  </mat-drawer-container>

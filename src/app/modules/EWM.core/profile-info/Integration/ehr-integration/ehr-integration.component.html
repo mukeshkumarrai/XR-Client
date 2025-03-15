@@ -1,0 +1,785 @@
+<!---
+    @(C): Entire Software
+    @Type: ehr-integration.component.html File, <html>
+    @Who: Bantee Kumar
+    @When: 1-sep-2023
+    @Why: EWM-13705 EWM-13864
+    @What:  This page is creted for EHR feature integration Integration UI Component HTML
+-->
+
+<div *ngIf="loading" class="logo-loader" id="eoh-logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="page-header" id="eoh-integration-mat-card-header">
+    <mat-card-title class="only-title ml-5">{{'label_partners' |translate}} </mat-card-title>
+    <div class="header-action-button" id="eoh-tenant-feature-actionButton">
+        <div class="group-header-button" id="group-header-button">
+            <button mat-raised-button id="eoh-backtointegrations" class="header-button"
+                matTooltip="{{'label_backtointegrations'|translate}}" matTooltipClass="card-list-tooltip"
+                matTooltipPosition="before" (click)="backToJob()">
+                <mat-icon>keyboard_backspace</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-card-header>
+
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="eoh-integration-drawer">
+    <mat-card class="seek-mat-card component-card mat-elevation-z2" id="eoh-mat-card">
+        <div class="showAccessSection" id="eoh-showAccessSection">
+            <mat-card class="interfaceBoardContainer mat-elevation-z0" id="eoh-interfaceBoardContainer">
+                <div class="row seekIntegrationSection" id="eoh-IntegrationSection">
+                    <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add id----->
+                    <div class="seekbox mb-15" id="ehr-seekbox">
+                        <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add id----->
+                        <div class="seekButtonBox" id="ehr-integration-box">
+                            <div class="integration-header" id="integration-header">
+                                <div class="integration-header-image" id="integration-header-image">
+                                    <img src="{{gridViewList?.LogoUrl}}" />
+                                </div>
+                                <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add id----->
+                                <div class="integration-header-data" id="integration-header-data">
+
+                                    <button mat-stroked-button *ngIf="isCreateMode" id="eoh-getStartedId"
+                                        class="greenColorBtn" (click)="openEohFormData('Add')">
+                                        <span class="buttonTxt">{{'label_getStarted' |translate}}</span>
+                                    </button>
+                                    <button mat-stroked-button *ngIf="visibilityStatus" id="eoh-getDisconnectId"
+                                        class="warnColorBtn" (click)="disconnectPopUp()">
+                                        {{'label_emailDisconnect' |translate}}
+                                    </button>
+                                    <button mat-stroked-button [ngClass]="[ activeUpdatebtn==true ? 'btn-active' : '']"
+                                        *ngIf="visibilityStatus" id="eoh-getUpdateId" class="greenColorBtn"
+                                        (click)="openEohFormData('edit')">
+                                        {{'label_updateSettings' |translate}}
+                                    </button>
+                                    <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: class change----->
+                                    <button mat-stroked-button
+                                        [ngClass]="[ activeSubsFeatuBtn==true ? 'btn-active' : '']"
+                                        *ngIf="visibilityStatus" id="eoh-SubscribeFeatures" class="primaryColorBtn"
+                                        (click)="subscribeFeatures()">
+                                        {{'lable_marketplace_ehr_SubscribeFeatures' |translate}}
+                                    </button>
+
+                                    <span class="profileBuildBtn" *ngIf="isCreateMode" id="eoh-tenantFeatureTag">
+                                        <mat-icon>local_offer</mat-icon>
+
+                                    </span>
+
+
+                                </div>
+
+                            </div>
+                            <div *ngIf="showEohFormData">
+                                <h4>{{'lable_marketplace_ehr_Configuration' |translate}}</h4>
+                                <p>{{'lable_marketplace_ehr_ValidationKeys' |translate}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div *ngIf="showTabData">
+                        <div id="eoh-ContentSectionBox" class="seekContentSectionBox">
+                            <p class="mb-0">{{gridViewList?.Description}}</p>
+                        </div>
+                        <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: class add & id----->
+                        <div class="integration-contentsection" id="integration-contentsection">
+                            <div class="user-invitaion tab-container margin0" id="user-invitaion-eoh">
+                                <mat-tab-group id='eoh-tenantFeature-userinvitation-mtg' class="seekTab">
+                                    <mat-tab class="seek-tab" id="eoh-tenantFeature-Snap">
+                                        <ng-template mat-tab-label matRippleDisabled="disabled">
+                                            {{'label_snaps' | translate}}
+                                        </ng-template>
+                                        <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0"
+                                            [navigation]="true" id="eoh-tenantFeature-swipperSnap"
+                                            [ngClass]="screenPreviewClass" class="urOrderList">
+                                            <ng-template class="carousel-cell"
+                                                *ngFor="let images of gridViewList?.IntegrationImages" swiperSlide>
+                                                <div id="eoh-tenantFeature-image" class="stageListItems">
+                                                    <img src="{{images.ImageUrl}}" />
+                                                </div>
+                                            </ng-template>
+                                        </swiper>
+                                    </mat-tab>
+                                    <mat-tab id="eoh-tenantFeature-Video">
+                                        <ng-template mat-tab-label matRippleDisabled="disabled">
+                                            {{'label_video' | translate}}
+                                        </ng-template>
+                                        <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0"
+                                            [navigation]="true" id="eoh-tenantFeature-swipperVideo"
+                                            [ngClass]="screenPreviewClass" class="urOrderList">
+                                            <ng-template class="carousel-cell" swiperSlide>
+                                                <div class="stageListItems" id="eoh-tenantFeature-swipperVideoUrl">
+                                                    <video class="videoHeight" width="100%" controls>
+                                                        <source src="{{gridViewList?.VideoUrl}}" type="video/mp4">
+                                                        <source src="{{gridViewList?.VideoUrl}}" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
+                                            </ng-template>
+                                        </swiper>
+                                    </mat-tab>
+                                    <mat-tab id="eoh-tenantFeature-contactDetail">
+                                        <ng-template mat-tab-label matRippleDisabled="disabled">
+                                            {{'label_contactDetails' |translate}}
+                                        </ng-template>
+                                        <mat-card class="contactDetailsSection">
+
+                                            <div id="eoh-tenantFeature-locationName" class="contact-details">
+                                                <p>{{'label_locationName' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewList?.IntegrationLocations?.LocationName?gridViewList?.IntegrationLocations?.LocationName:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div id="eoh-tenantFeature-locationType" class="contact-details">
+                                                <p>{{'label_locationType' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewList?.IntegrationLocations?.LocationType?gridViewList?.IntegrationLocations?.LocationType:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div id="eoh-tenantFeature-country" class="contact-details">
+                                                <p>{{'label_country' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewList?.IntegrationLocations?.LocationCountryName?gridViewList?.IntegrationLocations?.LocationCountryName:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div id="eoh-tenantFeature-addressLine1" class="contact-details">
+                                                <p>{{'label_addressLine1' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewList?.IntegrationLocations?.AddressLine1?gridViewList?.IntegrationLocations?.AddressLine1:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div class="contact-details" id="eoh-tenantFeature-addressLine2">
+                                                <p>{{'label_addressLine2' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewList?.IntegrationLocations?.AddressLine2?gridViewList?.IntegrationLocations.AddressLine2:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                            <div class="contact-details" id="eoh-tenantFeature-districtSuburb">
+                                                <p>{{'label_districtSuburb' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewList?.IntegrationLocations?.District?gridViewList?.IntegrationLocations?.District:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div class="contact-details" id="eoh-tenantFeature-city">
+                                                <p>{{'label_city' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewList?.IntegrationLocations?.TownCity?gridViewList?.IntegrationLocations?.TownCity:'--'}}</span>
+                                            </div>
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div class="contact-details" id="eoh-tenantFeature-state">
+                                                <p>{{'label_state' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewList?.IntegrationLocations?.StateId?gridViewList?.IntegrationLocations?.StateId:'--'}}</span>
+                                            </div>
+
+                                            <mat-divider class="mt-0 mb-0"></mat-divider>
+                                            <div class="contact-details" id="eoh-tenantFeature-zipcode">
+                                                <p>{{'label_zipCode' | translate}}</p>
+                                                <span
+                                                    class="spnStyle">{{gridViewList?.IntegrationLocations?.PostalCode?gridViewList?.IntegrationLocations?.PostalCode:'--'}}</span>
+                                            </div>
+                                        </mat-card>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="showEohFormData" id="eoh-tenantFeature-form" class="integration-contentsection">
+                        <div class="seekDetails" id="eoh-tenantFeature-detail">
+                            <form [formGroup]="eohIntegrationForm" class="p-0">
+                                <mat-form-field>
+                                    <mat-label>{{'label_clientId' |translate}}</mat-label>
+                                    <input matInput tabindex="3" formControlName="ClientId" text="APIKey"
+                                        id="eoh-ClientId" required (input)="resetValidateForm()">
+
+                                    <mat-error *ngIf="eohIntegrationForm.controls['ClientId'].hasError('required')">
+                                        {{'label_clientId' |translate}} {{'label_errorreqired'
+                                        |translate}}
+                                    </mat-error>
+
+                                    <mat-error
+                                        *ngIf="eohIntegrationForm.controls['ClientId'].hasError('whitespace') && !eohIntegrationForm.controls['ClientId'].hasError('required')">
+                                        {{'label_nameValidation' |translate}}
+                                    </mat-error>
+                                    <!-- // @bantee @whn 19-09-2023 @EWM-14361  Entire On Hire Card: As per the story the Field size for Client Id and Secret Key should be 100 characters -->
+
+                                    <mat-error *ngIf="eohIntegrationForm.controls['ClientId'].hasError('maxlength') && !eohIntegrationForm.controls['ClientId'].hasError('whitespace')">
+                                        {{'label_clientId' |translate}} {{ 'label_errormaxlength100' |translate}}
+                                    </mat-error>
+
+
+                                    <mat-icon matSuffix color="warn" id="eoh-inf0-ClientId"
+                                        matTooltip="{{'label_EhrClientIdHelpIconText' |translate}}"
+                                        matTooltipPosition="left" matSuffix>info_outline
+                                    </mat-icon>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{'lable_secretKey' |translate}}
+                                    </mat-label>
+                                    <input matInput tabindex="3" formControlName="ClientSecret" text="APISecretKey"
+                                        id="eoh-ClientSecret" required (input)="resetValidateForm()">
+                                    <mat-error *ngIf="eohIntegrationForm.controls['ClientSecret'].hasError('required')">
+                                        {{'lable_secretKey' |translate}}
+                                        {{'label_errorreqired' |translate}}
+                                    </mat-error>
+
+                                    <mat-error
+                                        *ngIf="eohIntegrationForm.controls['ClientSecret'].hasError('whitespace') && !eohIntegrationForm.controls['ClientSecret'].hasError('required')">
+                                        {{'label_nameValidation' |translate}}
+
+                                    </mat-error>
+                                    <!-- // @bantee @whn 19-09-2023 @EWM-14361  Entire On Hire Card: As per the story the Field size for Client Id and Secret Key should be 100 characters -->
+
+                                    <mat-error *ngIf="eohIntegrationForm.controls['ClientSecret'].hasError('maxlength') && !eohIntegrationForm.controls['ClientSecret'].hasError('whitespace')">
+                                        {{'lable_secretKey' |translate}} {{ 'label_errormaxlength100' |translate}}
+                                    </mat-error>
+                                    <mat-icon matSuffix color="warn" id="eoh-info-secretKey"
+                                        matTooltip="{{'label_EhrSecretIdHelpIconText' |translate}}"
+                                        matTooltipPosition="left" matSuffix>info_outline
+                                    </mat-icon>
+
+                                </mat-form-field>
+                                <div>
+                                    <mat-error
+                                        *ngIf="eohIntegrationForm.controls['ClientId'].hasError('invalid') || eohIntegrationForm.controls['ClientSecret'].hasError('invalid')">
+                                        {{'label_ehr_validmsg'|translate}}
+                                    </mat-error>
+                                </div>
+                                <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add class----->
+                                <div class="validate-btn">
+                                    <button mat-raised-button color="primary"
+                                        (click)="onValidateSeekAdvertiseId(this.eohIntegrationForm.value)" type="button"
+                                        [disabled]="!eohIntegrationForm.valid" id="eoh-btnValidate" tabindex="10"
+                                        class="buttonForDesktopMobile">
+                                        <mat-icon>check</mat-icon>
+                                        <span class="buttonTxt">{{'label_validate'|translate}}</span>
+                                    </button>
+                                </div>
+
+                                <!----@When: 04-08-2023 @who:Amit @why: EWM-14166 @what: read only disabled----->
+                                <mat-form-field class="read-disable-field">
+                                    <mat-label>{{'lable_marketplace_ehr_OrganizationName' |translate}}
+                                    </mat-label>
+                                    <input matInput tabindex="3" formControlName="OrganizationName" text="APISecretKey"
+                                        id="eoh-OrganizationName" readonly>
+
+                                </mat-form-field>
+
+                                <div class="actionButton">
+                                    <button mat-raised-button tabindex="11" color="warn" (click)="onCancel()"
+                                        id="eoh-btnCancel" class="buttonForDesktopMobile">
+                                        <mat-icon>close</mat-icon>
+                                        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+                                    </button>
+
+                                    <button mat-raised-button *ngIf="activestatus=='Add'" color="primary"
+                                        (click)="onSave(this.eohIntegrationForm.getRawValue())" type="button"
+                                        id="eoh-btnSave" tabindex="10" class="buttonForDesktopMobile"
+                                        [disabled]="!validClient">
+                                        <mat-icon>check</mat-icon>
+                                        <span class="buttonTxt">{{'label_save'|translate}}</span>
+                                    </button>
+                                    <button mat-raised-button *ngIf="activestatus=='Edit'" color="primary"
+                                        (click)="onSave(this.eohIntegrationForm.getRawValue())"
+                                        [disabled]="!validClient" type="button" id="eoh-btnUpdate"
+                                        tabindex="10" class="buttonForDesktopMobile">
+                                        <mat-icon>check</mat-icon>
+                                        <span class="buttonTxt">{{'label_update'|translate}}</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="integration" *ngIf="showSubscriptionTabData">
+
+                        <div class="integration-contentsection ehr-contentsection" id="eoh-integration-content">
+                            <p>{{'label_EhrIntegration_XeopleRecruitIntegrationMarketplace' |translate}}</p>
+                            <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: structure change----->
+                            <div class="ehr-card" id="ehr-card-green">
+                                <div [ngClass]="[  activeSubscJobBtn===true ? 'ehr-card-main green-panel' : 'ehr-card-main red-panel']"
+                                    id="ehr-card-main-green">
+                                    <div class="ehr-card-main-header" id="ehr-card-main-header">
+                                        <div class="title-description" id="eoh-integration-description">
+                                            <div class="card-header-title" id="card-header-title-green">
+                                                <h3>{{'label_EhrIntegration_SearchExtractEntireMembers'| translate}}
+                                                </h3>
+                                                <p>{{'label_EhrIntegration_SubscribeFeatureXeopleRecruit'|
+                                                    translate}}</p>
+                                            </div>
+                                            <div class="card-header-description" id="card-header-description-green">
+                                                <button mat-stroked-button id="eoh-search-unsubscribe-btn"
+                                                    *ngIf="IsSearchExtractNotificationEnable===1"
+                                                    (click)="subEOHSearchExtNotf(0)">
+                                                    {{'label_unsubscribe' |translate}}
+                                                </button>
+                                                <button mat-stroked-button id="eoh-search-subscribe-btn"
+                                                    *ngIf="IsSearchExtractNotificationEnable===0"
+                                                    (click)="subEOHSearchExtNotf(1)">
+                                                    {{'label_subscribe' |translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add id----->
+                                    <div class="ehr-card-main-content" id="eoh-selected-empl-Notf">
+                                        <p>{{'label_EhrIntegration_SelectedEmployeesNotified' |translate}}</p>
+
+                                        <mat-form-field class="icon-withchip searchInput">
+                                            <mat-chip-list #chipList aria-label="emails selection"
+                                                id="eoh-selected-empl" tabindex >
+                                                <mat-chip *ngFor="let employee of employeesList; let i = index"
+                                                    [selectable]="selectable" (removed)="remove(i,'searchJob')">
+                                                    <!----@When: 04-09-2023 @who:Amit @why: EWM-14166 @what: bracket add----->
+                                                    <span class="email-chip"
+                                                        id="eoh-selected-emplUserOrg">{{employee.Name}} -
+                                                        ({{employee.OrgCode}})
+                                                    </span>
+
+                                                    <mat-icon color="warn" matChipRemove id="eoh-selected-cancel">cancel
+                                                    </mat-icon>
+                                                </mat-chip>
+                                                <input readonly [matChipInputFor]="chipList">
+                                            </mat-chip-list>
+                                            <button tabindex id="eoh-addbtn-employee"
+                                                [disabled]="IsSearchExtractNotificationEnable===0?true:false"
+                                                mat-raised-button matSuffix color="primary" type="button"
+                                                class="matSuffix-icon mb-5"
+                                                (click)="openManageEmployeesModal('openSearchExtractNotf')">
+                                                <mat-icon>add</mat-icon>
+                                            </button>
+                                        </mat-form-field>
+                                        <!-- <mat-error *ngIf="!employeesList.length && IsSearchExtractNotificationEnable===1">{{'label_Ehr_atleastoneEmployee'|translate}}</mat-error> -->
+
+
+                                        <p style="color: red;"
+                                            *ngIf="!employeesList.length && IsSearchExtractNotificationEnable===1">
+                                            {{'label_Ehr_atleastoneEmployee'|translate}}</p>
+                                        <div class="footer-btn">
+                                            <button mat-stroked-button
+                                                [disabled]="IsSearchExtractNotificationEnable===0?true:false || (!employeesList.length)"
+                                                color="primary" tabindex type="button"
+                                                (click)="onSaveSubsFeature('SearchExtractNotf')"
+                                                id="eoh-Subscr-btnSave">
+                                                {{'label_save'|translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!----@When: 17-10-2023 @who:Amit @why: EWM-14847 @what: add disable class----->
+                            <div class="ehr-card" id="ehr-card-red" [ngClass]="pushNotificationStatus===0?'panel-disabled':''">
+                                <div [ngClass]="[ activeSubscPushBtn===true ? 'ehr-card-main green-panel' : 'ehr-card-main red-panel']"
+                                    id="eoh-expansionPanel">
+                                    <div class="ehr-card-main-header" id="ehr-card-main-header-red">
+                                        <div class="title-description" id="eoh-pushJob-description">
+                                            <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add id----->
+                                            <div class="card-header-title" id="card-header-title-red">
+                                                <h3>{{'label_EhrIntegration_PushJobtoMemberApp'| translate}}</h3>
+                                                <p>{{'label_EhrIntegration_SubscribeFeatureJobEntireOnHire'| translate}}
+                                                </p>
+                                            </div>
+                                            <div class="card-header-description" id="card-header-description-red">
+                                                <button mat-stroked-button [disabled]="pushNotificationStatus===0" id="eoh-pushJob-unsubscribe-btn"
+                                                    *ngIf="IsPushJobNotificationEnable===1"
+                                                    (click)="subEOHPushJobNotf(0)">
+                                                    {{'label_unsubscribe' |translate}}
+                                                </button>
+                                                <button mat-stroked-button [disabled]="pushNotificationStatus===0" id="eoh-pushJob-subscribe-btn"
+                                                    *ngIf="IsPushJobNotificationEnable===0"
+                                                    (click)="subEOHPushJobNotf(1)">
+                                                    {{'label_subscribe' |translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="ehr-card-main-content" id="eoh-selected-empl-Notf">
+                                        <p>{{'label_EhrIntegration_SelectedEmployeesNotified' |translate}}</p>
+
+                                        <mat-form-field class="icon-withchip searchInput">
+                                            <mat-chip-list #chipList aria-label="emails selection"
+                                                id="eoh-selected-empl" [disabled]="pushNotificationStatus===0" tabindex>
+                                                <mat-chip
+                                                    *ngFor="let employee of employeesListforPushJob; let i = index"
+                                                    [selectable]="selectable" (removed)="remove(i,'pushJob')">
+                                                    <!----@When: 04-09-2023 @who:Amit @why: EWM-14166 @what: bracket add----->
+                                                    <span class="email-chip"
+                                                        id="eoh-selected-emplUserOrg">{{employee.Name}} -
+                                                        ({{employee.OrgCode}})
+                                                    </span>
+
+                                                    <mat-icon color="warn" matChipRemove id="eoh-selected-cancel">cancel
+                                                    </mat-icon>
+                                                </mat-chip>
+                                                <input readonly [matChipInputFor]="chipList" >
+
+                                            </mat-chip-list>
+                                            <button tabindex id="eoh-addbtn-employee"
+                                                [disabled]="IsPushJobNotificationEnable===0?true:false ||pushNotificationStatus===0"
+                                                mat-raised-button matSuffix color="primary" type="button"
+                                                class="matSuffix-icon mb-5"
+                                                (click)="openManageEmployeesModal('openPushJobNotf')">
+                                                <mat-icon>add</mat-icon>
+                                            </button>
+                                        </mat-form-field>
+                                        <!-- <mat-error *ngIf="!employeesListforPushJob.length && IsPushJobNotificationEnable===1">{{'label_Ehr_atleastoneEmployee'|translate}}</mat-error> -->
+
+                                        <p style="color: red;"
+                                            *ngIf="!employeesListforPushJob.length && IsPushJobNotificationEnable===1">
+                                            {{'label_Ehr_atleastoneEmployee'|translate}}</p>
+
+                                        <div class="footer-btn">
+                                            <button mat-stroked-button
+                                                [disabled]="IsPushJobNotificationEnable===0?true:false || (!employeesListforPushJob.length) ||pushNotificationStatus===0"
+                                                color="primary" tabindex type="button"
+                                                (click)="onSaveSubsFeature('PushJobNotf')" id="eoh-Subscr-btnSave">
+                                                {{'label_save'|translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: structure change----->
+
+                            <!-- ======================== -->
+                            <div class="ehr-card" id="ehr-card-green">
+                                <div [ngClass]="[activeSubscCandBtn===true ? 'ehr-card-main green-panel' : 'ehr-card-main red-panel']"
+                                    id="ehr-card-main-green">
+                                    <div class="ehr-card-main-header" id="ehr-card-main-header">
+                                        <div class="title-description" id="eoh-integration-description">
+                                            <div class="card-header-title" id="card-header-title-green">
+                                                <h3>{{'label_EhrIntegration_PushCandtoMemberApp' |translate}}</h3>
+                                                <p>{{'label_EhrIntegration_SubscribeFeatureCandEntireOnHire' |translate}}</p>
+                                            </div>
+                                            <div class="card-header-description" id="card-header-description-green">
+                                                <button mat-stroked-button id="eoh-search-unsubscribe-btn"
+                                                    *ngIf="IsCANDExtractNotificationEnable===1"
+                                                    (click)="subEOHCANDExtNotf(0)">
+                                                    {{'label_unsubscribe' |translate}}
+                                                </button>
+                                                <button mat-stroked-button id="eoh-search-subscribe-btn"
+                                                    *ngIf="IsCANDExtractNotificationEnable===0"
+                                                    (click)="subEOHCANDExtNotf(1)">
+                                                    {{'label_subscribe' |translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add id----->
+                                    <div class="ehr-card-main-content" id="eoh-selected-empl-Notf">
+                                        <p>{{'label_EhrIntegration_SelectedCandNotified' |translate}}</p>
+
+                                        <mat-form-field class="icon-withchip searchInput">
+                                            <mat-chip-list #chipList aria-label="emails selection"
+                                                id="eoh-selected-empl" tabindex >
+                                                <mat-chip *ngFor="let employee of candidateList; let i = index"
+                                                    [selectable]="selectable" (removed)="remove(i,'shareClient')">
+                                                    <span class="email-chip"
+                                                        id="eoh-selected-emplUserOrg">{{employee.Name}} -
+                                                        ({{employee.OrgCode}})
+                                                    </span>
+
+                                                    <mat-icon color="warn" matChipRemove id="eoh-selected-cancel">cancel
+                                                    </mat-icon>
+                                                </mat-chip>
+                                                <input readonly [matChipInputFor]="chipList">
+                                            </mat-chip-list>
+                                            <button tabindex id="eoh-addbtn-client"
+                                                [disabled]="IsCANDExtractNotificationEnable===0?true:false"
+                                                mat-raised-button matSuffix color="primary" type="button"
+                                                class="matSuffix-icon mb-5"
+                                                (click)="openManageEmployeesModal('openCANDExtractNotf')">
+                                                <mat-icon>add</mat-icon>
+                                            </button>
+                                        </mat-form-field>
+                                        <!-- <mat-error *ngIf="!candidateList.length && IsCANDExtractNotificationEnable===1">{{'label_Ehr_atleastoneEmployee'|translate}}</mat-error> -->
+
+
+                                        <p style="color: red;"
+                                            *ngIf="!candidateList.length && IsCANDExtractNotificationEnable===1">
+                                            {{'label_Ehr_atleastoneEmployee'|translate}}</p>
+                                        <div class="footer-btn">
+                                            <button mat-stroked-button
+                                                [disabled]="IsCANDExtractNotificationEnable===0?true:false || (!candidateList.length)"
+                                                color="primary" tabindex type="button"
+                                                (click)="onSaveSubsFeature('CANDExtractNotf')"
+                                                id="eoh-Subscr-btnSave">
+                                                {{'label_save'|translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ======================== -->
+
+
+                               <!----@When: 07-02-2025 @who:Renu @why: EWM-19382 EWM-19514 @what: Client subscrption----->
+
+                            <!-- ======================== -->
+                            <div class="ehr-card" id="ehr-card-green">
+                                <div [ngClass]="[activeSubsClientBtn===true ? 'ehr-card-main green-panel' : 'ehr-card-main red-panel']"
+                                    id="ehr-card-main-green">
+                                    <div class="ehr-card-main-header" id="ehr-card-main-header">
+                                        <div class="title-description" id="eoh-integration-description">
+                                            <div class="card-header-title" id="card-header-title-green">
+                                                <h3>{{'label_ShareClientIntegration' |translate}}</h3>
+                                                <p>{{'label_ShareClientIntegration_SubscribeFeatureClient' |translate}}</p>
+                                            </div>
+                                            <div class="card-header-description" id="card-header-description-green">
+                                                <button mat-stroked-button id="eoh-search-client-unsubscribe-btn"
+                                                    *ngIf="IsShareClientNotificationEnable===1"
+                                                    (click)="subEOHShareClientNotf(0)">
+                                                    {{'label_unsubscribe' |translate}}
+                                                </button>
+                                                <button mat-stroked-button id="eoh-search-client-subscribe-btn"
+                                                    *ngIf="IsShareClientNotificationEnable===0"
+                                                    (click)="subEOHShareClientNotf(1)">
+                                                    {{'label_subscribe' |translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                 
+                                    <div class="ehr-card-main-content" id="client-selected-empl-Notf">
+                                        <p>{{'label_ShareClientIntegration_SelectedCandNotified' |translate}}</p>
+
+                                        <mat-form-field class="icon-withchip searchInput">
+                                            <mat-chip-list #chipList aria-label="emails selection"
+                                                id="eoh-selected-empl" tabindex >
+                                                <mat-chip *ngFor="let client of clientList; let i = index"
+                                                    [selectable]="selectable" (removed)="remove(i,'shareClient')">
+                                                    <span class="email-chip"
+                                                        id="eoh-selected-emplUserOrg">{{client.Name}} -
+                                                        ({{client.OrgCode}})
+                                                    </span>
+
+                                                    <mat-icon color="warn" matChipRemove id="eoh-selected-cancel">cancel
+                                                    </mat-icon>
+                                                </mat-chip>
+                                                <input readonly [matChipInputFor]="chipList">
+                                            </mat-chip-list>
+                                            <button tabindex id="eoh-addbtn-employee"
+                                                [disabled]="IsShareClientNotificationEnable===0?true:false"
+                                                mat-raised-button matSuffix color="primary" type="button"
+                                                class="matSuffix-icon mb-5"
+                                                (click)="openManageEmployeesModal('openClientNotf')">
+                                                <mat-icon>add</mat-icon>
+                                            </button>
+                                        </mat-form-field>
+
+
+                                        <p style="color: red;"
+                                            *ngIf="!clientList.length && IsShareClientNotificationEnable===1">
+                                            {{'label_Ehr_atleastoneEmployee'|translate}}</p>
+                                        <div class="footer-btn">
+                                            <button mat-stroked-button
+                                                [disabled]="IsShareClientNotificationEnable===0?true:false || (!clientList.length)"
+                                                color="primary" tabindex type="button"
+                                                (click)="onSaveSubsFeature('SearchClientNotf')"
+                                                id="eoh-Subscr-btnSave">
+                                                {{'label_save'|translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ======================== -->
+
+
+                              <!----@When: 07-02-2025 @who:Renu @why: EWM-19382 EWM-19514 @what: Share Contacts subscrption----->
+
+                            <!-- ======================== -->
+                            <div class="ehr-card" id="ehr-card-green">
+                                <div [ngClass]="[activeSubsContactBtn===true ? 'ehr-card-main green-panel' : 'ehr-card-main red-panel']"
+                                    id="ehr-card-main-green">
+                                    <div class="ehr-card-main-header" id="ehr-card-main-header">
+                                        <div class="title-description" id="eoh-integration-description">
+                                            <div class="card-header-title" id="card-header-title-green">
+                                                <h3>{{'label_ShareContactsIntegration' |translate}}</h3>
+                                                <p>{{'label_ShareContactIntegration_SubscribeFeatureContact' |translate}}</p>
+                                            </div>
+                                            <div class="card-header-description" id="card-header-description-green">
+                                                <button mat-stroked-button id="eoh-search-contact-unsubscribe-btn"
+                                                    *ngIf="IsShareContactNotificationEnable===1"
+                                                    (click)="subEOHShareContactNotf(0)">
+                                                    {{'label_unsubscribe' |translate}}
+                                                </button>
+                                                <button mat-stroked-button id="eoh-search-contact-subscribe-btn"
+                                                    *ngIf="IsShareContactNotificationEnable===0"
+                                                    (click)="subEOHShareContactNotf(1)">
+                                                    {{'label_subscribe' |translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                 
+                                    <div class="ehr-card-main-content" id="contact-selected-empl-Notf">
+                                        <p>{{'label_ShareContactsIntegration_SelectedCandNotified' |translate}}</p>
+
+                                        <mat-form-field class="icon-withchip searchInput">
+                                            <mat-chip-list #chipList aria-label="emails selection"
+                                                id="eoh-selected-empl" tabindex >
+                                                <mat-chip *ngFor="let contact of contactList; let i = index"
+                                                    [selectable]="selectable" (removed)="remove(i,'shareContact')">
+                                                    <span class="email-chip"
+                                                        id="eoh-selected-emplUserOrg">{{contact.Name}} -
+                                                        ({{contact.OrgCode}})
+                                                    </span>
+
+                                                    <mat-icon color="warn" matChipRemove id="eoh-selected-cancel">cancel
+                                                    </mat-icon>
+                                                </mat-chip>
+                                                <input readonly [matChipInputFor]="chipList">
+                                            </mat-chip-list>
+                                            <button tabindex id="eoh-addbtn-contact"
+                                                [disabled]="IsShareContactNotificationEnable===0?true:false"
+                                                mat-raised-button matSuffix color="primary" type="button"
+                                                class="matSuffix-icon mb-5"
+                                                (click)="openManageEmployeesModal('openContactNotf')">
+                                                <mat-icon>add</mat-icon>
+                                            </button>
+                                        </mat-form-field>
+
+
+                                        <p style="color: red;"
+                                            *ngIf="!contactList.length && IsShareContactNotificationEnable===1">
+                                            {{'label_Ehr_atleastoneEmployee'|translate}}</p>
+                                        <div class="footer-btn">
+                                            <button mat-stroked-button
+                                                [disabled]="IsShareContactNotificationEnable===0?true:false || (!contactList.length)"
+                                                color="primary" tabindex type="button"
+                                                (click)="onSaveSubsFeature('SearchContactNotf')"
+                                                id="eoh-Subscr-btnSave">
+                                                {{'label_save'|translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ======================== -->
+
+                                 <!----@When: 07-02-2025 @who:Renu @why: EWM-19382 EWM-19514 @what: Share Jobs subscrption----->
+
+                            <!-- ======================== -->
+                            <div class="ehr-card" id="ehr-card-green">
+                                <div [ngClass]="[activeSubsJobBtn===true ? 'ehr-card-main green-panel' : 'ehr-card-main red-panel']"
+                                    id="ehr-card-main-green">
+                                    <div class="ehr-card-main-header" id="ehr-card-main-header">
+                                        <div class="title-description" id="eoh-integration-description">
+                                            <div class="card-header-title" id="card-header-title-green">
+                                                <h3>{{'label_ShareJobIntegration' |translate}}</h3>
+                                                <p>{{'label_ShareJobIntegration_SubscribeFeatureJob' |translate}}</p>
+                                            </div>
+                                            <div class="card-header-description" id="card-header-description-green">
+                                                <button mat-stroked-button id="eoh-search-job-unsubscribe-btn"
+                                                    *ngIf="IsShareJobNotificationEnable===1"
+                                                    (click)="subEOHShareJobNotf(0)">
+                                                    {{'label_unsubscribe' |translate}}
+                                                </button>
+                                                <button mat-stroked-button id="eoh-search-job-subscribe-btn"
+                                                    *ngIf="IsShareJobNotificationEnable===0"
+                                                    (click)="subEOHShareJobNotf(1)">
+                                                    {{'label_subscribe' |translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                 
+                                    <div class="ehr-card-main-content" id="contact-selected-job-Notf">
+                                        <p>{{'label_ShareJobIntegration_SelectedCandNotified' |translate}}</p>
+
+                                        <mat-form-field class="icon-withchip searchInput">
+                                            <mat-chip-list #chipList aria-label="emails selection"
+                                                id="eoh-selected-empl" tabindex >
+                                                <mat-chip *ngFor="let job of jobList; let i = index"
+                                                    [selectable]="selectable" (removed)="remove(i,'shareJob')">
+                                                    <span class="email-chip"
+                                                        id="eoh-selected-emplUserOrg">{{job.Name}} -
+                                                        ({{job.OrgCode}})
+                                                    </span>
+
+                                                    <mat-icon color="warn" matChipRemove id="eoh-selected-cancel">cancel
+                                                    </mat-icon>
+                                                </mat-chip>
+                                                <input readonly [matChipInputFor]="chipList">
+                                            </mat-chip-list>
+                                            <button tabindex id="eoh-addbtn-job"
+                                                [disabled]="IsShareJobNotificationEnable===0?true:false"
+                                                mat-raised-button matSuffix color="primary" type="button"
+                                                class="matSuffix-icon mb-5"
+                                                (click)="openManageEmployeesModal('openJobNotf')">
+                                                <mat-icon>add</mat-icon>
+                                            </button>
+                                        </mat-form-field>
+
+
+                                        <p style="color: red;"
+                                            *ngIf="!jobList.length && IsShareJobNotificationEnable===1">
+                                            {{'label_Ehr_atleastoneEmployee'|translate}}</p>
+                                        <div class="footer-btn">
+                                            <button mat-stroked-button
+                                                [disabled]="IsShareJobNotificationEnable===0?true:false || (!jobList.length)"
+                                                color="primary" tabindex type="button"
+                                                (click)="onSaveSubsFeature('SearchJobNotf')"
+                                                id="eoh-Subscr-btnSave">
+                                                {{'label_save'|translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ======================== -->
+                        </div>
+
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+        <!-- Test************************
+        -->
+
+        <!-- <mat-chip-list>
+            <mat-chip *ngFor="let employee of photosBuffer" [removable]="true" class="addContatChip"
+                id="add-required-attendees-Chip">
+                <span class="text-overflow" matTooltip="{{ employee.title }}" matTooltipClass="custom-tooltip">{{
+                    employee.title }}</span>
+                <mat-icon id="iconCancel" matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <ng-select [multiple]="true"
+  [items]="photosBuffer"
+  [virtualScroll]="true" 
+  [loading]="loading" 
+  bindLabel="title" 
+  bindValue="thumbnailUrl"
+  placeholder="Select photo" 
+  (scrollToEnd)="fetchMore2(select.filterValue)"
+  #select>
+  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+    <b>{{index}} </b><span [ngOptionHighlight]="search">{{item.title}}</span>
+  </ng-template>
+</ng-select> -->
+        <!-- Test************************
+        -->
+
+    </mat-card>
+</mat-drawer-container>
+
+<!---------@When: 21-08-2023 @who:Amit @why: EWM-13866 @what: ehr-integration HTML page--------->
+<!-- <div class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div> -->
+
+
+<!-- <mat-drawer-container class="xeople-container-with-one-card" autosize id="seek-integration-drawer">
+    <mat-card class="seek-mat-card component-card mat-elevation-z2" id="seek-mat-card">
+
+        
+    </mat-card>
+</mat-drawer-container> -->

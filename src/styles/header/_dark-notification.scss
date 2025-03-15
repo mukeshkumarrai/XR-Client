@@ -1,0 +1,71 @@
+// @When: 08-Mar-2024 @who:Amit Rajput @why:EWM-16178 @what: web notification style
+@use "../../colors";
+.dark-theme{
+    .web-notification.mat-menu-panel {
+        .mat-form-field-appearance-legacy{
+            .search-icon{
+                color: colors.$gray-button;
+            }
+        }
+        .mat-divider{
+            border-top-color: colors.$gray-txt;
+        }
+        .web-header{
+            h4 {
+                color: colors.$white-color;
+            }
+        }
+        .main-web-comment{
+            .web-comment{
+                border-bottom: 1px solid #929292;
+                .user-main-data{
+                    background: linear-gradient(90deg, #353535 0%, #424242 64%);
+                    .profile-and-name{
+                        span,img {
+                            box-shadow: rgba(120, 154, 171, 0.1) 0px 0px 0px 4px;
+                        }
+                    }
+                    .user-data{
+                        .user-data-bottom{
+                            .user-details{
+                                color: colors.$white-color;
+                                .last-name{
+                                    color: colors.$dark-primary;
+                                }
+                            }
+                            .time{
+                                color: colors.$gray-button;
+                            }
+                        } 
+                    }
+                    .mat-icon-button.mark{
+                        .mat-icon{
+                            color: colors.$dark-primary;
+                        } 
+                    }
+                }
+                .user-bottom-data{
+                    .url-box{
+                        border-top: 1px solid #464646;
+                        background: #383838;
+                        a{
+                            color: colors.$gray-button;
+                        }
+                        .action{
+                            background: colors.$dark-primary-bg;
+                            border: 1px solid #8f8f8f;
+                        }
+                    }
+                }
+            }
+        }
+        .notification-footer{
+            .mark-unread{
+                color: colors.$dark-primary;
+            }
+        }
+        .nodata{
+            color: colors.$gray-bg-color;
+        }
+    }
+}

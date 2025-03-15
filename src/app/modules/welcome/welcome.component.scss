@@ -1,0 +1,91 @@
+.welcomeModalStyle {
+  // max-height: 80vh !important;
+  // position: relative;
+
+  .closeIcon {
+    cursor: pointer;
+    position: absolute;
+    top: 6px;
+    right: 7px;
+    color: #c1c1c1;
+    z-index: 9;
+
+  }
+
+  .closeIcon:hover {
+    color: #cc0000;
+  }
+
+  .logoAnimateBox {
+    display: block;
+    width: 100%;
+    max-height: 350px;
+
+    .imgStyle {
+      width: 80%;
+      min-width: auto;
+      max-width: 750px;
+      display: block;
+      margin: 0px auto;
+      max-height: 350px;
+    }
+  }
+
+  .midSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0px 0px;
+    div{
+      position: relative;
+      z-index: 2;
+      padding: 0px 24px;
+      width: calc(100% - 48px);
+      text-align: center;
+    }
+    .h6Txt {
+      font-weight: 600;
+      font-size: 22px;
+      margin: 0px;
+      margin-bottom: 10px;
+    }
+
+    .paraTxt {
+      // font-size: 15px;
+      margin: 0px 0px 5px 0px;
+      color: #6a6a6a;
+    }
+
+    .mgTop20 {
+      margin-top: 10px;
+    }
+  }
+}
+
+.customCheckboxPos {
+  // margin: 10px -5px 0px 0px;
+  color: #9a9a9a;
+  font-weight: 500;
+  font-size: 13px;
+  margin: 16px 10px 16px;
+
+  label {
+    .overflow-control-indicator {
+      border-color: #9a9a9a !important
+    }
+  }
+}
+
+.custom-control.overflow-checkbox .overflow-control-indicator::after {
+  border-color: #9a9a9a !important
+}
+
+// .welcomeModal{
+//   width: 100%;
+//   max-width: 1000px;
+//   @media only screen and (max-width: 599px) and (min-width: 320px) {
+//     width: 90%;
+//     max-width: unset;
+//   }
+// }

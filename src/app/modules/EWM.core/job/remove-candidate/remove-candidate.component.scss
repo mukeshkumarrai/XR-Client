@@ -1,0 +1,36 @@
+
+// @(C): Entire Software
+// @Type: File, <html>
+// @Who: Anup Singh
+// @When: 30-Sep-2021
+// @Why: EWM-2871 EWM-2979
+
+
+.removeCandidate{
+    .quick-dialog{
+        span.timeLineCloseIcon{
+            float: right;
+            position: relative;
+             z-index: 999;
+             cursor: pointer;
+             right:0px;
+             color:#c1c1c1;
+        }
+        span.timeLineCloseIcon:hover{
+            color:#cc0000;
+        }        
+    }    
+}
+
+.counterTxt{
+    position: relative;
+    .countlabel{
+        margin-top: 0px;
+        text-align: right;
+        color: #fe7000;
+        font-size: 80%;
+        position: absolute;
+        bottom: 5px;
+        right: 20px;
+    }
+}

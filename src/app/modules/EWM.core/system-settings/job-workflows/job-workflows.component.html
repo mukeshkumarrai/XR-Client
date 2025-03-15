@@ -1,0 +1,376 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: job-workflows.component.html
+  @Who: Renu
+  @When: 14-June-2021
+  @Why: ROST-1871
+  @What: For job workflows
+ -->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header">
+  <mat-card-title>
+      <button mat-mini-fab class="mainAddButton"
+      matTooltip="{{'label_add'|translate}} {{'label_jobworkflow'|translate}}" 
+      matTooltipClass="custom-tooltip" color="primary" id="btnAdd" [routerLink]="['manage']"
+      [queryParams]="{V:viewMode,mode:'A'}" *appHasPermission="['Add']"
+      (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <mat-icon id="{{animationVar?.CreateButton?.id}}"
+        class="{{animationVar?.CreateButton?.isAnimClass}}">add</mat-icon>
+    </button>
+    <div class="sub-title">
+    <span>{{'label_jobworkflow' |translate}}</span><br>
+    <app-breadcrumb [pageLabel]="pageLabel" class="bread-crumb"></app-breadcrumb>
+  </div>
+   
+  </mat-card-title>
+
+  <div class="header-action-button" id="job-workflow-actionButton" *ngIf="formtitle=='grid'">
+
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="commitment-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" id="btnClearFilterId" (click)="onFilterClear()"
+        (click)="searchVal=''">
+        <mat-icon>close</mat-icon>
+      </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+
+    <div class="group-header-button">
+
+      <!-- @When: 19-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+      <a mat-raised-button class="header-button" *ngIf="formtitle=='grid'" id="user-invitation-btnViewAudit"
+        [routerLink]="['/client/core/system-settings/system-audit-log/',auditParameter]"
+        matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+      </a>
+
+     <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+     matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+     (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+     <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+        {{animationVar?.BarRotateButton?.iconName}}
+     </mat-icon>
+    </button>
+
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('listMode')" id="commitment-viewModeInActive"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('cardMode')" id="commitment-viewModeActive"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}} 
+        </span>
+      </button>
+
+    </div>
+</div>
+
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-listing-with-breadCrumb" autosize id="job-workflow-drawer">
+  <mat-card id="job-workflow-card" class="component-card mat-elevation-z2">
+    <div class="list-container" id="contentdata">
+      <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']"> 
+      
+          <!-- <button mat-raised-button color="primary" [routerLink]="['manage']" [queryParams]="{V:viewMode,mode:'E'}"
+            id="btnAdd" class="buttonForDesktopMobile">
+            <mat-icon>add</mat-icon>
+            <span class="buttonTxt">{{'label_add' |translate}}</span>
+          </button> -->
+          <!-- Anchor Tag on ADD and EDIT Button with right click by Piyush Singh -->
+          
+        <!-- Refresh button by Piyush Singh -->
+      
+      
+    
+      <div class="row mb-0 listHeader" id="listHeader" [class.hide]="isvisible">
+
+        
+        <div class="col col-4 listActionBox">
+          <strong>&nbsp;</strong>
+        </div>
+
+        <div class="col col-3" (click)="onSort('WorkflowName')">
+          <button mat-button [disableRipple]="true" id="workflow-name">
+            <strong>{{'label_jobworkflow'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'WorkflowName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'WorkflowName' && sortDirection === 'desc'">{{descIcon}}
+            </mat-icon>
+          </button>
+        </div>
+         <!---------@When: 28-12-2022 @who:Adarsh singh @why: EWM-10008 --------->
+        <div class="col col-3" (click)="onSort('IndustryName')">
+          <button mat-button [disableRipple]="true" id="workflow-name">
+            <strong>{{'label_industry'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'IndustryName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'IndustryName' && sortDirection === 'desc'">{{descIcon}}
+            </mat-icon>
+          </button>
+        </div>
+
+        <div class="col col-3" (click)="onSort('JobType')">
+          <button mat-button [disableRipple]="true" id="workflow-name">
+            <strong>{{'label_JobType'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'JobType' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'JobType' && sortDirection === 'desc'">{{descIcon}}
+            </mat-icon>
+          </button>
+        </div>
+    <!-- End  -->
+
+        <div class="col col-2" (click)="onSort('StatusName')">
+          <button mat-button [disableRipple]="true" id="workflow-status"><strong>{{'label_status'|translate}}
+            </strong>
+            <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'asc'">{{ascIcon}}
+            </mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'StatusName' && sortDirection === 'desc'">{{descIcon}}
+            </mat-icon>
+          </button>
+
+        </div>
+        <div class="col col-1" >
+          {{'label_default'|translate}}
+        </div>
+
+      </div>
+      </div>
+      <div class="listCardView" id="workflow-listCardView"
+        [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']" *ngIf="formtitle=='grid'"  infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pagesize"
+        (scrolled)="onScrollDown()" [scrollWindow]="false">
+      
+        <div [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+          <div class="row">
+            <div *ngIf="loadingPopup" class="list"></div>
+            <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView.length==0">
+              <span>{{'label_noRecordAvailable'|translate}}</span>
+            </div>
+            <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+              *ngFor="let jobData of gridView;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+              <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                <mat-card-content class="listcardContent" [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                    <!-----list data start------------>
+                  <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+
+
+                    <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-4']">
+
+                    <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+
+                    <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                      <button mat-menu-item id="btnView" [routerLink]="['manage']"
+                        [queryParams]="{id: jobData.Id,V:viewMode,mode:'R'}">
+                        <mat-icon>subject</mat-icon>
+                        {{'label_view'|translate}}
+                      </button>
+                      <!-- <button mat-icon-button color="primary" id="btnEditList" [routerLink]="['manage']"
+                        [queryParams]="{id: jobData.Id,V:viewMode,mode:'E'}" matTooltipClass="custom-tooltip"
+                        matTooltip="{{'label_edit'|translate}}">
+                        <mat-icon>edit</mat-icon>
+                      </button> -->
+                      <!-- Anchor Tag on ADD and EDIT Button with right click by Piyush Singh -->
+                      <button mat-menu-item id="btnEditList"
+                      
+                       [routerLink]="['manage']"
+                        [queryParams]="{id: jobData.Id,V:viewMode,mode:'E'}" *appHasPermission="['Edit']">
+                        <mat-icon>edit</mat-icon>
+                        {{'label_edit'|translate}}
+                      </button>
+
+                      <button mat-menu-item id="btnEditList"
+                       [routerLink]="['manage']"
+                        [queryParams]="{id: jobData.Id,V:viewMode,mode:'E', clone:true}" *appHasPermission="['Edit']">
+                        <mat-icon>file_copy</mat-icon>
+                        {{'label_clone'|translate}}
+                      </button>
+                      
+                      <button mat-menu-item id="btnDeleteList" 
+                      [disabled]="jobData.IsSys != 0 ||  jobData?.IsDefault === 1"
+                        (click)=confirmDialog(jobData.Id,viewMode,i) *appHasPermission="['Delete']">
+                        <mat-icon>delete</mat-icon>
+                        {{'label_delete'|translate}}
+                      </button>
+                      
+                    
+                  </mat-menu>
+
+                    
+                      
+                    </div>
+
+                    <!-- <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                    <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                      <strong>{{'label_jobworkflow'|translate}}</strong>
+                    </div> -->
+                    <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                      <span class="cardListTxt word-wrap" matTooltip="{{ jobData.WorkflowName }}"
+                        matTooltipClass="custom-tooltip">
+                        {{jobData.WorkflowName}}
+                      </span>
+
+                    </div>
+
+                    <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                      <span class="cardListTxt word-wrap" matTooltip="{{ jobData.IndustryName }}"
+                        matTooltipClass="custom-tooltip">
+                        {{jobData.IndustryName}}
+                      </span>
+
+                    </div>
+
+                    <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                      <span class="cardListTxt word-wrap" matTooltip="{{ jobData.JobType }}"
+                        matTooltipClass="custom-tooltip">
+                        {{jobData.JobType}}
+                      </span>
+
+                    </div>
+
+
+                    <!-- <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div> -->
+                    <!-- <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                      <strong>{{'label_status'|translate}}</strong>
+                    </div> -->
+                    <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                      <span class="cardListTxt word-wrap" matTooltip="{{jobData.StatusName}}"
+                        matTooltipClass="custom-tooltip">
+                        {{jobData.StatusName}}</span>
+
+                    </div>
+
+                    <div class="col cursor" [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                      
+                      <span class="cardListTxt word-wrap smallSlideToggle">
+                        <mat-slide-toggle tabindex color="primary"
+                        [checked]="jobData?.IsDefault === 1"
+                        (change)="toggleVisibility($event.checked,jobData)">
+                        </mat-slide-toggle>
+                      </span>
+                    </div>
+                
+                  </div>
+                  <!------list data end------->
+                  <!-- card mode -->
+                  <div [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+                    <div class="cardModeLine">
+                      <span class="spacer"></span>
+                    
+                      <span class="badge red"  >
+                        <strong>{{'label_status'|translate}}</strong> :{{jobData.StatusName}}
+                      </span>
+                    </div>
+                    <div class="row mb-5 mt-15">
+                      <div class="col l12 m12 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_jobworkflow'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="workflow-name" >
+                          <span class="cardListTxt word-wrap"  matTooltip="{{ jobData.WorkflowName }}"
+                          matTooltipClass="custom-tooltip">
+                              {{ jobData.WorkflowName }}
+                          </span>
+
+                        </div>
+                      </div>
+
+                      <div class="col l12 m12 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_industry'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="workflow-IndustryName" >
+                          <span class="cardListTxt word-wrap"  matTooltip="{{ jobData.IndustryName }}" matTooltipClass="custom-tooltip">
+                              {{ jobData.IndustryName }}
+                          </span>
+
+                        </div>
+                      </div>
+
+                      <div class="col l12 m12 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_JobType'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="workflow-JobType" >
+                          <span class="cardListTxt word-wrap"  matTooltip="{{ jobData.JobType }}" matTooltipClass="custom-tooltip">
+                              {{ jobData.JobType }}
+                          </span>
+
+                        </div>
+                      </div>
+                    
+                    </div>
+                
+                    <div class="go-corner">
+                      <button mat-icon-button color="primary" [routerLink]="['manage']"
+                      [queryParams]="{id: jobData.Id,V:viewMode,mode:'R'}" id="btnEdit" matTooltipClass="custom-tooltip"
+                      matTooltip="{{'label_view'|translate}}">
+                      <mat-icon>subject</mat-icon>
+                    </button>
+                    <!-- <button mat-icon-button color="primary" [routerLink]="['manage']"
+                      [queryParams]="{id: jobData.Id,V:viewMode,mode:'E'}" id="btnEdit" matTooltipClass="custom-tooltip"
+                      matTooltip="{{'label_edit'|translate}}">
+                      <mat-icon>edit</mat-icon>
+                    </button> -->
+                    <!-- Anchor Tag on ADD and EDIT Button with right click by Piyush Singh -->
+                    <button mat-icon-button color="primary" [routerLink]="['manage']"
+                   
+                      [queryParams]="{id: jobData.Id,V:viewMode,mode:'E'}" id="btnEdit" matTooltipClass="custom-tooltip"
+                      matTooltip="{{'label_edit'|translate}}" *appHasPermission="['Edit']">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" id="btnDelete" 
+                    [disabled]="jobData.IsSys != 0 ||  jobData?.IsDefault === 1"
+                      (click)=confirmDialog(jobData.Id,viewMode) matTooltipClass="custom-tooltip"
+                      matTooltip="{{'label_delete'|translate}}" *appHasPermission="['Delete']">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+
+                    <span class="smallSlideToggle" id="small-slide-toggle">
+                    <mat-slide-toggle tabindex color="primary"
+                      [checked]="jobData?.IsDefault === 1"
+                      (change)="toggleVisibility($event.checked,jobData)">
+                    </mat-slide-toggle>
+                  </span>
+                    
+                    </div>
+                  </div>
+                  <!-- card mode -->
+                </mat-card-content>
+
+              
+              </mat-card>
+            </div>
+          </div>
+          <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+        </div>
+        
+      </div>
+    </div>
+  </mat-card>
+</mat-drawer-container>

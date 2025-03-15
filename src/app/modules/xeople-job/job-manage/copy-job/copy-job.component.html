@@ -1,0 +1,94 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 17-Nov-2021
+    @Why: EWM-3131 EWM-3796
+    @What:  This page is for copy job
+-->
+<!---
+    Modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 22-Nov-2021
+    @Why: EWM-3131 EWM-3797
+    @What:  This page is for copy job
+-->
+
+<!---
+    Modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 05-May-2023
+    @Why: EWM-12258 EWM-12262
+    @What:  change structure and and changes
+-->
+
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+
+<div class="modal-header copy-job-modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_CopyJob' | translate}}</h2>
+    <mat-card-subtitle class="subTitle">{{'label_selectCopyJob' |translate}}</mat-card-subtitle>
+</div>
+
+<mat-dialog-content applyTabIndexes>
+    <div class="copy-job">
+        <!---------@When: 05-05-2023 @who:Bantee Kumar @why: EWM-12258 EWM-12263 Add checkbox in copy job modal ----->
+
+        <!-- General -->
+        <mat-card class="copy-job-category" id="General-Section" tabindex [class.active]="classToggledGeneral">
+            <mat-checkbox color="primary" (click)="checkUncheckedGeneral()" labelPosition="before">
+                {{'quickjob_general' | translate}}
+            </mat-checkbox>
+        </mat-card>
+
+        <!-- JobDetails -->
+        <mat-card class="copy-job-category" id="JobDetails-Section" tabindex [class.active]="classToggledJobDetails">
+            <mat-checkbox color="primary" (click)="checkUncheckedJobDetails()" labelPosition="before">
+                {{'quickjob_jobDetails' | translate}}
+            </mat-checkbox>
+        </mat-card>
+
+
+        <!-- Salary -->
+        <mat-card class="copy-job-category" id="Salary-Section" tabindex [class.active]="classToggledSalary">
+            <mat-checkbox color="primary" (click)="checkUncheckedSalary()" labelPosition="before">
+                {{'quickjob_salary' | translate}}
+            </mat-checkbox>
+        </mat-card>
+
+        <!-- JobDescription -->
+        <mat-card class="copy-job-category" tabindex id="JobDescription-Section"
+            [class.active]="classToggledJobDescription">
+            <mat-checkbox color="primary" (click)="checkUncheckedJobDescription()" labelPosition="before">
+                {{'quickjob_jobDescription' | translate}}
+            </mat-checkbox>
+        </mat-card>
+
+        <!-- Advanced -->
+        <mat-card class="copy-job-category" tabindex id="Advanced-Section" [class.active]="classToggledAdvanced">
+            <mat-checkbox color="primary" (click)="checkUncheckedAdvanced()" labelPosition="before">
+                {{'quickjob_adavnced' | translate}}
+            </mat-checkbox>
+        </mat-card>
+
+        <!-- Publish to Job Boards -->
+        <mat-card class="copy-job-category" tabindex id="Publish-Section" [class.active]="classToggledPublish">
+            <mat-checkbox color="primary" (click)="checkUncheckedPublish()" labelPosition="before">
+                {{'quickjob_publishToJobBoards' | translate}}
+            </mat-checkbox>
+        </mat-card>
+
+
+    </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+        {{'button_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" tabindex type="button" (click)="onConfirmToNext()" [disabled]="!(classToggledGeneral || classToggledJobDetails || classToggledSalary || 
+    classToggledJobDescription || classToggledAdvanced || classToggledPublish)" id="btnNext">
+        {{'label_next'|translate}}</button>
+</div>

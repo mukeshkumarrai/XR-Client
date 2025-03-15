@@ -1,0 +1,184 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Adarsh singh
+    @When: 11-05-2022
+    @Why: EWM-1581 EWM-5862
+    @What:  This page wil be use only for user type master
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+ 
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="organization-details-mat-card-header">
+    <mat-card-title class="only-title" *ngIf="activestatus == 'Update' ">{{'label_edit' |translate}} {{'label_usertype' |translate}}</mat-card-title>
+    <mat-card-title class="only-title" *ngIf="activestatus == 'visible' ">{{'label_view' |translate}} {{'label_usertype' |translate}}</mat-card-title>
+
+    
+    <div class="actionButton" >
+      <button mat-raised-button class="buttonForDesktopMobile" tabindex="1" color="warn" [routerLink]="['../']"
+       id="btnCancel">
+        <mat-icon>close</mat-icon>
+        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+      </button>
+      <button mat-raised-button color="primary" (click)="onSave(this.addUserTypeForm.getRawValue())" type="button"
+      id="btnSave" tabindex="2" [disabled]="!addUserTypeForm.valid" class="buttonForDesktopMobile" *ngIf="!visibilityStatus">
+      <mat-icon>check</mat-icon>
+      <span class="buttonTxt">{{'label_save'|translate}}</span>
+    </button>
+    </div>
+  </mat-card-header>
+
+<!-- Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 -->
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="administrator-drawer">
+    <mat-card class="component-card mat-elevation-z2" id="component-card">
+            <div class="kendo-table-container">
+                <ng-template #template let-anchor>
+                  <span>{{ anchor.nativeElement.innerText }}</span>
+                </ng-template>
+                <form novalidate [formGroup]="addUserTypeForm" accept-charset="utf-8"
+                enctype='multipart/form-data' id=usertype-formId>
+                <div class="manage-type">
+ 
+                  <mat-form-field [ngClass]="['addUserTypeForm.Code.disabled' ? 'disableField' : '']">
+                    <mat-label>{{'label_code' |translate}}</mat-label>
+                    <input type="hidden" formControlName="Id" id="userTypeId" name="userTypeId">
+                    <input matInput tabindex="3" formControlName="Code" text="Name" id="usertype-Name" required (blur)="checkColumnunique('Code',$event)">
+                    <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('required')">
+                      {{'label_code' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('minlength')">
+                      {{'label_code' |translate}} {{'label_errorreqiredMinlength' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('maxlength')">
+                      {{'label_code' |translate}} {{'label_errorreqiredMaxlengthOne' |translate}}
+                    </mat-error>
+                     <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('codeTaken')">
+                      {{'label_code' |translate}} {{'label_areadyExists' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="addUserTypeForm.controls['Code'].hasError('pattern')">
+                      {{'label_code'|translate}} {{'label_errorAlphabet'|translate}}
+                  </mat-error>
+                   </mat-form-field>
+        
+                  <mat-form-field [ngClass]="['addUserTypeForm.RoleCode.disabled' ? 'disableField' : 'enableField']">
+                    <mat-label>{{'label_userrole' |translate}}</mat-label>
+                    <mat-select name="roleString" tabindex="4"  formControlName="RoleCode"
+                      placeholder="Role" id= "usertype-Role" required>
+                      <mat-option [value]="">Select Role</mat-option>
+                      <mat-option [value]="role.RoleCode" *ngFor="let role of userRole">
+                        {{role.Name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  
+                  <mat-form-field [ngClass]="['addUserTypeForm.Abbreviation.disabled' ? 'disableField' : '']">
+                    <mat-label>{{'label_abbreviation' |translate}}</mat-label>
+                    <input matInput tabindex="5" formControlName="Abbreviation" text="tenantUserTypeAbbreviation"
+                      id="userType-Abbreviation" required>
+                      <mat-error *ngIf="addUserTypeForm.controls['Abbreviation'].hasError('required')">
+                        {{'label_abbreviation' |translate}} {{'label_errorreqired' |translate}}
+                      </mat-error>
+                      <mat-error *ngIf="addUserTypeForm.controls['Abbreviation'].hasError('maxlength')">
+                        {{'label_abbreviation' |translate}} {{'label_errorreqiredMaxlengthFive' |translate}}
+                      </mat-error>
+                      <mat-error *ngIf="addUserTypeForm.controls['Abbreviation'].hasError('pattern')">
+                        {{'label_abbreviation' |translate}} {{'label_errorpatternAlphanumeric' |translate}}
+                      </mat-error>
+                  </mat-form-field>
+                  
+                   <mat-form-field>
+                    <mat-label>{{'label_publicname' |translate}}</mat-label>
+                    <input matInput tabindex="6" formControlName="PublicName" text="userTypePublicName"
+                      (blur)="checkColumnunique('PublicName',$event)" id="TenantUserType-PublicName" required>
+                    <mat-error *ngIf="addUserTypeForm.controls['PublicName'].hasError('required')">
+                      {{'label_publicname' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="addUserTypeForm.controls['PublicName'].hasError('maxlength')">
+                      {{'label_publicname' |translate}} {{'label_errormaxlength15' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="addUserTypeForm.controls['PublicName'].hasError('codeTaken')">
+                      {{'label_publicname' |translate}} {{'label_areadyExists' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="addUserTypeForm.controls['PublicName'].hasError('pattern')">
+                      {{'label_publicname' |translate}} {{'label_errorpatternAlphanumeric' |translate}}
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field [ngClass]="['addUserTypeForm.InternalName.disabled' ? 'disableField' : '']">
+                    <mat-label>{{'label_internalname' |translate}}</mat-label>
+                    <input matInput tabindex="7" formControlName="InternalName" text="userTypeInternalName"
+                      id="tenantUserType-InternalName" required (blur)="checkColumnunique('InternalName',$event)">
+                      <mat-error *ngIf="addUserTypeForm.controls['InternalName'].hasError('required')">
+                        {{'label_internalname' |translate}} {{'label_errorreqired' |translate}}
+                      </mat-error>
+                      <mat-error *ngIf="addUserTypeForm.controls['InternalName'].hasError('maxlength')">
+                        {{'label_internalname' |translate}} {{'label_errormaxlength15' |translate}}
+                      </mat-error>
+                       <mat-error *ngIf="addUserTypeForm.controls['InternalName'].hasError('codeTaken')">
+                        {{'label_internalname' |translate}} {{'label_areadyExists' |translate}}
+                      </mat-error>
+                      <mat-error *ngIf="addUserTypeForm.controls['InternalName'].hasError('pattern')">
+                        {{'label_internalname' |translate}} {{'label_errorpatternAlphanumeric' |translate}}
+                      </mat-error>
+                  </mat-form-field>
+                 
+                 <mat-form-field [ngClass]="['addUserTypeForm.GroupName.disabled' ? 'disableField' : '']">
+                  <mat-label>{{'label_grpName' |translate}}</mat-label>
+                  <input matInput tabindex="8" formControlName="GroupName" text="GroupName"
+                    id="tenantUserType-GroupName" required >
+               </mat-form-field>
+        
+               <div id="icon-upload-sec" *ngIf="visibilityStatus">
+                <h2 class="cardSubTitle logoTitle" id="cardSubTitle">{{'label_userIcon' |translate}}</h2>
+                  <span class="uploadTxt" *ngIf="!imagePreviewStatus">
+                   </span>
+                <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+                  <div class="previewImage" *ngIf="imagePreviewStatus">
+                    <img src="{{IconPreviewUrl}}" *ngIf="IconPreviewUrl" (click)="imagePreviewModal(IconPreviewUrl)" />
+                    <!-- <img src="../../../../assets/logo1.png" /> -->
+                   </div>
+                </div>
+        
+                  <div class="margin0" id="icon-upload-sec" *ngIf="!visibilityStatus">
+                    
+                    <mat-card class="p-15 matCardWidth margin0">
+                      <h2 class="cardSubTitle txtCenter" id="cardSubTitle">{{'label_userIcon' |translate}}</h2>
+                    
+                      <div class="uploadImage ">
+                        <span class="uploadTxt" *ngIf="!imagePreviewStatus">
+                          <img class="uploadImgIcon" src="/assets/uploadFileIcon.png"  />
+                            <!-- Entire Software : Satya Prakash Gupta : 20-Jan-2020 : language file add : EWM-589 EWM-731 -->
+                            <!-- Entire Software : priti srivastava : 29-Jan-2021 :  : EWM-589 EWM-681 -->
+                            <button mat-button (click)="croppingImage()" tabindex="9" type="button" id="btnCrop">{{'label_browseFileToUpload'
+                              |translate}}</button>
+                            <!-- <button mat-button (click)="fileInput.click()" type="button">{{'label_browseFileToUpload' |translate}}</button> -->
+                            <!-- Entire Software : Satya Prakash Gupta : 20-Jan-2020 : language file add : EWM-589 EWM-731 -->
+                            <!-- <input hidden  (change)="selectFile($event)" required #fileInput type="file" id="file"> -->
+                          </span>
+                        <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+                          <div class="previewImage" *ngIf="imagePreviewStatus">
+                            <img src="{{IconPreviewUrl}}" *ngIf="IconPreviewUrl" (click)="imagePreviewModal(IconPreviewUrl)" />
+                            <!-- <img src="../../../../assets/logo1.png" /> -->
+                            <div class="removeImage">
+                              <!-- Entire Software : priti srivastava : 29-Jan-2021 :  : EWM-589 EWM-681 -->
+                              <button mat-mini-fab (click)="croppingImage()" tabindex="10" color="primary" id="usertype-restorepreview" id="btnEditImage">
+                                <!-- <button mat-icon-button (click)="fileInput.click()" color="primary" id="restorepreview">
+                                                            <input hidden  (change)="selectFile($event)" required #fileInput type="file" id="file"> -->
+                                <mat-icon>edit</mat-icon>
+                              </button>
+                              <button mat-mini-fab color="warn" (click)="remove()" id="btnRemove">
+                                <mat-icon>close</mat-icon>
+                              </button>
+                            </div>
+                            </div>
+                        </div>
+                    </mat-card>
+                  </div>
+        
+                </div>
+              </form>
+            </div>
+    </mat-card>
+</mat-drawer-container>

@@ -1,0 +1,136 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: job-interview.component.scss
+    @Who: Satya Prakash Gupta
+    @When: 23-June-2023
+    @Why: EWM-12812 EWM-12828
+    @What: You can add style for job interview to this file, and also import other style files
+*/
+
+@import '../../../../../styles-var.scss';
+
+.label{
+    opacity: 0.8;
+    font-weight: 500;
+    font-size: 93%;
+}
+.jobinterview{
+  height: 100%;
+  position: relative;
+  &-container{
+      padding: 10px;
+      position: relative;
+      height: calc(100% - 0px);
+      overflow: auto;
+      box-sizing: border-box;
+      @media only screen and (max-width: 580px) and (min-width: 240px){
+        padding: 10px 5px;
+      }
+      .myInboxConnectTxt {
+          margin-bottom: 5px;
+          text-align: right;
+          padding-bottom: 2px;
+          @media only screen and (max-width: 830px) and (min-width: 320px){
+              font-size: 10px;
+          }
+          span.badge {
+              padding: 3px 5px;
+              margin: 0px 4px 0px 0px;
+              @media only screen and (max-width: 830px) and (min-width: 320px){
+              font-size: 10px;
+              }
+          }
+          .emailDisconnected {
+              display: inline-block;
+              font-size: 12px;
+              border-radius: 4px;
+              padding: 4px 7px;
+              text-transform: uppercase;
+              font-weight: 500;
+          }
+          .emailConnected {
+              display: inline-block;
+              font-size: 12px;
+              border-radius: 4px;
+              padding: 4px 7px;
+              text-transform: uppercase;
+              font-weight: 500;
+          }
+          .connectBtnLink {
+              padding: 0px 5px;
+              min-width: 25px;
+              height: 25px;
+              line-height: 25px;
+              @media only screen and (max-width: 830px) and (min-width: 320px){
+              padding: 0px 5px;
+              min-width: 25px;
+              height: 20px;
+              line-height: 20px;
+              }
+          }
+      }
+      .selected-candidates{
+          display: flex;
+          align-items: center;
+          flex-flow: wrap;
+          margin-bottom: 10px;
+          padding: 3px;
+          .candidate{
+              display: flex;
+              align-items: center;
+              padding-inline-end: 5px;
+          }
+          .length-text{
+            margin-inline-end: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            .mat-flat-button.max-count-box{
+                margin-top: 0px;
+            }
+          } 
+          .link{
+              cursor: pointer;
+              .candidate-name{
+                  text-decoration: underline;
+              }
+          }
+      }
+      .interviewer{
+          @extend .label;
+          &-dropdown{
+              display: grid;
+              grid: auto/ calc(50% - 5px) calc(50% - 5px);
+              gap: 10px;
+              margin-top: -17px;
+          }
+      }
+      .showactivity{
+          @extend .label;
+          &-checkbox-group{
+              display: flex;
+              gap: 10px;
+              flex-flow: wrap;
+              margin-top: 1px;
+              margin-bottom: 15px;
+              align-items: center;
+              .mat-flat-button{
+                  height: 24px;
+                  line-height: 24px;
+                  padding: 0px 10px;
+              }
+          }
+      }
+      .chip-input-dropdown{
+        .mat-button{
+          padding: 0px;
+          min-width: auto;
+          .mat-icon{
+            line-height: 24px;
+            font-size: 24px;
+          }
+        }
+    }
+  }
+}

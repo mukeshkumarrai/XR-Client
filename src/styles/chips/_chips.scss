@@ -1,0 +1,298 @@
+@use "../../colors";
+
+// current color bg start here
+@mixin color-bg-after{
+    position: absolute;
+    content: "";
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: currentColor;
+  }
+// current color bg end here
+
+@mixin avtaar-name-width-height {
+    width: 22px;
+    height: 22px;
+}
+
+.xeople-chips {
+    .mat-chip-list-wrapper {
+        margin: 0px;
+        .mat-chip {
+            max-width: 100%;
+            background-color: transparent;
+            position: relative;
+            color: rgba(0, 0, 0, 0.89);
+            min-height: 20px;
+            border-radius: 5px;
+            padding: 7px 4px 7px 5px;
+            border: 1px solid #cccccc;
+            font-weight: 400;
+            font-size: 11px;
+            margin: 0px;
+            margin-inline-end: 4px;
+            margin-bottom: 4px;
+            &::after {
+                position: absolute;
+                content: "";
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                background-color: currentColor;
+                opacity: 0.05;
+            }
+
+            .number {
+                height: 16px;
+                line-height: 16px;
+                padding: 0px 4px;
+                border-radius: 3px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                text-align: center;
+                font-size: 11px;
+                min-width: 8px;
+                max-width: 26px;
+                box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+            }
+
+            .skill-name {
+                font-size: 10px;
+                font-weight: 400;
+                text-transform: capitalize;
+            }
+
+            .btnActioncolor {
+                margin-inline-start: 7px;
+
+                .mat-mini-fab {
+                    width: 18px;
+                    height: 18px;
+                    line-height: 18px;
+                    background: colors.$white-bg;
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+
+                    .mat-button-wrapper {
+                        padding: 0px;
+                        line-height: 18px;
+
+                        .material-icons {
+                            width: 18px;
+                            height: 18px;
+                            line-height: 18px;
+                            font-size: 13px;
+                            vertical-align: top;
+                            color: colors.$warn-bg;
+                        }
+                    }
+                }
+
+                .edit-btn {
+                    margin-inline-end: 5px;
+
+                    .mat-button-wrapper {
+                        .material-icons {
+                            color: colors.$black-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+// chips
+.grid-chips{
+    display: flex;
+    align-items: center;
+    .mat-chip-list-wrapper{
+        margin: 0px;
+        .mat-chip{
+            background-color: transparent;
+            position: relative;
+            color: rgba(0, 0, 0, 0.89);
+            height: 20px;
+            border-radius: 5px;
+            padding: 7px 4px 7px 5px;
+            border: 1px solid #cccccc;
+            font-weight: 400;
+            margin: 0px;
+            max-width: 190px;
+            margin-inline-end: 3px;
+            padding: 3px 6px;
+            font-size: 13px;
+            min-height: 20px;
+            line-height: 12px;
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-block-start: 1.2px;
+            margin-block-end: 1.2px;
+            &::after {
+                position: absolute;
+                content: "";
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                background-color: currentColor;
+                opacity: 0.05;
+            }
+        }
+    }
+    .more-owner-show{
+        height: 20px;
+        line-height: 20px;
+        min-width: auto;
+        padding: 0px 0px;
+    }
+}
+.grid-chips.skill-grid-chips{
+    .mat-chip-list-wrapper{
+        flex-wrap: nowrap;
+    }
+}
+// name chip start
+.name-chips{
+    .mat-chip-list-wrapper{
+        margin: 0px;
+        align-items: flex-start;
+        .mat-chip.mat-standard-chip{
+            max-width: 100%;
+            margin: 0px 5px 5px 0px;
+            background-color: transparent;
+            position: relative;
+            color: rgba(0, 0, 0, 0.87);
+            height: 21px;
+            min-height: 21px;
+            border-radius: 5px;
+            padding: 7px 4px 7px 5px;
+            border: 1px solid #cccccc;
+            &::after{
+                @include color-bg-after;
+                opacity: 0.05;
+            }
+            .skill-name{
+                font-size: 10px;
+                font-weight: 400;
+                text-transform: capitalize;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 110px;
+            }
+        }
+        .mat-chip.contact-chip.mat-standard-chip{
+            margin: 0px 3px 3px 0px;
+            .skill-name{
+                font-weight: normal;
+            }
+        }
+    }
+}
+// name chip end
+
+// short name with full name chip start
+.short-with-full-chip{
+    .mat-chip-list-wrapper{
+        margin: 2px 0px;
+        .mat-chip.mat-standard-chip{
+            margin: 2px;
+            padding: 5px 3px;
+            min-height: 29px;
+            .userAvtaar {
+                @include avtaar-name-width-height;
+                border-radius: 50px;
+                margin-inline-end: 5px;
+                img {
+                  border-radius: 100%;
+                  @include avtaar-name-width-height;
+                }
+                span{
+                @include avtaar-name-width-height;
+                  background: colors.$primary-bg-color;
+                  color: colors.$primary-txt-color;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 100%;
+                  top: 0px;
+                }
+            }
+        }
+    }
+}
+// short name with full name chip end
+
+// chip & dropdown icon between space start
+.space-chip{
+    .mat-chip-list-wrapper{
+        padding-inline-end: 50px;
+    }
+}
+// chip & dropdown icon between space end
+
+// checklist chips
+.checklist-chip{
+    .mat-chip.mat-standard-chip{
+        min-height: 22px;
+        font-size: 12px;
+        padding: 0px 2px;
+        padding-inline-start: 8px;
+        gap: 3px;
+        margin-block: 0px 4px;
+        margin-inline: 0px 4px;
+        border-radius: 30px;
+        span{
+            max-width: 130px;
+        }
+        .mat-icon{
+            font-size: 18px;
+            line-height: 19px;
+        }
+    }
+}
+
+
+// chips
+.dark-theme {
+    .xeople-chips {
+        .mat-chip {
+            color: colors.$white-color;
+        }
+    }
+    .grid-chips{
+        .mat-chip-list-wrapper{
+            .mat-chip{
+                color: #fff;
+                background: #383737 !important;
+                border: 1px solid #595858;
+            }
+        }
+    }
+    .name-chips{
+        .mat-chip-list-wrapper{
+            .mat-chip.mat-standard-chip{
+                color: colors.$white-color;
+            } 
+        }
+    }   
+    .short-with-full-chip{
+        .mat-chip-list-wrapper{
+            .mat-chip.mat-standard-chip{
+                .userAvtaar {
+                    span{
+                      background: colors.$dark-primary;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,81 @@
+@use "../../colors";
+// extract-modal start here
+.extract-modal{
+    .mat-stepper-horizontal, .mat-stepper-vertical{
+        .mat-horizontal-stepper-header-container{
+            margin-bottom: 10px;
+            .mat-step-header{
+                height: 45px;
+                flex-direction: column;
+                justify-content: center;
+                .mat-step-icon-state-done{
+                    background-color: colors.$green-color;
+                    color: white;
+                }
+                .mat-step-label{
+                    @media (min-width : 320px) and (max-width : 480px){
+                        font-size: 11px;
+                    }
+                }
+                .mat-step-label-selected{
+                    font-weight: 400;
+                }
+            }
+        }
+        .mat-horizontal-content-container{
+            padding: 5px;
+            position: relative;
+            p{
+                span.count{
+                    color: colors.$green-color;
+                    font-weight: 700;
+                }
+                span.candidate{
+                    color: colors.$warn-bg;
+                }
+            }
+            .table-container{
+                width: 100%;
+                overflow: auto;
+                table{
+                    width: 100%;
+                    min-width: 540px;
+                    tr.mat-row, tr.mat-footer-row {
+                        height: 38px;
+                        td.mat-cell{
+                            color: colors.$warn-bg;
+                        }
+                    }
+                }
+            }
+            .checkbox-card{
+             margin-bottom: 10px;
+             padding: 7px;   
+            }
+        }
+    }
+}
+// extract-modal end here
+// push-member-app start here
+.push-member-app{
+    text-align: center;
+    .mat-button-base.mat-primary{
+        height: auto;
+        line-height: initial;
+        padding: 0px 3px;
+        text-decoration: underline;
+    }
+}
+.push-member-app-footer{
+    justify-content: center;
+}
+.push-member-app-msg-footer{
+    justify-content: flex-end;
+}
+// push-member-app end here
+.dark-theme{
+    .mat-header-cell {
+        color: #ffffff !important;
+        background-color: #2e2e2e;
+    }
+}

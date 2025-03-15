@@ -1,0 +1,919 @@
+<!--- 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Anup Singh
+  @When: 13-july-2021 
+  @Why: EWM-2001 EWM-2070
+  @What:  This page will be use for the manage job template Component html file
+ --->
+
+
+ <span *ngIf="!hideheaderforJobView">
+    <div *ngIf="loading" class="logo-loader" id="logo-loader">
+        <div class="logo-loading"></div>
+      </div>
+</span>
+<span *ngIf="hideheaderforJobView">
+    <div *ngIf="loading" class="logo-loader" id="logo-loader">
+        <div class="logo-loading"></div>
+      </div>
+</span>
+
+<span *ngIf="isEditJob">
+    <div *ngIf="editLoading" class="logo-loader" id="logo-loader">
+        <div class="logo-loading"></div>
+      </div>
+</span>
+
+    <span *ngIf="hideheaderforJobView">
+        <mat-card-header class="dashboard-mat-card-header title-and-btn" id="complete-create-job-form-mat-card-header">
+            <mat-card-title id="quickAddJobBtn" class="only-title" *ngIf="!isEditJob">{{'label_addJob' |translate}}</mat-card-title>
+            <mat-card-title id="quickEditJobBtn" class="only-title" *ngIf="isEditJob">{{'quickjob_quickEditJob' |translate}}</mat-card-title>
+            <ng-container *ngIf="hideUpperSaveCancelButton">
+                <div class="actionButton">
+                    <button mat-raised-button tabindex="43" color="warn" id="btnCancel" (click)="onCancel()"
+                        class="buttonForDesktopMobile" [queryParams]="{filter:isActive}">
+                        <mat-icon>close</mat-icon>
+                        <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+                    </button>
+        
+                    <button *ngIf="!isEditJob" mat-raised-button tabindex="44" [queryParams]="{filter:isActive}"  color="primary" (click)="onConfirm()" 
+                        type="button" id="btnSave" class="buttonForDesktopMobile" [disabled]="!quickJobForm.valid || isMapAppToggled || !isPrimaryOwnerValid">
+                        <mat-icon>check</mat-icon>
+                        <span class="buttonTxt">{{'label_save'|translate}}</span>
+                    </button>
+                    <button *ngIf="isEditJob" [queryParams]="{filter:isActive}"  mat-raised-button tabindex="44" color="primary" (click)="onConfirmUpdateJob()"
+                        type="button" id="btnUpdate" class="buttonForDesktopMobile" [disabled]="!quickJobForm.valid || isMapAppToggled || !isPrimaryOwnerValid">
+                        <mat-icon>check</mat-icon>
+                        <span class="buttonTxt">{{'label_save'|translate}}</span>
+                    </button>
+                </div>
+            </ng-container>
+        </mat-card-header>
+        
+    </span>
+
+<!---------@When: 03-Feb-2023 @who:Adarsh singh @why: EWM-9386 EWM-10393 Desc- header for Edit job from Floating --------->
+<!---------@When: 22-sep-2023 @who:maneesh @why: EWM-13861 Desc- hide edit icon when:IsJobClosed=1 --------->
+
+<span *ngIf="floatingEditButton && IsJobClosed!=1">
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="complete-create-job-form-mat-card-header">
+        <div class="actionButton">
+                    <button mat-raised-button tabindex="44" color="primary" type="button" id="btnUpdate" class="details-edit"
+                    (click)="onFloatButtonClickForEdit()" matTooltip="{{'label_edit'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                    <mat-icon>edit</mat-icon>
+                </button>
+        </div>
+    </mat-card-header>
+</span>
+<!-- End  -->
+
+<mat-drawer-container class="xeople-container-with-one-card complete-create-drawer-container" autosize id="job-workflow-manage-drawer">  
+    <div id="user-contact-type" class="user-contact-type">    
+    <mat-card-content [ngClass]="{'sidebarDrawer-QuickJob':hideForJobDetailsView==true}" class="pt-0 pl-0 pr-0">
+    <div *ngIf="errMsg" class="errorMsg">{{'label_noRecordAvailable' |translate}}</div>
+    <div class="addEditSec" id="addEditSec" *ngIf="!errMsg">
+        <ng-template #template let-anchor>
+            <span>{{ anchor.nativeElement.innerText }}</span>
+        </ng-template>
+        <form [formGroup]="quickJobForm" id="quickjob">
+            <div class="quick-dialog quick-job" id="quick-quickjob">
+
+                <!--GENRAL First Pannel -->
+
+                <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title id="general">
+                            {{'quickjob_general' | translate}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row mb-0">
+                        <!-- JobReferenceId only for Edit Job-->
+                        <div class="col l12 m12 s12" *ngIf="isEditJob">
+                            <mat-form-field>
+                                <mat-label>{{'quickjob_jobReferenceId' | translate}} </mat-label>
+                                <input matInput placeholder="{{'quickjob_jobTitle' | translate}}" tabindex="1"
+                                    formControlName="JobReferenceId" id="quickjob-JobReferenceId">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col l12 m12 s12">
+                            <mat-form-field>
+                                <mat-label>{{'quickjob_jobTitle' | translate}} </mat-label>
+                                <!--only for job Details Veiw-->
+                                <input *ngIf="!hideheaderforJobView" matInput
+                                    placeholder="{{'quickjob_jobTitle' | translate}}" tabindex="1"
+                                    formControlName="Title" id="quickjob-jobTitle" required>
+                                <!-- End -->
+
+                                <input *ngIf="hideheaderforJobView" matInput #title="matInput" autofocus
+                                    placeholder="{{'quickjob_jobTitle' | translate}}" tabindex="1"
+                                    formControlName="Title" id="quickjob-jobTitle" required>
+                                <mat-error
+                                    *ngIf="quickJobForm.controls['Title'].hasError('required') && quickJobForm.controls['Title'].touched">
+                                    {{'quickjob_jobTitle'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['Title'].hasError('maxlength') && !quickJobForm.controls['Title'].hasError('whitespace')">
+                                    {{'quickjob_jobTitle' |translate}} {{'label_errormaxlength100' |translate}}
+                                </mat-error>
+                                  <!--  @Who: maneesh, @When: 06-jan-2023,@Why: EWM-10105 addnoWhitespaceValidator -->
+             <mat-error *ngIf="quickJobForm.controls['Title'].hasError('whitespace') && !quickJobForm.controls['Title'].hasError('required')">
+                {{'quickjob_jobTitle' |translate}} {{'label_nameValidation' |translate}}
+              </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col l12 m12 s12">
+                            <div class="common_dropdown_v2">
+                                <dropdown
+                                 [configuration]="common_DropdownC_Config" 
+                                (selectedOut)="clickClientGetAddressDetails($event)" [getSelectedItem]="selectedClientUser"
+                                [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="col l12 m12 s12 mb-10">
+                            <!-- @When: 12-10-2023 @who:Amit @why: EWM-14706 @what: icon place -->
+                            <div formGroupName="address" class="icon-page">
+                                <mat-form-field class="icon-withchip location-icon-withchip">
+                                    <mat-label>{{'label_location' | customTranslate}}</mat-label>                                     
+                                    <input type="text" tabindex formControlName="AddressLinkToMap" (click)="addAddress()" readonly matInput
+                                        placeholder="{{'label_location' | customTranslate}}" id="people-address">              
+                                    <mat-icon matPrefix class="matPrefix-icon">location_on</mat-icon>
+                                     <button tabindex id="addbtn-address" mat-raised-button matSuffix color="primary" type="button"
+                                        class="matSuffix-icon mb-0" (click)="addAddress()">
+                                        <mat-icon>add</mat-icon>
+                                    </button>                       
+                                   </mat-form-field>    
+                            </div>
+                        </div>                      
+                    </div>
+                </mat-expansion-panel>
+
+                <!--Job Details Second Pannel -->
+                <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title  id="jobDetails">
+                            {{'quickjob_jobDetails' | translate}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row mb-0">
+                        <div class="col l6 m6 s12">
+                            <div class="common_dropdown_v2">
+                                <dropdown
+                                 [configuration]="CMMN_Dropdown_ConfigJob_Category" 
+                                (selectedOut)="onCategorychange($event)" [getSelectedItem]="selectedCategory"
+                                [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="col l6 m6 s12">
+                            <div class="common_dropdown_v2">
+                                <dropdown
+                                 [configuration]="CMMN_Dropdown_ConfigJob_SUB_Category" 
+                                (selectedOut)="onSubCategorychange($event)" 
+                                [showMoreOptionsNum]="4"
+                                [resetConfiguration]="resetFormSubjectSubCategory.asObservable()" [getSelectedItem]="selectedSubCategory"
+                                [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="col l6 m6 s12">
+                            <div class="common_dropdown_v2">
+                                <dropdown
+                                 [configuration]="CMMN_Dropdown_ConfigIndustry" 
+                                 [showMoreOptionsNum]="5"
+                                (selectedOut)="onIndustrychange($event)" [getSelectedItem]="selectedIndustry"
+                                [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="col l6 m6 s12">
+                            <div class="common_dropdown_v2">
+                                <dropdown
+                                 [configuration]="CMMN_Dropdown_ConfigSubIndustry" 
+                                (selectedOut)="onSubIndustrychange($event)" [getSelectedItem]="selectedSubIndustry"
+                                [showMoreOptionsNum]="6"
+                                [resetConfiguration]="resetFormSubjectSubIndustry.asObservable()" 
+                                [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m6 s12">
+
+                            <div class="common_dropdown_v2">
+                                <dropdown [configuration]="CMMN_Dropdown_ConfigQualification" (selectedOut)="onQualificationchange($event)"
+                                     [getSelectedItem]="selectedQualification"
+                                    [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <!-----------Nitin Bhati Skilles Start-->
+                        <div class="col l12 m12 s12">
+                            <div class="manage-skill-list ng-slectBox">
+                                <ng-select 
+                                [ngStyle]="isDisabled && {'pointer-events': 'none'}" 
+                                 tabindex [multiple]="true"   [formControl]="SkillTag" [(ngModel)]="skillSelectedListId"  
+                                class="dropdown-body" #select [searchable]="false" appendTo="body" [clearable]="true" [compareWith]="compareFn"
+                                    [closeOnSelect]="true"  (change)="selectedSkills($event)" placeholder="{{'quickjob_skills'|translate}}"
+                                    id="ddl_skills" [items]="searchskillList">
+                                     <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <div class="ng-value ngselect-tag" *ngFor="let item of items | slice:0:maxMoreLength">
+                                            <span class="ng-value-label text-overflow" matTooltip=" {{item.SkillName?item.SkillName:item.TagName}}" 
+                                            matTooltipClass="custom-tooltip">  {{item.SkillName?item.SkillName:item.TagName}}({{item.Weightage?item.Weightage:0}})</span>
+                                                <button [disabled]="isDisabled" class="multiselectChip-close" mat-fab color="warn" (click)="clear(item)">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                        </div>
+                                        <div class="ng-value" *ngIf="items.length > maxMoreLength">
+                                            <span class="ng-value-label">{{items.length - maxMoreLength}} 
+                                                {{'label_more'|translate}}...</span>
+                                        </div>
+                                    </ng-template>
+                                    
+                                    <ng-template ng-header-tmp>
+                                            <div class="add-manage">
+                                              <span class="spacer"></span>
+                                                <a target="_blank" (click)="manageSkills()"  mat-icon-button id="favIcon" class="dropdown-manage"    color="primary" matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                                (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                                                    (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+                                                  <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                                                  class="{{animationVar?.ManageButton?.isAnimClass}}">
+                                                    <mat-icon>subject</mat-icon>
+                                                    <mat-icon class="secondIcon">settings</mat-icon>
+                                                </div>
+                                              </a>
+                                                <button mat-icon-button class="dropdown-reload" (click)="refreshComponent()"  color="primary" type="button" [ngClass]="loader?'rotate-loader':''" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                                (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                                                    (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                                                      <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">rotate_right</mat-icon>
+                                                </button>
+                                            </div>
+                    
+                                            <div class="pl-15 pr-15">
+                                                <mat-form-field class="no-bottom">
+                                                    <input matInput class="selectSearch"  [formControl]="search" [(ngModel)]="searchValue" autocomplete="off" placeholder="{{'label_search' |translate}} {{'quickjob_skills' | translate}}"
+                                                    (input)="onsearchSkills($event.target.value)" />
+                                                </mat-form-field>
+                                            </div>
+                             
+                                    </ng-template>
+                                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                      <div class="skills-name">
+                                      {{item.SkillName?item.SkillName:item.TagName}}
+                                      <span class="skill-data" *ngIf="item.IsTag=='1'">
+                                        <mat-icon matBadge="{{item.SkillCount}}" color="primary">local_offer</mat-icon>
+                                      </span>
+                                    </div>
+                                  </ng-template>
+                                     
+                                </ng-select>
+                            </div>
+                        </div>
+                        <!-----------Nitin Bhati Skilles End-->
+
+                        <div class="clear"></div>
+                        <div class="col l6 m6 s12">
+                            <div class="common_dropdown_v2">
+                                <dropdown [configuration]="CMMN_Dropdown_ConfigJobType" (selectedOut)="onJobTypechange($event)"
+                                   [getSelectedItem]="selectedJobType"
+                                    [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="col l6 m6 s12">
+
+                            <div class="common_dropdown_v2">
+                                <dropdown [configuration]="CMMN_Dropdown_ConfigJobSubType" (selectedOut)="onJobSubTypechange($event)"
+                                   [getSelectedItem]="selectedJobSubType" [resetConfiguration]="resetFormSubject.asObservable()"
+                                    [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m6 s12">
+                            <div class="common_dropdown_v2">
+                                <dropdown [configuration]="CMMN_Dropdown_ConfigExperience" (selectedOut)="onExperiencechange($event)"
+                                   [getSelectedItem]="selectedExperience" 
+                                    [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m6 s12">
+                            <div class="common_dropdown_v2">
+                                <dropdown [configuration]="CMMN_Dropdown_ConfigExperties" (selectedOut)="onExpertieschange($event)"
+                                [showMoreOptionsNum]="4"
+                                [getSelectedItem]="selectedExperties" 
+                                    [setDisabledControl]="apiCalledWhileReset"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="col l6 m6 s12">
+                            <div class="common_dropdown_v2">
+                                <dropdown [configuration]="CMMN_Dropdown_ConfigSubExperties" (selectedOut)="onSubExpertieschange($event)"
+                                   [getSelectedItem]="selectedSubExperties" [resetConfiguration]="resetFormSubjectSubExperties.asObservable()"
+                                 [showMoreOptionsNum]="4"
+                                 [setDisabledControl]="apiCalledWhileReset" ></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m6 s12">
+
+
+                        </div>
+
+                       
+
+                        
+                    </div>
+                </mat-expansion-panel>
+
+                <!--Salary Third Pannel -->
+                <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title id="salary">
+                            {{'quickjob_salary' | translate}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row mb-0">
+                         <div class="col l6 m6 s12">    
+                            <div class="ng-slectBox">
+                                <app-custom-dropdown [selectedIn]="selectedCurrency"
+                                    (selectedOut)="clickCurrency($event)"
+                                    [config]="dropDownCurencyConfig" tabindex="26">
+                                </app-custom-dropdown>
+                            </div> 
+                        </div>
+
+                        <div class="col l6 m6 s12">
+                            <div class="ng-slectBox">
+                                <app-custom-dropdown [selectedIn]="selectedSalaryUnit"
+                                    (selectedOut)="onJobSalaryUnitchange($event)"
+                                    [config]="dropDownSalaryUnitConfig" tabindex="25">
+                                </app-custom-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m12 s12">
+                            <div class="ng-slectBox">
+                                <app-custome-dropdown-with-two-variabel [selectedIn]="selectedSalaryBandName"
+                                    (selectedOut)="onJobSalaryBandchange($event)" [config]="dropDownSalaryBandNameConfig"
+                                    tabindex="26">
+                                </app-custome-dropdown-with-two-variabel>
+                             
+                            </div>
+                        </div>
+
+                        <div class="col l6 m12 s12">
+                            <div class="ng-slectBox toggle-with-icon">
+                                <mat-slide-toggle color="primary" tabindex
+                                id="quickjob-HideSalary" formControlName="HideSalary">
+                                {{'label_Hide' | translate}} {{'quickjob_salary' | translate}}</mat-slide-toggle>
+                                <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_hideSalary' |translate}}">info</mat-icon>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m6 s12">
+                            <mat-form-field>
+                                <mat-label>{{'quickjob_bonus' | translate}}</mat-label>
+                                <input matInput placeholder="" type="text" appTwoDigitDecimalNumber
+                                    formControlName="Bonus" id="quickjob-bonus" tabindex="27">
+                                <mat-error *ngIf="quickJobForm.controls['Bonus'].hasError('pattern')">
+                                    {{'quickjob_bonus' |translate}} {{'label_errorspecialcharDecimal'
+                                    |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['Bonus'].hasError('maxlength')">
+                                    {{'quickjob_bonus' |translate}} {{'label_errormaxlength10' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col l6 m6 s12">
+                            <mat-form-field>
+                                <mat-label>{{'quickjob_equity' | translate}}</mat-label>
+                                <input matInput placeholder="" type="text" appTwoDigitDecimalNumber
+                                    formControlName="Equity" id="quickjob-equity" tabindex="28">
+                                <mat-error *ngIf="quickJobForm.controls['Equity'].hasError('pattern')">
+                                    {{'quickjob_equity' |translate}} {{'label_errorspecialcharDecimal'
+                                    |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['Equity'].hasError('maxlength')">
+                                    {{'quickjob_equity' |translate}} {{'label_errormaxlength10' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+
+
+                <!--Decscription Fourth Pannel -->
+                <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title id="jobDescription">
+                            {{'quickjob_jobDescription' | translate}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row mb-0">
+                        <!---------@When: 01-12-2022 @who:Amit @why: EWM-9576 @what:add new class--------->
+                        <div class="col l12 m12 s12 job-desc"
+                            [ngClass]="{'disabledDescriptionDiv':hideForJobDetailsView==true}">
+                            <mat-label class="divTextAreaLavel">{{'quickjob_jobDescription' | translate}}
+                            </mat-label>
+                            <div [innerHTML]="DescriptionValue" tabindex="29" (click)="openDialogforDescription()"
+                                id="quickjob-jobDescription" class="divTextArea">
+                            </div>
+                        </div>
+
+                        <div class="col l12 m12 s12">
+                            <mat-form-field>
+                                <mat-label>{{'quickjob_internalNotes' | translate}}</mat-label>
+                                <textarea matInput placeholder="" tabindex="30" formControlName="InternalNotes"
+                                    class="InternalNotes" id="quickjob-internalNotes"></textarea>
+                                <mat-error *ngIf="quickJobForm.controls['InternalNotes'].hasError('maxlength')">
+                                    {{'quickjob_internalNotes' |translate}} {{'label_errormaxlength1000' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row mb-0">
+                        <div class="col l12 m12 s12">
+                            <div class="ng-slectBox">
+
+                                <app-custom-dropdown [selectedIn]="selectedTag" (selectedOut)="onTagchange($event)"
+                                    [config]="dropDownTagConfig" tabindex="31">
+                                </app-custom-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+
+                <!--Advanced 5th Pannel -->
+                <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{'quickjob_adavnced' | translate}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row mb-0">
+
+                        <!--**************** -->
+                        <div class="clear"></div>
+                        <div class="col l6 m12 s12 job-rank">
+                            <mat-form-field>
+                                <mat-label>{{'quickjob_jobRank' | translate}}</mat-label>
+                                <input matInput placeholder="" min="0" type="number" tabindex id="quickjob-jobRank"
+                                    appTwoDigitDecimalNumber appDigitOnly formControlName="JobRank">
+                                <mat-error *ngIf="quickJobForm.controls['JobRank'].hasError('pattern')">
+                                        {{'quickjob_jobRank' |translate}} 
+                                        {{'label_errormax9999' |translate}}, {{'label_errorspecialcharNegative' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput formControlName="ColorCode" id="ColorCodesc">
+                                <div matSuffix class="info-and-color-picker">
+                                    <div  class="color-picker-button" [ngStyle]=" isDisabled  ? {'background':selctedColor,'pointer-events': 'none','opacity': '.2' } : {'background':selctedColor} " (click)="showColorPallate($event)" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+                                    </div> 
+                                    <mat-icon color="primary" matTooltipPosition="left" matTooltip="{{'label_jobRankHelpIcon' |translate}}">info</mat-icon>
+                                    <!-- --------@When: 10-03-2023 @who:maneesh @why: EWM-11115 Desc- Custome color picker -------- -->
+                                    <ng-template cdkConnectedOverlay cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+                                    [cdkConnectedOverlayHasBackdrop]="true" [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="showColorPallateContainer"
+                                    (backdropClick)="showColorPallateContainer = false">
+                                        <!-- color picker body  -->
+                                        <div class="color-picker-default">
+                                            <input type="color" id="head" name="head" value="#e66465" (input)="onChaneColor($event)">
+                                        </div>
+                                        <div class="color-picker-container" [style.opacity]="isMoreColorClicked ? '0' : ' '"
+                                            [style.display]="isMoreColorClicked ? 'none' : ' '">
+                                            <div class="themeColor">{{'label_selectColour' | translate}}</div>
+                                            <div class="picker theme-color">
+                                                <div (click)="onSelectColor(codes)" class="color-picker" *ngFor="let codes of themeColors"
+                                                    [ngStyle]="{backgroundColor:codes.colorCode}"> </div>
+                                            </div>
+                                            <div class="picker standard-color">
+                                                <div (click)="onSelectColor(codes)" class="color-picker" *ngFor="let codes of standardColor"
+                                                    [ngStyle]="{backgroundColor:codes.colorCode}">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="footer">
+                                                <div class="noFill" (click)="onSelectColor(null)">
+                                                    <mat-icon>clear</mat-icon>
+                                                    <div class="noFillText">{{'label_clear'| translate}}</div>
+                                                </div>
+                                                <div class="more" (click)="closeTemplate()">
+                                                    <label for="head" class="noFill">
+                                                        <mat-icon fontSet="material-icons-outlined">palette</mat-icon>
+                                                        <span>{{'labelMore'| translate}}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+            
+                                        <!-- color picker body End-->
+                                    </ng-template>
+                                    <!-- End  -->
+                                </div>
+                            </mat-form-field>
+                        </div>
+                        <!--**************** -->
+
+                        <div class="clear"></div>
+
+                        <div class="col l6 m12 s12 input-with-info-icon">
+                            <mat-form-field>
+                                <mat-label>{{'quickjob_headcounts' | translate}}</mat-label>
+                                <!--Who:Ankit Rawat, What:EWM-16596  Default set head count 1, add validate 0-9999, set input type=number, When:04Apr24-->
+                                <input type="number" matInput tabindex formControlName="HeadCount" id="quickjob-headcounts" placeholder="" min="1" max="9999" (keyup)="onHeadCountsValidation($event)">    
+                                <mat-error *ngIf="quickJobForm.controls['HeadCount'].hasError('pattern')">
+                                    {{'quickjob_headcounts' |translate}} {{'label_errorspecialcharDecimal'
+                                    |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['HeadCount'].hasError('numbercheck')">
+                                    {{'quickjob_headcounts' |translate}} {{'label_JobHeadCount_Number_Error' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_headCountHelpIcon' |translate}}">info</mat-icon>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col l6 m12 s12 input-with-info-icon">
+                            <mat-form-field>
+                                <mat-label>{{'quickjob_filledDate' | translate}}</mat-label>
+                                <input matInput [matDatepicker]="picker2" tabindex
+                                    id="quickjob-filledDate"   [placeholder]="getDateFormat"  [min]="todayFillDate"
+                                    formControlName="FillDate">
+                                    <button *ngIf="quickJobForm.value.FillDate" [disabled]="hideForJobDetailsView" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                                    (click)="clearStartDate()" > 
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                 <!---------@When: 23-03-2023 @who:Adarsh singh @why: EWM-10688 @Desc- Added date validation--------->
+                                <!-- <mat-error *ngIf="quickJobForm.controls['FillDate'].hasError('required') && quickJobForm.controls['FillDate'].touched && !quickJobForm.controls['FillDate'].hasError('matDatepickerParse')"> {{'quickjob_filledDate'|translate}} {{'label_errorreqired'|translate}} </mat-error> -->
+                                <mat-error *ngIf="quickJobForm.controls['FillDate'].hasError('invalidDate') && !quickJobForm.controls['FillDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['FillDate'].hasError('matDatepickerParse') && !quickJobForm.controls['FillDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['FillDate'].hasError('matDatepickerMax') && !quickJobForm.controls['FillDate'].hasError('invalidDate')"> {{'quickjob_filledDate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['FillDate'].hasError('matDatepickerMin') && !quickJobForm.controls['FillDate'].hasError('invalidDate')"> {{'quickjob_filledDate' | translate}} {{'label_shoulNotLessThan' | translate}} </mat-error>
+                                <!-- End  -->
+                            </mat-form-field>
+                            <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_filledDateHelpIcon' |translate}}">info</mat-icon>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col l6 m12 s12 input-with-info-icon">
+                            <mat-form-field>
+                                <mat-label>{{'quickjob_openDate' | translate}} <span class="required-show">*</span></mat-label>
+                                <input matInput [matDatepicker]="picker1" tabindex
+                                    id="quickjob-openDate" [min]="todayOpenDate" [(ngModel)]="dateOpen"
+                                    formControlName="OpenDate"   [placeholder]="getDateFormat" >
+                                    <button *ngIf="quickJobForm.value.OpenDate" [disabled]="hideForJobDetailsView" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                                    (click)="clearopenDate()" > 
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                                <!---------@When: 23-03-2023 @who:Adarsh singh @why: EWM-10688 @Desc- Added date validation--------->
+                                <mat-error *ngIf="quickJobForm.controls['OpenDate'].hasError('required') && quickJobForm.controls['OpenDate'].touched && !quickJobForm.controls['OpenDate'].hasError('matDatepickerParse')"> {{'quickjob_openDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['OpenDate'].hasError('invalidDate') && !quickJobForm.controls['OpenDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['OpenDate'].hasError('matDatepickerParse') && !quickJobForm.controls['OpenDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['OpenDate'].hasError('matDatepickerMax') && !quickJobForm.controls['OpenDate'].hasError('invalidDate')"> {{'quickjob_openDate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['OpenDate'].hasError('matDatepickerMin') && !quickJobForm.controls['OpenDate'].hasError('invalidDate')"> {{'quickjob_openDate' | translate}} {{'label_shoulNotLessThan' | translate}}</mat-error>
+                                <!-- End  -->
+                            </mat-form-field>
+                            <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_openDateHelpIcon' |translate}}">info</mat-icon>
+                        </div>
+                        <!--**************** -->
+                        <div class="clear"></div>
+                        <div class="col l6 m6 s12">
+                            <mat-form-field>
+                                <!---------@When: 16-03-2023 @who:Bantee Kumar @why: EWM-10334 --------->
+
+                                <mat-label>{{'quickjob_jobExpiryDays' | translate}}</mat-label>
+                                <input matInput placeholder="" (keyup)="conditionChcek()" type="text" formControlName="JobExpiryDays"
+                                    id="quickjob-jobExpiryDays" value="" tabindex="21" min="0" max="999">
+                                <mat-error *ngIf="quickJobForm.controls['JobExpiryDays'].hasError('pattern')">
+                                    {{'quickjob_jobExpiryDays' |translate}} {{'label_errorspecialcharDecimal'
+                                    |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="quickJobForm.controls['JobExpiryDays'].hasError('numbercheck')">
+                                    {{'label_quickjob_jobExpiry999Days' |translate}}
+                                </mat-error>
+                                
+                            </mat-form-field>
+                        </div> 
+                        <!--**************** -->
+
+                        <div class="clear"></div>
+                       <!--  <div class="col l6 m12 s12">
+                                who:maneesh,what:ewm-11774  for focus  id="focusFielddata" autofocus ,when:20/09/2023 -->
+                            <!--<div class="ng-slectBox ng-select-with-info-icon" id="focusFielddata"  autofocus>
+                             @When: 25-10-2023 @who:maneesh @why: EWM-11862 @what:open drop down and close dropdown when click on field
+                                <ng-select tabindex [multiple]="true"  formControlName="OwnerId" id="quickjob-owners"   [searchable]="false"
+                                    class="dropdown-body show-required" appendTo="body" [clearable]="true" [(ngModel)]="ownerpatch"
+                                    placeholder="{{'quickjob_owners'|translate}}" [items]="ownerList"
+                                    bindLabel="UserName" bindValue="UserId" required>
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <div class="multiselectChip">
+                                            <div class="multiselectChip-chip" *ngFor="let item of items | slice:0:maxMoreLengthForOwnerContacts">
+                                                <span class="multiselectChip-chip-text"> {{item.UserName}}</span>
+                                                <button class="multiselectChip-close" [disabled]="hideForJobDetailsView" mat-fab color="warn" (click)="clear(item)">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>    
+                                            </div>
+                                            <div class="multiselectChip-morechips multiselectChip-chip" *ngIf="items.length > maxMoreLengthForOwnerContacts">
+                                                <span class="multiselectChip-chip-text">{{items.length - maxMoreLengthForOwnerContacts}}
+                                                    {{'label_more'|translate}}...</span>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ng-select>
+
+                                <mat-error
+                                    *ngIf="quickJobForm.controls['OwnerId'].hasError('required') && quickJobForm.controls['OwnerId'].touched">
+                                    {{'quickjob_owners'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                                <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_ownerHelpIcon' |translate}}">info</mat-icon>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>-->
+                        <div class="col l6 m12">
+                        <!--Who:Ankit Rawat, Primary job owner changes, Why: EWM-17356, When:25Jun2024-->
+                        <!-- @When: 28-06-2024 @who:Amit @why: EWM-17383 @what: profile image hide -->
+                        <div class="common_dropdown_v2 profile-remove">
+                            <dropdown *ngIf="showPrimaryOwner" [configuration]="ddlPrimaryOwnerConfig"
+                            (selectedOut)="ddlChangePrimaryOwner($event)" 
+                            [getSelectedItem]="selectedPrimaryOwnerItem"
+                            [showMoreOptionsNum]="maxMoreLengthForPrimaryOwner" [setDisabledControl]="DisabledPrimaryOwnerControl"></dropdown>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m12">
+                        <!--Who:Ankit Rawat, Primary job owner changes, Why: EWM-17356, When:25Jun2024-->
+                        <div class="ng-select-with-info-icon">
+                            <dropdown *ngIf="showOwner" [configuration]="ddlOwnerConfig"
+                            (selectedOut)="ddlChangeOwner($event)" 
+                            [getSelectedItem]="selectedOwnerItem"
+                            [showMoreOptionsNum]="maxMoreLengthForOwner" [setDisabledControl]="DisabledOwnerControl"></dropdown>
+                            <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_ownerHelpIcon' |translate}}">info</mat-icon>
+                        </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m12">
+                            <div class="ng-slectBox ng-select-with-info-icon">
+                            <!-- @When: 25-10-2023 @who:maneesh @why: EWM-11862 @what:open drop down and close dropdown when click on field-->
+                                <ng-select tabindex [multiple]="true" formControlName="Contact" class="dropdown-body"  [searchable]="false"
+                                    appendTo="body" id="quickjob-companyContacts" [clearable]="true" [(ngModel)]="companyContactsPatch"
+                                    placeholder="{{'quickjob_companyContacts'|translate}}" [items]="companyList"
+                                    bindLabel="FullName" bindValue="Id" (change)="getContactList()">
+                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                        <div class="multiselectChip">
+                                            <div class="multiselectChip-chip" *ngFor="let item of items | slice:0:maxMoreLengthForOwnerContacts">
+                                                <span class="multiselectChip-chip-text">{{item.FirstName}} {{item.LastName}}</span>
+                                                <button class="multiselectChip-close"  [disabled]="hideForJobDetailsView" mat-fab color="warn" (click)="clear(item)">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="multiselectChip-morechips multiselectChip-chip" *ngIf="items.length > maxMoreLengthForOwnerContacts">
+                                                <span class="multiselectChip-chip-text">{{items.length - maxMoreLengthForOwnerContacts}}
+                                                    {{'label_more'|translate}}...</span>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ng-select>
+                                <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_conpanyContactHelpIcon' |translate}}">info</mat-icon>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m12 s12 ">
+                            <div class="ng-slectBox ng-select-with-info-icon">
+                                <app-custom-dropdown [selectedIn]="selectedBrands"
+                                    (selectedOut)="onJobBrandschange($event)" [config]="dropDownBrandsConfig" tabindex>
+                                </app-custom-dropdown>
+                                <mat-icon class="infoStyle" matTooltipPosition="left" matTooltip="{{'label_brandsHelpIcon' |translate}}">info</mat-icon>
+                            </div>
+
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m12 s12 passwordStrenth">
+                            <div class="ng-slectBox">
+                            <!-- @When: 25-10-2023 @who:maneesh @why: EWM-11862 @what:open drop down and close dropdown when click on field-->
+                                <ng-select placeholder="{{'quickjob_project' | translate}}" id="quickjob-project"  [searchable]="false"
+                                    class="dropdown-body" appendTo="body" formControlName="ProjectId"
+                                    [dropdownPosition]="'top'" tabindex>
+                                    <ng-option value="" disabled>{{'label_select' | translate}} {{'quickjob_project' |
+                                        translate}}</ng-option>
+                                    <ng-option [value]="1">Project0</ng-option>
+                                    <ng-option [value]="2">Project1</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m6 s12">
+                            <div class="ng-slectBox">
+                                <!--<app-custom-dropdown [selectedIn]="selectedJobWorkflow"  [resetFormSubject]="resetFormSubjectWorkFlow.asObservable()"
+                                    (selectedOut)="onJobWorkflowchange($event)" [config]="dropDownJobWorkflowConfig"
+                                    tabindex="22">
+                                </app-custom-dropdown>-->
+
+                                <!--Who:Ankit Rawat, Replace workflow control with new dropdown, When:05Apr2024-->
+                                <dropdown [configuration]="workFlowDropdownConfig"
+                                (selectedOut)="onWorkFlowchange($event)" 
+                                [getSelectedItem]="selectedJobWorkflow"
+                                [showMoreOptionsNum]="maxMoreLengthForWorkFlow" tabindex="22" [setDisabledControl]="DisabledWorkFlowControl"></dropdown>
+
+                                <mat-error
+                                    *ngIf="this.quickJobForm.controls['WorkFlowId'].hasError('required') && this.quickJobForm.controls['WorkFlowId'].touched">
+                                    {{ 'quickjob_jobWorkflow' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                            <div class="col l6 m12 s12">
+                                <mat-slide-toggle color="primary" labelPosition="before"
+                                    id="mapApplicationForm"tabindex formControlName="MapApplicationFormBtn"
+                                    (change)="onChangeMapApplicationToggle($event.checked)">
+                                    {{'label_mapApplicationForm' | translate}}
+                                </mat-slide-toggle>
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="col l6 m12 s12">
+                                <div class="ng-slectBox">
+                                    <span *ngIf="isDropdown">
+                                    <mat-form-field class="icon-withchip" >
+                                       
+                                        <mat-chip-list #chipList aria-label="emails selection"  [disabled]="hideForJobDetailsView"  id="applicationId"
+                                            tabindex required>
+                                            <mat-chip  *ngIf="(applicationDefault | json) != '{}'" [selectable]="selectable" [removable]="!hideForJobDetailsView"
+                                                (removed)="removeApplication(applicationDefault)">
+                                                {{applicationDefault?.Name}}
+                                                <mat-icon color="warn" matChipRemove  *ngIf="!hideForJobDetailsView">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input type="hidden" value=" {{applicationDefault?.Id}}" formControlName="ApplicationFormId"/>
+                                            <input type="hidden" value=" {{applicationDefault?.Name}}" formControlName="ApplicationFormName"/>
+                                             <!-- who:maneesh,what:ewm-11462.ewm-11522 add input, click event,When:28/03/2023 -->
+                                             <!-- who:bantee,what:ewm-13212 non editable , Skills and Application form field When:18/07/2023 -->
+
+                                             <input  (click)="mapApplicationForm()"
+                                             [matChipInputFor]="chipList" [disabled]="hideForJobDetailsView">
+                                            </mat-chip-list>
+                                     
+                                        <button tabindex id="addbtn-Email" [disabled]="hideForJobDetailsView" mat-raised-button matSuffix color="primary" type="button" class="matSuffix-icon mgBottom5"  (click)="mapApplicationForm()">
+                                            <mat-icon>add</mat-icon>
+                                        </button> 
+                                        </mat-form-field>
+                                        <span class="error" *ngIf="isMapAppToggled">
+                                            {{ 'label_applicationForm' |translate}} {{ 'label_errorreqired' |translate}}
+                                        </span>
+                                </span>                                  
+                                </div>
+                            </div>
+
+                        
+
+                        <div class="clear"></div>
+                        <div class="col l6 m12 s12 passwordStrenth">
+                            <mat-form-field>
+                                <mat-label>{{'label_access' | translate}}</mat-label>
+                                <!-- who:maneesh,what:ewm-11462.ewm-11522 add  click event,When:28/03/2023 -->
+                                <input matInput placeholder="{{'label_access'|translate}}" formControlName="AccessName"
+                                (click)="openManageAccessModal('','','')"  id="activity-accessName" required readonly>
+                                <input type="hidden" formControlName="AccessId">
+                                <button type="button" matSuffix mat-raised-button color="primary" [disabled]="isDisabled"
+                                    class="matSuffix-icon mgBottom5" tabindex="11" (click)="openManageAccessModal('','','')">
+                                    <mat-icon class="addContactIcon">add</mat-icon>
+                                </button>
+        
+                                <mat-error *ngIf="quickJobForm.controls['AccessName'].hasError('required')">
+                                    {{ 'label_access' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col l6 m6 s12">
+                            <div class="ng-slectBox">
+                                <app-custom-dropdown [selectedIn]="selectedJobStatus" tabindex="23"
+                                [pageName]="pageNameDRPObj" (sendDataToParent)="sendDataAgainToChild($event)"
+                                    (selectedOut)="onJobStatuschange($event)" [config]="dropDownJobStatusConfig">
+                                </app-custom-dropdown>
+                            </div>
+                        </div> 
+
+                        <div class="col l6 m6 s12" *ngIf="selectedJobStatus.Id"> 
+                            <div class="ng-slectBox">
+                                <app-custom-dropdown [selectedIn]="selectedReason" (selectedOut)="onManageReasonchange($event)"
+                                [resetFormSubject]="resetFormselectedReason.asObservable()"
+                                [config]="dropDownReasonConfig">
+                                </app-custom-dropdown>
+                            </div>
+                        </div> 
+
+
+                    </div>
+
+                </mat-expansion-panel>
+
+                <!--6th Pannel -->
+                <div class="disablePublishJobSec">
+                    <mat-slide-toggle color="primary" (change)="onChangeToggle($event.checked)"
+                        class="disablePublishJob" tabindex="41" id="quickjob-disablePublishJob"
+                        formControlName="IsDisable" [disabled]="floatingButtonForEdit"></mat-slide-toggle>
+                    <mat-expansion-panel [disabled]="!quickJobForm.controls['IsDisable'].value || floatingButtonForEdit">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title id="publishToJobBoards">
+                                {{'quickjob_publishToJobBoards' | translate}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row mb-0">
+                            <div class="clear"></div>
+                            <div class="col l6 m6 s12">
+                                <mat-form-field *ngIf="hideheaderforJobView">
+                                    <mat-label>{{'quickjob_publishDate' | translate}}</mat-label>
+                                    <!-- [required]="quickJobForm.controls['IsDisable'].value==true?true:false" todayPublishDate
+                                    [disabled]="!quickJobForm.controls['IsDisable'].value || floatingButtonForEdit" -->
+                <!-- @Who: bantee ,@When: 31-mar-2023, @Why: EWM-11434 ,What: add required validator on condition based -->
+                                       <input  matInput [matDatepicker]="pickerPublish" 
+                                        tabindex="44" [required]="quickJobForm.controls['IsDisable'].value==true?true:false" 
+                                        [disabled]="!quickJobForm.controls['IsDisable'].value || floatingButtonForEdit" 
+                                        [min]="todayPublishDate" [(ngModel)]="datePublish" [placeholder]="getDateFormat"
+                                        formControlName="PublishDate" id="quickjob-publishDate">
+                                        <!-- @Who: bantee ,@When: 20-04-2023, @Why: EWM-11998 ,What: add required validator on condition based -->
+                                        <button *ngIf="quickJobForm.value.PublishDate || quickJobForm.controls['PublishDate'].hasError('matDatepickerParse')" [disabled]="quickJobForm.controls['IsDisable'].value==true?false:true" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                                        (click)="clearPublishDate()" > 
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                      <mat-datepicker-toggle matSuffix [for]="pickerPublish"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerPublish></mat-datepicker>
+                                    <!-- @Who: maneesh ,@When: 13-apr-2023, @Why: EWM-11874 ,What: add  validator  -->
+                                    <mat-error *ngIf="quickJobForm.controls['PublishDate'].hasError('required') && quickJobForm.controls['PublishDate'].touched && !quickJobForm.controls['PublishDate'].hasError('matDatepickerParse')"> {{'quickjob_publishDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                                    <mat-error *ngIf="quickJobForm.controls['PublishDate'].hasError('invalidDate') && !quickJobForm.controls['PublishDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                                    <mat-error *ngIf="quickJobForm.controls['PublishDate'].hasError('matDatepickerParse') && !quickJobForm.controls['PublishDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                                    <mat-error *ngIf="quickJobForm.controls['PublishDate'].hasError('matDatepickerMin') && !quickJobForm.controls['PublishDate'].hasError('invalidDate')"> {{'quickjob_publishDate' | translate}} {{'label_shoulNotLessThan' | translate}} </mat-error> 
+                             
+                                </mat-form-field>
+
+                                <mat-form-field *ngIf="!hideheaderforJobView">
+                                    <mat-label>{{'quickjob_publishDate' | translate}}</mat-label>
+                                    <input  matInput [matDatepicker]="pickerPublish"
+                                        tabindex="44" [min]="todayPublishDate" [(ngModel)]="datePublish"
+                                        formControlName="PublishDate" id="quickjob-publishDate" [placeholder]="getDateFormat">
+                                        <button *ngIf="quickJobForm.value.PublishDate  || quickJobForm.controls['PublishDate'].hasError('matDatepickerParse')" [disabled]="hideForJobDetailsView" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                                        (click)="clearPublishDate()" > 
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                    <mat-datepicker-toggle matSuffix [for]="pickerPublish"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerPublish></mat-datepicker>
+                                    <!-- @Who: maneesh ,@When: 13-apr-2023, @Why: EWM-11874 ,What: add  validator  -->
+                                    <mat-error *ngIf="quickJobForm.controls['PublishDate'].hasError('required') && quickJobForm.controls['PublishDate'].touched && !quickJobForm.controls['PublishDate'].hasError('matDatepickerParse')"> {{'quickjob_publishDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                                    <mat-error *ngIf="quickJobForm.controls['PublishDate'].hasError('invalidDate') && !quickJobForm.controls['PublishDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                                    <mat-error *ngIf="quickJobForm.controls['PublishDate'].hasError('matDatepickerParse') && !quickJobForm.controls['PublishDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                                    <mat-error *ngIf="quickJobForm.controls['PublishDate'].hasError('matDatepickerMin') && !quickJobForm.controls['PublishDate'].hasError('invalidDate')"> {{'quickjob_publishDate' | translate}} {{'label_shoulNotLessThan' | translate}} </mat-error> 
+                             
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </div>
+
+
+            </div>
+        </form>
+        
+        <ng-container *ngIf="!hideUpperSaveCancelButton">
+            <div class="drawer-footer" *ngIf="hideheaderforJobView">
+                <button mat-stroked-button tabindex="43" color="warn" id="btnCancel" (click)="onCancel()"
+                    class="buttonForDesktopMobile">
+                    <mat-icon>close</mat-icon>
+                    <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+                </button>
+                <button *ngIf="!isEditJob" [queryParams]="{filter:isActive}"  mat-raised-button tabindex="44" color="primary" (click)="onConfirm()"
+                    type="button" id="btnSave" class="buttonForDesktopMobile" [disabled]="!quickJobForm.valid || isMapAppToggled || !isPrimaryOwnerValid">
+                    <mat-icon>check</mat-icon>
+                    <span class="buttonTxt">{{'label_save'|translate}}</span>
+                </button>
+                <button *ngIf="isEditJob" mat-raised-button tabindex="44" color="primary" (click)="onConfirmUpdateJob()"
+                    type="button" id="btnUpdate" class="buttonForDesktopMobile" [disabled]="!quickJobForm.valid || isMapAppToggled || !isPrimaryOwnerValid">
+                    <mat-icon>check</mat-icon>
+                    <span class="buttonTxt">{{'label_save'|translate}}</span>
+                </button>
+            </div>
+        </ng-container>
+    </div>
+
+</mat-card-content>
+</div>
+</mat-drawer-container>

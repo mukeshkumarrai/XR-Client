@@ -1,0 +1,66 @@
+<!--
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 16-Oct-2022
+    @Why: EWM-9627 EWM-9909
+    @What:  Choose Expression Candidate
+-->
+
+<form id="expression-candidate" applyTabIndexes>
+    <div class="modal-header">
+      <h2 matDialogTitle class="mb-0">{{'label_chooseExpression' |translate}}</h2>
+      <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+    </div>
+  
+    <mat-dialog-content class="candidate-folder">
+      <div class="centerBox vertical-center-align-createjob">
+        <mat-card class="mat-card-container">
+          <div class="animate__zoomIn animate__animated">
+              <mat-card class="selectTemplateOrCreatejob" tabindex="1" (click)="onAddCandidateForm()">
+                  <div class="center-align">
+                      <div class="tenantBox">
+                          <div class="cltImgBox">
+                              <mat-icon class="companyIcon" fontSet="material-icons-outlined">
+                                  description
+                              </mat-icon>
+                          </div>
+                          <label>{{'label_completeaForm' |translate}}</label>
+                      </div>
+                  </div>
+              </mat-card>
+          </div>
+          <div class="animate__zoomIn animate__animated">
+              <mat-card class="selectTemplateOrCreatejob" tabindex="2" id="createJob-popupSelectTemplate">
+                  <div class="center-align">
+                      <div class="tenantBox" (click)="openMapAllicationFormModule()">
+                          <div class="cltImgBox">
+                              <mat-icon class="companyIcon" fontSet="material-icons-outlined">
+                                note_alt
+                              </mat-icon>
+                          </div>
+                          <label>{{'label_applicationForm' |translate}}</label>
+                      </div>
+                  </div>
+              </mat-card>
+          </div>
+          <div class="animate__zoomIn animate__animated">
+            <mat-card class="selectTemplateOrCreatejob" tabindex="1" (click)="onXeopleSmaartEmail()">
+                <div class="center-align">
+                    <div class="tenantBox">
+                        <div class="cltImgBox">
+                            <mat-icon class="companyIcon">
+                              mail_outline
+                            </mat-icon>
+                        </div>
+                        <label>{{'label_xeopleSmartEmail' |translate}}</label>
+                    </div>
+                </div>
+            </mat-card>
+          </div>
+        </mat-card>
+      </div>
+    </mat-dialog-content>
+  </form>

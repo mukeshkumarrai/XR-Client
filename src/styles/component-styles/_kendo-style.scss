@@ -1,0 +1,2546 @@
+@import "../../styles-var.scss";
+@import "../../mixinStyle.scss";
+@import "@progress/kendo-theme-material/dist/all.scss";
+// @import "https://kendo.cdn.telerik.com/themes/4.42.0/material/material-main.css";
+.kendo-input-box{
+    padding-bottom: 1.25em;
+    margin-bottom: 5px;
+    .k-textbox-container, .k-floating-label-container{
+        padding-top: 0.67895em;
+        width: 100%;
+        .k-label{
+            font-weight: 500;
+        }
+    }
+    .k-datepicker,
+    .k-timepicker{
+        .k-picker-wrap.k-state-focused{
+            box-shadow: none;
+        }
+        .k-dateinput{
+            font-size: 14px;
+        }
+    }
+    .k-select{
+        padding: 6.72px 4px;
+        background-color: transparent;
+        &:hover{
+            background: transparent;
+        }
+    }
+    .k-textbox-container > .k-label,
+    .k-textbox-container.k-state-focused > .k-label,
+    .k-floating-label-container > .k-label,
+    .k-floating-label-container.k-state-focused > .k-label{
+        top: -3px;
+        transform: scale(0.75);
+        left: 0px;
+    }
+
+    .k-textbox-container.k-state-focused > .k-label, .k-textarea-container.k-state-focused > .k-label, .k-floating-label-container.k-state-focused > .k-label{
+        color: $primary-bg-color;
+    }
+    .k-textbox-container::after, .k-floating-label-container::after{
+        background-color: $primary-bg-color;
+    }
+    .k-floating-label-container.show-label-required{
+        .k-label{
+            &:after {
+                content: ' *';
+                color: $warn-bg;
+            }
+        }
+    }
+}
+
+.endoHTMLEditer {
+    label {
+        display: block;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        span {
+            color: #F44336;
+        }
+    }
+    small {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .k-editor {
+        border-color: #949494;
+    }
+    .k-toolbar {
+        border-color: #949494;
+    }
+    .kendo-editor-custom {
+        min-height: 250px;
+        max-height: 400px;
+    }
+    // @When: 06-09-2022 @who:Amit @why: EWM-13836 @what: text wrap //
+    .mailediter.employee-notes-editer,.mailediter.configure-same-editor,.mailediter.my-activity-editor,
+    .mailediter.email-settings-editer,.mailediter.profile-setting-editor,.mailediter.general-setting-editer,
+    .mailediter.consent-page-editor,.mailediter.consent-email-editor{
+        .ProseMirror{
+            P{
+                span{
+                    white-space: inherit !important;
+                }
+            }
+        }
+    }
+}
+
+.k-list .k-item.k-state-selected,
+.k-list-optionlabel.k-state-selected {
+    background-color: $default-bg-color;
+    color: $default-text-color;
+}
+.k-dialog-buttongroup .k-button {
+    width: 100px !important;
+    flex: initial;
+    margin-right: 5px;
+}
+
+.k-dialog-button-layout-stretched {
+    padding: 10px 0px;
+}
+
+.k-dialog-button-layout-stretched .k-button {
+    background-color: $warn-bg !important;
+    color: $warn-txt !important;
+    border-radius: 4px;
+}
+
+.kendo-table-container {
+    .k-grid {
+        height: calc(100vh - 280px);
+        background: transparent;
+        border-color: transparent;
+        .k-grid-norecords td{
+            border-left: 0px !important;
+        }
+        .k-grid-content {
+            background: transparent;
+            overflow-y: auto;
+        }
+        .k-grid tr.k-alt {
+            background-color: #f8f8f8;
+        }
+        tbody tr.k-detail-row {
+            background-color: rgba(0, 0, 0, 0);
+        }
+    }
+    tbody tr:hover,
+    tbody tr.k-state-hover,
+    .k-grid tr.k-alt:hover {
+        background-color: #f4f8fb !important;
+        box-shadow: 0px 1px 14px 0px #b3b3b3;
+    }
+}
+
+// common media query
+@media only screen and (max-width: 1060px) and (min-width: 320px) {
+    .kendo-table-container {
+        overflow: auto;
+        .k-grid {
+            min-width: 800px;
+        }
+    }
+}
+
+.endoHTMLEditer {
+    label {
+        display: block;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        span {
+            color: #F44336;
+        }
+    }
+    small {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .k-editor {
+        border-color: #949494;
+    }
+    .k-toolbar {
+        border-color: #949494;
+    }
+    .kendo-editor-custom {
+        min-height: 250px;
+        max-height: 400px;
+    }
+}
+
+
+.k-list .k-item.k-state-selected,
+.k-list-optionlabel.k-state-selected {
+    background-color: $default-bg-color;
+    color: $default-text-color;
+}
+.k-dialog-buttongroup .k-button {
+    width: 100px !important;
+    flex: initial;
+    margin-right: 5px;
+}
+
+.k-dialog-button-layout-stretched {
+    padding: 10px 0px;
+}
+
+.k-dialog-button-layout-stretched .k-button {
+    background-color: $warn-bg !important;
+    color: $warn-txt !important;
+    border-radius: 4px;
+}
+.k-dialog-button-layout-stretched .k-button.k-primary {
+    background-color: $primary-bg-color !important;
+}
+
+// common media query
+@media only screen and (max-width: 1060px) and (min-width: 320px) {
+    .kendo-table-container {
+        overflow: auto;
+        .k-grid {
+            min-width: 800px;
+        }
+    }
+}
+
+
+/************************Kendo Style css**************************************/
+
+.k-grid-header,
+.k-grid-toolbar,
+.k-grouping-header,
+.k-grid-add-row,
+.k-grid-footer,
+.k-pager-wrap {
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 4px 4px 0px 0px;
+    overflow: hidden;
+    padding: 0px !important;
+}
+
+.k-grid-header .k-header>.k-link {
+    margin: 0px;
+    padding: 0px 0px;
+}
+
+.k-i-sort-asc-sm::before {
+    content: "north";
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 15px;
+    color: #1a1a1a;
+}
+
+.k-i-sort-desc-sm::before {
+    content: "south";
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 15px;
+    color: #1a1a1a;
+}
+
+.k-grid-header .k-grid-filter {
+    bottom: 5px;
+}
+.k-grid tr.k-alt {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.k-grid th {
+    padding: 0px 20px 0px 13px;
+    line-height: 40px;
+    background-color: #e1e1e3;
+    color: #1a1a1a;
+    font-size: 14px;
+    font-weight: 500;
+    border-left-color: rgba(0, 0, 0, 0.08);
+}
+.k-grid .k-filter-row td{
+    border-left: none;
+}
+.k-grid th{
+    border-width: 0 0px 0px 1px;
+    .k-link{
+        display: block !important;
+    }
+}
+.k-grid td {
+    padding: 12px 12px;
+    line-height: 18px;
+    font-weight: 400;
+    white-space: nowrap;
+    border-width: 0 0px 0px 0px;
+    .textRight{
+        text-align: right;
+        display: block;
+    }
+}
+.k-grid td:last-child{
+    border-right-width: 1px;
+}
+.gridTollbar {
+    .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+        padding-bottom: 0px;
+        height: 41px;
+    }
+    .mat-form-field-appearance-legacy .mat-form-field-underline {
+        bottom: 0px
+    }
+    .mat-form-field-prefix .mat-icon,
+    .mat-form-field-suffix .mat-icon {
+        position: relative;
+        top: 5px;
+    }
+    .mat-raised-button {
+        margin-top: 2px;
+    }
+    .mat-form-field {
+        margin-top: -3px;
+        margin-bottom: 0px;
+    }
+}
+.button-row {
+    display: inline-block;
+    text-align: right;
+    width: 100%;
+}
+
+.button-row .mat-button-base {
+    margin: 0px 2px;
+}
+
+.mat-form-field {
+    margin-bottom: 15px;
+}
+.k-columnmenu-item-content .k-column-list-item {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.k-filter-menu-container kendo-grid-string-filter-menu {
+    max-height: 170px;
+    display: block;
+    overflow: auto;
+}
+
+.k-checkbox+.k-checkbox-label,
+.k-checkbox-label+.k-checkbox {
+    margin-left: 15px;
+}
+.k-pager-sizes .k-dropdown,
+.k-pager-sizes .k-dropdowntree,
+.k-pager-sizes>select {
+    border: 0px;
+    border-bottom: 1px solid rgba(0, 0, 0, .42);
+    background: transparent;
+}
+
+.k-pager-sizes>select:focus {
+    outline: none;
+}
+
+.k-pager-numbers .k-link.k-state-selected {
+    color: $default-bg-color;
+    border-radius: 100%;
+    background-color: rgba(213, 217, 239, 1);
+}
+
+.k-pager-numbers .k-link {
+    color: $default-bg-color;
+}
+
+.k-grid td.k-state-selected,
+.k-grid tr.k-state-selected>td,
+.k-grid td.k-state-selected,
+.k-grid tr.k-state-selected {
+    background-color: rgba($default-bg-color, 0);
+}
+
+.k-grid-header .k-i-sort-asc-sm,
+.k-grid-header .k-i-sort-desc-sm,
+.k-grid-header .k-sort-order {
+    color: $white-color;
+}
+
+.k-pager-numbers .k-link:hover,
+.k-pager-numbers .k-link.k-state-hover {
+    color: $default-bg-color;
+    border-radius: 100%;
+    background-color: rgba(213, 217, 239, 1);
+}
+
+.k-pager-nav.k-link:hover,
+.k-pager-refresh:hover,
+.k-state-hover.k-pager-nav.k-link,
+.k-state-hover.k-pager-refresh {
+    color: $default-bg-color;
+    border-radius: 100%;
+    background-color: rgba(213, 217, 239, 1);
+}
+
+.k-i-loading {
+    display: block !important;
+    z-index: 9999999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 64px;
+    background-color: rgba(0, 0, 0, 0.32);
+}
+
+.k-i-loading::before,
+.k-i-loading::after,
+.k-loading-image::before,
+.k-loading-image::after {
+    border-color: $primary-bg-color;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    background-color: transparent;
+}
+.k-dialog-titlebar .closeKendoPopup {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.k-i-add:before,
+.k-i-plus:before,
+.k-plus:before {
+    content: "\E014";
+}
+
+.k-i-kpi-trend-equal:before,
+.k-i-minus:before,
+.k-minus:before {
+    content: "\E015";
+}
+
+.k-grid table,
+.k-grid .k-grid-header-wrap {
+    border-radius: 4px 4px 0px 0px !important;
+    border-color: transparent;
+}
+
+.k-detail-row {
+    background-color: #f8f8f8;
+}
+
+.k-tooltip {
+    border-color: unset;
+    font-size: 11px !important;
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: rgba(97,97,97,.9);
+}
+
+.k-tooltip .k-callout {
+    color: rgba(97,97,97,.9);
+}
+
+.k-button:disabled,
+.k-button.k-state-disabled {
+    outline: none;
+    cursor: default;
+    opacity: 0.7;
+    -webkit-filter: grayscale(0.1);
+    filter: grayscale(0.1);
+    pointer-events: none;
+    box-shadow: none;
+}
+
+.k-button-primary:disabled,
+.k-button-primary.k-state-disabled,
+.k-button.k-primary:disabled,
+.k-button.k-primary.k-state-disabled {
+    background-color: rgba(0, 0, 0, .12);
+    color: rgba(0, 0, 0, .66);
+    border-color: #eee;
+}
+
+.k-grid-header .k-grid-filter.k-state-active,
+.k-grid-header .k-header-column-menu.k-state-active,
+.k-grid-header .k-hierarchy-cell .k-icon.k-state-active {
+    color: #ffffff;
+    background-color: $default-bg-color;
+}
+
+.k-group-footer td,
+.k-grouping-row td,
+tbody .k-group-cell {
+    background-color: white !important;
+}
+
+.cardViewTblFix .k-grid-container div div table tbody tr {
+    display: inline-block !important;
+    width: 0% !important;
+}
+
+#emailTemplatesList div .k-button.k-bare:hover {
+    color: white;
+}
+
+.system-email .k-grid-toolbar{
+    background-color: transparent;
+}
+
+
+#overflowCustom{
+    .k-grid-header-locked, .k-grid-content-locked{
+        border-color: rgba(0, 0, 0, 0.25);
+    }
+    .k-grid-content-locked{
+        border-bottom:10px solid #bfbfbf;
+        border-color: rgba(0, 0, 0, 0.25);
+        height:calc(100% - 10px) !important;
+    }
+}
+.kendogrid-with-lock{
+    .k-virtual-content{
+         th:first-child, td:first-child{
+            border-left: 0px;
+        }
+    }
+    .k-grid-content-locked{
+        th:first-child, td:first-child{
+            border-left: 2px solid $primary-bg-color;
+        }
+    }
+    .k-grid-norecords td{
+        text-align: left;
+    }
+}
+
+.k-grid .k-grid-header-locked, .k-grid .k-grid-content-locked, .k-grid .k-grid-header-locked .k-header, .k-grid .k-grid-content-locked td {
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.k-grid tr:last-child td{
+    border-bottom-width: 1px;
+}
+/*Xeople : Satya Prakash Gupta : 17-Jan-2022 : my activit : EWM-4469 EWM-4560 : start here */
+.calender-popover.mat-card{
+    width: 320px;
+    padding: 0px;
+    overflow: hidden;
+    .flex{
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        .mat-icon{
+            margin-right: 3px;
+            width: 22px;
+            font-size: 22px;
+            line-height: 22px;
+            color: $gray-button;
+        }
+    }
+    .popover-title{
+        min-height: 50px;
+        background: $primary-bg-color;
+        color: $primary-txt-color;
+        font-size: 14px;
+        position: relative;
+        .activity-name{
+            color: rgba($black-color, 0.87);
+        }
+        .mat-icon{
+            color: $primary-txt-color;
+            width: 24px;
+            font-size: 24px;
+            line-height: 24px;
+        }
+        .completed-activity{
+            width: 10px;
+            height: 100%;
+            background: #919191;
+            left: 0px;
+            position: absolute;
+            overflow: hidden;
+            &::after{
+                transform: rotate(90deg);
+                position: absolute;
+                left: -2px;
+                letter-spacing: 3px;
+                font-weight: bolder;
+                top: -20px;
+                height: 19px;
+                width: 100%;
+            }
+        }
+    }
+    .popover-title.schedule-name-past{
+        padding-right: 35px;
+        .task-completed.mat-icon{
+            position: absolute;
+            right: 5px;
+            font-size: 22px;
+            color: $green-color;
+        }
+    }
+    .popover-remark{
+        padding-top: 0px;
+        .counterTxt{
+            width: 100%;
+        }
+    }
+    .popover-footer{
+        padding-top: 0px;
+        justify-content: flex-end;
+        .mat-icon-button{
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            .mat-icon{
+                color: inherit;
+            }
+        }
+    }
+}
+.k-scheduler{
+    border-width: 0px;
+    color: rgba($black-color, 0.87);
+    border-color: transparent;
+    background: transparent;
+        text-transform: capitalize; 
+    .k-scheduler-footer{
+        background-color: transparent;
+    }
+    .k-scheduler-toolbar{
+        border-color: transparent;
+        background: transparent;
+        color: inherit;
+        box-shadow: none;
+        border-bottom: 1px solid #eceff5;
+        background: #fff;
+        position: sticky;
+        top: 0px;
+        z-index: 3;
+        text-transform: capitalize;
+        .k-scheduler-views, .k-scheduler-navigation {
+            display: flex;
+            li{
+                border-radius: 4px;
+                margin-right: 5px;
+                background: transparent;
+                color: inherit;
+                @include for-small-smartphones{
+                    margin-bottom: 5px;
+                }
+                .k-i-calendar{
+                    padding-right:5px;
+                }
+                .k-link{
+                    padding: 0 4px;
+                    line-height: 30px;
+                    height: 30px;
+                    font-weight: 500;
+                    background: transparent;
+                    border-radius: 4px;
+                    color: $primary-bg-color !important;
+                    border: 1px solid rgba($black-color, 0.12) !important;
+                    font-size: 12px;
+                }
+            }
+            .k-nav-prev{
+                .k-icon{
+                    &::before{
+                        content: "arrow_left";
+                        font-family: "Material Icons";
+                        font-size: 28px;
+                    }
+                }
+            }
+            .k-nav-next{
+                .k-icon{
+                    &::before{
+                        content: "arrow_right";
+                        font-family: "Material Icons";
+                        font-size: 28px;
+                    }
+                }
+            }
+            .k-nav-current{
+                .k-link{
+                    padding: 0px 3px;
+                    color: inherit !important;
+                    border: 1px solid transparent !important;
+                }
+            }
+        }
+        .k-scheduler-views{
+            li{
+                border-radius: 0px;
+                margin-right: 0px;
+                .k-link{
+                    border-radius: 0px;
+                    border-right: 0px !important;
+                }
+                &:last-child{
+                    .k-link{
+                        border-right: 1px solid rgba($black-color, 0.12) !important;
+                        border-radius: 0px 4px 4px 0px;
+                    }
+                }
+                &:nth-child(2){
+                    .k-link{
+                        border-radius: 4px 0px 0px 4px;
+                    }
+                }
+            }
+            li.k-current-view{
+                display: none;
+            }
+        }
+        .mat-stroked-button{
+            margin-right: 4px;
+            height: 38px;
+            min-width: auto;
+            .k-icon{
+                display: none;
+            }
+        }
+    }
+
+    .schedule-name{
+        height: auto;
+        display: flex;
+        height: 100%;
+        align-items: center;
+        .mat-icon{
+            margin-right: 3px;
+            margin-left: 3px;
+            font-size: 20px;
+            height: 20px;
+        }
+        .activity-name{
+            color: rgba($black-color, 0.87);
+        }
+    }
+
+    .schedule-name-past{
+        padding-right: 18px;
+        .task-completed.mat-icon{
+            position: absolute;
+            right: -10px;
+            font-size: 16px;
+            height: 22px;
+            color: $green-color;
+            border-radius: 50px;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background: #fff;
+        }
+    }
+    .k-scheduler-monthview{
+        overflow-x: hidden;
+        table{
+            border-color: rgba(0, 0, 0, .12);
+            tr{
+                td, th{
+                    border-width: 0 0 1px 1px;
+                    text-align: center;
+                    .k-more-events{
+                        color: $primary-bg-color;
+                        background:none;
+                        height: 22px;
+                        .k-i-more-horizontal{
+                            width: 100%;
+                            height: 100%;
+                            &::after{
+                                content: "";
+                                background: currentColor;
+                                opacity: 0.22;
+                                pointer-events: none;
+                                position: absolute;
+                                width: 100%;
+                                height: 100%;
+                                left: 0px;
+                                right: 0px;
+                                top: 0px;
+                                bottom: 0px;
+                                z-index: 0;
+                                transition: opacity .2s ease-in-out;
+                            }
+                        }
+                    }
+                    .k-nav-day{
+                        border-radius: 100%;
+                        width: 25px;
+                        height: 25px;
+                        padding: 5px;
+                        top: -2px;
+                    }
+                }
+                th{
+                    color: #1c1c1c;
+                    font-weight: 400;
+                }
+                td{
+                    height: 90px;
+                    .monthview-date{
+                        height: 22px;
+                        display: block;
+                        text-align: center;
+                        margin-top: -6px;
+                        margin-bottom: 1px;
+                        span{
+                            color: #737171;
+                            padding: 2px;
+                            border-radius: 100%;
+                        }
+                    }
+                    .monthview-date.active{
+                        span{
+                            color: $primary-bg-color;
+                        }
+                    }
+                    .monthview-date.gray{
+                        span{
+                            color: #cdcdcd;
+                        }
+                    }
+                    &:hover .monthview-date.gray{
+                        span{
+                            color: #cdcdcd;
+                        }
+                    }
+                    &:hover .monthview-date{
+                        span{
+                            color: $primary-bg-color;
+                        }
+                    }
+                    &:hover{
+                        background-color: rgba($default-bg-color, 0.08);
+                        .k-nav-day{
+                            transition: ease-in 0.2s;
+                            background-color: $primary-bg-color;
+                            color: $primary-txt-color;
+                        }
+                    }
+                }
+                .active-date-box{
+                    box-shadow: 0px 0px 3px 2px $primary-bg-color inset;
+                }
+            }
+        }
+    }
+    .k-event{
+        cursor: pointer;
+        overflow: visible;
+        transition: transform 0.4s;
+        border-width: 1px;
+        border-style: solid;
+        &:hover{
+            box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.32);
+        }
+    }
+
+
+    th.k-scheduler-times-all-day{
+        text-transform: capitalize;
+    }
+    table{
+        border-color: rgba(0, 0, 0, .12);
+        tr{
+            td, th{
+                background: transparent;
+                border-width: 0 0 1px 1px;
+                text-align: center;
+                .k-more-events{
+                    color: $primary-bg-color;
+                    background:none;
+                    .k-i-more-horizontal{
+                        width: 100%;
+                        height: 100%;
+                        &::after{
+                            content: "";
+                            background: currentColor;
+                            opacity: 0.22;
+                            pointer-events: none;
+                            position: absolute;
+                            width: 100%;
+                            height: 100%;
+                            left: 0px;
+                            right: 0px;
+                            top: 0px;
+                            bottom: 0px;
+                            z-index: 0;
+                            transition: opacity .2s ease-in-out;
+                        }
+                    }
+                }
+                .k-nav-day{
+                    border-radius: 100%;
+                    width: 25px;
+                    height: 25px;
+                    padding: 5px;
+                    top: -2px;
+                }
+            }
+            th{
+                color: #1c1c1c;
+                font-weight: 400;
+            }
+            td{
+                &:hover{
+                    background-color: rgba($default-bg-color, 0.08);
+                    .k-nav-day{
+                        transition: ease-in 0.2s;
+                        background-color: $primary-bg-color;
+                        color: $primary-txt-color;
+                    }
+                }
+            }
+            td.holiday-bg {
+                background-color: #cfd8dc !important;
+                display: none;
+            }
+        }
+    }
+}
+.k-scheduler-weekview{
+    .week-date{
+        span{
+            color: #737171;
+        }
+    }
+    .week-date.active{
+        position: relative;
+        &::before{
+            content: "";
+            top: -8px;
+            left: -8px;
+            width: calc(100% + 16px);
+            height: 3px;
+            background: $primary-bg-color;
+            position: absolute;
+        }
+        span{
+            font-weight: 500;
+            color: $primary-bg-color;
+        }
+    }
+}
+/*Xeople : Satya Prakash Gupta : 17-Jan-2022 : my activit : EWM-4469 EWM-4560 : end here */
+
+/*Xeople : Satya Prakash Gupta : 27-Apr-2022 : kendo calendar : EWM-6140 EWM-6512 : start here */
+
+.k-calendar.k-calendar-infinite{
+    .k-calendar-navigation{
+       li{
+        &:hover{
+            color: $primary-bg-color;
+        }
+       }
+    }
+    .k-calendar-monthview {
+        .k-content.k-scrollable{
+            tr:hover{
+                background-color: transparent !important;
+            }
+        }
+        .k-today {
+            color: $primary-bg-color;
+        }
+        .k-state-selected .k-link {
+            border-color: rgba(0, 0, 0, 0);
+            color: $primary-txt-color;
+            background-color: $primary-bg-color;
+            border-radius: 100%;
+        }
+    }
+}
+/*Xeople : Satya Prakash Gupta : 27-Apr-2022 : kendo calendar : EWM-6140 EWM-6512 : end here */
+
+
+.kendo-infinite-loader.scrollloading.k-i-loading{
+    position: absolute;
+    bottom: 0px;
+    width: calc(100% - 29px);
+    background: #fff;
+    &::before, &::after{
+        top: 50px;
+    }
+}
+
+// Entire Software : Amit Rajput : 07-July-2022 : New Color Picker Add start here : EWM-7363 EWM-7683
+.kendo-color-picker{
+    .k-picker-wrap{
+        .k-selected-color{
+            width: 22px;
+            height: 22px;
+            margin: 0px;
+            padding: 0px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+    }
+    .k-state-focused{
+        box-shadow: none;
+    }
+}
+.kendo-color-picker.without-color-code{
+    margin-top: 0px;
+    position: absolute;
+    right: 0px;
+    top: 4px;
+}
+  // Entire Software : Amit Rajput : 07-July-2022 : New Color Picker Add end here : EWM-7363 EWM-7683
+.kendo-chips-sec{
+    display: flex;
+    align-items: center;
+    .mat-chip-list-wrapper{
+        flex-wrap: inherit;
+        .mat-chip.mat-standard-chip{
+            min-height: 24px;
+            font-size: 12px;
+            margin: 0px 1px;
+        }
+    }
+    .more-owner-show.mat-icon-button{
+        width: 28px;
+        line-height: 25px;
+        height: 28px;
+        border: 1px solid #fff;
+        overflow: hidden;
+        color: $highlight-txt-color;
+        background-color: $highlight-bg-color;
+        margin-left: -4px;
+        font-size: 10px;
+        .mat-icon{
+            width: 26px;
+            font-size: 18px;
+            line-height: 27px;
+            height: 27px;
+            color: $highlight-txt-color !important;
+        }
+    }
+}
+.dropdown-chips{
+    .mat-chip-list-wrapper {
+        flex-wrap: inherit;
+        display: inline-block;
+        margin: 4px;
+        .mat-chip.mat-standard-chip{
+            min-height: 24px;
+            font-size: 12px;
+            margin: 2px;
+        }
+    }
+}
+.remove-col-padding{
+    .k-grid td{
+        padding-top: 0px;
+        padding-bottom: 0px;
+        height: 41px;
+    }
+}
+div.k-grid-header, div.k-grid-footer{
+    background-color: #e1e1e3;
+    color: #1a1a1a;
+}
+// locked-column-by-css
+.locked-column-by-css{
+    @media only screen and (max-width: 1060px) and (min-width: 320px) {
+        overflow:inherit !important;
+    }
+    .kendolist-loader {
+        width: calc(100% - 30px);
+        position: absolute;
+        top: inherit;
+        bottom: 0px;
+        background: #ffffff;
+        right: inherit;
+        left: inherit;
+        height: 55px;
+        &::before{
+            width: 30px;
+            height: 30px;
+            margin-top: -14.5px;
+        }
+        &::after{
+            margin-top: -7.2px;
+            margin-left: -25px;
+            width: 15px;
+            height: 15px;
+        }
+    }
+    .k-grid {
+        min-width: auto;
+    }
+    .k-grid th:first-child, .k-grid td:first-child {
+        border-left-width: 0;
+        position: -webkit-sticky;
+        position: sticky;
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
+        left: 0px;
+        z-index: 3;
+    }
+    .k-grid tr.k-alt{
+        td:first-child{
+            background-color: #ebebeb;
+            padding: 0px;
+            text-align: center;
+        }
+        td{
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+    }
+    .k-grid tr{
+        td:first-child{
+            background-color: #fff;
+            padding: 0px;
+            text-align: center;
+        }
+        td{
+            background-color: transparent;
+            // @When: 23-10-2023 @who:Amit @what: button style
+            .kendo-link{
+                padding: 0px;
+                line-height: 20px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
+                text-align: left;
+                min-width: auto;
+                cursor: pointer;
+                &:hover{
+                    .mat-button-focus-overlay{
+                        position: inherit;
+                    }
+                }
+                .mat-button-ripple{
+                    opacity: 0;
+                }
+                .mat-button-focus-overlay{
+                    background: transparent;
+                }
+            }
+        }
+    }
+}
+.job-detail-grid{
+    .k-grid{
+        tr, tr.k-alt{
+            th:nth-child(1){
+                border-left-width: 0;
+                position: -webkit-sticky;
+                position: sticky;
+                width: 50px;
+                min-width: 50px;
+                max-width: 50px;
+                left: 0px;
+                z-index: 3;
+                text-align: left;
+                padding: 0px 5px;
+                padding-right: 0px;
+                .k-column-resizer{
+                    display: none !important;
+                }
+            } 
+            td:nth-child(1){
+                border-left-width: 0;
+                position: -webkit-sticky;
+                position: sticky;
+                width: 50px;
+                min-width: 50px;
+                max-width: 50px;
+                left: 0px;
+                z-index: 3;
+                text-align: left;
+                padding: 0px 5px;
+                padding-right: 0px;
+                background-color: #fff;
+            }
+            th:nth-child(2) {
+                border-left-width: 0;
+                position: -webkit-sticky;
+                position: sticky;
+                width: 40px;
+                min-width: 40px;
+                max-width: 40px;
+                left: 55px;
+                z-index: 3;
+                padding: 0px;
+                .k-column-resizer{
+                    display: none !important;
+                }
+            }
+            td:nth-child(2){
+                border-left-width: 0;
+                position: -webkit-sticky;
+                position: sticky;
+                width: 40px;
+                min-width: 40px;
+                max-width: 40px;
+                left: 55px;
+                z-index: 3;
+                padding: 0px;
+                background-color: #fff;
+            }
+        }
+        tr.k-alt{
+            td:nth-child(1), td:nth-child(2){
+                background-color: #ebebeb;
+            }
+        }
+    }
+}
+// locked-column-by-css
+.k-grid-columnmenu-popup{
+    width: 260px;
+    font-size: 13px;
+}
+
+.k-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.54);
+    border-radius: 0px;
+}
+.k-checkbox:checked, .k-checkbox.k-checked {
+    border-color: $primary-bg-color;
+    color: $primary-txt-color;
+    background: none;
+    &::before {
+        transform: rotateZ(45deg) scale(1);
+        top: -9px;
+        position: absolute;
+        height: 20px;
+        transition: 0.1s;
+        width: 10px;
+        border-bottom: 3px solid $primary-bg-color;
+        border-right: 2px solid $primary-bg-color;
+        border-left: 0px;
+        left: 8px;
+        margin-top: 0px;
+        margin-left: 0px;
+        border-radius: 0%;
+        z-index: 9;
+        content: "";
+    }
+    &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 9px;
+        transition: 0.1s;
+        width: 6px;
+        border-right: 4px solid #fff;
+        transform: rotateZ(45deg) scale(1);
+        top: 0px;
+        left: 10px;
+        margin-top: 0;
+        margin-left: 0;
+        border-radius: 0;
+        z-index: 1;
+    }
+}
+.k-checkbox:indeterminate, .k-checkbox.k-state-indeterminate, .k-checkbox.k-indeterminate{
+    border-color: $primary-bg-color;
+    color: $primary-bg-color;
+    background: none;
+    &::before{
+        height: 3px;
+    }
+}
+.k-checkbox:checked:focus, .k-checkbox.k-checked.k-state-focus{
+    border-color: $primary-bg-color;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.k-columnmenu-item.k-state-selected,
+.k-list .k-item.k-state-selected,
+.k-list-optionlabel.k-state-selected {
+    color: $primary-txt-color;
+    background-color: $primary-bg-color;
+    .k-icon::before{
+        color: $primary-txt-color;
+    }
+    &:hover{
+        color: $primary-txt-color;
+        background-color: $primary-bg-color;
+    }
+}
+// @When: 07-08-2023 @who:Amit @why: EWM-13701 @what: kendo filter start here
+.k-animation-container.k-animation-container-shown.k-animation-container-fixed{
+    width: inherit !important;
+}
+.k-animation-container.k-animation-container-shown:not(.k-tooltip-wrapper){
+    max-width: 380px !important;
+    min-width: 180px !important;
+}
+.k-menu-popup{
+    max-height: 45vh;
+}
+// @When: 07-08-2023 @who:Amit @why: EWM-13701 @what: kendo filter end here
+
+
+.k-actions .k-button,
+.k-action-buttons .k-button,
+.k-columnmenu-actions .k-button {
+    border-radius: 4px;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+}
+
+
+.k-button-primary,
+.k-button.k-primary {
+    background-color: $primary-bg-color;
+    border-color: $primary-txt-color;
+    background-image: none;
+    text-transform: capitalize;
+}
+.k-button-primary:hover, .k-button.k-primary:hover, .k-button-primary.k-state-hover, .k-state-hover.k-button.k-primary{
+    background-color: $primary-bg-color;
+    border-color: $primary-txt-color;
+}
+
+.k-button-primary:disabled,
+.k-button-primary.k-state-disabled,
+.k-button.k-primary:disabled,
+.k-button.k-primary.k-state-disabled {
+    background-color: rgba(0, 0, 0, .12);
+    color: rgba(0, 0, 0, .26);
+}
+.k-time-header .k-time-now{
+    color: $highlight-bg-color;
+}
+
+/*Xeople : Satya Prakash Gupta : 17-Apr-2023 : Reduce kendo html Editor control size  : EWM-11493 */
+// kendo editor controls styling start here
+.k-editordd{
+    .k-toolbar{
+        padding: 2px;
+        row-gap: 3px;
+        font-size: 8px;
+        .k-button.k-button-icon {
+            padding: 2px;
+            width: calc( 1.4285714286em + 5px + 0px );
+            height: calc( 1.4285714286em + 3px + 0px );
+            font-size: 12px;
+        }
+        .k-split-button .k-button{
+            height: calc( 1.4285714286em + 3px + 0px );
+            font-size: 12px;
+        }
+        .k-dropdown{
+            .k-input{
+                height: calc( 1.125em + 4px );
+                padding: 0px 8px;
+                font-size: 12px;
+            }
+        }
+        .k-dropdown {
+            width: 9.4em;
+            .k-dropdown-wrap .k-select, .k-dropdowntree .k-dropdown-wrap .k-select{
+                border-radius: 0 2px 2px 0;
+                padding: 1.04px 4px;
+                font-size: 12px;
+            }
+        }
+        .k-colorpicker {
+            .k-tool-icon {
+                padding: 2px;
+                width: calc(1.4285714286em + 0px);
+                height: calc(1.4285714286em + 0px);
+                font-size: 12px;
+            }
+            .k-select{
+                padding: 2px;
+                width: calc(1.4285714286em + 0px);
+                font-size: 12px;
+                .k-icon{
+                    height: 0.8em;
+                }
+            }
+        }
+    }
+}
+// kendo editor controls styling end here
+
+.jobaction-calender{
+    .k-scheduler {
+        .k-scheduler-toolbar {
+            justify-content: right;
+            .k-scheduler-navigation,
+            .k-scheduler-views{
+                li{
+                    margin-right: 0px;
+                    margin-inline-end: 1px;
+                    .k-link{
+                        padding: 0 3px;
+                        font-size: 11px;
+                        height: 25px;
+                    }
+                }
+            }
+            .k-nav-current{
+                .k-lg-date-format{
+                    @media only screen and (max-width: 1200px) and (min-width: 767px) {
+
+                    }
+                }
+            }
+        }
+        .schedule-name {
+            color: #fff;
+            .mat-icon, .activity-name {
+                color: #fff;
+            }
+        }
+        .k-event,
+        .k-event{
+            padding-right: 0px;
+            .k-event-actions:first-child,
+            .k-event-actions:first-child{
+                display: none;
+            }
+        }
+    }
+}
+.jobaction-calender-calender-popover.mat-card{
+    .popover-title .activity-name {
+        color: #fff;
+    }
+}
+
+// @When: 29-06-20223 @who:Amit @why: EWM-12957 @what: add filter row style start here
+.locked-column-by-css{
+    .k-grid tr.k-filter-row{
+        td{
+            background-color: #f2f2f2;
+            height: 28px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            .k-filtercell{
+                .k-datepicker{
+                    .k-picker-wrap{
+                        border-radius: 2px;
+                        border-top-color: #d7d7d7 !important;
+                        border-color: inherit;
+                        border: 1px solid #e2e2e2;
+                        height: 22px;
+                        .k-dateinput{
+                            .k-input{
+                                padding: 0px 3px;
+                                height: auto;
+                                font-size: 11px;
+                            }
+                        }
+                    }
+                    .k-select{
+                        padding: 0px 0px;
+                        width: 20px;
+                    }
+                }
+                .k-numerictextbox{
+                    .k-numeric-wrap{
+                        border-radius: 2px;
+                        border-top-color: #d7d7d7 !important;
+                        border-color: inherit;
+                        border: 1px solid #e2e2e2;
+                        .k-input{
+                            padding: 0px;
+                            height: auto;
+                        }
+                    }
+                    .k-select{
+                        .k-icon{
+                            font-size: 14px;
+                            height: 12px;
+                            width: 28px;
+                            &::before{
+                                content: "arrow_drop_up";
+                                font-family: 'Material Icons';
+                                font-size: 18px;
+                                width: 28px;
+                            }
+                        }
+                        .k-link-decrease{
+                            .k-icon{
+                                &::before{
+                                    content: "arrow_drop_down";
+                                }
+                            }
+                        }
+                    }
+                }
+                .k-textbox{
+                    height: 22px;
+                    border-radius: 2px;
+                    border-top-color: #d7d7d7 !important;
+                    border-color: inherit;
+                    border: 1px solid #e2e2e2;
+                }
+                .k-filtercell-wrapper{
+                    align-items: center;
+                    .k-filtercell-operator{
+                        display: flex;
+                        align-items: center;
+                        gap: 3px;
+                        .k-dropdown{
+                            vertical-align: middle;
+                            .k-dropdown-wrap{
+                                border-radius: 4px;
+                                background: $white-color;
+                                border: 1px solid #ddd;
+                                border-top-color: #ddd !important;
+                                width: 22px;
+                                height: 22px;
+                                .k-select{
+                                    width: 22px;
+                                    height: 22px;
+                                    padding: 0px;
+                                    .k-icon{
+                                        font-size: 14px;
+                                    }
+                                    .k-i-filter{
+                                        &::before{
+                                            content: "filter_alt";
+                                            font-family: 'Material Icons Outlined';
+                                            color: $primary-bg-color;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .k-button{
+                            .k-i-filter-clear{
+                                &::before{
+                                    content: "filter_alt_off";
+                                    font-family: 'Material Icons Outlined';
+                                    color: $warn-bg;
+                                }
+                            }
+                        }
+                        .k-button:not(.k-clear-button-visible){
+                            display: none;
+                        }
+                        .k-button.k-clear-button-visible{
+                            width: 22px;
+                            height: 22px;
+                            border-radius: 4px;
+                            background: $white-color;
+                            border: 1px solid #ddd;
+                            border-top-color: #ddd !important;
+                            .k-icon{
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+            &:last-child{
+                padding-top: 0px;
+                padding-bottom: 0px;
+            }
+        }
+    }
+}
+// @When: 29-06-20223 @who:Amit @why: EWM-12957 @what: add filter row style end here
+.kendo-table-container{
+    .k-grid{
+        .k-grid-norecords {
+            text-align: left;
+            td{
+                padding-left: 160px !important;
+                height: 36px;
+                text-align: left !important;
+            }
+        }
+        .infoStyleKendo{
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 20px;
+            vertical-align: bottom;
+            color: $primary-bg-color;
+        }
+    }
+}
+
+.landingpage-kendo-table.locked-column-by-css{
+    .k-grid tr td:first-child{
+        text-align: right;
+    }
+    .k-grid tr.k-alt td:first-child{
+        text-align: right;
+    }
+}
+
+.column-resize-remove{
+    .k-grid tr th{
+        &:first-child{
+            .k-column-resizer{
+                display: none !important;
+            }
+        }
+    }
+}
+
+.dark-theme {
+    .k-checkbox:checked, .k-checkbox.k-checked {
+        border-color: $dark-primary;
+        color: $white-color;
+        &::before {
+            border-bottom: 3px solid $dark-primary;
+            border-right: 2px solid $dark-primary;
+        }
+        &::after {
+            border-right: 4px solid transparent;
+        }
+    }
+    .k-checkbox:indeterminate, .k-checkbox.k-state-indeterminate, .k-checkbox.k-indeterminate{
+        border-color: $dark-primary;
+        color: $dark-primary;
+    }
+    .k-checkbox:checked:focus, .k-checkbox.k-checked.k-state-focus{
+        border-color: $dark-primary;
+    }
+    .k-columnmenu-item.k-state-selected,
+     .k-list .k-item.k-state-selected,
+     .k-list-optionlabel.k-state-selected {
+         color: $white-color;
+         background-color: $dark-primary;
+         &:hover{
+             color: $white-color;
+             background-color: $dark-primary;
+         }
+     }
+    .k-scheduler-nonwork, .k-scheduler .k-nonwork-hour {
+        background-color: #545454;
+    }
+    .k-datepicker .k-picker-wrap, .k-timepicker .k-picker-wrap, .k-datetimepicker .k-picker-wrap, .k-dateinput .k-dateinput-wrap{
+        background-color: transparent;
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.7);
+    }
+    .kendo-input-box{
+        .k-textbox-container > .k-label, .k-textbox-container.k-state-focused > .k-label, .k-floating-label-container > .k-label, .k-floating-label-container.k-state-focused > .k-label{
+            color: rgb(255 255 255 / 70%);
+        }
+        .k-select{
+            color: #fff;
+        }
+        .k-textbox-container.k-state-focused > .k-label, .k-textarea-container.k-state-focused > .k-label, .k-floating-label-container.k-state-focused > .k-label{
+            color: $dark-primary;
+        }
+        .k-textbox-container::after, .k-floating-label-container::after{
+            background-color: $dark-primary;
+        }
+    }
+    .k-button-primary,
+    .k-button.k-primary {
+        background-color: $dark-primary;
+        border-color: $white-color;
+    }
+
+    .k-button-primary:disabled,
+    .k-button-primary.k-state-disabled,
+    .k-button.k-primary:disabled,
+    .k-button.k-primary.k-state-disabled {
+        background-color: rgba(0, 0, 0, .12);
+        color: rgba(0, 0, 0, .26);
+    }
+    .k-time-header .k-time-now{
+        color: $highlight-bg-color;
+    }
+    // locked-column-by-css
+    .locked-column-by-css{
+        .kendolist-loader {
+            background: #ffffff;
+        }
+        .k-grid tr.k-alt{
+            td:first-child{
+                background-color: #484848;
+            }
+            td{
+                background-color: rgba(0, 0, 0, 0.04);
+            }
+        }
+        .k-grid tr{
+            td:first-child{
+                background-color: #424242;
+            }
+        }
+    }
+    .job-detail-grid{
+        .k-grid td:nth-child(2){
+            background-color: #424242;
+        }
+        .k-grid tr.k-alt{
+            td:nth-child(2){
+                background-color: #484848;
+            }
+        }
+    }
+    // locked-column-by-css
+    .kendo-infinite-loader.scrollloading.k-i-loading{
+        background-color: #303030;
+    }
+    /*Xeople : Satya Prakash Gupta : 27-Apr-2022 : kendo calendar : EWM-6140 EWM-6512 : start here */
+    .companyInfo{
+        background-color: $dark-primary-bg !important;
+        color: $white-bg !important;
+    }
+    .k-calendar,
+    .k-calendar-navigation{
+        background-color: $dark-primary-bg;
+        color: $white-bg;
+    }
+    .k-calendar.k-calendar-infinite{
+        .k-calendar-navigation{
+            .k-calendar-th{
+                color: #c0bfbf !important;
+            }
+            .k-calendar-navigation-highlight {
+                background-color: $dark-primary-bg !important;
+                color: #ffffff;
+            }
+            li{
+                &:hover{
+                    color: $dark-primary;
+                }
+            }
+        }
+        .k-calendar-monthview {
+            .k-today {
+                color: $dark-primary;
+            }
+            .k-state-selected .k-link {
+                color: $white-bg;
+                background-color: $dark-primary;
+            }
+        }
+    }
+
+    /*Xeople : Satya Prakash Gupta : 27-Apr-2022 : kendo calendar : EWM-6140 EWM-6512 : end here */
+    .calender-popover.mat-card {
+        .popover-title{
+            .activity-name{
+                color: rgba($white-color, 1);
+            }
+        }
+    }
+    .k-scheduler-weekview{
+        .week-date{
+            span{
+                color: #9f9f9f;
+            }
+        }
+        .week-date.active{
+            position: relative;
+            &::before{
+                background: $dark-primary;
+            }
+            span{
+                color: $dark-primary;
+            }
+        }
+    }
+    .k-scheduler{
+        color: rgba($black-color, 0.87);
+        .k-scheduler-toolbar{
+            background: #424242;
+            border-bottom: 1px solid #424242;
+            .k-scheduler-views, .k-scheduler-navigation {
+                li{
+                    .k-link{
+                        color: $dark-primary !important;
+                        border: 1px solid rgba($black-color, 0.12) !important;
+                    }
+                }
+            }
+            .mat-stroked-button{
+                color: $dark-primary;
+                background: #595959;
+            }
+            .k-scheduler-views{
+                li{
+                    &:last-child{
+                        .k-link{
+                            border-right: 1px solid rgba($black-color, 0.12) !important;
+                        }
+                    }
+                }
+            }
+        }
+        .schedule-name{
+            .activity-name{
+                color: rgba($white-color, 1);
+            }
+        }
+        .k-scheduler-monthview{
+            table{
+                border-color: rgba(255, 255, 255, 0.12);
+                tr{
+                    td, th{
+                        border-width: 0 0 1px 1px;
+                        text-align: center;
+                        .k-more-events{
+                            color: $dark-primary;
+                        }
+                        .k-nav-day{
+                            color: #ffffff;
+                        }
+                    }
+                    th{
+                        border-width: 1px 0 1px 1px;
+                        color: #fff;
+                        background: $dark-primary-bg !important;
+                    }
+                    td{
+                        .monthview-date{
+                            span{
+                                color: #9f9f9f;
+                            }
+                        }
+                        .monthview-date.active{
+                            span{
+                                color: $dark-primary;
+                            }
+                        }
+                        .monthview-date.gray{
+                            span{
+                                color: #696767;
+                            }
+                        }
+                        &:hover .monthview-date.gray{
+                            span{
+                                color: #696767;
+                            }
+                        }
+                        &:hover .monthview-date{
+                            span{
+                                color: $dark-primary;
+                            }
+                        }
+                        &:hover .monthview-date.active{
+                            span{
+                                color: $white-color;
+                            }
+                        }
+                        &:hover{
+                            background-color: rgba($dark-primary, 0.08);
+                            .k-nav-day{
+                                background-color: $dark-primary;
+                                color: $white-color;
+                            }
+                        }
+                    }
+
+                    .active-date-box{
+                        box-shadow: 0px 0px 3px 2px $dark-primary inset;
+                    }
+                }
+            }
+        }
+        table{
+            border-color: rgba(255, 255, 255, 0.12);
+            tr{
+                td, th{
+                    border-width: 0 0 1px 1px;
+                    text-align: center;
+                    .k-more-events{
+                        color: $dark-primary;
+                    }
+                    .k-nav-day{
+                        color: #ffffff;
+                    }
+                }
+                th{
+                    color: #fff;
+                    background: $dark-primary-bg !important;
+                }
+                td{
+                    &:hover{
+                        background-color: rgba($dark-primary, 0.08);
+                        .k-nav-day{
+                            background-color: $dark-primary;
+                            color: $white-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    tbody tr:hover,
+    tbody tr.k-state-hover,
+    .k-grid tr.k-alt:hover {
+        background-color: #5b5b5b !important;
+        box-shadow: 0px 1px 14px 0px #2c2c2c;
+    }
+    .kendo-table-container {
+        .k-grid {
+            color: rgba($white-color, 0.87);
+            th {
+                background: #282828;
+                color: rgba($white-color, 0.87);
+                .k-link:hover{
+                    color: #fff !important;
+                }
+            }
+            tr.k-alt {
+                background-color: #4b4b4b !important;
+            }
+            tr.k-alt:hover {
+                background-color: #5b5b5b;
+                box-shadow: 0px 1px 14px 0px #2c2c2c;
+            }
+            tbody tr:hover,
+            tbody tr.k-state-hover {
+                background-color: rgba(255, 251, 251, 0.1) !important;
+            }
+            tbody tr.k-detail-row {
+                background-color: rgba(255, 255, 255, 0);
+            }
+        }
+    }
+    .kendogrid-with-lock{
+        .k-virtual-content{
+             th:first-child, td:first-child{
+                border-left: 0px;
+            }
+        }
+        .k-grid-content-locked{
+            th:first-child, td:first-child{
+                border-left: 2px solid $dark-primary;
+            }
+        }
+
+    }
+
+    .k-i-sort-asc-sm::before,
+    .k-i-sort-desc-sm::before{
+        color: rgba($white-color, 0.87);
+    }
+    .segment-key {
+        color: #ffffff !important;
+    }
+    .k-grid-header,
+    .k-grid-toolbar,
+    .k-grouping-header,
+    .k-grid-add-row,
+    .k-grid-footer {
+        color: rgba($white-color, 0.87);
+        background-color: #282828;
+    }
+    .k-i-add:before,
+    .k-i-plus:before,
+    .k-plus:before {
+        color: rgba($white-color, 0.87);
+    }
+    .k-pager-sizes .k-dropdown,
+    .k-pager-sizes .k-dropdowntree,
+    .k-pager-sizes>select {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+        color: rgba($white-color, 0.87);
+        background: #424242;
+    }
+    .k-pager-numbers .k-link.k-state-selected {
+        background-color: #767986;
+    }
+    .k-pager-numbers .k-link {
+        color: rgba($white-color, 0.87);
+    }
+    .k-grid .k-grid-filter,
+    .k-grid .k-header-column-menu,
+    .k-grid .k-hierarchy-cell .k-icon {
+        color: rgba($white-color, 0.87);
+    }
+    .k-pager-numbers .k-link:hover,
+    .k-pager-numbers .k-link.k-state-hover {
+        background-color: #767986;
+    }
+
+    .k-grid .k-grid-content-locked .k-state-hover td,
+    .k-grid .k-grid-content-locked tr:hover td {
+        background-color: rgba(255, 251, 251, 0.1);
+    }
+    #overflowCustom{
+        .k-grid-header-locked, .k-grid-content-locked{
+            border-color: rgba(0, 0, 0, 0.25);
+        }
+        .k-grid-content-locked{
+            border-bottom:10px solid #313131;
+        }
+    }
+    .k-grid .k-grid-header-locked, .k-grid .k-grid-content-locked, .k-grid .k-grid-header-locked .k-header, .k-grid .k-grid-content-locked td {
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+    .k-grid-header, .k-header, th.k-header, .k-grid-header-wrap, .k-grouping-header, .k-grouping-header .k-group-indicator, .k-grid td, .k-grid-footer, .k-grid-footer-wrap, .k-grid-content-locked, .k-grid-footer-locked, .k-grid-header-locked, .k-filter-row > td, .k-filter-row > th{
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    // @When: 29-06-20223 @who:Amit @why: EWM-12957 @what: add filter row dark mode style start here
+    .locked-column-by-css{
+        .k-grid tr.k-filter-row{
+            td{
+                background-color: $gray-txt;
+                .k-filtercell{
+                    .k-datepicker{
+                        .k-picker-wrap{
+                            border-top-color: #303030 !important;
+                            border: 1px solid #303030;
+                                background: #424242;
+                            .k-dateinput{
+                                .k-input{
+                                    color: #fff;
+                                }
+                            }
+                        }
+                        .k-select{
+                            background: #424242;
+                            color: $dark-primary;
+                        }
+                    }
+                    .k-numerictextbox{
+                        .k-numeric-wrap{
+                            border-top-color: #303030 !important;
+                            border: 1px solid #303030;
+                            background: #424242;
+                            .k-input{
+                                color: #fff;
+                            }
+                        }
+                        .k-select{
+                            background: #424242;
+                            color: $dark-primary;
+                            .k-link:hover{
+                                background: transparent;
+                                color: #fff;
+                            }
+                        }
+                    }
+                    .k-textbox{
+                        border-top-color:  #303030 !important;
+                        border: 1px solid  #303030;
+                        background: $dark-primary-bg;
+                        color: $white-color;
+                    }
+                    .k-filtercell-wrapper{
+                        .k-filtercell-operator{
+                            .k-dropdown{
+                                .k-dropdown-wrap{
+                                    background: $dark-primary-bg;
+                                    border: 1px solid  #303030;
+                                    border-top-color:  #303030 !important;
+                                    .k-select{
+                                        .k-i-filter{
+                                            &::before{
+                                                color: $dark-primary;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .k-button.k-clear-button-visible{
+                                background: $dark-primary-bg;
+                                border: 1px solid #303030;
+                                border-top-color:  #303030 !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // @When: 29-06-20223 @who:Amit @why: EWM-12957 @what: add filter row dark mode  style end here
+
+    .k-scheduler .k-scheduler-toolbar .mat-checkbox{
+        .mat-checkbox-layout{
+            .mat-checkbox-label{
+                color: $white-color;
+            }
+        }
+    }
+
+    .k-checkbox {
+        border: 2px solid rgba(255, 255, 255, 0.54);
+    }
+    .k-checkbox:focus, .k-checkbox.k-state-focus{
+        border: 2px solid rgba(255, 255, 255, 0.54);
+    }
+
+}
+
+
+.cltDashobardGrid{
+    margin-top: 10px;
+    div{
+        .k-grid{
+            // @When: 11-03-2023 @who:Satya Prakash Gupta @why: EWM-10655 EWM-10976 @what: show more data
+            // height: 880px;
+            // @When: 20-10-2023 @who:Amit @what: grid height change
+            max-height: 880px;
+            min-height: 300px;
+            height: auto;
+            .k-grid-container{
+                overflow-y: auto;
+                height: calc(100vh - 740px);
+            }
+        }
+    }
+}
+
+.clientlanding-kendo{
+    .k-grid td:last-child{
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+}
+.clientLocation-kendo{
+    overflow: hidden;
+    .k-grid{
+        td:last-child,
+        th:last-child{
+        width: 130px;
+        }
+    }
+}
+
+@media only screen and (max-width: 1060px) and (min-width: 320px) {
+    .joblanding-kendo{
+        overflow: auto;
+    }
+}
+
+.k-grid .k-grid-content-locked tr:hover,
+.k-grid .k-grid-content-locked td:hover{
+    background: transparent !important;
+}
+.k-grid .k-grid-content-locked tr.k-alt:hover{
+    background: #f8f8f8 !important;
+}
+
+.k-grid .k-grid-content-locked td{
+    border-color: transparent;
+    &:first-child{
+        padding: 0px;
+        text-align: center;
+    }
+}
+
+
+.k-grid-header .k-header>.k-link {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+
+.k-grid-header .k-header > .k-link > .k-icon.k-i-sort-desc-sm, .k-grid-header .k-header > .k-link > .k-icon.k-i-sort-asc-sm {
+    vertical-align: text-top;
+    margin-right: 7px;
+    margin-left: 0px;
+}
+
+.k-grid .k-grid-content-locked tr:hover td{
+    background-color:#f4f8fb;
+}
+
+.k-grid .k-grid-content-locked tr:hover{
+    background: #f4f8fb !important;
+}
+
+.colorCode .k-select{
+    display: none;
+}
+
+
+// @When: 16-02-2023 @who:Amit @why: EWM-10506 @what:table align,
+.kendo-grid-fixed-column{
+    .k-grid-content-locked{
+        border-bottom: 10px solid transparent;
+        border-color: rgba(0, 0, 0, 0);
+        height: calc(100% - 10px) !important;
+    }
+}
+
+// kendo editor style start here //
+
+// profile summary page start here
+
+// @When: 10-03-2023 @who:Amit @why: EWM-10775 @what: p tag space remove
+.mailediter{
+    .k-editor-content{
+        p{
+            margin-top: 0px;
+            margin-bottom: 0px;
+            line-height: 18px;
+        }
+    }
+    @media only screen and (max-width: 767px) and (min-width: 481px) {
+        min-height: 450px;
+    }
+    @include for-small-smartphones{
+        min-height: 550px;
+    }
+}
+// @When: 10-03-2023 @who:Amit @why: EWM-10775 @what: p tag space remove
+
+.profile-summary-container{
+    // recent activities style start here
+    .mailediter{
+        height: 350px;
+        @media only screen and (min-height: 1430px) {
+            height: calc(100vh - 1090px);
+        }
+    }
+    // recent activities style end here
+
+    // notes style start here
+    .mailediter.employee-notes-editer{
+        @media only screen and (min-height: 1125px) {
+            height: calc(100vh - 775px);
+        }
+    }
+    // notes style end here
+}
+.summary-small-layout.profile-summary-container{
+    // recent activities style start here
+    .mailediter{
+        @media only screen and (min-height: 1380px) {
+            height: calc(100vh - 1025px);
+        }
+    }
+    // recent activities style end here
+
+    // notes style start here
+    .mailediter.employee-notes-editer{
+        @media only screen and (min-height: 1055px) {
+            height: calc(100vh - 725px);
+        }
+    }
+    // notes style end here
+}
+// profile summary page end here
+
+// client summary page start here
+.client-detail-container{
+    // recent activities style start here
+    .mailediter{
+        height: 350px;
+        @media only screen and (min-height: 1430px) {
+            height: calc(100vh - 1090px);
+        }
+    }
+    // recent activities style end here
+
+    // notes style start here
+    .mailediter.employee-notes-editer{
+        height: 310px;
+        @media only screen and (min-height: 950px) {
+            height: calc(100vh - 775px);
+        }
+    }
+    // notes style end here
+}
+
+.summary-small-layout.client-detail-container{
+    // recent activities style start here
+    .mailediter{
+        @media only screen and (min-height: 1380px) {
+            height: calc(100vh - 1025px);
+        }
+    }
+    // recent activities style end here
+
+    // notes style start here
+    .mailediter.employee-notes-editer{
+        @media only screen and (min-height: 950px) {
+            height: calc(100vh - 720px);
+        }
+    }
+    // notes style end here
+}
+// client summary page end here
+
+// job summary page start here
+.job-detail-container{
+    // job notes editor start here
+    .mailediter.job-notes-editor{
+        height: 230px;
+        @media only screen and (min-height: 1045px) {
+            height: calc(100vh - 820px);
+        }
+    }
+    // job notes editor end here
+}
+.container-collapse-layout.job-detail-container{
+    // job notes editor start here
+    .mailediter.job-notes-editor{
+        @media only screen and (min-height: 930px) {
+            height: calc(100vh - 685px);
+        }
+    }
+    // job notes editor end here
+}
+// job summary page end here
+
+// email setting start here
+.mailediter.email-settings-editer{
+    height: calc(100vh - 395px);
+}
+// email setting end here
+
+// general setting start here
+.mailediter.general-setting-editer{
+    height: calc(100vh - 380px);
+}
+// general setting end here
+
+// my activity start here
+.mailediter.my-activity-editor{
+    height: 300px;
+    @media only screen and (min-height: 1110px) {
+        height: calc(100vh - 820px);
+    }
+}
+// my activity end here
+
+// xeople activity start here
+.mailediter.xeople-activity-editor{
+    height: 300px;
+    @media only screen and (min-height: 1245px) {
+        height: calc(100vh - 950px);
+    }
+}
+// xeople activity end here
+
+// xeople mail start here
+.mailediter.xeople-mail-editor{
+    height: calc(100vh - 450px);
+}
+// xeople mail end here
+
+// thank you editor start here
+.mailediter.thank-you-editor{
+    @media only screen and (min-height: 800px) {
+        height: calc(100vh - 420px);
+    }
+}
+// thank you editor end here
+
+// welcome page editor start here
+.mailediter.welcome-page-editor{
+    height: 300px;
+}
+// welcome page editor end here
+
+// consent email editor start here
+.mailediter.consent-email-editor{
+    @media only screen and (min-height: 1030px) {
+        height: calc(100vh - 680px) !important;
+    }
+}
+// consent email editor end here
+
+// consent page editor start here
+.mailediter.consent-page-editor{
+    height: calc(100vh - 385px) !important;
+    @include for-small-smartphones{
+        min-height: 700px;
+    }
+}
+// consent page editor end here
+
+// new email editor start here
+.mailediter.new-email-editor{
+    @media only screen and (min-height: 750px) {
+        height: calc(100vh - 455px) !important;
+    }
+}
+// new email editor end here
+
+// alert same editor start here
+.mailediter.alert-same-editor{
+    height: 340px;
+    @include for-small-smartphones{
+        min-height: 800px;
+    }
+}
+// alert same editor end here
+
+// alert same editor start here
+.mailediter.configure-same-editor{
+    height: 340px;
+    @include for-small-smartphones{
+        min-height: 800px;
+    }
+}
+// alert same editor end here
+
+// email template editor start here
+.mailediter.email-template-editor{
+    height: 250px;
+    @media only screen and (min-height: 1280px) {
+        height: calc(100vh - 1120px);
+    }
+}
+// email template editor end here
+
+// employee activity editor start here
+.mailediter.employee-activity-editor{
+    height: 320px;
+    @include for-small-smartphones{
+        min-height: 750px;
+    }
+}
+// employee activity editor end here
+
+// mail settings editor start here
+.mailediter.mail-settings-editor{
+    height: 250px;
+    @media only screen and (min-height: 1100px) {
+        height: calc(100vh - 872px);
+    }
+}
+// mail settings editor end here
+
+// profile settings editor start here
+.mailediter.profile-setting-editor{
+    height: 280px;
+    @media only screen and (min-height: 895px) {
+        height: calc(100vh - 610px);
+    }
+}
+// profile settings editor end here
+
+// profile settings editor start here
+.mailediter.create-assessment-editor{
+    height: 280px;
+    @media only screen and (min-height: 950px) {
+        height: calc(100vh - 800px);
+    }
+}
+// profile settings editor end here
+
+// job template manage editor start here
+.job-template-editor{
+    .mailediter.custom-html-editor{
+        min-height: 480px;
+        @media only screen and (max-width: 1365px) and (min-width: 992px) {
+            min-height: 700px;
+        }
+        @media only screen and (max-width: 991px) and (min-width: 481px) {
+            min-height: 400px;
+        }
+    }
+}
+// job template manage editor start here
+
+// drawer editor style start here
+.mat-drawer{
+    .mat-drawer-inner-container{
+        .mailediter{
+            @media only screen and (max-width: 1365px) and (min-width: 1025px){
+                min-height: 500px;
+            }
+            @media only screen and (max-width: 1024px) and (min-width: 768px){
+                min-height: 350px;
+            }
+        }
+    }
+}
+.k-editor-content{
+    .ProseMirror .tableWrapper {
+        overflow-x: auto;
+        margin: 1em 0;
+    }
+    .ProseMirror table {
+        margin: 0;
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 100%;
+        overflow: hidden;
+    }
+    .ProseMirror td, .ProseMirror th {
+        min-width: 1em;
+        border: 1px solid #ddd;
+        padding: 3px 5px;
+        vertical-align: top;
+        box-sizing: border-box;
+        position: relative;
+    }
+    .ProseMirror th {
+        font-weight: bold;
+        text-align: left;
+    }
+    .ProseMirror .column-resize-handle {
+        position: absolute;
+        right: -2px;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        z-index: 20;
+        background-color: #adf;
+        pointer-events: none;
+    }
+    /* Give selected cells a blue overlay */
+    .ProseMirror .selectedCell:after {
+        z-index: 2;
+        position: absolute;
+        content: "";
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(200, 200, 255, 0.4);
+        pointer-events: none;
+    }
+}
+// drawer editor style end here
+
+// kendo editor style end here //
+
+// kendo timepicker start here
+.k-popup{
+    .k-time-list-wrapper{
+      height: 170px;
+    }
+}
+// kendo timepicker end here
+

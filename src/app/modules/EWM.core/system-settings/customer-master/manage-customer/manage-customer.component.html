@@ -1,0 +1,87 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: industry.compenent.html
+  @Who:  Suika
+  @When: 11-May-2021
+  @Why: ROST-1452.
+  @What: For Master Region .
+ -->  
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+ 
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-customer-mat-card-header">
+      <!-- <mat-card-title>{{userTz}}</mat-card-title> -->
+      <mat-card-title class="only-title" *ngIf="actionStatus=='Add'">{{'label_addcustomerType' |translate}} </mat-card-title>
+      <mat-card-title class="only-title" *ngIf="actionStatus=='Edit'">{{'label_editcustomerType' |translate}}</mat-card-title>
+   
+     
+      <div class="actionButton">
+        <button mat-raised-button color="warn" tabindex="10" id="btnCancel" (click)="onCancel($event)"
+          class="buttonForDesktopMobile">
+          <mat-icon>close</mat-icon>
+          <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+        </button>
+      <button mat-raised-button color="primary" tabindex="9" (click)="onSave(this.addForm.value,this.actionStatus)"
+          type="button" id="btnSave" [disabled]="!addForm.valid" class="buttonForDesktopMobile">
+          <mat-icon>check</mat-icon>
+          <span class="buttonTxt">{{'label_save'|translate}}</span>
+        </button>
+      </div>
+    </mat-card-header>
+   
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-customer-drawer">
+  <mat-card id="industry-manage-card" class="component-card mat-elevation-z2">
+    <form novalidate [formGroup]="addForm"  accept-charset="utf-8"
+    enctype='multipart/form-data'>
+    <div class="row col mb-0">
+        
+        
+          <!---------type-->
+      <mat-form-field class="col l4 m6 s12">
+        <mat-label>{{'label_customer_type' |translate}}</mat-label>
+        <input type="hidden" formControlName="Id" id="Id" name="Id">
+      <!--  @Who: maneesh, @When: 20-june-2023,for when duplicate value enter then save btn disabel (keyup)="onTypeChanges(false)" -->
+        <input matInput formControlName="type" required tabindex="1" text="type" id="customer-type" (keyup)="onTypeChanges();"
+          >   
+          <mat-error *ngIf="addForm.controls['type'].hasError('required')">
+          {{'label_customer_type'|translate}} {{'label_errorreqired'|translate}}
+      </mat-error>       
+        <mat-error *ngIf="addForm.controls.type.errors  && addForm.controls.type.errors.numeric">              
+          {{'label_customer_type'|translate}} {{'label_errornumeric'|translate}}
+        </mat-error>          
+        <mat-error *ngIf="addForm.controls['type'].hasError('pattern')">
+          {{'label_customer_type' |translate}} {{'label_customererrorpattern' |translate}}
+        </mat-error>
+        <mat-error *ngIf="addForm.controls['type'].hasError('codeTaken')">
+          {{'label_customer_type'|translate}} {{'label_errorreqiredAlready'|translate}}
+        </mat-error>
+      </mat-form-field>
+      <div class="clear"></div>
+          <!---------status---->
+        <div class="col l4 m6 s12">
+          <div class="ng-slectBox">
+            <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data--->    
+            <ng-select placeholder="{{'label_industryStatus'|translate}}" class="show-required" tabindex="6" [clearable]="false"
+              formControlName="status" id="customer-status" required>
+              <ng-option value="" disabled>{{'label_status'|translate}}</ng-option>
+              <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">{{list.StatusName}}</ng-option>
+          
+            </ng-select>
+            <mat-error
+              *ngIf="addForm.controls['status'].hasError('required') && addForm.controls['status'].touched">
+              {{'label_industryStatus'|translate}} {{'label_errorreqired'|translate}}
+            </mat-error>
+          </div>
+        </div>
+        <div class="clear"></div>
+    
+
+      </div>
+    </form>
+  </mat-card>
+</mat-drawer-container>
+       

@@ -1,0 +1,26 @@
+<!--
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 09-Aug-2022
+    @Why: EWM-7404 EWM-7517
+    @What: alert message component
+-->
+<div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">
+        <mat-icon color="warn">warning</mat-icon> {{'label_candidateExists'|translate}} {{jobDetails.length}}
+        {{'label_jobs'|translate}}.
+    </h2>
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content>
+    <mat-card class="alert-message" *ngFor="let data of jobDetails;let i=index">
+        <span class="count-show">{{i+1}}</span>
+        <div class="alert-text"> {{'label_candidateExists'|translate}}
+            {{data?.JobTitle}}
+            {{'label_candidatesub1'|translate}} {{data.StageName}} {{'label_candidatesub3'|translate}}</div>
+    </mat-card>
+</mat-dialog-content>

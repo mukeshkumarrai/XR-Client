@@ -1,0 +1,95 @@
+@use "../../../colors";
+.resume-view-parse{
+    .modal-header{
+        margin-bottom: 0px;
+        .mat-icon-button{
+            right: 0px;
+            top: 0px;
+            z-index: 9;
+        }
+    }
+    .mat-dialog-container{
+        padding: 0px;
+        .mat-tab-label-active{
+            opacity: 1;
+            .mat-icon{
+                color: colors.$primary-bg-color;
+            }
+        }
+        .mat-dialog-content{
+            margin: 0px;
+            padding: 0px;
+            height: 85vh;
+            max-height: 85vh;
+            .mat-tab-group{
+                height: 100%;
+                .mat-tab-body-wrapper{
+                    height: 100%;
+                    .parse-resume-btn{
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 3px 10px;
+                        align-items: center;
+                        h2{
+                            font-size: 16px;
+                        }
+                    }
+                    .PDFViewer{
+                        height: calc(100% - 48px);
+                        padding: 0px 5px;
+                    }
+                    .candidate-summry.parse-resume-tab-container{
+                        height: 100%;
+                        padding: 0px;
+                        overflow: auto;
+                        .resumeHeader.mat-card{
+                            padding: 0px 10px 5px;
+                            h2{
+                                margin: 10px 0px 0px 0px;
+                                font-size: 15px;
+                            }
+                            .mat-form-field{
+                                .mat-form-field-flex{
+                                    align-items: center;
+                                    .mat-form-field-infix{
+                                        border-top: 4px solid transparent;
+                                    }
+                                }
+                                .mat-icon{
+                                    top: 5px !important;
+                                }
+                            }
+                        }
+                        .scrolltop{
+                            padding: 0px 10px 10px;
+                            .profile-with-skill{
+                                & > .mat-card{
+                                    padding: 0px;
+                                    .mat-card-content{
+                                        overflow: auto;
+                                    }
+                                }
+                            }
+                            & > .mat-card{
+                                padding: 0px;
+                                padding-bottom: 10px;
+                                .mat-card-content{
+                                    overflow: auto;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.dark-theme{
+    .mat-dialog-container{
+        .mat-tab-label-active{
+            .mat-icon{
+                color: colors.$dark-primary;
+            }
+        }
+    } 
+}

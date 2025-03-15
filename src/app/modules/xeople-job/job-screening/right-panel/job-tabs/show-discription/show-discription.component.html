@@ -1,0 +1,8 @@
+<!-- //  @When: 18-09-2023 @who:maneesh @why: EWM-13769 @what: create component when click on expand icon for show discription -->
+<div class="modal-header"  id="jobDataDiscription">
+    <h2 matDialogTitle class="mb-0">{{'label_jobActionDiscription' | translate}}</h2>
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<p  id="jobData"  [innerHTML]="url | safeHtml"></p>

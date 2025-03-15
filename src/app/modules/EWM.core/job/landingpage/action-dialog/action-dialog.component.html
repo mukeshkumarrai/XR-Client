@@ -1,0 +1,100 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: action-dilaog.component.html
+  @Who: renu
+  @When: 19-July-2021
+  @Why: EWM-2003 EWM-2086
+  @What: This page wil be use only for the job action dilaog box page Component HTML
+ -->
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<h1 mat-dialog-title>{{'label_customizedCol'|translate}}</h1>
+<h5>{{'label_dispCol'|translate}}</h5>
+<form applyTabIndexes>
+<div mat-dialog-content class="col mb-15 action-mat-dialog-content" id="action-mat-dialog-content">
+  <div cdkDropListGroup id="product-feature-mapping-cdkDropfeatures" class="row mb-0">
+    <div class="col l6 m6 s12" id="product-feature-mapping-cdkDrop-col">
+      <mat-card class="p-15 mb-0 cardBottomSpaceOnMobile">
+        <div class="center-align-item">
+          <mat-checkbox color="primary" tabindex matTooltip="" matTooltipClass="custom-tooltip"
+            (change)="checkAll($event)"  [checked]="allComplete" [indeterminate]="someComplete()">{{'label_selectAll'|translate}}</mat-checkbox>
+            <span class="heading-spacer"></span>
+            <button mat-raised-button color="primary" [disabled]="addSelectedbtn" tabindex (click)="AddSelectedAll('selectedcolGrid','colGrid')">
+              <span class="buttonTxt">{{'label_addSelected'|translate}}</span>
+            </button>
+        </div>
+
+        <mat-divider class="heading-mat-divider"></mat-divider>
+        <div id="action-dialog-mapping-cdkDroplist">
+          <mat-form-field class="searchInput">
+            <mat-label>{{'label_search'|translate}}</mat-label>
+            <input matInput id="sms-searchBox" tabindex name="sms-searchBox" [(ngModel)]="searchTextProduct">
+            <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+          </mat-form-field>
+          <div class="left-scroll-area" cdkDropList   [cdkDropListData]="colGrid" (cdkDropListDropped)="drop($event,'selectedcolGrid','colGrid')">
+          <div id="action-dialog-mapping-cdkDroplistadd" class="Redordercolumns cursor" *ngFor="let item of colGrid |searchFilter:searchTextProduct"  cdkDrag>
+            <button mat-icon-button color="primary" tabindex  mat-icon-button cdkDragHandle><mat-icon>drag_indicator</mat-icon></button>
+            <span class="textSpan">{{item.Title|customTranslate}}</span>
+            <span class="heading-spacer"></span>
+            <mat-checkbox color="primary" tabindex labelPosition="before" class="selectGrid" #checkbox [checked]="item.completed" (change)="checkColMovData($event,item.Field,'selectedcolGrid','colGrid')" 
+            id='{{item.Title|customTranslate}}'>
+            </mat-checkbox>
+          </div>
+          <p *ngIf="(colGrid | searchFilter : searchTextProduct).length === 0">{{'label_actionDialogue_AllcolumnsAdded'|customTranslate}}</p>
+        </div>
+        </div>
+      </mat-card> 
+    </div>
+    <div class="col l6 m6 s12" id="product-feature-mapping-cdkDrop-col">
+      <mat-card class="p-15 mb-0 cardBottomSpaceOnMobile">
+        <div class="center-align-item">
+        <h4 id="product-feature-mapping-cdkDropfeaturesheader">
+          {{'label_reorderCol'|translate}}
+        </h4>
+        <span class="heading-spacer"></span>
+        <button mat-raised-button color="primary" [disabled]="addRemovebtn" tabindex (click)="RemoveSelectedAll('selectedcolGrid','colGrid')">
+          <span class="buttonTxt">{{'label_removeAll'|translate}}</span>
+        </button>
+      </div>
+        <mat-divider class="heading-mat-divider"></mat-divider>
+    <!--@Who: Bantee Kumar,@Why:EWM-11403,@When: 20-Mar-2023 -->
+<!--@Who: Bantee Kumar,@Why:EWM-12813.EWM-12998,@When: 05-07-2023,@What:Remove fix column in action modal. -->
+        <div id="action-dialog-mapping-cdkDroplist" cdkDropList
+          [cdkDropListData]="selectedcolGrid" (cdkDropListDropped)="drop($event,'colGrid','selectedcolGrid')" class="scroll-area">
+          <div class="Redordercolumns cursor" id="selected-grid-mapping-cdkDroplistadd"
+            *ngFor="let item  of selectedcolGrid" cdkDrag [cdkDragDisabled]="item.Locked =='true'">
+    <!--@Who: Bantee Kumar,@Why:EWM-10666.EWM-10657,@When: 03-Mar-2023,@What:No recorded message is displayed when the user clicks on the action icon and changes the column format. -->
+
+            <button mat-icon-button  *ngIf="!item.Locked" tabindex color="primary" cdkDragHandle><mat-icon>drag_indicator</mat-icon></button>
+            <button mat-icon-button  *ngIf="item.Locked" tabindex color="primary" disabled><mat-icon>drag_indicator</mat-icon></button>
+            <span class="textSpan">{{item.Title |customTranslate}}</span>
+            <span class="heading-spacer"></span>
+            <button *ngIf="!item.Locked" tabindex mat-icon-button class="closebutton" style="cursor: pointer;" matTooltip="{{'label_remove'|translate}}"
+              (click)="remove(item.Field, 'colGrid','selectedcolGrid')" matTooltipClass="custom-tooltip"
+              id="action-dialog-cdkDropSelectedColremove-{{item.Field}}">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div class="least-column">
+           <span *ngIf="selectedcolGrid.length == 0 && loading==false">{{'label_actionDialogue_OneselectedColumn'|translate}}</span>
+	           </div>
+        </div>
+
+      </mat-card>
+    </div>
+  </div>
+</div>
+<mat-divider></mat-divider>
+
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+  <button mat-stroked-button color="primary"  tabindex type="button" (click)="onRestoreDefault()" id="btnRestore"> {{'label_RestoreDefault'|translate}}</button>
+  <div>
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel"> {{'button_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" [disabled]="selectedcolGrid && selectedcolGrid.length == 0" tabindex type="button" (click)="onConfirm()" id="btnSave"> {{'label_save'|translate}}</button>
+    <!-- who:maneesh,what:ewm-12931 for fixed restore default btn ,when:03/07/2023 -->
+  </div>
+
+</div>
+</form>

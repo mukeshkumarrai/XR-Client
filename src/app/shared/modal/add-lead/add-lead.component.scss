@@ -1,0 +1,147 @@
+.add-lead {
+    .mat-divider{
+        margin-block: 10px;
+    }
+    &>div {
+        margin-bottom: 5px;
+    }
+    .three-column {
+        display: grid;
+        grid-template-columns: repeat(2, calc(50% - 5.5px));
+        gap: 10px;
+        row-gap: 0px;
+        // @media (1165px >=width) {
+        //     grid-template-columns: repeat(2, calc(50% - 7px));
+        // }
+        @media (818px >=width) {
+            grid-template-columns: repeat(1, calc(100% - 0px));
+        }
+        .first-col {
+            grid-column: 1 / -1;
+        }
+    }
+    .two-column{
+        display: grid;
+        grid-template-columns: repeat(2, calc(50% - 5.5px));
+        gap: 10px;
+        row-gap: 0px;
+        @media (818px >=width) {
+            grid-template-columns: repeat(1, calc(100% - 0px));
+        }
+        .more-fields-button {
+            display: flex;
+            gap: 15px;
+            align-items: baseline;
+            .mat-stroked-button{
+                padding: 0px 5px;
+                padding-inline-end: 10px;
+            }
+            /*
+            &>.expand-button{
+                position: relative;
+                .mat-stroked-button{
+                    position: relative;
+                    z-index: 2;
+                    border-radius: 8px 8px 0px 0px;
+                    border: 0px;
+                    overflow: hidden;
+                }
+                &::after{
+                    content: "";
+                    position: absolute;
+                    top: 100%;
+                    left: 1px;
+                    width: calc(100% + 0px);
+                    height: 64px;
+                    background: #f0f0f0;
+                    transform: translateY(-56%);
+                    border-radius: 8px 8px 0px 0px;
+                }
+            }
+            */
+        }
+    }
+    .more-fields {
+        display: grid;
+        grid-template-columns: repeat(1, calc(100% - 0px));
+        row-gap: 0px;
+        height: 0;
+        overflow: hidden;
+        transition: height 0.3s ease, padding 0.3s ease;
+        position: relative;
+        top: -8px;
+    }
+    .more-fields.show-more-fields {
+        height: 499px; /* Or a fixed height, depending on your needs */
+       
+        border-radius: 8px;
+        box-sizing: border-box;
+        @media(1165px >=width) {
+            height: 497px;
+        }
+        @media(818px >=width) {
+            height: 564px;
+        }
+    }
+}
+::ng-deep {
+    .add-lead{
+        .mat-stroked-button:hover .mat-button-focus-overlay,.mat-stroked-button .mat-button-focus-overlay {
+            opacity: 0;
+        }
+        .orgSelect{
+            width: 100%;
+        }
+        // ng select styling
+        .ng-select-withicon{
+            display: inline-flex;
+            align-items: baseline;
+            box-sizing: border-box;
+            width: 100%;
+            .ng-select{
+                font-size: 14px;
+                width: 100%;
+            }
+        }
+        .select-matPrefix-icon{
+            top: 8px;
+            position: relative;
+            width: 1.215em; 
+        }
+        .matPrefix-icon{
+            top: 8px;
+            position: relative;
+            width: 1.215em;
+        }
+        .matSuffix-icon{
+            position: relative;
+            bottom: 0px;
+            font-size: 12px;
+            padding: 3px 10px;
+            line-height: 25px;
+            height: 30px;
+            min-width: 35px;
+        }
+        .mat-form-field-should-float{
+            .matPrefix-icon{
+                top: 8px;
+            }
+        }
+        .icon-withchip.mat-form-field {
+            .mat-chip-list-wrapper .mat-standard-chip{
+                margin-top: 3px;
+            }
+        }
+        .email-chip{
+            @media (480px >=width) {
+                max-width: 120px;
+            }
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+            display: inline-block;
+        }
+        // ng select styling
+    }
+}

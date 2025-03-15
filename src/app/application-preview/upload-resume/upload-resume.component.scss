@@ -1,0 +1,168 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Naresh Singh
+    @When: 06-Oct-2021
+    @Why: EWM-3088 EWM-2549
+    @What: You can add this page styles on same file, and also import other style files
+*/
+
+::ng-deep .mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
+
+//* media mixin for small smartphones start here */
+@mixin for-small-smartphones-320x480{
+  @media (min-width : 320px) and (max-width : 480px) { @content; }
+}
+/* media mixin for small smartphones end here */
+
+//* media mixin for small smartphones start here */
+@mixin for-small-smartphones-320x767{
+  @media (min-width : 320px) and (max-width : 767px) { @content; }
+}
+/* media mixin for small smartphones end here */
+
+/* style variable start here */
+$gray-bg-color: #f5f5f5;
+$default-text-color: #ffffff;
+/* style variable end here */
+
+.header{
+  @include for-small-smartphones-320x767{
+    grid-template-columns: auto;
+  }
+}
+  
+  .preview-upload-resume{
+    padding:0px;
+    margin:0px auto;
+    background: transparent;
+    .mat-card-header{
+      .mat-card-title{
+        .sub-title{
+          p{
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    .upload-resume-content{
+      // min-height: 490px;
+      display: flex;
+      align-items: center;
+      .resume-mat-card{
+        width: calc(100% - 10px);
+        margin-bottom: 0px;
+        border-radius: 15px;
+        max-width: 520px;
+        padding: 30px 15px;
+        margin: 0 auto;
+        box-sizing: border-box;
+        .mat-card-title{
+          text-align: center;
+          margin-bottom: 5px;
+          font-size: 18px;
+        }
+        .resume-content{
+          .uploadResumeForm{
+            margin: 0px 15px;
+            @include for-small-smartphones-320x480{
+              margin:0px;
+            }
+            .documentUploadRoundBox{
+              padding: 0px;
+              position: relative;
+              height: 40px;
+              display: flex;
+              align-items: center;
+              width: 100%;
+              @include for-small-smartphones-320x480{
+                margin:0px;
+              }
+                .circleCreateDocFileUpload{
+                  border-radius: 50%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  transition: all 0.5s;
+                  cursor: pointer;
+                  text-align: center;
+                  z-index: 1;
+                  width: 50px;
+                  margin: -10px 0px 1px 0px;
+                  height: 50px;
+                  position: absolute;
+                  top: 0;
+                  bottom: 0;
+                  left: -12px;
+                    .mat-icon{
+                      font-size: 32px;
+                      margin-top: 0px;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      padding: 18px;
+                      border-radius: 50%;
+                    }
+                    input[type='file']{
+                      height: 55px;
+                      width: 60px;
+                      position: absolute;
+                      top: 0;
+                      left: -6px;
+                      opacity: 0;
+                      cursor: pointer;
+                      border-radius: 50%;
+                    }
+                }
+                .solidBorderFileUploadBox{
+                  margin: -6px 0px 1px 0px;
+                  border:1px solid rgba(103, 58, 183, 0.25);
+                }
+              .fileInstructions{
+                font-size: 12px;
+                // top: 10px;
+                padding: 0px 0px 0px 60px;
+                position: relative;
+                display: block;
+                text-align: left;
+                .closeIconCreateDoc{
+                  position: absolute;
+                  right: 5px;
+                  top: 0px;
+                  font-size: 20px;
+                  text-align: right;
+                  cursor: pointer;
+                }
+              }
+              button{
+                line-height: 32px;
+                font-size: 13.5px;
+                font-weight: 500;
+              }  
+            }
+            .mat-error{
+              margin-top: 15px;
+            }
+          }
+        } 
+        .inputSearch{
+          display: block !important;
+          z-index: 9999999999;
+          position: absolute;
+          top: inherit;
+          left: inherit;
+          background-color: rgba(0, 0, 0, 0);
+          right: 20px;
+          bottom: 18px;
+          font-size: 26px;
+        }
+      }
+    }
+  }
+
+
+
+
+

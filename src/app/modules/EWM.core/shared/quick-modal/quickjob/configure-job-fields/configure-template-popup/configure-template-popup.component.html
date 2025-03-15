@@ -1,0 +1,51 @@
+<!--- 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name:configure template-popup.component.html
+  @Who: Nitin Bhati 
+  @When: 08-Feb-2023
+  @Why: EWM-9628 EWM-10420
+  @What:  This page will be use for the template popup 
+ --->
+ <h2>
+    {{'label_createJob' | translate}}
+</h2>
+<mat-dialog-content class="col">
+    <div class="row mb-0">
+        <div class="col l12 m12 s12 center-align">
+
+            <div class="completeFormBox center-align">
+                <p>{{'label_createJobPara' | translate}} </p>
+
+                <button mat-raised-button color="primary" id="popup-routerbtn"
+                    (click)="goToCreateTemplate()">{{'label_jobTemplateCreate' |
+                    translate}} <mat-icon>post_add</mat-icon></button>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-0">
+        <div class="col s12 center-align or">
+            {{'label_or' | translate}}
+        </div>
+    </div>
+    <div class="row mb-0">
+        <div class="col l12 m12 s12 ng-slectBox">
+            <ng-select class="select-workflow" appendTo="body" class="dropdown-body" id="popup-jobTemplateName"
+                #workFlow autofocus placeholder="{{'label_selectTemplate' | translate}}"
+                (change)="selectedTempData($event)">
+                <ng-option disabled>{{'label_select' | translate}} {{'label_jobTemplateName'|translate}}</ng-option>
+                <ng-option *ngFor="let list of listData" [value]="list">
+                    {{list.Name}}</ng-option>
+            </ng-select>
+            <mat-error *ngIf="noRecordFound">{{ 'label_noRecordAvailable' | translate}}</mat-error>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+    <button mat-stroked-button color="warn" id="btnCancel" (click)="onDismiss()"> {{'button_cancel' |
+        translate}}</button>
+    <button mat-stroked-button color="primary" id="btnSave" (click)="goToQuickJobWithTempData()"
+        [disabled]="saveEnableDisable">
+        {{'label_continue' | translate}}</button>
+</mat-dialog-actions>

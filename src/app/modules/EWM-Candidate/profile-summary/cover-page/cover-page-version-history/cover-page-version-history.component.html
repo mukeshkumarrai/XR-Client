@@ -1,0 +1,93 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: cover-page-version.history.component.html
+  @Who: Suika
+  @When: 17-May-2022
+  @Why:  EWM-6605 EWM-6720
+  @What: cover page version view page
+ -->
+
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{coverPageName}} - {{'label_assementVersion' | customTranslate}}</h2>      
+    <button mat-icon-button  id="btncloseversion" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content class="col version-dialog">
+  <div class="question-list-sec">
+    <div class="new-data-list-header" id="cover-version-listHeader" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+      <div class="listActionBox">
+        <strong>&nbsp;</strong>
+      </div>
+      <div class="new-data" (click)="onSort('VersionName')" id="status-seq">
+        {{'label_versionTitle'|translate}}
+        <mat-icon *ngIf="sortedcolumnName === 'VersionName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+        <mat-icon *ngIf="sortedcolumnName === 'VersionName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+      </div>
+      <div class="new-data" (click)="onSort('VersionName')" id="status-seq">
+        {{'label_cover_letter_name'|translate}}
+        <mat-icon *ngIf="sortedcolumnName === 'VersionName' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+        <mat-icon *ngIf="sortedcolumnName === 'VersionName' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+      </div>
+      <div class="new-data" (click)="onSort('UploadedOn')" id="status-status">
+        {{'label_date'|translate}}
+        <mat-icon *ngIf="sortedcolumnName === 'UploadedOn' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+        <mat-icon *ngIf="sortedcolumnName === 'UploadedOn' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+      </div>
+      <div class="new-data" (click)="onSort('UploadedBy')" id="status-Builtin">
+        {{'label_cover_uploaded_By'|translate}}
+        <mat-icon *ngIf="sortedcolumnName === 'UploadedBy' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+        <mat-icon *ngIf="sortedcolumnName === 'UploadedBy' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+      </div>
+    </div>
+    <div class="col nodata" *ngIf="gridView==undefined ||gridView.length==0">
+      <span>{{'label_noRecordAvailable'|translate}}</span>
+    </div>
+    <div class="listCardView new-data-list-content"  id="listCardView" [ngClass]="[ viewMode === 'cardMode' ? '' : 'listcardContentMaxData list-infinite-scroll']"
+  *ngIf="formtitle=='grid'"  infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pageSize" (scrolled)="onScrollDown()"
+  [scrollWindow]="false">
+    <div class="new-data-list-list" *ngFor="let coverData of gridView;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+            <div class="new-data">
+              <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+              <a mat-menu-item id="btnViewS" (click)="openCoverPage(coverData)">
+                <mat-icon>subject</mat-icon>
+                {{'label_View'|translate}}
+              </a>
+              <a mat-menu-item (click)="onDownloadCoverPage(coverData.PreviewUrl,coverData.Name)" id="btnDownload" >
+                <mat-icon>download</mat-icon>
+                {{'label_cover_Download'|translate}}
+              </a>
+            </mat-menu> 
+            </div>
+            <div class="new-data">
+              <span class="cardListTxt word-wrap" matTooltip="{{coverData.VersionName }}"
+              matTooltipClass="custom-tooltip">
+              {{coverData.VersionName }}
+              </span>
+            </div>
+          <div class="new-data">
+            <span class="cardListTxt word-wrap" matTooltip="{{coverData.Name }}"
+              matTooltipClass="custom-tooltip">
+              {{coverData.Name }}
+            </span>
+            </div>
+          <div class="new-data right-align">
+            <span class="cardListTxt word-wrap" matTooltip="{{coverData.UploadedOn| date:userpreferences.timeformate:userpreferences.timezone}}"
+              matTooltipClass="custom-tooltip">
+              {{coverData.UploadedOn| date:userpreferences.timeformate:userpreferences.timezone}}
+            </span>
+          </div>
+          <div class="new-data">
+            <span class="cardListTxt word-wrap" matTooltip="{{coverData.UploadedBy}}"
+              matTooltipClass="custom-tooltip">
+              {{coverData.UploadedBy}}
+            </span>
+          </div>
+    </div>
+  </div>
+  </div>
+</mat-dialog-content>

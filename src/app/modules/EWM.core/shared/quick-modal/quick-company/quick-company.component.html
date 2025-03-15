@@ -1,0 +1,391 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 26-Nov-2021
+    @Why: EWM-3700 EWM-3916
+    @What:  This component is used for company contact related templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  
+<form [formGroup]="addCompanyForm" id="addCompanyFormId" applyTabIndexes>
+    <div class="modal-header" *ngIf="!isEditForm">
+        <!-- by maneesh ewm-18026 fixed title case -->
+        <h2 matDialogTitle class="mb-0">{{'label_quickAddCompany' | customTranslate | titlecase}}</h2>
+    </div>
+    <div class="modal-header" *ngIf="isEditForm">
+        <h2 matDialogTitle class="mb-0" *ngIf="clientLeadType!='LEAD'">{{'label_EditCompany' | customTranslate | titlecase}}</h2>
+        <h2 matDialogTitle class="mb-0" *ngIf="clientLeadType==='LEAD'">{{'label_leadEdit' | customTranslate | titlecase}}</h2>
+    </div>
+    <mat-dialog-content class="col candidate-dialog-content">
+        <div class="row mb-0">
+            <div class="col l12 m12 s12 ng-select-withicon ng-slectBox">
+                <mat-icon matPrefix class="select-matPrefix-icon">business</mat-icon>
+                <div class="orgSelect">
+                    <app-custom-dropdown [selectedIn]="selectedOrg" tabindex (selectedOut)="onOrgchange($event)"
+                        [config]="dropDownOrgConfig">
+                    </app-custom-dropdown>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-10">
+            <div class="col l12 m12 s12">
+                <mat-form-field class="icon-withchip location-icon-withchip">
+                    <mat-icon matPrefix class="select-matPrefix-icon">corporate_fare</mat-icon>
+                    <mat-label>{{'label_Name' | translate}}</mat-label>
+                    <!-- <mat-label *ngIf="clientLeadType==='LEAD'">{{'label_lead_leadname' | customTranslate}}</mat-label> -->
+                    <input type="text" tabindex formControlName="companyName" matInput placeholder=""
+                        id="company-companyname" (blur)="duplicayCheck(false,'')" required>
+                        <!-- added conditions on error filed by Adarsh singh on 17-08-23 -->
+                    <mat-error *ngIf="addCompanyForm.controls['companyName'].hasError('codeTaken') && !this.addCompanyForm.controls['companyName'].hasError('whitespace')">
+                        {{'label_Name'|translate}} {{'label_errorreqiredAlready'|translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.addCompanyForm.controls['companyName'].hasError('required')">
+                        {{ 'label_Name' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.addCompanyForm.controls['companyName'].hasError('pattern') && !this.addCompanyForm.controls['companyName'].hasError('whitespace')">
+                        {{ 'label_Name' |translate}} {{ 'label_errorspecialchar' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.addCompanyForm.controls['companyName'].hasError('minlength') && !this.addCompanyForm.controls['companyName'].hasError('whitespace')">
+                        {{'label_Name' |translate}} {{ 'label_errorminlength2' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.addCompanyForm.controls['companyName'].hasError('maxlength') && !this.addCompanyForm.controls['companyName'].hasError('whitespace')">
+                        {{ 'label_Name' |translate}} {{ 'label_errormaxlength100' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.addCompanyForm.controls['companyName'].hasError('whitespace') && !this.addCompanyForm.controls['companyName'].hasError('required')">
+                        {{'label_Name' |translate}} {{'label_nameValidation' |translate}} 
+                      </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l12 m12 s12">
+                <mat-form-field class="icon-withchip location-icon-withchip">
+                            <!-- fixed dynamic start required by maneesh ewm-17455-->
+                    <mat-label *ngIf="clientLeadType!='LEAD'">{{'label_address' | translate}} <span class="required-show">*</span></mat-label>
+                    <mat-label *ngIf="clientLeadType=='LEAD'">{{'label_address' | translate}}</mat-label>
+                      <!-- who:maneesh,what:ewm-11462.ewm-11521 add input click event,When:27/03/2023 -->
+                    <input matInput tabindex formControlName="address" placeholder="" id="company-address"(click)="addAddress()" readonly>
+                    <mat-icon matPrefix class="matPrefix-icon">place</mat-icon>
+                    <button tabindex id="addbtn-Emails" mat-raised-button matSuffix color="primary" type="button"
+                        class="matSuffix-icon mb-5" (click)="addAddress()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <mat-error *ngIf="this.addCompanyForm.controls['address'].hasError('required')">
+                        {{ 'label_address' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.addCompanyForm.controls['address'].hasError('maxlength')">
+                        {{ 'label_address' |translate}} {{ 'label_errormaxlength250' |translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l12 m12 s12 ng-slectBox">
+                <app-custom-dropdown [selectedIn]="selectedIndustry" tabindex (selectedOut)="onIndustrychange($event)"
+                    [config]="dropDownIndustryConfig">
+                </app-custom-dropdown>
+            </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l12 m12 s12 ng-slectBox">
+                <app-custom-dropdown [selectedIn]="selectedSubIndustry" tabindex
+                    [resetFormSubject]="resetFormSubjectSubIndustry.asObservable()"
+                    (selectedOut)="onSubIndustrychange($event)" [config]="dropDownSubIndustryConfig">
+                </app-custom-dropdown>
+            </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l12 m12 s12 ng-slectBox">
+                <ng-select tabindex placeholder="{{'label_brand' | translate}}" [dropdownPosition]="'top'"
+                    formControlName="Brand" id="company-Brand" (change)="onChangeBrand($event)">
+                    <ng-option *ngFor="let branddataList of brandList" [value]="branddataList">
+                        {{branddataList.Brand}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="row mb-0">
+            <div class="col l12 m12 s12">
+                <mat-form-field class="icon-withchip">
+                    <mat-label>{{'label_email' | translate}}</mat-label>
+                    <mat-chip-list #chipList aria-label="emails selection" id="emailchiplist" tabindex>
+                        <mat-chip *ngFor="let emaildata of emails" [selectable]="selectable" [removable]="(emaildata.IsDefault!=true || !isEditForm)?removable:false"
+                            (removed)="remove(emaildata,'email')">
+                            <span class="email-chip">{{emaildata.email}}
+                                {{emaildata.IsDefault==true?'(Main)':''}}</span>
+         <!-- /*@Who: Bantee kumar,@When: 26-july-2023,@Why: EWM-13328,@What: Main Email id across system should be editable*/ -->
+
+                            <mat-icon *ngIf="emaildata.IsDefault==false" color="warn" matChipRemove >cancel</mat-icon>
+                        </mat-chip>
+                        <!-- who:maneesh,what:ewm-11462.ewm-11521 add input click event,When:27/03/2023 -->
+                         <input readonly (click)="addEmail()"
+                         [matChipInputFor]="chipList">
+                    </mat-chip-list>
+                    <mat-icon matPrefix class="matPrefix-icon">email</mat-icon>
+                    <button tabindex id="addbtn-Email" mat-raised-button matSuffix color="primary" type="button"
+                        class="matSuffix-icon mb-5" (click)="addEmail()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l12 m12 s12">
+                <mat-form-field class="icon-withchip">
+                    <mat-label>{{'label_phone' | translate}}</mat-label>
+                    <mat-chip-list #chipListphone aria-label="phone selection" tabindex>
+                        <mat-chip *ngFor="let number of phone" [selectable]="selectable" id="phonechiplist"
+                            [removable]="removable" (removed)="remove(number,'phone')">
+                            {{(number?.phoneCodeName && number.phoneCodeName.toString()?.startsWith('+'))?'':'+'}}{{number?.phoneCodeName}}  {{number.phone}} ({{number.Name}})
+
+                            <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                         <!-- who:maneesh,what:ewm-11462.ewm-11521 add input click event,When:27/03/2023 -->
+                         <input readonly (click)="addPhone()"
+                         [matChipInputFor]="chipListphone">
+                    </mat-chip-list>
+                    <mat-icon matPrefix class="matPrefix-icon">phone</mat-icon>
+                    <button tabindex mat-raised-button matSuffix color="primary" type="button"
+                        class="matSuffix-icon mb-5" id="btnAdd-company" (click)="addPhone()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row mb-0">
+            <div class="col l12 m12 s12 ng-slectBox">
+                <ng-select tabindex placeholder="{{'label_parentCompany' | customTranslate|titlecase}}"
+                    [dropdownPosition]="'top'" formControlName="ParentClient" id="company-ParentClient"
+                    (change)="onChangeClient($event)">
+                    <ng-option *ngFor="let companydataList of companyList" [value]="companydataList">
+                        {{companydataList.ClientName}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+
+
+        <div class="row mb-0">
+            <div class="col l12 m12 s12 ng-slectBox">
+                <ng-select tabindex [multiple]="true" formControlName="ClientRM" class="dropdown-body" appendTo="body"
+                    id="client-companyContacts" [clearable]="true" (change)="onChangeRM($event)"
+                    placeholder="{{'label_clientRM'|customTranslate}}" [items]="companyContactsList"
+                    bindLabel="UserName">
+                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <div class="ng-value" *ngFor="let item of items | slice:0:4">
+                            <span class="ng-value-label"> {{item.UserName}}</span>
+                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </div>
+                        <div class="ng-value" *ngIf="items.length > 4">
+                            <span class="ng-value-label">{{items.length - 4}}
+                                {{'label_more'|translate}}...</span> 
+                        </div>
+                    </ng-template>
+                </ng-select>
+                <mat-error
+                    *ngIf="this.addCompanyForm.controls['ClientRM'].hasError('required') && this.addCompanyForm.controls['ClientRM'].touched">
+                    {{'label_clientRM'|customTranslate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+            </div>
+        </div>
+                         <!-- who:maneesh,what:ewm-15815 for fixed dropdown ,When:16/02/2024 -->
+        <div class="common_dropdown_v2">
+            <input type="hidden" id="contactdata" formControlName="contact">
+            <dropdown
+             [configuration]="common_DropdownC_Config"
+            (selectedOut)="onChangeContact($event)" [getSelectedItem]="selectedClientContact"></dropdown>
+        </div>
+                         <!-- who:maneesh,what:ewm-11569.ewm-11569 for dropdown and matchip,When:29/05/2023 -->
+                         <div class="common_dropdown_v2">
+                         <mat-form-field>
+                            <mat-label>{{'label_access' | translate}}</mat-label>
+                            <input matInput placeholder="{{'label_access'|translate}}" formControlName="AccessName"    
+                                id="activity-accessName" required readonly (click)="openManageAccessModal('','','')">
+                            <input type="hidden" formControlName="AccessId">
+                            <button type="button" matSuffix mat-raised-button color="primary"
+                                class="matSuffix-icon mgBottom5" tabindex="11"  (click)="openManageAccessModal('','','')">
+                                <mat-icon class="addContactIcon">add</mat-icon>
+                            </button>       
+                            
+                        </mat-form-field>
+                        </div>
+        <div class="row mb-0">
+            <div class="col l6 m6 s12">
+                <mat-form-field>
+                    <mat-icon matPrefix class="select-matPrefix-icon">pin_drop</mat-icon>
+                    <mat-label>{{'label_longitude' | translate}}</mat-label>
+                    <input type="text" tabindex formControlName="longitude" matInput placeholder=""
+                        id="company-longitude">
+                    <mat-error *ngIf="this.addCompanyForm.controls['longitude'].hasError('maxlength')">
+                        {{ 'label_longitude' |translate}} {{ 'label_errormaxlength50' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.addCompanyForm.controls['longitude'].hasError('pattern')">
+                        {{ 'label_longitude' |translate}} {{ 'label_errornumeric' |translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col l6 m6 s12">
+                <mat-form-field>
+                    <mat-icon matPrefix class="select-matPrefix-icon">pin_drop</mat-icon>
+                    <mat-label>{{'label_lattitude' | translate}}</mat-label>
+                    <input type="text" tabindex formControlName="lattitude" matInput placeholder=""
+                        id="company-lattitude">
+                    <mat-error *ngIf="this.addCompanyForm.controls['lattitude'].hasError('maxlength')">
+                        {{ 'label_lattitude' |translate}} {{ 'label_errormaxlength50' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.addCompanyForm.controls['lattitude'].hasError('pattern')">
+                        {{ 'label_lattitude' |translate}} {{ 'label_errornumeric' |translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l6 m6 s12 ng-slectBox">
+                <ng-select tabindex placeholder="{{'label_templatetype' | translate}}" [dropdownPosition]="'top'"
+                    formControlName="Type" id="company-Type" (change)="onChangeType($event)" [ngClass]="clientLeadType!='LEAD'?'show-required':''">
+                    <ng-option *ngFor="let locationTypeListData of locationTypeList" [value]="locationTypeListData">
+                        {{locationTypeListData.Name}}</ng-option>
+                </ng-select>
+                <mat-error
+                    *ngIf="addCompanyForm.controls['Type'].hasError('required') && addCompanyForm.controls['Type'].touched">
+                    {{'label_templatetype'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+            </div>
+
+         <div class="col l6 m6 s12  ng-slectBox">
+            <!-- '/client/core/administrators/group-master/status?groupId='+this.jobID; -->
+               <!-----@suika@EWM-10681 EWM-EWM-10815  @02-03-2023 to set default values for status in client and not clearable---->
+                 <!-- who:maneesh,what:ewm-11606  (clear)="onClearData()"  manage refresh and search bar and cross icon by default satutus active patch when add client and pass parameter true,when:04/05/2023 -->
+                    <ng-select tabindex placeholder="{{'label_templateStatus' | translate}}" [dropdownPosition]="'top'"
+                    (clear)="onClearData()" formControlName="StatusName" id="company-tempStatus" class="show-required"
+                    appendTo="body" (change)="tenantReasonGropCodeList($event,'',true)"   >
+                    <ng-template ng-header-tmp>
+                        <div class="add-manage" id="skill">
+                            <span class="spacer"></span>
+                              <a target="_blank"  mat-icon-button id="favIcon" (click)="redirect()"    color="primary" matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                              (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                                  (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+                                <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                                class="{{animationVar?.ManageButton?.isAnimClass}}"> 
+                                  <mat-icon>subject</mat-icon>
+                                  <mat-icon class="secondIcon">settings</mat-icon>
+                              </div>
+                            </a>
+                              <button mat-icon-button class="dropdown-reload" (click)="refresh()" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                              (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                                  (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                                    <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">rotate_right</mat-icon>
+                              </button>
+                          </div>
+                        <ng-container >
+                                <div class="pl-15 pr-15">
+                                    <mat-form-field class="no-bottom quick-no-bottom">
+                                    <!-- who:maneesh,what:ewm-11606 remove form control,when:10/05/2023 -->
+                                      <input matInput class="selectSearch" name="StatusName"  autocomplete="off"  [(ngModel)]="searchValue"
+                                      [ngModelOptions]="{standalone: true}"
+                                       placeholder="{{'label_search' |customTranslate}}" type="text"  (input)="searchData($event.target.value)" />
+                                       <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" 
+                                         (click)="searchValue=''" (click)="onSearchFilterClear()">
+                                         <mat-icon>close</mat-icon>
+                                       </button>
+                                  </mat-form-field>
+                                </div>
+                        </ng-container>
+                            </ng-template>
+                    <ng-option *ngFor="let status of statusList" [value]="status">{{status.Code}}</ng-option>
+                </ng-select>
+                <mat-error
+                    *ngIf="addCompanyForm.controls['StatusName'].hasError('required') && addCompanyForm.controls['StatusName'].touched">
+                    {{'label_templateStatus'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error> 
+         </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col col l12 m12 s12  ng-slectBox">
+                <!--  who:maneesh,what:ewm-11606 comment this for manage refresh and search bar and by default satutus active patch when add client,when:04/05/2023 -->
+                <ng-select tabindex placeholder="{{'label_reason' | translate}}" [dropdownPosition]="'top'"
+                    formControlName="Reason" id="company-reason" appendTo="body" (change)="onChangeReason($event)">
+                    <ng-template ng-header-tmp>
+                        <div class="add-manage" id="skill">
+                            <span class="spacer"></span>
+                              <a target="_blank"  mat-icon-button id="favIcon" (click)="redirectRegon()"    color="primary" matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                              (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                                  (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+                                <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                                class="{{animationVar?.ManageButton?.isAnimClass}}"> 
+                                  <mat-icon>subject</mat-icon>
+                                  <mat-icon class="secondIcon">settings</mat-icon>
+                              </div>
+                            </a>
+                              <button mat-icon-button class="dropdown-reload" (click)="refreshRegon()" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                              (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                                  (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                                    <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">rotate_right</mat-icon>
+                              </button>
+                          </div>
+                          <ng-container >
+                            <div class="pl-15 pr-15">
+                                <mat-form-field class="no-bottom quick-no-bottom">
+                                    <!-- who:maneesh,what:ewm-11606 remove form control,when:10/05/2023 -->
+                                  <input matInput class="selectSearch"   autocomplete="off"  [(ngModel)]="searchVal"
+                                  [ngModelOptions]="{standalone: true}"
+                                   placeholder="{{'label_search' |customTranslate}}" type="text"  (input)="searchRegonData($event.target.value)" />
+                                   <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" 
+                                     (click)="searchVal=''" (click)="onSearchResonFilterClear()">
+                                     <mat-icon>close</mat-icon>
+                                   </button>
+                              </mat-form-field>
+                            </div>
+                    </ng-container>
+                        </ng-template>
+                    <ng-option *ngFor="let reasonListdata of reasonList" [value]="reasonListdata">
+                        {{reasonListdata.Description}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions class="button-row eoh-dialog-footer instructions-outer" [ngClass]="!isEditForm && (extractEnableClientCheck == 1) && (IsEOHIntergrated)?'with-instructions':'without-instructions'">
+       
+        <div class="instructions-inner" *ngIf="!isEditForm && (extractEnableClientCheck == 1) && (IsEOHIntergrated)">
+            <h3>{{'label_addEOHClientInstructions' | translate | titlecase}}</h3>
+            <ul>
+                <li>{{'label_addEOHClientInst1'|translate}}</li>
+                <li>{{'label_addEOHClientInst2'|translate}}
+                    <img src="../../../../../../assets/brand/{{EOHLogo}}" width="30" />.
+                </li>
+            </ul>
+        </div>
+        <div class="action-buttons">
+            <button mat-stroked-button *ngIf="isEditForm" color="warn" tabindex type="button" (click)="onDismissEdit()" id="btnCancelEdit">
+                {{'button_cancel'|translate}}</button>
+            <button mat-stroked-button *ngIf="!isEditForm" color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+                {{'button_cancel'|translate}}</button>
+
+           <!----@Who: Renu @EWM-19577 EWM-19597 @When: 24-02-2025 @what: Client save & share to EOH  -->
+
+        <button mat-stroked-button id="EOHSHareClientBtn" *ngIf="(extractEnableClientCheck == 1) && (IsEOHIntergrated) && !isEditForm" [disabled]="!addCompanyForm.valid || isResponseGet" class="eoh-bg-button" 
+            (click)="onSave(this.addCompanyForm.value,'EOHShare', buttonConfig.apiCall)">
+            <img *ngIf="!loadingStates.EOHShare" src="../assets/brand/{{EOHLogo}}">
+              <span  *ngIf="!loadingStates.EOHShare">{{'label_saveShare' | translate}}</span>
+              <div *ngIf="loadingStates.EOHShare" id="loading"></div>     
+          </button>
+        <button mat-stroked-button color="primary" *ngIf="!isEditForm && extractEnableClientCheck == 1 && IsEOHIntergrated" tabindex type="button" (click)="onSave(this.addCompanyForm.value,'saveExit')"
+            [disabled]="!addCompanyForm.valid || isResponseGet" id="btnSave">
+            <span *ngIf="!loadingStates.saveExit">{{'label_saveExit'|translate}}</span>
+            <div *ngIf="loadingStates.saveExit" id="loading"></div>        
+        </button>
+        <button mat-stroked-button color="primary" *ngIf="isEditForm || extractEnableClientCheck == 0 || !IsEOHIntergrated" tabindex type="button" (click)="onSave(this.addCompanyForm.value,'save')"
+            [disabled]="!addCompanyForm.valid || isResponseGet" id="btnSave">
+            <span *ngIf="!loadingStates.save">{{'label_save'|translate}}</span>
+            <div *ngIf="loadingStates.save" id="loading"></div>       
+         </button>
+        </div>
+    </div>
+</form>

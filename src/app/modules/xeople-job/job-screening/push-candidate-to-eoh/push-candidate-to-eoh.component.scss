@@ -1,0 +1,46 @@
+@import "../../../../../styles-var.scss";
+.push-candidate-footer{
+    position: sticky;
+    bottom: 0px;
+    margin-bottom: 0px;
+    padding: 5px 10px;
+    border-radius: 0px;
+    justify-content: flex-end;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    @media only screen and (max-width: 545px) and (min-width: 240px){
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .button-group{
+        display: flex;
+        gap: 8px;
+        @media only screen and (max-width: 545px) and (min-width: 240px){
+            width: 100%;
+            justify-content: flex-end;
+        } 
+    }
+}
+.searchBox {
+    position: relative;
+    .closeBtn {
+      border: none;
+      background: none;
+      position: absolute;
+      z-index: 1212;
+      top: 8px;
+      right: 6px;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      .mat-icon {
+        font-size: 15px;
+        height: auto;
+      }
+    }
+  }
+  .subscribe-btn{
+    color: $warn-bg;
+    text-decoration: underline;
+  }

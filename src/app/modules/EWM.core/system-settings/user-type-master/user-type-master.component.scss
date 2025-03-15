@@ -1,0 +1,105 @@
+@import "../../../../../styles-var.scss";
+.pullRight{float:right;}
+
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+
+.col-1{
+    width: 10%;
+}
+.col-2{
+    width: 10%;
+}
+.col-3{
+    width: 20%;
+}
+.col-4{
+    width: 20%;
+}
+.col-5{
+    width: 20%;
+}
+.col-6{
+    width: 10%;
+}
+.col-7{
+    width: 10%;
+}
+.col-8{
+    width: 3%;
+}
+.col-9{
+    width: 17%;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.maxData {
+  height: 50px;
+}
+.maxData:hover {
+  height: 50px;
+}
+.previewImage {
+  img{
+      max-height:80px;
+  }
+}
+.dataActionButton.mat-flat-button {
+  min-width: 30px;
+  width: 40px;
+  padding: 0;
+  color: #a1a1a1;
+  background: transparent;
+}
+.dataActionButton.mat-flat-button:hover {
+  color: $primary-bg-color;
+}
+.mat-menu-item-submenu-trigger:after, .mat-menu-item .mat-icon-no-color {
+  color: rgba(0,0,0,.54);
+}
+.mat-menu-item .mat-icon {
+  margin-right: 16px;
+  vertical-align: middle;
+  font-size:20px;
+}
+.mat-menu-item .mat-button-wrapper{
+  font-size:20px !important;
+}
+.mat-menu-item {
+  height: 35px !important;
+  line-height: 35px !important;
+  font-size: 14px;
+}
+.ver_align{
+  line-height: 40px;
+}
+#contentdata .col-8 {
+  padding: 0px;
+}
+.xeople-container-listing-without-breadCrumb.mat-drawer-container{
+  .component-card.mat-card{
+    // @When: 22-03-2023 @who:Amit @why: EWM-11250 @what:add media
+    @media only screen and (max-width: 1060px) and (min-width: 581px) {
+      height: calc(100% - 18px);
+    }
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100% - 37px);
+    }
+    .list-infinite-scroll{
+      height: calc(100% - 47px);
+    }
+  }
+}
+.page-header.mat-card-header{
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 55px;
+  }
+}

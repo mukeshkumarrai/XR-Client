@@ -1,0 +1,673 @@
+<mat-card-header class="page-header" id="landingpage-mat-card-header">
+    <mat-card-title class="page-header-title-buttons" id="jobLandingTitle">
+      <button mat-mini-fab color="primary" class="mainAddButton" matTooltip="{{'label_AddLead'|customTranslate}}"
+        matTooltipClass="custom-tooltip" id="btnAdd" (click)="createLead()"
+        (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+        <mat-icon id="{{animationVar?.CreateButton?.id}}" class="{{animationVar?.CreateButton?.isAnimClass}}">
+          {{animationVar?.CreateButton?.iconName}}
+        </mat-icon>
+      </button>
+      <div class="page-header-title ml-5">
+        {{'label_Menuleads'|customTranslate}}
+        <span class="title-count">{{candidateMappedJobCount}}</span>
+      </div>
+           
+    </mat-card-title>
+  
+    <div class="header-action-button" id="client-dashboard-actionButton">
+      <div class="header-form">
+        <ng-select class="select-workflow pb-0" id="workflow-job" [(ngModel)]="workflowId" appendTo="body"
+          [clearable]="false" name="workflow-job" (change)="getWorkflowBasisList($event)">
+          <ng-option *ngFor="let wList of workflowList" [value]="wList?.WorkflowId">{{wList?.WorkflowName}}</ng-option>
+        </ng-select>
+      </div>
+      <div class="group-header-button">
+        <button type="button" *ngIf="workflowList?.length>1" id="backToJobBtn" class="refreshBtn" mat-raised-button (click)="backToLeadLading()"
+          matTooltip="{{'label_backToLeadLanding' | customTranslate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before" [ngClass]="IsJobClosed==1?'close-job-style':''"
+          (mouseenter)="mouseoverAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)">
+          <mat-icon id="{{animationVar?.BackButton?.id}}" class="{{animationVar?.BackButton?.isAnimClass}}">
+            keyboard_backspace
+          </mat-icon>
+        </button>
+        <button mat-raised-button class="refreshBtn" [matMenuTriggerFor]="leadsMoreMenus">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #leadsMoreMenus="matMenu" class="menu-dropdown">
+          <button mat-button id="jobDetailsAccept" (click)="onAccept()" [disabled]="selectedCandidates?.length==0 || isLastSatgeCand || getSelectedCandidatesSameStageFlag()">
+            <mat-icon fontSet="material-icons-outlined">thumb_up</mat-icon> {{'label_jobDetails_Accept' | customTranslate}}
+          </button>
+          <button mat-button id="jobDetailsReject" (click)="onReject()" [disabled]="selectedCandidates?.length==0 || !isAnyRejectedStageType || getSelectedCandidatesSameStageFlag()" >
+            <mat-icon fontSet="material-icons-outlined">thumb_down</mat-icon> {{'label_jobDetails_Reject' | customTranslate}}
+          </button>
+
+        <button *ngIf="emailDisabel" class="share-job-app" mat-button [disabled]="selectedCandidates?.length==0 || emailDisabel"
+          id="btnMailThreedot"  (click)="openNewEmailModalForSingleMultiCand()">
+          <mat-icon fontSet="material-icons-outlined">mail</mat-icon>
+          <span class="share-job">
+            <span> {{'label_JobDetailsendEmail' | translate}}</span>
+            <span class="new badge red" style="color:red" *ngIf="emailDisabel && selectedCandidates?.length>0">{{'label_lead_emailNotAvialbel' | translate}}</span>
+          </span>
+        </button>
+
+        <button *ngIf="!emailDisabel" class="share-job-app" mat-button [disabled]="selectedCandidates?.length==0 || emailDisabel"
+          id="btnMailThreedot"  (click)="openNewEmailModalForSingleMultiCand()">
+          <mat-icon fontSet="material-icons-outlined">mail</mat-icon>
+          <span class="share-job">
+            <span> {{'label_JobDetailsendEmail' | translate}}</span>
+            <span class="new badge red" style="color:red" *ngIf="emailDisabel && selectedCandidates?.length>0">{{'label_lead_emailNotAvialbel' | translate}}</span>
+          </span>
+        </button>
+        <button mat-button id="addCandidateToJobBtn" class="share-job-app" [disabled]="0 >= selectedCandidates?.length || getBulkSmsFlag() || !SMSCheckStatus || noPhoneNumber"
+           (click)="onSendSMSToCandidate()">
+          <mat-icon fontSet="material-icons-outlined">sms</mat-icon>
+          <span class="share-job">
+            <span>{{'label_JobDetailbulksms' | translate}}</span>
+            <span class="new badge red" style="color:red" *ngIf="selectedCandidates?.length>0 && getBulkSmsFlag()">{{'label_Lead_CanPhoneErr' | translate}}</span>
+          </span>
+        </button>
+        <a mat-button id="btncall" class="share-job-app"
+          href="tel:{{selectedCandidates[0]?.PhoneNumber}}" mat-icon-button
+          [disabled]="selectedCandidates?.length>1  || selectedCandidates[0]?.PhoneNumber==null || selectedCandidates[0]?.PhoneNumber==undefined || selectedCandidates[0]?.PhoneNumber==''">
+          <mat-icon id="sms-icon" fontSet="material-icons-outlined">call</mat-icon>
+          <span class="share-job">
+            <span>{{'label_call' |translate}}</span>
+            <span class="new badge red" style="color:red" *ngIf="(selectedCandidates[0]?.PhoneNumber==null || selectedCandidates[0]?.PhoneNumber==undefined || selectedCandidates[0]?.PhoneNumber=='') && selectedCandidates?.length>0">
+              {{callBtnTooltip | translate}}</span>
+          </span>
+        </a>
+        <button mat-button id="addview" class="share-job-app" [disabled]="selectedCandidates?.length>1 || selectedCandidates?.length==0"
+          (click)="setPreviousUrl(selectedCandidates[0])" >
+         <mat-icon  fontSet="material-icons-outlined">bento</mat-icon>
+         <span class="share-job">
+           <span>{{'label_lead_Summary' | customTranslate}} </span>
+         </span>
+       </button>
+        <button mat-button id="btnView" class="share-job-app" [disabled]="selectedCandidates?.length>1 || selectedCandidates[0]?.IsLastStage==0 || selectedCandidates?.length==0"
+          (click)="conertIntoLead(selectedCandidates[0]?.LeadId)">
+         <mat-icon  fontSet="material-icons-outlined">bento</mat-icon>
+         <span class="share-job">
+           <span>{{'label_lead_convertTo' | customTranslate}} {{'label_client' | customTranslate}}</span>
+         </span>
+       </button>
+       
+        </mat-menu>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-drawer-container class="advancedsearch-container p-10" autosize id="landingpage-drawer">
+    <mat-card id="landingpage-card" class="landingpage-card">
+      <mat-drawer-container autosize class="quickFiltr-container" id="quickFiltr-container" (backdropClick)="cancelTreeview()">
+        <!--Start multilayer workflow EWM-7488 EWM-9044  -->
+        <mat-drawer #multilayerWorkflow [opened]="treeMatDrawer" [mode]="mobileQuery.matches ? 'over' : 'over'"
+          position="start" class="multilayer-workflow" id="multilayer-workflow">
+          <h4>{{'label_multilayerWorkflow' | customTranslate}}
+            <button mat-icon-button color="primary" (click)="cancelTreeview()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </h4>
+          <mat-divider></mat-divider>
+          <div class="progress-loader-box" *ngIf="loadingTree">
+            <div class="progress-loader">
+              <div class="loaderBar"></div>
+            </div>
+          </div>
+          <div class="tree-view-box">
+            <mat-tree *ngIf="view" [dataSource]="dataSource" [treeControl]="treeControl" class="multilayer-tree">
+              <!-- This is the tree node template for leaf nodes -->
+              <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle class="node-child-and-subchild">
+                <div class="multilayer-tree-node">
+                  <button mat-icon-button disabled></button>
+                  <div class="multilayer-tree-node-name child-and-subchild" [style.background-color]="node.ColorCode">
+                    {{node.StageName}}
+                    <!-- <span class="badge animate__animated cursor" matTooltip="{{node.Count}}"
+                      matTooltipClass="custom-tooltip">{{node.Count}}</span> -->
+
+                       <mat-icon (click)="ShowStageDetails(node)"
+                          *ngIf="node.StageVisibility==0" class="cursor">visibility_off</mat-icon>
+                        <span class="badge animate__animated cursor" matTooltip="{{node.Count}}"  *ngIf="viewMode=='listMode'" (click)="filterStageWiseData(node)"
+                          matTooltipClass="custom-tooltip">{{node.Count}}</span>
+                          <span class="badge animate__animated cursor" matTooltip="{{node.Count}}"  *ngIf="viewMode=='cardMode'"
+                          matTooltipClass="custom-tooltip">{{node.Count}}</span>
+                  </div>
+                </div>
+              </mat-tree-node>
+              <!-- This is the tree node template for expandable nodes -->
+              <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild" class="node-parent">
+                <div class="multilayer-tree-node first-child">
+                  <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.StageName">
+                    <mat-icon class="mat-icon-rtl-mirror">
+                      {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                    </mat-icon>
+                  </button>
+                  <div class="multilayer-tree-node-name parent" [style.background-color]="node.ColorCode">
+                    {{node.StageName}}
+                    <span class="badge animate__animated cursor" matTooltip="{{node.Count}}"
+                      matTooltipClass="custom-tooltip">{{node.Count}}</span>
+                  </div>
+                </div>
+                <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)" class="sub-child">
+                  <ng-container matTreeNodeOutlet></ng-container>
+                </ul>
+              </mat-nested-tree-node>
+            </mat-tree>
+          </div>
+        </mat-drawer>
+        <!--End multilayer workflow  EWM-7488 EWM-9044 -->
+  
+        <mat-drawer #LandingEnddrawer position="end" 
+        [mode]="sideMenuContext === 'applicant-section' ? 'over' :  mobileQuery.matches ? 'over' : 'side'"
+        id="applicant-drawer" [ngClass]="sideMenuContext === 'applicant-section'?'applicant-drawer':'quickFiltr-mat-drawer'" disableClose="true">
+        <ng-container *ngIf="sideMenuContext === 'applicant-section'">
+          <div class="applicant-list-header" id="applicant-list-header">
+            <h4>{{'label_ApplicantList'|customTranslate}}  <span class="title-count" [style.background-color]="workflowStageList?.ColorCode">{{workflowStageList?.StageName}} ({{workflowStageList?.Count}})</span></h4>
+            <button id="close-quick-candidate-list" type="button" mat-icon-button
+            class="quick-button" (click)="LandingEnddrawer.toggle();closeDrawerApplicantList();qucikFilterClose();sideMenuContext = 'applicant-section'"
+              matTooltipPosition="left">
+              <mat-icon  fontSet="material-icons-outlined">close</mat-icon>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="applicant-list-grid">
+            <app-applicant-list *ngIf="applicantStatus" [workflowId]="workflowId" [WorkflowStageId]="WorkflowStageId" [filterConfig]="filterConfig" [CountFilter]="selectjobcatparam" [QuickFilter]="QuickFilter"></app-applicant-list>
+          </div>
+        </ng-container>
+        
+        <ng-container *ngIf="sideMenuContext === 'quickfilter-section'">
+          <h4>{{'label_quickFilter' | customTranslate}} </h4>
+          <button mat-icon-button color="warn" (click)="LandingEnddrawer.toggle();qucikFilterClose()" *ngIf="mobileQuery.matches ? true : false">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-divider></mat-divider>
+          <div class="quick-filter" id="quick-filter">
+            <button mat-stroked-button [ngClass]="HideStageIds?.length>0 && viewMode!='listMode'?'active':''" [disabled]="HideStageIds?.length==0 || viewMode=='listMode'"
+              (click)="showAllStages();">Show all stages({{HideStageIds?.length}})</button>
+          </div>
+        </ng-container>
+        </mat-drawer>
+  
+        <div class="leads-container" id="quickFiltr-sidenav-content">
+          <div class="stagecarousel workflow-stages" id="stagecarousel">
+            <div class="progress-loader-box" *ngIf="loadingStage">
+              <div class="progress-loader">
+                <div class="loaderBar"></div>
+              </div>
+            </div>
+            <div class="no-stages" *ngIf="stagesList?.length==0 || stagesList==null || stagesList==undefined">
+              {{'label_noStageFound' | customTranslate}}
+            </div>
+            <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0" [navigation]="true" (swiper)="onSwiper($event)"
+              [ngClass]="screenPreviewClass" *ngIf="stagesList?.length>0">
+              <ng-template class="carousel-cell" *ngFor="let stage of stagesList" swiperSlide>
+                <div class="flowStage" [style.background-color]="stage.ColorCode?stage.ColorCode:stageColor">
+                  <span (click)="openJobWorkflowSubStages(stage.InternalCode)" id="Stage-Name" class="flowStageTxt text-overflow" matTooltip="{{stage.StageName}}"
+                    matTooltipClass="custom-tooltip">{{stage.StageName}}</span>
+                  <span class="arrow-left" [style.border-left-color]="stage.ColorCode?stage.ColorCode:stageColor"></span>
+                </div>
+                <!-- who:maneesh,what:ewm-13008,what:fixed redirect when click on stage name in card view and click on count then open left pannel,when:07/07/2023 -->
+                <a class="badge animate__animated" id="openDrawerApplicantList" *ngIf="viewMode=='cardMode'"
+                  [disabled]="stage.Count=='0'?true:false"
+                  [ngClass]="stage.StageId===addSlectedID? 'animate__zoomIn':''">{{stage.Count}}
+                </a>
+                <span class="badge animate__animated cursor" *ngIf="viewMode=='listMode'" id="stagecounttwo"
+                      [ngClass]="{'stagefilter-selected': SelectedStageId==stage?.InternalCode}"
+                      (click)="clickStageId(stage?.InternalCode)">
+                  {{stage.Count}}
+                </span>
+                <span class="selectd-arrow" *ngIf="SelectedStageId==stage.InternalCode"></span>
+              </ng-template>
+            </swiper>
+          </div>
+          <button id="close-quick-filters" *ngIf="drawerIconStatus" type="button" mat-stroked-button class="quick-filter-button" (click)="LandingEnddrawer.toggle();qucikFilterClose();"
+            (mouseenter)="mouseoverAnimation(animationVar?.SidenavRight?.id, animationVar?.SidenavRight?.animation)"
+            (mouseleave)="mouseleaveAnimation(animationVar?.SidenavRight?.id, animationVar?.SidenavRight?.animation)"
+            matTooltip="{{'label_JobLanding_closeQuickFilters'|customTranslate}}" matTooltipPosition="left">
+            <mat-icon id="{{animationVar?.SidenavRight?.id}}"
+              class="{{animationVar?.SidenavRight?.isAnimClass}}" fontSet="material-icons-outlined">filter_alt</mat-icon>
+          </button>
+          
+          <div class="listMode" *ngIf="viewMode == 'listMode'">
+            <app-lead-listing [isAnyRejectedStageTypeListView]="isAnyRejectedStageTypeListView" (lead_listing)="switchListMode($event)" [forListModeStagesList]="stagesList"></app-lead-listing>
+          </div>
+          
+          <ng-container  *ngIf="viewMode == 'cardMode'">
+            <div class="candidate-data-header" id="candidate-data-header">
+              <div class="filter-refresh">
+                <button mat-raised-button class="header-button refreshBtn" id="btnRefresh" (click)="refresh()"
+                  matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip"
+                  (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                  (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                  <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+                    {{animationVar?.BarRotateButton?.iconName}}
+                  </mat-icon>
+                </button>
+                <button mat-raised-button color="primary"
+                  matTooltip="{{'label_View' | translate}} {{'label_Workflow' | translate}}"
+                  matTooltipClass="custom-tooltip" id="redirectToJobWorkflow" (click)="viewWorkflowStages()"
+                  (mouseenter)="mouseoverAnimation(animationVar?.AccountTreeButton?.id, animationVar?.AccountTreeButton?.animation)"
+                  (mouseleave)="mouseleaveAnimation(animationVar?.AccountTreeButton?.id, animationVar?.AccountTreeButton?.animation)">
+                  <mat-icon id="{{animationVar?.AccountTreeButton?.id}}"
+                    class="{{animationVar?.AccountTreeButton?.isAnimClass}}">account_tree</mat-icon>
+                </button>
+                <div class="dynamic-filter-area mat-elevation-z3 animate__animated animate__headShake animate__repeat-3"
+                  id="dynamic-filter-area" *ngIf="dynamicFilterArea">
+                  <mat-icon class="arrow_left">arrow_left</mat-icon>
+                  <div class="dynamic-filter-txt">
+                    <mat-icon class="info" fontSet="material-icons-outlined">info</mat-icon>
+                    <i>{{'label_hey' | translate}} {{loginUserName}},</i>
+                    <button mat-icon-button (click)="closeDynamicFilterArea()" id="close-dynamic-filter-area">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                  <mat-divider></mat-divider>
+                  <p>
+                    {{'label_filterMessage' | translate}}
+                  </p>
+                  <mat-divider></mat-divider>
+                  <div class="dynamic-filter-area-footer" id="dynamic-filter-area-footer">
+                    <mat-checkbox color="primary" [checked]="filterAlert" (change)="setShowAlert($event)">
+                      {{'label_doNotShowAgain' | translate}}</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="search-viewicon" id="search-viewicon">
+                <mat-form-field class="searchInput" floatLabel="never">
+                  <mat-label>{{'label_search'|translate}}</mat-label>
+                  <input matInput type="text" id="btnSearch" (input)="onFilter($event.target.value)"
+                    [(ngModel)]="searchValue" name="searchTextEWM" placeholder="{{'label_search'|translate}}"
+                    [ngModelOptions]="{standalone: true}" />
+                  <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                  <button *ngIf="searchValue" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="onFilterClear()" (click)="searchValue=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                </mat-form-field>
+                <button mat-raised-button class="show-all-hide-stage" *ngIf="HideStageIds?.length>0 && viewMode!='listMode'?'active':''" (click)="showAllStages();">
+                  <!-- <mat-icon fontSet="material-icons-outlined">{{animationVar?.FilterButton?.iconName}}</mat-icon> -->
+                  Show all Stages
+                  <span class="stage-count">{{HideStageIds?.length}}</span>
+                </button>
+                <div class="button-with-clear">
+                  <button mat-raised-button class="filterButton header-button" id="moreFilter"
+                    [ngClass]="[ filterCount!=0 ? 'addFilter' : 'blankFilter']" matTooltip="{{'label_filters'|translate}}"
+                    matTooltipClass="card-list-tooltip" matTooltipPosition="before" (click)="openFilterModalDialog()"
+                    (mouseenter)="mouseoverAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)">
+                    <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.FilterButton?.id}}"
+                      class="{{animationVar?.FilterButton?.isAnimClass}}">{{animationVar?.FilterButton?.iconName}}
+                    </mat-icon>
+                  </button>
+                  <div class="clear-with-data" *ngIf="filterCount!=0" (click)="clearFilterData(viewMode)">
+                    <span class="text-overflow filterCount">{{filterCount}}</span>
+                    <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                
+                <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active-list-grid']" class="header-button"
+                  (click)="switchListMode('listMode')" id="job-landing-viewModeInactive"
+                  (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+                  (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+                  matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                  <mat-icon id="{{animationVar?.ListButton?.id}}" class="{{animationVar?.ListButton?.isAnimClass}}">
+                    {{animationVar?.ListButton?.iconName}}
+                  </mat-icon>
+                </button>
+          
+                <button mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? 'active-list-grid' : '']" class="header-button"
+                  (click)="switchListMode('cardMode')" id="job-landing-viewModeactive"
+                  (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+                  (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+                  matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                  <mat-icon id="{{animationVar?.GridButton?.id}}" class="{{animationVar?.GridButton?.isAnimClass}}">
+                    {{animationVar?.GridButton?.iconName}}
+                  </mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="kanban-sec-main job-details-kanban" id="kanban-sec-main">
+              <div *ngIf="loading || loader" class="logo-loader" id="logo-loader">
+                <div class="logo-loading"></div>
+              </div>
+              <div class="kanban-sec" id="kanban-sec">
+                <div class="kanban-header-sticky">
+                  <div class="kanban-header">
+                    <!-------------@suika @whn 24-05-2023 @EWM-12465------*ngIf="stageData.StageVisibility==1"----[checked]="stageData.CheckboxStatus"--------------name="stageCheckId_{{stageData.StageName}}"-class="white-checked"--->
+                    <!--<ng-containner>-->
+                    <div class="stageName cursor" [style.background-color]="stageData.ColorCode"
+                      [ngStyle]="{'display': stageData.StageVisibility==0 ? 'none' : (stageData.StageVisibility==1  ? '' : null) }"
+                      id="stageid_{{stageData.StageDisplaySeq}}"
+                      [ngClass]="stageData.isDisabled==0 ?'dragenable':'dragdisable'" *ngFor="let stageData of stages;"
+                      >
+                      <div class="card-view-header">
+                        <mat-checkbox  [disabled]="stageData?.candidates?.length==0" [checked]="stageData.CheckboxStatus"
+                          class="white-checked" color="primary"  id="stageCheckId_{{stageData.StageName}}"
+                          name="stageCheckId_{{stageData.StageName}}" tabindex [indeterminate]="stageData.IsIntermediate"
+                          (change)="selectStageData(stageData,$event)"></mat-checkbox>
+                          <!--------------------@suika @whn 10-07-2023 as per satya discussion remove click event-->
+                          <div class="el text-overflow" (click)="onOpenJobActionStageName(stageData)">{{stageData.StageName}}</div>
+                     
+                        <div class="btn-group-header">
+  <!--  who:maneesh,what:ewm-13013 for refress click then stages patch and count pass true in (click)="HideStageDetails(stageData,true)",when:07/07/2023 -->
+                          <button mat-icon-button color="primary" id="candidate-btn-add-tag"
+                            (click)="HideStageDetails(stageData)" *ngIf="stageData.StageVisibilityRestriction!=1">
+                            <mat-icon fontSet="material-icons-outlined">visibility</mat-icon>
+                          </button>
+                          <div class="number-counter text-overflow">{{stageData.candidatesCount}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!---</ng-containner>-->
+                  </div>
+                </div>
+                <div cdkDropListGroup class="kanban">
+                  <ng-container *ngFor="let stageData of stages;let j=index">
+                    <div class="kanban-step"
+                      id="stageid_{{stageData.StageDisplaySeq}}" *ngIf="stageData.StageVisibility==1">
+                      <div class="process-box" cdkDropList [cdkDropListData]="stageData.candidates"
+                      (cdkDropListDropped)="drop($event,stageData.StageName,stageData.InternalCode,stageData.StageDisplaySeq,j,stageData.candidates,stageData.StageType)">
+                        <div class="stageName" [style.background-color]="stageData.ColorCode">
+                         
+                          <div class="el text-overflow">{{stageData.StageName}}</div>
+                          <div class="number-counter text-overflow"> {{stageData.candidatesCount}}</div>
+                        </div>
+                        <div class="on-demand-loader" *ngIf="stages==undefined || stages?.length == 0 && stageData?.candidates?.length != 0">
+                          <span data-text="Loading...">Loading...</span>
+                        </div>
+                        <div class="nodata" *ngIf="stageData?.candidates==undefined || stageData?.candidates?.length == 0">
+                          <span>{{loadingData |customTranslate}}</span>
+                        </div>
+                        <div class="on-demand-loader" *ngIf="stageData.InternalCode == scrolledStage">
+                          <span data-text="Loading...">Loading...</span>
+                        </div>
+                       
+                        <cdk-virtual-scroll-viewport *ngIf="stageData?.candidates?.length > 0" #viewport id="viewport{{j}}" itemSize="50" class="viewport" minBufferPx="50" maxBufferPx="50"  (scrolledIndexChange)="scrolled($event,stageData.InternalCode,j)">
+                        <div class="candidate-list" id="candidate-list"   >
+                          <mat-card class="candidate-card-box" class="candidateInfoPanel_{{can?.LeadId}}" [ngClass]="{'selected': can?.CheckboxStatus !=0, 'unread':  can?.IsProfileRead === 0}"  (cdkDragStarted)="dragStart($event,stageData.StageDisplaySeq,can)"
+                            *cdkVirtualFor="let can of stageData?.candidates | orderByFun; let i = index" cdkDrag
+                            (cdkDragMoved)="onDragMoved($event)"  id="stageid_{{stageData.StageDisplaySeq}}_jobcandidate-card_{{i}}">
+                            <div class="job-card-placeholder" *cdkDragPlaceholder></div>
+                            <mat-card class="job-card-preview" *cdkDragPreview [cdkDragData]="can">
+                              <div class="candidate-box-top" id="candidate-box-top">
+                                <div class="candidate-box-avtaardetails" id="candidate-box-avtaardetails">
+                                  <div class="candidate-box-avtaar" id="candidate-box-avtaar">
+                                    <mat-checkbox [checked]="can.CheckboxStatus" color="primary" id="stageCheckId_{{stageData?.StageName}}_{{i}}"
+                                          name="stageCheckId_{{stageData?.StageName}}_{{i}}" tabindex
+                                          (change)="selectStageCanData(stageData,can,$event,j)">
+                                    </mat-checkbox>
+   
+                                    <div class="userAvtaarAndName" (click)="openCandidateDetails(can)">
+                                      <!-- <span [style.background]="getBackgroundColor(can?.ShortName)">{{can?.ShortName}}</span> -->
+                                      <span [style.background]="getBackgroundColor(can?.ShortName)">{{can?.ShortName}}</span>
+                                    </div>
+                                    <div class="diamond-screen" id="diamond-screen">
+                                      <div class="screen-card-main">
+                                      <p matTooltipClass="custom-tooltip" matTooltip="{{can.LeadName}}">
+                                      <span class="text-overflow" (click)="setPreviousUrl(can)">{{can?.LeadName}}</span>
+                                     
+                                      </p>
+                                      <div class="screen-card" id="screen-card">
+                                        <span (click)="openMoveBoxModal(can)" matTooltipClass="custom-tooltip" class="text-overflow" matTooltip="{{can?.StageName}}">{{can?.StageName?can?.StageName:'--'}}</span>
+                                      </div>
+                                    </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="candidate-box-icons" id="candidate-box-icons">
+                                  <div class="pin-unpin" id="pin-unpin">
+                                    <button *ngIf="can?.IsPin === 0" mat-icon-button class="pin-btn" tabindex id="thumb-up-btn"
+                                    matTooltipClass="custom-tooltip" matTooltip="{{'label_jobDetails_Pin' | customTranslate}}">
+                                        <mat-icon fontSet="material-icons-outlined" id="pin-icon" (click)="markPinUnPin(can,stageData?.candidates,j)"
+                                        >push_pin</mat-icon>
+                                    </button>
+                                    <button *ngIf="can?.IsPin === 1" mat-icon-button class="pin-btn pin-active" tabindex id="thumb-up-btn"
+                                    matTooltipClass="custom-tooltip" matTooltip="{{'label_jobDetails_UnPin' | customTranslate}}"
+                                    (click)="markPinUnPin(can,stageData?.candidates,j)">
+                                        <div class="two-icons" id="two-icons-unpin">
+                                        <mat-icon class="first-icon" id="first-icon-unpin" fontSet="material-icons-outlined">push_pin</mat-icon>
+                                        <mat-icon class="secondIcon" id="second-icon-unpin" fontSet="material-icons-outlined">horizontal_rule</mat-icon>
+                                      </div>
+                                    </button>
+                                  </div>
+                                  <div class="date" id="date-activity">
+                                    <span>{{can?.LastActivity | utctodate:timezonName:timezonName:userpreferences.timeformate }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="source-details" id="source-details">
+                                <div class="source-data">
+                                    <div class="source-form" id="source-form-apply" *ngIf="can.LeadSource && can.LeadSource.trim() !== ''">
+                                    <span class="text-bold cursorLink"  matTooltipClass="custom-tooltip" matTooltip="{{'label_lead_master'|customTranslate}} {{'label_Source'|customTranslate}} : {{can.LeadSource }}">{{can.LeadSource }}</span>
+                                    <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{can?.LastActivity | date:userpreferences.timeformate:userpreferences.timezone}}">error_outline</mat-icon>
+                                  </div>
+                                 
+                                </div>
+                                <div class="group-icon" id="group-icon">
+                                  <button mat-icon-button tabindex id="thumb-up-btn_{{can?.LeadId}}" class="accept" [disabled]="stageData?.lastStage"
+                                    matTooltip="{{'label_jobDetails_Accept' | customTranslate}}" matTooltipClass="custom-tooltip" (click)="likeLead(can, stageData,can?.LeadId)">
+                                    <mat-icon>thumb_up</mat-icon>
+                                  </button>
+                                  <button mat-icon-button tabindex id="thumb-down-btn_{{can?.LeadId}}" class="reject" [disabled]="!isAnyRejectedStageType"
+                                  matTooltip="{{'label_jobDetails_Reject' | customTranslate}}" matTooltipClass="custom-tooltip" (click)="dislikeLead(can, stageData,can?.LeadId)">
+                                    <mat-icon>thumb_down</mat-icon>
+                                  </button>
+
+                                  <button *ngIf="stageData?.lastStage" id="convert-to-client" class="convert-client" mat-icon-button tabindex matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                                  matTooltip="{{'label_lead_convertTo'| customTranslate}} {{'label_Client'| customTranslate}}" (click)="conertIntoLead(can?.LeadId)">
+                                    <div class="two-icons">
+                                      <mat-icon>auto_mode</mat-icon>
+                                      <mat-icon class="secondIcon">person</mat-icon>
+                                    </div>
+                                  </button>
+
+
+                                  <!-- <button *ngIf="stageData?.lastStage" mat-raised-button color="primary" id="convert-to-client"  class="convert-to-client"
+                                  (click)="conertIntoLead(can?.LeadId)">
+                                  {{'label_lead_convertTo'| customTranslate}} <br/> {{'label_Client'| customTranslate}}
+                                  </button> -->
+                                </div>
+                              </div>
+                            </mat-card>
+                            <div class="candidate-box-top" id="candidate-box-top">
+                              <div class="candidate-box-avtaardetails" id="candidate-box-avtaardetails">
+                                <div class="candidate-box-avtaar" id="candidate-box-avtaar">
+                                  <mat-checkbox [checked]="can.CheckboxStatus" color="primary" id="stageCheckId_{{stageData?.StageName}}_{{i}}"
+                                        name="stageCheckId_{{stageData?.StageName}}_{{i}}" tabindex
+                                        (change)="selectStageCanData(stageData,can,$event,j)">
+                                  </mat-checkbox>
+                               
+                                  <div class="userAvtaarAndName"   (click)="openCandidateDetails(can)">
+                                    <span [style.background]="getBackgroundColor(can?.ShortName)">{{can?.ShortName}}</span>
+                                  </div>
+                                  <div class="diamond-screen" id="diamond-screen">
+                                    <div class="screen-card-main">
+                                    <p matTooltipClass="custom-tooltip" matTooltip="{{can.LeadName}}">
+                                    <span (click)="setPreviousUrl(can)" class="text-overflow">{{can?.LeadName}}</span>
+                                   
+                                    </p>
+                                    <div class="screen-card" id="screen-card">
+                                      <span (click)="openMoveBoxModal(can)" matTooltipClass="custom-tooltip" class="text-overflow" matTooltip="{{can?.StageName}}">{{can?.StageName?can?.StageName:'--'}}</span>
+                                    </div>
+                                  </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="candidate-box-icons" id="candidate-box-icons">
+                                <div class="pin-unpin" id="pin-unpin">
+                                  <button *ngIf="can?.IsPin === 0" mat-icon-button class="pin-btn" tabindex id="thumb-up-btn"
+                                  matTooltipClass="custom-tooltip" matTooltip="{{'label_jobDetails_Pin' | customTranslate}}">
+                                      <mat-icon fontSet="material-icons-outlined" id="pin-icon" (click)="markPinUnPin(can,stageData?.candidates,j)"
+                                      >push_pin</mat-icon>
+                                  </button>
+                                  <button *ngIf="can?.IsPin === 1" mat-icon-button class="pin-btn pin-active" tabindex id="thumb-up-btn"
+                                  matTooltipClass="custom-tooltip" matTooltip="{{'label_jobDetails_UnPin' | customTranslate}}"
+                                  (click)="markPinUnPin(can,stageData?.candidates,j)">
+                                      <div class="two-icons" id="two-icons-unpin">
+                                      <mat-icon class="first-icon" id="first-icon-unpin" fontSet="material-icons-outlined">push_pin</mat-icon>
+                                      <mat-icon class="secondIcon" id="second-icon-unpin" fontSet="material-icons-outlined">horizontal_rule</mat-icon>
+                                    </div>
+                                  </button>
+                                </div>
+                                <div class="date" id="date-activity">
+                                  <span>{{can?.LastActivity | utctodate:timezonName:timezonName:userpreferences.timeformate }}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="source-details" id="source-details">
+                              <div class="source-data">
+                                  <div class="source-form" id="source-form-apply" *ngIf="can.LeadSource && can.LeadSource.trim() !== ''">
+                                  <span class="text-bold cursorLink"  matTooltipClass="custom-tooltip" matTooltip="{{'label_lead_master'|customTranslate}} {{'label_Source'|customTranslate}} : {{can.LeadSource }}">{{can.LeadSource }}</span>
+                                  <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{can?.LastActivity | date:userpreferences.timeformate:userpreferences.timezone}}">error_outline</mat-icon>
+                                </div>
+                               
+                              </div>
+                              <div class="group-icon" id="group-icon">
+                                <button mat-icon-button tabindex id="thumb-up-btn_{{can?.LeadId}}" class="accept" [disabled]="stageData?.lastStage"
+                                  matTooltip="{{'label_jobDetails_Accept' | customTranslate}}" matTooltipClass="custom-tooltip" (click)="likeLead(can, stageData,can?.LeadId)">
+                                  <mat-icon>thumb_up</mat-icon>
+                                </button>
+                                <button mat-icon-button tabindex id="thumb-down-btn_{{can?.LeadId}}" class="reject" [disabled]="!isAnyRejectedStageType"
+                                matTooltip="{{'label_jobDetails_Reject' | customTranslate}}" matTooltipClass="custom-tooltip" (click)="dislikeLead(can, stageData,can?.LeadId)">
+                                  <mat-icon>thumb_down</mat-icon>
+                                </button>
+
+                                <button *ngIf="stageData?.lastStage" id="convert-to-client" class="convert-client" mat-icon-button tabindex matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                                matTooltip="{{'label_lead_convertTo'| customTranslate}} {{'label_Client'| customTranslate}}" (click)="conertIntoLead(can?.LeadId)">
+                                  <div class="two-icons">
+                                    <mat-icon>auto_mode</mat-icon>
+                                    <mat-icon class="secondIcon">person</mat-icon>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </mat-card>
+                        </div>
+                      </cdk-virtual-scroll-viewport>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="candidate-bottom-actions-main" id="candidate-bottom-actions-main"
+              [ngClass]="{'ActiveActions':StageVisibilityCount>3, 'd-none': viewMode == 'listMode'}">
+              <div class="candidate-bottom-actions" id="candidate-bottom-actions"
+                [style.bottom]="showHideDocumentButtons?'25px':'-100%'">
+                <div class="candidate-bottom-actions-inside">
+                  <div class="app-select">
+                    <div class="big-number">{{selectedCandidates?.length}}</div>
+                    <h3>{{'label_leadDetails_ApplicationsSelected' |customTranslate}}</h3>
+                  </div>
+                  <div class="action-btn-group" id="action-btn-group" style=" position: relative;">
+                    <div class="logo-loader" id="logo-loader" *ngIf="swiperLoader">
+                      <div class="logo-loading"></div>
+                    </div>
+                    <swiper class="swiper-action-button lead-action-button" [style.width.px]="slidePerWidth" [slidesPerView]="actionmenuItmes" [spaceBetween]="0" [navigation]="navigation"
+                      (swiper)="onSwiper($event)" *ngIf="stagesList?.length>0">
+                      <ng-template class="carousel-cell not-for-leave-action" swiperSlide>
+                        <button mat-button tabindex id="thumb-up-btnActionBar" (click)="onAccept()" [disabled]="getSelectedCandidatesSameStageFlag() || isLastSatgeCand || disabledDashboard"
+                          matTooltip="{{acceptBtnTooltip | customTranslate}}" matTooltipPosition="above"
+                          [matTooltipClass]="getSelectedCandidatesSameStageFlag() || isLastSatgeCand ? 'custom-tooltip-top tooltipError' : 'custom-tooltip-top'">
+                          <mat-icon fontSet="material-icons-outlined">thumb_up</mat-icon>
+                          <span>{{'label_jobDetails_Accept' |customTranslate}}</span>
+                        </button>
+                      </ng-template>
+                      <ng-template class="carousel-cell not-for-leave-action" swiperSlide>
+                        <button mat-button tabindex id="thumb-down-btnActionBar" (click)="onReject()"  [disabled]="!isAnyRejectedStageType || getSelectedCandidatesSameStageFlag() || disabledDashboard"
+                        matTooltip="{{rejectBtnTooltip | customTranslate}}" matTooltipPosition="above"
+                        [matTooltipClass]="!isAnyRejectedStageType || getSelectedCandidatesSameStageFlag() ? 'custom-tooltip-top tooltipError' : 'custom-tooltip-top'">
+                          <mat-icon fontSet="material-icons-outlined">thumb_down</mat-icon>
+                          <span>{{'label_jobDetails_Reject' |customTranslate}}</span>
+                        </button>
+                      </ng-template>
+                      <ng-template class="carousel-cell not-for-leave-action" swiperSlide>
+                        <a mat-button id="btncall" matTooltip="{{callBtnTooltip |translate}}" matTooltipClass="custom-tooltip-top tooltipError" matTooltipPosition="above" 
+                          href="tel:{{selectedCandidates[0]?.PhoneNumber}}" mat-icon-button
+                          [disabled]="selectedCandidates?.length>1  || selectedCandidates[0]?.PhoneNumber==null || selectedCandidates[0]?.PhoneNumber==undefined || selectedCandidates[0]?.PhoneNumber==''">
+                          <mat-icon id="sms-icon" fontSet="material-icons-outlined">call</mat-icon>
+                          <span>{{'label_call' |translate}}</span>
+                        </a>
+                      </ng-template>
+                      <ng-template class="carousel-cell not-for-leave-action" swiperSlide>
+                        <button *ngIf="emailDisabel" mat-button id="btnmail" (click)="openNewEmailModalForSingleMultiCand()" [disabled]="disabledDashboard || emailDisabel"
+                         matTooltip="{{'label_lead_emailNotAvialbel' |customTranslate}}"
+                         [matTooltipClass]="emailDisabel ? 'custom-tooltip-top tooltipError' : 'custom-tooltip-top'"
+                         matTooltipPosition="above">
+                          <mat-icon id="mail-new-icon" fontSet="material-icons-outlined">mail</mat-icon>
+                          <span>{{'label_mail' |customTranslate}}</span>
+                        </button>
+                        <button *ngIf="!emailDisabel" mat-button id="btnmail" (click)="openNewEmailModalForSingleMultiCand()" [disabled]="disabledDashboard || emailDisabel"
+                        matTooltip="{{'label_mail' |customTranslate}}"
+                        [matTooltipClass]="emailDisabel ? 'custom-tooltip-top tooltipError' : 'custom-tooltip-top'"
+                        matTooltipPosition="above">
+                         <mat-icon id="mail-new-icon" fontSet="material-icons-outlined">mail</mat-icon>
+                         <span>{{'label_mail' |customTranslate}}</span>
+                       </button>
+                      </ng-template>
+                      <ng-template class="carousel-cell not-for-leave-action" swiperSlide>
+                        <button mat-button id="btnsms" [disabled]="!SMSCheckStatus || disabledDashboard || noPhoneNumber" (click)="onSendSMSToCandidate()"
+                        matTooltip="{{smsBtnTooltip |customTranslate}}" matTooltipPosition="above"
+                        [matTooltipClass]="!SMSCheckStatus ? 'custom-tooltip-top tooltipError' : 'custom-tooltip-top'">
+                        <mat-icon id="sms-icon" fontSet="material-icons-outlined">sms</mat-icon>
+                        <span>{{'label_SMS' |customTranslate}}</span>
+                        </button> 
+                      </ng-template>
+                      <ng-template class="carousel-cell not-for-leave-action" swiperSlide>
+                        <button mat-button id="btnpin" [disabled]="selectedCandidates?.length>NoOfCanSelectedEachStage || getSelectedCandidatesSameStageFlag() || disabledDashboard"
+                          class="push-pin-btn" (click)="pinUnPinForMultipleCand(1)" matTooltip="{{pinBtnTooltip |customTranslate}}"
+                          matTooltipPosition="above" matTooltipClass="custom-tooltip-top"
+                          [matTooltipClass]="selectedCandidates?.length>NoOfCanSelectedEachStage || getSelectedCandidatesSameStageFlag() ? 'custom-tooltip-top tooltipError' : 'custom-tooltip-top'">
+                          <mat-icon id="push-icon" fontSet="material-icons-outlined">push_pin</mat-icon>
+                          <span>{{'label_jobDetails_Pin' |customTranslate}} </span> 
+                        </button>
+                      </ng-template>
+                      <ng-template class="carousel-cell not-for-leave-action" swiperSlide>
+                        <button mat-button id="btnpin" [disabled]="selectedCandidates?.length>NoOfCanSelectedEachStage || getSelectedCandidatesSameStageFlag() || disabledDashboard"
+                          class="push-unpin-btn" (click)="pinUnPinForMultipleCand(0)" matTooltip="{{unpinBtnTooltip |customTranslate}}"
+                          matTooltipPosition="above" matTooltipClass="custom-tooltip-top"
+                          [matTooltipClass]="selectedCandidates?.length>NoOfCanSelectedEachStage || getSelectedCandidatesSameStageFlag() ? 'custom-tooltip-top tooltipError' : 'custom-tooltip-top'">
+                          <div class="two-icons two-unpin-icons" id="two-icons-unpin">
+                            <mat-icon class="first-icon" id="first-icon-unpin" fontSet="material-icons-outlined">push_pin</mat-icon>
+                            <mat-icon class="secondIcon" id="second-icon-unpin" fontSet="material-icons-outlined">horizontal_rule</mat-icon>
+                          </div>
+                          <span>{{'label_jobDetails_UnPin' |customTranslate}} </span> 
+                        </button>
+                      </ng-template>
+                      <ng-template class="carousel-cell not-for-leave-action" swiperSlide>
+                        <button mat-button tabindex id="converto-client-up-btnActionBar" class="push-unpin-btn" (click)="conertIntoLead(selectedCandidates[0]?.LeadId)" [disabled]="!(isLastSatgeCand && selectedCandidates?.length === 1)"
+                          matTooltip="{{'label_lead_convertTo'| customTranslate}} {{'label_Client'| customTranslate}}" matTooltipPosition="above"
+                          [matTooltipClass]="getSelectedCandidatesSameStageFlag() || isLastSatgeCand ? 'custom-tooltip-top' : 'custom-tooltip-top tooltipError'">
+                          <div class="two-icons two-unpin-icons both-icon">
+                            <mat-icon>auto_mode</mat-icon>
+                            <mat-icon class="secondIcon">person</mat-icon>
+                          </div>
+                          <span>{{'label_lead_convertTo'| customTranslate}} {{'label_Client'| customTranslate}}</span>
+                        </button>
+                      </ng-template>
+                        
+                    </swiper>
+                  </div>
+                  <div class="cancel-btn">
+                    <button mat-icon-button class="btn-cancel" id="btn-cancel" (click)="onCloseToggleAction()"
+                      matTooltip="{{'label_cancel' |customTranslate}}" matTooltipPosition="above" matTooltipClass="custom-tooltip-top"
+                      (mouseenter)="mouseoverAnimation(animationVar?.RotateButtonClose?.id, animationVar?.RotateButtonClose?.animation)"
+                      (mouseleave)="mouseleaveAnimation(animationVar?.RotateButtonClose?.id, animationVar?.RotateButtonClose?.animation)">
+                      <mat-icon id="cancel-icon" fontSet="material-icons-outlined"
+                      id="{{animationVar?.RotateButtonClose?.id}}" class="{{animationVar?.RotateButtonClose?.isAnimClass}}">close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+   
+              </div>
+            </div>
+            </div>
+          </ng-container>
+
+        </div>
+      </mat-drawer-container>
+    </mat-card>
+  </mat-drawer-container>
+

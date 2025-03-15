@@ -1,0 +1,34 @@
+<!--
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: document.component.html
+    @Who: Satya Prakash Gupta
+    @When: 15-Sep-2021
+    @Why: EWM-2518 EWM-2848
+    @What: There are all HTML document components
+-->
+<div class="documentContainer" id="documentContainer">
+    <mat-drawer-container class="" autosize>
+        <mat-drawer #drawer  class="mainSidenav" mode="over" id="document-drawer">
+            <div class="sidenavHeader">
+                <a href="" class="logoBox" id="logoBox">
+                    <img src="/assets/logo.png" class="logoImage" id="logoImage" alt="">
+                </a>
+            </div>
+            <button mat-button (click)="openDialog('privacy');drawer.close()" id="document-btnPrivacyPolicy">
+                {{'label_privacyPolicy' |translate}}
+            </button>
+            <button mat-button (click)="openDialog('term');drawer.close()" id="document-btnTermOfuse">
+                {{'label_TermOfUse' |translate}}
+            </button>
+        </mat-drawer>
+        <mat-drawer-content>
+          <app-outer-header></app-outer-header>
+            <div class="document-page-container" id="document-page-container">
+                <router-outlet></router-outlet>
+            </div>
+             <app-footer></app-footer>
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+</div>

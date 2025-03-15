@@ -1,0 +1,55 @@
+<mat-toolbar color="primary" class="header" id="headerId">
+    <!-- Entire Software : Satya Prakash Gupta : 15-Sep-2020 : header logo and left menu start here -->
+    <div class="mainMenu">
+      <button mat-mini-fab (click)="toggleSidenav()" class="mobileMenuToggle">
+        <mat-icon>menu_open</mat-icon>
+      </button>
+      <a href="" class="logoBox" id="logoBox">
+        <img src="/assets/logo.png" class="logoImage" alt="">
+      </a>
+    </div>
+    <!-- Entire Software : Satya Prakash Gupta : 15-Sep-2020 : header logo and left menu end here -->
+    <span class="spacer"></span>
+    <!-- Entire Software : Satya Prakash Gupta : 28-Sep-2020 : use text (ENG, HIN) instead of flag image  : ROST-171 -->
+    <button mat-button  [matMenuTriggerFor]="flagMenu1" id="flagmenu" class="headerRight-menu" *ngIf="OptionalMenu==1">
+      <span class="material-icons">help_outline</span>
+    </button>
+    <mat-menu #flagMenu1="matMenu" xPosition="before" class="headerUserDropdown languageDropdown">
+      <a mat-button id="settings_Roadmap"
+      target="_blank" [href]="RoadMapMenuLink" [disabled]="RoadMapMenuLink===''?true:false">
+      <span class="material-icons">route</span> {{'label_Roadmap'|translate}}</a>
+      <a mat-button id="settings_api"
+      target="_blank" [href]="APIMenuLink" [disabled]="APIMenuLink===''?true:false">
+        <span class="material-icons">api</span> {{'label_API'|translate}}
+      </a>
+      <a mat-button id="settings_documentCenter" target="_blank" [href]="DocumentCentreMenuLink" [disabled]="DocumentCentreMenuLink===''?true:false">
+        <span class="material-icons">plagiarism</span> {{'label_DocumentCenter'|translate}}
+      </a>
+      <a mat-button id="settings_Support"
+      [href]="SupportMenuLink ? SupportMenuLink : null" [disabled]="SupportMenuLink===''?true:false">
+        <span class="material-icons">contact_support</span> {{'label_Support'|translate}}
+      </a>
+    </mat-menu>
+
+    <button mat-button [matMenuTriggerFor]="flagMenu" id="flagmenu" class="headerRight-menu">
+      <span class="material-icons">
+        public
+      </span>
+    </button>
+    <mat-menu #flagMenu="matMenu" xPosition="before" class="headerUserDropdown languageDropdown">
+      <span class="material-icons headerDroupDownUp">
+        arrow_drop_up
+      </span>
+      <button class="notification-button" mat-button (click)="useLanguage('eng')"
+        [ngClass]="{'selectedlang': userDefoultLang=='eng'}">
+        ENG (English)
+      </button>
+      <button class="notification-button" mat-button (click)="useLanguage('hin')"
+        [ngClass]="{'selectedlang': userDefoultLang=='hin'}">
+        HIN (हिंदी)
+      </button>
+      <button class="notification-button" mat-button (click)="useLanguage('ara')">
+        ARA (عربي)
+      </button>
+    </mat-menu>
+  </mat-toolbar>

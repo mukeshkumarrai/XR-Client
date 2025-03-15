@@ -1,0 +1,3616 @@
+@import "../../styles-var.scss";
+@import "../../mixinStyle.scss";
+.dark-theme {
+    .pageContainer .mat-card, .mat-toolbar.mat-primary, .mat-drawer, .sticky,
+    .headerSearch,
+    .listContent .alternetBG:nth-child(even) .mat-card .col, .listCardView .actionBox,
+    .listHeader .col,
+    .searchMain input,
+    .mat-menu-panel,
+    .mat-drawer-container,
+    .cke_top, a.cke_button_on:focus, a.cke_button_on,
+    .cke_wysiwyg_frame, .cke_wysiwyg_div,
+    .pageContainerNav ul li .active{
+      -webkit-transition: background-color 0.4s ease-out;
+      -moz-transition: background-color 0.4s ease-out;
+      -o-transition: background-color 0.4s ease-out;
+      transition: background-color 0.4s ease-out;
+    }
+    // add manage btn start
+    .main-section{
+      .mat-toolbar.mat-primary.header,
+      .mat-toolbar.mat-primary.footer {
+        background: #282828;
+        color: #ffffff;
+        .mat-button-disabled{
+          color: rgba(255, 255, 255, 0.3);
+        }
+      }
+      .mat-toolbar.mat-primary.footer {
+        .footerLink {
+          a {
+            color: #ffffff;
+          }
+        }
+        .footerButton.mat-flat-button {
+          color: #ffffff;
+        }
+      }
+    }
+    .flex-add-manage{
+      background: #3b3b3b;
+    }
+    // add manage btn end
+    // @(C): Entire Software @Who: Satya Prakash Gupta @When: 23-Aug-2023 @Why: EWM-13772 EWM-13939 @What:  scss page
+    .documents-container{
+      .breadcrumb-backbutton{
+          background: #424242 !important;
+          .breadcrumb{
+              .mat-icon{
+                  color: #5d5d5d !important;
+              }
+              .breadcrumb-link{
+                  color: #9e9e9e !important;
+                  .mat-icon{
+                      color: #9e9e9e !important;
+                  }
+              }
+          }
+      }
+      .folders-documents{
+          .document-folder-sec{
+              .mat-card{
+                  .file-name{
+                      color: #c7c7c7 !important;
+                  }
+              }
+          }
+          .actions{
+              background: #303030 !important;
+              box-shadow: 0px 0px 3px 0px #000000 !important;
+          }
+      }
+    }
+    // @When: 04-Aug-2023 @who:Satya Prakash Gupta @why: EWM-13250 @what: Dark mode for login
+    .main-container-login{
+      .whiteBg{
+        background: #141414;
+        .matCardTitle,
+        .matCardSubTitle{
+          color: #ffffff;
+        }
+      }
+      .tenantLogoBox {
+        .tenantBox{
+          background: #444444 !important;
+        }
+        label{
+          color: #789aab !important;
+          background: rgb(120 154 171 / 10%) !important;
+        }
+      }
+    }
+    .languageDropdown.mat-menu-panel{
+      .mat-button{
+        color: #ffffff;
+      }
+      .mat-button.mat-button-disabled.mat-button-disabled{
+        color: rgba(255, 255, 255, 0.3);
+      }
+    }
+    // @When: 02-03-2023 @who:Satya Prakash Gupta @why: EWM-10634 EWM-11114 @what: create color picker style start here
+    .color-picker-button{
+      border: 1px solid #c8c8c8;
+    }
+    .color-picker-container {
+      background: #696969;
+      border: 1px solid #1f1f1f;
+      .themeColor {
+        background: $dark-primary;
+        color: $white-color;
+      }
+      .picker {
+        .color-picker {
+          border: 1px solid #a5a5a5;
+        }
+      }
+      .footer{
+        .noFill {
+          border: 1px solid #343434;
+          color: #fff;
+          &:hover {
+            background-color: #343434;
+          }
+        }
+      }
+    }
+    // @When: 02-03-2023 @who:Amit @why: EWM-10801 @what: create color picker style end here
+    /*********accordian configure style************/
+    .configure-rule-accordian{
+      .divTextArea {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+      }
+      .candidate-status{
+        background: #282828 !important;
+      }
+      .mat-expansion-panel-header.mat-expanded:focus,
+      .mat-expansion-panel-header.mat-expanded:hover,
+      .mat-expansion-panel-header.mat-expanded {
+        background: #282828;
+        border-bottom: 1px solid $dark-primary;
+  
+        .mat-expansion-panel-header-title {
+          color: $dark-primary;
+        }
+      }
+      .mat-expansion-panel-header{
+        background: #282828;
+      }
+    }
+    /*********accordian configure style************/
+    .progress-loader-box{
+      .progress-loader {
+        color: $dark-primary;
+        .loaderBar {
+          background:$white-color;
+        }
+      }
+    }
+    .nodata-search{
+      .mat-icon{
+      color: $white-color;
+      background-color: $dark-primary-bg
+      }
+    }
+    .checklist-question-list.mat-card{
+      .drag-name{
+        .checklist-question-name{
+          .textSpan{
+            color: $dark-primary;
+          }
+        }
+      }
+    }
+    .dropdown-manage.mat-icon-button,
+    .dropdown-reload.mat-icon-button{
+      .secondIcon.mat-icon {
+        background-color: #343434;
+      }
+    }
+    .candidate-job-maped-data{
+      .candidateJobBox.mat-card{
+        border: 1px solid 1px solid rgb(232 232 232 / 13%);
+        .candidateImg{
+          border:1px solid rgba(103,58,183,.15);
+        }
+        .addToJobBtnBox{
+          background: rgba(120,154,171,0.1);
+        }
+        .shortName{
+          background: #3a3a3a;
+          color:#789aab;
+          border:1px solid #789aab;
+        }
+        .addToJobBtnBox{
+          color: $dark-primary;
+          .mat-icon-button{
+            color:#9a9a9a;
+          }
+        }
+      }
+    }
+    .input-with-info-icon{
+      .infoStyle{
+        color: $dark-primary;
+      }
+    }
+    .ng-select-with-info-icon{
+      .infoStyle{
+        color: $dark-primary;
+      }
+    }
+    .publishJob-tab{
+      .mat-expansion-panel-header,
+      .mat-expansion-panel-header.mat-expanded{
+        .profileFillValue{
+          .mat-progress-bar-buffer {
+            background-color: #7d7d7d;
+          }
+        }
+      }
+    }
+    .multiple-owner-sec{
+      .more-owner-show.mat-icon-button{
+        border: 1px solid #ffff;
+      }
+    }
+    .assesment-question-footer{
+      .show-weightage-footer{
+          color: $dark-primary
+      }
+    }
+  
+    .mobile-mainFilter-box.mat-menu-panel{
+      padding-top: 15px;
+      .mat-menu-content{
+        .primary {
+          color: $white-bg  !important;
+          background:$dark-primary !important;
+          .badge{
+            color:#fff;
+          }
+        }
+      }
+    }
+    .assesment-stepper-container{
+      h5.quistion-type-heading{
+        color: $dark-primary !important;
+      }
+      .question-list-sec{
+        .new-data-list-header{
+          background-color: #333333 !important;
+          color: #fff !important;
+          div{
+            border-color: #5a5a5a !important;
+          }
+        }
+      }
+      .choose-layout {
+        .lines{
+          background: #383737;
+        }
+        .mat-card {
+          .layout-column-logo,
+          .layout-column-welcome,
+          .layout-column-guidelies{
+            background: #484848 !important;
+          }
+        }
+      }
+    }
+    .time-picker{
+      .ngx-timepicker{
+        border-bottom: 1px solid rgba(255, 255, 255, 0.42) !important;
+      }
+      .time-picker-label{
+        color: rgba(255, 255, 255, 0.54);
+      }
+      .ngx-timepicker-control.ngx-timepicker-control--active{
+        &::after{
+          background-color: $dark-primary-bg;
+        }
+      }
+      .ngx-timepicker-control__input{
+        background-color: $dark-primary-bg;
+      }
+      .ngx-timepicker__toggle{
+        .ngx-material-timepicker-toggle{
+          svg{
+            fill: $dark-primary;
+          }
+        }
+      }
+    }
+    .timepicker__header{
+      background-color: $dark-primary-bg !important;
+      color: $white-bg;
+    }
+    .timepicker-button{
+      color: $dark-primary-bg !important;
+    }
+    .clock-face__number > span.active{
+      background-color: $dark-primary-bg !important;
+    }
+    .clock-face__clock-hand{
+      background-color: $dark-primary-bg !important;
+    }
+    .clock-face__clock-hand_minute{
+      &::before{
+        border-color: $dark-primary-bg !important;
+      }
+    }
+    .ngx-timepicker-control__arrow{
+      color: rgba(255, 255, 255, 0.87) !important;
+    }
+    .xeople-container-with-one-card-no-buttons.mat-drawer-container{
+      .mat-drawer-content{
+        .assessment-stepper-sec{
+          .mat-horizontal-stepper-header-container{
+            background-color: $dark-primary-bg;
+          }
+        }
+      }
+    }
+    .mobileMenu.usertype-category{
+      .mat-stroked-button{
+        color: #cacaca;
+      }
+      .swipperCategory{
+        color: $dark-primary;
+      }
+    }
+    // disable styling
+    .ng-select.ng-select-multiple.ng-select-disabled .ng-select-container .ng-value-container .ng-value{
+        background-color: rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255,0.52);
+    }
+    .ng-select.ng-select-disabled .ng-select-container .ng-value-container .ng-placeholder,
+    .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+        color: rgba(255, 255, 255,0.52);
+    }
+    .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline{
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 43%, transparent 0%);
+    }
+
+    .mat-form-field-appearance-legacy{
+      .mat-form-field-infix{
+        color: $white-color;
+      }
+    }
+
+    // disable styling
+    .revoke-fix{
+      .alternetBG{
+          &:nth-child(even) .mat-card {
+              background-color: rgba(255, 255, 255, 0.04);
+          }
+          &:last-child .mat-card {
+              border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          }
+          &:hover .mat-card {
+            background-color: rgba(255, 255, 255, 0.02);
+          }
+          .mat-card{
+              box-shadow: 2px 0px 0px 0px $dark-primary inset;
+          }
+      }
+    }
+    .infoIconContentBox{
+      .mat-menu-content{
+        small{
+          color: #ffff;
+        }
+      }
+    }
+    .assessment-card-box{
+      .mat-card{
+          .description{
+              color: #fff !important;
+          }
+      }
+    }
+    .dataActionButton.mat-flat-button{
+      &:hover{
+        color: $dark-primary !important;
+      }
+    }
+    .logo-loader{
+      background-color: rgba(255, 255, 255, 0.1);
+      .logo-loading{
+        &::after {
+          border-color: $dark-primary;
+          border-top-color: transparent;
+          border-bottom-color: transparent;
+          background-color: transparent;
+        }
+      }
+    }
+    .callAction{
+      border: 1px solid $dark-primary;
+      a{
+        background: $dark-primary;
+        color: $white-color;
+      }
+    }
+  
+    .notes-details-sec {
+      .mat-drawer-content {
+        .notes-detail {
+          .notes-detail-linebar {
+            background: #838383;
+          }
+          .flex-box {
+            .notes-created-info-icon {
+              .mat-mini-fab {
+                  border: 1px solid $dark-primary;
+                  background: #303030;
+                  color:  $dark-primary;
+              }
+            }
+            .notes-info {
+              background: #49464c;
+              .notes-created-details.mat-card{
+              .mat-card-header .mat-card-header-text .mat-card-subtitle{
+                color:#fff;
+                }
+                  .user-main-data{
+                    .user-notes-data.gradient.dark-gradient {
+                      &::before{
+                        background: linear-gradient(to bottom,  rgba(73,70,76,0) -75%,rgba(73,70,76,1) 70%) !important;
+                      }
+                      p,span,div{
+                        color: $white-color !important;
+                        background-color: transparent !important;
+                      }
+                    }
+                  }
+                }
+              }
+              .notes-info.protected{
+                background: #575f62;
+                .notes-created-details.mat-card{
+                .user-main-data{
+                  .user-notes-data.gradient{
+                      &::before{
+                        background: linear-gradient(to bottom,  rgba(87,95,98,0) -75%,rgba(87,95,98,1) 70%) !important;
+                      }
+                    }
+                  }
+                }
+              }
+              .notes-info.private{
+                background: #524b4c;
+                .notes-created-details.mat-card{
+                .user-main-data{
+                  .user-notes-data.gradient{
+                      &::before{
+                        background: linear-gradient(to bottom,  rgba(82,75,76,0) -75%,rgba(82,75,76,1) 70%) !important;
+                      }
+                    }
+                  }
+                }
+              }
+              .notes-info.public{
+                background: #555653;
+                .notes-created-details.mat-card{
+                .user-main-data{
+                  .user-notes-data.gradient{
+                      &::before{
+                        background: linear-gradient(to bottom,  rgba(85,86,83,0) -75%,rgba(85,86,83,1) 70%) !important;
+                      }
+                    }
+                  }
+                }
+              }
+          }
+        }
+      }
+    }
+    .white-bg{
+      background: $dark-primary-bg;
+    }
+    .mobileMenu{
+      .swiper-container{
+          .swiper-button-prev, .swiper-button-next{
+              background: $dark-primary-bg;
+           }
+      }
+      .mat-button.active{
+        background-color: #343434;
+        color: $dark-primary;
+      }
+    }
+    .publishJob-tab,
+    .publishJob-group,
+    .re-publishJob-tab{
+      .tenantLogoBox {
+        .tenantBox {
+          background: #424242;
+          .mat-icon{
+            color: rgba(127, 183, 52, 1);
+          }
+        }
+        label {
+          color: #ffffff;
+          background: rgb(120 154 171 / 15%);
+          border-top: 1px solid rgba(103, 58, 183, 0.15);
+        }
+      }
+  
+      .tenantLogoBox.active .tenantBox {
+        background-color: rgba(#7fb734, 0.10);
+        box-shadow: 0px 3px 10px 0px rgb(0 0 0 / 73%), 0px 0px 0px 3px #789aab;
+      }
+      .tenantLogoBox:hover .tenantBox{
+        box-shadow: 0px 0px 0px 3px #789aab
+      }
+      .publish-raidio-group{
+        background: #353535;
+        &:hover{
+          box-shadow: rgb(60 64 67 / 30%) 0px 1px 2px 0px, rgb(60 64 67 / 15%) 0px 1px 3px 1px;
+        }
+      }
+      .publish-raidio-group-worktype{
+        background: #353535;
+        &:hover{
+          box-shadow: rgb(60 64 67 / 30%) 0px 1px 2px 0px, rgb(60 64 67 / 15%) 0px 1px 3px 1px;
+        }
+      }
+    }
+    .publishJob-tab{
+  
+  
+      .mat-expansion-panel-header,
+      .mat-expansion-panel-header.mat-expanded{
+        background: #5e5e5e;
+        &:hover, &:focus{
+          background: #5e5e5e;
+        }
+        .profileFillValue{
+          span{
+            color: $white-color;
+          }
+          &::after{
+            background: $dark-primary;
+          }
+        }
+      }
+      .jobAdTypeSec.job-add-type{
+        .jobAdType{
+          .classic-selling{
+            background: #929292 !important;
+            border: 1px solid #a8a8a8 !important;
+          }
+        }
+      }
+    }
+    .addClientButton{
+      .two-icons {
+        .secondIcon.mat-icon {
+          background: $dark-primary;
+        }
+      }
+    }
+    .dashboard-mat-card-header.mat-card-header{
+      background: #424242;
+    }
+    .apexcharts-text tspan{
+      fill: #ffffff;
+    }
+    .apexcharts-legend-text{
+      color: #ffffff !important;
+    }
+    .mat-card-subtitle {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .swiper-button-prev, .swiper-button-next{
+      color: $dark-primary;
+    }
+    .add-manage{
+      background: #343434 !important;
+    }
+    .advancedsearchDrawer {
+      .drawerTitleSec {
+        h4 {
+          background: $dark-primary;
+          color: $white-color;
+        }
+      }
+      .ng-select{
+        .ng-select-container{
+          .ng-value-container{
+            .ng-placeholder{
+              color: $white-color;
+            } 
+          }
+        }
+      }
+    }
+    a {
+      color: $dark-primary;
+      text-decoration: none;
+    }
+    .mailBoxHeaderGroup.mat-menu-panel {
+      color: rgba($white-color, 0.7);
+      p{
+        color: $white-color;
+        span{
+          font-weight: 500;
+        }
+      }
+      .showCompleteMailInfo{
+        .fromDetail{
+          span{
+            color: $dark-primary;
+          }
+        }
+      }
+    }
+    .matLblGrpListWrap {
+      .mat-tab-labels {
+        .matIconStyle {
+          color: #9a9a9a;
+        }
+      }
+      .mat-tab-label.mat-tab-label-active{
+        .matIconStyle{
+          color: $dark-primary;
+        }
+      }
+      .mat-tab-group {
+        .mat-tab-header {
+          border-top: 1px solid rgba(0, 0, 0, 0.15);
+        }
+      }
+      /* Styles for the active tab label */
+      .mat-tab-label {
+        @media only screen and (max-width: 875px) and (min-width: 320px) {
+          border-right: 1px solid rgba(0, 0, 0, 0.15);
+        }
+      }
+    }
+  
+    .mailbody-cardContent.mat-card-content {
+      .sender-details {
+        .senderNameTxt{
+          p{
+            a{
+              color: $dark-primary;
+            }
+          }
+        }
+        .emailDateTimereply {
+          .replyForwardIcons {
+            .mat-icon-button {
+              color: #c1c1c1;
+            }
+            .mat-icon-button:hover {
+              color: $dark-primary;
+            }
+          }
+        }
+      }
+  
+      .attachmentFiles {
+        max-height: 120px;
+        overflow: auto;
+        .attachedFileStyle {
+          background: #3a3a3a;
+          .mat-icon {
+            color: #9a9a9a;
+          }
+        }
+        .attachedFileStyle:hover {
+          background: #313131;
+        }
+        .attachedFileStyle:hover .downloadFileIcon.mat-icon {
+          color: $dark-primary;
+        }
+      }
+    }
+    .userAvtaarAndName {
+      span{
+        background: $dark-primary;
+        color: $white-color;
+      }
+      .mat-icon{
+        color: $dark-primary;
+      }
+    }
+    .skillsNames:hover{
+      background: #28282847;
+    }
+    .card-fadeloader{
+      background: rgba(66, 66, 66, 0.8);
+    }
+    .respinsiveSidebarDropdown.mat-menu-panel {
+      .respinsiveSidebarDropdownMenu.mat-button:hover{
+        color: #ffffff;
+      }
+    }
+    .tagList.mat-menu-item:hover{
+      background: #282828 !important;
+    }
+    .candidateQuickMenu.mat-menu-panel{
+      .mat-button{
+        color: #ffffff;
+        .mat-icon{
+          color: $dark-primary;
+        }
+      }
+      .mat-button:hover .secondIcon{
+        color: #ffffff;
+      }
+      .mat-button.mat-button-disabled {
+        color: rgb(134 134 134) !important;
+        cursor: pointer;
+        .mat-icon{
+          color: rgb(134 134 134) !important;
+        }
+      }
+      .mat-button.mat-button-disabled:hover {
+        background: transparent;
+        cursor: default;
+      }
+    }
+  
+    .ngx-org-box {
+      background: $dark-primary;
+    }
+    .ngx-org-box {
+      border-left: 5px solid $dark-primary;
+      background: #424242;
+    }
+    .ngx-org-workflow {
+      background: $primary-bg-color;
+      color: #ffffff;
+      border-left: 5px solid $dark-primary !important;
+    }
+    .ngx-org-workflow {
+      color: #ffffff;
+      background: #424242;
+    }
+    .skillsForm{
+      .mat-button-toggle-checked{
+          background-color: $dark-primary;
+          color: $white-color;
+      }
+    }
+    // Entire Software : Satya Prakash Gupta : 10-Aug-2021 : Image Box redesign : EWM-2240 EWM-2451
+    .candidateColumnList-box {
+      border: 1px solid rgba(103, 58, 183, 0.15);
+      border-left: 3px solid $dark-primary;
+      background: #424242;
+      color: #fff;
+    }
+  
+    .candidateColumnList-custom-placeholder {
+      background: rgba($dark-primary, 0.30) !important;
+      border: dashed 2px $dark-primary;
+    }
+    // Entire Software : Satya Prakash Gupta : 10-Aug-2021 : Image Box redesign : EWM-2240 EWM-2451
+    .candidateQuickMenu.mat-menu-panel{
+      max-width: 250px;
+      .headerDroupDownUp{
+        color: #424242;
+      }
+      .two-icons{
+        .secondIcon{
+          background: #424242;
+        }
+      }
+    }
+    .candidate-tab{
+      .mat-tab-label{
+        .numbers{
+          background: $dark-primary;
+          color: #fff;
+        }
+      }
+      .mat-tab-label:hover{
+        background: rgba($black-color, 0.10);
+      }
+      .mat-tab-label-active{
+        color: $dark-primary;
+      }
+    }
+    .canidate-card {
+      .mat-card-content {
+        border-top: 10px solid #424242;
+        .canidate-header {
+          background: rgba($dark-primary, 0.2) !important;
+          .candidate-profile{
+            .mat-button{
+              background: $dark-primary;
+              color: $white-color;
+            }
+          }
+        }
+      }
+      .mat-card-content.contact-client-content{
+        border-top: none;
+      }
+      .candidate-sticky.mat-card-content{
+        .canidate-header {
+          background: rgba($dark-primary, 1) !important;
+        }
+        .mat-tab-header{
+          background: #424242 !important;
+        }
+      }
+      .candidate-summry {
+        margin: 10px 0px;
+        .mat-card:not(.resumeHeader){
+          .mat-card-header {
+            color: $dark-primary !important;
+            .mat-card-title{
+              color: $white-color;
+            }
+          }
+          .mat-card-content {
+            .mat-chip.mat-standard-chip {
+              background: rgba($dark-primary, 1) !important;
+              span.number {
+                background: #fff !important;
+              }
+            }
+          }
+        }
+      }
+  
+      .candidateJobsList {
+        .canididateShortlistedOrNot {
+          background: rgba($dark-primary, 0.1) !important;
+        }
+        .canididateMatch {
+          background: rgba($dark-primary, 0.15) !important;
+        }
+        .canididatebyAdded {
+          background: rgba($dark-primary, 0.2) !important;
+        }
+      }
+    }
+    .resumeHeader.mat-card {
+      background: #303030 ;
+    }
+    .searchAddButton.mat-raised-button{
+        background-color: #282828;
+        color: #ffffff;
+    }
+    .welcomeModal{
+      .mat-dialog-container{
+        background: #ffffff;
+        color: rgba(0, 0, 0, 0.87);
+      }
+      .custom-control.overflow-checkbox .overflow-control-indicator::before {
+        border-right: 5px solid #ffffff;
+      }
+    }
+    .orgDropdown {
+      background: #3c3c3c;
+    }
+    .companyInfoHeader {
+      background: #5a5a5a !important;
+      color: #1a1a1a !important;
+    }
+    .scrollBarStyle::-webkit-scrollbar-thumb {
+      background-color: $dark-primary;
+    }
+    .mat-dialog-content::-webkit-scrollbar-track {
+      border-radius: 0px;
+      background-color: rgba($black-color, 0.10);
+    }
+    .mat-dialog-content::-webkit-scrollbar {
+      width: 8px;
+      background-color: rgba($black-color, 0.30);
+    }
+    .mat-dialog-content::-webkit-scrollbar-thumb {
+      border-radius: 0px;
+      background-color: $dark-primary;
+      background-image: -webkit-linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.2) 50%, transparent, transparent)
+    }
+  
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: rgba($black-color, 0.10);
+    }
+  
+    /* Handle */
+    ::-webkit-scrollbar-thumb:vertical {
+      background: $dark-primary;
+    }
+
+    ::-webkit-scrollbar-thumb:horizontal {
+      background: $dark-primary;
+    }
+  
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: $dark-primary;
+    }
+
+    /* Handle vertical hover */
+    ::-webkit-scrollbar-thumb:vertical:hover {
+      background: $dark-primary;
+    }
+
+    /* Handle horizontal */
+    ::-webkit-scrollbar-thumb:horizontal:hover  {
+      background: $dark-primary;
+    }
+  
+    .popupheading{
+      .clientTitlePurpleTxt{
+        color: $dark-primary;
+      }
+    }
+    .cardContent .mat-card.CarMode .mat-card-content.kendoCard{
+      .cardListTxt{
+        .mat-icon{
+          color: rgba($white-color, 1);
+        }
+      }
+    }
+    .mainFilter{
+      .mat-raised-button{
+        .badge{
+          border: 1px solid #ffffff;
+          color: #ffffff;
+        }
+      }
+    }
+    .filterButton{
+      .badge{
+          background: $dark-primary;
+      }
+    }
+    .mat-dialog-content::-webkit-scrollbar-track {
+      background-color: #424242;
+    }
+    .mat-dialog-content::-webkit-scrollbar {
+      background-color: #424242;
+    }
+    .mat-dialog-content::-webkit-scrollbar-thumb {
+      background-color: #789aab;
+    }
+  
+  
+    .closebutton{
+      .mat-icon{
+        color: rgba(255, 255, 255, 0.4);
+      }
+      &:hover .mat-icon{
+        color: $warn-bg;
+      }
+    }
+    .vertical-center-align-createjob {
+      .mat-card-container.mat-card {
+        background-color: #4a4a4a;
+      }
+    }
+  
+    .selectTemplateOrCreatejob.mat-card {
+      .cltImgBox {
+        background: #4a4a4a;
+        box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 42%) inset;
+        .mat-icon {
+          color: $dark-primary;
+        }
+      }
+    }
+    .selectTemplateOrCreatejob:hover{
+      background-color: $dark-primary;
+      color: #ffffff;
+    }
+    .green {
+      background-color: rgba(26, 158, 93, 0.2);
+      color: #ffffff;
+    }
+  
+    .clientTitlePurpleTxt{
+      color:#789aab;
+    }
+  
+    .candidateLoadingScrollBg{
+      background: #424242 !important;
+    }
+  
+    #btnViewCandiateName{
+      color:#789aab;
+    }
+  
+    .completeFormBox{
+      p{
+          background: #4a4a4a;
+      }
+    }
+    .landingpage-card .landingPage-sticky{
+      .gridCustomFilter {
+          background: #424242;
+      }
+    }
+  
+    .action-mat-dialog-content {
+      .dark-theme .mat-checkbox-checked.mat-primary .mat-checkbox-background:before {
+        border-right: 5px solid #424242;
+      }
+      .Redordercolumns{
+        border: 1px solid rgba(103, 58, 183, 0.15);
+        border-left: 3px solid $dark-primary;
+      }
+      .Redordercolumns:hover{
+        border-left: 6px solid $dark-primary;
+      }
+      .mat-checkbox-checked.mat-primary .mat-checkbox-background:before {
+        border-right: 5px solid #424242;
+      }
+    }
+    .cdk-drag-preview.Redordercolumns{
+      border-left: 6px solid $dark-primary !important;
+      background: $dark-primary;
+    }
+  
+    .cdk-drag-placeholder.Redordercolumns {
+      background: #282828;
+      border: dotted 2px #999 !important;
+    }
+    .selectWorkflow{
+      border-left: 5px solid $dark-primary;
+      background-color: rgba($dark-primary, 0.05);
+      label {
+        color: $dark-primary;
+        background: rgba(103, 58, 183, 0.1);
+        border-top: 1px solid rgba(103, 58, 183, 0.15);
+      }
+      .mat-checkbox-checked.mat-primary .mat-checkbox-background:after {
+        border-bottom: 3px solid $green-color;
+        border-right: 2px solid $green-color;
+      }
+      .checkbox{
+        .mat-checkbox-frame{
+          border: 0px !important;
+        }
+        label{
+          border-top: 0px;
+          background: transparent;
+        }
+      }
+    }
+  
+    .selectWorkflow.mat-card{
+      background-color: rgba($dark-primary, 0.05) !important;
+    }
+    .selectWorkflow.active{
+      border-left: 4px solid $green-color;
+      background-color: rgba($green-color, 0.10);
+    }
+    .cardContent .mat-card.CarMode .go-corner{
+      .mat-primary.mat-icon-button {
+        border: 1px solid $dark-primary;
+      }
+      .mat-primary.mat-icon-button.mat-button-disabled{
+        border: 1px solid rgba(0, 0, 0, 0.26);
+      }
+    }
+    .cardContent .mat-card.CarMode .mat-card-content.kendoCard .cardModeLine .clientShortName{
+      background: $dark-primary;
+      color: $white-color;
+    }
+    .cardContent .mat-card {
+      border-left: 3px solid $dark-primary;
+    }
+    .cardContent .mat-card.CarMode .go-corner{
+      background-color: #505050;
+    }
+    .location-details{
+      color: $dark-primary;
+    }
+    .quick-job{
+      .divTextArea {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+      }
+      .mat-expansion-panel-header.mat-expanded:focus,
+      .mat-expansion-panel-header.mat-expanded:hover,
+      .mat-expansion-panel-header.mat-expanded {
+        background: #282828;
+        border-bottom: 1px solid $dark-primary;
+  
+        .mat-expansion-panel-header-title {
+          color: $dark-primary;
+        }
+      }
+      .mat-expansion-panel-header{
+        background: #282828;
+      }
+    }
+  
+    .systemAuditRowBorder{
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      .systemAuditPopUpLblTxt {
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .systemAudiPopUpValTxt {
+        color:#ffffff;
+      }
+    }
+  
+    .systemAuditBorderBgBox{
+      border:1px solid rgba(255, 255, 255, 0.12);
+      .oldDataLbl{
+        background: rgba(255, 255, 255, 0.12);
+        font-weight: 500;
+      }
+    }
+  
+    .systemAuditEyeIcon{
+      color:#789aab;
+    }
+  
+    .customNgSelect_searchHeadingTxt{
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      color:$white-color;
+    }
+  
+    .confJobBoard {
+      .mat-pseudo-checkbox.mat-pseudo-checkbox-checked, .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate{
+        background:#424242;
+        border-color:#789aab;
+      }
+      .mat-pseudo-checkbox {
+        border: 2px solid #789aab;
+        background:#424242;
+      }
+  
+      .mat-pseudo-checkbox:checked {
+        border-color: $default-bg-color;
+        color: $default-text-color;
+        background-color: transparent;
+      }
+  
+      .mat-pseudo-checkbox-checked::after {
+        border-bottom: 3px solid #789aab;
+        border-right: 2px solid #789aab;
+      }
+    }
+  
+    .timeLinePopUp{
+      .candidateTimeStamp{
+          border: 1px solid #5a5a5a;
+          label{
+            background: #3a3a3a;
+          }
+      }
+    }
+  
+  
+    .addDocumentAttachmentStyle{
+      mat-file-upload-queue{
+          mat-file-upload{
+              .mat-card{
+                  .file-summary{
+                      color: #ffffff;
+                  }
+              }
+          }
+      }
+    }
+  
+    .documentUploadRoundBox{
+      background: rgba(120,154,171,0.10);
+      border:1px dashed rgba(120,154,171, 0.25);
+        .circleCreateDocFileUpload{
+          border: 5px solid rgba(120,154,171,0.15);
+          box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 35%);
+          background: #789aab;
+          color: #ffffff;
+          }
+      .fileInstructions{
+        color: #ffffff;
+      }
+    }
+  
+    .custWidgetCols{
+      border: 1px solid rgba(255,255,255,.05);
+      border-left: 3px solid #789aab;
+      box-shadow: 0 7px 30px -10px rgb(0 0 0 / 50%);
+      background: transparent;
+    }
+    .custWidgetCols:hover {
+      border-left: 8px solid #789aab;
+      box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+    }
+  
+    .cdk-drag-preview.custWidgetCols{
+        border-left: 3px solid #789aab;
+        background: #dde6ea;
+    }
+  
+    .cdk-drag-placeholder.custWidgetCols {
+      background:#424242;
+      border-left:1px solid rgba(103, 58, 183, 0.15);
+    }
+  
+  
+    .addDocumentAttachmentStyle{
+      mat-file-upload-queue{
+          mat-file-upload{
+              .mat-card{
+                  .file-summary{
+                      color: #ffffff;
+                  }
+              }
+          }
+      }
+    }
+  
+  
+  
+    .dashboardRow{
+      .dashboardColBox{
+          .dashboardCardBox{
+              border: 1px solid rgba(255, 255, 255, 0.12);
+              background: #282828;
+              .mat-card-header{
+                  .mat-card-title{
+                      .matIcon{
+                          background: #789aab;
+                          color: #ffffff;
+                      }
+                  }
+                  .actionButton{
+                      .viewAllLink{
+                        color:#789aab;
+                      }
+                  }
+              }
+              .cardContent{
+                  .cardContentBox{
+                      .cardCenterTxt{
+                          color: #ffffff;
+                      }
+                  }
+              }
+              .matCardFooter{
+                  .footerSpanTxt{
+                      color:#c9c9c9;
+                  }
+              }
+              .resizeBar{
+                background: #565656;
+              }
+          }
+          .dashboardCardBox:hover{
+              border-top-left-radius: 10px;
+              border-bottom-left-radius: 10px;
+              animation-duration: 0.30s;
+              border-left: 8px solid #789aab;
+              box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+          }
+      }
+  }
+  
+  
+  .matLblGrpListWrap{
+    .mat-tab-labels {
+        .emailCount{
+            background: #ffffff;
+            color:#000000;
+        }
+      }
+  
+      .mat-tab-label.mat-tab-label-active {
+          color: #789aab;
+          background-color:#3a3a3a;
+      }
+      .mat-tab-label.mat-tab-label-active:before {
+        border-right: 0.2em solid #789aab;
+        border-top: 0.2em solid #789aab;
+    }
+  
+    .mat-tab-body {
+      background:#3a3a3a;
+    }
+      .mat-tab-label {
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .mat-tab-label:hover {
+        border-left:1px solid #789aab !important;
+        background-color: #3a3a3a;
+      }
+    }
+  
+  
+  .posRel{
+    .boxShadow{
+        box-shadow: rgb(50 50 93 / 25%) 0px 10px 27px -5px, rgb(0 0 0 / 30%) 0px 5px 16px -8px;
+        .menuHeading {
+          color: #ffffff;
+          background: #505050;
+        }
+        .menuLinkItems{
+          border-bottom: 1px solid #515151 !important;
+          background: #383838;
+        }
+        .jobSettingCardWidth {
+          // @When: 11-03-2023 @who:Satya Prakash Gupta @why: EWM-10901 @what: Dark mode issue
+            background: #424242;
+            .menuListBox {
+              .menuLinkItems{
+                border-top: 1px solid rgba($black-color, 0.25);
+                .activeStarIcon {
+                  color: #FFD700;
+                }
+                a{
+                  color: #ffffff;
+                }
+                .newChipBtn {
+                  color: #ffffff;
+                  background: #789aab;
+                }
+              }
+  
+              .menuLinkItems:hover {
+                background: #3a3a3a;
+              }
+            }
+          }
+    }
+  }
+  .stickOnBottom{
+    button{
+        background: #424242;
+        color: #789aab;
+    }
+  }
+  
+  .recentNotesGreyBg{
+    background-color: rgba(120, 154, 171, 0.2);
+  }
+  
+  .interfaceBoardContainer{
+    .leftPanelLinks{
+      .activetabbtn{
+        background:#789aab;
+      }
+    }
+    .selectTemplateOrCreatejob {
+      border: 1px solid rgba(103,58,183,.15);
+      box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22), 2px 0px 0px #789aab inset;
+      .lblTxtHeading {
+        color:#ffffff;
+      }
+      .jobInfobox{
+        box-shadow: rgba(255, 255, 255, 0.1) 0px -1px 0px;
+        .connectedBtn{
+          background: #009900;
+        }
+      }
+    }
+    .selectTemplateOrCreatejob:hover {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      animation-duration: 0.30s;
+      background: #424242;
+      box-shadow: 0 11px 22px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22), 6px 0px 0px #789aab inset;
+      .jobinfodata{
+        color: $white-color;
+      }
+    }
+  
+    .marketplace-section{
+      .selectTemplateOrCreatejob{
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 4px 0px, 2px 0px 0px #789aab inset !important;
+        &:hover{
+          box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px 0px, 6px 0px 0px #789aab inset !important;
+        }
+        .jobInfobox{
+          .jobinfodata{
+            a{
+              color: $dark-primary !important;
+            }
+          }
+        }
+      }
+    }
+  
+    .greyBgBox{
+      .searchTitle{
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 60px;
+      }
+    }
+  }
+    .pageContainer .mat-card .mat-card-header .viewAuditlog {
+      color: #506680;
+      border: 1px solid #506680;
+    }
+    .lblTxtStyle {
+      font-size: 85%;
+      color: rgba($white-color, 1);
+    }
+    .lastLoginTxt {
+      color: #ffffff;
+    }
+  
+    .securityMfaAnchor {
+      color: rgba($white-color, 1);
+      text-decoration: underline;
+    }
+    .imageTypeBox {
+      color: #e1e1e2;
+    }
+  
+    .uploadTxt {
+      img.uploadImgIcon {
+        filter: brightness(0) invert(1)
+      }
+    }
+  
+    .mainSidenav .sidenavHeader {
+      background-color: #424242;
+    }
+  
+    .mat-slide-toggle-bar,
+    .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-bar {
+      background-color: rgba(0, 0, 0, 0.28);
+    }
+  
+    .ng-select.ng-select-single .ng-select-container .ng-value-container,
+    .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+      color: #ffffff;
+    }
+    .ng-dropdown-panel {
+      background: #424242;
+    }
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+      background: rgba($dark-primary, 0.04);
+      color: rgba(255, 255, 255, 0.87);
+    }
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-disabled {
+      color: rgba(255, 255, 255, 0.38);
+    }
+    .cke_combo_text{
+      color: rgba(255, 255, 255, 0.87);
+    }
+    .cke_top, a.cke_button_on:focus, a.cke_button_on{
+      background: #282828;
+    }
+  
+    .cke_combo_on a.cke_combo_button,.cke_combo_off a.cke_combo_button:hover,.cke_combo_off a.cke_combo_button:focus,.cke_combo_off a.cke_combo_button:active{
+      background: #282828;
+    }
+    a.cke_button:hover, a.cke_combo_button:hover{
+      background: #282828;
+    }
+    .cke_button_icon {
+      filter: brightness(0) invert(1);
+    }
+    .mat-chip.mat-standard-chip .mat-chip-remove{
+      color: $warn-bg;
+      opacity: 1;
+      &:hover{
+        opacity: 1;
+      }
+    }
+    .endoHTMLEditer{
+      .k-button, .k-button-secondary,
+      .k-dropdown .k-dropdown-wrap, .k-dropdowntree .k-dropdown-wrap,
+      .k-colorpicker .k-picker-wrap,
+      .k-colorpicker .k-picker-wrap .k-select{
+        background: $dark-primary;
+        color: $white-color;
+        &:hover{
+          background: $dark-primary;
+          color: $white-color;
+        }
+      }
+      .k-dropdown .k-dropdown-wrap .k-select, .k-dropdowntree .k-dropdown-wrap .k-select{
+        color: $white-color;
+      }
+    }
+    .k-toolbar {
+      border-color: rgba(0,0,0,.08);
+      color: #424242;
+      background-color: #303030;
+    }
+    .k-editor-content > .k-iframe body{
+      color: #ffffff;
+    }
+    .countrySelect .selectSearch {
+      background: #282828;
+      color: rgba(255, 255, 255, 0.87);
+    }
+    .currencySelect {
+      .selectSearch {
+        background: #282828;
+        color: rgba(255, 255, 255, 0.87);
+      }
+    }
+    .ng-select-bottom.dropdown-body .ng-select-container .ng-value-container,
+    .ng-select-bottom.dropdown-body .ng-select-container .ng-value-container .ng-value {
+      color: #ffffff;
+    }
+    .ng-select-bottom.dropdown-body {
+      background: #424242;
+    }
+    .ng-select-bottom.dropdown-body .ng-dropdown-panel-items .ng-option.ng-option-marked {
+      background: rgba($dark-primary, 0.04);
+      color: rgba(255, 255, 255, 0.87);
+    }
+    .ng-select-bottom.dropdown-body .ng-dropdown-panel-items .ng-option.ng-option-disabled {
+      color: rgba(255, 255, 255, 0.38);
+    }
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label{
+      color: rgba(0, 0, 0, 0.87);
+    }
+    .footerFloatBox {
+      background: #424242;
+    }
+  
+    .breadcumContent {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  
+    .breadcumContentopen {
+      color: #fff;
+    }
+  
+    .footerIcontActive {
+      background: rgba($dark-primary, 0.4);
+    }
+  
+    .userInvitationCard .userInviteHeading {
+      background-color: $dark-primary;
+    }
+  
+    .headerNotification.mat-menu-panel {
+      h4 {
+        color: rgba($white-color, 1);
+      }
+  
+      span.time {
+        color: rgba($white-color, 1);
+      }
+  
+      .notificationBox {
+        .name {
+          background-color: rgba($dark-primary, 1);
+          color: $white-color;
+        }
+  
+        .notificationBoxData {
+          h6 {
+            color: $white-color;
+          }
+  
+          a {
+            color: #557e92;
+          }
+        }
+      }
+    }
+  
+    .tab-container {
+      .mat-tab-body-wrapper {
+        background-color: #303030;
+      }
+
+      .seekTab.mat-tab-group{
+        .mat-tab-body-wrapper{
+          background-color: #303030;
+        }
+      }
+  
+      .sticky {
+        background: #303030;
+      }
+  
+      .mat-tab-header .mat-tab-label-active,
+      .mat-tab-nav-bar .mat-tab-label-active {
+        color: #ffffff;
+        background: #303030;
+      }
+  
+      .mat-tab-label {
+        background: #00000038;
+        color: $black-color;
+        .mat-tab-label-content{
+          color: $white-color;
+        }
+      }
+      .mat-tab-label-content{
+        color: $white-color;
+      }
+    }
+
+    .tab-container.candidate-tab-container{
+      .mat-tab-body-wrapper {
+        background-color: #303030;
+        border: 1px solid #8d8d8d;
+      }
+    }
+  
+    .panel-heading {
+      background: #282828 !important;
+      color: #fff !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+  
+    .panel-body {
+      background: #282828 !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+  
+    .mat-slide-toggle-thumb {
+      background-color: #8c8c8c;
+    }
+  
+    .listContent .mat-card {
+      box-shadow: 2px 0px 0px 0px $dark-primary inset !important;
+    }
+  
+    .alternetBG:last-child .mat-card{
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .link-expire {
+      background: #424242 !important;
+  
+      button.ghost {
+        color: rgba(96, 125, 139, 1);
+      }
+    }
+  
+    .custom-popover.mat-menu-panel h4,
+    .custom-popover.mat-menu-panel .mat-menu-content p {
+      color: #ffffff;
+    }
+  
+    .custom-popover.mat-menu-panel .popoverClose {
+      color: rgba(255, 255, 255, 0.4);
+    }
+  
+    .version-popover.custom-popover.mat-menu-panel{
+      background: #fff !important;
+      h4, p{
+        color: rgba($black-color, 0.87) !important;
+      }
+    }
+    .sticky {
+      background: #424242;
+    }
+  
+  
+    .listHeader .col-1,
+    .listHeader .col-2,
+    .listHeader .col-3,
+    .listHeader .col-4,
+    .listHeader .col-5,
+    .listHeader .col-6,
+    .listHeader .col-7,
+    .listHeader .col-8,
+    .listHeader .col-9,
+    .listHeader .col-10,
+    .listHeader .col-11,
+    .listHeader .col-12,
+    .listHeader .col-13,
+    .listHeader .col-14 {
+      background: #282828;
+      color: #ffffff;
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+    }
+  
+    .listContent .mat-card .col {
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .alternetBG:nth-child(even) .mat-card {
+      background-color:rgba(255, 255, 255, 0.04);
+    }
+    .listcardContent:hover{
+      background-color: #5b5b5b;
+      box-shadow: 0px 1px 14px 0px #2c2c2c;
+      border-left: 2px solid #789aab !important;
+    }
+  
+    // common css style
+    .warn-snackbar {
+      padding-left: 50px !important;
+      background: #424242;
+      color: #ffffff;
+      font-size: 14px;
+  
+      .signal-icon {
+        float: left;
+        margin-bottom: 48px;
+        font-size: 30px;
+        color: $warn-bg;
+        position: absolute !important;
+        top: 12px !important;
+        padding-right: 15px;
+        left: 9px !important;
+      }
+  
+      .snackbarMsg {
+        strong {
+          font-size: 15px;
+          font-weight: 500;
+          margin-bottom: 5px;
+          display: inline-block;
+        }
+      }
+  
+      .snackbar-close.mat-icon-button {
+        .mat-icon {
+          color: #c1c1c1;
+          line-height: 15px;
+          font-size: 20px;
+        }
+        .mat-icon:hover {
+          color: #cc0000;
+        }
+      }
+    }
+  
+    .success-snackbar {
+      padding-left: 50px !important;
+      background: #424242;
+      color: #ffffff;
+      font-size: 14px;
+  
+      .signal-icon {
+        float: left;
+        margin-bottom: 48px;
+        font-size: 30px;
+        color: #7fb734;
+        position: absolute !important;
+        top: 12px !important;
+        padding-right: 15px;
+        left: 9px !important;
+      }
+  
+      .snackbarMsg {
+        strong {
+          font-size: 15px;
+          font-weight: 500;
+          margin-bottom: 5px;
+          display: inline-block;
+        }
+      }
+  
+      .snackbar-close.mat-icon-button {
+        .mat-icon {
+          color: #c1c1c1;
+          line-height: 15px;
+          font-size: 20px;
+        }
+        .mat-icon:hover {
+          color: #cc0000;
+        }
+      }
+    }
+  
+    .imageModal {
+      background: #424242;
+    }
+  
+    .mat-chip.mat-standard-chip {
+      background-color: #616161 !important;
+    }
+  
+    .profileEditIcon {
+      background-color: rgba(#424242, 1) !important;
+      color: #789aab !important;
+    }
+  
+    .profilePic:hover .profileEditIcon {
+      background-color: #789aab !important;
+      color:rgba($white-color, 1) !important;
+    }
+  
+    .k-i-loading {
+      background-color: rgba(255, 255, 255, 0.10);
+    }
+  
+    .scrollloading {
+      background-color: transparent;
+    }
+  
+    .k-i-loading::before,
+    .k-i-loading::after,
+    .k-loading-image::before,
+    .k-loading-image::after {
+      border-color: #ffffff;
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+      background-color: transparent;
+    }
+    .mat-drawer-side {
+      border-right: 0px;
+    }
+  
+    .headerSearch {
+      background: #424242;
+      box-shadow: inset 0px 0px 2px 0px rgba(106, 106, 103, 0.8) !important;
+    }
+  
+    .mat-card:not([class*="mat-elevation-z"]) {
+      box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.28);
+    }
+  
+    .cke_inner,
+    .cke_wysiwyg_frame,
+    .cke_wysiwyg_div {
+      background: transparent;
+    }
+  
+  
+  
+    .ng-dropdown-panel {
+      background: #424242;
+    }
+  
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffff;
+    }
+  
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      color: #ffffff;
+    }
+    .ng-select.ng-select-focused .ng-select-container:after,
+    .ng-select.ng-select-focused .ng-select-container:hover:after{
+      border-bottom: thin solid rgba(255, 255, 255, 0.7);
+    }
+    .ng-select .ng-select-container:after {
+      border-bottom: thin solid rgba(255, 255, 255, 0.7);
+    }
+  
+    .ng-select .ng-select-container,
+    .ng-select .ng-select-container .ng-value-container .ng-placeholder,
+    .ng-select .ng-arrow-wrapper .ng-arrow,
+    .ng-select .ng-select-container .ng-value-container .ng-input>input,
+    .ng-select.ng-select-focused .ng-select-container .ng-arrow-wrapper .ng-arrow {
+      color: #ffffff;
+    }
+  
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
+      color: #ffffff;
+      background: rgba($dark-primary, 0.25);
+    }
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked{
+      background: rgba($dark-primary, 0.04);
+    }
+    .ng-select .ng-clear-wrapper {
+      color: #ffffff;
+    }
+    .ng-slectBox .ng-invalid.ng-touched .ng-placeholder {
+      color: #F44336;
+    }
+  
+    .listGridButton .active {
+      background-color: $dark-primary;
+      color: #ffffff;
+    }
+  
+    .listCardView .cardHeader {
+      background-color: #363636;
+    }
+  
+    .listCardView .cardContent .nodata {
+      background: rgba($dark-primary, 0.42);
+      border: 1px solid rgba($dark-primary, 0.42)
+    }
+  
+    .uploadImage {
+      border-color: $dark-primary;
+    }
+  
+    .fixSiteName {
+      background-color: $dark-primary;
+      color: #ffffff;
+    }
+  
+    .pageContainerNav ul li .mat-button.active:hover {
+      background-color: $dark-primary;
+    }
+  
+    .pageContainerNav ul li .mat-button:hover {
+      background-color: #282828;
+    }
+    .headerUserDropdown.mat-menu-panel .mat-button.active,
+    .mainSidenav .mat-button.active,
+    .pageContainerNav ul li .active,
+    .respinsiveSidebarMenu .active {
+      background-color: $dark-primary;
+      color: #ffffff;
+    }
+  
+    .sidenavHeader .mat-button,
+    .respinsiveSidebarDropdown.mat-menu-panel .mat-button {
+      color: #ffffff;
+    }
+  
+    .mainSidenav .mat-button {
+      border-color: rgba($dark-primary, 0.5);
+    }
+  
+    .searchMain input {
+      background: #282828;
+      color: #ffffff;
+    }
+  
+    .headerSearch .listButtonroup .gridButton.mat-raised-button.active {
+      background-color: $dark-primary;
+      color: #ffffff;
+    }
+  
+    .detailRow {
+      tr {
+        td {
+          border-top: 1px solid rgb(255 255 255 / 12%);
+        }
+      }
+  
+      tr:last-child td {
+        border-bottom: 1px solid rgb(255 255 255 / 12%);
+      }
+    }
+  
+    .custom-control.overflow-checkbox .overflow-control-indicator {
+      border: 2px solid rgba(255, 255, 255, 0.54);
+    }
+  
+    .custom-control.overflow-checkbox .overflow-control-input:checked~.overflow-control-indicator {
+      border: 2px solid #fff;
+    }
+  
+    .custom-control.overflow-checkbox .overflow-control-indicator::after {
+      border-bottom: 3px solid #fff;
+      border-right: 2px solid #fff;
+    }
+  
+    .custom-control.overflow-checkbox .overflow-control-indicator::before {
+      border-right: 5px solid #424242;
+    }
+  
+    .address-checkbox .custom-control.overflow-checkbox .overflow-control-indicator::before {
+      border-right: 5px solid #616161 !important;
+    }
+  
+    .mat-slide-toggle-content {
+      color: #ffffff;
+    }
+  
+    .expandedDetail {
+      background: #282828;
+    }
+  
+    .addressPreview {
+      background: #282828 !important;
+    }
+  
+    .mat-checkbox-checked.mat-primary .mat-checkbox-background,
+    .mat-checkbox-indeterminate.mat-primary .mat-checkbox-background,
+    .mat-checkbox-checked.mat-primary .mat-checkbox-background {
+      background: transparent;
+    }
+  
+    .mat-checkbox-frame {
+      border: 2px solid $dark-primary;
+    }
+  
+    .mat-checkbox-checked.mat-primary .mat-checkbox-background:before {
+      border-right: 5px solid #282828;
+    }
+  
+    .mat-checkbox-checked.mat-primary .mat-checkbox-background:after {
+      border-bottom: 3px solid $dark-primary;
+      border-right: 2px solid $dark-primary;
+    }
+  
+    .mat-checkbox-indeterminate.mat-primary .mat-checkbox-background::after {
+      background: $dark-primary;
+    }
+  
+    .mat-checkbox-checked.mat-primary .mat-checkbox-frame,
+    .mat-checkbox-indeterminate .mat-checkbox-frame {
+      border: 2px solid $dark-primary;
+    }
+  
+    .selectAllPermission.mat-checkbox-checked.mat-primary .mat-checkbox-background:before {
+      border-right: 5px solid #424242;
+    }
+    .mat-checkbox-checked.mat-primary.mat-checkbox-disabled .mat-checkbox-frame{
+      border: 2px solid #b0b0b0;
+    }
+    .mat-checkbox-checked.mat-primary.mat-checkbox-disabled .mat-checkbox-background:after {
+      border-bottom: 3px solid #b0b0b0;
+      border-right: 2px solid #b0b0b0;
+    }
+    .dvider {
+      background: #d2d2d271;
+    }
+  
+    .clientDashboardContainer .dashboard-mat-card-header.mat-card-header
+    .listGridButton{
+      .refreshBtn.mat-raised-button:before {
+          background: rgba(33, 33, 33, 0.12);
+          box-shadow: none;
+        }
+  
+      .refreshBtn.mat-raised-button:after {
+          background: rgba(33, 33, 33, 0.12);
+          box-shadow: none;
+        }
+  
+      .search-viewicon{
+        .mat-raised-button{
+          .mat-icon{
+            color:#789aab;
+          }
+        }
+        .refreash.mat-raised-button {
+          &::after{
+            background: rgba(33, 33, 33, 0.12);
+            box-shadow: none;
+          }
+          &::before{
+            background: rgba(33, 33, 33, 0.12);
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  
+  
+    .radius-call .mat-icon {
+      color: #789aab;
+    }
+  
+    .clientDashboardContainer{
+      .dashboard-mat-card-header.mat-card-header{
+        border-bottom:1px solid #6a6767;
+      }
+    }
+  
+    .clientDashboardContainer{
+      .kendo-table-container,.kendo-grid-appearance{
+        background: #424242;
+      }
+    }
+  
+    .cltDashboardChartSection{
+    .card-title-with-action {
+      .card-title-action {
+        .mat-icon-button {
+          .mat-icon {
+            color: rgba(120, 154, 171, 0.6);
+          }
+          .mat-icon:hover{
+            color: $dark-primary !important;
+          }
+        }
+      }
+    }
+  }
+  
+    .zoom-container{
+      background:#424242 !important;
+    }
+    .myZoomPage .minWidthBox .zoom-out-list .zoom-list .mat-card-header .mat-card-subtitle{
+      color: #fff;
+    }
+    .top-owner{
+      color:#fff;
+    }
+    .k-scheduler-header {
+      background-color: transparent;
+      .k-scheduler-header-wrap {
+        background-color: transparent;
+        .schedule-name{
+          .text-overflow{
+            color:#fff !important;
+          }
+        }
+      }
+    }
+    .clientDashboardContainer{
+      background: transparent;
+    }
+    .modal-header{
+      .attachFileBtn.mat-icon-button{
+        color:#fff;
+        background: #789aab !important;
+      }
+    }
+  
+  
+  .dashboard-sec{
+    .dashboardColBox{
+      .dashboardCardBox{
+        &:hover{
+          border-left: 8px solid $dark-primary;
+        }
+        .mat-card-header .mat-card-title .matIcon{
+          background: $dark-primary;
+          color: $white-color;
+        }
+        .cardContent{
+          .cardContentBox{
+            .cardCenterTxt{
+              color:#fff;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Entire Software : Amit Rajput : 14-April-2022 : System Access Token Dark Mode start here : EWM-5580 EWM-6100
+  .question-list-sec{
+    .new-data-list-header{
+      background: #282828;
+      color: #ffffff;
+      div{
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .new-data-bottom{
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+    }
+    .new-data-list-content{
+      .new-data-list-list{
+        box-shadow: 2px 0px 0px 0px $dark-primary inset;
+        &:hover{
+          background-color: #5b5b5b;
+          box-shadow: 2px 0px 0px 0px #789aab inset;
+        }
+        .new-data{
+          .cover-name{
+            color: $dark-primary;
+          }
+        }
+      }
+      .new-data-list-list:nth-child(odd) {
+          background:rgba(255, 255, 255, 0.04);
+        }
+      }
+  }
+  // Entire Software : Amit Rajput : 14-April-2022 : System Access Token Dark Mode end here : EWM-5580 EWM-6100
+  
+  .network{
+    .social-network{
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+  }
+  
+  // Entire Software : Amit Rajput : 26-May-2022 : new listing dark mode start here : EWM-6551 EWM-6734
+  .new-list-card-content{
+    .new-list-content{
+      .new-list-data-header{
+        .new-data-list-header{
+          // @When: 11-03-2023 @who:Satya Prakash Gupta @why: EWM-10901 @what: Dark mode issue
+          background: #282828;
+          color: #fff;
+          .listActionBox, .new-data{
+            color: #ffffff;
+            border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+          }
+        }
+      }
+      .new-list-data-content{
+        .new-data-list-list{
+          border-left:2px solid $dark-primary;
+          &:hover{
+            background-color: #5b5b5b;
+            box-shadow: 0px 1px 14px 0px #2c2c2c;
+            border-left:2px solid $dark-primary;
+          }
+        }
+      }
+    }
+    .new-card-content{
+      .mat-card.card-mode{
+        border-left: 3px solid $dark-primary;
+        .card-height{
+          .corner-btns{
+            background: #303030;
+            .mat-primary.mat-icon-button{
+              border: 1px solid $dark-primary;
+            }
+          }
+        }
+      } 
+    }
+  }
+  // Entire Software : Amit Rajput : 26-May-2022 : new listing dark mode end here : EWM-6551 EWM-6734
+  
+  .listContent .listcardContent{
+    border-left:2px solid $dark-primary;
+    background: #5b5b5b !important;
+    :hover{
+      border-left: none;
+      background: #424242 !important;
+    }
+  }
+  .search-bar{
+    background-color: $dark-primary-bg !important;
+  }
+  
+  .personal-info{
+    .profile-info-scroll{
+      .info-mat-card{
+        .cardSubTitle{
+          background-color: #333333 !important;
+        }
+        .experience{
+          .experience-info{
+            background: #666666 !important;
+          }
+        }
+      }
+      .personal-main-flow{
+        background-color: #333333 !important;
+      }
+    }
+  }
+  
+  .preview-upload-resume{
+    .knockQuesForm{
+      .knockout-mat-card{
+        &:hover{
+          background: #666666 !important;
+        }
+      }
+    }
+  }
+  
+  .candidate-document-information{
+    .info-Data{
+      &:hover{
+        background: #666666 !important;
+      }
+    }
+  }
+  
+  .mobile-job-status-sec{
+    .job-status{
+      color: $dark-primary-bg !important;
+    }
+  }
+  
+  .quickFiltr-container{
+    .quickFiltr-sidenav-content{
+      .kendo-table-container{
+        .k-grid{
+          .job-publish, .job-published{
+            color: $dark-primary !important;
+            background: $gray-txt !important;
+          }
+        }
+      }
+    }
+  }
+  
+  .dashboard-drawer-container{
+    .xeople-container-without-header-buttons{
+      .coming-soon{
+        .coming-soon-text{
+          background-color: $dark-primary-bg !important;
+          .mat-icon{
+            color: $dark-primary !important;
+          }
+          h1{
+            color: $dark-primary !important;
+          }
+        }
+      }
+    }
+  }
+  
+  .job-detail-header{
+    .canidate-header-container{
+      .canidate-header-left{
+        .publish-and-tag-buttons{
+          .hiddenTagMenu{
+            background-color: $dark-primary;
+          }
+        }
+      }
+    }
+  }
+  
+  .job-log-content{
+    .job-log-data{
+      .job-log-box{
+        .job-log{
+          background: $gray-txt !important;
+          .job-log-info{
+            h1{
+              span.primary{
+                color: $dark-primary;
+              }
+            }
+            p{
+              color: $dark-primary !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .asc-desc-svg{
+    g{
+      fill: $white-color !important;
+    }
+  }
+  .nodata{
+    .nodata-search{
+        .mat-icon{
+          background-color: $dark-primary;
+        }
+      span{
+        color: $default-text-color;
+      }
+    }
+  }
+  
+  .candidate-summry{
+    .mat-card{
+      .mat-card-content{
+        .candidate-education{
+          .candidate-accordion{
+            .mat-expansion-panel{
+              background-color: #4a4a4a !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+    .map-app-form{
+      .assessment-dialog-content{
+        .assessment-card-box{
+          .mat-card.map-mat-card.ng-star-inserted.active{
+            background-color:rgba(120, 154, 171, 0.08);
+            box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 73%), 0px 0px 0px 1px $dark-primary;
+            .task-active{
+              color: $dark-primary;
+            }
+          }
+        }
+      }
+    }
+  
+    .add-assessment{
+      .mat-dialog-content.assessment-dialog-content{
+        .listCardView{
+          .assessment-card-box{
+            .mat-card.active{
+              background-color: rgba(120, 154, 171, 0.08);
+              box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.73), 0px 0px 0px 1px $dark-primary;
+            }
+          }
+        }
+      }
+    }
+  
+    .interfaceBoardContainer{
+      .greyBgBox{
+        background: #303030 !important;
+      }
+    }
+  
+    .popover.center-align{
+      .stopPropagation{
+        .user-data{
+          .name{
+            color: $dark-primary;
+          }
+          span.email, span.org, span.login{
+            color: $dark-primary;
+          }
+        }
+      }
+    }
+  
+    .tagOpentMenu.wordflow-tag-menu.mat-menu-panel{
+      .matmenu-header{
+        h2{
+          color: $dark-primary;
+        }
+      }
+    }
+  
+    .tagOpentMenu.workflow-tag-menu.mat-menu-panel{
+      .matmenu-header{
+        .menu-header{
+          h2{
+            color: $white-color;
+          }
+        }
+      }
+    }
+    .screening-container{
+      .job-action-left-panel{
+        color: $dark-primary;
+      }
+      .medal-and-rank-name{
+        background-color: $dark-primary;
+        .rank-circle{
+          color: $white-color;
+        }
+        .medal{
+          color:  $dark-primary;
+        }
+      }
+      .job-action-left-panel{
+        color:$primary-bg-color;
+      }
+    }
+  
+    .job-action-container{
+      .job-action-profile{
+          .profile-details.text-overflow{
+              .profile-label{
+                  color: $white-bg;
+                  font-weight: 500;
+              }
+          }
+      }
+      .box-bg{
+          color: $dark-primary;
+      }
+      .source-call-action{
+        .source-box{
+            .source{
+                .status{
+                  color: $white-color !important;
+                  border: 1px solid #fff !important;
+                }
+            }
+          }
+        }
+      .email-call-action{
+          .box-data{
+              .text-overflow{
+                  color: $white-color;
+              }
+          }
+      }
+      .job-action-skills{
+          .box-data{
+              .skill-label{
+                  color: $white-color;
+              }
+          }
+      }
+    }
+  
+    .candidateQuickMenu.job-details-threedot.mat-menu-selected{
+      .mat-button.mat-menu-item.active{
+        background-color: $dark-primary;
+      }
+    }
+  
+    .toggle-with-icon{
+      .infoStyle{
+        color: $dark-primary;
+      }
+    }
+  
+    .kendo-table-container{
+      .k-grid{
+        .infoStyleKendo{
+          color: $dark-primary;
+        }
+      }
+    }
+  
+    .define-mat-input{
+      .mat-card-title{
+        color: $white-color;
+      }
+      .remove-bottom-matinput{
+        .mat-icon{
+          color: $white-color;
+        }
+      }
+      ul li{
+        .mat-icon-button .mat-icon{
+          color: $white-color;
+        }
+      }
+    }
+  
+    .assessment-ques-form .assessment-content{
+      .set-question-answer .set-answer{
+        background-color: rgba(255, 255, 255, 0.1) !important;
+      }
+    }
+  
+    .xeople-search-container.myActivityContainer{
+      background: transparent;
+      .xeople-search-first-sec, .xeople-search-second-sec, .xeople-search-third-sec{
+        background-color: $dark-primary-bg;
+      }
+      .xeople-search-second-sec{
+        .advanced-filters-box{
+          background: #303030;
+          .advanced-filters{
+            .dynmic-filter-box{
+              background: $gray-txt !important;
+            }
+          }
+        }
+      }
+      .xeople-search-fourth-sec{
+        .xeople-search-first-sec-form-col{
+          div{
+            background: #303030 !important;
+          }
+        }
+      }
+      .chips-box{
+        background: #303030;
+      }
+  
+    }
+  
+    .canidate-card.xeople-canidate-card{
+      .candidate-summry{
+        margin: 0px;
+      }
+    }
+  
+    .complete-create-drawer-container{
+      .mat-drawer-content{
+        .addEditSec{
+          .drawer-footer{
+            background-color: $dark-primary-bg !important;
+          }
+        }
+      }
+    }
+  
+    .select-Workflow.job-select-workflow{
+      .mat-card-title{
+        .bg-color{
+          background-color: $dark-primary-bg;
+        }
+      }
+      .tenant-Box{
+        .mat-card{
+          .count{
+            background: $dark-primary;
+            box-shadow: none;
+            color: $white-color;
+          }
+          .merge-icons{
+            .secondIcon{
+              background: $dark-primary-bg !important;
+            }
+          }
+        }
+      }
+    }
+  
+    .ng-dropdown-panel.xeople-search-ngselect-dropdown .ng-dropdown-header{
+      background: #333;
+    }
+    // @When: 02-03-2023 @who:Amit @why: EWM-10801 @what: icon start here
+    .select-file{
+      background: $dark-primary-bg;
+      .multiple-file-upload {
+        background: transparent;
+        .mat-icon{
+          color: $dark-primary;
+        }
+      }
+    }
+    // @When: 02-03-2023 @who:Amit @why: EWM-10801 @what: icon end here
+  
+    // summary tab header bg use start here
+    .summary-tabs{
+      .mat-tab-header{
+        background: #282828;
+        .mat-tab-label{
+          .mat-tab-label-content{
+            .mat-icon{
+              background: $dark-primary;
+            }
+            .numbers{
+              background: $dark-primary;
+            }
+          }
+        }
+      }
+    }
+    // summary tab header bg use start here
+  
+    // candidate summary page dark mode start here
+    .candidate-summry{
+      .mat-card{
+        .mat-card-content{
+          .candidate-panel,.employee-panel{
+            .candidate-accordion,.employee-accordion{
+              .mat-expansion-panel{
+                background-color: #333333;
+                .mat-expansion-panel-header{
+                  .title-description{
+                    .mat-expansion-panel-header-description{
+                      .panelActionButton{
+                        .more-less{
+                          .mat-icon{
+                            color: rgba(255, 255, 255, 0.87) !important;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                .mat-expansion-panel-content{
+                  .mat-expansion-panel-body{
+                    .title-data{
+                      p{
+                        .mat-stroked-button{
+                          background: $dark-primary-bg;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              .mat-expansion-panel.active{
+                border: 1px solid $dark-primary !important;
+                .mat-expansion-panel-header{
+                  .current{
+                    border: 1px solid $dark-primary !important;
+                    background: $dark-primary !important;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    // candidate summary page dark mode end here
+  
+    .tableData{
+      tr:nth-child(even){
+        background-color: #282828;
+      }
+    }
+  
+    // Email Settings table header dark mode start here
+    .setting-full-part{
+      .table-container{
+        .mat-table{
+          .mat-header-cell{
+            color: $white-color !important;
+            background-color: #282828;
+          }
+        }
+      }
+    }
+    // Email Settings table header dark mode end here
+  
+    // assessment free text Question popup dark mode style start here
+    .ng-select-with-info-icon.textarea-with-info-icon{
+      .mat-form-field{
+        .mat-form-field-flex{
+          background-color: #282828;
+        }
+      }
+    }
+    .assessment-ques-form{
+      .assessment-content{
+        .set-question-answer{
+          .set-question{
+            .documentUploadRoundBox{
+              color: #282828;
+            }
+          }
+        }
+      }
+    }
+    // assessment free text Question popup dark mode style end here
+    // @When: 21-04-2023 @who:Amit @why: EWM-12082 @what: main searchbar dark mode start here
+    .headerSearch{
+      .searchMain{
+        input{
+          background: #282828;
+          color: $white-color;
+        }
+      }
+    }
+    // @When: 21-04-2023 @who:Amit @why: EWM-12082 @what: main searchbar dark mode end here
+  
+    // @When: 21-04-2023 @who:Amit @why: EWM-12082 @what: sidebar icon bg dark mode start here
+    .moduleDrawer.mat-drawer-side{
+      .leftMnuButton.mat-mini-fab.mat-primary{
+        color: $white-color;
+        background-color: #000;
+      }
+    }
+    // @When: 21-04-2023 @who:Amit @why: EWM-12082 @what: sidebar icon bg dark mode end here
+  
+    // @When: 24-04-2023 @who:Amit @why: EWM-12082 @what: main add bg change start here
+    .headerSearch{
+      .searchAddButton.mat-raised-button{
+        background-color: $dark-primary;
+      }
+    }
+    // @When: 24-04-2023 @who:Amit @why: EWM-12082 @what: main add bg change end here
+      // @When: 28-04-2023 @who:Amit @why: EWM-12230 @what: dashboard box style start here
+      .dashboard-sec{
+        .dashboardColBox{
+          .dashboardCardBox{
+            &:hover{
+              .question-list-sec.dashboard-list-sec{
+                background: $black-color;
+              }
+            }
+            .inbox-btn-group{
+              .white-btn.mat-fab{
+                background: $dark-primary;
+                .mat-icon{
+                  color: $white-color;
+                }
+                &::after{
+                  background: transparent;
+                }
+              }
+            }
+            .question-list-sec.dashboard-list-sec{
+              background: #333333;
+              .new-data-list-header{
+                background: #282828;
+              }
+              .new-data-list-content{
+                .new-data-list-list{
+                  background: $dark-primary-bg;
+                  &:hover{
+                    box-shadow: 0px 1px 14px 0px #282828;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      // @When: 28-04-2023 @who:Amit @why: EWM-12230 @what: dashboard box style end here
+  
+    // my activity drawer time format bg change start here
+    .my-activity{
+      .mat-button-toggle-checked{
+        background: $dark-primary;
+        .mat-button-toggle-button{
+          .mat-button-toggle-label-content{
+            color: $white-color;
+          }
+        }
+      }
+    }
+    // my activity drawer time format bg change end here
+  
+    // main header secondIcon bg change start here
+    .page-header.mat-card-header{
+      .header-action-button{
+        .group-header-button{
+          .header-button.mat-raised-button{
+            .mat-icon.secondIcon{
+              background-color: $dark-primary-bg !important;
+            }
+          }
+        }
+      }
+    }
+    // main header secondIcon bg change end here
+  
+    // screening screen dark mode style start here
+    .screening-and-interview{
+      &-header{
+        background: #515050;
+        &-left{
+          &-name-and-rating{
+            .stage{
+              color: $dark-primary;
+            }
+          }
+        }
+        &-right{
+          &-top{
+          .mat-raised-button,
+          .mat-stroked-button{
+            .mat-icon{
+              color: $dark-primary;
+            }
+          }
+          .mat-stroked-button.mat-button-disabled{
+            .mat-icon{
+              color: rgba(255, 255, 255, 0.3);
+            }
+          }
+          .buttons-group{
+            box-shadow: 0px 0px 0px 1px $dark-primary;
+              .mat-button{
+                box-shadow: 1px 0px 0px 0px $dark-primary
+              }
+              .upcoming-and-past{
+                .upcoming{
+                  color: rgba(255, 255, 255, 0.26);
+                }
+              }
+            }
+            .next-prev-layout{
+              .screening-and-interview-header-right-layout{
+                &-group{
+                  border: 1px solid $dark-primary;
+                  .two-view{
+                    border-left:1px solid $dark-primary;
+                    border-right:1px solid $dark-primary;
+                  }
+                }
+              }
+            }
+          }
+          &-layout{
+            &-group{
+              .mat-flat-button{
+                color: $dark-primary
+              }
+            }
+          }
+        }
+      }
+      .mat-tab-header .mat-tab-label-active{
+        .mat-tab-label-content{
+          color: $white-color;
+        }
+      }
+      .screening-and-interview-area{
+        .screening-and-interview-area-left{
+          background: #666666;
+          &-candidate{
+            background: #747474;
+            border: 1px solid #515151;
+            &-name{
+              color: $gray-button;
+            }
+          }
+          .active{
+            background: #505050;
+            color: inherit;
+            border: 1px solid $dark-primary;
+          }
+        }
+        .screening-and-interview-area-right{
+          &-firstcol{
+            .summary-tabs{
+              background: #505151;
+              .job-status-form,.job-comments-form{
+                .actionBoxFooter{
+                  background: #505151;
+                }
+              }
+              .job-status-form{
+                .status-data{
+                  .related-chip-list{
+                    .mat-chip-list,.multiselectChip{
+                      .mat-icon-button{
+                        color: $dark-primary !important;
+                        &:after{
+                          opacity: 0.18 !important;
+                        }
+                      }
+                    }
+                  }
+                  .new-app{
+                    color: $gray-button;
+                  }
+                }
+              }
+            }
+          }
+          &-seccol{
+            .summary-tabs{
+              .screening-and-interview-area-right-seccol.sub-tab{
+                background: #505151;
+                .mat-tab-group .mat-tab-header{
+                  .mat-tab-label-active{
+                    color: #303030;
+                    .mat-tab-label-content{
+                      color: $white-color;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+  
+      .screening-and-interview-area-two,.screening-and-interview-area-three{
+        .screening-and-interview-area-left{
+          background: #666666;
+        }
+        .screening-and-interview-area-right{
+          &-firstcol,&-seccol{
+            background: #444444;
+          }
+        }
+      }
+      .summary-tabs.mat-tab-group{
+        .mat-tab-header{
+          .mat-tab-label-active{
+            .mat-tab-label-content{
+              .mat-icon{
+                background: $dark-primary;
+              }
+            }
+          }
+        }
+      }
+    }
+    .multiple-no-data{
+      p{
+        background: $dark-primary;
+      }
+    }
+  
+  
+    .screening-and-interview-header{
+      .dynamic-bg-color{
+        color: $dark-primary;
+      }
+      .group-left{
+        .buttons-group{
+          box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px, 0px 0px 0px 1px $dark-primary !important;
+          .upcoming-and-past{
+            .upcoming{
+              color: rgba(255, 255, 255, 0.26);
+            }
+          }
+        }
+      }
+    }
+  
+    // screening screen dark mode style end here
+  
+    .modal-header.job-modal-header{
+      a{
+        color: $dark-primary !important;
+      }
+    }
+  
+    // job landing page list icon merge dark mode
+    .center{
+      .mat-icon-button{
+        .two-icons.public-icons{
+          .mat-icon.secondIcon{
+            background: #303030;
+          }
+        }
+      }
+    }
+  
+    .sub-title{
+      background: $dark-primary-bg;
+      .count{
+        color: $dark-primary;
+        background: $dark-primary-bg;
+        box-shadow: 0px -2px 4px 0px #000000 inset;
+        &:hover{
+          box-shadow: 0px 2px 4px 0px #000000 inset;
+        }
+      }
+    }
+  
+    // candidate detail popup dark mode style
+    .candidate-detail-popup{
+      .main-comment-profile{
+        h5{
+          color: $dark-primary;
+        }
+      }
+      .candidate-details-main{
+        .candidate-details{
+          span{
+            &:nth-child(2){
+              color: $dark-primary;
+            }
+          }
+          .btn-group{
+            .comment-group-btn.black-color.mat-button-disabled{
+              color: $gray-txt;
+            }
+          }
+        }
+      }
+      .candidate-details-name{
+        .candidate-details{
+          .btn-group{
+            .comment-group-btn.primary-color{
+              color: $dark-primary !important;
+            }
+            .comment-group-btn.mat-button-disabled{
+              color: rgba(255, 255, 255, 0.3) !important;
+            }
+          }
+        }
+        .candidate-detail-data{
+          .textBlue{
+            color: $white-color !important;
+          }
+        }
+      }
+    }
+  
+    // @When: 04-07-2023 @who:Amit @why: EWM-12927 @what:job detail three dot dropdown start here
+    .candidateQuickMenu.job-quick-menu.mat-menu-panel{
+      max-width: inherit;
+    }
+    // @When: 04-07-2023 @who:Amit @why: EWM-12927 @what:job detail three dot dropdown end here
+  
+    // interview tab selected candidate style start here
+    .jobinterview{
+      &-container{
+        .myInboxConnectTxt {
+          background-color: $dark-primary-bg;
+        }
+      }
+    }
+    // interview tab selected candidate style end here
+  
+    // @When: 05-07-2023 @who:Amit @why: EWM-12939 @what:max count box style
+    .mat-flat-button.max-count-box{
+      color: $dark-primary;
+      background: rgba(122, 154, 171, 0.08);
+    }
+    // @When: 05-07-2023 @who:Amit @why: EWM-12939 @what:max count box style
+  
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+      background: #616161;
+    }
+  
+    // @When: 26-07-2023 @who:Amit @why: EWM-13527 @what: latitude section start here
+    .main-latitude{
+      box-shadow: rgba(255, 255, 255, 0.1) 0px 0px 5px 0px, rgba(255, 255, 255, 0.1) 0px 0px 1px 0px;
+      .latitude{
+        .mat-icon-button{
+          .mat-icon{
+            color: $dark-primary;
+          }
+          &:hover{
+            background: $gray-txt;
+          }
+        }
+      }
+    }
+    // @When: 26-07-2023 @who:Amit @why: EWM-13527 @what: latitude section end here
+  
+    // @When: 29-08-2023 @who:Amit @why: EWM-14104 @what: disable checkbox start here
+    .custom-checkbox.custom-disable-checkbox{
+      .custom-control.overflow-checkbox{
+        .overflow-control-description{
+          color: rgba(255, 255, 255, 0.54);
+        }
+      }
+    }
+    // @When: 29-08-2023 @who:Amit @why: EWM-14104 @what: disable checkbox end here
+    // @When: 28-08-2023 @who:Amit @why: EWM-13866 @what: ehr-integartion dark mode start here
+    .integration-header-data{
+      .primaryColorBtn{
+        color: $dark-primary;
+      }
+    }
+    // @When: 28-08-2023 @who:Amit @why: EWM-13866 @what: ehr-integartion dark mode end here
+  
+    // @When: 29-Aug-2023 @who:Amit @why: EWM-13886 @what: email checkbox dark mode start here
+    .showMoreSection{
+      .email-sent-checkbox{
+        .mat-checkbox{
+          background: #515151;
+        }
+      }
+    }
+    // @When: 29-Aug-2023 @who:Amit @why: EWM-13886 @what: email checkbox dark mode end here
+    // @When: 18-09-2023 @who:Amit @why: EWM-14000 @what: document count start here
+    .document-count{
+      background: $dark-primary;
+      box-shadow: 0px -2px 4px 0px #527586 inset;
+      border: 1px solid #416474;
+      &:hover{
+        box-shadow: 0px 2px 4px 0px #527586 inset;
+        border: 1px solid #416474;
+        border-left: 1px solid #416474 !important;
+      }
+    }
+    // @When: 18-09-2023 @who:Amit @why: EWM-14000 @what: document count end here
+  
+    // @When: 29-Aug-2023 @who:Amit @why: EWM-13886 @what: btn active style start here
+    .activity-related{
+      .time-zone{
+        .date-time{
+          h3{
+            color: rgba(255, 255, 255, 0.54);
+          }
+          .zone{
+            span{
+              color: $dark-primary;
+              box-shadow: rgba(255, 255, 255, 0.12) 0px 0px 2px, rgba(255, 255, 255, 0.24) 0px 1px 2px;
+            }
+          }
+        }
+        @include flex-between;
+        .data-time-btn{
+          color: $dark-primary;
+          box-shadow: rgba(255, 255, 255, 0.12) 0px 0px 2px, rgba(255, 255, 255, 0.24) 0px 1px 2px;
+        }
+        .data-time-btn.btnActive{
+          color: $white-color;
+          background: $dark-primary;
+        }
+      }
+      .related-full.attende-full{
+        .data-time-btn.btnActive{
+          background: $dark-primary;
+        }
+      }
+    }
+    // @When: 29-Aug-2023 @who:Amit @why: EWM-13886 @what: btn active style end here
+     // @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: schedule start here
+     .assistance-activity{
+      .schedule-assistance{
+        background-color: #303030 !important;
+      }
+    }
+    // @When: 11-09-2023 @who:Amit @why: EWM-14037 @what: schedule end here
+  
+    // @When: 28-09-2023 @who:Amit @why: EWM-14079 @what: date dark mode
+    .custom-checkbox.data-sync{
+      .last-sync{
+        color: $gray-bg-color;
+      }
+    }
+  
+    // @When: 06-10-2023 @who:Amit @why: EWM-14619 @what: dropdown text color
+    .more-list-container .more-list{
+      color: $white-color;
+    }
+  
+    // @When: 17-10-2023 @who:Amit @why: EWM-14847 @what: ehr-integration panel disable
+    .integration-contentsection.ehr-contentsection{
+      .ehr-card.panel-disabled{
+        .ehr-card-main{
+          .ehr-card-main-header{
+            background: rgb(149, 149, 149, 0.03);
+            .title-description{
+              .card-header-title{
+                h3,p{
+                  color: rgba(255, 255, 255, 0.56) !important;
+                }
+              }
+              .card-header-description{
+                .mat-stroked-button{
+                  color: rgba(255, 255, 255, 0.56) !important;
+                }
+              }
+            }
+          }
+          .ehr-card-main-content{
+            p{
+              color: rgba(255, 255, 255, 0.56) !important;
+            }
+          }
+        }
+      }
+    }
+  
+    .share-url{
+      border-bottom: 1px solid rgba(255, 255, 255, 0.7) !important;
+    }
+  
+    .close-job-style{
+      background: $dark-primary !important;
+    }
+  
+    // common dropdown style start
+    .dropdown.dark-dropdown{
+      .vs__dropdown-toggle{
+        border-bottom: none;
+        .place-holder{
+          color: rgba(255, 255, 255, 0.7) !important;
+        }
+        .actionsBtn{
+          .vs__open-indicator{
+            color: rgba(255, 255, 255, 0.54) !important;
+          }
+        }
+      }
+      .dropdown-content{
+        background: #303030;
+        .drpMainOptions{
+          background: #282828;
+          .manageRefresh{
+            background: $dark-primary-bg;
+          }
+        }
+      }
+    }
+    // common dropdown style end
+  
+    .share-calender-user{
+      color: $dark-primary !important;
+    }
+  
+    .dashboard-mat-card-header.mat-card-header{
+      .listGridButton{
+        .search-viewicon{
+          .share-calendar-button.mat-stroked-button{
+            background: rgb(120 154 171 / 5%) !important;
+            .two-icons{
+              .mat-icon.secondIcon{
+                background: $dark-primary-bg !important;
+              }
+            } 
+          }
+        } 
+      } 
+    }
+  
+    .custom-checkbox.data-sync.sync-calender{
+      background: #373737 !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      .ng-select{
+        background: #373737;
+      }
+    }
+    .dashboard-mat-card-header.mat-card-header.date-sync.sync-date-calender{
+      .listGridButton{
+        .search-viewicon{
+          .mat-checkbox{
+            background: rgba(120, 154, 171, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+          }
+          .mat-checkbox.mat-checkbox-checked{
+            .mat-checkbox-label{
+              color: $dark-primary;
+            }
+          }
+          .refreshBtn{
+            .mat-icon{
+              color: $white-color !important;
+            }
+          }
+        } 
+       
+      } 
+    }
+  .screening-and-interview .summary-tabs.mat-tab-group .mat-tab-header {
+      background: #282828;
+      .mat-tab-label-active {
+        color: $dark-primary;
+      .mat-tab-label-content{
+        color: $dark-primary;
+      }
+    }
+    .mat-tab-label .mat-tab-label-content {
+      color: #848484;
+    }
+  }  
+
+  .user-email-searchlist{
+    .userAvtaar{
+      span{
+        background: $dark-primary;
+      }
+    } 
+  } 
+
+  .candidate-summry.common-card-summary, .client-summary.common-card-summary{
+    .mat-card{
+      border-bottom: 3px solid $dark-primary;
+      box-shadow: rgba(169, 14, 14, 0.05) 0px 6px 24px 0px, $dark-primary 0px 0px 0px 1px, 
+      rgba(169, 14, 14, 0.05) 0px 2px 4px 0px, rgba(50, 50, 93, 0.25) 0px 6px 8px -2px, 
+      rgba(0, 0, 0, 0.3) 0px 3px 2px -3px;
+      .mat-card-header{
+        background: linear-gradient(90deg, #303030 0%, #4c4c4c 100%);
+        .button-with-clear{
+          .mat-stroked-button{
+            color: $dark-primary;
+            box-shadow: rgba(169, 14, 14, 0.05) 0px 6px 24px 0px, rgba(120, 154, 171, 0.58) 0px 0px 0px 1px;
+          }
+        }
+        .mat-mini-fab{
+          color: $dark-primary;
+          box-shadow: rgba(169, 14, 14, 0.05) 0px 6px 24px 0px, $dark-primary 0px 0px 0px 1px;
+        }
+      }
+    }
+  }
+
+  .candidate-summry.parse-resume-tab-container{
+    .mat-card{
+      // border-bottom: 3px solid $dark-primary !important;
+      // box-shadow: rgba(169, 14, 14, 0.05) 0px 6px 24px 0px, $dark-primary 0px 0px 0px 1px, 
+      // rgba(169, 14, 14, 0.05) 0px 2px 4px 0px, rgba(50, 50, 93, 0.25) 0px 6px 8px -2px, 
+      // rgba(0, 0, 0, 0.3) 0px 3px 2px -3px !important;
+      .mat-card-header{
+        background: linear-gradient(90deg, #303030 0%, #4c4c4c 100%) !important;
+      }
+    } 
+  }
+
+  .seekIntegrationSection{
+    .profileBuildBtn{
+      color: $dark-primary !important;
+    }
+  }
+
+  .drpMainOptions{
+    .dropdown-menu{
+      li{
+        &:hover{
+          color: $white-color !important;
+        }
+      }
+    } 
+  } 
+
+  // configure application stepper start here
+  .configure-application-container{
+    background: transparent;
+    .configure-application-stepper{
+      .stepper-button-group{
+        .stepper-button{
+          background-color: $gray-txt !important;
+        }
+        .stepper-button.active{
+          background-color: $default-bg-color !important;
+        }
+        .stepper-button.completed{
+          background-color: $green-color !important;
+        }
+      } 
+    }    
+  }
+  // configure application stepper end here 
+
+  .documents-container .folders-documents .actions .actions-container{
+    background: #181818 !important;
+  }
+
+  .ng-select.ng-select-focused{
+    .ng-select-container .ng-value-container .ng-placeholder{
+      color: $dark-primary;
+    }
+  }
+
+  .selected-more-items{
+    color: $dark-primary !important;
+  }
+
+  .define-stage-type.mat-menu-panel,
+  .define-map-workflow-features.mat-menu-panel{
+    .mat-form-field{
+        .mat-form-field-wrapper{
+          .mat-form-field-prefix{
+          color: $white-color;
+        }
+      }
+    }
+  }
+
+  .define-map-workflow-features.mat-menu-panel{
+    .dropdown-header{
+      .mat-card-title{
+        color: $white-color;
+      }
+    }
+  }
+
+  .k-grid{
+    tbody{
+      tr{
+        &:hover{
+          color: $white-color;
+        }
+      }
+    }
+  }
+
+  .card-view-mode{
+    .mat-card{
+      .card-view-list{
+        .col{
+          .CarMode{
+            border-bottom-color: $dark-primary;
+            box-shadow: $dark-primary 0px 0px 0px 0.4px, $dark-primary 0px 0px 0px 0.4px, rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+            .listcardContent{
+              .card-data{
+                span{
+                  color: #b6b6b6 !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .invite-user-btn.mat-raised-button{
+    &:hover{
+      background: $dark-primary !important;
+    }
+  }
+
+  .phone-box{
+    .phone-no{
+      color: $white-color;
+    }
+  }
+
+  .manage-client-container{
+    background: $dark-primary-bg;
+  }
+
+  .passwordStrenth{
+    .infoStyle{
+      color: $dark-primary;
+    }
+  } 
+
+  .advancedsearch-container{
+    .landingpage-card{
+      .quickFiltr-container{
+        .quickFiltr-sidenav-content{
+          .candidate-data-header{
+            .total-candidate{
+              border: 1px solid $gray-txt !important;
+              color: $dark-primary !important;
+              span{
+                color: $dark-primary !important;
+              }
+              .candidate-count{
+                color: $dark-primary !important;
+                background: $black-color !important;
+                box-shadow: 0px -2px 7px 0px $gray-txt inset !important;
+                border: 1px solid $gray-txt !important;
+              }
+            }
+          }
+        }
+      }
+    } 
+  }
+
+  .job-comments-form{
+    .comments-data{
+      .candidate-data-header{
+        .search-viewicon{
+          .button-with-clear{
+            .asc-desc-btn{
+              .asc-desc-svg{
+                g{
+                  fill: $white-color;
+                }
+              }
+            }
+          }
+        }
+      }
+      .comment-bg{
+        .comment-sec{
+          .comment-box{
+            box-shadow: rgb(29 29 29) 0px -10px 56px 2px inset,
+            0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+            0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+            // background: #555555;
+            .comment-card-content{
+              background: #333333 !important;
+              .main-comment-profile{
+                h5{
+                  color: $dark-primary;
+                }
+              }
+              .comment-msg-data{
+                .comment-top-text{
+                  background: #606060 !important;
+                  .grey-text{
+                    color: $gray-bg-color;
+                  }
+                  .info-text{
+                    color: $dark-primary;
+                  }
+                  p{
+                    color: $gray-bg-color;
+                  }
+                }
+                .comment-bottom-text{
+                  .user-main-data{
+                    .user-notes-data.gradient::before{
+                      background: linear-gradient(to bottom, rgba(40, 40, 40, 0) -75%, rgb(40 40 40) 75%);
+                    }
+                    .addClientButton.mat-mini-fab{
+                      background: $dark-primary !important;
+                      box-shadow: 0px -2px 4px 0px #4b6e80 inset, rgba(75, 110, 128, 0.12) 0px 8px 10px !important;
+                      .mat-icon{
+                        color: $white-color !important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        .ng-select.ng-select-multiple{
+          .ng-select-container{
+            .ng-value-container{
+              .ng-value{
+                .ng-value-label{
+                  color: $white-color;
+                }
+              } 
+            }
+          }
+        } 
+      }
+    }
+  }
+
+  .mat-menu-svg{
+    .mat-menu-item{
+      .first-path{
+        fill: #ffffff;
+      }
+      .second-path{
+        fill: #0000008a;
+      }
+    }
+  }
+
+  .candidate-child-source{
+    background: #303030 !important;
+  }
+
+  .text-area{
+    color: #ffffff;
+  }
+  .update-btn.k-button:disabled{
+    background: transparent;
+  }
+
+  .lead-column-area{
+    .lead-column{
+      span{
+        color: $white-color !important;
+      }
+    }
+  }
+
+  .instructions-outer.mat-dialog-actions{
+    .instructions-inner ul li{
+      &::before{
+        border-right: 2px solid #ffffff;
+        border-bottom: 2px solid #ffffff;
+      }
+    }
+  }
+
+  .share-client-note{
+    h3{
+      background: #3b3b3b !important;
+    }
+  }
+  .mat-stroked-button.eoh-bg-button{
+    color: #ffffff;
+    border-color: #4c2e6c;
+  }
+  .mat-stroked-button.eoh-bg-button.mat-button-disabled{
+    border-color:rgba(255, 255, 255, 0.12);
+  }
+
+  .client-detail-header{
+    .clientDetailAction{
+      .candidate-profile{
+        .cleientHeaderDetail{
+          .data-sync{
+            background: #303030;
+            span{
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+  }
+  .candidateQuickMenu{
+    .mobile-container{
+      .data-sync{
+        background: #303030;
+        span{
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+} 

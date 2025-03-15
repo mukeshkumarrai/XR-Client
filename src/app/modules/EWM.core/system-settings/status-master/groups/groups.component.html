@@ -1,0 +1,267 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: group.component.html
+  @Who: Renu
+  @When: 13-May-2021
+  @Why: ROST-1538
+  @What: For Groups in status- master
+ -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="page-header" id="groups-mat-card-header">
+  <mat-card-title class="only-title">
+    <div class="sub-title">
+      <span>{{'label_subHeadGrupMaster' | translate}}</span>
+      <app-breadcrumb [pageLabel]="pageLabel" class="bread-crumb"></app-breadcrumb>
+    </div>
+  </mat-card-title>
+
+  <div class="header-action-button" id="groups-actionButton" *ngIf="formtitle=='grid'">
+
+    <div class="header-form">
+      <mat-form-field class="searchInput" floatLabel="never">
+        <mat-label>{{'label_search'|translate}}</mat-label>
+        <input matInput id="group-searchBox" (input)="onFilter($event.target.value)" placeholder="Search"
+          [(ngModel)]="searchVal">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()" (click)="searchVal=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+    </div>
+
+    <div class="group-header-button">
+
+      <!-- @When: 19-04-2023 @who:Amit @why: EWM-11974 @what: button change to anchor tag -->
+      <a mat-raised-button class="header-button" *ngIf="formtitle=='grid'" id="user-invitation-btnViewAudit"
+        [routerLink]="['../../system-settings/system-audit-log/',auditParameter]"
+        matTooltip="{{'label_View'|translate}} {{'label_auditlog'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+        <mat-icon class="animate__animated animate__flash animate__repeat-3 animate__delay-2s">visibility</mat-icon>
+      </a>
+
+     <button mat-raised-button class="header-button" (click)="refreshComponent()" id="btnRefresh"
+     matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+     (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+          (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+     <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">
+        {{animationVar?.BarRotateButton?.iconName}}
+     </mat-icon>
+    </button>
+
+      <button *ngIf="isCardMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('listMode')" id="group-viewmodeInactive"
+        matTooltip="{{'label_listView'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ListButton?.id, animationVar?.ListButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.ListButton?.id}}"
+          class="{{animationVar?.ListButton?.isAnimClass}}">
+          {{animationVar?.ListButton?.iconName}}
+        </span>
+      </button>
+
+      <button *ngIf="isListMode" mat-raised-button [ngClass]="[ viewMode === 'cardMode' ? '' : 'active']" class="header-button"
+        (click)="switchListMode('cardMode')" id="group-viewmodeActive"
+        matTooltip="{{'label_gridViews'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.GridButton?.id, animationVar?.GridButton?.animation)">
+        <span class="material-icons" id="{{animationVar?.GridButton?.id}}"
+          class="{{animationVar?.GridButton?.isAnimClass}}">
+          {{animationVar?.GridButton?.iconName}} 
+        </span>
+      </button>
+
+    </div>
+</div>
+ 
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-listing-with-breadCrumb" autosize id="groups-drawer">
+<mat-card class="component-card mat-elevation-z2" id="component-card">
+      <!-- {{'label_statusMaster' |translate}} -->
+  <div class="list-container" id="contentdata">
+    <!-- Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 -->
+
+    <div class="sticky" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+ 
+          <!-- {{ (('label_subHeadGrupMaster'
+          |translate).length>maxCharacterLengthSubHead)? (('label_subHeadGrupMaster' |translate) |
+          slice:0:maxCharacterLengthSubHead)+'...':(('label_subHeadGrupMaster' |translate)) }} -->
+
+      <div class="row mb-0 listHeader" id="group-listHeader" [class.hide]="isvisible">
+
+        <div class="col col-5 listActionBox">
+          <strong>&nbsp;</strong>
+        </div>
+
+        <div class="col col-1" (click)="onSort('Code')">
+          <button mat-button [disableRipple]="true" id="group-code">
+            <strong>{{'label_groupCode'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'Code' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'Code' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>
+        </div>
+        <div class="col col-2" (click)="onSort('Description')" id="group-description">
+          <button mat-button [disableRipple]="true">
+            <strong>{{'label_groupDesc'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'Description' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'Description' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>
+        </div>
+        <div class="col col-3" (click)="onSort('BuiltIn')" id="group-builtin">
+          <button mat-button [disableRipple]="true">
+            <strong>{{'label_builtIn'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'BuiltIn' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'BuiltIn' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>
+        </div>
+        <div class="col col-4" (click)="onSort('Status')" id="group-status">
+          <button mat-button [disableRipple]="true">
+            <strong>{{'label_status'|translate}}</strong>
+            <mat-icon *ngIf="sortedcolumnName === 'Status' && sortDirection === 'asc'">{{ascIcon}}</mat-icon>
+            <mat-icon *ngIf="sortedcolumnName === 'Status' && sortDirection === 'desc'">{{descIcon}}</mat-icon>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+    <div class="listCardView" id="listCardView" [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']" infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pagesize"
+    (scrolled)="onScrollDown()" [scrollWindow]="false"
+      *ngIf="formtitle=='grid'">
+      <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+        <div class="row">
+          <div *ngIf="loadingPopup" class="list"></div>
+          <div class="col nodata" *ngIf="this.gridView==undefined ||this.gridView.length==0">
+            <span>{{'label_noRecordAvailable'|translate}}</span>
+          </div>
+          <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+            *ngFor="let listDataList of gridView;let i =index" [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+            <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+              <mat-card-content class="listcardContent" [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+                <!-----list data start------------>
+                <div class="row mb-0" [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">      
+                  <div class="col" 
+                  [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox col-5']">
+
+                <button mat-flat-button [matMenuTriggerFor]="listactionMenu" class="dataActionButton">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+
+                  <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after" class="listactionMenu">
+                  <a mat-menu-item id="btnViewList" [routerLink]="['status']" [queryParams]="{groupId: listDataList.ID,V:viewMode}">
+                    <mat-icon>subject</mat-icon>
+                    {{'label_View'|translate}}
+                  </a>
+                 </mat-menu>
+
+                </div>
+
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_groupCode'|translate}}</strong>
+                  </div>
+                  <div class="col cursor" [routerLink]="['status']" [queryParams]="{groupId: listDataList.ID,V:viewMode}"
+                    [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-1']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Code }}"
+                      matTooltipClass="custom-tooltip">
+                      {{listDataList.Code}}
+                    </span>
+                  </div>
+                  <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_groupDesc'|translate}}</strong>
+                  </div>
+                  <div class="col cursor" [routerLink]="['status']" [queryParams]="{groupId: listDataList.ID,V:viewMode}"
+                    [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                    <span class="cardListTxt word-wrap" matTooltip="{{ listDataList.Description }}"
+                      matTooltipClass="custom-tooltip">
+                      {{listDataList.Description }}
+                    </span>
+                  </div>
+                  <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_builtIn'|translate}}</strong>
+                  </div>
+                  <div class="col cursor" [routerLink]="['status']" [queryParams]="{groupId: listDataList.ID,V:viewMode}"
+                    [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                    <span class="cardListTxt word-wrap" matTooltip="  {{(listDataList.BuiltIn=='1')?'Yes':'No'}}"
+                      matTooltipClass="custom-tooltip">
+                      {{(listDataList.BuiltIn=='1')?'Yes':'No'}}
+                    </span>
+                  </div>
+                  <div [ngClass]="[ viewMode === 'cardMode' ? 'clear mb-5' : '']"></div>
+                  <div class="col" [ngClass]="[ viewMode === 'cardMode' ? 'card-header' : 'hide']">
+                    <strong>{{'label_status'|translate}}</strong>
+                  </div>
+                  <div class="col cursor" [routerLink]="['status']" [queryParams]="{groupId: listDataList.ID,V:viewMode}"
+                    [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-4']">
+                    <span class="cardListTxt word-wrap"
+                      matTooltip="  {{(listDataList.Status=='1')?'Active':'InActive'}}"
+                      matTooltipClass="custom-tooltip">
+                      {{(listDataList.Status=='1')?'Active':'InActive'}}
+                    </span>
+                  </div>
+
+                 
+                </div>
+                 <!-----list data end------------>
+                   <!-- card mode -->
+                   <div [ngClass]="[ viewMode === 'cardMode' ? '' : 'hide']">
+                    <div class="cardModeLine">
+                      <span class="spacer"></span>
+                      <span class="badge red cursor" >
+                        <strong>{{'label_builtIn'|translate}}</strong> :  {{(listDataList.BuiltIn=='1')?'Yes':'No'}}
+                      </span>
+                      <span class="badge red cursor"  >
+                        <strong>{{'label_status'|translate}}</strong> :
+                        {{(listDataList.Status=='1')?'Active':'InActive'}}
+                      </span>
+                    </div>
+                    <div class="row mb-5 mt-15">
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_groupCode'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="label-code" >
+                          <span class="cardListTxt word-wrap cursor" matTooltip="{{listDataList.Code}}"
+                              matTooltipClass="custom-tooltip">
+                              {{listDataList.Code}}
+                          </span>
+  
+                        </div>
+                      </div>
+                      <div class="col l6 m6 s12">
+                        <div class="col card-header">
+                          <strong>{{'label_groupDesc'|translate}}</strong>
+                        </div>
+                        <div class="col card-data" id="label_desc" matTooltip="{{listDataList.Description }}"
+                        matTooltipClass="custom-tooltip">
+                          <span class="cardListTxt word-wrap cursor"> 
+                              {{listDataList.Description }}</span>
+                        </div>
+                      </div>
+                    </div>
+                 
+                 
+                    <div class="go-corner">
+                      <a mat-icon-button color="primary" [routerLink]="['status']" [queryParams]="{groupId: listDataList.ID,V:viewMode}" id="btnView" matTooltipClass="custom-tooltip"
+                      matTooltip="{{'label_view'|translate}}">
+                      <mat-icon>subject</mat-icon>
+                    </a>
+                    </div>
+                  </div>
+                  <!-- card mode -->
+              </mat-card-content>
+             
+            </mat-card>
+          </div>
+        </div>
+        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+</mat-drawer-container>

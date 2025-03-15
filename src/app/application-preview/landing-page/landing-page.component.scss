@@ -1,0 +1,102 @@
+@import "../../../styles-var.scss";
+.preview-content{
+    .sub-title{
+        margin: 0px;
+        font-size: 22px;
+        padding: 10px 15px;
+        border-bottom:1px solid #ececec;
+        background: transparent;
+    }
+    .description-content{
+        color:rgba(0, 0, 0, 0.87);
+        padding: 5px 15px;
+    }
+}
+
+.single-resume-card{
+    .row{
+        .col{
+          width: 100%;
+        }
+    }
+}
+.landing-mat-card{
+    .vertical-center-align-createjob{
+        .mat-card-container.mat-card{
+            .mat-card-title{
+                padding: 0px 15px;
+                margin-bottom: 10px;
+                font-size: 22px;
+                font-weight: bold;
+                font-family: 'Bariol';
+            }
+        }
+    }
+    .upload-resume-sec{
+        display: block;
+        text-align: center;
+        .upload-resume-card{
+            display: inline-flex;
+            max-width: 470px;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            flex-direction: column;
+            background-color: #f5f5f5;
+            .title{
+                text-align: start;
+                font-weight: 700; 
+            }
+            .upload-resume-box{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                grid-auto-rows: 255px;
+                gap: 15px;
+                max-width: 470px;
+            .mat-card{
+                margin-bottom: 0px;
+                cursor: pointer;
+                transition: all 0.25s;
+                color: $primary-bg-color;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                .icon-box{
+                    height: 150px;
+                    width: 150px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 100%;
+                    transition: all 0.25s;
+                    background: #f5f5f5;
+                    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.22) inset;
+                    .mat-icon{
+                        font-size: 62px;
+                        height: 62px;
+                        width: 62px;
+                        line-height: 62px;
+                        transition: all 0.25s;
+                        color: $primary-bg-color;
+                    }
+                }
+                p{
+                    margin: 0px;
+                    font-weight: 700;
+                    font-size: 18px;
+                }
+                &:hover{
+                    transform: scale(1.03);
+                    background: $primary-bg-color;
+                    color: $primary-txt-color;
+                }
+            }
+            }
+        }
+        .single-resume-card{
+            max-width: 250px;
+        }
+    }
+}

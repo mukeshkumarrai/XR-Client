@@ -1,0 +1,658 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: mfa.component
+    @Who: Naresh Singh
+    @When: 21-Dec-2020
+    @Why: This page has the CSS styles for the MFA component
+    @What: This is created for placing the Multi Factor Authentication Compoenent's Styles
+*/
+
+@import "../../../../../../styles-var.scss";
+button{min-height: 42px;}
+
+.font75Per{font-size: 75%;}
+
+.xeople-container-with-one-card.mat-drawer-container{
+  padding-top: 0px;
+  height: calc(100% - 40px);
+  .mat-drawer-content{
+    height: calc(100% - 10px);
+    padding-top: 0px;
+    .component-card.mat-card{
+      // height: calc(100% - 20px);
+      height: calc(100% - 12px);
+      padding-top: 0px;
+      @media only screen and (max-width: 480px) and (min-width: 320px){
+        height: calc(100% - 42px);
+      }
+    }
+  }
+}
+.codeScanBox{
+  text-align: center;
+  .scannerImg {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+.mfa-footer-bottom{
+  display: flex;
+  justify-content: center;
+  max-width: 340px;
+  width: 100%;
+  margin: 0px auto;
+  margin-top: 15px;
+}
+
+
+.enterCodeBox {
+  display: flex;
+  justify-content: center;
+  margin: 0px auto;
+  box-shadow: none;
+  border: none;
+  padding: 15px 0px;
+  height: auto;
+  width: 100%;
+  max-width: 300px;
+}
+
+
+.enterKeyBox {
+  display: flex;
+  justify-content: center;
+  margin: 0px auto;
+  box-shadow: none;
+  border: none;
+  padding: 12px 0px 0px 0px;
+  height: auto;
+  width: 100%;
+  max-width: 440px;
+}
+
+.addQuestionsBox {
+  display: block;
+  justify-content: center;
+  margin: 0px auto;
+  box-shadow: none;
+  border: none;
+  padding: 0px 0px;
+  height: auto;
+  width: 100%;
+  max-width: 490px;
+}
+
+.addEmailBox {
+  display: block;
+  justify-content: center;
+  margin: 0px auto;
+  box-shadow: none;
+  border: none;
+  padding: 0px 0px;
+  height: auto;
+  width: 100%;
+  max-width: 340px;
+}
+
+.addQuestionsBox .mat-form-field {
+  margin-bottom: 0px;
+}
+
+.notNowLink {
+  font-size: 14px;
+  float: left;
+  text-align: left;
+}
+
+.whyEmailLink {
+  font-size: 14px;
+  float: right;
+  text-align: right;
+}
+
+.mgTop50 {
+  margin-top: 50px;
+}
+
+.addEmailBoxWidth {
+  max-width: 480px;
+}
+
+.centerText {
+  text-align: center;
+}
+
+
+.mfaHeadingTxt {
+  margin-top: 20px;
+}
+
+.mfaH3Txt {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.mgTop100 {
+  margin-top: 100px;
+}
+
+.mfaH1Txt {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.mfaParaTxt {
+  font-size: 14px;
+  margin: 5px 0px;
+  line-height: 25px;
+}
+
+.floatNone {
+  float: none;
+  margin: auto
+}
+
+.maxWidth350{max-width: 350px; min-width: 350px;}
+
+
+@media only screen and (max-width: 359px) and (min-width: 240px) {
+  .container-steper::before {
+    display: none;
+  }
+
+  .container-steper::after {
+    display: none;
+  }
+
+  .main-container {
+    height: auto;
+  }
+
+  .container-steper {
+    width: 98%;
+    padding: 10px 1%;
+    min-height: unset;
+    border-radius: 0px;
+  }
+
+  .codeScanBox {
+    margin: 15px auto;
+    height: auto;
+    width: 100%;
+  }
+
+  .mat-horizontal-content-container {
+    padding: 0px 0px 0px 0px !important;
+  }
+
+  .mfaHeadingTxt {
+    margin-top: 20px;
+  }
+
+  .mfaH3Txt {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+  }
+
+  .mfaParaTxt {
+    font-size: 14px;
+    margin: 10px 0px;
+    line-height: 22px;
+  }
+
+  .enterCodeBox {
+    padding: 20px 0px;
+    width: 100%;
+    max-width: unset;
+  }
+
+  .mat-tab-group {
+    width: 310px !important;
+    margin-left: -52px !important;
+  }
+
+  .enterKeyBox {
+    padding: 20px 0px;
+    height: auto;
+    width: 90%;
+    max-width: 280px;
+  }
+
+  .addQuestionsBox {
+    width: 100%;
+    max-width: unset;
+  }
+
+  .addEmailBox {
+    max-width: unset;
+  }
+
+  .addEmailBoxWidth {
+    max-width: unset;
+  }
+
+  .notNowLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+
+  .whyEmailLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+}
+
+@media only screen and (max-width: 374px) and (min-width: 360px) {
+  .container-steper::before {
+    display: none;
+  }
+
+  .container-steper::after {
+    display: none;
+  }
+
+  .main-container {
+    height: auto;
+  }
+
+  .container-steper {
+    width: 98%;
+    padding: 10px 1%;
+    min-height: unset;
+    border-radius: 0px;
+  }
+
+  .codeScanBox {
+    margin: 15px auto;
+    height: auto;
+    width: 100%;
+  }
+
+  .mat-horizontal-content-container {
+    padding: 0px 0px 0px 0px !important;
+  }
+
+  .mfaHeadingTxt {
+    margin-top: 20px;
+  }
+
+  .mfaH3Txt {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+  }
+
+  .mfaParaTxt {
+    font-size: 14px;
+    margin: 10px 0px;
+    line-height: 22px;
+  }
+
+  .enterCodeBox {
+    padding: 20px 0px;
+    width: 100%;
+    max-width: unset;
+  }
+
+  .mat-tab-group {
+    width: 330px !important;
+    margin-left: -52px !important;
+  }
+
+  .enterKeyBox {
+    padding: 20px 0px;
+    height: auto;
+    width: 90%;
+    max-width: 280px;
+  }
+
+  .addQuestionsBox {
+    width: 100%;
+    max-width: unset;
+  }
+
+  .addEmailBox {
+    max-width: unset;
+  }
+
+  .addEmailBoxWidth {
+    max-width: unset;
+  }
+
+  .notNowLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+
+  .whyEmailLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+
+}
+
+@media only screen and (max-width: 479px) and (min-width: 375px) {
+  .container-steper::before {
+    display: none;
+  }
+
+  .container-steper::after {
+    display: none;
+  }
+
+  .main-container {
+    height: auto;
+  }
+
+  .container-steper {
+    width: 98%;
+    padding: 10px 1%;
+    min-height: unset;
+    border-radius: 0px;
+  }
+
+  .codeScanBox {
+    margin: 15px auto;
+    height: auto;
+    width: 100%;
+  }
+
+  .mat-horizontal-content-container {
+    padding: 0px 0px 0px 0px !important;
+  }
+
+  .mfaHeadingTxt {
+    margin-top: 20px;
+  }
+
+  .mfaH3Txt {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+  }
+
+  .mfaParaTxt {
+    font-size: 14px;
+    margin: 10px 0px;
+    line-height: 22px;
+  }
+
+  .enterCodeBox {
+    padding: 20px 0px;
+    width: 100%;
+    max-width: unset;
+  }
+
+  .enterKeyBox {
+    padding: 20px 0px;
+    height: auto;
+    width: 90%;
+    max-width: 280px;
+  }
+
+  .addQuestionsBox {
+    width: 100%;
+    max-width: unset;
+  }
+
+  .addEmailBox {
+    max-width: unset;
+  }
+
+  .addEmailBoxWidth {
+    max-width: unset;
+  }
+
+  .notNowLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+
+  .whyEmailLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+}
+
+@media only screen and (max-width: 767px) and (min-width: 480px) {
+  .container-steper::before {
+    display: none;
+  }
+
+  .container-steper::after {
+    display: none;
+  }
+
+  .main-container {
+    height: auto;
+  }
+
+  .container-steper {
+    width: 98%;
+    padding: 10px 1%;
+    min-height: unset;
+    border-radius: 0px;
+  }
+
+}
+
+
+@media only screen and (max-width: 1023px) and (min-width: 240px) {
+  .main-container {
+    height: auto;
+  }
+
+  .container-steper {
+    width: 98%;
+    padding: 10px 1%;
+    min-height: unset;
+    border-radius: 0px;
+  }
+}
+
+
+@media only screen and (max-width: 1349px) and (min-width: 1024px) {
+  .container-steper {
+    width: 98%;
+    padding: 10px 1%;
+    min-height: unset;
+    border-radius: 0px;
+  }
+}
+
+@media only screen and (max-width: 479px) and (min-width: 320px) {
+  .verticalStepper{margin-left: -40px !important;}
+}
+
+
+
+
+
+.a-o-i {
+  font-size: 30px;
+  font-weight: 600;
+  margin-top: 0;
+}
+.a-o-i-t {
+  @extend .a-o-i;
+  font-size: 25px;
+  padding: 15px;
+  border-bottom: 1px solid lightgray;
+}
+
+.o-c {
+  text-align: center;
+  display: flex;
+  display: -webkit-flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.s-t {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.list {
+  list-style: none;
+  margin-top: 0;
+  padding: 0;
+  li {
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+    padding-top: 10px;
+    padding-left: 40px;
+  }
+}
+.btn-updt {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  background-image: none;
+  border: 1px solid #ccc4c4;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.card {
+  padding: 2rem;
+  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+  border-radius: 4px;
+  background: white;
+  margin: 0 auto;
+}
+.btn{
+   border: 1px solid lightgrey;
+    margin: 0.5rem 0;
+    height: 1.5rem;
+    padding: 0 0.5rem;
+    background: white;
+    width: 150px;
+    border-radius: 4px;
+}
+
+.o-t-p {
+  display: block;
+  margin-top: 10px;
+  font-size: 19px;
+}
+
+.content {
+  display: inline-block;
+  width: calc(100% - 250px);
+  vertical-align: top;
+}
+
+
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  display: inline-block;
+  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+.f-c {
+  width: 150px;
+  border-radius: 4px;
+  border: 1px solid lightgrey;
+  margin: 0.5rem 0;
+  height: 1.5rem;
+  padding: 0 0.5rem;
+}
+@media screen and (max-width: 767px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+  .content {
+    width: 100%;
+  }
+  .o-c {
+    display: block;
+  }
+  .list {
+    li {
+      padding-left: 2px;
+      width: calc(50% - 2px);
+      display: inline-block;
+    }
+  }
+}
+
+
+
+.showHideIconPosition{position: absolute; top:86px;}
+.hideEditIcon{cursor:pointer; padding: 3px 0px; position: relative; top:5px}
+.showEditIcon{color: white; background: $default-bg-color; border-radius: 50%; padding: 2px 0px; cursor:pointer;}
+.editIconStyle{position: relative; top: 5px; font-size: 20px;}
+
+
+.scanCodePos{left:3%;}
+.enterCodePos{left:25%;}
+.addQuestionPos{left:45.5%;}
+.addEmailPos{right:30.5%;}
+.confirmEmailPos{right:10.3%}
+
+@media only screen and (max-width: 1439px) and (min-width: 1366px) {
+  .enterCodePos{left:25%;}
+  .addQuestionPos{left:45.5%;}
+  .addEmailPos{right:30.5%;}
+  .confirmEmailPos{right:10.6%}
+}
+
+.key-textarea{
+  overflow: hidden;
+  min-height: 50px;
+}
+
+.copy-btn.mat-icon-button{
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  min-height: 30px;
+  position: relative;
+  top: -35px;
+  .mat-icon{
+    font-size: 16px;
+  }
+}
+
+.flex{
+  .alert-primary.alert-green{
+    font-size: 12px;
+    padding-right: 1px 5px;
+    .mat-icon{
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+    }
+  }
+}

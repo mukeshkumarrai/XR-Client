@@ -1,0 +1,69 @@
+<!--  
+  @Type: File, <ts>
+  @Who: Adarsh singh
+  @When: 01-june-2023
+  @Why: EWM-6872-EWM-7186
+  @What: displaying job posted boards of broadbean 
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header" style="margin-bottom: 25px;">
+    <h2 matDialogTitle class="mb-0 underline">{{'label_broadbeanBoardStatus' | translate}}</h2>
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content class="job-publish-content" id="job-publish-content">
+    <div class="question-list-sec">
+        <div class="new-data-list-header" id="job-publish-listHeader">
+            <div class="new-data">
+                {{'label_jobBoards'| translate}}
+            </div>
+            <div class="new-data">
+                {{'label_publishedOn'| translate}}
+            </div>
+            <div class="new-data">
+                {{'label_expiedOn'| translate}}
+            </div>
+            <div class="new-data">
+                {{'label_status'| translate}}
+            </div>
+            <div class="new-data">
+                {{'label_expressionsOfIntereset'| translate}}
+            </div>
+        </div>
+        <p style="text-align: center;" *ngIf="gridaData == null || gridaData?.length == undefined">{{'label_noRecordFound'| translate}}</p>
+        <div class="listCardView new-data-list-content" id="listCardView">
+            <div class="new-data-list-list" *ngFor="let gridData of gridaData">
+                <div class="new-data">
+                    <span class="cardListTxt word-wrap">
+                        {{gridData?.JobBoard}}
+
+                    </span>
+                </div>
+                <div class="new-data img-new-data">
+                    <span class="cardListTxt word-wrap">
+                        {{gridData.PublishedOn | date:userpreferences.timeformate:userpreferences.timezone}}
+                    </span>
+                </div>
+                <div class="new-data">
+                    <span class="cardListTxt word-wrap">
+                        {{gridData.ExpiredOn | date:userpreferences.timeformate:userpreferences.timezone}}
+                    </span>
+                </div>
+                <div class="new-data">
+                    <span class="cardListTxt word-wrap" style="color: #7fb734;">
+                        {{gridData.JobBoardPublishStatus  === 1 ? 'Published' : 'Re-published'}}
+                    </span>
+                </div>
+                <div class="new-data">
+                    <span class="cardListTxt word-wrap">
+                        {{gridData.ExpressionOfInterest}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

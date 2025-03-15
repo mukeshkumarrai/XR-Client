@@ -1,0 +1,413 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: candidate.component.html
+    @Who: Satya Prakash Gupta
+    @When: 04-Aug-2021
+    @Why: EWM-2240 EWM-2364
+    @What:  This page wil be use only for the candidate Component HTML
+-->
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+<mat-card id="canidate-card" class="canidate-card canidate-card-notfound" *ngIf="(this.gridDataCandidate == undefined) || (this.gridDataCandidate == null) || (this.gridDataCandidate?.length==0)" >
+    <mat-card-content>
+        <div class="addSection">
+            <p class="mb-15">{{'label_canidateCardNotfound' | translate}}</p>
+            <a type="button" *ngIf="candidateId == undefined" id="btnAdd" color="primary" mat-raised-button [routerLink]="['candidate-list']">
+                <mat-icon>
+                    keyboard_backspace
+                </mat-icon>
+                 {{'label_backToCandidatesList' | translate}}
+            </a>
+        </div>
+    </mat-card-content>
+</mat-card>
+<div class="profile-summary-header" id="canidate-header" [style.background-color]="background20" [ngClass]="isOpen ? '' : 'summary-small-layout'"
+*ngIf="(this.gridDataCandidate != undefined) && (this.gridDataCandidate != null) && (this.gridDataCandidate?.length != 0)">
+    <div class="candidate-profile">
+        <div class="k-i-loading profile-loading" *ngIf="imagePreviewloading"></div>
+        <!-- who:maneesh,what:ewm-11687 for no image then short name fixed and background color fixed ,when:13/07/2023 -->
+        <span *ngIf="gridDataCandidate.ImageUrl==''" [style.background]="getBackgroundColor(gridDataCandidate?.ShortName)" class="short-name">{{gridDataCandidate?.ShortName}}</span>
+        <img *ngIf="gridDataCandidate.ImageUrl!=''" [src]="profileImagePreview" (click)="openDialog(profileImagePreview)" id="candidate-profile">
+        <button mat-button>
+            <mat-icon (click)="croppingImage()">edit</mat-icon>
+        </button>
+    </div>
+    <div class="candidate-profile-info">
+        <div class="name-with-synced">
+            <p  matTooltip="{{gridDataCandidate?.Name}}" matTooltipClass="custom-tooltip">{{gridDataCandidate?.Name}}</p>
+            <div class="data-sync" id="sync-data" *ngIf="gridDataCandidate?.ApplicantId?.substring(0, 3).toLowerCase()==='apl'" 
+               matTooltip="Synced to EOH on {{gridDataCandidate?.SyncToEOHOn| date:userpreferences.timeformate:userpreferences.timezone}} with Applicant ID: {{gridDataCandidate?.ApplicantId}}" matTooltipClass="custom-tooltip">
+                <mat-icon svgIcon="tick"></mat-icon>
+                <span class="text-overflow">{{'label_SyncedTo' | translate}}</span>
+                <img class="eoh-logo" src="/assets/brand/{{EOHLogo}}">
+                <span class="text-overflow">on {{gridDataCandidate?.SyncToEOHOn| date:userpreferences.timeformate:userpreferences.timezone}} with Applicant ID: {{gridDataCandidate?.ApplicantId}}</span>
+            </div>
+        <div class="data-sync" id="sync-data" *ngIf="gridDataCandidate?.MemberId?.substring(0, 3).toLowerCase()==='mbr'" 
+            matTooltip="Synced to EOH on {{gridDataCandidate?.SyncToEOHOn| date:userpreferences.timeformate:userpreferences.timezone}} with Member ID: {{gridDataCandidate?.MemberId}}" matTooltipClass="custom-tooltip">
+             <mat-icon svgIcon="tick"></mat-icon>
+             <span class="text-overflow">{{'label_SyncedTo' | translate}}</span>
+             <img class="eoh-logo" src="/assets/brand/{{EOHLogo}}">
+             <span class="text-overflow">on {{gridDataCandidate?.SyncToEOHOn| date:userpreferences.timeformate:userpreferences.timezone}} with Member ID: {{gridDataCandidate?.MemberId}}</span>
+         </div>
+        </div>
+
+        <div class="location-with-synced">
+            <small id="candidate-location" matTooltip="{{gridDataCandidate?.CurrentLocation}}" matTooltipClass="custom-tooltip">
+                <mat-icon *ngIf="gridDataCandidate?.CurrentLocation">location_on</mat-icon>{{gridDataCandidate?.CurrentLocation}}
+            </small>
+        <div class="data-sync" id="sync-data" *ngIf="gridDataCandidate?.ApplicantId?.substring(0, 3).toLowerCase()==='apl'" 
+            matTooltip="Synced to EOH on {{gridDataCandidate?.SyncToEOHOn| date:userpreferences.timeformate:userpreferences.timezone}} with Applicant ID: {{gridDataCandidate?.ApplicantId}}" matTooltipClass="custom-tooltip">
+             <mat-icon svgIcon="tick"></mat-icon>
+             <span class="text-overflow">{{'label_SyncedTo' | translate}}</span>
+             <img class="eoh-logo" src="/assets/brand/{{EOHLogo}}">
+             <span class="text-overflow">on {{gridDataCandidate?.SyncToEOHOn| date:userpreferences.timeformate:userpreferences.timezone}} with Applicant ID: {{gridDataCandidate?.ApplicantId}}</span>
+         </div>
+     <div class="data-sync" id="sync-data" *ngIf="gridDataCandidate?.MemberId?.substring(0, 3).toLowerCase()==='mbr'" 
+         matTooltip="Synced to EOH on {{gridDataCandidate?.SyncToEOHOn| date:userpreferences.timeformate:userpreferences.timezone}} with Member ID: {{gridDataCandidate?.MemberId}}" matTooltipClass="custom-tooltip">
+          <mat-icon svgIcon="tick"></mat-icon>
+          <span class="text-overflow">{{'label_SyncedTo' | translate}}</span>
+          <img class="eoh-logo" src="/assets/brand/{{EOHLogo}}">
+          <span class="text-overflow">on {{gridDataCandidate?.SyncToEOHOn| date:userpreferences.timeformate:userpreferences.timezone}} with Member ID: {{gridDataCandidate?.MemberId}}</span>
+      </div>
+    </div>
+
+        <div class="tagName" id="tag-name">
+            <span><strong>{{'label_Source'|translate}}</strong></span>
+            <div class="candidateStatus" [style.color]="gridDataCandidate?.SourceColorCode">
+                {{gridDataCandidate?.Source}}
+            </div>
+            <span><strong>{{'label_statusMaster'|translate}}</strong></span>
+            <!-- //by maneesh,what:ewm-17168 for while update status,when:23/05/2024 -->
+            <div class="candidateStatus cursor" id="candidate-btn-add2" [style.color]="gridDataCandidate?.StatusColorCode" [matMenuTriggerFor]="addClientStatusMenu" (click)="searchTextTag=''">
+                <span>{{gridDataCandidate?.StatusName}}</span>
+                <mat-icon>keyboard_arrow_down</mat-icon>
+            </div>
+            <mat-menu #addClientStatusMenu="matMenu" class="tagOpentMenu clientNameDropdown">
+                <div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+                <mat-form-field class="remove-bottom-matinput">
+                    <input matInput type="text" id="candidate-tagSearch" [(ngModel)]="searchTextTag" name="searchTextEWM"
+                    placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}" />
+                </mat-form-field>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+                <div class="tag-list-data">
+                <button class="tagList mat-menu-item"
+                    *ngFor="let data of StatusName | NameFilter:searchTextTag:'Code'"
+                    (click)="clickStatusID(data?.Code,data?.Id)">
+                    <span>
+                    {{data?.Code}}
+                    </span>
+                    <span class="spacer"></span>
+                </button>
+                <!-- when add filter then please add search key inside pipe -->
+                <ng-container *ngIf="( StatusName | NameFilter:searchTextTag:'Code') as result">
+                    <p *ngIf="result.length === 0" class="pl-15 pr-15 mt-0 mb-0">{{'lable_Record_not_found'|translate}}
+                    </p>
+                </ng-container>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+            </mat-menu>
+            
+            <button mat-button class="addTag" id="candidate-btn-add" [matMenuTriggerFor]="addCandidateMenu">
+                <mat-icon>add</mat-icon>
+                {{'candidate_tag' | translate}}
+            </button>
+            <mat-menu #addCandidateMenu="matMenu" class="tagOpentMenu">
+                <div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+                    <mat-form-field class="remove-bottom-matinput">
+                        <input matInput type="text" id="candidate-tagSearch" (click)="input($event)"
+                        [(ngModel)]="searchTextTag" name="searchTextEWM" tabindex="5"
+                        placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}"/>
+                    </mat-form-field>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+                <div class="tag-list-data">
+                    <!-- @When: 17-01-2023 @who:Satya Prakash Gupta @why: EWM-10012 @what:add ... dot in tags -->
+                    <!-- @When: 16-02-2024 @who:maneesh @why: EWM-16080 @what:fixed shortdiscription in tags -->
+                    <button class="tagList mat-menu-item"
+                    *ngFor="let tag of candidateMapTagAll | NameFilter:searchTextTag:'ShortDescription'"
+                    (click)="selectTagList($event,tag)" [ngClass]="{'selected':tag.IsSelected===1}"
+                    matTooltip="{{tag?.ShortDescription}}" matTooltipClass="custom-tooltip">
+                    <mat-icon [style.color]="tag.Color">local_offer</mat-icon>
+                    <span class="text-overflow">{{tag?.ShortDescription}}</span>
+                    <span class="spacer"></span>
+                    <mat-slide-toggle class="mat-slide-toggle" id="profile-summary-tag" [checked]="tag.IsSelected===1?'true':'false'"
+                    color="primary"></mat-slide-toggle>
+
+                </button>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+            </mat-menu>
+            <!-- @When: 06-12-2023 @who:maneesh @why: EWM-15323 @what:add tooltip in tags -->
+            <ng-container *ngIf="largeScreenTag">
+                <button mat-button *ngFor="let selectTag of largeScreenTagData" class="blacklisted"
+                    id="candidate-btn-blacklisted"   matTooltipClass="custom-tooltip" matTooltip="{{selectTag?.ShortDescription}}">
+                    <mat-icon [style.color]="selectTag.Color">local_offer</mat-icon>
+                    {{selectTag?.ShortDescription}}
+                </button>
+            </ng-container>
+            <ng-container *ngIf="mobileScreenTag">
+                <button mat-button *ngFor="let selectTag of MobileMapTagSelected" class="blacklisted"
+                    id="candidate-btn-blacklisted"   matTooltipClass="custom-tooltip" matTooltip="{{selectTag?.ShortDescription}}">
+                    <mat-icon [style.color]="selectTag.Color">local_offer</mat-icon>
+                    {{selectTag?.ShortDescription}}
+                </button>
+            </ng-container>
+            <button mat-raised-button #mobileSide="matMenuTrigger" [matMenuTriggerFor]="mobileSidebarMenu"
+                class="hiddenMenu" matRipple [matRippleColor]="myColor"
+                *ngIf="((this.candidateMapTagSelected != undefined)&&(this.candidateMapTagSelected != null)&&(this.candidateMapTagSelected?.length>6)) || (mobileScreenTag && (this.smallScreenTagData?.length>0))" >
+
+                <mat-icon>more_vert</mat-icon>
+            </button>
+        </div>
+        <mat-menu #mobileSidebarMenu="matMenu" class="respinsiveSidebarDropdown" id="respinsiveSidebarDropdown"
+            [overlapTrigger]="false">
+            <button *ngFor="let tag of smallScreenTagData" mat-button class="respinsiveSidebarDropdownMenu">
+                <mat-icon [style.color]="tag.Color">local_offer</mat-icon>
+                <span class="text"   matTooltipClass="custom-tooltip" matTooltip="{{tag?.ShortDescription}}">{{ tag?.ShortDescription }}</span>
+            </button>
+        </mat-menu>
+    </div>
+    <span class="candidateheader-spacer"></span>
+    <div class="candidate-action">
+        <!--@When: 29-11-2023 @who:Amit @why: EWM-15264 @what: add back btn-->
+        <button type="button" id="backButton" color="primary" *ngIf="candidateId == undefined" mat-mini-fab [routerLink]="['candidate-list']"
+        matTooltip="{{'label_backToCandidatesList' | customTranslate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+        (mouseenter)="mouseoverAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)">
+            <mat-icon id="{{animationVar?.BackButton?.id}}" class="{{animationVar?.BackButton?.isAnimClass}}">
+                keyboard_backspace
+            </mat-icon>
+        </button>
+        <button type="button" id="moreActionBtn" color="primary" mat-mini-fab [matMenuTriggerFor]="beforeMenu"
+        (mouseenter)="mouseoverAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)">
+            <mat-icon id="{{animationVar?.ThreeDotButton?.id}}" class="{{animationVar?.ThreeDotButton?.isAnimClass}}">
+                more_vert
+            </mat-icon>
+        </button>
+        <!---------@When: 24-04-2023 @who:Amit @why: EWM-12101 @what: add class--------->
+        <mat-menu #beforeMenu="matMenu" xPosition="before" class="candidateQuickMenu summary-candidateQuickMenu">
+            <span class="material-icons headerDroupDownUp">
+                arrow_drop_up
+            </span>
+            <button type="button" id="configureDashbrdBtn" mat-button (click)="candidateConfigureDashboard()">
+                <mat-icon>
+                    vertical_split
+                </mat-icon> {{'candidate_configureDashboard' | translate}}
+            </button>
+            <mat-divider class="mt-5 mb-5"></mat-divider>
+            <button mat-button id="addToFolderBtn" (click)="openQuickFolderModal()">
+                <div class="two-icons">
+                    <mat-icon>folder_open</mat-icon>
+                    <mat-icon class="secondIcon">add</mat-icon>
+                </div> {{'candidate_addToFolder' | translate}}
+            </button>
+            <!-- //Entire Software : Bantee Kumar : 22-Sep-2023  EWM-14292 -->
+            <button mat-button id="smsButton" [disabled]="!(isSMSStatus && candidateData?.PhoneCode)" (click)="smsHistoryDetails(candidateData
+            );">
+                <div class="two-icons">
+                    <mat-icon>sms</mat-icon>
+                </div>  
+                {{'label_sendSms' | translate}}
+            </button>
+            <!-- who:maneesh,what:ewm-13447 for remove this when:25/07/2023 -->
+            <button mat-button id="dwnldResumeBtn" [disabled]="downloadresumeEnable" (click)="onDownloadResume(fileUrl,ActualFileName)">
+                <mat-icon>download</mat-icon>{{'candidate_downloadResume' | translate}}
+            </button>
+            <button *ngIf="isGdprSettings===1" mat-button id="gdprEnableBtn"  (click)="requestGDPRConsent()">
+                <mat-icon>handshake</mat-icon>{{'candidate_requestGDPRConsent' | translate}}
+            </button>
+            <button *ngIf="isGdprSettings===0" mat-button id="gdprDisableBtn" disabled>
+                <mat-icon>handshake</mat-icon>{{'candidate_requestGDPRConsent' | translate}}
+            </button>
+            <button mat-button id="deleteBtn" *ngIf="candidateId == undefined" (click)="deleteCandidateInfo()">
+                <mat-icon>delete</mat-icon>{{'label_delete' | translate}}
+            </button>
+            <button class="push-candidate-icon-button" *ngIf="(extractEnableCanCheck == 1) && (IsEOHIntergrated)"  mat-button id="sharePersonalToEOHBtn" (click)="pushCandidateToEOH()">
+                <!-- <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z"/></svg>  -->
+                <img src="../../../../assets/brand/{{EOHLogo}}">
+                {{'pushCandidateToEoh_pushCandidate' | translate}}
+            </button>
+            <a *ngIf="!(extractEnableCanCheck == 1) || (!IsEOHIntergrated)" class="push-candidate-icon-button" mat-button
+            (click)="redirectOnMarketPlace()" id="pushEOH_redirectPush1">
+                <div class="groups">
+                    <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z"/></svg> 
+                    <!-- not connected message  -->
+                    <div class="list-view-name" *ngIf="!IsEOHIntergrated">
+                        <div class="txt">{{'pushCandidateToEoh_pushCandidate' |translate}}</div>
+                        <div class="text-label">{{'pushCandidateToEoh_marketplace'|translate}}</div>
+                    </div>
+                    <!-- connected but not subscribe message -->
+                    <div class="list-view-name" *ngIf="IsEOHIntergrated">
+                      <div class="txt">{{'pushCandidateToEoh_pushCandidate' |translate}}</div>
+                      <div class="text-label">{{'pushCandidateToEoh_marketplace_Subs'|translate}}</div>
+                  </div>
+                </div>
+            </a>
+            <div class="data-sync" id="sync-data" matTooltip="Synced to EOH on February 24, 2025 09:06:57 AM with Candidate ID: CLI000005" matTooltipClass="custom-tooltip">
+                <mat-divider></mat-divider>
+                <mat-icon svgIcon="tick"></mat-icon>
+                <span class="text-overflow">{{'label_SyncedTo' | translate}}</span>
+                <img class="eoh-logo" src="/assets/brand/{{EOHLogo}}">
+                <span class="text-overflow">on February 24, 2025 09:06:57 AM with Candidate ID: CLI000005</span>
+            </div>
+        </mat-menu>
+    </div>
+    <button mat-stroked-button id="expandBtn" class="summary-header-toggle" [style.background-color]="background20"  (click)="toggle()"
+    (mouseenter)="mouseoverAnimation(animationVar?.ExpandArrowButton?.id, animationVar?.ExpandArrowButton?.animation)"
+    (mouseleave)="mouseleaveAnimation(animationVar?.ExpandArrowButton?.id, animationVar?.ExpandArrowButton?.animation)">
+        <mat-icon *ngIf="isOpen" id="{{animationVar?.ExpandArrowButton?.id}}"
+        class="{{animationVar?.ExpandArrowButton?.isAnimClass}}">
+            expand_less
+        </mat-icon>
+        <mat-icon *ngIf="!isOpen" id="{{animationVar?.ExpandArrowButton?.id}}"
+        class="{{animationVar?.ExpandArrowButton?.isAnimClass}}">
+            expand_more
+        </mat-icon>
+    </button>
+</div>
+<!--@When: 09-11-2023 @who:Amit @why: EWM-15076 @what: add class-->
+<mat-drawer-container class="advancedsearch-container profile-summary-container profile-detail-container" autosize id="profile-summary-drawer" [ngClass]="isOpen ? '' : 'summary-small-layout'">
+<mat-card id="canidate-card" class="canidate-card profile-summary-card" *ngIf="(this.gridDataCandidate != undefined) && (this.gridDataCandidate != null) && (this.gridDataCandidate?.length != 0)">
+    <mat-card-content class="profile-summary-card-content">
+        <mat-tab-group class="assignJobHideArrows summary-tabs" id="candidate-tab" [selectedIndex]='selectedTabIndex'
+            (selectedTabChange)="ActiveTab($event)" dir="{{positionMatTab}}">
+            <mat-tab id="sammary-tab" *ngIf="showSummary">
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">contact_page</mat-icon>
+                    {{'candidate_sammary' | translate}}
+                </ng-template>
+
+                 <!--@who:priti @why:EWM-2973 @what:pass candidate id as input data @when:28-sep-2021-->
+            <app-candidate-summary [candidateIdData]="candidateIdData" [activeTabForScreening]="activeTabForScreening"
+                 [candidateName]="candidateName" (candidateEmail)="getCandidateEmailInfo($event)" (candidateData)="getCandidateData($event)" (childConsentTypeEvent)="receivedMessageConsentTypeHandler($event)"></app-candidate-summary>
+
+            </mat-tab>
+
+            <mat-tab id="resume-tab" *ngIf="showResume">
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">description</mat-icon>
+                    {{'candidate_resume' | translate}}
+                </ng-template>
+                 <!--@who:priti @why:EWM-2973 @what:pass candidate id as input data @when:28-sep-2021-->
+                <app-candidate-resume *ngIf="tabActive?.toLowerCase()=='resume'" [candidateId]="candidateIdData" (docFileUrlEmit)="getResumeInfo($event)" ></app-candidate-resume>
+
+            </mat-tab>
+
+
+            <mat-tab id="social-tab" *ngIf="showSocial" disabled>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">share</mat-icon>
+                    {{'candidate_social' | translate}}
+                </ng-template>
+
+                Content 3
+            </mat-tab>
+
+            <mat-tab id="job-tab" *ngIf="showJob">
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">work</mat-icon>
+                    {{'label_Jobs' | translate}}<span class="numbers">{{dataTotalAssignJob}}</span>
+                </ng-template>
+                <!--@who:@Nitin Bhati,@when:24-04-2023, @why:EWM-12065-->
+            <app-candidate-job *ngIf="tabActive.toLowerCase()=='job'" [GridId]="JobEmployeeGridId" [candidateId]="candidateId" [AlertMessage]="AlertMessage" [IsRestricted]="IsRestricted" (assignJobCount)="fetchassignJobCount($event)"></app-candidate-job>
+            </mat-tab>
+            <mat-tab id="History-tab" *ngIf="showHistory" >
+              <div class="candSmsHistory">
+               <ng-template mat-tab-label>
+                   <mat-icon class="example-tab-icon">history</mat-icon>
+                   {{'candidate_History' | translate}}
+               </ng-template>
+               <app-candate-history *ngIf="tabActive.toLowerCase()=='history'" [candidateId]="candidateIdData"></app-candate-history>
+              </div>
+         </mat-tab>
+
+            <mat-tab id="MenuInbox-tab" *ngIf="showInbox">
+              <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">inbox</mat-icon>
+                  {{'label_mail' | translate}}<span class="numbers">{{dataTotalMail}}</span>
+              </ng-template>
+         <!--@who:Renu @why:EWM-3126 @what:pass candidate id as input data @when:19-Oct-2021-->
+              <app-candidate-inbox *ngIf="tabActive.toLowerCase()=='inbox'" [candidateId]="candidateIdData" [category]="documentForCandidate" [candidateEmail]="candidateEmail" (mailInBoxCount)="fetchDataFromInbox($event)"></app-candidate-inbox>
+          </mat-tab>
+            <mat-tab id="notes-tab" *ngIf="showNotes">
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">text_snippet</mat-icon>
+                    {{'candidate_notes' | translate}}<span class="numbers">{{dataTotalNotes}}</span>
+                </ng-template>
+                <app-employee-notes *ngIf="tabActive.toLowerCase()=='notes'" [category]="category" [GridId]="GridId" [candidateIdData]="candidateIdData"
+                [candidateName]="candidateName" (clientNotesCount)="fetchEmployeeNotesCount($event)"></app-employee-notes>
+
+                <!--@who:priti @why:EWM-2973 @what:pass candidate id as input data @when:28-sep-2021-->
+                <!-- <app-recentnotes [candidateIdData]="candidateIdData" (totalNotes)="fetchDataFromNotes($event)"></app-recentnotes> -->
+            </mat-tab>
+            <mat-tab id="recentActivities-tab" *ngIf="showRecent_Activities">
+              <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">local_activity</mat-icon>
+                  {{'label_TabMenuActivity' | translate}}<span class="numbers">{{dataTotalActivity}}</span>
+              </ng-template>
+               <!---@When: 30-03-2023 @Who:Renu @Why: EWM-11340 EWM-11366 @What: separate component.--->
+              <app-candidate-activity *ngIf="tabActive.toLowerCase()=='activities'" [Names]="candidateName" [Employee]="documentForCandidate"  [GridId]="GridId" [category]="category" [candidateIdData]="candidateIdData"  (clientActivityCount)="fetchEmployeeActivityCount($event)"></app-candidate-activity>
+              <!-- <app-employee-activity *ngIf="tabActive=='Activities'" [Names]="candidateName" [Employee]="documentForCandidate"  [GridId]="GridId" [category]="category" [candidateIdData]="candidateIdData"  (clientActivityCount)="fetchEmployeeActivityCount($event)"></app-employee-activity> -->
+              <!-- Content 3 -->
+          </mat-tab>
+
+
+          <mat-tab id="sms-tab" *ngIf="showSms">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon" fontSet="material-icons-outlined">sms</mat-icon>
+                {{'label_sms' | translate}}
+            </ng-template>
+            <app-candidate-sms *ngIf="tabActive=='SMS'"  [JobDetailCandidateId]="candidateIdData" [candidateDetails]="candidateData"></app-candidate-sms>
+      </mat-tab>
+            <mat-tab id="attachments-tab" *ngIf="showDocuments">
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">attachment</mat-icon>
+                    {{'candidate_documents' | translate}}<span class="numbers">{{dataTotalDocCount}}</span>
+                </ng-template>
+                <app-candidate-document *ngIf="tabActive=='Attachements'" [candidateId]="candidateIdData" [documentFor] ="documentForCandidate"
+                (totalDocs)="fetchDataFromDocs($event)"></app-candidate-document>
+            </mat-tab>
+            <mat-tab id="calllog-tab" *ngIf="showCall"> 
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon" fontSet="material-icons-outlined">call</mat-icon>
+                    {{'Call' | translate}}<span class="numbers">{{callDataCount}}</span>
+                </ng-template>
+                <app-candidate-call-log *ngIf="tabActive=='Call'"
+                ></app-candidate-call-log>
+            </mat-tab>
+
+
+
+
+
+        </mat-tab-group>
+
+    </mat-card-content>
+</mat-card>
+<!-- //Entire Software : Bantee Kumar : 22-Sep-2023  EWM-14292 -->
+
+<mat-drawer #smsHistoryDrawer mode="over" *ngIf="smsHistoryToggel" disableClose="true" position="end"
+class="sms-history-drawer">
+<div class="closePanel">
+  <button class="closeDrawerIcon" id="closeDrwerMapedtoggle" mat-stroked-button
+    (click)="toggleDrawer(smsHistoryDrawer)">
+    <mat-icon>arrow_forward_ios</mat-icon>
+  </button>
+  <button class="sidebarSectionName addCandidateToJobBtn" mat-raised-button color="primary" type="button"
+    id="btnsms_history">{{'label_sms_history'|translate }}</button>
+</div>
+
+<div class="panelSidebarInformation"  id="btnsms_histry">
+  <!-- @When: 23-09-2023 @who:Amit @why: EWM-14293 @what:sms drawer -->
+  <mat-card *ngIf="isSmsHistoryForm" class="drawer-mat-card profile-sms-drawer">
+    <app-sms-history  [ConTactPhoneNumber]="contactPhone"
+      [SMSHistory]="SMSHistory" [candidateIdData]="candId" [candidateDetails]="candidateDetails" [UserType]="userType"
+
+      (onSmsHistoryForm)="fetchDataFromSMSHistory($event)"></app-sms-history>
+  </mat-card>
+</div>
+</mat-drawer>
+</mat-drawer-container>
+

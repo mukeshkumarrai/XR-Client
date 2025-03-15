@@ -1,0 +1,215 @@
+	<!--
+	  @(C): Entire Software
+	  @Type: File, <ts>
+	  @Name: job-interview.component.html
+	  @Who: Satya Prakash Gupta
+	  @When: 23-June-2023
+	  @Why: EWM-12812 EWM-12828
+	  @What: job interview component
+	 -->
+	 <div *ngIf="loading" class="logo-loader" id="logo-loader">
+		<div class="logo-loading"></div>
+	  </div>
+   <form applyTabIndexes class="jobinterview" id="jobinterview-form" [formGroup]="jobInterviewForm">
+		<div class="jobinterview-container" id="jobinterview-container">
+		  <div class="actionButton myInboxConnectTxt">
+			<label *ngIf="emailConnection">
+				{{'label_templateStatus' |translate }}:
+				<span class="new badge green">
+					{{'label_emailConnected' |translate}}
+				</span>
+				<!-- <span class="new badge green">Conencted</span> -->
+				<span class="wantTodisconnectTxt">{{'label_wantToDisonnectEmail' |translate }}</span>
+			</label>
+			<button mat-button color="primary" id="jobinterview-disconnect" *ngIf="emailConnection" class="connectBtnLink" (click)="disConnectEmail()">
+				<span class="new badge red">
+					{{'label_emailDisconnect' |translate}}
+				</span>
+			</button>
+			<label *ngIf="!emailConnection">
+				{{'label_templateStatus' |translate }}:
+				<span class="new badge red">
+					{{'label_emailDisconnected' |translate}}
+				</span>
+				<!-- <span class="new badge green">Conencted</span> -->
+				{{'label_wantToConnectEmail' |translate }}
+			 
+			</label>
+			<button mat-button color="primary" *ngIf="!emailConnection" type="button" class="connectBtnLink" (click)="connectEmail()"
+			 id="jobinterview-connect">{{'label_emailConnect' |translate}}</button>
+		</div>
+
+		<div class="selected-candidates">
+            <div class="candidate" [ngClass]="data?.IsHaveActivity > 0?'link':''" [style.color]="data?.IsHaveActivity>0?'green':'grey'" (click)="getcanJobActivities(data?.IsHaveActivity)" *ngFor="let data of CandidateActivityCountList | slice : 0 : 4">
+                <mat-icon>stop</mat-icon>
+                <span class="candidate-name">{{data?.Name}}</span>
+			</div>
+            <span *ngIf="CandidateActivityCountList?.length>4" class="length-text">and
+				<button mat-flat-button class="max-count-box"
+                    [matMenuTriggerFor]="showCanidateList" matTooltip="{{(CandidateActivityCountList |
+					slice : 4 : CandidateActivityCountList?.length)?.length}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above">+{{(CandidateActivityCountList |
+					slice : 4 : CandidateActivityCountList?.length)?.length}}
+				</button>
+          	</span>
+            <span class="status-short-selected">{{'label_ApplicationSelected'|translate}}</span>
+        </div>
+
+        <mat-menu #showCanidateList="matMenu" class="tagOpentMenu chip-input-matmenu" id="respinsiveSidebarDropdown"
+			xPosition="before">
+			<mat-list role="list">
+				<ng-container *ngFor="let candidate of CandidateActivityCountList | slice : 4 : CandidateActivityCountList?.length">
+					<mat-list-item [ngClass]="candidate?.IsHaveActivity>0?'link':''" [style.color]="candidate?.IsHaveActivity>0?'green':'grey'" (click)="getcanJobActivities(candidate?.IsHaveActivity)" id="matMenuId">
+						<mat-icon>stop</mat-icon>
+						<span class="status-short-info-name">{{candidate?.Name}}</span>
+					</mat-list-item>
+				</ng-container>
+			</mat-list>
+		</mat-menu>
+
+			<mat-form-field class="related-chip-list" floatLabel="always">
+				<mat-label>{{'label_Organiser' | translate}}</mat-label>
+				<mat-chip-list #chipList aria-label="user selection" formControlName="OrganizerOrAssignees" id="jobinterview-organiser" required>
+					<mat-chip matTooltipClass="custom-tooltip" [style.background]="OrganiserColorCode" style="padding-right: 5px;">{{OrganiserName}}</mat-chip>
+				  </mat-chip-list>
+			 </mat-form-field>
+			<div class="interviewer" id="interviewer">
+				<mat-label class="label">{{'label_interviewer' | translate}} <span class="required-show">*</span></mat-label>
+				<div class="interviewer-dropdown" id="interviewer-dropdown">
+					<div class="ng-slectBox">
+						<ng-select
+							id="jobinterview-usertype" formControlName="RelatedUserType" class="dropdown-body" required
+							appendTo="body" tabindex="4" [clearable]="false"
+							(change)="onChangeActivityRelatedTo($event)">
+							<ng-option value="EMPL">Employee</ng-option>
+							<ng-option value="CLIE">Client(Contacts)</ng-option>
+						</ng-select>
+						<mat-error
+							*ngIf="jobInterviewForm.controls['RelatedUserType'].hasError('required') && jobInterviewForm.controls['RelatedUserType'].touched">
+							{{ 'label_interviewer' | translate}} {{ 'label_errorreqired' |translate}}
+						</mat-error>
+					</div>
+					<mat-form-field class="chip-input-dropdown" floatLabel="never">
+						<mat-label>{{'label_interviewer' | translate}}</mat-label>
+						<mat-chip-list #chipListContacts aria-label="user selection" id="jobinterview-interviewer" formControlName="InterviewerNameTo">
+							<mat-chip [style.background]="selectedinterviewList.ColorCode" class="mat-chip-data"
+								*ngFor="let selectedinterviewList of selectedInterviewer | slice : 0 : maxMoreLengthInterview" 
+								matTooltip="{{selectedinterviewList?.Name}}" matTooltipClass="custom-tooltip" [ngClass]="selectedinterviewList?.syncStatus==1?'sync':'non-sync'">
+								<span class="name">{{selectedinterviewList?.Name}}</span>
+								<mat-icon matChipRemove color="warn" (click)="removeInterview(selectedinterviewList)">cancel</mat-icon>
+							</mat-chip>
+							<mat-chip *ngIf="selectedInterviewer?.length>maxMoreLengthInterview">
+								<mat-icon>more_horiz</mat-icon>
+							</mat-chip>
+						</mat-chip-list>
+						<span class="badge white" matSuffix>+{{selectedInterviewer.length}}</span>
+						<button matSuffix mat-button id="interviewerBtnAdd" [matMenuTriggerFor]="addInterviewMenu"
+						(click)="searchInterviewer=''" matTooltip="{{'label_interviewer'|translate}}" matTooltipClass="custom-tooltip"
+						(mouseenter)="mouseoverAnimation(animationVar?.TagAddButton?.id, animationVar?.TagAddButton?.animation)"
+						(mouseleave)="mouseleaveAnimation(animationVar?.TagAddButton?.id, animationVar?.TagAddButton?.animation)">
+						<mat-icon id="{{animationVar?.TagAddButton?.id}}" class="{{animationVar?.TagAddButton?.isAnimClass}}">
+							arrow_drop_down
+						</mat-icon>
+					  </button>
+					  <mat-menu #addInterviewMenu="matMenu" class="tagOpentMenu chip-input-matmenu" xPosition="before">
+						<div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+						  <mat-form-field class="remove-bottom-matinput" floatLabel="never">
+							<input matInput type="text" id="interviewerSearch" [(ngModel)]="searchInterviewer" name="searchTextEWM"
+							  placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}" />	  
+							<button *ngIf="searchInterviewer" matSuffix mat-icon-button aria-label="Clear" (click)="searchInterviewer=''">
+							  <mat-icon>close</mat-icon>
+							</button>
+						  </mat-form-field>
+						</div>
+						<div class="blank-height10" (click)="$event.stopPropagation();"></div>
+						<div class="tag-list-data">
+						  <button class="tagList mat-menu-item" id="btnInterviewerUpdate" *ngFor="let EmpClientContactData of EmpClientContactList | filterPipeInterview:searchInterviewer:'Name'" 
+							(click)="updateInterviewerList($event,EmpClientContactData)">
+							<mat-chip [style.background]="EmpClientContactData.ColorCode" matTooltip="{{EmpClientContactData.Name}}" matTooltipClass="custom-tooltip" [ngClass]="EmpClientContactData?.syncStatus==1?'sync':'non-sync'">
+								<span class="chip-data">{{EmpClientContactData.Name}}</span>
+							</mat-chip>
+							<span class="spacer"></span>
+							<mat-slide-toggle class="mat-slide-toggle" id="InterviewerBtnToggle" [checked]="EmpClientContactData.IsSelected===1?'true':'false'" color="primary">
+							</mat-slide-toggle>
+						  </button>
+						</div>
+						<div class="blank-height10" id="InterviewerstopPropagation" (click)="$event.stopPropagation();"></div>
+					  </mat-menu>
+					</mat-form-field>
+
+				</div>
+			</div>
+			<mat-form-field class="chip-input-dropdown">
+				<mat-label>{{'label_candidate' | translate}}</mat-label>
+				<mat-chip-list #chipListCandidates aria-label="user selection" formControlName="Candidates" id="candidate" required>
+					<mat-chip [style.background]="candidate.ColorCode" class="mat-chip-data"
+						*ngFor="let candidate of SelectedCandidateList | slice : 0 : maxMoreLengthCandidates" 
+						matTooltip="{{candidate?.Name}}" matTooltipClass="custom-tooltip" [ngClass]="candidate?.syncStatus==1?'sync':'non-sync'">
+						<span class="name">{{candidate?.Name}}</span>
+						<mat-icon matChipRemove color="warn" *ngIf="SelectedCandidateList?.length>1" (click)="removeCandidate(candidate)">cancel</mat-icon>
+					</mat-chip>
+					<mat-chip *ngIf="SelectedCandidateList?.length>maxMoreLengthCandidates">
+						<mat-icon>more_horiz</mat-icon>
+					</mat-chip>
+				</mat-chip-list>
+				<span class="badge white" matSuffix>{{SelectedCandidateList.length}}/{{candidateListOfArray.length}}</span>
+				<button matSuffix mat-button id="candidateBtnAdd" [matMenuTriggerFor]="addCandidateMenu"
+				(click)="searchInterviewer=''" matTooltip="{{'label_candidate'|translate}}" matTooltipClass="custom-tooltip"
+				(mouseenter)="mouseoverAnimation(animationVar?.TagAddButton?.id, animationVar?.TagAddButton?.animation)"
+				(mouseleave)="mouseleaveAnimation(animationVar?.TagAddButton?.id, animationVar?.TagAddButton?.animation)">
+				<mat-icon id="{{animationVar?.TagAddButton?.id}}" class="{{animationVar?.TagAddButton?.isAnimClass}}">
+					arrow_drop_down
+				</mat-icon>
+			  </button>
+			  <mat-menu #addCandidateMenu="matMenu" class="tagOpentMenu chip-input-matmenu" xPosition="before">
+				<div class="pl-15 pr-15" id="candidatestopPropagation" (click)="$event.stopPropagation();">
+				  <mat-form-field class="remove-bottom-matinput" floatLabel="never">
+					<input matInput type="text" id="candidateSearch" [(ngModel)]="searchCandidate" name="searchTextEWM"
+					  placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}" />	  
+					<button *ngIf="searchCandidate" matSuffix mat-icon-button aria-label="Clear" (click)="searchCandidate=''">
+					  <mat-icon>close</mat-icon>
+					</button>
+				  </mat-form-field>
+				</div>
+				<div class="blank-height10" id="candidatestopPropagation" (click)="$event.stopPropagation();"></div>
+				<div class="tag-list-data">
+				  <button class="tagList mat-menu-item" id="btnCandidateUpdate" *ngFor="let candidateListOfArrayList of candidateListOfArray | filterPipeInterview:searchCandidate:'Name'" 
+					(click)="updateCandidateList($event,candidateListOfArrayList)">
+					<mat-chip [style.background]="candidateListOfArrayList.ColorCode"  matTooltip="{{candidateListOfArrayList.Name}}" matTooltipClass="custom-tooltip"
+					[ngClass]="candidateListOfArrayList?.syncStatus==1?'sync':'non-sync'">
+						<span class="chip-data">{{candidateListOfArrayList.Name}}</span>
+					</mat-chip>
+					<span class="spacer"></span>
+					<mat-slide-toggle class="mat-slide-toggle" id="candidateBtnToggleId" [checked]="candidateListOfArrayList.IsSelected===1?'true':'false'" color="primary">
+					</mat-slide-toggle>
+				  </button>
+				</div>
+				<div class="blank-height10" (click)="$event.stopPropagation();"></div>
+			  </mat-menu>
+			</mat-form-field>
+			<div class="showactivity" id="showactivity">
+				<mat-label class="label">{{'label_ShowActivitycalendar' | translate}} <span class="required-show">*</span></mat-label>
+				<div class="showactivity-checkbox-group">
+					<mat-checkbox color="primary"  (change)="checkSYNCForWhich($event.checked, 'Organizer')" id="jobinterview-OrganizerCheckbox" formControlName="OrganizerCheckbox">{{'label_Organiser' | translate}}</mat-checkbox>
+					<mat-checkbox color="primary" [disabled]="selectedInterviewer?.length==0?true:false" (change)="checkSYNCForWhich($event.checked, 'Interviewer')" id="jobinterview-InterviewerCheckbox" formControlName="InterviewerCheckbox">{{'label_interviewer' | translate}}</mat-checkbox>
+					<mat-checkbox color="primary" [disabled]="SelectedCandidateList?.length==0?true:false" (change)="checkSYNCForWhich($event.checked, 'Candidates')" id="jobinterview-CandidatesCheckbox" formControlName="CandidatesCheckbox">{{'label_Candidate' | translate}}</mat-checkbox>
+					<button mat-flat-button *ngIf="StatusInterviewerCheckbox==true || StatusCandidateCheckbox==true" color="primary" id="jobinterview-syncActivity" (click)="syncActivity(this.jobInterviewForm.value)">{{'label_JobAction_SyncActivty'|translate}}</button>
+				</div>
+			</div>
+
+        <div class="ng-slectBox">
+            <ng-select placeholder="{{'label_timeZone' |translate}}" tabindex="7" [clearable]="false"
+                        formControlName="TimeZone" id="interview-UserTimezone" (change)="onChangeTimezone($event)"
+                        [compareWith]="compareFn" required appendTo="body" class="dropdown-body show-required">
+                        <ng-option *ngFor="let timezone of gridTimeZone" [value]="timezone">
+                            {{timezone.Timezone}}</ng-option>
+                    </ng-select>
+                    <mat-error
+                        *ngIf="this.jobInterviewForm.controls['TimeZone'].hasError('required') && jobInterviewForm.controls['TimeZone'].touched">
+                        {{ 'label_timeZone' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+        </div>
+        <app-job-activity-calender *ngIf="syncCalender" (reloadDataEvent)="getReloadDataEvent($event)" [activityObj]="activityObj" [syncDataList]="syncDataList" [syncInterviewDataList]="syncInterviewDataList" [syncOrganiserDataList]="syncOrganiserDataList"></app-job-activity-calender>
+
+
+		</div>
+	</form>

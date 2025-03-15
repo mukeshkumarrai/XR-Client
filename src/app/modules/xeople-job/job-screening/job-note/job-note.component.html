@@ -1,0 +1,193 @@
+<!-- /*
+@Type: File, <html>
+@Name: job-note.component.html
+@Who: Bantee
+@When: 5-June-2023
+@Why: EWM-11780 EWM-12635
+*/ -->
+<!---
+    @Modified
+    @Type: File, <html>
+    @Name: job-note.component.html
+    @Who: Satya Prakash Gupta
+    @When: 07-June-2023
+    @Why: EWM-11780 EWM-12636
+-->
+<form [formGroup]="jobNotesForm" class="job-status-form">
+    <div class="status-data" id="status-data">
+        <div *ngIf="LastUpdated">
+            <span>{{'label_lastDateUpdate'|translate}} {{LastUpdated|
+                date:userpreferences.timeformate:userpreferences.timezone}}
+            </span><span>
+                <a style="text-decoration: underline; cursor: pointer;" (click)="openNoteListDataModel()">
+                    {{'label_clickHere'|translate}}</a> {{'label_toViewNotes'|translate}}
+            </span><br>
+        </div>
+
+        <div class="ng-slectBox more-selectBox">
+            <ng-select tabindex #relatedToSelect [multiple]="true" formControlName="RelatedTo" class="dropdown-body show-required"
+                appendTo="body" id="client-companyContacts" placeholder="{{'label_Relatedto'|customTranslate}} "
+                [items]="candidateListOfArray" bindLabel="CandidateId" [searchable]="false" [clearable]="false"
+                (change)="getRelatedTo()">
+                <ng-template ng-multi-label-tmp let-items="items">
+                    <div class="ng-value" *ngFor="let item of items | slice:0:maxMoreLength"
+                        [ngClass]="notesObj && notesObj[item.CandidateId] > 0?'green':'grey'">
+                        <span class="ng-value-label">
+                            {{item?.CandidateName}}</span>
+                        <span class="ng-value-icon right" *ngIf="!isSingle"
+                            (click)="relatedToSelect.close();remove(item.CandidateId)" aria-hidden="true">×</span>
+                    </div>
+
+                    <button mat-flat-button class="max-count-box mt-0" *ngIf="items.length > maxMoreLength"
+                        matTooltip="{{items.length - maxMoreLength}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above">+{{items.length - maxMoreLength}}</button>
+
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item">
+                    <div (click)="updateSelectedCandidate(relatedToSelect, item.CandidateId)">
+                        {{item.CandidateName}}
+                    </div>
+                </ng-template>
+
+            </ng-select>
+            <mat-error *ngIf="jobNotesForm.controls['RelatedTo'].hasError('required')">
+                {{ 'label_Relatedto' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+        </div>
+
+        <div class="ng-slectBox">
+
+            <ng-select tabindex #category formControlName="Category" class="dropdown-body show-required" appendTo="body"
+                id="client-companyContacts" placeholder="{{'label_notesCategory'|customTranslate}} "
+                [items]="jobCategoryList" bindLabel="CategoryName" [clearable]="false">
+
+                <ng-template ng-header-tmp>
+                    <ng-container>
+
+                        <div class="flex-add-manage">
+                            <span class="spacer"></span>
+                            <a mat-icon-button id="favIcon" color="primary" class="dropdown-manage"
+                                href="./client/core/administrators/notes-category" target="_blank"
+                                matTooltip="{{'label_Manage'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                (mouseenter)="mouseoverAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.ManageButton?.id, animationVar?.ManageButton?.animation)">
+                                <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                                    class="{{animationVar?.ManageButton?.isAnimClass}}">
+                                    <mat-icon>subject</mat-icon>
+                                    <mat-icon class="secondIcon">settings</mat-icon>
+                                </div>
+                            </a>
+                            <button mat-icon-button (click)="getJobNotesCategory()"
+                                [ngClass]="loader?'rotate-loader':''" matTooltip="{{'label_refreshBtn'|translate}}"
+                                class="refreshBtn radius-call" color="primary" type="button"
+                                matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="custom-tooltip-top" matTooltipPosition="above"
+                                (mouseenter)="mouseoverAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)"
+                                (mouseleave)="mouseleaveAnimation(animationVar?.BarRotateButton?.id, animationVar?.BarRotateButton?.animation)">
+                                <mat-icon id="{{animationVar?.BarRotateButton?.id}}" class="{{animationVar?.BarRotateButton?.isAnimClass}}">refresh</mat-icon>
+                            </button>
+                        </div>
+                    </ng-container>
+                    <ng-container>
+                        <div class="pl-15 pr-15">
+                            <mat-form-field class="no-bottom" floatLabel="never">
+                                <input matInput class="selectSearch" autocomplete="off"
+                                    placeholder="{{'label_search' |translate}}"
+                                    (input)="category.filter($event.target.value)" type="text" />
+                            </mat-form-field>
+                        </div>
+
+                    </ng-container>
+                </ng-template>
+                <ng-option *ngFor="let item of jobCategoryList" [value]="item">
+                    {{item.CategoryName}}
+                </ng-option>
+
+            </ng-select>
+            <mat-error
+                *ngIf="jobNotesForm.controls['Category'].hasError('required') && jobNotesForm.controls['Category'].touched">
+                {{ 'label_notesCategory' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+
+
+
+        </div>
+
+
+
+
+        <mat-form-field>
+            <mat-label>{{ 'label_recentnotestitle' |translate}}</mat-label>
+            <input type="text" formControlName="Subject" tabindex matInput>
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <mat-label>{{'label_access' | translate}}</mat-label>
+            <input matInput placeholder="{{'label_access'|translate}}" formControlName="AccessName"
+                (click)="openManageAccessModal('','','')" id="activity-accessName" required readonly>
+            <input type="hidden" formControlName="AccessId">
+            <button type="button" matSuffix mat-raised-button color="primary" class="matSuffix-icon mgBottom5 attach-btn"
+                tabindex="11" (click)="openManageAccessModal('','','')">
+
+                <mat-icon class="addContactIcon">add</mat-icon>
+            </button>
+            <mat-error *ngIf="jobNotesForm.controls['AccessName'].hasError('required')">
+                {{ 'label_access' |translate}} {{ 'label_errorreqired' |translate}}
+            </mat-error>
+        </mat-form-field>
+
+        <div class="html-editor-kendo mb-5" tabindex id="kendoHTMLEditer">
+            <!-- //who:maneesh,what:ewm-15343 for show red discription titel,when:07/12/2023 -->
+            <mat-label [ngStyle]="jobNotesForm.controls['Description'].hasError('required') &&
+            this.jobNotesForm.controls['Description'].touched?{'color': '#f44336'}:''">{{ 'label_recentnotesdescription' |translate}} <span class="required-show">*</span></mat-label>
+          <app-mention-editor #mentionEditor [configuration]="editorConfig" [getEditorVal]="getEditorVal" 
+          (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)"
+           [resetConfiguration]="resetEditorValue.asObservable()" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"></app-mention-editor>
+        
+        </div>
+
+        <div class="activity-related" *ngIf="this.fileAttachments.length>0">
+            <div class="matAttachment" *ngIf="this.fileAttachments.length>0" id="myActivity-documentAttachment">
+                <div *ngFor="let files of fileAttachmentsOnlyTow">
+                    <mat-card class="matCardAttach" id="myActivity-documentAttachmentCard">
+                        <div class="email-attachment">
+                            <div class="file-detail" tabindex>
+                                <span class="fileName">{{files.Name}}</span>
+                                <span class="fileSize">{{(files.Size)/1024}}</span>
+                            </div>
+                            <mat-icon  class="matCloseIcon" tabindex (click)="removeAttachment(files)"
+                            id="myActivity-documentRemove">close</mat-icon>
+                        </div>
+                    </mat-card>
+                </div>
+
+
+                <div *ngIf="this.fileAttachments.length>2">
+
+                    <button mat-stroked-button class="moreAttach" color="primary" (click)="openMultipleAttachmentModal()"
+            id="myActivity-documentAttachmentPopupShow" tabindex>{{fileAttachments?.length-2}} {{'label_more' |
+            translate}}..</button>
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-icon-button color="primary" tabindex class="fileUpload attachFileBtn"
+
+        (click)="openMultipleAttachmentModal()" id="myActivity-documentAttachmentAddPopup">
+        <mat-icon>attach_file</mat-icon>
+    </button>
+
+        <button mat-stroked-button color="primary" tabindex type="button"
+            (click)="onSubmitJobNotesForm(this.jobNotesForm.value)" [disabled]="!this.jobNotesForm.valid || saveEnableDisable"
+            id="btnSave">
+            <span *ngIf="!loading">{{'label_save'|translate}}</span> <!--@who:Nitin B,@why:EWM-14608,when:05/10/2023-->
+        <div *ngIf="loading" id="loading"></div>
+        </button>
+            
+    </div>
+</form>

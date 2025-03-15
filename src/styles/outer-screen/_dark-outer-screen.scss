@@ -1,0 +1,222 @@
+@use "./../../colors";
+$primary-color: #789aab;
+.dark-theme{
+    .outer-header{
+        background: transparent;
+        .header-container{
+            .light-theme-logo{
+                display: none;
+            }
+            .dark-theme-logo{
+                display: block;
+                width: 151px;
+            }
+            .menu{
+                .mat-button{
+                    color: #bbbbbb;
+                    &:hover{
+                        color: $primary-color;
+                    }
+                }
+                .mat-button-disabled{
+                    color: rgba(223, 223, 223, 0.36);
+                    &:hover{
+                        color: rgba(208, 208, 208, 0.36);
+                    }
+                }
+            }
+            .mobile-menu{
+                .mobile-menu-links{
+                    background: #e5e3f7;
+                    color: #fff;
+                    .mat-button{
+                        color: #000;
+                    }
+                    .mat-button-disabled{
+                        color: rgba(0, 0, 0, 0.36);
+                        &:hover{
+                            color: rgba(0, 0, 0, 0.36);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .header-sticky{
+        .outer-header{
+            background: #383838;
+            height: 60px;
+            transition: 0.5s;
+            box-shadow: rgba(255, 255, 255, 0.1) 0px 4px 6px -1px, rgba(255, 255, 255, 0.06) 0px 2px 4px -1px;
+            z-index: 9;
+            a img{
+                max-width: 120px !important;
+            }
+        }
+    }
+    .outer-footer{
+        background-color: #00000015;
+        @media only screen and (max-height: 677px){
+            background-color: #fff;
+        }
+    }
+    .login-container {
+        background: transparent;
+        .login-section {
+    
+            .form-panel {
+                background-image: none;
+                .login-box {
+                    &::before {
+                        background: #789aab;
+                        background: linear-gradient(131deg, #789aab 0%, #838383 35%);
+                    }
+    
+                    .form-box {
+                        background: #393939;
+                        background: radial-gradient(circle, #747474 30%, #393939 100%);
+                        h1 {
+                            font-size: 20px;
+                            font-weight: bold;
+                            font-family: "Bariol";
+                            margin: 0px 0px 30px;
+                        }
+    
+                        .forgot-box {
+                            a {
+                                color: #ffffff;
+                            }
+                        }
+                        .or-continue {
+                            color: #f6f6f6;
+    
+                            .line {
+                                background-color: #E5E3F7;
+                            }
+                        }
+                        .mat-raised-button {
+                            background-color: $primary-color;
+                            color: #fff;
+                        }
+                        .mat-button-disabled.mat-raised-button{
+                            background-color: rgba(255, 255, 255, 0.12);
+                            color: rgba(255, 255, 255, 0.26);
+                        }
+                        .social-login {
+                            .mat-stroked-button {
+                                background: #FCFCFC;
+                                color: #4D4D4D;
+                                box-shadow: 0px 0px 1px 0px #CCCCCC;  gap: 5px;
+                            }
+                        }
+    
+                        .join-workspace {
+                            a {
+                                color: $primary-color;
+                                font-size: 15px;
+                            }
+                            a.mat-button-disabled{
+                                color: rgba(255, 255, 255, 0.26);
+                            }
+                        }
+                        .user-image {
+                            img {
+                                box-shadow: 0px 0px 1px 0px #000000;
+                            }
+    
+                            span {
+                                background: rgb(88, 68, 218);
+                                color: #fff;
+                            }
+                        }
+                        .reset-password-buttons {
+                            display: flex;
+                            gap: 10px;
+                            align-items: center;
+                            .week-password,.strong-password{
+                                font-size: 75%;
+                                color: colors.$warn-bg;
+                                font-weight: 600;
+                            }
+                            .strong-password{
+                                color: colors.$green-color;
+                            }
+                            .infoStyle{
+                                color: $primary-color;
+                                cursor: pointer;
+                            }
+                        }
+                        .password-strenth{
+                            position: relative;
+                            .mat-form-field{
+                                margin-bottom: 10px;
+                            }
+                            .prgressBarColor{
+                                position: absolute;
+                                top: 36px;
+                                left: 0px;
+                                width: 100%;
+                                .mat-progress-bar{
+                                    height: 2px;
+                                }
+                            }
+                        }
+                        .password-strenth-info-box{
+                            position: absolute;
+                            top: 40px;
+                            /* background: #000; */
+                            z-index: 9;
+                            .closeIconPswd{
+                                position: absolute;
+                                top: 0px;
+                                z-index: 99;
+                                right: 0px;
+                                cursor: pointer;
+                            }
+                            .mat-card{
+                                padding: 8px;
+                                padding-top: 15px;
+                                margin-bottom: 0px;
+                            }
+                        }
+                    }
+                }    
+            }
+        }
+    }  
+    .organization-container{
+        .organization-selection {
+            .organization-box{
+                background: #2b2a2a !important;
+            }
+        }
+    }
+    .link-expire-data{
+        background: #2b2a2a !important;
+    }
+    .cancel-login {
+        button {
+            background: transparent;
+            color: $primary-color;
+        }
+    }
+}  
+
+.login-screen-body.dark-theme{
+    overflow: auto;
+
+    background: #393939;
+    background: radial-gradient(circle, #747474 30%, #393939 100%);
+    &::before {
+        background: url(/assets/outer-screen/bottom-bg.svg);
+    }
+    .mat-raised-button {
+        background-color: $primary-color;
+        color: #fff;
+        box-shadow: 0px 3px 6px 0px rgb(0 0 0 / 16%);
+    }
+    .mat-button-disabled.mat-raised-button{
+        background-color: rgba(255, 255, 255, 0.12);
+        color: rgba(255, 255, 255, 0.26);
+    }
+}

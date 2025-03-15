@@ -1,0 +1,52 @@
+/* 
+ @Type: File, <ts>
+ @Name: css 
+ @Who: Nitin Bhati
+ @When: 21-June-2021
+ @Why: EWM-1821
+*/
+
+@import "../../../../../../mixinStyle.scss";
+
+.col-1 {
+  width: 40%;
+}
+.col-2 {
+  width: 33%;
+}
+.col-3 {
+  width:24%;
+}
+.col-4 {
+  width: 3%;
+}
+  
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.mat-form-field-infix, .mat-form-field{
+  width: 100%;
+}
+.customBtnWidth .mat-icon-button{
+  width:30px;
+}
+.mat-snack-bar-container{z-index:9999 !important}
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 73px;
+  }
+}

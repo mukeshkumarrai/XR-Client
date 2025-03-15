@@ -1,0 +1,291 @@
+
+<!--
+  @modified
+  @Type: File, <html>
+  @Name: my-activity.component.html
+  @Who: Satya Prakash Gupta
+  @When: 15-Mar-2023
+  @Why:EWM-11055 EWM-11086
+  @What:my activity
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  <div id="my-activity" class="my-activity" >
+      <form   id="activityForm">
+          <div  class="assistance-activity" id="assistance-activity">
+              <div class="activity-related" id="activity-related">
+                  <div class="insert-and-organizer" id="insert-and-organizer">
+                      <div class="organizer">
+                          <mat-form-field>
+                              <input disabled matInput [value]="oldPatchValues?.OrganizersName"
+                                  placeholder="{{'label_organizerOrAssignees' | translate}}" tabindex
+                                  id="activity-organizer" required>
+                          </mat-form-field>
+                      </div>
+                  </div>
+                  <div class="related-full related-haff">
+                    <mat-form-field>
+                        <input matInput [value]="oldPatchValues?.RelatedUserTypeName"
+                            placeholder="{{ 'label_activityRelatedTo' | translate }}*" tabindex
+                            id="activity-candidate" required disabled>
+                    </mat-form-field>
+                        <mat-form-field>
+                            <input matInput [value]="oldPatchValues?.RelatedUserUserName"
+                                placeholder="{{'label_relatedUser'|translate}}*" tabindex
+                                id="activity-log" required disabled>
+                        </mat-form-field>
+                  </div>
+                  <div class="related-full">
+                    <mat-label class="full-size">{{ 'label_category' | translate}} </mat-label>
+                    <mat-button-toggle-group appearance="legacy" id="activity-Category" name="fontStyle" disabled
+                        aria-label="Font Style" [value]="selectedCategory" tabindex>
+                        <mat-button-toggle *ngFor="let type of ActivityTypeList" 
+                            [value]="type.Id">
+                            <mat-icon [style.background-color]="type.ColorCode" class="act-icon">{{type.Icon}}
+                            </mat-icon>
+                            <span class="text-overflow">{{type.ActivityCategory}}</span>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                    <mat-error *ngIf="isNoRecordCategory" class="matErrorCategory">
+                        {{'label_noRecordInCategory'|translate}}
+                    </mat-error>
+                </div>
+                    <mat-form-field floatLabel="always">
+                        <mat-label class="full-size">{{'label_activityTitle'|translate}} * </mat-label>
+                        <input matInput [value]="oldPatchValues?.ActivityTitle"
+                            placeholder="ActivityTitle" tabindex
+                            id="title-log" required disabled>
+                    </mat-form-field>
+                  <!-- @When: 04-09-2023 @who:Amit @why: EWM-13886 @what: structure change -->
+                  <div class="time-zone-date" id="time-zone-date">
+                  <div class="time-zone" id="time-zone">
+                    <div class="date-time" id="date-time">
+                        <h3>{{oldPatchValues?.ScheduleActivity?.TimeZone}}</h3>    
+                        <div class="zone" id="zone"><span *ngIf="oldPatchValues?.ScheduleActivity?.DateStart">{{oldPatchValues?.ScheduleActivity?.DateStart | date: 'EE, MMMM d, y'}}</span>  
+                            <span *ngIf="TimeStartValue || TimeEndValue">{{TimeStartValue | kendoDate:'hh:mm a'}}<i *ngIf="TimeEndValue"> - </i> {{TimeEndValue | kendoDate:'hh:mm a'}}</span></div>
+                    </div>   
+                      <button mat-button mat-stroked-button class="data-time-btn" type="button"  (click)="onToggleDateAndTime()" id="fadeButton" >
+                          <mat-icon fontSet="material-icons-outlined" class="watch-icon">watch_later</mat-icon>
+                          {{'label_date_Time' | translate}}
+                          <mat-icon *ngIf="!dateAndTimeToggle" class="down-arrow"> expand_more </mat-icon>
+                          <mat-icon *ngIf="dateAndTimeToggle" class="down-arrow"> expand_less </mat-icon>
+                      </button>
+                  </div>
+                      <div class="dateAndTimeSection" id="DateAndTime">
+                          <div class="common_dropdown_v2">
+                            <mat-form-field floatLabel="always">
+                            <mat-label class="full-size">{{'label_timeZone'|translate}} *</mat-label>
+                              <input matInput
+                                  placeholder="{{oldPatchValues?.ScheduleActivity?.TimeZone}}" tabindex
+                                  id="time-zone" required disabled>
+                          </mat-form-field>
+                          </div>
+                          <div class="date-and-time">
+                              <div class="date">
+                                <mat-form-field floatLabel="always">
+                                    <mat-label class="full-size">{{'label_startDate'|translate}} *</mat-label>
+                                          <input matInput  tabindex id="schedule-DateStart" 
+                                          value="{{scheduleData?.DateStart}}" [placeholder]="getDateFormat" 
+                                          required disabled>
+                                  </mat-form-field>
+                                  <mat-form-field floatLabel="always">
+                                    <mat-label class="full-size">{{'label_endDate' | translate}} *</mat-label>
+                                    <input matInput  tabindex id="schedule-DateEnd" [placeholder]="getDateFormat"
+                                   value="{{scheduleData?.DateEnd}}" required disabled>
+                                  </mat-form-field>
+                              </div>
+                              <div class="time">
+                                <div>
+                                    <mat-form-field floatLabel="always">
+                                        <mat-label class="full-size">{{'label_startTime'|translate}} *</mat-label>
+                                              <input matInput  tabindex id="schedule-StartTime" 
+                                              [value]="oldPatchValues?.ScheduleActivity?.TimeStart | customTime "
+                                              required disabled>
+                                      </mat-form-field>
+                                  
+                                   
+                                </div>
+                                <div>
+                                    <mat-form-field floatLabel="always">
+                                        <mat-label class="full-size">{{'label_endTime'|translate}} *</mat-label>
+                                              <input matInput  tabindex id="schedule-endTime" 
+                                              [value]="oldPatchValues?.ScheduleActivity?.TimeEnd | customTime "
+                                              required disabled>
+                                      </mat-form-field>
+                                   
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- @When: 04-09-2023 @who:Amit @why: EWM-13886 @what: structure position change -->
+                  <div class="related-full attende-full activityLabel">
+                      <mat-form-field floatLabel="always">
+                        <mat-label>{{'label_addRequiredAttendees' | translate}}</mat-label>
+                            <!-- <input matInput
+                            placeholder="Amit Rajput" tabindex
+                            id="attende-required" required disabled> -->
+                            <mat-chip-list #chipList disabled aria-label="requiredAttendeesList selection" tabindex="8">
+                                <mat-chip *ngFor="let attendees of requiredAttendeesList" [selectable]="selectable"
+                                    id="requiredAttendeesListChiplist" >
+                                    {{attendees?.Name ? attendees?.Name : attendees?.Email}}
+                                </mat-chip>
+                                <input readonly 
+                                    [matChipInputFor]="chipList">
+                            </mat-chip-list>
+                          <button tabindex mat-raised-button matSuffix color="primary" type="button"
+                              class="matSuffix-icon mgBottom5" id="btnAdd-requiredAttendeesList" matTooltipPosition="left"
+                               disabled
+                              matTooltip="{{'label_add'|translate}} {{'label_RequiredAttendees'|translate}}">
+                              <mat-icon>perm_contact_calendar</mat-icon>
+                          </button>
+                      </mat-form-field>
+                  </div>
+                  <div class="related-full attende-full activityLabel">
+                  <mat-form-field floatLabel="always">
+                    <mat-label>{{'label_access' | translate}}*</mat-label>
+                      <input matInput [value]="oldPatchValues?.AccessName"
+                            placeholder="Public" tabindex
+                            id="attende-required" required disabled>
+                  </mat-form-field>
+                </div>
+                  <!--@When: 24-11-2023 @who:Amit @why: EWM-15194 @what: class change-->
+                  <div class="html-editor-kendo" tabindex="14">
+                      <mat-label  >{{ 'label_description' | translate}}</mat-label>
+                      <kendo-editor #editor tabindex [value]="oldPatchValues?.Description"
+                          id="activity-editor" [iframe]="false" disabled>
+                          <kendo-toolbar [overflow]="false" tabindex>
+                              <kendo-toolbar-buttongroup>
+                                  <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorStrikethroughButton></kendo-toolbar-button>
+                              </kendo-toolbar-buttongroup>
+                              <kendo-toolbar-buttongroup>
+                                  <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorSuperscriptButton></kendo-toolbar-button>
+                              </kendo-toolbar-buttongroup>
+                              <kendo-toolbar-buttongroup>
+                                  <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorAlignCenterButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorAlignRightButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorAlignJustifyButton></kendo-toolbar-button>
+                              </kendo-toolbar-buttongroup>
+                              <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+                              <kendo-toolbar-dropdownlist kendoEditorFontSize></kendo-toolbar-dropdownlist>
+                              <kendo-toolbar-dropdownlist kendoEditorFontFamily></kendo-toolbar-dropdownlist>
+                              <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+                              <kendo-toolbar-colorpicker kendoEditorBackColor view="gradient">
+                              </kendo-toolbar-colorpicker>
+                              <kendo-toolbar-buttongroup>
+                                  <kendo-toolbar-button kendoEditorInsertUnorderedListButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorInsertOrderedListButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+                              </kendo-toolbar-buttongroup>
+                              <kendo-toolbar-buttongroup>
+                                  <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+                              </kendo-toolbar-buttongroup>
+                              <kendo-toolbar-buttongroup>
+                                  <kendo-toolbar-button kendoEditorCreateLinkButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+                              </kendo-toolbar-buttongroup>
+                              <kendo-toolbar-button kendoEditorInsertFileButton></kendo-toolbar-button>
+                              <kendo-toolbar-button kendoEditorCleanFormattingButton></kendo-toolbar-button>
+                              <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                              <kendo-toolbar-buttongroup>
+                                  <kendo-toolbar-button kendoEditorAddColumnBeforeButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorAddColumnAfterButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorAddRowBeforeButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorAddRowAfterButton></kendo-toolbar-button>
+                              </kendo-toolbar-buttongroup>
+                              <kendo-toolbar-buttongroup>
+                                  <kendo-toolbar-button kendoEditorDeleteColumnButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+                                  <kendo-toolbar-button kendoEditorDeleteTableButton></kendo-toolbar-button>
+                              </kendo-toolbar-buttongroup>
+                              <kendo-toolbar-separator></kendo-toolbar-separator>
+                              <kendo-toolbar-splitbutton *ngFor="let item of (toolButtons$ | async)" [text]="item.text"
+                                  [icon]="item.icon" [data]="item.data">
+                              </kendo-toolbar-splitbutton>
+                              <kendo-toolbar-button text="Upload Image"
+                                  [style]="{'padding': '2px 7px', 'font-size': '12px'}"></kendo-toolbar-button>
+                          </kendo-toolbar>
+                      </kendo-editor>
+                  </div>
+                  <div class="show-hide">
+                      <button mat-stroked-button tabindex type="button"  id="moreFadeButton" (click)="onShowMoreFiled()">
+                          <span *ngIf="!isShowMoreHideMore">{{'label_ShowMoreFiled'|translate}} <mat-icon> expand_more </mat-icon></span>
+                          <span *ngIf="isShowMoreHideMore">{{'label_hideMoreField'|translate}} <mat-icon> expand_less </mat-icon></span>
+                      </button>
+                  </div>
+                  <div class="showMoreSection" id="showMoreFiled">
+                      <div class="related-full attende-full activityLabel">
+                          <mat-form-field>
+                            <mat-chip-list disabled #chipListrequiredAttendees aria-label="requiredAttendeesList selection"
+                            tabindex>
+                            <mat-chip *ngFor="let attendees of optionalAttendeesList" 
+                                id="requiredAttendeesListChiplist" >
+                                 {{attendees?.Name ? attendees?.Name : attendees?.Email}}
+                                 <mat-icon matChipRemove color="warn" >cancel</mat-icon>
+                            </mat-chip>
+                            <input readonly 
+                                [matChipInputFor]="chipListrequiredAttendees">
+                        </mat-chip-list>
+                              <button tabindex mat-raised-button matSuffix color="primary" type="button"
+                                  class="matSuffix-icon mgBottom5" id="btnAdd-requiredAttendeesList" disabled
+                                  matTooltipPosition="left"
+                                  matTooltip="{{'label_add'|translate}} {{'label_optionalAttendees'|translate}}">
+                                  <mat-icon>perm_contact_calendar</mat-icon>
+                              </button>
+                          </mat-form-field>
+                      </div>
+                      <div class="ng-slectBox">
+                          <mat-form-field>
+                            <input matInput
+                          placeholder="{{'label_meetingPlatform' | translate}}" tabindex
+                          id="meeting-required" value="{{oldPatchValues?.MeetingPlatform}}" required disabled>
+                        </mat-form-field>
+                      </div>
+                      <mat-form-field>
+                        <input matInput
+                      placeholder="{{'label_onlineMeetingUrl' | translate}}" tabindex
+                      id="online-required" value="{{oldPatchValues?.ActivityUrl}}" required disabled>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput
+                      placeholder="{{'label_searchLocation' | translate}}" tabindex
+                      id="location-required" required disabled value="{{oldPatchValues?.Location}}">
+                    </mat-form-field>
+                      <div class="email-sent-checkbox" id="email-sent-checkbox">
+                          <mat-checkbox labelPosition="before" id="activity_attendees"
+                               tabindex="12" color="primary" disabled [checked]="oldPatchValues?.IsSendEmailToAttendees== 1 ? true : false">{{'label_SendEmailToAttendees'|translate}}</mat-checkbox>
+                          <mat-checkbox labelPosition="before" [disabled]="!emailConnection" disabled
+                              id="activity_calenderAppointment"  [checked]="oldPatchValues?.IsSendCalendarInviteToAttendees== 1 ? true : false"
+                              tabindex="13" color="primary">{{'label_SendCalendarInviteToAttendees'|translate}}</mat-checkbox>
+                      </div>
+                  </div>
+                  <div class="matAttachment" *ngIf="this.fileAttachments.length>0" id="myActivity-documentAttachment" readonly>
+                      <div *ngFor="let files of fileAttachmentsOnlyTow">
+                          <mat-card class="matCardAttach" id="myActivity-documentAttachmentCard">
+                              <div class="email-attachment">
+                                  <div class="file-detail" tabindex>
+                                      <span class="fileName">{{files.Name}}</span>
+                                      <span class="fileSize">{{files.Size | fileSize}}</span>
+                                  </div>
+                              </div>
+                          </mat-card>
+                      </div>
+                      <div *ngIf="this.fileAttachments.length>2">
+                          <button mat-stroked-button class="moreAttach" color="primary"
+                              (click)="openMultipleAttachmentModal()" id="myActivity-documentAttachmentPopupShow"
+                              tabindex>{{fileAttachments?.length-2}} {{'label_more' |
+                              translate}}..</button>
+                      </div>
+                  </div>
+              </div>
+        </div>
+    </form>
+  </div>

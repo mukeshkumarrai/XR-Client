@@ -1,0 +1,86 @@
+@use "../../colors";
+@use "tabs-dark-mode";
+.tabs-container{
+    .mat-tab-header{
+        .mat-tab-label-container{
+            .mat-tab-labels{
+                .mat-tab-label{
+                    height: 36px;
+                    padding: 0 10px;
+                    opacity: .7;
+                    min-width: 150px;
+                    .mat-tab-label-content{
+                        gap: 5px;
+                        .mat-icon{
+                            font-size: 20px;
+                            height: 20px;
+                            line-height: 20px;
+                            width: 20px;
+                        }
+                    }
+                }
+                .mat-tab-label-active{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    .mat-tab-body-wrapper{
+        .mat-tab-body{
+            .mat-tab-body-content{
+
+            }
+        }
+    }
+}
+
+.share-calender{
+    .summary-tabs{
+      .mat-tab-header{
+        background: transparent;
+        z-index: inherit;
+        border-bottom: none;
+        .mat-tab-label{
+            background: #fbfbfb;
+            color: inherit;
+            border-radius: 8px 8px 0px 0px;
+            box-shadow:rgba(0, 0, 0, 0.05) 0px 1px 0px 1px inset;
+            margin-inline-end: 3px;
+            &::after{
+                opacity: 0;
+            }
+            .center{
+                .mat-icon-button{
+                    background: transparent;
+                    .mat-icon{
+                        background: transparent;
+                    }
+                    .two-icons{
+                        .mat-icon.secondIcon{
+                            background: colors.$gray-bg-color;
+                        }
+                    }
+                }
+            }
+        }
+        .mat-tab-label-active{
+          .mat-tab-label-content{
+            .center{
+              .mat-icon-button{
+                .two-icons{
+                  .mat-icon{
+                    color: colors.$primary-bg-color;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .mat-tab-body-wrapper{
+        height: 100%;
+        background: #fdfdfd;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;
+      }
+    }
+}

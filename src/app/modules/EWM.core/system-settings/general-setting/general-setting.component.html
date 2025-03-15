@@ -1,0 +1,65 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash 
+    @When: 19-Nov-2020
+    @Why: ROST-366 ROST-398
+    @What:  This page wil be use only for the email setting Component HTML
+-->
+<!-- Entire Software : Satya Prakash Gupta : 19-Nov-2020 : email setting : ROST-366 ROST-398 -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="general-setting-mat-card-header">
+        <mat-card-title class="only-title">{{'label_generalSettings' |translate}}</mat-card-title>
+        <div class="actionButton">
+            <button mat-raised-button class="buttonForDesktopMobile" tabindex="3" color="primary" id="btnSave" [disabled]="!userFrom.valid || showMaxlengthError" (click)="updateGeneralSetting(this.userFrom.value)">
+                <mat-icon>check</mat-icon>
+                <span class="buttonTxt">{{'label_save' |translate}}</span>
+            </button>
+        </div>
+    </mat-card-header>
+    
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="qualification-drawer">
+<mat-card class="component-card mat-elevation-z2" id="component-card">    
+        <div>
+            <mat-card-subtitle class="subTitle pt-15">{{ 'label_genralSettingSubTitle' |translate }}</mat-card-subtitle>
+           </div>
+
+        <form class="col" novalidate [formGroup]="userFrom" id="generalSetting-form"> 
+            <div class="row mb-0">
+                <mat-form-field class="col l4 m6 s12">
+                    <mat-label>{{'label_applicationTitle' |translate}}</mat-label>
+                    <input matInput placeholder="" tabindex="1" formControlName="AppTitle" id="generalSetting-AppTitle" required>
+                    <mat-error *ngIf="this.userFrom.controls['AppTitle'].hasError('required')">
+                        {{ 'label_applicationTitle' |translate}}  {{ 'label_errorreqired' |translate}}
+                     </mat-error>
+                    <mat-error *ngIf="userFrom.get('AppTitle').hasError('minlength')">
+                        {{'label_applicationTitle' |translate}} {{'label_errorminlength4' |translate}}
+                      </mat-error>
+                     <mat-error *ngIf="userFrom.get('AppTitle').hasError('maxlength')">
+                        {{'label_applicationTitle' |translate}} {{'label_errorreqiredMaxlength' |translate}}
+                    </mat-error>
+                </mat-form-field>
+
+                  <!-- who:maneesh,what:ewm-16207 ewm-16358 for fixed new editor and discuss with abhisek sir remove image upload icon,when:13/03/2024 -->
+     <div class="col l12 m12 s12">
+        <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+            <mat-label *ngIf="!showMaxlengthError" [ngStyle]="userFrom.controls['AppIntroduction'].hasError('required') &&
+            userFrom.controls['AppIntroduction'].touched ? 
+                {'color': '#f44336'}:'' ">{{'label_applicationIntroduction' |translate}} <span class="required-show">*</span></mat-label>
+                <mat-label *ngIf="showMaxlengthError" [ngStyle]="showMaxlengthError ?
+     {'color': '#f44336'}:'' ">{{'label_applicationIntroduction' |translate}} *</mat-label>
+        <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal" [otherInputIcon]="true"
+              (editorValueEmit)="getEditorFormInfo($event)"  [maxlengthValidation]="maxLengthEditorValue.asObservable()"
+              (editorImageValueEmit)="getEditorImageFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()">
+        </app-mention-editor>   
+      </div>
+    </div>
+
+            </div>
+        </form>
+</mat-card>
+</mat-drawer-container>
+<!-- Entire Software : Satya Prakash Gupta : 19-Nov-2020 : email setting : ROST-366 ROST-398 -->

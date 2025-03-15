@@ -1,0 +1,133 @@
+
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="client-dashboard-dashboard-mat-card-header">
+         <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_adddocumentname'|translate}}</mat-card-title>
+         <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_editdocumentname'|translate}}</mat-card-title>
+         <div class="actionButton" id="actionButton">
+             <button mat-raised-button color="warn" tabindex="6" [routerLink]="['../']"
+                 [queryParams]="{documentcategoryId:categoryId,V:viewMode,isHideExternally:HideExternally}" id="btnCancel" class="buttonForDesktopMobile">
+                 <mat-icon>close</mat-icon>
+                 <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+             </button>
+             <button mat-raised-button tabindex="5" class="buttonForDesktopMobile" color="primary"
+                 (click)="onSave(this.addForm.value)" type="button" id="btnSave"
+                 [disabled]="!addForm.valid">
+                 <mat-icon>check</mat-icon>
+                 <span class="buttonTxt">{{'label_save'|translate}}</span>
+             </button>
+         </div>
+     </mat-card-header>
+
+
+     <mat-drawer-container class="xeople-container-with-one-card" autosize id="dashboard-drawer">
+        <mat-card class="component-card mat-elevation-z2" id="component-card">
+                <div class="addEditSec">
+                    <ng-template #template let-anchor>
+                        <span>{{ anchor.nativeElement.innerText }}</span>
+                    </ng-template>
+                    <form novalidate class="document-form" id="document-form" [formGroup]="addForm" (ngSubmit)="onSave(this.addForm.value)"
+                        accept-charset="utf-8" enctype='multipart/form-data'>
+                        <!-- who:maneesh , why: ewm.9740 hidden documentlabel , when: 06/12/2022 --> 
+                        <mat-form-field class="document-form-field" floatLabel="always" >
+                            <mat-label>{{'label_documentname'|translate}}</mat-label>
+                            <!-- <p class="mat-card-subtitle">{{'label_DocumentName'|translate}}</p> -->
+                            <input matInput formControlName="DocumentName" id="DocumentName" tabindex="1" 
+                                placeholder="{{'label_DocumentName'|translate}}"
+                                (blur)="checkUnique(this.addForm.value)" required/>
+    
+                            <mat-error *ngIf="addForm.controls['DocumentName'].hasError('required')">
+                                {{'label_documentname'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error> 
+                            <!-- Error message changed by Adarsh Singh -->
+                            <mat-error *ngIf="addForm.controls['DocumentName'].hasError('maxlength')">
+                                {{'label_documentname'|translate}} {{'label_errorreqiredMaxlengthAddress'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['DocumentName'].hasError('codeTaken')">
+                                {{'label_documentname'|translate}} {{'label_errorreqiredAlready'|translate}}
+                            </mat-error>
+                        </mat-form-field> 
+                        <div class="ng-slectBox document-form-field ng-select-with-info-icon"> 
+                            <!-- <input type="hidden" formControlName="ID" id="Id"> -->
+                            <!-- /*  @Who: bantee @When: 15-may-2023 @Why: EWM-12428 */ -->
+                        <ng-select placeholder="{{'label_weightage'|translate}}" class="show-required" [clearable]="true" tabindex="1"
+                        formControlName="WeightageId" (change)="clickWeightage($event)" id="Weightage">
+                        <ng-option disabled="true" value="" disabled>{{'label_weightageName'|translate}}</ng-option>
+                        <ng-option *ngFor="let list of getWeightageType" [value]="list.Id">{{list.Weightage}}
+                            
+                        </ng-option>
+                        <mat-menu #allJobStatus="matMenu" xPosition="after" class="infoIconContentBox">
+                            <span class="material-icons headerDroupDownUp">
+                                arrow_drop_up
+                            </span>
+                            {{'label_weightageDesc'|translate}}
+                            </mat-menu>
+                        
+                    </ng-select>
+                    <!-- who:maneesh,what:fixed manage help icon ewm.8840,when:23/12/2022  -->
+
+                    <mat-icon class="infoStyle " matTooltipPosition="left" matTooltip="{{'label_weightageHelpIcon' |translate}}">info</mat-icon>
+                    
+                    <!-- <mat-icon matSuffix color="warn"
+                            matTooltip="{{'label_weightageHelpIcon' |translate}}"
+                            matTooltipPosition="left" matSuffix class="infoStyle">info_outline
+                        </mat-icon> -->
+                    <mat-error
+                        *ngIf="addForm.controls['Weightage'].hasError('required') && addForm.controls['Weightage'].touched">
+                        {{'label_weightage'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                        </div>
+                        <div class="ng-slectBox document-form-field mb-5">
+                            <ng-select placeholder="{{'label_status'|translate}}" class="show-required" [clearable]="true" tabindex="2"
+                                formControlName="Status" id="document-status" required>
+                                <ng-option value="" disabled>{{'label_status'|translate}}</ng-option>
+                                <ng-option *ngFor="let list of statusList" [value]="list.StatusId">{{list.StatusName}}</ng-option>
+                
+                            </ng-select>
+
+                            <mat-error
+                                *ngIf="addForm.controls['Status'].hasError('required') && addForm.controls['Status'].touched">
+                                {{'label_status'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                        </div>
+                    <div class="document-form-field">
+                        <div class="label-toggle">
+                            <mat-label class="font-weight-500">{{'label_referenceId' |translate}}</mat-label>
+                            <mat-slide-toggle formControlName="ReferenceId" id="dumentCategory-ReferenceId" tabindex="3" color="primary">
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+                    <p class="mat-card-subtitle">{{'label_referenceIdDesc' |translate}}</p>
+                    <div class="document-form-field">
+                        <div class="label-toggle">
+                            <mat-label class="font-weight-500">{{'label_startDate' |translate}}</mat-label>                                                   
+                            <mat-slide-toggle formControlName="StartDate" id="dumentCategory-StartDate" tabindex="3" color="primary">
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+                    <p class="mat-card-subtitle">{{'label_startDateDesc' |translate}}</p>
+                    <div class="document-form-field">
+                        <div class="label-toggle">
+                            <mat-label class="font-weight-500">{{'label_expirydate' |translate}}</mat-label>
+                            <mat-slide-toggle formControlName="ExpiryDate" id="dumentCategory-ExpiryDate" tabindex="3" 
+                            color="primary">
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+                    <p class="mat-card-subtitle">{{'label_expiryDateDesc' |translate}}</p>
+                    <div class="document-form-field">    
+                        <div class="label-toggle">
+                            <mat-label class="font-weight-500">{{'label_hideexternally' |translate}}</mat-label>
+                            <!--   @Who: maneesh @When: 11-jan-2023 @Why: EWM-9734 (isHideExternally:this.HideExternally ) -->
+                            <mat-slide-toggle formControlName="HideExternally" id="dumentCategory-HideExternally" tabindex="4"  
+                            color="primary" [disabled]="HideExternally==1">
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+                    <p class="mat-card-subtitle">{{'label_hideExternallyName' |translate}}</p>
+                    </form>
+                </div>
+        </mat-card>
+</mat-drawer-container>

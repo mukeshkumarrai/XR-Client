@@ -1,0 +1,21 @@
+<!--@When: 05-12-2023 @who:Amit @why: EWM-15314 @what: structure modified--> 
+<mat-drawer-container autosize class="login-container">
+  <mat-drawer-content>
+    <app-outer-header-new></app-outer-header-new>
+      <div class="expire-link-data" id="expire-link-log">
+        <div class="link-expire-data" id="expire-link-text">
+            <span class="material-icons">
+              link_off
+            </span>
+            <h2>{{'label_linkExpired' |translate}}</h2>
+            <div class="cancel-login">
+              <p>{{'label_linkExpiredParaOne' |translate}} 
+              <button (click)="onRedirectToLogin()">{{'label_clickHere' |translate}}</button> 
+              {{'label_linkExpiredParaTwo' |translate}}</p>
+            </div>
+        </div>
+      </div>
+    <app-outer-footer></app-outer-footer>
+  </mat-drawer-content>
+</mat-drawer-container>
+  

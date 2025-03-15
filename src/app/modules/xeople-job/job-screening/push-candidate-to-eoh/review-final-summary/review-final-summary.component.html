@@ -1,0 +1,330 @@
+<!--@When: 22-05-2024 @who:Amit @why: EWM-17156 @what: review final summary create-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<div class="final-summary-main" id="final-summary-review">
+    <div class="final-inner-summary" id="final-inner-main">
+        <mat-card class="final-summary mat-elevation-z0 mb-10" id="final-summary-card">
+        <mat-card-header class="final-main-header" id="final-main-review">
+            <mat-card-title>{{'label_screeningAction_CandidateProfile' | translate}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="final-main-content" id="final-main-card">
+            <p>{{'label_finalSummary_YouPushingCandidate' | translate}} 
+                <span *ngIf="memberStatus">{{'pushCandidateToEoh_applicant' | translate}}</span>
+                <span *ngIf="!memberStatus">{{'pushCandidateToEoh_member'|translate}}</span>
+                .</p>
+            <div class="final-summary-data">
+                <mat-card class="mat-elevation-z0">
+                    <mat-card-header>
+                        <mat-card-title>{{'label_finalSummary_PersonalSummary' | translate}}</mat-card-title>
+                    </mat-card-header>
+                        <mat-divider></mat-divider>
+                        <mat-card-content>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_title' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.Title}}.</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_FirstName' | translate}}</span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.FirstName}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'pushCandidateToEoh_familyName' | translate}}</span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.FamilyName}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><strong>{{'label_Gender' | translate}}</strong></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.Gender}}</p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                </mat-card>
+                <mat-card class="mat-elevation-z0">
+                    <mat-card-header>
+                        <mat-card-title>{{'label_contactDetails' | translate}}</mat-card-title>
+                    </mat-card-header>
+                        <mat-divider></mat-divider>
+                        <mat-card-content>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_Email' | translate}}</span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.Email}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_code' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                <div class="show-text">
+                                    <p> 
+                                        {{ candidateProfile?.PhoneCode ? (candidateProfile?.PhoneCode.startsWith('+') ? '' : '+') + candidateProfile?.PhoneCode : '' }}
+                                    </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_finalSummary_PhoneNo' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.PhoneNo}}</p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="final-summary-data">
+                <mat-card class="mat-elevation-z0">
+                    <mat-card-header>
+                        <mat-card-title>{{'label_address' | translate}}</mat-card-title>
+                    </mat-card-header>
+                        <mat-divider></mat-divider>
+                        <mat-card-content>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_streetAddress' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.Street}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_addressLine1' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.Address}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_finalSummary_DistrictSuburb' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.District_Suburb}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_country' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.CountryName}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_state' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.StateName}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'pushCandidateToEoh_postCode' | translate}}</span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.PostalCode}}</p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="final-summary-data" id="final-summary-push">
+                <mat-card class="mat-elevation-z0">
+                    <mat-card-header>
+                        <mat-card-title>{{'pushCandidateToEoh_additionalDetails' | translate}}</mat-card-title>
+                    </mat-card-header>
+                        <mat-divider></mat-divider>
+                        <mat-card-content>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'pushCandidateToEoh_officeApplyingFor' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.OfficeName}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_resume' | translate}}</span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.ResumeName}}</p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                </mat-card>
+                <mat-card class="mat-elevation-z0">
+                    <mat-card-header>
+                        <mat-card-title>{{'pushCandidateToEoh_professionalDetails' | translate}}</mat-card-title>
+                    </mat-card-header>
+                        <mat-divider></mat-divider>
+                        <mat-card-content>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_Industry' | translate}}</span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.Industry}}</p>
+                                </div>
+                            </div>
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_qualification' | translate}}</span></p>
+                                <div class="show-text">
+                                    <p>{{candidateProfile?.Qualification}}</p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                </mat-card>
+            </div>
+
+        </mat-card-content>
+        </mat-card>
+        <mat-card class="final-summary mat-elevation-z0 mb-10" id="final-summary-action" *ngIf="!memberStatus">
+            <mat-card-header class="final-main-header" id="final-main-action">
+                <mat-card-title>{{'label_screeningAction' | translate}}</mat-card-title>
+            </mat-card-header>
+                <mat-divider></mat-divider>
+            <mat-card-content class="final-main-content" id="final-main-card">
+                <div class="final-summary-data final-screening-action mt-0">
+                    <mat-card class="mat-elevation-z0">
+                            <mat-card-content>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_finalSummary_RecruiterName' | translate}} <span class="mark-mandatory">*</span></span></p>
+                                    <div class="show-text">
+                                        <p>{{screeningAction?.RecruiterName}}</p>
+                                    </div>
+                                </div>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_finalSummary_CandidateScreening' | translate}}</span></p>
+                                    <div class="show-text">
+                                        <p><ng-container *ngIf="screeningAction?.ScreeningStatus==1 then connectedScreening; else notConnectedScreening"></ng-container>
+                                            <ng-template #connectedScreening>  <span>{{'label_EOHScreeningComp'|translate}}</span></ng-template>
+                                            <ng-template #notConnectedScreening>  <span>{{'label_EOHScreeningInComp'|translate}}</span></ng-template>
+                                         </p>
+                                    </div>
+                                </div>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_finalSummary_InterviewDetails'|translate}}</span></p>
+                                    <div class="show-text">
+                                      
+                                    </div>
+                                </div>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_date'|translate}}</span></p>
+                                    <div class="show-text">
+                                        <p>{{screeningAction?.ScreeningDate|date:'dd/MM/YYY'}}</p>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                    </mat-card>
+                    <mat-card class="mat-elevation-z0">
+                            <mat-card-content>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_screeningAction_CandidateInterview'|translate}}</span></p>
+                                    <div class="show-text">
+                                        <p>  <ng-container *ngIf="screeningAction?.InterviewStatus==1 then connectedInterview; else notConnectedInterview"></ng-container>
+                                            <ng-template #connectedInterview>  <span>{{'label_EOHScreeningComp'|translate}}</span></ng-template>
+                                            <ng-template #notConnectedInterview>  <span>{{'label_EOHScreeningInComp'|translate}}</span></ng-template>
+                                   </p>
+                                    </div>
+                                </div>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_title'|translate}}</span></p>
+                                    <div class="show-text">
+                                        <p>{{screeningAction?.ScreeningTitle}}</p>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="final-summary-data final-screening-action mt-0">
+                    <mat-card class="mat-elevation-z0">
+                        <mat-card-content>
+                            <p class="orange-text mb-10">{{'label_screeningAction_reviewHeading'|translate}}</p>
+                            <p class="mb-10 action-show">
+                                <ng-container *ngIf="screeningAction?.ScreeningAction==1"><strong>{{'label_EOHScreeningOption1'|translate}}:</strong> {{'label_EOHScreeningOption1Brief'|translate}}</ng-container>
+                                <ng-container *ngIf="screeningAction?.ScreeningAction==2"><strong>{{'label_EOHScreeningOption2'|translate}}:</strong> {{'label_EOHScreeningOption2Brief'|translate}}</ng-container>
+                                <ng-container *ngIf="screeningAction?.ScreeningAction==3"><strong>{{'label_EOHScreeningOption3'|translate}}:</strong> {{'label_EOHScreeningOption3Brief'|translate}}</ng-container>
+                            </p>
+
+                            <div class="final-info-data">
+                                <p class="field-name"><span>{{'label_EmailTemplates' | translate}}</span></p>
+                                <div class="show-text">
+                                    <p>{{screeningAction?.TemplateName}}</p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="final-summary mat-elevation-z0 mb-10" id="final-summary-action">
+            <mat-card-header class="final-main-header" id="final-main-action">
+                <mat-card-title>{{'label_Notes' | translate}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="final-main-content" id="final-main-card">
+                <div class="final-summary-data final-screening-notes mt-0">
+                    <mat-card class="mat-elevation-z0">
+                            <mat-card-content>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_finalSummary_ScreeningNotes' | translate}}</span></p>
+                                    <div class="show-text">
+                                        <p [innerHTML]="notesInfo?.getEditorVal"></p>
+                                    </div>
+                                </div>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_finalSummary_EmploymentNotes' | translate}}</span></p>
+                                    <div class="show-text">
+                                        <p [innerHTML]="notesInfo?.getEditorValFromEmployee"></p>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="final-summary mat-elevation-z0" id="final-summary-employmentStatus" *ngIf="memberStatus">
+            <mat-card-header class="final-main-header" id="final-main-action">
+                <mat-card-title>{{'label_EmploymentStatus' | translate}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="final-main-content" id="final-main-card">
+                <div class="final-summary-data final-screening-action mt-0">
+                    <mat-card class="mat-elevation-z0">
+                            <mat-card-content>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_HiredDate'|translate}}<span class="mark-mandatory">*</span></span></p>
+                                    <div class="show-text">
+                                        <p>{{employeeStatusInfo?.DateOfHired|date:'dd/MM/YYY'}}</p>
+                                    </div>
+                                </div>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_EmployeeType' | translate}} </span></p>
+                                    <div class="show-text">
+                                        <p>{{employeeStatusInfo?.EmployeeName}}</p>
+                                    </div>
+                                </div>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_MemberPriority' | translate}}</span></p>
+                                    <div class="show-text">
+                                        <p>{{employeeStatusInfo?.MemberPriorityName}}</p>
+                                    </div>
+                                </div>
+                                <div class="final-info-data">
+                                    <p class="field-name"><span>{{'label_SendWorkforceAppLoginDetails' | translate}}</span></p>
+                                    <div class="show-text">
+                                        <p>{{employeeStatusInfo?.IsCheckedSendEmail?'Yes':'No'}}</p>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                    </mat-card>
+                    </div>
+                
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+
+
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+       
+        <ng-container  *ngIf="candidateInformation?.IsXRCandidatePushedToEOH === 1  && this.candidateInformation?.MemberId?.substring(0, 3).toLowerCase()==='apl' && !this.memberStatus then con; else notCon"></ng-container>
+        <ng-template #con> <div class="alert-message">{{'pushCandidateToEoh_CandidateAlreadyPushed'|translate}}</div></ng-template>
+        <ng-template #notCon>
+            <p *ngIf="IsvalidForm"> {{'label_screeningAction_MandataryHeading'|translate}}</p>
+        </ng-template>
+        <button mat-raised-button tabindex type="button" [disabled]="IsvalidForm" (click)="onSubmit()"
+            color="primary" type="button" id="btnSave">
+                <svg class="push-candidate-button-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M320-160v-79h80v-481h-80v-80h80q33 0 56.5 23.5T480-720v480q0 33-23.5 56.5T400-160h-80Zm320 0q-33 0-56.5-23.5T560-240v-480q0-33 23.5-56.5T640-800h200q33 0 56.5 23.5T920-720v480q0 33-23.5 56.5T840-160H640Zm0-79h200v-481H640v481Zm-440-81-57-56 63-64H40v-80h166l-63-63 57-57 160 160-160 160Zm440 81v-481 481Z"/></svg> {{'pushCandidateToEoh_pushCandidate'|translate}}
+            </button>
+    </div>
+</div>

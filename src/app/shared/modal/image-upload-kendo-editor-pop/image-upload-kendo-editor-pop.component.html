@@ -1,0 +1,83 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Adarsh singh
+    @When: 28-July-2023
+    @Why: EWM-13179 EWM-13223
+    @What:  This component is used for image popup advanced feature in kendo editor
+-->
+<div class="modal-header" id="modal-header">
+  <h2 matDialogTitle class="mb-0" *ngIf="title==''">{{'label_addPhoto'|translate}}</h2>
+  <h2 matDialogTitle class="mb-0" *ngIf="title!=''">{{title|translate}}</h2>
+</div>
+<mat-dialog-content>
+  <div class="imageupload-container" id="imageupload-container">
+    <div class="upload-container" id="upload-container">
+      <div class="uploadImgBox">
+        <div class="box1" *ngIf="localUploadMode">
+          <!-- <mat-icon color="warn" *ngIf="!noImage" (click)="closeImage()" class="cropImageClose" matTooltip=" Close"
+          matToolTipPosition="top">close</mat-icon> -->
+          <img class="fileUploadIcon" src="/assets/uploadFileIcon.png" />
+          <div id="imageUpload-dragdrop">
+            <span class="uploadButtonBox underLineCursor">
+              <input type="file" (change)="fileChangeEvent($event)" accept="{{fileType}}" class="uploadHiddenButton" />
+              <a color="primary" class="underLineCursor" id="imageUpload-selectfile"
+                type="upload">{{'label_select'|translate}}</a>
+            </span>
+            {{'label_aFile'|translate}}
+            {{'label_FromYourDevice' |translate}}
+          </div>
+        </div>
+        <div class="box2">
+          <div id="imageUpload-imageChangedEvent">
+            <mat-icon color="warn" *ngIf="!noImage" (click)="closeImage()" class="cropImageClose" matTooltip=" Close"
+              matToolTipPosition="top">cancel</mat-icon>
+            <img *ngIf="imagePreview" [src]="imagePreview" alt="image" class="imageWidth" />
+          </div>
+        </div>
+        <div class="box3" *ngIf="urlUploadMode">
+          <div id="imageUpload-imageuploadbyurl">
+            <form novalidate [formGroup]="addForm" (ngSubmit)="onSave(this.addForm.value,formtitle)"
+              accept-charset="utf-8" enctype='multipart/form-data' class="col l12 m12 s12">
+              <div class="row mb-0 mgTop20">
+                <mat-form-field appearance="outline" dir="{{direction}}" class="col l12 m12 s12 searchInput">
+                  <input matInput type="text" placeholder="{{'label_imageUrl' |translate}}" id="upload-url-logo"
+                    formControlName="mapiconUrl">
+                  <mat-icon matPrefix class="anchorLinkIcon">link</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="row mb-0 mgTop9">
+                <button matSuffix mat-raised-button class="ml-0" color="primary" id="submitlogourl" tabindex="10"
+                  type="button" (click)="uploadImageFileByUrl()">{{'label_import' |translate}}</button>
+                &nbsp;
+                <button mat-stroked-button color="primary" id="cancelUploadUrl" tabindex="10" type="button"
+                  (click)="ShowHideButton(true)">{{'label_backToUpload' |translate}}</button>
+              </div>
+            </form>
+            <div class="k-i-loading" *ngIf="imagePreviewloading"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="upload-instruction" id="upload-instruction">
+      <div></div>
+      <div>
+        <h5 class="heading">{{'label_fileTypeSize' |translate}}</h5>
+        <div class="imageTypeBox">
+          {{'label_imageTypeAllowedCaption' |translate}}:<br />
+          {{'label_file_img_type_small' |translate}}
+        </div>
+        <div class="imageTypeBox">
+          {{'label_imageSizeAllowedCaption' |translate}}:<br />
+          {{fileSizetoShow}}
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="onDismiss()" id="btnCancel" color="warn">{{'label_cancel'|translate}}</button>
+  <button mat-stroked-button (click)="uploadImageFileInBase64()" id="btnSave" [disabled]="!imagePreview"
+    color="primary">{{'label_doneBtn'|translate}}</button>
+</mat-dialog-actions>

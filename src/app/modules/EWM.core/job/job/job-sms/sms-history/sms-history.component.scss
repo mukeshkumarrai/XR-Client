@@ -1,0 +1,208 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash
+    @When: 29-Sep-2022
+    @Why: EWM-8813 EWM-8954
+    @What:  This page will be use for the sms Component scss file
+*/
+@import '../../../../../../../styles-var.scss';
+.sms-history-sec{
+    height: calc(100% - 80px);
+    overflow: auto;
+    .sms-history{
+        display: grid;
+        grid: auto/calc(100% - 44px) 33px;
+        gap: 10px;
+        padding: 0px 10px;
+        margin-bottom: 30px;
+        font-size: 12px;
+        position: relative;
+        &:first-child{
+            margin-top: 20px;
+        }
+        .chat{
+            position: relative;
+            .chat-data{
+                border-radius: 8px 0px 8px 8px;
+                padding: 10px;
+                box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+                font-weight: 400;
+                line-height: 18px;
+                .chat-data-bg{
+                    position: absolute;
+                    color: $primary-bg-color;
+                    left: 0px;
+                    top: 15px;
+                    width: calc(100% - 0px);
+                    height: calc(100% - 37px);
+                    z-index: 1;
+                    &::before{
+                        content: "";
+                        left: 0px;
+                        top: 0px;
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        background-color: currentColor;
+                        opacity: 0.15;
+                        border-radius: 8px 0px 8px 8px;
+                    }
+                }
+                .triangle{
+                    position: absolute;
+                    color: $primary-bg-color;
+                    right: 0px;
+                    top: 14px;
+                    z-index: 1;
+                    &::after{
+                        content: '';
+                        position: absolute;
+                        left: 0px;
+                        top: 0px;
+                        width: 0;
+                        height: 0;
+                        border-top: 10px solid transparent;
+                        border-bottom: 10px solid transparent;
+                        border-left: 10px solid currentColor;
+                        opacity: 0.15;
+                    }
+                }
+                .sms-body{
+                    position: relative;
+                    z-index: 2;
+                    word-break: break-word;
+                }
+                .date-and-time{
+                    display: flex;
+                    justify-content: flex-end;
+                    font-style: italic;
+                    gap: 5px;
+                    font-size: 11px;
+                    font-weight: 400;
+                    margin-top: 10px;
+                    color: #5e5d5d;
+                }
+            }
+            .owner-name{
+                font-weight: 500;
+                position: relative;
+                top: -5px;
+                font-size: 13px;
+                display: flex;
+                justify-content: flex-end;
+                right: 0px;
+            }
+            .sms-status{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-top: 5px;
+                .mat-icon{
+                    font-size: 18px;
+                    height: 18px;
+                    width: 18px;
+                    line-height: 18px;
+                }
+                .failed,
+                .delivered,
+                .pending,
+                .resend{
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    .mat-button{
+                        line-height: 18px;
+                        height: 18px;
+                        padding: 0px 3px;
+                        font-size: 12px;
+                        font-weight: 400;
+                        .mat-icon{
+                            text-align: left;
+                            width: 23px;
+                        }
+                    }
+                }
+                .failed{
+                    color: $warn-bg;
+                }
+                .pending{
+                    color: $gold-star; 
+                }
+                .delivered{
+                    color: $green-color;
+                }
+                .resend{
+                    color: $primary-bg-color;
+                }
+            }
+        }
+        .chat-owner{
+            text-align: center;
+            position: relative;
+            top: -14px;
+            display: flex;
+            .userAvtaarAndName{
+                padding: 2px;
+                box-shadow: 0px 0px 1px 0px #121212;
+            }
+        }
+    }
+    .reply-history{
+        grid: auto/33px calc(100% - 44px);
+        .chat{
+            .owner-name{
+                justify-content: flex-start;
+            }
+            .sms-status{
+                justify-content: flex-start;
+                .delivered{
+                    color: #9E9E9E;
+                }
+            }
+            .chat-data{
+                border-radius:0px 8px 8px 8px;
+                .chat-data-bg{
+                    color: #9E9E9E;
+                    &::before{
+                        border-radius:0px 8px 8px 8px;
+                    }
+                }
+                .triangle{
+                    color: #9E9E9E;
+                    left: -21px;
+                    &:after{
+                        border-right: 10px solid currentColor;
+                        border-left: 10px solid transparent;
+                    }
+                }
+            }
+        }
+    }
+}
+.drawerFooter{
+    .mat-raised-button{
+        margin-inline-start: 8px;
+    }
+}
+::ng-deep{
+    .dark-theme{
+        .sms-history-sec{
+            .sms-history{
+                .chat{
+                    .chat-data{
+                        .chat-data-bg{
+                            color: $dark-primary !important;
+                        }
+                        .triangle{
+                            color: $dark-primary !important;
+                        }
+                        .date-and-time{
+                            color: #9e9e9e !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

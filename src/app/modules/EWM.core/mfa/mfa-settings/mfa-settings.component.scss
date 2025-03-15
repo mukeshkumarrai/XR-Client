@@ -1,0 +1,364 @@
+// @When: 06-12-2023 @who:Amit @why: EWM-15314 @what: style modified
+
+
+.container-steper {
+  padding-top: 100px;
+  padding-bottom: 47px;
+  max-width: 1430px;
+  margin: 0px auto;
+  padding-left: 30px;
+  padding-right: 30px;
+  .stepper-box{
+    text-align: center;
+  }
+}
+.next-step-status{
+  display: flex;
+	align-items: center;
+	justify-content: center;
+	height: calc(100vh - 50px - 50px);
+	padding-top: 50px;
+	padding-bottom: 50px;
+  .next-inner-status{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 420px;
+    padding: 0px 15px;
+    h1{
+      margin: 0px;
+      font-size: 32px;
+      font-weight: 600;
+      padding-bottom: 10px;
+    }
+    p{
+      font-size: 14px;
+      line-height: 22px;
+      margin: 5px 0px 15px;
+      text-align: center;
+    }
+  }
+}
+// button{
+//   min-height: 42px;
+// }
+.font75Per{
+  font-size: 75%;
+}
+.codeScanBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  border: none;
+  margin: 0px auto;
+  padding: 0px;
+  border-radius: 8px;
+  height: 180px;
+  width: 180px;
+  .scannerImg {
+    width: 100%;
+    max-width: 250px;
+  }
+  @media only screen and (max-width: 359px) and (min-width: 240px) {
+    margin: 15px auto;
+    height: auto;
+    width: 100%;
+  }
+}
+.enterCodeBox {
+  display: flex;
+  justify-content: center;
+  margin: 0px auto;
+  box-shadow: none;
+  border: none;
+  padding: 15px 0px;
+  height: auto;
+  width: 100%;
+  max-width: 300px;
+}
+.enterKeyBox {
+  display: flex;
+  justify-content: center;
+  margin: 0px auto;
+  box-shadow: none;
+  border: none;
+  padding: 12px 0px 0px 0px;
+  height: auto;
+  width: 100%;
+  max-width: 440px;
+}
+.addQuestionsBox {
+  display: flex;
+  justify-content: center;
+  margin: 0px auto;
+  box-shadow: none;
+  border: none;
+  padding: 0px 0px;
+  height: auto;
+  width: 100%;
+  max-width: 580px;
+  .mat-form-field {
+    margin-bottom: 0px;
+  }
+}
+.addEmailBox {
+  display: block;
+  justify-content: center;
+  margin: 0px auto;
+  box-shadow: none;
+  border: none;
+  padding: 0px 0px;
+  height: auto;
+  width: 100%;
+  max-width: 340px;
+}
+.notNowLink {
+  font-size: 14px;
+  float: left;
+  text-align: left;
+}
+.whyEmailLink {
+  font-size: 14px;
+  float: right;
+  text-align: right;
+}
+.mgTop50 {
+  margin-top: 50px;
+}
+.addEmailBoxWidth {
+  max-width: 480px;
+}
+.mfaHeadingTxt {
+  margin-top: 20px;
+}
+.mfaH3Txt {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 5px 0px 5px;
+}
+.mfaH1Txt {
+  font-size: 32px;
+  font-weight: 600;
+}
+.mfaParaTxt {
+  font-size: 14px;
+  line-height: 25px;
+  margin: 5px 0px;
+}
+.floatNone {
+  float: none;
+  margin: auto
+}
+.maxWidth350{
+  max-width: 350px; 
+  min-width: 350px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-size: 14px;
+}
+.verticalStepper{
+  @media only screen and (max-width: 479px) and (min-width: 320px) {
+    margin-left: -36px !important;
+  }
+}
+@media only screen and (max-width: 359px) and (min-width: 240px) {
+  .mat-horizontal-content-container {
+    padding: 0px 0px 0px 0px !important;
+  }
+  .mfaHeadingTxt {
+    margin-top: 20px;
+  }
+  .mfaH3Txt {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+  }
+  .mfaParaTxt {
+    font-size: 14px;
+    margin: 10px 0px;
+    line-height: 22px;
+  }
+  .enterCodeBox {
+    padding: 20px 0px;
+    width: 100%;
+    max-width: unset;
+  }
+  .mat-tab-group {
+    width: 310px !important;
+    margin-left: -65px !important;
+  }
+  .enterKeyBox {
+    padding: 20px 0px;
+    height: auto;
+    width: 75%;
+    max-width: 280px;
+  }
+  .addQuestionsBox {
+    width: 100%;
+    max-width: unset;
+  }
+  .addEmailBox {
+    max-width: unset;
+  }
+  .addEmailBoxWidth {
+    max-width: unset;
+  }
+  .notNowLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+  .whyEmailLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+}
+@media only screen and (max-width: 374px) and (min-width: 360px) {
+
+  .main-container {
+    height: auto;
+  }
+
+  .codeScanBox {
+    margin: 15px auto;
+    height: auto;
+    width: 100%;
+  }
+
+  .mat-horizontal-content-container {
+    padding: 0px 0px 0px 0px !important;
+  }
+
+  .mfaHeadingTxt {
+    margin-top: 20px;
+  }
+
+  .mfaH3Txt {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+  }
+
+  .mfaParaTxt {
+    font-size: 14px;
+    margin: 10px 0px;
+    line-height: 22px;
+  }
+
+  .enterCodeBox {
+    padding: 20px 0px;
+    width: 100%;
+    max-width: unset;
+  }
+
+  .mat-tab-group {
+    width: 330px !important;
+    margin-left: -65px !important;
+  }
+
+  .enterKeyBox {
+    padding: 20px 0px;
+    height: auto;
+    width: 90%;
+    max-width: 280px;
+  }
+
+  .addQuestionsBox {
+    width: 100%;
+    max-width: unset;
+  }
+
+  .addEmailBox {
+    max-width: unset;
+  }
+
+  .addEmailBoxWidth {
+    max-width: unset;
+  }
+
+  .notNowLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+
+  .whyEmailLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+}
+@media only screen and (max-width: 479px) and (min-width: 375px) {
+  .main-container {
+    height: auto;
+  }
+  .container-steper {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  .codeScanBox {
+    margin: 15px auto;
+    height: auto;
+    width: 100%;
+  }
+  .mat-horizontal-content-container {
+    padding: 0px 0px 0px 0px !important;
+  }
+  .mfaHeadingTxt {
+    margin-top: 20px;
+  }
+  .mfaH3Txt {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+  }
+  .mfaParaTxt {
+    font-size: 14px;
+    margin: 10px 0px;
+    line-height: 22px;
+  }
+  .enterCodeBox {
+    padding: 20px 0px;
+    width: 100%;
+    max-width: unset;
+  }
+  .enterKeyBox {
+    padding: 20px 0px;
+    height: auto;
+    width: 90%;
+    max-width: 280px;
+  }
+  .addQuestionsBox {
+    width: 100%;
+    max-width: unset;
+  }
+  .addEmailBox {
+    max-width: unset;
+  }
+  .addEmailBoxWidth {
+    max-width: unset;
+  }
+  .notNowLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+  .whyEmailLink {
+    float: none;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+  }
+}
+
+

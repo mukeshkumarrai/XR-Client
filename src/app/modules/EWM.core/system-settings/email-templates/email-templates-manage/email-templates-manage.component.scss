@@ -1,0 +1,108 @@
+/*
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Satya Prakash Gupta
+  @When: 20-April-2022
+  @Why: EWM-4945 EWM-6167
+  @What:  This page will be use for the contact receipent Component scss file
+*/
+@import "../../../../../../styles-var.scss";
+@import "../../../../../../mixinStyle.scss";
+.form-group-box{
+  grid-template-columns: repeat(1, 1fr);
+}
+.form-group-box-two{
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 10px;
+  @include for-small-smartphones{
+    gap: 0px;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @include for-smartphones{
+    gap: 0px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mat-checkbox{
+    padding-top: 10px;
+    @include for-small-smartphones{
+      padding-top: 0px;
+    }
+    @include for-smartphones{
+      padding-top: 0px;
+    }
+  }
+}
+.signature-info{
+  display: grid;
+  grid: auto / calc(100% - 60px) 60px;
+  align-items: center;
+  p{
+    margin: 0px;
+  }
+  .slide-toggle-box{
+    text-align: center;
+  }
+}
+.kendoHTMLEditer{
+  margin-bottom: 10px;
+}
+.question-list-sec{
+  overflow: auto;
+}
+.question-list-sec{
+  .new-data-list-header{
+      grid:auto/calc(45% - 150px) 300px calc(55% - 150px);
+  }
+  .new-data-list-content{
+    .new-data-list-list{
+      grid:auto/calc(45% - 150px) 300px calc(55% - 150px);
+    }
+  }
+}
+
+// @When: 20-09-2023 @who:Amit @why: EWM-14188 @what: toggle style
+.multple-attachment{
+  width: 100%;
+  .attachment-box.email-attachment-box.mat-card{
+    overflow: hidden;
+    .attach-resume{
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      @media only screen and (max-width: 767px) and (min-width: 320px){
+        flex-direction: column;
+        gap: 5px;
+      }
+      .attach-btn{
+        width: 100%;
+      }
+      .slide-toggle-box{
+        width: 100%;
+        display: flex;
+        row-gap: 2px;
+        flex-direction: column;
+        align-self: flex-start;
+        p{
+          font-size: 12px;
+          margin: 0px;
+        }
+        .mat-slide-toggle{
+          width: max-content;
+        }
+      }
+    }
+    .multple-attachment{
+      box-sizing: border-box;
+    }
+  }
+}
+
+.html-editor-kendo{
+  margin-bottom: 10px;
+  .editor-label{
+      margin: 5px 0px 3px;
+      display: block;
+  }
+}
+
+

@@ -1,0 +1,95 @@
+
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: manage-jobcategory.compenent.html
+  @Who:  Nitin Bhati
+  @When: 21-May-2021
+  @Why: EWM-1821.
+  @What: For job categiry .
+ -->  
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-job-category-mat-card-header">
+      <mat-card-title class="only-title" *ngIf="actionStatus=='Add'">{{'label_addJobCategory' |translate}}</mat-card-title>
+      <mat-card-title class="only-title" *ngIf="actionStatus=='Edit'">{{'label_editJobCategory' |translate}}</mat-card-title>
+   <div class="actionButton">
+        <button mat-raised-button color="warn" tabindex="5" id="btnCancel" (click)="onCancel($event)"
+          class="buttonForDesktopMobile">
+          <mat-icon>close</mat-icon>
+          <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+        </button>
+      <button mat-raised-button color="primary" tabindex="4" (click)="onSave(this.addForm.value,this.actionStatus)"
+          type="button" id="btnSave" [disabled]="!addForm.valid || isResponseGet" class="buttonForDesktopMobile">
+          <mat-icon>check</mat-icon>
+          <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_save'|translate}}</span>
+          <div *ngIf="isResponseGet" id="loading"></div>
+        </button>
+      </div>
+    </mat-card-header>
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-job-category-drawer">
+    <mat-card id="manage-category-card" class="component-card mat-elevation-z2">
+      <div class="row">
+          <form novalidate [formGroup]="addForm"  accept-charset="utf-8"
+          enctype='multipart/form-data' class="col l12 m12 s12" id="jobCategory=form">
+          <div class="row mb-0">
+            <div class="col l4 m6 s12">
+              <div class="ng-slectBox">
+                <ng-select placeholder="{{'label_region'|translate}}" tabindex="1" [clearable]="true" class="show-required"
+                  formControlName="RegionId" id="jobCategory-region" required>
+                  <ng-option value="" disabled>{{'label_selectRegion'|translate}}</ng-option>
+                  <ng-option *ngFor="let list of gridRegion" value="{{list.Id}}">{{list.Name}}</ng-option>
+              </ng-select>
+                <mat-error
+                  *ngIf="addForm.controls['RegionId'].hasError('required') && addForm.controls['RegionId'].touched">
+                  {{'label_region'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+              </div>
+            </div>
+              <div class="clear"></div>
+              <mat-form-field class="col l4 m6 s12">
+                <mat-label>{{'label_jobCategory' |translate}}</mat-label>
+                <input type="hidden" formControlName="Id" id="Id">
+                <!-- who:maneesh,what:ewm-15708 for pass false in blur case,when:18/01/2023 -->
+                <input matInput required formControlName="JobCategory" tabindex="2" text="jobCategory" id="jobCategory-expertiseName" (blur)="onJobCategoryChanges(false);">
+              <mat-error *ngIf="addForm.controls['JobCategory'].hasError('codeTaken')">
+                {{'label_jobCategory'|translate}} {{'label_errorreqiredAlready'|translate}}
+              </mat-error>
+              <mat-error *ngIf="addForm.controls['JobCategory'].hasError('required')">
+                {{'label_jobCategory' |translate}} {{'label_errorreqired' |translate}}
+              </mat-error>
+              <mat-error *ngIf="addForm.controls['JobCategory'].hasError('maxlength')&& !addForm.controls['JobCategory'].hasError('whitespace')">
+                {{'label_jobCategory' |translate}} {{'label_errormaxlength100' |translate}}
+              </mat-error>
+              <mat-error *ngIf="addForm.controls['JobCategory'].hasError('pattern')">
+                {{'label_jobCategory'|translate}} {{'label_errorpatternAlphanumeric'|translate}}
+            </mat-error>
+             <!--  @Who: maneesh, @When: 21-dec-2022,@Why: EWM-9959 addnoWhitespaceValidator -->
+
+             <mat-error *ngIf="addForm.controls['JobCategory'].hasError('whitespace') && !addForm.controls['JobCategory'].hasError('required')">
+              {{'label_jobCategory' |translate}} {{'label_nameValidation' |translate}}
+            </mat-error>
+            </mat-form-field>
+          <div class="clear"></div>
+            <div class="col l4 m6 s12">
+              <div class="ng-slectBox">
+                  <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data--->
+                <ng-select placeholder="{{'label_industryStatus'|translate}}" class="show-required" tabindex="3" [clearable]="false"
+                  formControlName="Status" id="jobCategory-status" required>
+                  <ng-option value="" disabled>{{'label_selectStatus'|translate}}</ng-option>
+                  <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">{{list.StatusName}}</ng-option>
+              </ng-select>
+                <mat-error
+                  *ngIf="addForm.controls['Status'].hasError('required') && addForm.controls['Status'].touched">
+                  {{'label_industryStatus'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+  </mat-card>
+</mat-drawer-container>

@@ -1,0 +1,50 @@
+<div class="example-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+  
+  <div class="example-container mat-elevation-z8">
+  
+    <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+  
+      <!-- ID Column -->
+      <ng-container matColumnDef="Id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header > ID </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.Id}} </mat-cell>
+      </ng-container>
+  
+      <!-- Progress Column -->
+      <ng-container matColumnDef="Name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Created By </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.Name}}</mat-cell>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="Description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.Description}} </mat-cell>
+      </ng-container>
+  
+      <!-- Color Column -->
+      <ng-container matColumnDef="Is_system_defined">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>System Defined</mat-header-cell>
+        <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.Is_system_defined}} </mat-cell>
+      </ng-container>
+
+       <!-- Expanded Content Column - The detail row is made up of this one column -->
+     
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+  
+    <mat-paginator 
+    [length]="totalLength"
+    [pageSize]="pagesize"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="PageEvent=$event;onPaginatorChange($event)">
+</mat-paginator>
+  </div>
+  

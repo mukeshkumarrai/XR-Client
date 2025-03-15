@@ -1,0 +1,431 @@
+/*
+  @modified 
+  @(C): Entire Software
+  @Type: File, <css>
+  @Name: my-activity.component.scss
+  @Who: Satya Prakash Gupta
+  @When: 15-Mar-2023
+  @Why:EWM-11055 EWM-11086
+  @What: You can add style for drawer only
+*/
+
+@import "../../../../../mixinStyle.scss";
+@import "../../../../../../src/styles-var.scss";
+
+.assistance-activity{
+  display: grid;
+  grid-template-columns: 240px calc(100% - 240px);
+
+  height: 100%;
+  display: flex;
+  @media only screen and (max-width: 767px) and (min-width: 320px){
+    grid-template-columns: 100%;
+
+    display: block;
+    overflow: auto;
+  } 
+  .schedule-assistance{
+    border-right:1px solid rgba(0,0,0,.12);
+    padding: 9px 8px;
+
+    height: calc(100% - 18px);
+    overflow: auto;
+    min-width: 240px;
+    @media only screen and (max-width: 767px) and (min-width: 320px){
+      border-right:none;
+      padding: 10px 15px;
+
+      min-width: calc(100% - 30px);
+      height: auto;
+      overflow: hidden;
+    } 
+    h3{
+      font-weight: 500;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    h4{
+      font-weight: 500;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .time-hour{
+      display: grid;
+      grid-template-columns: calc(100% - 100px) 90px;
+      column-gap: 10px;
+      .hour-rate{
+        .label-format{
+          font-size:10.5px;
+          vertical-align: text-top;
+        }
+        .mat-button-toggle-group {
+          height: 28px;
+          width: 100%;
+          flex-wrap: inherit;
+          margin: 0px;
+          .mat-button-toggle{
+            width: 45px;
+          }
+        }
+      }
+    }
+    .time-slot{
+      display: grid;
+      grid: auto/calc(50% - 2.5px) calc(50% - 2.5px);
+      gap: 5px;
+      @media only screen and (max-width: 767px) and (min-width: 481px){
+        grid-template-columns: repeat(2, 1fr);
+      } 
+      @media only screen and (max-width: 767px) and (min-width: 320px){
+        // max-height: 200px;
+        // overflow: auto;
+        padding: 5px 2px;
+      }
+      .mat-raised-button{
+        padding: 0px 10px;
+        height: 26px;
+        line-height: 26px;
+        text-align: center;
+        font-weight: 500;
+        cursor: pointer;
+        color: #7FB734;
+        position: relative;
+        margin-bottom: 0px;
+        font-size: 11px;
+        padding: 0px 0px;
+        letter-spacing: -0.3px;
+        &::after{
+          content: "";
+          background: currentColor;
+          opacity: 0.11;
+          pointer-events: none;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0px;
+          right: 0px;
+          top: 0px;
+          bottom: 0px;
+          z-index: 0;
+          border-radius: 4px;
+          transition: opacity .2s ease-in-out;    
+          }
+      }
+      .mat-raised-button.active{
+        background-color: rgba(127, 183, 52, 0.9);
+        color: #fff !important;
+      }
+      .mat-raised-button.avaiable{
+        color: $warn-bg;
+      }
+      .mat-raised-button.avaiable.active-red{
+        background: $warn-bg;
+        color: $white-color !important;
+      }
+    }
+  }
+}  
+
+.activity-related{
+  padding: 10px 15px;
+  padding-bottom: 0px;
+
+  overflow: auto;
+  height: calc(100% - 10px);
+  @media only screen and (max-width: 767px) and (min-width: 320px){
+    height: auto;
+    overflow: hidden;
+  }
+  .insert-and-organizer{
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    flex-direction: column;
+    .insert-template{
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+      gap: 5px;
+    }
+    .organizer{
+      width: 100%;
+    }
+  }
+  .matErrorCategory{
+    font-size: 75%;
+    padding: 0px 0px 0px 5px;
+    text-align: left;
+    position: relative;
+    left: -5px;
+    margin-right: 5px;
+  }
+  .related-full{
+    display: grid;
+    column-gap: 20px;
+    grid-template-columns: 1fr;
+    .mat-standard-chip{
+      padding-right: 5px;
+    }
+  }
+  .related-full.related-haff{
+    grid-template-columns: calc(50% - 10px) calc(50% - 10px);
+    @include for-small-smartphones {
+      grid-template-columns: 1fr;
+    }
+  }
+  .ng-slectBox{
+    .select-meeting {
+      display: flex;
+      align-items: center;
+      .listWithImage{
+        padding-right: 5px;
+      }
+    }
+  }
+  .matAttachment{
+    margin-top: 10px;
+    display: grid;
+    gap:10px;
+    grid-template-columns: repeat(3, calc(33.33% - 6.6px));
+    @include for-small-smartphones {
+      grid-template-columns: 1fr;
+    }
+    .mat-card.matCardAttach {
+      box-shadow: 0px 0px 6px 0px rgb(0 0 0 / 16%);
+      padding: 7px 5px 7px 10px;
+      margin-bottom:5px;
+      height:42px;
+      .email-attachment {
+        display: flex;
+        padding-bottom: 0px;
+        justify-content: space-between;
+        .file-detail {
+          padding-right: 0px;
+          display: grid;
+          span {
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .fileName{
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 24px;
+          }
+          .fileSize{
+            font-size: 12px;
+            margin-top: 0px;
+            color: #8d8b8b;
+          }
+        }
+        .mat-icon{
+          cursor: pointer;
+          color:$gray-button;
+          font-size: 20px;
+        }
+        .mat-icon:hover {
+          color: $warn-bg;
+        }
+      }
+    }
+    .moreAttach {
+      width: 100%;
+      height: 57px;
+      margin-bottom: 5px;
+      .email-attachment{
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.drawer-footer{
+  width: calc(100% - 20px);
+  position: absolute;
+  height: 50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 9;
+  padding: 0px 10px;
+  right: 0px;
+  bottom: 0px;
+  border-radius: 0px;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  @media only screen and (max-width: 767px) and (min-width: 320px){
+    width: calc(100% - 20px);
+    border-left: none;;
+  }
+  .attachFileBtn {
+    position: absolute;
+    cursor: pointer;
+    left: 0px;
+  }
+}
+
+.multiselectChip{
+  display: flex;
+  gap: 5px;
+  &-chip{
+    display: grid;
+    grid: auto/ calc(100% - 20px)16px;
+    gap: 5px;
+    background-color: #e0e0e0;
+    color: rgba(0, 0, 0, 0.87);
+    border-radius: 16px;
+    height: 20px;
+    line-height: 17px;
+    padding: 2px 4px;
+    max-width: 150px;
+    cursor: default;
+    @media (min-width : 1024px) and (max-width : 1365px){
+      max-width: 145px;
+    }
+    @media (min-width : 240px) and (max-width : 767px){
+      max-width: 57px;
+    }
+    &-text{
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  &-morechips{
+    width: 65px;
+    grid: initial;
+  }
+}
+// ------------
+.common_dropdown_v2{margin-top: 12px;}
+.dateAndTimeSection, .showMoreSection{
+  display: none;
+  transition-duration: 2s;
+}
+.showMoreSection{
+  .email-sent-checkbox{
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(2, calc(50% - 8px));
+    margin-bottom: 10px;
+    margin-top: 5px;
+    @media only screen and (max-width: 1024px) and (min-width: 240px){
+      grid-template-columns: repeat(1, calc(100% - 0px));
+    }
+    .mat-checkbox{
+      padding: 10px 10px;
+      border-radius: 4px;
+      .mat-checkbox-inner-container{
+        margin: 0px;
+      }
+    }
+  }
+}
+.time-zone-date{
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 4px 7px;
+  margin-bottom: 1.25em;
+  box-shadow: rgba(0, 0, 0, 0.02) 1px 0px 17px 10px inset;
+  .time-zone{
+    @media only screen and (max-width: 580px) and (min-width: 240px){        
+      flex-direction: column;
+      align-items: inherit;
+    }
+    .date-time{
+      h3{
+        margin: 0px;
+        font-size: 11px;
+        font-weight: 500;
+        padding-bottom: 5px;
+      }
+      .zone{
+        span{
+          padding: 3px 5px;
+          font-size: 12px;
+          font-weight: 500;
+          border-radius: 5px;
+          line-height: 20px;
+          z-index: 1;
+          position: relative;
+          margin-inline-end: 7px;
+          &::after{
+            @include color-bg-after;
+            opacity: 0.05;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+    @include flex-between;
+    .data-time-btn{
+      min-width: 140px;
+      padding: 0px;
+      line-height: 34px;
+      height: 34px;
+      width: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      border: none;
+      position: relative;
+      z-index: 1;
+      color: #424242;
+      &::after{
+        @include color-bg-after;
+        opacity: 0.05;
+        border-radius: 5px;
+      }
+      @media only screen and (max-width: 580px) and (min-width: 240px){        
+        align-self: flex-end;
+        margin-top: 10px;
+      }
+      .watch-icon{
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        padding-inline-end: 5px;
+        font-size: 20px;
+      }
+      .down-arrow{
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        padding-inline-start: 3px;
+        font-size: 20px;
+      }
+    }
+    .data-time-btn.btnActive{
+        color: #fff !important;
+        background: #696969;
+    }
+  }
+  .dateAndTimeSection{
+    margin-top: 18px;
+  }
+}
+.show-hide{
+  display: flex;
+  justify-content: flex-end;
+  margin: 5px 0px;
+  .mat-stroked-button{
+    padding: 0px 10px;
+    span{
+      display: flex;
+      align-items: center;
+      .mat-icon{
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 24px;
+        margin: 0px 2px;
+      }
+    }
+  }
+}

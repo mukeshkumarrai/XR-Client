@@ -1,0 +1,25 @@
+<!--- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name:inform-dialog.component.html
+    @Who: Satya Prakash Gupta
+    @When: 17-Mar-2021
+    @Why: EWM-1017 EWM-1186
+    @What: This page wil be use only for the inform Component HTML
+-->
+
+
+<div mat-dialog-content class="center-align inform-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        help
+    </span>
+    <h2 mat-dialog-title>
+        {{'label_information'|translate}}
+    </h2>
+    <p> {{message|translate}} </p>
+
+    <p>{{title|translate}} </p>
+
+    <p><a href="/login" class="login-btn" mat-stroked-button>{{subtitle|translate}} </a></p>
+
+</div>

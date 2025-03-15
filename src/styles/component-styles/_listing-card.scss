@@ -1,0 +1,368 @@
+
+@import '../../styles-var.scss';
+@import '../../mixinStyle.scss';
+
+// listing part start here
+.question-list-sec{
+  width: 100%;
+  margin-bottom: 10px;
+  .new-data-list-header{
+    display: grid;
+    line-height: 40px;
+    background-color: #e1e1e3;
+    color: #1a1a1a;
+    font-weight: 500;
+    border-radius: 4px 4px 0px 0px;
+    position: sticky;
+    top: -10px;
+    z-index: 9999;
+    min-width: 850px;
+    width: calc(100% - 0px);
+    div{
+      border-right: 1px solid #ccc;
+      &:last-child{
+        border-right: 0px solid #ccc; 
+      }
+    }
+    .new-data{
+      padding: 0px 10px;
+      .mat-icon{
+        font-size: 15px;
+        line-height: 30px;
+        height: 30px;
+        width: 30px;
+        text-align: center;
+        vertical-align: middle;
+      }
+    }
+  }
+  .nodata{
+    text-align: center;
+    width: calc(100% - 30px);
+    margin: 0px 15px;
+    padding: 10px 0px;
+  }
+  .new-data-list-content{
+    min-width: 850px;
+    width: 100%;
+    .new-data-list-list{
+      min-width: 850px;
+      display: grid;
+      line-height: 20px;
+      min-height: 40px;
+      font-weight: 400;
+      align-items: center;
+      box-shadow: 2px 0px 0px 0px $primary-bg-color inset;
+      &:hover{
+        background-color: #ededed;
+      }
+      .drag-action, 
+      .actions{
+          min-height: 40px;
+          line-height: 40px;
+          text-align: center;
+          @include mat-icon-button-25;
+      }
+      .actions{
+          text-align: left;
+      }
+      .new-data{
+          padding: 0px 10px;
+          min-height: 40px;
+          line-height: 40px;
+          display: flex;
+          // @When: 16-05-2023 @who:Amit @what:vertical alignment
+          align-items: center;
+          span{
+            word-break: break-word;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .revoke-access{
+          line-height: 28px;
+          font-size: 13px;
+          padding: 0px 10px;
+        }
+      }
+      &:nth-child(even) {
+        background:rgba(0, 0, 0, 0.04);
+      }
+    }
+  }
+}
+// listing part end here  
+
+
+// listing & card start here
+.new-list-card-content {
+  height: 100%;
+  .new-list-content {
+    height: 100%;
+    overflow-y: hidden;
+    .new-list-data-header {
+      width: 100%;
+      overflow: auto;
+      margin-bottom: 0px;
+      .new-data-list-header {
+        min-width: 850px;
+        display: grid;
+        line-height: 40px;
+        background-color: #e1e1e3;
+        color: #1a1a1a;
+        font-weight: 500;
+        border-radius: 4px 4px 0px 0px;
+        div {
+          border-right: 1px solid #ccc;
+          padding: 0px 7px;
+          cursor: pointer;
+          &:first-child{
+            padding:0px;
+          }
+          &:last-child {
+            border-right: 0px solid #ccc;
+          }
+          .mat-icon {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 15px;
+            text-align: center;
+            vertical-align: middle;
+          }
+        }
+        .new-data {
+          padding: 0px 7px;
+        }
+      }
+    }
+    .new-list-data-header.sticky-width{
+      position: sticky;
+      top: 0px;
+      z-index: 9999;
+    }
+    .new-list-data-content {
+      min-width: 1250px;
+      overflow: auto;
+      margin-bottom: 0px;
+      height: calc(100% - 40px);
+      .new-data-list-list {
+        min-width: 850px;
+        display: grid;
+        line-height: 20px;
+        min-height: 40px;
+        font-weight: 400;
+        align-items: center;
+        border-left: 2px solid $primary-bg-color;
+        .drag-action,
+        .actions {
+          min-height: 40px;
+          line-height: 40px;
+          text-align: center;
+          @include mat-icon-button-25;
+        }
+        .actions {
+          text-align: center;
+        }
+        .new-data {
+          padding: 0px 7px;
+          min-height: 40px;
+          line-height: 40px;
+          display: flex;
+          // @When: 16-05-2023 @who:Amit @what:vertical alignment
+          align-items: center;
+          &:first-child{
+            padding:0px;
+            text-align:center;
+          }
+          .new-data-fab-btn{
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            vertical-align: middle;
+            .mat-button-wrapper{
+              padding:0px;
+              .mat-icon{
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 18px;
+              }
+            }
+            .mat-badge-content{
+              top:-5px;
+            }
+          }
+          // @When: 15-05-2023 @who:Amit @what: tooltip issue resolved
+          span{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+        &:nth-child(even) {
+          background: rgba(0, 0, 0, 0.04);
+        }
+        &:hover{
+          background-color: #f4f8fb;
+          border-left: 2px solid $primary-bg-color;
+          box-shadow: 0px 1px 14px 0px rgb(179 179 179);
+        }
+      }
+      .new-data-list-list.new-data-document-list{
+        .new-data{
+          min-height: 45px;
+          line-height: 45px;
+          display: inherit;
+        }
+      }
+    }
+  }
+  .new-card-content {
+    display: grid;
+    gap: 20px;
+    padding: 10px 15px;
+    grid-template-columns: repeat(4, calc(25% - 15px));
+    overflow: auto;
+    height: calc(100% - 20px);
+    grid-auto-rows: max-content;
+    @media only screen and (min-width: 1270px) and (max-width:1600px) {
+      grid-template-columns: repeat(3, calc(33.33% - 13.33px));
+    }
+    @media only screen and (min-width:1025px) and (max-width:1269px) {
+      grid-template-columns: repeat(2, calc(50% - 10px));
+    }
+    @media only screen and (min-width:320px) and (max-width:1024px) {
+      grid-template-columns: 100%;
+    }
+    .mat-card.card-mode {
+      border-top: 0px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+      padding-top: 10px;
+      padding-bottom: 10px;
+      transition: transform .2s;
+      border-left: 3px solid $primary-bg-color;
+      border-radius: 15px;
+      height: auto;
+      margin-bottom: 0px;
+      &:hover {
+        transition: height 0.1s;
+        box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+        transition: transform 0.5s;
+        @include card-zoom-hover-1-06;
+        box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+        z-index: 9999;
+        .corner-btns {
+          margin-bottom: 0px;
+        }
+      }
+      .card-height {
+        height: 130px !important;
+        margin-top: 0px;
+        overflow: hidden;
+        padding: 0px 15px;
+        .card-column.two-column {
+          display: grid;
+          gap: 10px;
+          grid: auto/calc(50% - 0px) calc(50% - 10px);
+          margin-bottom: 10px;
+        }
+        .corner-btns {
+          height: 136px;
+          height: 26px;
+          width: 100%;
+        }
+      }
+      .card-height:hover {
+        overflow: auto;
+        padding-bottom: 30px;
+        height: 100px !important;
+      }
+      .spacer {
+        flex: 1 1 auto;
+      }
+      span.badge {
+        line-height: 15px;
+      }
+      .actionBox .mat-icon-button {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 4px;
+        background: #ccc;
+        margin-bottom: 9px;
+      }
+      .card-mode-line {
+        padding-top: 5px;
+        margin-bottom: 15px;
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+      .card-header {
+        width: 100%;
+        padding: 0px;
+        strong {
+          font-weight: 500;
+        }
+      }
+      .card-data {
+        max-width: 100%;
+        padding: 0px;
+        display: flex;
+        .cardListTxt.vert-align {
+          white-space: inherit;
+        }
+        .cardListTxt{
+          min-height: 17px;
+          word-wrap: break-word;
+          word-break: break-word;
+          // @When: 15-05-2023 @who:Amit @what: tooltip issue resolved
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      span.red {
+        background-color: rgb(127 183 52 / 15%);
+        color: #7fb734;
+      }
+      .corner-btns {
+        width: 70px;
+        padding: 7px 5px;
+        border-radius: 0;
+        margin-bottom: -40px;
+        background-color: #e5e5e5;
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
+        width: 32px;
+        bottom: 0px;
+        right: 0;
+        z-index: 10;
+        transition: all 0.3s ease-out;
+        .mat-icon-button {
+          width: 28px;
+          height: 28px;
+          margin: 0px 3px;
+          flex-shrink: 0;
+          line-height: 26px;
+          transition: all 0.3s ease-out;
+          .mat-icon {
+            font-size: 18px;
+          }
+        }
+        .mat-primary.mat-icon-button {
+          border: 1px solid $default-bg-color;
+        }
+        .mat-warn.mat-icon-button {
+          border: 1px solid $warn-bg;
+        }
+      }
+    }
+  }
+}
+// listing & card end here  

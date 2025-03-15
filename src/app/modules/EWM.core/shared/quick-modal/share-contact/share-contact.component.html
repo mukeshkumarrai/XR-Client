@@ -1,0 +1,111 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: 24-Feb-2025
+    @Why: EWM-19578
+    @What:  This component is used for Quick add contact templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0"><img src="../../../../../assets/brand/{{EOHLogo}}">{{'label_ShareContact' | customTranslate}} </h2>
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<form [formGroup]="sharedContactForm" id="sharedContactFormId" applyTabIndexes>
+    <mat-dialog-content class="share-dialog-content">
+        <div class="share-client-note">
+            <h3><span>{{'candidate_note'|translate}}</span></h3>
+            <p>{{'label_ShareContactNote'|translate}}</p>
+        </div> 
+        <div class="share-inner-section">
+            <mat-form-field>
+                <mat-label>{{'label_FirstName' | customTranslate}} <span class="required-show">*</span></mat-label>
+                <input type="text" tabindex formControlName="FirstName" name="FirstName" matInput placeholder=""
+                    id="shareContact-FirstName">
+                 <mat-error *ngIf="this.sharedContactForm.controls['FirstName'].hasError('required')">
+                    {{ 'label_FirstName' |customTranslate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{'label_LastName' | customTranslate}} <span class="required-show">*</span></mat-label>
+                <input type="text" tabindex formControlName="LastName" name="LastName" matInput placeholder=""
+                    id="shareContact-LastName">
+                <mat-error *ngIf="this.sharedContactForm.controls['LastName'].hasError('required')">
+                        {{ 'label_LastName' |customTranslate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>   
+                <mat-error
+                    *ngIf="this.sharedContactForm.controls['LastName'].hasError('pattern') && !this.sharedContactForm.controls['LastName'].hasError('maxlength')">
+                    {{ 'label_LastName' |customTranslate}} {{ 'label_errorSpecialCharNumeric' |translate}}
+                </mat-error>
+                <mat-error *ngIf="this.sharedContactForm.controls['LastName'].hasError('minlength')">
+                    {{'label_LastName' |customTranslate}} {{ 'label_errorminlength1' |translate}}
+                </mat-error>
+                <mat-error *ngIf="this.sharedContactForm.controls['LastName'].hasError('maxlength')">
+                    {{ 'label_LastName' |customTranslate}} {{ 'label_errormaxlength50' |translate}}
+                </mat-error>
+                <mat-error
+                *ngIf="this.sharedContactForm.controls['LastName'].hasError('whitespace') && !sharedContactForm.controls['LastName'].hasError('required')">
+                {{'label_LastName' |translate}} {{'label_nameValidation' |translate}}
+            </mat-error>
+            </mat-form-field>
+            <div class="common_dropdown_v2" id="gender-change">
+                <dropdown [configuration]="common_DropdownGender_Config" (selectedOut)="onChangeGender($event)"
+                [getSelectedItem]="selectedGender">
+                </dropdown>
+            </div>
+            <div class="common_dropdown_v2" id="country-change">
+                <div class="ng-slectBox">
+                <app-custom-ng-select [countryList]="countryList" tabindex [selectedIn]="selectedValue" [IsDisabled]="IsDisabled" [IsRequired]="true"
+                id="CountryId" (selectedOut)="ddlchange($event)"
+                [isCutomeLocationState]="'cutomeLocation'"></app-custom-ng-select>
+            <mat-error
+                *ngIf="this.sharedContactForm.controls['CountryId'].hasError('required') && this.sharedContactForm.controls['CountryId'].touched">
+                {{'label_country' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error> 
+                </div>
+            </div>
+            <div class="common_dropdown_v2" id="professional-change">
+                <dropdown [configuration]="common_DropdownProfessionallevel_Config" (selectedOut)="onChangeProfessionalLevel($event)"
+                [getSelectedItem]="selectedProfessionalLevel">
+                </dropdown>
+            </div>
+            <div class="common_dropdown_v2" id="synchedClient-change">
+                <!-- <mat-icon matPrefix class="before-icon">contacts</mat-icon> -->
+                <dropdown [configuration]="common_DropdownSyncedClients_Config"
+                (selectedOut)="onChangeContactOwner($event)" [getSelectedItem]="selectedSyncedClients"
+                [showMoreOptionsNum]="maxMoreLengthForOwnerContacts">
+            </dropdown> 
+            </div>
+            <div class="common_dropdown_v2" id="status-change">
+                <dropdown [configuration]="common_DropdownStatus_Config" (selectedOut)="onJobStatuschange($event)"
+                    [getSelectedItem]="selectedContactStatus">
+                </dropdown>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="eoh-dialog-footer">
+        <div class="button-group">
+        <button mat-stroked-button color="warn" tabindex type="button" id="btnCancel"
+            (click)="onDismiss()">{{'label_cancel'|translate}}</button>
+        <button mat-stroked-button class="eoh-bg-button" color="primary" tabindex type="button" [disabled]="sharedContactForm.invalid" id="btnSave"
+            (click)="onConfirm(this.sharedContactForm?.value)">
+            <img *ngIf="!isResponseGet" src="../../../../../assets/brand/{{EOHLogo}}">
+            <span *ngIf="!isResponseGet">{{'label_ShareContact'|translate}}</span>
+            <div *ngIf="isResponseGet" id="loading"></div>         
+        </button>
+            <!-- <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+                {{'button_cancel'|translate}}
+            </button>
+           <button mat-stroked-button class="eoh-bg-button" tabindex color="primary" (click)="onConfirm(this.sharedContactForm?.value)" type="button"
+            id="btnSave" [disabled]="sharedContactForm.invalid">
+            <img src="../../../../../assets/brand/{{EOHLogo}}">{{'label_ShareContact'|translate}}</button> -->
+        </div>
+    </div>
+</form>

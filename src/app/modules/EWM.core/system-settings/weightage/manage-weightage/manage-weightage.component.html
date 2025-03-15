@@ -1,0 +1,115 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: manage-weightage.component.html
+  @Who: Nitin Bhati
+  @When: 20-Oct-2021
+  @Why: EWM-3431
+  @What: For ADD/edit client Weightage master
+ -->
+
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="client-dashboard-dashboard-mat-card-header">
+         <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_add' |translate}} {{'label_weightage'|translate}}
+         </mat-card-title>
+         <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_edit' |translate}} {{'label_weightage'|translate}}
+         </mat-card-title>
+         <div class="actionButton">
+             <!-- who:maneesh,what:ewm-8500 for change  tab index series,when:14/04/2023 -->
+             <button mat-raised-button color="warn" tabindex="5" [routerLink]="['../']" [queryParams]="{V:viewMode}"
+                 id="btnCancel" class="buttonForDesktopMobile">
+                 <mat-icon>close</mat-icon>
+                 <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+             </button>
+             <!-- who:maneesh,what:ewm-8500 for change  tab index series,when:14/04/2023 -->
+             <button mat-raised-button tabindex="6" class="buttonForDesktopMobile" color="primary"
+                 (click)="onSave(this.addForm.value,this.activestatus)" type="button" id="btnSave" [disabled]="!addForm.valid"
+                 *ngIf="!visibilityStatus">
+                 <mat-icon>check</mat-icon>
+                 <span class="buttonTxt">{{'label_save'|translate}}</span>
+             </button>
+         </div>
+     </mat-card-header>
+     
+     <mat-drawer-container class="xeople-container-with-one-card" autosize id="dashboard-drawer">
+        <mat-card class="component-card mat-elevation-z2">
+         <div class="addEditSec">
+             <ng-template #template let-anchor>
+                 <span>{{ anchor.nativeElement.innerText }}</span>
+             </ng-template>
+             <form novalidate [formGroup]="addForm" 
+                 accept-charset="utf-8" enctype='multipart/form-data' id="weightage-form">
+                        <!---------@When: 28-03-2023 @who:Amit @why: EWM-11597 @what: extra class remove--------->
+                         <div class="positionRelative">
+                             <mat-form-field>
+                                 <mat-label>{{'label_weightageDescription'|translate}}</mat-label>
+                                 <input type="hidden" formControlName="Id" id="Id">
+                                 <!--who:maneesh , what:ewm-10683 change min and error message when:27/02/2023 -->
+                                 <input matInput type="number" min="0" max="100" step="1" formControlName="Weightage" tabindex="1" id="weightageId"
+                                 appDigitOnly placeholder="{{'label_weightageDescription'|translate}}" required
+                                 (input)="onSearch($event.target.value)" (keyup)="conditionChcek();">
+                                 <!--who:maneesh when:15/02/2023 duplicayCheck(false) is not using but right now using debounce  (input)="onSearch($event.target.value)"-->
+                                 <!-- conditionChcek(); duplicayCheck(false); -->
+                                 <mat-error *ngIf="addForm.controls['Weightage'].hasError('required')">
+                                     {{'label_weightageDescription'|translate}} {{'label_errorreqired'|translate}}
+                                 </mat-error>
+                                 <mat-error *ngIf="addForm.controls['Weightage'].hasError('codeTaken')">
+                                     {{'label_weightageDescription'|translate}} {{'label_errorreqiredAlready'|translate}}
+                                 </mat-error>
+                                  <mat-error *ngIf="addForm.controls['Weightage'].hasError('maxlength')">
+                                     {{'label_weightageDescription'|translate}} {{'label_errormaxlength10'|translate}}
+                                 </mat-error>
+                                 <mat-error *ngIf="addForm.controls['Weightage'].hasError('numbercheck')">
+                                    {{'label_weightageInfoMul'|translate}}
+                                </mat-error>
+                                  </mat-form-field>
+                             <!-- <mat-icon class="infoStyle" [matMenuTriggerFor]="allJobStatus">info_outline</mat-icon> -->
+                             <mat-menu #allJobStatus="matMenu" xPosition="before" class="infoIconContentBox">
+                                <span class="material-icons headerDroupDownUp">
+                                  arrow_drop_up
+                                </span>
+                                {{'label_weightageDesc'|translate}}
+                              </mat-menu>
+                         </div>
+                        <div class="ng-slectBox">
+                            <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data---->
+                            <ng-select placeholder="{{'label_status'|translate}}" [clearable]="false" class="show-required"
+                                tabindex="2" formControlName="Status" (change)="clickStatusID($event)" id="statusId" required>
+                                <ng-option  value="" disabled>{{'label_status'|translate}}</ng-option>
+                                <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">
+                                    {{list.StatusName}}</ng-option>
+                            </ng-select>
+                                <mat-error
+                                *ngIf="addForm.controls['Status'].hasError('required') && addForm.controls['Status'].touched">
+                                {{'label_status'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                        </div> 
+                        <mat-form-field>
+                            <mat-label>{{'label_displaySequence'|translate}}</mat-label>
+                             <!-- who:maneesh,what:ewm-12281 for handel validation issu,when:24/05/2023 -->
+                        <input matInput formControlName="DisplaySequence" min=1 tabindex="9" id="skill-displaySequnce" text="Name"
+                        placeholder="{{'label_displaySequence'|translate}}">
+                      <mat-error *ngIf="addForm.controls['DisplaySequence'].hasError('pattern')">
+                        {{'label_displaySequence'|translate}} {{'label_errornumeric'|translate}}
+                      </mat-error>
+                      <mat-error *ngIf="this.addForm.controls['DisplaySequence'].hasError('maxlength') && !addForm.controls['DisplaySequence'].hasError('pattern')">
+                        {{ 'label_displaySequence' |translate}} {{ 'label_errormaxlength8' |translate}}
+                      </mat-error>
+                        </mat-form-field>     
+                        <div class="label-with-toggle">
+                        <mat-label>{{'label_industryHideExternally' |translate}}</mat-label>
+                        <mat-slide-toggle formControlName="HideExternally"
+                            (change)="setDefaultExternally($event)" id="Qualification-hideExternally"
+                            tabindex="4" color="primary">
+                        </mat-slide-toggle>
+                    </div>                         
+             </form>
+         </div>
+     
+ </mat-card>
+
+</mat-drawer-container>

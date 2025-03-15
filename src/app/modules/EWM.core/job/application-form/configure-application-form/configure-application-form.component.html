@@ -1,0 +1,135 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: configure-application-form.component.html
+  @Who: Satya Prakash Gupta
+  @When: 12-May-2022
+  @Why:  EWM-6554 EWM-6680
+  @What: Configure application form page
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card-header class="dashboard-mat-card-header title-and-btn configure-mat-card-header" id="mat-card-header">
+    <mat-card-title class="icon-with-title">
+        <div class="sub-title">
+            <span>{{'label_ConfigureApplicationform'|translate}}</span><br>
+        </div>
+
+    </mat-card-title>
+
+    <div class="actionButton" id="client-actionButton">
+        <div class="search-viewicon">
+            <button class="preview-button"  #openConfigureRuleButton *ngIf="pageLabel=='Welcome_Page' || pageLabel=='Knockout_Questions' ||  pageLabel=='Thank_You'" mat-stroked-button color="primary" (click)="openConfigureRules(pageLabel)"
+            [disabled]="isActionButtonDisabledFromSeekPreview">
+                {{'label_configureRules' | translate}}
+            </button>
+            <button mat-stroked-button class="buttonForDesktopMobile preview-button" tabindex="16" color="primary"
+                id="btnPreview"   (click)="showPreview()" [disabled]="!isSave || isActionButtonDisabledFromSeekPreview">
+                <mat-icon>preview</mat-icon>
+                <span class="buttonTxt">{{'label_previewSave' |translate}}</span>
+            </button>
+            <button mat-raised-button class="buttonForDesktopMobile" tabindex="16" color="warn" id="btnCancel"
+                [routerLink]="['../']">
+                <mat-icon>close</mat-icon>
+                <span class="buttonTxt">{{'label_back' |translate}}</span>
+            </button>
+  <!--  who:maneesh,what:ewm-9594 for disabel save check and uncheck isDisabledButton ,when:25/04/2023 -->
+            <button mat-raised-button  class="buttonForDesktopMobile" tabindex="16" color="primary" id="btnSave"
+                (click)="onsave()" [disabled]="!isSave  || isActionButtonDisabledFromSeekPreview ||isDisabledButton ">
+                <mat-icon>save</mat-icon>
+                <span class="buttonTxt">{{'label_save' |translate}}</span>
+            </button>
+           
+        </div>
+    </div>
+</mat-card-header>
+<mat-drawer-container class="xeople-container-without-scroll" autosize id="configure-application-drawer">
+    <mat-card id="configure-application-card" class="component-card mat-elevation-z2">
+        <div class="configure-application-card-title">
+            <button [style.display]="mobileQuery.matches ? '' : 'none'" type="button" mat-icon-button (click)="configureApplicationStepper.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <div>{{'label_ConfigureapplicationformReq'| translate}}</div>
+        </div>
+        <mat-sidenav-container class="configure-application-container">
+            <mat-sidenav #configureApplicationStepper [opened]="mobileQuery.matches ? 'false' : 'true'" [mode]="mobileQuery.matches ? 'over' : 'side'"
+                class="configure-application-stepper" id="configure-application-stepper" position="start">
+                <div class="stepper-button-group">
+                    <div class="stepper-button" *ngFor="let sections of ApplicationFormconfigList;let i=index" (click)="onSectionClick(sections,sections.PageLabel)"
+                    [ngClass]="activeStatus===sections.PageLabel?'active':'' || sections.IsData === 0 ? '':'completed'" >
+                        <div class="stepper-name">
+                            <span class="step-number">{{i+1}}</span>
+                            <span>{{sections.Title}}</span>
+                        </div>
+                        <div class="edit-toogle">
+                         <!---------@When: 13-Jan-2023 @who:Adarsh singh @why: EWM-9587 Desc: Adding Disabled attribute --------->
+                        <button mat-icon-button (click)="sectionConfigureDashboard(sections?.PageLabel)" tabindex type="button"
+                        id="edit-icon" matTooltip="{{'label_RenameandRearrangeSections' |translate}}" [disabled]="isActionButtonDisabledFromSeekPreview"
+                        matTooltipClass="custom-tooltip">
+                        <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <mat-slide-toggle color="primary"  *ngIf="sections.IsToggled==1?true:false" (change)="onChangeToggle($event.checked,sections)" [checked]="sections.IsEnabled==1?true:false" [disabled]="false || isActionButtonDisabledFromSeekPreview "></mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+            </mat-sidenav>
+
+            <mat-sidenav-content class="configure-application-sec" 
+            [ngClass]="pageLabel=='Knockout_Questions' ? 'knockoutStatus': pageLabel=='Important_Links' ? 'importantLinks': '' "
+            >
+                <div *ngIf="pageLabel=='Welcome_Page'">
+                    <app-welcome-page></app-welcome-page>
+                </div>
+
+                <div *ngIf="pageLabel=='Knockout_Questions'">
+                    <app-knockout-questions [isKnockOutEnable]="isKnockOutEnable" [IsKnockoutQuestion]="IsKnockoutQuestion" (isKnockOutEnableFlag)="isKnockOutEnableFlag($event)"></app-knockout-questions>
+                </div>
+                <div *ngIf="pageLabel=='Personal_Information'" class="personal-information-status">
+                    <app-personal-information-form [personalInformationIdData]="personalInformationIdData" [IsPersonalInfo]="IsPersonalInfo"></app-personal-information-form>
+                </div>
+                <div *ngIf="pageLabel=='Documents'">
+                    <app-documents [applicationForm]="applicationForm" (openCOnfirmDilog)="openCOnfirmDilog($event)"  [FormData]="FormData" [documentIdData]="documentIdData" [IsDocuments]="IsDocuments"  (isShowAllChecked)="isShowAllChecked($event)"(isShowAll)="isShowAll($event)" (isDocumentAll)="isDocumentAll($event)"></app-documents>
+                </div>
+                <div *ngIf="pageLabel=='Important_Links'">
+                    <app-important-links [IsImportant]="IsImportant"></app-important-links>
+                </div>
+                <div *ngIf="pageLabel=='Thank_You'">
+                    <app-thank-you [thankYouStatusData]="thankYouStatusData"></app-thank-you>
+                </div>
+
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    </mat-card>
+</mat-drawer-container>
+
+
+
+<!-- Start : Satya Prakash Gupta : 16-Dec-2022 : Configure rules : EWM-9629 EWM-9900 -->
+<ng-template #overlayConfigureRules>
+    <mat-drawer-container class="overlay-drawer-container" autosize>
+        <!-- Job Details View -->
+        <mat-drawer #configureWelcomeRules opened class="overlay-drawer overlay-md-drawer" mode="over" disableClose="true" position="end">
+            <div class="closePanel">
+                <button id="closeDrawer" class="closeDrawerIcon" mat-stroked-button
+                (click)="closeConfigureRules()">
+                <mat-icon>close</mat-icon>
+                </button>
+                <button *ngIf="pageLabel=='Welcome_Page'" id="sidebarSectionName" class="sidebarSectionName overlay-md-btn" mat-raised-button color="primary"
+                type="button" id="btnAssignCandidate">{{'label_configureRules' | translate}}</button>
+                <button *ngIf="pageLabel=='Knockout_Questions'" id="sidebarSectionName" class="sidebarSectionName overlay-md-btn" mat-raised-button color="primary"
+                type="button" id="btnAssignCandidate">{{'label_configureRules' | translate}}</button>
+                <button  *ngIf="pageLabel=='Thank_You'" id="sidebarSectionName" class="sidebarSectionName overlay-md-btn" mat-raised-button color="primary"
+                type="button" id="btnAssignCandidate">{{'label_configureRules' | translate}}</button>
+            </div>
+
+            <div class="view-profile-summary" id="configure-application-view">
+                <app-welcome-rule [ApplicationFormId]="ApplicationFormId" [ApplicationFormName]="ApplicationFormName" (cancelDrawer)="cancelDrawer($event)"></app-welcome-rule>
+            </div>
+
+        </mat-drawer>
+    </mat-drawer-container>
+</ng-template>
+<!-- This button triggers the overlay and is it's origin -->

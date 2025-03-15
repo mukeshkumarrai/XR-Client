@@ -1,0 +1,209 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-drawer-content class="job-log-content" id="job-log-content" infinite-scroll [infiniteScrollDistance]="pageNo" [infiniteScrollThrottle]="pageSize" (scrolled)="onScrollDown()"
+[scrollWindow]="false">
+    
+  <div class="job-log-data" id="job-log-data" >
+    <div class="data-header data-header-notes-detail white-bg mb-10" id="data-header">
+        <div class="left-data-header">
+        </div>
+        <div class="left-data-header">
+            
+               <div class="button-with-clear only-clear">
+                 <!-- @When: 27-09-2023 @who:Amit @why: EWM-14465 @what: add animation -->
+                    <button mat-raised-button class="more-filter" id="filter-date"
+            [ngClass]="[ filterCountDate!=0 ? 'addFilter' : 'blankFilter']" 
+                (click)="openDateFilterDialog()" matTooltip="{{'label_clientfilterdate'|translate}}"
+                matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                (mouseenter)="mouseoverAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.FilterButton?.id, animationVar?.FilterButton?.animation)">
+                <mat-icon fontSet="material-icons-outlined" id="{{animationVar?.FilterButton?.id}}" class="{{animationVar?.FilterButton?.isAnimClass}}">date_range</mat-icon>
+            </button>
+            <div class="clear-with-data" *ngIf="filterCountDate!=0" (click)="clearFilterData('Date')">
+                <!-- <span class="text-overflow filterCount">{{filterCount}}</span> -->
+                <button mat-icon-button color="warn">
+                <mat-icon>close</mat-icon>
+                </button>
+            </div>
+              </div>
+
+              <!-- <div class="button-with-clear">
+                <button mat-stroked-button [matMenuTriggerFor]="menu" color="primary">Sorting</button>
+                <mat-menu #menu="matMenu" class="sorting-dropdown">
+                  <button mat-menu-item (click)="sortingJobLog('asc')">ASC</button>
+                  <button mat-menu-item (click)="sortingJobLog('desc')">DESC</button>
+                </mat-menu>
+              </div> -->
+
+              <div class="button-with-clear only-clear">
+              <!-- @When: 27-09-2023 @who:Amit @why: EWM-14465 @what: add animation -->
+              <button mat-raised-button class="asc-desc-btn"  *ngIf="ascending" (click)="sortingJobLog('asc')" matTooltip="{{'label_ascending'|translate}}"
+              matTooltipClass="card-list-tooltip" matTooltipPosition="before" id="ascending"
+              (mouseenter)="mouseoverAnimation(animationVar?.DescendingButton?.id, animationVar?.DescendingButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.DescendingButton?.id, animationVar?.DescendingButton?.animation)">
+              <svg width="24" id="{{animationVar?.DescendingButton?.id}}"
+              class="{{animationVar?.DescendingButton?.isAnimClass}}" height="24" class="asc-desc-svg" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980.000000 980.000000" preserveAspectRatio="xMidYMid meet">
+
+                <g transform="translate(0.000000,980.000000) scale(0.100000,-0.100000)"
+                fill="#000000" stroke="none">
+                <path d="M4625 9790 c-690 -41 -1310 -210 -1945 -531 -966 -486 -1697 -1225
+                -2174 -2194 -267 -542 -416 -1055 -483 -1665 -24 -223 -24 -763 0 -990 68
+                -617 214 -1121 487 -1675 424 -859 1030 -1523 1835 -2010 600 -363 1280 -602
+                1947 -685 357 -44 817 -48 1123 -10 44 5 122 14 173 19 139 15 215 61 270 166
+                22 42 27 63 27 130 0 67 -5 88 -27 130 -49 93 -137 153 -237 162 -31 3 -111
+                -2 -177 -11 -570 -74 -1211 -23 -1754 139 -530 159 -1074 444 -1510 791 -164
+                130 -502 467 -620 617 -443 565 -747 1213 -879 1872 -58 286 -72 432 -78 780
+                -6 354 6 541 53 820 242 1436 1227 2665 2595 3238 746 313 1591 402 2419 256
+                816 -144 1616 -557 2224 -1149 247 -241 410 -437 591 -709 445 -672 676 -1373
+                714 -2166 7 -154 10 -175 33 -220 31 -59 76 -104 138 -136 67 -35 186 -34 255
+                3 90 47 144 123 164 230 20 112 -21 547 -80 843 -185 931 -645 1810 -1294
+                2474 -429 439 -856 740 -1450 1022 -515 245 -1092 400 -1660 448 -176 15 -520
+                21 -680 11z"/>
+                <path d="M4797 7586 c-89 -37 -136 -83 -167 -164 -11 -29 -20 -73 -20 -99 0
+                -25 68 -467 150 -982 83 -515 159 -990 170 -1055 10 -66 16 -124 12 -130 -3
+                -6 -294 -411 -646 -901 -352 -490 -718 -999 -813 -1131 -95 -133 -180 -259
+                -189 -279 -8 -21 -15 -67 -15 -107 -1 -271 327 -406 512 -211 41 43 1666 2302
+                1676 2330 4 10 17 32 29 48 37 49 64 117 64 162 0 23 -65 439 -144 925 -80
+                486 -163 998 -186 1138 -46 287 -62 334 -136 399 -49 43 -145 81 -203 81 -20
+                0 -62 -11 -94 -24z"/>
+                <path d="M7243 4565 c-88 -24 -133 -53 -238 -154 -502 -482 -1179 -1151 -1203
+                -1189 -49 -78 -65 -142 -60 -246 3 -77 9 -101 37 -159 82 -171 275 -272 457
+                -238 129 23 156 43 434 311 l255 247 3 -106 c1 -58 6 -486 10 -951 l7 -845 32
+                -68 c131 -275 473 -341 692 -132 41 39 68 77 92 128 l34 72 -2 944 -2 944 21
+                -19 c12 -11 127 -121 256 -246 142 -136 255 -237 285 -253 223 -122 491 -35
+                601 195 29 61 31 72 31 175 0 105 -2 114 -34 180 -38 80 6 35 -827 845 -545
+                530 -560 543 -675 569 -61 14 -144 12 -206 -4z"/>
+                </g>
+                </svg>      
+              </button>
+
+              <button mat-raised-button class="asc-desc-btn"  *ngIf="descending" (click)="sortingJobLog('desc')" matTooltip="{{'label_descending'|translate}}"
+              matTooltipClass="card-list-tooltip" matTooltipPosition="before" id="descending"
+              (mouseenter)="mouseoverAnimation(animationVar?.AscendingButton?.id, animationVar?.AscendingButton?.animation)"
+              (mouseleave)="mouseleaveAnimation(animationVar?.AscendingButton?.id, animationVar?.AscendingButton?.animation)">
+              <svg id="{{animationVar?.AscendingButton?.id}}"
+              class="{{animationVar?.AscendingButton?.isAnimClass}}"  width="24" height="24" version="1.0" class="asc-desc-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980.000000 980.000000"
+              preserveAspectRatio="xMidYMid meet">
+             <g transform="translate(0.000000,980.000000) scale(0.100000,-0.100000)" stroke="none">
+             <path d="M4625 9790 c-690 -41 -1310 -210 -1945 -531 -966 -486 -1697 -1225
+             -2174 -2194 -267 -542 -416 -1055 -483 -1665 -24 -223 -24 -763 0 -990 68
+             -617 214 -1121 487 -1675 424 -859 1030 -1523 1835 -2010 600 -363 1280 -602
+             1947 -685 357 -44 817 -48 1123 -10 44 5 122 14 173 19 139 15 215 61 270 166
+             22 42 27 63 27 130 0 67 -5 88 -27 130 -49 93 -137 153 -237 162 -31 3 -111
+             -2 -177 -11 -570 -74 -1211 -23 -1754 139 -530 159 -1074 444 -1510 791 -164
+             130 -502 467 -620 617 -443 565 -747 1213 -879 1872 -58 286 -72 432 -78 780
+             -6 354 6 541 53 820 242 1436 1227 2665 2595 3238 746 313 1591 402 2419 256
+             816 -144 1616 -557 2224 -1149 247 -241 410 -437 591 -709 445 -672 676 -1373
+             714 -2166 7 -154 10 -175 33 -220 31 -59 76 -104 138 -136 67 -35 186 -34 255
+             3 90 47 144 123 164 230 20 112 -21 547 -80 843 -185 931 -645 1810 -1294
+             2474 -429 439 -856 740 -1450 1022 -515 245 -1092 400 -1660 448 -176 15 -520
+             21 -680 11z"/>
+             <path d="M4797 7586 c-89 -37 -136 -83 -167 -164 -11 -29 -20 -73 -20 -99 0
+             -25 68 -467 150 -982 83 -515 159 -990 170 -1055 10 -66 16 -124 12 -130 -3
+             -6 -294 -411 -646 -901 -352 -490 -718 -999 -813 -1131 -95 -133 -180 -259
+             -189 -279 -8 -21 -15 -67 -15 -107 -1 -271 327 -406 512 -211 41 43 1666 2302
+             1676 2330 4 10 17 32 29 48 37 49 64 117 64 162 0 23 -65 439 -144 925 -80
+             486 -163 998 -186 1138 -46 287 -62 334 -136 399 -49 43 -145 81 -203 81 -20
+             0 -62 -11 -94 -24z"/>
+             <path d="M7270 4571 c-120 -24 -246 -125 -301 -244 l-34 -72 2 -944 2 -944
+             -21 19 c-12 11 -127 121 -256 246 -142 136 -255 237 -285 253 -223 122 -491
+             35 -601 -195 -29 -61 -31 -72 -31 -175 0 -105 2 -114 34 -180 38 -80 -6 -35
+             827 -845 545 -530 560 -543 675 -569 94 -22 210 -6 302 40 48 25 54 31 779
+             737 299 292 550 544 566 570 49 78 65 142 60 246 -3 77 -9 101 -37 159 -82
+             171 -275 272 -457 238 -129 -23 -156 -43 -434 -311 l-255 -247 -3 106 c-1 58
+             -6 486 -10 951 l-7 845 -32 68 c-88 186 -285 287 -483 248z"/>
+             </g>
+             </svg>  
+              
+            </button>
+              </div>
+                
+        </div>
+    </div>
+  <div *ngIf="jobLogDeatils?.length >0">
+      <div class="job-log-box" *ngFor="let joblog of jobLogDeatils" id="job-log-box">
+        <div class="job-log" id="job-log">
+            <div class="userAvtaarAndName" *ngIf="joblog?.KeywordCondition !='JOBEXPIRE' && joblog?.KeywordCondition !='JOBCLOSED' && joblog?.OptionalDataField1 != 'Outgoing' && joblog?.OptionalDataField1 != 'Incoming'" matTooltip="{{joblog?.CreatedBy | titlecase}}" matTooltipClass="custom-tooltip">
+              <img *ngIf="joblog?.UserProfileImageUrl!=''" src="{{joblog?.UserProfileImageUrl}}" />
+              <span *ngIf="joblog?.UserProfileImageUrl==''">{{sortName(joblog?.CreatedBy)}}</span> 
+            </div>
+            <div class="userAvtaarAndName" *ngIf="joblog?.Event == 'label_call_rec_add_job' && joblog?.OptionalDataField1 == 'Outgoing'" matTooltip="{{joblog?.CreatedBy | titlecase}}" matTooltipClass="custom-tooltip">
+              <span *ngIf="joblog?.UserProfileImageUrl==''">{{sortName(joblog?.CreatedBy)}}</span> 
+            </div>
+            <div class="userAvtaarAndName" *ngIf="joblog?.Event == 'label_call_rec_add_job' && joblog?.OptionalDataField1 == 'Incoming'" matTooltip="{{joblog?.CreatedBy | titlecase}}" matTooltipClass="custom-tooltip">
+              <span *ngIf="joblog?.UserProfileImageUrl==''">{{sortName(joblog?.DataValue)}}</span> 
+            </div>
+            <div class="job-log-info" *ngIf="joblog?.KeywordCondition !='JOBEXPIRE' && joblog?.KeywordCondition !='JOBCLOSED'">
+                <h1>
+                  <span *ngIf="joblog?.Event !='label_job_upd_workflow_backward' && joblog?.Event !='label_call_rec_add_job'"><!--@why:EWM:14360,@who:Nitin B,@when:26-09-2023,handle condiditon for push back--->
+                  <span class="primary">{{joblog?.CreatedBy}}</span> {{joblog?.Event | translate}}
+                   <span class="primary">{{joblog?.DataValue}}</span> {{joblog?.OptionalDataField | translate}}
+                    <span class="primary">{{joblog?.OptionalDataValue}}</span>  {{joblog?.OptionalDataField1 | translate}}
+                     <span class="primary">{{joblog?.OptionalDataValue1}}</span>
+                    </span>
+                     <span *ngIf="joblog?.Event ==='label_job_upd_workflow_backward'"> <!--@why:EWM:14360,@who:Nitin B,@when:26-09-2023,handle condiditon for push back--->
+                      <span class="primary">{{joblog?.CreatedBy}}</span> {{joblog?.Event | translate}}
+                      <span class="primary">{{joblog?.DataValue}}</span> {{joblog?.OptionalDataField | translate}}
+                       <span class="primary">{{joblog?.OptionalDataValue1}}</span>  {{joblog?.OptionalDataField1 | translate}}
+                        <span class="primary">{{joblog?.OptionalDataValue}}</span>
+                     </span>
+                     <!-- <span *ngIf="joblog?.Event =='label_call_rec_add_job'">
+                      <span class="primary" *ngIf="joblog?.OptionalDataKey1!='Outgoing'">{{joblog?.DataValue}}</span>
+                      <span  *ngIf="joblog?.OptionalDataKey1!='Outgoing'">{{' '}}{{joblog?.Event | translate}} {{' '}}</span> 
+                       <span class="primary" *ngIf="joblog?.OptionalDataKey1!='Outgoing'">{{joblog?.CreatedBy}}</span>
+                       <span class="primary" *ngIf="joblog?.OptionalDataKey1=='Outgoing'">{{joblog?.DataValue}}</span> 
+                       <span  *ngIf="joblog?.OptionalDataKey1=='Outgoing'">{{' '}}{{joblog?.Event | translate}} {{' '}}</span> 
+                       <span class="primary" *ngIf="joblog?.OptionalDataKey1=='Outgoing'"> {{joblog?.CreatedBy}}</span>
+                        </span>
+                <span *ngIf="joblog?.Event =='label_can_add_job'">
+                  <span *ngIf="joblog?.Source != null"> through</span> 
+                   <span class="primary"> {{joblog?.Source}} {{joblog?.OptionalDataField1 | translate}} {{joblog?.OptionalDataValue1}}</span>
+                  </span> 
+                   <span *ngIf="joblog?.Event ==='label_job_upd_workflow_backward'">
+                    <span class="primary">{{joblog?.CreatedBy}}</span> {{joblog?.Event | translate}}
+                    <span class="primary">{{joblog?.DataValue}}</span> {{joblog?.OptionalDataField | translate}}
+                     <span class="primary">{{joblog?.OptionalDataValue1}}</span>  {{joblog?.OptionalDataField1 | translate}}
+                      <span class="primary">{{joblog?.OptionalDataValue}}</span>
+                   </span>-->
+                   <span *ngIf="joblog?.Event =='label_call_rec_add_job'">
+                    <span class="primary" *ngIf="joblog?.OptionalDataField1!='Outgoing'">{{joblog?.DataValue}}</span>
+                    <span  *ngIf="joblog?.OptionalDataField1!='Outgoing'">{{' '}}{{joblog?.Event | translate}} {{' '}}</span> 
+                     <span class="primary" *ngIf="joblog?.OptionalDataField1!='Outgoing'">{{joblog?.CreatedBy}}</span>
+                     <span class="primary" *ngIf="joblog?.OptionalDataField1=='Outgoing'">{{joblog?.CreatedBy}}</span> 
+                     <span  *ngIf="joblog?.OptionalDataField1=='Outgoing'">{{' '}}{{joblog?.Event | translate}} {{' '}}</span> 
+                     <span class="primary" *ngIf="joblog?.OptionalDataField1=='Outgoing'"> {{joblog?.DataValue}}</span>
+                      </span>
+              <span *ngIf="joblog?.Event =='label_can_add_job'">
+                <span *ngIf="joblog?.Source != null"> through</span> 
+                 <span class="primary"> {{joblog?.Source}} {{joblog?.OptionalDataField1 | translate}} {{joblog?.OptionalDataValue1}}</span>
+                </span>
+              </h1>
+              <p>{{joblog?.Created | date:userpreferences.timeformate:userpreferences.timezone}}</p>          
+          </div>
+          <!--@who: Nitin Bhati,@why:@EWM-13559,@when: 26-07-2023, for handle condition if candidate is expired or coming from outside of application i.e: parse resume--->
+          <div class="userAvtaarAndName" *ngIf="joblog?.KeywordCondition =='JOBEXPIRE' && joblog?.KeywordCondition !='JOBCLOSED'" matTooltip="{{joblog?.DataValue | titlecase}}" matTooltipClass="custom-tooltip">
+            <span>{{sortName(joblog?.DataValue)}}</span> 
+          </div>
+          <div class="job-log-info" *ngIf="joblog?.KeywordCondition =='JOBEXPIRE' && joblog?.KeywordCondition !='JOBCLOSED'">
+            <h1><span class="primary">{{joblog?.DataValue}}</span> {{joblog?.Event | translate}}</h1>
+            <p>{{joblog?.Created | date:userpreferences.timeformate:userpreferences.timezone}}</p>          
+        </div>
+        <div class="userAvtaarAndName" *ngIf="joblog?.KeywordCondition =='JOBCLOSED'  && joblog?.KeywordCondition !='JOBEXPIRE'" matTooltip="{{joblog?.DataValue | titlecase}}" matTooltipClass="custom-tooltip">
+          <span>{{sortName(joblog?.DataValue)}}</span> 
+        </div>
+        <div class="job-log-info" *ngIf="joblog?.KeywordCondition =='JOBCLOSED'  && joblog?.KeywordCondition !='JOBEXPIRE'">
+          <h1><span class="primary">{{joblog?.DataValue}}</span> {{joblog?.Event | translate}}</h1>
+          <p>{{joblog?.Created | date:userpreferences.timeformate:userpreferences.timezone}}</p>          
+      </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+</mat-drawer-content>
+  
+
+  
+  

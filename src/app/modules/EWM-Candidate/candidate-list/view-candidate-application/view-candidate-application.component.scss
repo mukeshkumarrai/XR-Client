@@ -1,0 +1,22 @@
+::ng-deep{
+    .xeople-container-with-one-card-no-buttons.mat-drawer-container .mat-drawer-content{
+        .mat-card.view-candidate-application{
+            padding: 0px;
+            height: 100%;
+            .candidate-tab.view-tab {
+                height: calc(100% - 0px);
+                .mat-tab-body-wrapper{
+                    height: 100%;
+                    .mat-tab-body-content{
+                        overflow: hidden;
+                    }
+                }
+            }
+            .main-view-application{
+                height: 100%;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+        }
+    }
+}

@@ -1,0 +1,79 @@
+<!---
+    @Type: File, <html>
+    @Name: invite-a-teammate.component.html
+    @Who: Anup Singh
+    @When: 25-May-2021
+    @Why: EWM-1434 EWM-1612
+    @What: popup component for Invite Teammate
+-->
+<!---
+    @Modified
+    @Type: File, <html>
+    @Name: invite-a-teammate.component.html
+    @Who: Anup Singh
+    @When: 25-May-2021
+    @Why: EWM-1434 EWM-1612
+    @What: popup component for Invite Teammate
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_Client' | customTranslate}} {{'label_contact' | translate}}</h2>
+</div>
+<mat-dialog-content class="modal-search-email-name" applyTabIndexes>
+    <mat-chip-list>
+        <mat-chip *ngFor="let users of searchContact" [removable]="true" class="addContatChip"
+            id="inviteTeammate-Chip" (removed)="onClientContactRemove(users.Id)">
+            <span class="text-overflow" matTooltip="{{ users.Name }}" matTooltipClass="custom-tooltip">{{ users.Name }}</span>
+            <mat-icon id="iconCancel" matChipRemove>cancel</mat-icon>
+        </mat-chip>
+    </mat-chip-list>
+    <span *ngIf="maxMsg" class="new badge red" style="text-transform: initial;">
+        {{'label_maxDataTxt'| translate}}
+    </span>
+    <mat-form-field class="searchContact mt-5">
+        <input matInput type="text" tabindex [(ngModel)]="searchValue" id="searchContact-SearchInput"
+            (keyup)="onsearchContact($event.target.value)"
+            placeholder=" {{'searchContactByEmailId' |translate }} " autocomplete="off">
+        <div *ngIf="loadingPopup" class="k-i-loading inputSearch"></div>
+        <button mat-icon-button matSuffix  matTooltip="{{'label_add'|translate}}"
+        matTooltipPosition="before" matTooltipClass="card-list-tooltip" (click)="openQuickAddContactModal()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-form-field>
+    <!-- <mat-error *ngIf="noRecordFound" class="maxValue"> {{ noRecordFound | translate}}</mat-error> -->
+    <!-- <mat-error *ngIf="maxMsg" class="maxValue"> {{'label_teammateErrorMaxData' | translate}}
+        {{maxContactSelect}}
+    </mat-error> -->
+    <mat-list class="contactList">
+        <mat-list-item *ngFor="let user of searchListUser" [disabled]="addContact(user)"  (click)="AddSelectClientContact(user)">
+            <div class="search-data" >
+                <span class="text-overflow">{{user.Name}}</span>
+                <div class="email text-overflow">({{user.EmailId}})</div>
+            </div>
+
+            <button mat-icon-button color="primary" id="btnAdd" tabindex  matTooltip="{{'label_add'|translate}}"
+            matTooltipClass="custom-tooltip"
+             >
+                <mat-icon>add</mat-icon>
+            </button>
+        </mat-list-item>
+
+        <mat-list-item *ngIf="!searchListUser.length && noRecordFound ">
+            <div class="search-data">
+                <span class="text-overflow">{{ noRecordFound | translate}}</span>
+                
+            </div>
+          
+        </mat-list-item>
+    </mat-list>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+    <button mat-stroked-button color="warn" id="btnClose" tabindex (click)="onDismiss()"> {{'button_close' |
+        translate}}</button>
+    <button mat-stroked-button color="primary" id="btnAdd" tabindex [disabled]="!searchContact.length"
+        (click)="saveTeamMates()">{{'label_add' |translate}}</button>
+</mat-dialog-actions>

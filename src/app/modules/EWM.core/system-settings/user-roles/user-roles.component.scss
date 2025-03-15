@@ -1,0 +1,105 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: organization-details.component.scss
+    @Who: Satya Prakash
+    @When: 25-Nov-2020
+    @Why: ROST-370 ROST-427
+    @What: You can add organization details styles to this file, and also import other style files
+*/
+
+@import "../../../../../mixinStyle.scss";
+
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532
+.col-1 {
+  width: 25%;
+}
+.col-2 {
+  width: 50%;
+}
+.col-3 {
+  width: 22%;
+}
+.col-4 {
+  width: 3%;
+}
+.userRolePerTxt {
+  margin-left: 5px;
+}
+.headerTopFix {
+  margin-bottom: 10px;
+  .col:first-child{
+    height: 35px;
+    display: flex;
+    align-items: center;
+  }
+}
+.collapsBtn{
+  .mat-icon{
+    position: relative;
+    top: -1px;
+    font-size: 22px;
+    line-height: 25px;
+  }
+}
+
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532
+.xeople-container-listing-without-breadCrumb.mat-drawer-container{
+  .component-card.mat-card{
+    // @When: 22-03-2023 @who:Amit @why: EWM-11250 @what:add media
+    @media only screen and (max-width: 1060px) and (min-width: 581px) {
+      height: calc(100% - 18px);
+    }
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100% - 52px);
+    }
+
+    .list-infinite-scroll{
+      height: calc(100% - 65px);
+      @media only screen and (max-width: 992px) and (min-width: 320px) {
+        height: calc(100% - 64px);
+      }
+    }
+  }
+  .component-card.mat-card.permission-data{
+    @media only screen and (max-width: 429px) and (min-width: 386px) {
+      height: calc(100% - 95px);
+    }
+    .permission-header{
+      padding: 5px;
+      align-items: center;
+      justify-content: space-between;
+      .mat-card-title{
+        margin-bottom: 0px;
+      }
+      .actionButton{
+        display: flex;
+        .mat-raised-button{
+          margin-inline-start: 8px;
+        }
+      }
+    }
+    .permission-list-container{
+      overflow: auto;
+      height: calc(100% - 50px);
+    }
+  }
+}
+
+.card-infinite-scroll{
+  height: 100%;
+  @media only screen and (max-width: 1199px) and (min-width: 1061px) {
+    height: calc(100% - 40px);
+  }
+  @media only screen and (max-width: 1060px) and (min-width: 768px) {
+    height: calc(100% - 50px);
+  }
+  @media only screen and (max-width: 767px) and (min-width: 481px) {
+    height: calc(100% - 60px);
+  }
+  @media only screen and (max-width: 480px) and (min-width: 320px) {
+    height: calc(100% - 80px);
+  }
+}
+
+

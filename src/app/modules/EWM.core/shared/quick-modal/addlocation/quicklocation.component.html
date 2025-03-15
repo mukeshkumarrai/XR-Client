@@ -1,0 +1,30 @@
+<!---
+@(C): Entire Software
+@Type: File, <html>
+@Who: Renu
+@When: 23-June-2021
+@Why: EWM-1748
+@What:  This component is used for Quick add location
+-->
+
+   
+   
+      <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_location' | translate}} </h2>
+    </div> 
+      <mat-dialog-content class="col">
+
+        <app-custom-location [googleAddressValueIn]="addressData"  [configIn]="methodType" (googleAddressValueOut)="googleMapAddress($event)"
+        (googleAddressValidOut)="AddressFormValid($event)">
+           </app-custom-location>
+
+      </mat-dialog-content>
+ 
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+      <button mat-stroked-button color="warn" tabindex type="button"  id="btnCancel" (click)="onDismiss()">
+        {{'button_cancel'|translate}}</button>
+      <button mat-stroked-button color="primary" tabindex type="button"  [disabled]= "!validAddressForm"
+         id="btnSave"  (click)="onSubmit()"> {{'label_save'|translate}}</button>
+    </div>
+   

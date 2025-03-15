@@ -1,0 +1,89 @@
+<!--
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Adarsh Singh
+    @When: 08-May-2023
+    @Why: EWM-11804
+    @What: Smart Email for job
+-->
+
+<!--
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 12-May-2023
+    @Why: EWM-12382
+    @What: Smart Email for job structure modified
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<form id="xeople-smart-mail" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_generateXeopleSmartEamil' |translate}}</h2>
+        <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content class="candidate-mail">
+        <p class="mt-0">{{"label_xeopleSmartJobDesc" | translate}}</p>
+        <p>{{"label_xeopleSmartJobDesc2" | translate}}</p>
+
+        <span *ngIf="emailConnection; else notConnect">
+            <div class="url-link">
+                <span class="new badge primary" style="text-transform: inherit;">
+                    <button mat-icon-button color="primary" type="button" id="url-copy-btn" matTooltip="{{message}}"
+                    matTooltipClass="custom-tooltip" (click)="copyCandidateEmailId(labelJobRefId,111)">
+                    <mat-icon>content_copy</mat-icon>
+                </button>
+            <a (click)="openNewEmailModal(undefined,'','',$event)" class="text-overflow newEmailBtn"
+                matTooltip="{{labelJobRefId}}"
+                matTooltipClass="custom-tooltip">{{labelJobRefId}}
+                <div class="copyMessage email-hide" id="autoHide{{111}}">
+                    <div class="alert-primary alert-green">
+                      <mat-icon>check</mat-icon>
+                      <span>{{'label_emailAddressCipied'| translate }}</span>
+                    </div>
+                  </div>
+            </a>
+           
+            </span>
+        </div>
+        </span>
+
+        <ng-template #notConnect>
+            <div class="url-link">
+                <span class="new badge primary" style="text-transform: inherit;">
+                    <button mat-icon-button color="primary" type="button" id="url-copy-btn" (click)="copyCandidateEmailId(labelJobRefId,222)">
+                    <mat-icon>content_copy</mat-icon>
+                </button>
+                    <a href="mailto:{{labelJobRefId}}" class="text-overflow newEmailBtn"
+                    matTooltip="{{labelJobRefId}}"
+                    matTooltipClass="custom-tooltip">{{labelJobRefId}}                
+                    <div class="copyMessage email-hide" id="autoHide{{222}}">
+                        <div class="alert-primary alert-green">
+                          <mat-icon>check</mat-icon>
+                          <span>{{'label_emailAddressCipied'| translate }}</span>
+                        </div>
+                      </div>
+                </a>                
+                </span>
+            </div>
+        </ng-template>
+        <div class="imp-instruction">
+            <h4>{{'label_importantInstructions' | translate}}</h4>
+            <ul class="pl-15">
+                <li>{{'label_xeopleSmartJobList1' | translate}}</li>
+                <li>{{'label_xeopleSmartJobList2' | translate}}</li>
+                <li>{{'label_xeopleSmartJobList3' | translate}}</li>
+                <li>{{'label_xeopleSmartJobList4' | translate}}</li>
+                <li>{{'label_xeopleSmartJobList5' | translate}}</li>
+                <li>{{'label_xeopleSmartJobList6' | translate}}</li>
+            </ul>
+        </div>
+    </mat-dialog-content>
+</form>

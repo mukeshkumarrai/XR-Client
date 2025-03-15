@@ -1,0 +1,25 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: site-domain.component.scss
+    @Who: Satya Prakash
+    @When: 25-Nov-2020
+    @Why: ROST-370 ROST-427
+    @What: You can add site domain styles to this file, and also import other style files
+*/
+@import '../../../../../mixinStyle.scss';
+.mat-form-field{
+    max-width: 33.33%;
+    @include for-small-smartphones{
+        max-width: 100%;
+    }
+    @include for-smartphones {
+        max-width: 100%;
+    }
+    @include for-large-smartphones {
+        max-width: 100%;
+    }
+    @include for-ipads{
+        max-width: 50%;
+    }
+}

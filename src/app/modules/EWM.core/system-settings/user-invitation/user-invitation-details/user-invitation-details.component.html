@@ -1,0 +1,172 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Priti Srivastava
+  @When: 2-june-2021
+    @Why: EWM-1640
+    @What:  This page wil be use only for the user invitation detail
+  
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card-header class="dashboard-mat-card-header title-and-btn" id="dashboard-mat-card-header">
+  <mat-card-title class="only-title" *ngIf="!isViewMode">{{'label_EditUserInvitation' |translate}}</mat-card-title>
+  <mat-card-title class="only-title" *ngIf="isViewMode">{{'label_ViewUserInvitation' |translate}}</mat-card-title>
+  
+  <div class="actionButton" >
+    <button mat-raised-button class="buttonForDesktopMobile" color="warn" (click)="onCancelShow()"
+      id="userInvitaion-btnBack">
+      <mat-icon>close</mat-icon>
+      <span *ngIf="isViewMode" class="buttonTxt">{{'label_back' |translate}}</span>
+      <span *ngIf="!isViewMode" class="buttonTxt">{{'label_cancel' |translate}}</span>
+    </button>
+    <button mat-raised-button *ngIf="!isViewMode" class="buttonForDesktopMobile" color="primary" 
+    [disabled]="!UserInviteDetailsForm.valid" (click)="onUpdate(this.UserInviteDetailsForm.value)"
+      id="userinvitation-btnUpdate">
+      <mat-icon>check</mat-icon>
+      <span class="buttonTxt">{{'label_save' |translate}}</span>
+    </button>
+  </div>
+</mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="user-invitation-drawer">
+    <mat-card id="userInvitaion" class="component-card mat-elevation-z2">
+        <div class="showAccessSection">
+            <form novalidate [formGroup]="UserInviteDetailsForm">
+              <div class="row">
+                <div class="col l4 m12 s12">
+                  <h2 class="cardSubTitle" id="userinvitation-cardSubTitle" >
+                    {{'label_colUser' |translate}} {{'label_details' |translate}}
+                  </h2>
+                  <div class="row">
+                    <div class="col l12 m12 s12">
+                      <mat-slide-toggle [checked]="true" formControlName="siteAccessDetail" color="primary">
+                        {{'label_hasAccessOnSite' |translate}}
+                      </mat-slide-toggle>
+                    </div>
+                    <div  class="col l12 m12 s12">
+                      <span class="lastActivity">{{'label_lastActivity' |translate}} {{LastSignIn==0?'':LastSignIn|date:userpreferences.timeformate:userpreferences.timezone}} </span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col l12 m12 s12">
+                      <h2 class="cardSubTitle mb-0" id="userinvitation-cardSubTitle">
+                        {{'label_siteAccessLevel' |translate}}
+                      </h2>
+                      <div class="ng-slectBox">
+                        <ng-select tabindex="12" class="show-required" formControlName="ddlAccessLevelDetail" id="userinvitation-ddlAccessLevelDetail"
+                          [clearable]="true" placeholder="{{'label_ddlAccessLevel' |translate}}">
+                          <!-- <ng-option [value]="">{{'label_SelectAccessLevel' |translate}}</ng-option> -->
+                          <ng-option *ngFor="let accessLevel of accessLevels" [value]="accessLevel.Id">
+                            {{accessLevel.Name}}</ng-option>
+                        </ng-select>
+                           <mat-error
+                                    *ngIf="UserInviteDetailsForm.controls['ddlAccessLevelDetail'].hasError('required') && UserInviteDetailsForm.controls['ddlAccessLevelDetail'].touched">
+                                    {{'label_ddlAccessLevel' |translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col l12 m12 s12" *ngIf="tabActive === 'people'">
+
+                      <h2 class="cardSubTitle mb-0" id="userinvitation-hdrPeople" >
+                        {{'label_people' |translate}}  {{'label_templatetype' |translate}}
+                      </h2>
+                      <div class="ng-slectBox">
+                        <ng-select tabindex="12" formControlName="ddlPeopleDetail" class="show-required" (change)="ddlPeopleChange($event)" id="userinvitation-ddlPeopleDetail"
+                          [clearable]="true" placeholder="{{'label_people' |translate}}">
+                          <ng-option *ngFor="let userType of userTypes" [value]="userType.InternalCode">
+                            {{userType.InternalName}}</ng-option>
+                        </ng-select>
+                        <mat-error
+                        *ngIf="UserInviteDetailsForm.controls['ddlPeopleDetail'].hasError('required') && UserInviteDetailsForm.controls['ddlPeopleDetail'].touched">
+                        {{'label_people' |translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12 m12 s12" >
+
+                      <h2 class="cardSubTitle mb-0" id="userinvitation-hdrPeople" >
+                        {{'label_ddlRole' |translate}}
+                      </h2>
+                      <div class="ng-slectBox">
+                        <ng-select tabindex="12" formControlName="ddlRoleDetails" class="show-required" (change)="ddlPeopleChange($event)" id="userinvitation-ddlPeopleDetail"
+                          [clearable]="true" placeholder="{{'label_ddlRole' |translate}}">
+                        <ng-option *ngFor="let userRole of userRoles" [value]="userRole.RoleCode">
+                          {{userRole.Name}}</ng-option>
+                        </ng-select>
+                        <mat-error
+                        *ngIf="UserInviteDetailsForm.controls['ddlRoleDetails'].hasError('required') && UserInviteDetailsForm.controls['ddlRoleDetails'].touched">
+                        {{'label_ddlRole' |translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l12 m12 s12">
+                      <h2 class="cardSubTitle mb-0" id="userinvitation-cardSubTitle" >
+                        {{'label_groups' |translate}}
+                      </h2>
+                        <ng-select tabindex="14" formControlName="group" id="userinvitation-ddlgroup" [clearable]="true"
+                        placeholder="{{'label_grpName' |translate}}">
+                        <ng-option [value]="">Project A</ng-option>
+                      </ng-select>
+      
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col l12 m12 s12">
+                      <h2 class="cardSubTitle mb-0" id="userinvitation-cardSubTitle">
+                        {{'label_project' |translate}}
+                      </h2>
+                      <ng-select tabindex="15" formControlName="project" id="userinvitation-ddlproject" [clearable]="true"
+                      placeholder="{{'label_project' |translate}} {{'label_mailName' |translate}}">
+                      <ng-option [value]="">Group A</ng-option>
+                    </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col l1 m12 s12">
+                  &nbsp;
+                </div>
+                <div class="col l4 m12 s12">
+                  <h2 class="cardSubTitle" id="userinvitation-cardSubTitle">
+                    {{'label_mfa_accountLabel' |translate}}
+                  </h2>
+                  <mat-card class="userInvitationCard">
+                    <div class="userInviteHeading">
+                      <img class="userPhoto" *ngIf="imgPreview==''"
+                        src="/assets/user.svg" />
+                        <img class="userPhoto" *ngIf="!(imgPreview=='')" src="{{imgPreview}}" />
+                      <p class="userEmailLink">
+                        {{username}}
+                      </p>
+                    </div>
+                    <div class="userInviteContent">
+                      <p class="userInviteContentLinks">
+                        <span class="iconSpan">
+                          <mat-icon class="flipKeyCss">email</mat-icon>
+                        </span>
+                        {{userInviteDetailsEmailID}}
+                      </p>
+                      <p class="userInviteContentLinks">
+                        <span class="iconSpan">
+                          <mat-icon class="flipKeyCss">attribution</mat-icon>
+                        </span>
+                          {{UserType}}
+                      </p>
+                    </div>
+                  </mat-card>
+                </div>
+              </div>
+            </form>
+        </div>
+    </mat-card>
+</mat-drawer-container>

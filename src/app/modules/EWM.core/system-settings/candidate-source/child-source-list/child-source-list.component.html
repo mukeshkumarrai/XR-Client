@@ -1,0 +1,71 @@
+<kendo-grid #grid [sortable]="false" class="child-source-list"   id="gridCandidateSource" 
+[reorderable]="false" [resizable]="false" [data]="gridView" (dataStateChange)="onDataStateChange($event)"
+[filterable]="false" [pageable]="{buttonCount: 3,
+  info: false,
+  type: 'numeric',
+  pageSizes: false,
+  previousNext: false,
+  responsive: false}" 
+  (edit)="editHandler($event)"
+  (cancel)="cancelHandler($event)"
+  (save)="saveHandler($event)">
+
+    <kendo-grid-column field="ApplicationSource" title="Application Source" width="180" [headerStyle]="{'text-align': 'left'}">
+      <ng-template kendoGridEditTemplate let-column="column" let-formGroup="formGroup" let-isNew="isNew">
+        <span class="textLeft">
+          <div class="input-with-error" id="Applicatio-Source">
+              <input #input class="k-textbox" [formControl]="formGroup.get(column.field)" (keyup)="getValue($event.target.value)">
+              <span *ngIf="formGroup.get(column.field).invalid && !(isNew && formGroup.get(column.field).untouched) && !formGroup.get(column.field).hasError('whitespace') && !maxlength">
+                {{'label_candidate_Source_required' |translate}}</span>
+
+              <span *ngIf="formGroup.get(column.field).hasError('whitespace')">
+                  {{'label_candidate_Source_required' |translate}}
+              </span>
+              <span *ngIf="maxlength">
+                  {{'lable_candidate_source_application'|translate}} {{'label_errormaxlength50'|translate}}
+              </span>
+          </div>
+        </span>
+      </ng-template>
+
+    </kendo-grid-column>
+
+    <kendo-grid-column field="Description" title="Description" width="200" [headerStyle]="{'text-align': 'left'}">
+      <ng-template kendoGridEditTemplate let-column="column" let-formGroup="formGroup" let-isNew="isNew">
+        <div class="outer-textarea">
+        <textarea cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize" class="k-textbox text-area" [formControl]="formGroup.get(column.field)" (keyup)="getValueDescription($event.target.value)"></textarea>
+      </div>
+      <div class="input-with-error" id="Description-Source">
+      <span class="error-msg" *ngIf="formGroup.get(column.field).invalid && !(isNew && formGroup.get(column.field).untouched) && !formGroup.get(column.field).hasError('whitespace') && !maxlengthDescription">
+        {{'label_candidate_Source_Description_required' |translate}}
+      </span>
+      <span class="error-msg" *ngIf="whitespaceDescription">
+          {{'label_candidate_Source_Description_required' |translate}}
+      </span>
+      <span class="error-msg" *ngIf="maxlengthDescription">
+          {{'Description'|translate}} {{'label_errormaxlength100'|translate}}
+      </span>
+    </div>
+      </ng-template>
+  </kendo-grid-column>
+  
+  <kendo-grid-command-column title="Action" width="85">
+    <ng-template kendoGridCellTemplate let-isNew="isNew">
+
+      <button mat-stroked-button color="primary" class="edit-btn" kendoGridEditCommand [primary]="true"
+      matTooltip="{{'label_edit'|translate}}" matTooltipClass="custom-tooltip">
+      <span class="buttonTxt">{{'label_edit'|translate}}</span>
+      </button>
+
+      <button mat-stroked-button class="update-btn" color="primary" kendoGridSaveCommand [disabled]="formGroup?.invalid || isResponseGet">
+        <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_update'|translate}}</span>
+        <div *ngIf="isResponseGet" id="loading"></div>
+      </button>
+
+      <button mat-stroked-button  class="cancel-btn" color="warn" kendoGridCancelCommand>{{ isNew ? ' ' : 'Cancel' }}</button>
+
+    </ng-template>
+  </kendo-grid-command-column>
+    </kendo-grid>
+

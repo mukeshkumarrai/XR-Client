@@ -1,0 +1,48 @@
+@use "../../colors";
+@use "dark-modal-list-view";
+.modal-list-view{  
+    .modal-list-half-data{
+        display: grid;
+        grid-template-columns: 1fr;
+        span,small{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        span{
+            color: #767676;
+            padding: 8px;
+            font-weight: 400;
+            border-right: 1px solid #e4e4e4;
+            &:last-child{
+                border-right: none;
+            }
+        }
+        span.red-text{
+            color: colors.$warn-bg;
+        }
+        small{
+            font-weight: 500;
+            background: #f5f5f5;
+            padding: 8px;
+            border-right: 1px solid #e4e4e4;
+            font-weight: 500;
+            &:last-child{
+                border-right: none;
+            }
+        }
+        .list-half-data{
+            display: grid;
+            grid-template-columns: repeat(2, calc(50% - 0px));
+            row-gap: 2px;
+            padding: 0px;
+            border: 1px solid #e4e4e4;
+        }
+    }
+    .verify-text{
+        color: colors.$orange-color;
+        display: flex;
+        padding-top: 5px;
+    }
+}
+        

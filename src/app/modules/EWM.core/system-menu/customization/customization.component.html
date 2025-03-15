@@ -1,0 +1,158 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: job-settings.component.html
+  @Who: Suika
+  @When: 24-June-2021
+  @Why: ROST-1908
+  @What: For dynamic menu
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+  <mat-card-header class="dashboard-mat-card-header" id="customization-card-header">
+    <mat-card-title class="only-for-title">{{'label_customization' |translate}}</mat-card-title>
+    <span class="heading-spacer"></span>
+  </mat-card-header>
+ 
+<mat-drawer-container class="xeople-container-without-header-buttons" autosize id="master-data-drawer">  
+  <mat-drawer-content class="pl-0 pr-0">
+    <ngx-masonry class="masonry-grid">
+      <ngxMasonryItem class="masonry-item posRel" *ngFor="let groupdata of distinctGroupName;let i =index">
+
+        <div class="boxShadow mat-elevation-z2">
+          <span class="menuHeading" id="group_{{groupdata}}">{{groupdata | customTranslate}} </span>
+          <div [@toggleBox]="isOpen[groupdata] ? 'open' : 'closed'" class="jobSettingCardWidth  custom-style">
+            <!-- <div div [@toggleBox]="isOpen ? 'open' : 'closed'" class="jobSettingCardWidth  custom-style" style="height: calc(41px * 6);"> -->
+            <div class="menuListBox">
+              <div *ngFor="let subMenuData of menuArray[groupdata] ;let j =index ;">
+                <div class="seprater" *ngIf="menuCount[groupdata] >= j">
+                  <div class="menuLinkItems" *ngIf="subMenuData.isfavourite==1" class="menuItems__{{j}}">
+                    <mat-icon [ngClass]="subMenuData.isfavourite==0 ? 'matIcon' : 'matIcon activeStarIcon'"
+                      (click)="makeFavourite(subMenuData.MenuLabel,subMenuData.Id,subMenuData.isfavourite,groupdata)">
+                      star</mat-icon>
+                    <a>
+                      <p (click)="goToPage(subMenuData.Router)"> {{subMenuData.MenuLabel | customTranslate}}
+                      </p>
+                      <p class="newChipBtn" *ngIf="subMenuData.Tag==1">
+                        {{'label_new' |customTranslate}}
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-----non favourite items--->
+              <div *ngFor="let subMenuData of menuArray[groupdata];let j =index ;">
+                <div *ngIf="menuCount[groupdata] >= j">
+                  <div class="menuLinkItems" *ngIf="subMenuData.isfavourite==0" class="menuItems__{{j}}">
+                    <mat-icon [ngClass]="subMenuData.isfavourite==0 ? 'matIcon' : 'matIcon activeStarIcon'"
+                      (click)="makeFavourite(subMenuData.MenuLabel,subMenuData.Id,subMenuData.isfavourite,groupdata)">
+                      star</mat-icon>
+                    <a>
+                      <p (click)="goToPage(subMenuData.Router)"> {{subMenuData.MenuLabel | customTranslate}}
+                      </p>
+                      <p class="newChipBtn" *ngIf="subMenuData.Tag==1">
+                        {{'label_new' |customTranslate}}
+                      </p>
+                    </a>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <div class="row mb-0 stickOnBottom">
+            <button type="button" (click)="viewMore(groupdata)"
+              *ngIf="(menuCount[groupdata] < menuArray[groupdata].length-1) ">
+              <mat-icon>{{isOpen[groupdata] ? 'expand_less' : 'expand_more'}}</mat-icon>
+              {{(isOpen[groupdata] ? 'label_jobsettingless' : 'label_jobsettingmore') | customTranslate}}
+            </button>
+            <button type="button" (click)="viewLess(groupdata)"
+              *ngIf="(menuCount[groupdata] >= menuArray[groupdata].length) && menuArray[groupdata].length-1 > mcount">
+              <mat-icon>{{isOpen[groupdata] ? 'expand_less' : 'expand_more'}}</mat-icon>
+              {{(isOpen[groupdata] ? 'label_jobsettingless' : 'label_jobsettingmore') | customTranslate}}
+            </button>
+          </div>
+        </div>
+      </ngxMasonryItem>
+    </ngx-masonry>
+  </mat-drawer-content>
+<mat-card id="jobsetting-card" class="bg-hide" style="display: none;">  
+  <mat-card-content class="master-card-content" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50"
+    (scrolled)="onScrollDown()" [scrollWindow]="false" style="overflow-y: auto; overflow-x: hidden;">
+    <div class="sticky bg-hide" *ngIf="formtitle=='grid'" [ngClass]="[ viewMode === 'cardMode' ? ' ' : '']">
+
+
+      <!--New boxes of links starts from here-->
+      <div class="row">
+        
+
+      </div>
+      <!--New boxes of links Ends here-->
+
+
+      <!--the previous older code of links starts from here-->
+      <div class="row mb-0" style="display: none;">
+        <div *ngFor="let groupdata of distinctGroupName;let i =index" class="col l4 m12 s12">
+          <div class="jobSettingCardWidth">
+            <span class="menuHeading">{{groupdata}}</span>
+            <div class="menuListBox">
+              <!------favourite items---->
+              <div *ngFor="let subMenuData of menuArray[groupdata] ;let j =index ;">
+                <div *ngIf="menuCount[groupdata] >= j">
+                  <div class="menuLinkItems" *ngIf="subMenuData.isfavourite==1">
+                    <mat-icon [ngClass]="subMenuData.isfavourite==0 ? 'matIcon' : 'matIcon activeStarIcon'"
+                      (click)="makeFavourite(subMenuData.MenuLabel,subMenuData.Id,subMenuData.isfavourite,groupdata)">
+                      star</mat-icon>
+                    <a>
+                      <p (click)="goToPage(subMenuData.Router)"> {{subMenuData.MenuLabel | customTranslate}}
+                      </p>
+                      <p class="newChipBtn" *ngIf="subMenuData.Tag==1">
+                        {{'label_new' |customTranslate}}
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-----non favourite items--->
+              <div *ngFor="let subMenuData of menuArray[groupdata];let j =index ;">
+                <div *ngIf="menuCount[groupdata] >= j">
+                  <div class="menuLinkItems" *ngIf="subMenuData.isfavourite==0">
+                    <mat-icon [ngClass]="subMenuData.isfavourite==0 ? 'matIcon' : 'matIcon activeStarIcon'"
+                      (click)="makeFavourite(subMenuData.MenuLabel,subMenuData.Id,subMenuData.isfavourite,groupdata)">
+                      star</mat-icon>
+                    <a>
+                      <p (click)="goToPage(subMenuData.Router)"> {{subMenuData.MenuLabel | customTranslate}}
+                      </p>
+                      <p class="newChipBtn" *ngIf="subMenuData.Tag==1">
+                        {{'label_new' |customTranslate}}
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-0 stickOnBottom">
+                <a class="viewMoreLink" (click)="viewMore(groupdata)"
+                  *ngIf="(menuCount[groupdata] < menuArray[groupdata].length-1) ">
+                  <mat-icon class="arrowDownIcon">keyboard_arrow_down</mat-icon>
+                  {{'label_jobsettingmore' | customTranslate}}
+                </a>
+                <a class="viewMoreLink" (click)="viewLess(groupdata)"
+                  *ngIf="(menuCount[groupdata] >= menuArray[groupdata].length) && menuArray[groupdata].length-1 > mcount">
+                  <mat-icon class="arrowDownIcon">keyboard_arrow_up</mat-icon>
+                  {{'label_jobsettingless' | customTranslate}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--the previous older code of links Ends from here-->
+    </div>
+  </mat-card-content>
+</mat-card>
+</mat-drawer-container>

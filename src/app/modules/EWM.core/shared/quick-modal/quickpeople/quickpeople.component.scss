@@ -1,0 +1,40 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Satya Prakash Gupta
+    @When: 21-May-2021
+    @Why: EWM-1449 EWM-1583
+    @What: You can add this page styles on same file, and also import other style files
+*/
+.quick-dialog{
+    .row{
+        margin-bottom: 10px;
+    }
+    &:first-child{
+        margin-top: 0px;
+    }
+}
+
+.ng-slectBox{
+    font-size: 14px !important;
+}
+// .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label{
+//     transform: ;
+// }
+
+.mat-chip.mat-standard-chip .mat-chip-remove {
+     color: #f44336;
+    opacity: 1;
+  }
+
+  .orgSelect{
+    width: 100%;
+}
+
+::ng-deep {
+    .location-icon-withchip .mat-form-field-label-wrapper .mat-form-field-label {
+        top: 1.28125em;
+        left: 0px;
+    }
+}
+

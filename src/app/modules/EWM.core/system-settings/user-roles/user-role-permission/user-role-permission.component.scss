@@ -1,0 +1,42 @@
+/*
+    @(C): Entire Software
+    @Type: File, <scss>
+    @Who: priti srivastava
+    @When: 19-march-2021
+    @Why: EWM-1124
+    @What:  This page wil be use  for tree checkbox
+*/
+.accordian-spacer {
+  flex: 1 1 auto;
+}
+.panel-heading {
+  background: #f1f1f1;
+  color: #1a1a1a;
+  font-weight: 600;
+  border: 1px solid #e1e1e3;
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.panel-body {
+  background: white;
+  border: 1px solid #e1e1e3;
+  border-top: none;
+  margin-top: 0px;
+}
+.panel-body {
+  ul {
+    margin: 0px;
+    padding: 0px 0px;
+    li {
+      display: inline-block;
+      width: calc(100% - 20px);
+      margin: 10px;
+    }
+  }
+}
+.panelWidth {
+  width: 100%;
+}

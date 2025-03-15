@@ -1,0 +1,37 @@
+// @When: 14-Feb-2024 @who:Amit Rajput @why:EWM-16060 @what: dark mode data card view
+@use "../../colors";
+.dark-theme{
+    .page-container-cardview.mat-drawer-container{
+        &>.mat-drawer-content{
+            &>.cardview-container{
+               &>.grid-card-mode.mat-card{
+                  border-bottom-color: colors.$dark-primary;
+                  box-shadow: colors.$dark-primary 0px 0px 0px 0.4px, colors.$dark-primary 0px 0px 0px 0.4px, rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+                  .grid-card-mode-data{
+                    .full-data{
+                        .admin-with-name{
+                            span.white{
+                                color: colors.$white-color;
+                                background: transparent;
+                                border: 1px solid rgba(255, 255, 255, 0.5);
+                            }
+                        } 
+                    }
+                  }
+                  .grid-card-mode-footer{
+                    background-color: #303030;
+                    .invite-user-btn{
+                        background: colors.$dark-primary-bg;
+                    }
+                    .button-group{
+                        .mat-icon-button{
+                            background: transparent;
+                            box-shadow: 0px 0px 0px 0.5px colors.$dark-primary;
+                        }
+                    }
+                  }
+               }
+            }
+        }
+    }
+}

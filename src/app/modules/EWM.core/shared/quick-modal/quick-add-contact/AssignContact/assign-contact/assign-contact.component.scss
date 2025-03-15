@@ -1,0 +1,23 @@
+@import "../../../../../../../../mixinStyle.scss";
+.kendo-grid-appearance{
+  .k-grid{
+      height: calc(100vh - 345px);
+      @media only screen and (max-width: 1060px) and (min-width: 581px) {
+          height: calc(100vh - 432px);
+      }
+      @media only screen and (max-width: 580px) and (min-width: 481px) {
+          height: calc(100vh - 432px);
+      }
+      @include for-small-smartphones {
+          height: calc(100vh - 358px);
+      }
+  }
+}
+// :host ::ng-deep 
+.candidateLoadingScrollBg{
+  bottom: 90px;
+  width: calc(100% - 11px);
+}
+ 
+ 
+  

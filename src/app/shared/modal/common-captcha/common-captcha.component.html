@@ -1,0 +1,35 @@
+<!--
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: captcha.component
+    @Who: Satya Prakash Gupta
+    @When: 31-Jan-2022
+    @Why: EWM-4643 EWM-4857
+    @What: this page for capcha
+   -->
+
+<div class="captcha-actions">
+  <!-- <div class="captcahCanvas">
+    <a href="javascript:void(0)" mat-icon-button id="btn-playCaptcha" (click)="playCaptcha()">
+      <mat-icon>volume_up</mat-icon>
+    </a>
+    <a href="javascript:void(0)" mat-icon-button id="btn-createCaptcha" (click)="createCaptcha()">
+      <mat-icon>refresh</mat-icon>
+    </a>
+    <canvas id="valicode"></canvas>
+  </div> -->
+  <mat-form-field class="signin-input" appearance="outline" floatLabel="never">
+    <input matInput type="text" [(ngModel)]="captch_input" (keyup)="checkCaptcha()" />
+    <mat-icon matPrefix fontSet="material-icons-outlined">autorenew</mat-icon>
+    <div matSuffix class="captcha-details">
+      <a href="javascript:void(0)" mat-icon-button color="primary" id="btn-playCaptcha" (click)="playCaptcha()">
+        <mat-icon color="primary">volume_up</mat-icon>
+      </a>
+      <a href="javascript:void(0)" mat-icon-button color="primary" id="btn-createCaptcha" (click)="createCaptcha()">
+        <mat-icon color="primary">refresh</mat-icon>
+      </a>
+      <canvas id="valicode"></canvas>
+    </div>
+  </mat-form-field>
+</div>
+

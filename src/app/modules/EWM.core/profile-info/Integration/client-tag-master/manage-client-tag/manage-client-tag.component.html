@@ -1,0 +1,222 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: manage-client-tag.component.html
+  @Who: Renu
+  @When: 13-July-2021
+  @Why: ROST-2104
+  @What: For ADD/edit client tage master
+ -->
+
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-client-tag-mat-card-header">
+         <mat-card-title class="only-title" *ngIf="activestatus=='Add'">{{'label_addClientTag' |customTranslate:client}}</mat-card-title>
+         <mat-card-title class="only-title" *ngIf="activestatus=='Edit'">{{'label_editClientTag' |customTranslate:client}}</mat-card-title>
+         <mat-card-title class="only-title" *ngIf="activestatus=='View'">{{'label_viewClientTag' |customTranslate:client}}</mat-card-title>
+         <div class="actionButton">
+ 
+            <button mat-raised-button color="warn" tabindex="10" [routerLink]="['../']"
+            [queryParams]="{V:viewMode}" id="btnBack" class="buttonForDesktopMobile backBtncolor" *ngIf="visibilityStatus">
+            <mat-icon>close</mat-icon>
+            <span class="buttonTxt">{{'label_back' |translate}}</span>
+           </button>
+             <button mat-raised-button color="warn" tabindex="9" [routerLink]="['../']"
+                 [queryParams]="{V:viewMode}" id="btnCancel" class="buttonForDesktopMobile"*ngIf="!visibilityStatus">
+                 <mat-icon>close</mat-icon>
+                 <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+             </button>
+             <button mat-raised-button tabindex="" class="buttonForDesktopMobile" color="primary"
+                 (click)="onSave(this.clientTagForm.value)" type="button" id="btnSave"
+                 [disabled]="!clientTagForm.valid" *ngIf="!visibilityStatus">
+                 <mat-icon>check</mat-icon>
+                 <span class="buttonTxt">{{'label_save'|translate}}</span>
+             </button>
+         </div>
+     </mat-card-header>
+
+     <mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-client-tag-drawer">
+        <mat-card class="component-card mat-elevation-z2" id="component-card">
+         <div class="addEditSec">
+             <ng-template #template let-anchor>
+                 <span>{{ anchor.nativeElement.innerText }}</span>
+             </ng-template>
+             <form novalidate [formGroup]="clientTagForm" (ngSubmit)="onSave(this.clientTagForm.value)"
+                 accept-charset="utf-8" enctype='multipart/form-data'>
+                 <!-- <div *ngIf="loading" class="k-i-loading loadercustom"></div> -->
+                 <div class="row mb-0">
+                     <mat-form-field class="col l4 m6 s12">
+                         <mat-label>{{'label_clientTagSeq'|translate}}</mat-label>
+                         <input type="hidden" formControlName="ID" id="Id">
+                         <!--@who:priti;@when:12-Nov-2021;@why:EWM-3250;What:add input type-->
+                         <!-- <input matInput type="number" formControlName="Order" tabindex="1" id="Order"
+                             placeholder="{{'label_clientTagSeq'|translate}}"  required> -->
+                                       <!-- who:maneesh,what:ewm-12281 for handel validation issu,when:24/05/2023 -->
+                        <input matInput formControlName="Order" min=1 tabindex="9" id="skill-displaySequnce" text="Name"
+                        placeholder="{{'label_clientTagSeq'|translate}}" required>
+                    
+                         <mat-error *ngIf="clientTagForm.controls['Order'].hasError('pattern')">
+                             {{'label_clientTagSeq'|translate}} {{'label_errornumeric'|translate}}
+                         </mat-error>
+                         <mat-error *ngIf="clientTagForm.controls['Order'].hasError('orderTaken')">
+                            {{'label_clientTagSeq'|translate}} {{'label_errorreqiredAlready'|translate}}
+                        </mat-error>
+                   
+                         <mat-error *ngIf="clientTagForm.controls['Order'].hasError('maxlength') &&!clientTagForm.controls['Order'].hasError('pattern')">
+                             {{'label_clientTagSeq'|translate}} {{'label_errormaxlength8'|translate}}
+                         </mat-error>
+                         <mat-error *ngIf="clientTagForm.controls['Order'].hasError('required')">
+                            {{'label_clientTagSeq'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+
+                     </mat-form-field>
+ 
+                     <mat-form-field class="col l4 m6 s12">
+                         <mat-label>{{'label_clientTagCode'|translate}}</mat-label>
+                         <input matInput formControlName="StatusCode" id="StatusCode" tabindex="2"
+                             placeholder="{{'label_clientTagCode'|translate}}"
+                             (blur)="checkCodeKeywordUnique('Code', false)" required>
+ 
+                         <mat-error *ngIf="clientTagForm.controls['StatusCode'].hasError('required')">
+                             {{'label_clientTagCode'|translate}} {{'label_errorreqired'|translate}}
+                         </mat-error>
+                         <mat-error *ngIf="clientTagForm.controls['StatusCode'].hasError('statusCodeTaken')">
+                             {{'label_clientTagCode'|translate}} {{'label_errorreqiredAlready'|translate}}
+                         </mat-error>
+                         <mat-error *ngIf="clientTagForm.controls['StatusCode'].hasError('pattern') && !clientTagForm.controls['StatusCode'].hasError('whitespace')">
+                             {{'label_clientTagCode'|translate}} {{'label_errorSpecialchar'|translate}}
+                         </mat-error>
+                         <mat-error *ngIf="clientTagForm.controls['StatusCode'].hasError('maxlength') && !clientTagForm.controls['StatusCode'].hasError('whitespace')">
+                            {{'label_clientTagCode'|translate}} {{'label_errormaxlength100'|translate}}
+                        </mat-error>
+                            <!-- @Who: maneesh, @When: 05-jan-2023,@Why: EWM-10101 addnoWhitespaceValidator -->
+                    <mat-error *ngIf="clientTagForm.controls['StatusCode'].hasError('whitespace') && !clientTagForm.controls['StatusCode'].hasError('required')">
+                      {{'label_clientTagCode' |translate}} {{'label_nameValidation' |translate}}
+                 </mat-error> 
+                     </mat-form-field>
+                 </div>
+ 
+                 <div class="row mb-0">
+                     <mat-form-field class="col l4 m6 s12">
+                         <mat-label>{{'label_clientTagShortDesc'|translate}}</mat-label>
+                         <textarea matInput formControlName="ShortDescription" id="ShortDescription" tabindex="3"
+                             placeholder="{{'label_clientTagShortDesc'|translate}}"
+                             required></textarea>
+ 
+                         <mat-error *ngIf="clientTagForm.controls['ShortDescription'].hasError('required')">
+                             {{'label_clientTagShortDesc'|translate}} {{'label_errorreqired'|translate}}
+                         </mat-error>
+                         <mat-error *ngIf="clientTagForm.controls['ShortDescription'].hasError('maxlength') &&  !clientTagForm.controls['ShortDescription'].hasError('whitespace')">
+                             {{'label_clientTagShortDesc'|translate}} {{'label_errormaxlength100'|translate}}
+                         </mat-error>
+                         <mat-error *ngIf="clientTagForm.controls['ShortDescription'].hasError('desccheckTaken') && !clientTagForm.controls['ShortDescription'].hasError('whitespace')">
+                             {{'label_clientTagShortDesc'|translate}} {{'label_errorreqiredAlready'|translate}}
+                         </mat-error>
+                         <!-- @Who: maneesh, @When: 05-jan-2023,@Why: EWM-10103 addnoWhitespaceValidator -->
+                         <mat-error *ngIf="clientTagForm.controls['ShortDescription'].hasError('whitespace') && !clientTagForm.controls['ShortDescription'].hasError('required')">
+                           {{'label_clientTagShortDesc' |translate}} {{'label_nameValidation' |translate}}
+                      </mat-error>
+                     </mat-form-field>
+                     <mat-form-field class="col l4 m6 s12">
+                         <mat-label>{{'label_clientTagDesc'|translate}}</mat-label>
+                         <textarea matInput formControlName="Description" id="Description" tabindex="4"
+                             placeholder="{{'label_clientTagDesc'|translate}}" required></textarea>
+                         <mat-error *ngIf="clientTagForm.controls['Description'].hasError('maxlength') && !clientTagForm.controls['Description'].hasError('whitespace')">
+                             {{'label_clientTagDesc'|translate}} {{'label_errormaxlength200'|translate}}
+                         </mat-error>
+                         <mat-error *ngIf="clientTagForm.controls['Description'].hasError('required')">
+                            {{'label_clientTagDesc'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                           <!-- @Who: maneesh, @When: 05-jan-2023,@Why: EWM-10101 addnoWhitespaceValidator -->
+                           <mat-error *ngIf="clientTagForm.controls['Description'].hasError('whitespace') && !clientTagForm.controls['Description'].hasError('required')">
+                            {{'label_clientTagDesc' |translate}} {{'label_nameValidation' |translate}}
+                       </mat-error>
+                     </mat-form-field>
+                 </div>
+                 <div class="row mb-0">
+                    <mat-form-field class="col l4 m6 s12">
+                        <mat-label>{{'label_clientTagKeyword'|translate}}</mat-label>
+                        <input matInput formControlName="Keyword" id="Keyword" tabindex="5"
+                            placeholder="{{'label_clientTagKeyword'|translate}}"/>
+                        <mat-error *ngIf="clientTagForm.controls['Keyword'].hasError('maxlength')">
+                            {{'label_clientTagKeyword'|translate}} {{'label_errormaxlength100'|translate}}
+                        </mat-error>
+                        </mat-form-field>
+                     <mat-form-field class="col l4 m6 s12 colorCode" floatLabel="always">
+                         <mat-label>{{'label_clientTagColor'|translate}}</mat-label>
+                            <!-- <input matInput id="ColorCodesc" readonly > -->
+                            <input matInput formControlName="ColorCode" id="ColorCodesc" readonly>
+                            <div matSuffix class="color-picker-button" [ngStyle]="{backgroundColor:selctedColor}" (click)="showColorPallate($event)" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+                            </div>
+                            <!-- --------@When: 10-03-2023 @who:maneesh @why: EWM-11119 Desc- Custome color picker -------- -->
+                            <ng-template cdkConnectedOverlay cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+                            [cdkConnectedOverlayHasBackdrop]="true" [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="showColorPallateContainer"
+                            (backdropClick)="showColorPallateContainer = false">
+                                <!-- color picker body  -->
+                                <div class="color-picker-default">
+                                    <input type="color" id="head" name="head" value="#e66465" (input)="onChaneColor($event)">
+                                </div>
+                                <div class="color-picker-container" [style.opacity]="isMoreColorClicked ? '0' : ' '"
+                                    [style.display]="isMoreColorClicked ? 'none' : ' '">
+                                    <div class="themeColor">{{'label_selectColour' | translate}}</div>
+                                    <div class="picker theme-color">
+                                        <div (click)="onSelectColor(codes)" class="color-picker" *ngFor="let codes of themeColors"
+                                            [ngStyle]="{backgroundColor:codes.colorCode}"> </div>
+                                    </div>
+                                    <div class="picker standard-color">
+                                        <div (click)="onSelectColor(codes)" class="color-picker" *ngFor="let codes of standardColor"
+                                            [ngStyle]="{backgroundColor:codes.colorCode}">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="footer">
+                                        <div class="noFill" (click)="onSelectColor(null)">
+                                            <mat-icon>clear</mat-icon>
+                                            <div class="noFillText">{{'label_clear'| translate}}</div>
+                                        </div>
+                                        <div class="more" (click)="closeTemplate()">
+                                            <label for="head" class="noFill">
+                                                <mat-icon fontSet="material-icons-outlined">palette</mat-icon>
+                                                <span>{{'labelMore'| translate}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+    
+                                <!-- color picker body End-->
+                            </ng-template>
+                            <!-- End  --> 
+                        </mat-form-field>
+                    
+                 </div>
+                 <div class="row mb-0">
+                 <div class="ng-slectBox col l4 m6 s12">
+                <!-----@suika@EWM-10681 EWM-10818  @02-03-2023 to set default values for status in master data---->
+                    <ng-select placeholder="{{'label_status'|translate}}" class="show-required" [clearable]="false" tabindex="7"
+                        formControlName="status" id="group-status" >
+                        <!-- <ng-option value="">{{'label_status'|translate}}</ng-option> -->
+                        <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">{{list.StatusName}}</ng-option>
+        
+                    </ng-select>
+
+                     <mat-error
+                        *ngIf="clientTagForm.controls['status'].hasError('required') && clientTagForm.controls['status'].touched">
+                        {{'label_status'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error> 
+                </div>
+            </div>
+                 <!-- <div class="row mb-0">
+                     <div class="col l6 m6 s12">
+                         <mat-label class="toggle-label"><strong>{{'label_clientTagBuiltIn' |translate}}:</strong>
+                         </mat-label>
+                         <mat-slide-toggle formControlName="IsBuiltIn" id="IsBuiltIn" tabindex="8" color="primary">
+                         </mat-slide-toggle>
+                     </div>
+                 </div> -->
+ 
+             </form>
+         </div>
+     </mat-card>
+     </mat-drawer-container>

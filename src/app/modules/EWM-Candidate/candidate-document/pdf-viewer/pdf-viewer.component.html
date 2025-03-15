@@ -1,0 +1,23 @@
+ 
+<div *ngIf="isLoading" class="k-i-loading bgTransparent"></div>
+<div class="quick-dialog">
+    <h2 mat-dialog-title>
+        {{'label_viewdocument'|translate}}
+      <span class="closeModal" style="float: right; cursor: pointer;" (click)="onDismiss()">
+            <mat-icon>close</mat-icon>
+        </span>
+    </h2>
+    
+    <mat-divider></mat-divider>
+    <mat-dialog-content>
+    <div class="fullWidth" >
+          <div class="pdf-viewer-wrap">                            
+            <div class="pdf-viewer-viewer-window">
+                 <ngx-doc-viewer [url]="DemoDoc"  [viewer]="viewer"  (loaded)="isLoading=false" 
+                 style="width:100%;height:50vh;"  ></ngx-doc-viewer> 
+            </div>
+          </div>
+      </div>
+    </mat-dialog-content>
+    <mat-divider></mat-divider> 
+</div>

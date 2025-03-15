@@ -1,0 +1,61 @@
+// dark mode start here
+
+.dark-theme {
+    .organizational-chart .org-card {
+        border: 1px solid #789aab;
+    }
+
+    .organizational-chart .org-card .card-header-data .cardListTxt .mat-icon {
+        color: #ffffff !important;
+    }
+
+    .organizational-chart .org-card .fullname .mat-icon {
+        color: #ffffff !important;
+    }
+
+    ol.organizational-chart:before,
+    ol.organizational-chart>li:before {
+        background-color: #789aab !important;
+    }
+
+    ol.organizational-chart>li>ol:before,
+    ol.organizational-chart>li>ol>li:before {
+        background-color: #789aab !important;
+    }
+
+    ol.organizational-chart ol:before,
+    ol.organizational-chart ol:after,
+    ol.organizational-chart li:before,
+    ol.organizational-chart li:after,
+    ol.organizational-chart>li>div:before,
+    ol.organizational-chart>li>div:after {
+        background-color: #789aab !important;
+    }
+
+    .organizational-chart .mat-card-content {
+        background: transparent;
+        box-shadow: none;
+    }
+
+}
+
+// dark mode end here
+
+.chart-modal-container {
+    height: 310px;
+}
+
+.fullname {
+    border: 1px solid #c9dee9;
+    border-radius: 4px;
+    padding: 0px 3px;
+    align-items: center;
+    display: flex;
+    margin-right: 10px;
+    background: #eeebf1;
+}
+
+.locationCount {
+    display: flex;
+    justify-content: flex-end;
+}

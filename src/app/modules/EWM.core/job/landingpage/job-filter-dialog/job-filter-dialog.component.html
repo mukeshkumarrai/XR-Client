@@ -1,0 +1,386 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: job-filter-dilaog.component.html
+  @Who: renu
+  @When: 02-Aug-2022
+  @Why: EWM-6129 EWM-8108
+  @What: This page wil be use only for the job filter dilaog box page Component HTML
+ -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_filters'|translate}}</h2>
+</div>
+<mat-dialog-content #target class="filter-modal-content">
+    <mat-tab-group  [(selectedIndex)]="selectedIndex" (selectedTabChange)="selectedTabValue($event)">
+        <mat-tab label="{{'label_filters'|translate}}">
+            <form [formGroup]="filterForm" id="filterForm-filter" applyTabIndexes>
+                <ng-container formArrayName="filterInfo">
+                    <div class="col l12 m12 s12">
+                        <mat-accordion class="filterData" *ngFor="let filterData of filterInfo().controls; let i=index"
+                            [formGroupName]="i">
+                            <mat-expansion-panel [expanded]="true" tabindex (opened)="panelOpenState = true"
+                                (closed)="panelOpenState = false" hideToggle="true" class="mb-5">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <mat-icon tabindex *ngIf="!panelOpenState">expand_more</mat-icon>
+                                        <mat-icon tabindex *ngIf="panelOpenState">expand_less</mat-icon>
+                                        {{'label_filterCon'|translate}}
+                                        <button id="mat-dialog-closeAcc-{{i}}" *ngIf="i!==0" type="button"
+                                            mat-icon-button class="closebutton"
+                                            matTooltip="{{'label_remove'|translate}}" matTooltipClass="custom-tooltip"
+                                            (click)="removeRow(i)" tabindex>
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <mat-divider class="mb-5"></mat-divider>
+                                <div class="ng-slectBox">
+                                    <ng-select [clearable]="true" appendTo="body" class="dropdown-body" tabindex
+                                        [clearable]="true" placeholder="{{'label_filter' | translate}}*"
+                                        bindLabel="Title" formControlName="filterParam" id="filter-param1_{{i}}"
+                                        (change)="filterConditionType($event,i)" [compareWith]="compareFn">
+
+                                        <ng-option *ngFor="let col of gridConfigArr" [value]="col">
+                                            {{col.Title |customTranslate}}</ng-option>
+
+                                    </ng-select>
+                                    <mat-error
+                                        *ngIf="filterData.get('filterParam').errors?.required && filterData.get('filterParam').touched">
+                                        {{ 'label_filter' |translate}} {{ 'label_errorreqired' |translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="filterData.get('filterParam').errors?.unique && filterData.get('filterParam').touched">
+                                        {{ 'label_selectModule' |translate}} {{ 'label_errorunique' |translate}}
+                                    </mat-error>
+
+                                </div>
+                                <div class="ng-slectBox">
+                                    <ng-select [clearable]="true" appendTo="body" class="dropdown-body" tabindex
+                                        placeholder="{{'label_filterCondition' | translate}}*"
+                                        formControlName="condition" id="filter-param2_{{i}}" [clearable]="true"
+                                        (change)="getValue($event,i)">
+                                        <ng-option *ngFor="let con of filterOptionsFilter[i]" value="{{con.name}}">
+                                            {{con.name}}</ng-option>
+                                    </ng-select>
+                                    <mat-error
+                                        *ngIf="filterData.get('condition').errors?.required && filterData.get('condition').touched">
+                                        {{ 'label_filterCondition' |translate}} {{ 'label_errorreqired' |translate}}
+                                    </mat-error>
+                                </div>
+                                <div class="row mb-0" *ngIf="IsEmptyNotEmpty[i]">
+                                    <div class="col l12 m12 s12" *ngIf="filterData.get('filterParam').value!='OpenDate' && inputTypedata[i] != 'Date' + i
+                             && inputTypedata[i] !='DropDown' + i">
+                                        <mat-form-field>
+                                            <mat-label>{{'label_filterValue' | translate}}</mat-label>
+                                            <input type="text" matInput tabindex formControlName="ParamValue"
+                                                id="ParamValue{{i}}" placeholder="{{'label_filterValue' | translate}}"
+                                                required>
+                                            <mat-error
+                                                *ngIf="filterData.get('ParamValue').errors?.required && filterData.get('ParamValue').touched">
+                                                {{ 'label_filterValue' |translate}} {{ 'label_errorreqired' |translate}}
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="filterData.get('ParamValue').errors?.maxlength && filterData.get('ParamValue').touched">
+                                                {{ 'label_filterValue' |translate}} {{ 'label_errormaxlength50'
+                                                |translate}}
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="filterData.get('ParamValue').errors?.pattern && filterData.get('ParamValue').touched">
+                                                {{ 'label_filterValue' |translate}} {{ 'label_numericerr' |translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col l6 m10 s12" *ngIf="filterData.get('filterParam').value=='OpenDate'">
+                                        <mat-form-field>
+                                            <mat-label>{{'label_filterValue' | translate}}</mat-label>
+                                            <input matInput [matDatepicker]="picker1" tabindex id="ParamValue{{i}}"
+                                                [min]="today" formControlName="ParamValue" required readonly>
+                                                <button *ngIf="filterForm.value.ParamValue" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                                                (click)="clearEndDate()" >
+                                                <mat-icon>close</mat-icon>
+                                            </button>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+
+                                            <mat-error
+                                                *ngIf="filterData.get('ParamValue').errors?.required && filterData.get('ParamValue').touched">
+                                                {{ 'label_filterValue' |translate}} {{ 'label_errorreqired' |translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col l6 m10 s12" *ngIf="inputTypedata[i]=='Date' + i">
+                                        <mat-form-field>
+                                            <mat-label>{{'label_filterValue' | translate}}</mat-label>
+                                            <input matInput [matDatepicker]="picker1" tabindex id="ParamValue{{i}}"
+                                                [min]="today" formControlName="ParamValue" required readonly>
+                                                <button *ngIf="filterForm.value.ParamValue" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                                                (click)="clearEndDate()" >
+                                                <mat-icon>close</mat-icon>
+                                            </button>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+
+                                            <mat-error
+                                                *ngIf="filterData.get('ParamValue').errors?.required && filterData.get('ParamValue').touched">
+                                                {{ 'label_filterValue' |translate}} {{ 'label_errorreqired' |translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col l12 m12 s12" *ngIf="inputTypedata[i]=='DropDown' + i">
+                                        <div class="ng-slectBox">
+                                            <!--For Multiple selection DropDwon By Anup Singh-->
+                                            <span *ngIf="isMultiple">
+                                                <ng-select tabindex [multiple]="true" formControlName="DropDwonName"
+                                                    class="dropdown-body" #select [searchable]="false" appendTo="body"
+                                                    [clearable]="true"
+                                                    placeholder="{{config[i].Label |customTranslate}}"
+                                                    [items]="dropList[i]" [bindLabel]="keyValue[i]"
+                                                    [(ngModel)]="multiDropDownData[i]"
+                                                    (change)="onDropdownDatachange($event,i)">
+                                                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                                        <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                                                            <span class="ng-value-label"> {{item[keyValue[i]]}}</span>
+                                                            <span class="ng-value-icon right" (click)="clear(item)"
+                                                                aria-hidden="true">×</span>
+                                                        </div>
+                                                        <div class="ng-value" *ngIf="items.length > 1">
+                                                            <span class="ng-value-label">{{items.length - 1}}
+                                                                {{'label_more'|translate}}...</span>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template ng-header-tmp>
+                                                        <ng-container>
+                                                            <div class="add-manage">
+                                                                <a *ngIf="isStatus" mat-button id="favIcon"
+                                                                    (click)="redirect()" color="primary">
+                                                                    {{'label_Manage' |translate}}
+                                                                </a>
+                                                                <span class="spacer"></span>
+                                                                <button mat-icon-button color="primary"
+                                                                    (click)="getUpdateOptions(config[i],i)"
+                                                                    [ngClass]="loader?'rotate-loader':''" type="button">
+                                                                    <mat-icon>refresh</mat-icon>
+                                                                </button>
+                                                            </div>
+                                                        </ng-container>
+                                                        <ng-container>
+                                                            <div class="pl-15 pr-15">
+                                                                <mat-form-field class="no-bottom">
+                                                                    <input matInput class="selectSearch"
+                                                                        autocomplete="off"
+                                                                        placeholder="{{'label_search' |translate}} {{ config.placeholder!=''&& config.placeholder!=undefined ?(config.placeholder|translate):''}}"
+                                                                        type="text"
+                                                                        (input)="select.filter($event.target.value);mukesh($event.target.value)" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-template>
+                                                </ng-select>
+                                            </span>
+
+
+                                            <!--For Single selection DropDwon By Anup Singh-->
+                                            <span *ngIf="!isMultiple">
+                                                <ng-select class="dropdown-body" appendTo="body" [searchable]="false"
+                                                    [clearable]="true" formControlName="DropDwonName" #select
+                                                    placeholder="{{config[i].Label |customTranslate}} *"
+                                                    id="ParamValue{{i}}" (change)="onDropdownDatachange($event,i);">
+                                                    <ng-template ng-header-tmp>
+                                                        <ng-container>
+                                                            <div class="add-manage">
+                                                                <span class="spacer"></span>
+                                                                <button mat-icon-button color="primary" type="button"
+                                                                    (click)="getUpdateOptions(config[i],i)"
+                                                                    [ngClass]="loader?'rotate-loader':''">
+                                                                    <mat-icon>refresh</mat-icon>
+                                                                </button>
+                                                            </div>
+                                                        </ng-container>
+                                                        <ng-container>
+                                                            <div class="pl-15 pr-15">
+                                                                <mat-form-field class="no-bottom">
+                                                                    <input matInput class="selectSearch"
+                                                                        autocomplete="off"
+                                                                        placeholder="{{'label_search' |translate}}"
+                                                                        type="text"
+                                                                        (input)="select.filter($event.target.value);mukesh($event.target.value)" />
+                                                                </mat-form-field>
+                                                            </div>
+
+                                                        </ng-container>
+                                                    </ng-template>
+                                                    <ng-option disabled>{{'label_select'| translate}} </ng-option>
+                                                    <ng-option [value]="item" *ngFor="let item of dropList[i]">
+                                                        {{item[keyValue[i]]}}
+                                                    </ng-option>
+
+                                                </ng-select>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                </ng-container>
+            </form>
+        </mat-tab>
+        <mat-tab label="{{'label_saveFilters'|translate}}">
+            <div class="list-container" id="contentdata">
+                <div class="sticky" [ngClass]="[ viewMode === 'cardMode' ? ' ' : 'sticky-width']">
+                    <div class="row mb-0 listHeader" id="listHeader">
+                        <div class="col col-1 listActionBox">
+                            <strong>&nbsp;</strong>
+                        </div>
+                        <div class="col col-2" (click)="onSort('FilterName')">
+                            <button mat-button [disableRipple]="true" id="filter-Name">
+                                <strong>{{'label_filterName'|translate}}</strong>
+                                <mat-icon *ngIf="sortedcolumnName === 'FilterName' && sortDirection === 'asc'">
+                                    {{ascIcon}}
+                                </mat-icon>
+                                <mat-icon *ngIf="sortedcolumnName === 'FilterName' && sortDirection === 'desc'">
+                                    {{descIcon}}
+                                </mat-icon>
+                            </button>
+                        </div>
+                        <div class="col col-3" (click)="onSort('SavedOn')">
+                            <button mat-button [disableRipple]="true" id="filter-SavedOn">
+                                <strong>{{'label_savedOn'|translate}}</strong>
+                                <mat-icon *ngIf="sortedcolumnName === 'SavedOn' && sortDirection === 'asc'">{{ascIcon}}
+                                </mat-icon>
+                                <mat-icon *ngIf="sortedcolumnName === 'SavedOn' && sortDirection === 'desc'">
+                                    {{descIcon}}
+                                </mat-icon>
+                            </button>
+                        </div>
+
+                        <!-- <div class="col col-3" style="display: none;">
+                            <strong>{{'label_actions'|translate}}</strong>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="listCardView" id="listCardView"
+                    [ngClass]="[ viewMode === 'cardMode' ? 'card-infinite-scroll' : 'listcardContentMaxData list-infinite-scroll']"
+                    infinite-scroll [infiniteScrollDistance]="pageOption" [infiniteScrollThrottle]="pagesize"
+                    (scrolled)="onScrollDown()" [scrollWindow]="false">
+                    <div id="contentdata" [ngClass]="[ viewMode === 'cardMode' ? 'cardContent' : 'listContent']">
+                        <div class="row">
+                            <div class="col nodata" *ngIf="gridView==undefined ||gridView.length==0">
+                                <span>{{'label_noRecordAvailable'|translate}}</span>
+                            </div>
+                            <!-----grid list start ---->
+                            <div class="col"
+                                [ngClass]="[ viewMode === 'cardMode' ? 'cardWidth' : 'l12 m12 s12 alternetBG']"
+                                *ngFor="let listDataList of gridView;let i =index"
+                                [@letterAnim4]="{value: animationState, params: { delay:delaAnimation(i)} }">
+
+                                <mat-card [ngClass]="[ viewMode === 'cardMode' ? 'CarMode' : '']">
+                                    <mat-card-content class="listcardContent"
+                                        [ngClass]="[ viewMode === 'cardMode' ? 'cardHeight' : 'pt-0 pb-0']">
+
+                                        <!-- list data -->
+                                        <div class="row mb-0"
+                                            [ngClass]="[ viewMode === 'cardMode' ? 'maxData hide' : '']">
+                                            <!------Action grid column --->
+                                            <div class="col"
+                                                [ngClass]="[ viewMode === 'cardMode' ? 'actionBox hide' : 'listActionBox customBtnWidth col-1']">
+
+                                                <button mat-flat-button [matMenuTriggerFor]="listactionMenu"
+                                                    class="dataActionButton">
+                                                    <mat-icon>more_vert</mat-icon>
+                                                </button>
+
+                                                <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after"
+                                                    class="listactionMenu">
+                                                    <a mat-menu-item (click)="editSavedFilter(listDataList)"
+                                                        id="btneditList" *appHasPermission="['Edit']">
+                                                        <mat-icon>edit</mat-icon>
+                                                        {{'label_edit'|translate}}
+                                                    </a>
+                                                    <button mat-menu-item id="btnDeleteList"
+                                                    (click)="removedSavedFilter(listDataList.Id)"
+                                                        *appHasPermission="['Delete']">
+                                                        <mat-icon>delete</mat-icon>
+                                                        {{'label_delete'|translate}}
+                                                    </button>
+                                                </mat-menu>
+                                            </div>
+
+                                            <div class="col cursor" id="FilterName"
+                                                [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-2']">
+                                                <!-- <span class="cardListTxt word-wrap"
+                                                    matTooltip="{{listDataList.FilterName}}"
+                                                    matTooltipClass="custom-tooltip"> -->
+                                                <mat-checkbox color="primary" type="checkbox"
+                                                    matTooltip="{{listDataList.FilterName}}" (change)="onCheckedFilter($event,listDataList)"
+                                                    matTooltipClass="custom-tooltip">
+                                                    <span class="cardListTxt word-wrap">{{listDataList.FilterName}}</span>
+                                                </mat-checkbox>
+
+                                                <!-- </span> -->
+                                            </div>
+
+                                            <div class="col cursor" id="SavedOn"
+                                                [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']">
+                                                <span class="cardListTxt word-wrap"
+                                                    matTooltip="{{listDataList.SavedOn | date:userpreferences.timeformate:userpreferences.timezone}}"
+                                                    matTooltipClass="custom-tooltip">
+                                                    {{listDataList.SavedOn |
+                                                    date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                                            </div>
+
+
+                                            <!-- <div class="col cursor" id="SavedOn"
+                                                [ngClass]="[ viewMode === 'cardMode' ? 'card-data' : 'col-3']"
+                                                style="display: none;">
+                                                <span class="cardListTxt word-wrap">
+                                                    <mat-checkbox color="primary" type="checkbox"></mat-checkbox>
+                                                </span>
+                                            </div> -->
+
+                                        </div>
+                                        <!-- list data -->
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+
+                        <div *ngIf="loadingscroll" class="k-i-loading scrollloading"></div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="button-row actionBoxFooter">
+    <button *ngIf="activeTab==0" mat-mini-fab color="primary" id="filter-add-btn" type="button" class="add-filter"
+        [disabled]="!filterForm.valid" (click)="showFilter(target)" matTooltip="{{'label_Addfilters'|translate}}"
+        matTooltipPosition="left"
+        (mouseenter)="mouseoverAnimation(animationVar?.AddFilterButtonDialog?.id, animationVar?.AddFilterButtonDialog?.animation)"
+        (mouseleave)="mouseleaveAnimation(animationVar?.AddFilterButtonDialog?.id, animationVar?.AddFilterButtonDialog?.animation)">
+        <mat-icon id="{{animationVar?.AddFilterButtonDialog?.id}}"
+            class="{{animationVar?.AddFilterButtonDialog?.isAnimClass}}">
+            {{animationVar?.AddFilterButtonDialog?.iconName}}</mat-icon>
+    </button>
+    <button *ngIf="activeTab==0" mat-raised-button color="warn" class="ml-0 clear-all-filter" type="button" tabindex
+        id="btnCancel" [disabled]="clearFilterBtnEnable" (click)="onReset()">
+        {{'label_resetJobLanding'|translate}}</button>
+    <span class="popup-footer-spacer"></span>
+    <button mat-stroked-button color="warn" type="button" tabindex id="btnCancel" (click)="onDismiss()">
+        {{'label_cancel'|translate}}</button>
+    <button *ngIf="activeTab==0"  mat-stroked-button color="primary" type="button" tabindex id="btnSave"
+        [disabled]="!filterForm.valid || isSaveForClearBtn" (click)="onConfirm()"> {{'label_apply'|translate}}</button>
+        <button *ngIf="activeTab==1"  mat-stroked-button color="primary" type="button" tabindex id="btnSave"
+        [disabled]="!filterForm.valid || isSaveForClearBtn" (click)="onSaveFilter()"> {{'label_apply'|translate}}</button>
+    <button *ngIf="activeTab==0" mat-stroked-button color="primary" type="button" tabindex id="btnSave"
+        [disabled]="!filterForm.valid || isSaveForClearBtn" (click)="onSaveApply()">
+        {{'label_saveApply'|translate}}</button>
+</div>

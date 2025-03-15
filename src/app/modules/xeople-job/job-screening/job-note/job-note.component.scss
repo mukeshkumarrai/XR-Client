@@ -1,0 +1,131 @@
+@import "../../../../../styles-var.scss";
+@import "../../../../../mixinStyle.scss";
+.green{
+  background-color: rgb(170, 238, 170) !important;
+}
+.grey{
+  background-color: #e0e0e0 !important;
+}
+.job-status-form{
+  height: 100%;
+  position: relative;
+  .status-data{
+    padding: 10px;
+    position: relative;
+    height: calc(100% - 50px);
+    overflow: auto;
+    box-sizing: border-box;
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+      padding: 10px 3px;
+    }
+  }
+  .actionBoxFooter{
+    position: absolute;
+    bottom: 24px;
+    background: #fff;
+    width: 100%;
+    height: 50px;
+    padding: 0px 20px 0px 10px;
+    box-sizing: border-box;
+    min-height: 40px;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+    justify-content: space-between;
+  }
+}
+.rotate-loader {
+  animation: rotate-animation 0.8s infinite linear;
+}
+.attach-btn{
+  min-width: 35px;
+  padding: 0px 5px;
+  line-height: 35px;
+  height: 35px;
+  .mat-icon{
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 18px;
+  }
+} 
+.mailediter.configure-same-editor {
+  height: 250px;
+} 
+.ng-slectBox.more-selectBox{
+  .ng-more-value{
+    width: 21px;
+    height: 21px;
+    line-height: 21px;
+    padding: 0px;
+    .ng-value-label{
+      font-size: 11px;
+      color: $primary-bg-color;
+      width: 21px;
+      height: 21px;
+      line-height: 21px;
+      text-align: center;
+    }
+  }
+}
+.activity-related{
+    padding: 0px 5px;
+    @media only screen and (max-width: 767px) and (min-width: 320px){
+      height: auto;
+      overflow: hidden;
+    }
+    .matAttachment{
+    margin-top: 10px;
+    display: grid;
+    gap:10px;
+    grid-template-columns: repeat(3, calc(33.33% - 6.6px));
+    @include for-small-smartphones {
+      grid-template-columns: 1fr;
+    }
+    .mat-card.matCardAttach {
+      box-shadow: 0px 0px 6px 0px rgb(0 0 0 / 16%);
+      padding: 7px 5px 7px 10px;
+      margin-bottom:5px;
+      height:42px;
+      .email-attachment {
+        display: flex;
+        padding-bottom: 0px;
+        justify-content: space-between;
+        .file-detail {
+          padding-right: 0px;
+          display: grid;
+          span {
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .fileName{
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 24px;
+          }
+          .fileSize{
+            font-size: 12px;
+            margin-top: 0px;
+            color: #8d8b8b;
+          }
+        }
+        .mat-icon{
+          cursor: pointer;
+          color:$gray-button;
+          font-size: 20px;
+        }
+        .mat-icon:hover {
+          color: $warn-bg;
+        }
+      }
+    }
+    .moreAttach {
+      width: 100%;
+      height: 57px;
+      margin-bottom: 5px;
+      .email-attachment{
+        justify-content: center;
+      }
+    }
+  }
+}

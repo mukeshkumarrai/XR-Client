@@ -1,0 +1,316 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 14-Feb-2022
+    @Why: EWM-4672 EWM-5191
+    @What: This page wil be use only for consent req. email tempalate Component HTML
+-->
+<!---
+    @Modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash
+    @When: 17-Mar-2022
+    @Why: EWM-5456 EWM-5555
+    @What:  Bug
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div id="emailTempalate" class="drawer-data-continer">
+    <div class="hederConsent">
+        <h3> {{'label_consentReqEmailTemplate' | translate}}</h3>
+        <p *ngIf="isCandidate">{{'label_drawerEmailTemplateTitleCandmsg' |translate}}</p>
+        <p *ngIf="isEmployee">{{'label_drawerEmailTemplateTitleEmplmsg' |translate}}</p>
+    </div>
+    <mat-tab-group id="emailTempalate-tabGroup" (selectedTabChange)="selectedTabValue($event)" dir="{{positionMatTab}}">
+        <mat-tab id="emailTempalate-candidateTab" >
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">group</mat-icon>
+                {{'label_Candidate' | translate}}
+            </ng-template>
+
+            <span *ngIf="isCandidate">
+                <form class="col" [formGroup]="emailTempalateCandidateForm" id="emailTempalateCandidateForm">
+                    <!-- <div class="row"> -->
+
+                        <!-- <div class="col l12 m12 s12"> -->
+                            <div class="ng-slectBox">
+                                <ng-select placeholder="{{ 'label_moduleName' | translate }}"
+                                    id="emailTempalate-candidateModule" class="dropdown-body show-required" required appendTo="body"
+                                    tabindex="1" formControlName="CandidateModule" [clearable]="true">
+                                <ng-option *ngFor="let module of moduleTypeList" [value]="module?.CodeInternal">
+                                    {{module?.InternalName}}
+                                </ng-option>
+                                </ng-select>
+                                <mat-error
+                                    *ngIf="emailTempalateCandidateForm.controls['CandidateModule'].hasError('required') && emailTempalateCandidateForm.controls['CandidateModule'].touched">
+                                    {{ 'label_moduleName' | translate}} {{'label_errorreqired' |translate}}
+                                </mat-error>
+
+                            </div>
+                        <!-- </div> -->
+
+                        <!-- <div class="col l12 m12 s12"> -->
+                            <mat-form-field>
+                                <input matInput placeholder="{{'label_templateMailName' | translate}}" tabindex="2"
+                                    formControlName="CandidateTemplateName" id="emailTempalate-candidateTemplateName"
+                                    required>
+                                <mat-error
+                                    *ngIf="emailTempalateCandidateForm.controls['CandidateTemplateName'].hasError('required') && emailTempalateCandidateForm.controls['CandidateTemplateName'].touched">
+                                    {{'label_templateMailName'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="emailTempalateCandidateForm.controls['CandidateTemplateName'].hasError('maxlength')">
+                                    {{'label_templateMailName' |translate}} {{'label_errormaxlength100' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        <!-- </div> -->
+
+
+                        <!-- <div class="col l12 m12 s12"> -->
+                            <mat-form-field>
+                                <input matInput placeholder="{{'label_templateSubject' | translate}}" tabindex="4"
+                                    formControlName="CandidateSubject" id="emailTempalate-candidateSubject" required>
+                                <mat-error
+                                    *ngIf="emailTempalateCandidateForm.controls['CandidateSubject'].hasError('required') && emailTempalateCandidateForm.controls['CandidateSubject'].touched">
+                                    {{'label_templateSubject'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="emailTempalateCandidateForm.controls['CandidateSubject'].hasError('maxlength')">
+                                    {{'label_templateSubject' |translate}} {{'label_errormaxlength200' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        <!-- </div> -->
+
+
+                        <mat-form-field>
+                                <mat-label>{{'label_ccEmails' |translate}}</mat-label>
+                                <mat-chip-list #chipListcc aria-label="Enter CC Email-ID" formControlName="ccMailsCandidate">
+                                <mat-chip [color]="(item.invalid) ? 'warn' : ''" selected *ngFor="let item of ccEmailsContactCandidate; let i=index"
+                                    [selectable]="true" [removable]="removable" (removed)="removeCandidateccEmail(item)" required name="CC Email-ID">
+                                    <span class="text-overflow">{{item.value}}</span>
+                                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input tabindex="5" placeholder="{{'label_ccEmailId' |translate}}" [matChipInputFor]="chipListcc"
+                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                                    (matChipInputTokenEnd)="addCandidateCC($event)" [matAutocomplete]="auto">
+                                </mat-chip-list>
+                                <mat-autocomplete #auto="matAutocomplete">
+                                </mat-autocomplete>
+                                <mat-error *ngIf="this.emailTempalateCandidateForm.controls['ccMailsCandidate'].hasError('required')">
+                                {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                                <mat-error *ngIf="this.emailTempalateCandidateForm.controls['ccMailsCandidate'].hasError('incorrectEmail')">
+                                {{ 'label_emailIncorrect' |translate}}
+                                </mat-error>
+                                <button mat-raised-button color="primary" (click)="getUserContactInfo('CC')"
+                                class="addContactBtn addContactBtnStyle" tabindex="6" matTooltip="{{'label_addContactBtn' |translate}}" matTooltipPosition="left">
+                                <mat-icon class="addContactIcon">add</mat-icon>
+                                
+                                </button>
+                            </mat-form-field>
+
+
+                        <mat-form-field>
+                            <mat-label>{{'label_bccEmails' |translate}}</mat-label>
+                            <mat-chip-list #chipListBcc aria-label="Enter BCC Email-ID" formControlName="bccMailsCandidate">
+                            <mat-chip [color]="(item.invalid) ? 'warn' : ''" selected *ngFor="let item of bccEmailsContactCandidate; let i=index"
+                                [selectable]="true" [removable]="removable" (removed)="removeCandidateBccEmail(item)" required name="BCC Email-ID">                              
+                                <span class="text-overflow">{{item.value}}</span>
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input tabindex="7" placeholder="{{'label_bccEmailId' |translate}}" [matChipInputFor]="chipListBcc"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                                (matChipInputTokenEnd)="addCandidateBcc($event)" [matAutocomplete]="auto" >
+                            </mat-chip-list>
+                            <mat-autocomplete #auto="matAutocomplete">
+                            </mat-autocomplete>
+                            <mat-error *ngIf="this.emailTempalateCandidateForm.controls['bccMailsCandidate'].hasError('required')">
+                            {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="this.emailTempalateCandidateForm.controls['bccMailsCandidate'].hasError('incorrectEmail')">
+                            {{ 'label_emailIncorrect' |translate}}
+                            </mat-error>
+                            <button mat-raised-button color="primary" (click)="getUserContactInfo('BCC')"
+                            class="addContactBtn addContactBtnStyle" tabindex="8" matTooltip="{{'label_addContactBtn' |translate}}" matTooltipPosition="left">
+                            <mat-icon class="addContactIcon">add</mat-icon>
+                            
+                            </button>
+                          </mat-form-field>
+
+
+                  
+                                              <!-- //who:maneesh,what:ewm-15630 for fixed speech text,when:12/12/2024 -->
+                                              <div  class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+                                                <mat-label
+                                                [ngStyle]="emailTempalateCandidateForm.controls['CandidateEmailTemplate'].hasError('required') && showErrorDesc? 
+                                                {'color': '#f44336'}:''">{{ 'label_pageTemplate' | translate}} <span class="required-show">*</span></mat-label>
+                                               <app-mention-editor #mentionEditor [configuration]="editorConfig" [getEditorVal]="getEditorVal" [resetConfiguration]="resetEditorValue.asObservable()"
+                                                (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"></app-mention-editor>
+                                                
+                                            </div>
+                    <!-- <div class="col l12 m12 s12"> -->
+                  
+                    <!-- </div> -->
+                </form>
+            </span>
+        </mat-tab>
+
+        <mat-tab id="pageTempalate-candidateTab" >
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">group</mat-icon>
+                {{'label_Employee' | customTranslate}}
+            </ng-template>
+
+            <span *ngIf="isEmployee">
+            <form class="col" [formGroup]="emailTempalateEmployeeForm" id="emailTempalateEmployeeForm">
+            <!-- <div class="row">
+               <div class="col l12 m12 s12"> -->
+                    <div class="ng-slectBox">
+                        <ng-select placeholder="{{ 'label_moduleName' | translate }}"
+                            id="emailTempalate-employeeModule" class="dropdown-body show-required" required appendTo="body"
+                            tabindex="10" formControlName="EmployeeModule" [clearable]="true">
+                            <ng-option *ngFor="let module of moduleTypeList" [value]="module.CodeInternal">
+                                {{module.InternalName}}
+                            </ng-option>
+                           
+                        </ng-select>
+                        <mat-error
+                            *ngIf="emailTempalateEmployeeForm.controls['EmployeeModule'].hasError('required') && emailTempalateEmployeeForm.controls['EmployeeModule'].touched">
+                            {{ 'label_moduleName' | translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+
+                    </div>
+                <!-- </div> -->
+
+                <!-- <div class="col l12 m12 s12"> -->
+                    <mat-form-field>
+                        <input matInput placeholder="{{'label_templateMailName' | translate}}" tabindex="11"
+                            formControlName="EmployeeTemplateName" id="emailTempalate-employeeTemplateName"
+                            required>
+                        <mat-error
+                            *ngIf="emailTempalateEmployeeForm.controls['EmployeeTemplateName'].hasError('required') && emailTempalateEmployeeForm.controls['EmployeeTemplateName'].touched">
+                            {{'label_templateMailName'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                        <mat-error
+                            *ngIf="emailTempalateEmployeeForm.controls['EmployeeTemplateName'].hasError('maxlength')">
+                            {{'label_templateMailName' |translate}} {{'label_errormaxlength100' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+                <!-- </div> -->
+
+
+                <!-- <div class="col l12 m12 s12"> -->
+                    <mat-form-field>
+                        <input matInput placeholder="{{'label_templateSubject' | translate}}" tabindex="12"
+                            formControlName="EmployeeSubject" id="emailTempalate-employeeSubject" required>
+                        <mat-error
+                            *ngIf="emailTempalateEmployeeForm.controls['EmployeeSubject'].hasError('required') && emailTempalateEmployeeForm.controls['EmployeeSubject'].touched">
+                            {{'label_templateSubject'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                        <mat-error
+                            *ngIf="emailTempalateEmployeeForm.controls['EmployeeSubject'].hasError('maxlength')">
+                            {{'label_templateSubject' |translate}} {{'label_errormaxlength200' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+                <!-- </div> -->
+
+                <mat-form-field>
+                    <mat-label>{{'label_ccEmails' |translate}}</mat-label>
+                    <mat-chip-list #chipListcc aria-label="Enter CC Email-ID" formControlName="ccMailsEmployee">
+                      <mat-chip [color]="(item.invalid) ? 'warn' : ''" selected *ngFor="let item of ccEmailsContactEmployee; let i=index"
+                        [selectable]="true" [removable]="removable" (removed)="removeEmployeeCCEmail(item)" required name="CC Email-ID">
+                         <span class="text-overflow">{{item.value}}</span>
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input tabindex="13" placeholder="{{'label_ccEmailId' |translate}}" [matChipInputFor]="chipListcc"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                        (matChipInputTokenEnd)="addEmployeeCC($event)" [matAutocomplete]="auto">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete">
+                    </mat-autocomplete>
+                    <mat-error *ngIf="this.emailTempalateEmployeeForm.controls['ccMailsEmployee'].hasError('required')">
+                      {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.emailTempalateEmployeeForm.controls['ccMailsEmployee'].hasError('incorrectEmail')">
+                      {{ 'label_emailIncorrect' |translate}}
+                    </mat-error>
+                    <button mat-raised-button color="primary" (click)="getUserContactInfo('employeeCC')"
+                      class="addContactBtn addContactBtnStyle" tabindex="14" matTooltip="{{'label_addContactBtn' |translate}}" matTooltipPosition="left">
+                      <mat-icon class="addContactIcon">add</mat-icon>
+                      
+                    </button>
+                  </mat-form-field>
+
+
+
+
+                <mat-form-field>
+                    <mat-label>{{'label_bccEmails' |translate}}</mat-label>
+                    <mat-chip-list #chipListBcc aria-label="Enter BCC Email-ID" formControlName="bccMailsEmployee">
+                      <mat-chip [color]="(item.invalid) ? 'warn' : ''" selected *ngFor="let item of bccEmailsContactEmployee; let i=index"
+                        [selectable]="true" [removable]="removable" (removed)="removeEmployeeBccEmail(item)" required name="BCC Email-ID">
+                        <span class="text-overflow">{{item.value}}</span>
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input tabindex="15" placeholder="{{'label_bccEmailId' |translate}}" [matChipInputFor]="chipListBcc"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                        (matChipInputTokenEnd)="addEmployeeBcc($event)" [matAutocomplete]="auto" >
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete">
+                    </mat-autocomplete>
+                    <mat-error *ngIf="this.emailTempalateEmployeeForm.controls['bccMailsEmployee'].hasError('required')">
+                      {{ 'label_emailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.emailTempalateEmployeeForm.controls['bccMailsEmployee'].hasError('incorrectEmail')">
+                      {{ 'label_emailIncorrect' |translate}}
+                    </mat-error>
+                    <button mat-raised-button color="primary" (click)="getUserContactInfo('employeeBCC')"
+                      class="addContactBtn addContactBtnStyle" tabindex="16" matTooltip="{{'label_addContactBtn' |translate}}" matTooltipPosition="left">
+                      <mat-icon class="addContactIcon">add</mat-icon>
+                      
+                    </button>
+                  </mat-form-field>
+
+
+                <div>
+
+
+                            <!-- //who:maneesh,what:ewm-15686 for fixed speech text,when:19/04/2024 -->
+         <div  class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+            <mat-label
+            [ngStyle]="emailTempalateEmployeeForm.controls['EmployeeEmailTemplate'].hasError('required') && showErrorDescEmployee? 
+            {'color': '#f44336'}:''">{{ 'label_pageTemplate' | translate}} <span class="required-show">*</span></mat-label>
+           <app-mention-editor #mentionEditor [configuration]="editorConfig" [getEditorVal]="getEditorValEmployee"  
+            (editorValueEmit)="getEditorFormInforEmployee($event)" (editorImageValueEmit)="getEditorImageFormInforEmployee($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"></app-mention-editor>    
+        </div>
+     
+                </div>
+            <!-- </div> -->
+             </form>
+            </span>
+        </mat-tab>
+    </mat-tab-group>
+
+    <mat-card class="drawer-data-continer-footer mb-0" id="drawer-data-continer-footer">
+        <button mat-stroked-button color="warn" tabindex="18" type="button" id="btnCancel" (click)="onDismiss()">
+            {{'button_cancel'|translate}}</button>
+
+        <span *ngIf="isCandidate">
+        <button mat-raised-button color="primary" (click)="OnSave(this.emailTempalateCandidateForm.getRawValue(),'Candidate')" tabindex="19"  
+        type="button" id="btnActivitySave" [disabled]="!emailTempalateCandidateForm.valid || showErrorDesc">
+            {{'label_save'|translate}}
+        </button>
+    </span>
+
+       <span *ngIf="isEmployee">
+        <button mat-raised-button color="primary" (click)="OnSave(this.emailTempalateEmployeeForm.getRawValue(),'Employee')" tabindex type="button" id="btnActivitySave"
+        [disabled]="!emailTempalateEmployeeForm.valid || showErrorDescEmployee">
+            {{'label_save'|translate}}
+        </button>
+      </span>
+    </mat-card>
+
+</div>

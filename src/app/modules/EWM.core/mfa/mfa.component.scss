@@ -1,0 +1,71 @@
+
+// @When: 06-12-2023 @who:Amit @why: EWM-15314 @what: style modified
+@import "../../../../styles-var.scss";
+.container-without-scroll{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: calc(100vh - 50px - 50px);
+	padding-top: 50px;
+	padding-bottom: 50px;
+	@media only screen and (max-width: 767px){
+        height: calc(100vh - 80px - 47px);
+		padding-top: 80px;
+		padding-bottom: 47px;
+    }
+	.container-steper {
+		padding: 0px 25px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		text-align: center;
+		.mfaImgSize{
+			width: 100%;
+			max-height: 260px;
+			min-width: 255px;
+		}
+		.mfaH3Txt{
+			font-size: 24px;
+			margin:0px;
+		}
+		.mfaParaTxt{
+			font-size: 15px; 
+			margin: 0px;
+		}
+		.buttons{
+			display: flex;
+			gap: 10px;
+			@media only screen and (max-width: 510px) and (min-width: 240px) {
+				flex-direction: column;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  

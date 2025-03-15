@@ -1,0 +1,184 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Mukesh Kumar Rai
+    @When: 24-Nov-2020
+    @Why: ROST-424
+    @What:  This page wil be use only for the Address fromat Component HTML
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+
+  <mat-card-header class="dashboard-mat-card-header title-and-btn" id="address-format-mat-card-header">
+    <mat-card-title class="only-title">{{'label_addressFormat' |translate}}</mat-card-title>
+    <div class="actionButton">
+      <button mat-raised-button color="primary" tabindex="8" id="btnSave" (click)="onSubmitAddress()"
+        class="buttonForDesktopMobile">
+        <mat-icon>check</mat-icon>
+        <span class="buttonTxt">{{'label_save'|translate}}</span>
+      </button>
+     
+    </div>
+  </mat-card-header>
+  
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="address-format-drawer">
+  <mat-card class="component-card mat-elevation-z2 col" id="component-card">
+    <div class="">
+      <mat-card-subtitle class="subTitle">{{ (('label_addressFormatheading'
+        |translate).length>maxCharacterLengthSubHead)? (('label_addressFormatheading' |translate) |
+        slice:0:maxCharacterLengthSubHead)+'...':(('label_addressFormatheading' |translate)) }}</mat-card-subtitle>
+    </div>
+    <div class="row">
+      <div class="col s12 m12 l12">
+        <p class="font-weight-500 paraHeading">{{'label-componentsOfAddress' |translate}}</p>
+        <div class="drag-container todoKey">
+        <mat-chip-list tabindex="1" class="list withoutButton" cdkDropList #todoList="cdkDropList"
+          [cdkDropListData]="todos" id="0" (cdkDropListDropped)="drop($event)"
+          [cdkDropListConnectedTo]="[line_1List,line_2List,line_3List,line_4List]">
+          <div *ngFor="let todo of todos" cdkDrag>
+            <mat-chip *ngIf="todo">
+              {{todo.Key}} <mat-slide-toggle color="primary" matTooltip="Show in Capitals" matTooltipPosition="above" matTooltipClass="address-tooltip" [checked]="todo.IsCapital" id="{{todo.Key}}" name="{{todo}}"
+                (change)='capOn(todo.Key,$event)'></mat-slide-toggle>
+            </mat-chip>
+          </div>
+        </mat-chip-list>
+      </div>
+      </div>
+    </div>
+    <div class="row mb-0">
+      <div class="col s12 m12 l6">
+        <div class="row mb-5">
+          <h4 class="cardSubTitle col s12 m12 l12" id="cardSubTitle">
+            {{ 'label_addressFormatDragTitle' |translate}}
+          </h4>
+          <div class="col m3 l3 s12">
+            <div class="section-heading" id="section-heading">
+              {{ 'label_line' |translate}} 1
+            </div>
+          </div>
+          <div class="col m9 l9 s12">
+            <div class="drag-container test">
+              <mat-chip-list tabindex="2" cdkDropList #line_1List="cdkDropList" [cdkDropListData]="line_1" id="1"
+                [cdkDropListConnectedTo]="[line_1List,line_2List,line_3List,line_4List]" class="item-list"
+                (cdkDropListDropped)="drop($event)">
+                <ng-container *ngFor="let item of line_1;let i=index">
+                <mat-chip  cdkDrag *ngIf="item">
+                  {{item.Key}} <mat-slide-toggle color="primary" matTooltip="Show in Capitals" matTooltipPosition="above" matTooltipClass="address-tooltip" [checked]="item.IsCapital" id="{{item.Key}}"
+                    name="{{item.Key}}" (change)='capOn(item.Key,$event)'></mat-slide-toggle>
+                  <mat-icon matChipRemove (click)="clickMove(item.Key,'todos','line_1')">close</mat-icon>
+                </mat-chip>
+              </ng-container>
+              </mat-chip-list>
+
+            </div>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col m3 l3 s12">
+            <div class="section-heading" id="section-heading">
+              {{ 'label_line' |translate}} 2
+            </div>
+          </div>
+          <div class="col m9 l9 s12">
+            <div class="drag-container">
+
+              <mat-chip-list tabindex="3" cdkDropList #line_2List="cdkDropList" [cdkDropListData]="line_2" id="2"
+                [cdkDropListConnectedTo]="[line_1List,line_2List,line_3List,line_4List]" class="item-list"
+                (cdkDropListDropped)="drop($event)">
+                <ng-container *ngFor="let item of line_2;let i=index">
+                <mat-chip *ngIf="item" cdkDrag>
+                  {{item.Key}} <mat-slide-toggle color="primary" matTooltip="Show in Capitals" matTooltipPosition="above" matTooltipClass="address-tooltip" (change)='capOn(item.Key,$event)'
+                  [checked]="item.IsCapital" id="{{item.Key}}" name="{{item.Key}}"></mat-slide-toggle>
+                  <mat-icon matChipRemove (click)="clickMove(item.Key,'todos','line_2')">close</mat-icon>
+                </mat-chip>
+                </ng-container>
+              </mat-chip-list>
+
+            </div>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col m3 l3 s12">
+            <div class="section-heading" id="section-heading">{{ 'label_line' |translate}} 3</div>
+          </div>
+          <div class="col m9 l9 s12">
+            <div class="drag-container">
+
+              <mat-chip-list cdkDropList #line_3List="cdkDropList" tabindex="4" [cdkDropListData]="line_3" id="3"
+                [cdkDropListConnectedTo]="[line_1List,line_2List,line_3List,line_4List]" class="item-list"
+                (cdkDropListDropped)="drop($event)">
+                <ng-container *ngFor="let item of line_3;let i=index">
+                <mat-chip *ngIf="item" cdkDrag>
+                  {{item.Key}} <mat-slide-toggle color="primary" matTooltip="Show in Capitals" matTooltipPosition="above" matTooltipClass="address-tooltip" (change)='capOn(item.Key,$event)'
+                  [checked]="item.IsCapital" id="{{item.Key}}" name="{{item.Key}}"></mat-slide-toggle>
+                  <mat-icon matChipRemove (click)="clickMove(item.Key,'todos','line_3')">close</mat-icon>
+                </mat-chip>
+                </ng-container>
+              </mat-chip-list>
+
+            </div>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col m3 l3 s12">
+            <div class="section-heading" id="section-heading">{{ 'label_line' |translate}} 4</div>
+          </div>
+          <div class="col m9 l9 s12">
+            <div class="drag-container">
+
+              <mat-chip-list cdkDropList tabindex="5" #line_4List="cdkDropList" [cdkDropListData]="line_4" id="4"
+                [cdkDropListConnectedTo]="[line_1List,line_2List,line_3List,line_4List]" class="item-list"
+                (cdkDropListDropped)="drop($event)">
+                <ng-container *ngFor="let item of line_4;let i=index">
+                <mat-chip *ngIf="item" cdkDrag>
+                  {{item.Key}} <mat-slide-toggle color="primary" matTooltip="Show in Capitals" matTooltipPosition="above" matTooltipClass="address-tooltip" (change)='capOn(item.Key,$event)'
+                  [checked]="item.IsCapital" id="{{item.Key}}" name="{{item.Key}}"></mat-slide-toggle>
+                  <mat-icon matChipRemove (click)="clickMove(item.Key,'todos','line_4')">close</mat-icon>
+                </mat-chip>
+                </ng-container>
+              </mat-chip-list>
+
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <mat-form-field class="col s12 m9 offset-m3 l9 offset-l3">
+            <mat-label>{{ 'label_separatorCityState' |translate}}</mat-label>
+            <mat-select [(value)]="cityStateselectedSeparator" tabindex="6" (selectionChange)="changeCityState($event)" id="address-city">
+              <mat-option value=",">{{ 'label_comma' |translate}}</mat-option>
+              <mat-option value="-">{{ 'label_Hyphen' |translate}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col s12 m9 offset-m3 l9 offset-l3">
+            <mat-label>{{ 'label_separatorStateZip' |translate}}</mat-label>
+            <mat-select [(value)]="stateZipselectedSeparator" tabindex="7" (selectionChange)="changeStateZip($event)" id="address-state">
+              <mat-option value=",">{{ 'label_comma' |translate}}</mat-option>
+              <mat-option value="-">{{ 'label_Hyphen' |translate}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="col s12 m12 l6">
+        <div class="row">
+          <div class="col s12 m6 l6">
+            <p>{{ 'label_addressPreview' |translate}} </p>
+            <div class="addressPreview" id="address-address">
+              <p>{{addressLine_1}}</p>
+              <p>{{addressLine_2}}</p>
+              <p>{{addressLine_3}}</p>
+              <p>{{addressLine_4}}</p>
+              <p *ngIf="addressLine_1=='' && addressLine_2=='' && addressLine_3=='' && addressLine_4==''">
+                {{ 'label_noRecordAvailable' |translate}} </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+</mat-card>
+</mat-drawer-container>

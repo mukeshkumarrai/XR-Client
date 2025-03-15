@@ -1,0 +1,26 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Satya Prakash Gupta
+  @When: 20-April-2022
+  @Why: EWM-4945 EWM-6167
+  @What:  This page will be use for the document email template Component scss file
+*/
+@import "../../../../../../../mixinStyle.scss";
+.mobileMenu.usertype-category{
+    margin-bottom: 10px;
+}
+.document-name{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    @include for-small-smartphones{
+        grid-template-columns: repeat(1, 1fr); 
+    }
+    @include for-smartphones {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+.nodata{
+    text-align: center;
+}

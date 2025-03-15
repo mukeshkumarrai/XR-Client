@@ -1,0 +1,61 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <html>
+  @Name: upload-resume.component.html
+  @Who: Renu
+  @When: 24-May-2022
+  @Why: EWM-6558 EWM-6782
+  @What: upload resume component
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-card applyTabIndexes class="mat-elevation-z0 preview-upload-resume">
+    <mat-horizontal-stepper #stepper class="assessment-stepper-sec"
+        [linear]="isLinear" labelPosition="middle"
+        (selectionChange)="setIndex($event)">
+
+        <ng-template matStepperIcon="edit" let-index="index">{{index + 1}}</ng-template>
+        <ng-container *ngFor="let section of stepperConfig">
+            <mat-step *ngIf="section?.PageLabel!='Thank_You' &&
+                  section?.IsEnabled==1" [state]="edit"
+                [completed]="false" label="{{section?.Title}}">
+
+                <app-parsed-resume *ngIf="section?.PageLabel=='Welcome_Page' &&
+                    totalStepsCount!=null" [filestatus]="filestatus"
+                    [iconFileType]="iconFileType"
+                    [fileInfo]="fileInfo" [fileViewstatus]="fileViewstatus"
+                    [FilePathOnServer]="FilePathOnServer"
+                    [ApplicationFormId]="ApplicationFormId"
+                    [totalStepsCount]="totalStepsCount"
+                    [lableTitleName]="section?.Title"
+                    (resumeParsed)="fetchDataFromParsed($event)"
+                    (stepperNext)="moveNextStep($event)"></app-parsed-resume>
+                <app-personal-info
+                    *ngIf="section?.PageLabel=='Personal_Information' &&
+                    totalStepsCount!=null" [totalStepsCount]="totalStepsCount"
+                    [ApplicationFormId]="ApplicationFormId"
+                    [lableTitleName]="section?.Title"
+                    (stepperNext)="moveNextStep($event)"></app-personal-info>
+                <app-upload-docs *ngIf="section?.PageLabel=='Documents' &&
+                    totalStepsCount!=null"
+                    [ApplicationFormId]="ApplicationFormId"
+                    [totalStepsCount]="totalStepsCount"
+                    [lableTitleName]="section?.Title"
+                    (stepperNext)="moveNextStep($event)"></app-upload-docs>
+                <app-knockout-ques
+                    *ngIf="section?.PageLabel=='Knockout_Questions' &&
+                    totalStepsCount!=null" [totalStepsCount]="totalStepsCount"
+                    [ApplicationFormId]="ApplicationFormId"
+                    [lableTitleName]="section?.Title"
+                    (stepperNext)="moveNextStep($event)"></app-knockout-ques>
+                <app-important-links
+                    *ngIf="section?.PageLabel=='Important_Links' &&
+                    totalStepsCount!=null" [totalStepsCount]="totalStepsCount"
+                    [ApplicationFormId]="ApplicationFormId"
+                    [lableTitleName]="section?.Title"
+                    (stepperNext)="moveNextStep($event)"></app-important-links>
+            </mat-step>
+        </ng-container>
+    </mat-horizontal-stepper>
+</mat-card>

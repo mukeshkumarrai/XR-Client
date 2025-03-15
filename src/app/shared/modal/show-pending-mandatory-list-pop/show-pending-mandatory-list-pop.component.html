@@ -1,0 +1,43 @@
+<!--- 
+    @Type: File, <html>
+    @Name:show-pending-mandatory-list-pop.component.html 
+    @Who: Adarsh singh
+    @When: 16-June-2023
+    @Why: EWM-11779 EWM-12547
+    @What: This page wil be use only for the warning alert HTML
+-->
+
+<div mat-dialog-content class="center-align warning-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        error
+    </span>
+    <h2 mat-dialog-title>
+        {{'label_alert'|translate}}
+    </h2>
+      <p> {{subtitle|translate}}</p>
+
+    <p *ngIf="message!=undefined || message!=''"> {{message | translate}}</p>
+
+<div class="mandatory-listing">
+    <b>{{'label_checklist' | translate}}</b>
+    <ul>
+        <li *ngFor="let checklist of checklistAssessmentArray?.CheckList">
+            <a href="javascript:void(0)">{{checklist?.Name}}</a>
+        </li>
+    </ul>
+    <p>
+        <b>{{'label_headerAssement' | translate}}</b>
+    </p>
+    <ul>
+        <li *ngFor="let assessment of checklistAssessmentArray?.AssessmentList">
+            <a href="javascript:void(0)">{{assessment?.AssessmentName}}</a>
+        </li>
+    </ul>
+</div>
+
+</div>
+<mat-divider></mat-divider>
+<div  mat-dialog-actions class="button-row actionBoxFooter inform-dialog-footer">
+    <button mat-stroked-button color="warn" (click)="onDismiss()"> {{'label_buttonOk'|translate}}</button>
+</div> 
+

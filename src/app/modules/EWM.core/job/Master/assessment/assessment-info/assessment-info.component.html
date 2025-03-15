@@ -1,0 +1,88 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: assessment-info.component.html
+  @Who: Renu
+  @When: 09-Mar-2022
+  @Why:  EWM-5337 EWM-5461
+  @What: Assessment info view page
+ -->
+ <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+
+<div class="modal-header">
+    <h2 matDialogTitle class="mb-0">{{assementInfoList?.Name}}</h2>      
+    <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content class="info-box">
+    <button (click)="viewQuestionById()" color="primary" style="margin-bottom: 10px;" mat-raised-button matSuffix>
+        <span class="buttonTxt">{{"label_View" | translate}} {{"label_questions" | translate}}</span>
+    </button>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_accessPersmission'|translate}}
+        </div>
+        <div class="info-details">
+            {{assementInfoList?.AccessPermissionName}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_moduleName'|translate}}
+        </div>
+        <div class="info-details">
+            {{assementInfoList?.ModuleName}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_relatedTo'|translate}}
+        </div>
+        <div class="info-details">
+            {{assementInfoList?.RelatedToName}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_evalutionCriteria'|translate}}
+        </div>
+        <div class="info-details">
+            {{assementInfoList?.EvaluationCriteriaName}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_status'|translate}}
+        </div>
+        <div class="info-details">
+            {{assementInfoList?.Status}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_noofques'|translate}}
+        </div>
+        <div class="info-details">
+            {{assementInfoList?.NoOfQuestions}}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'lebel_lastUpdateOn'|translate}}
+        </div>
+        <div class="info-details">
+            {{assementInfoList?.LastUpdatedOn |date:userpreferences.timeformate:userpreferences.timezone }}
+        </div>
+    </mat-card>
+    <mat-card class="info-Data">
+        <div class="info-title">
+            {{'label_description'|translate}}
+        </div>
+        <div class="info-details Description" [innerHTML]="assementInfoList?.Description">
+        </div>
+    </mat-card>
+</mat-dialog-content>

@@ -1,0 +1,1245 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: styles.scss
+    @Who: Satya Prakash Gupta
+    @When: 10-Sep-2020
+    @Why:
+    @What: You can add style for data header only
+*/
+
+@import "../../mixinStyle.scss";
+@import "../../styles-var.scss";
+
+.data-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.data-header-notes-detail {
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+  padding: 5px 0px 5px 5px;
+  background: #eceff1;
+  margin-bottom: 5px;
+  @include for-small-smartphones {
+    flex-direction: column;
+    align-items: inherit;
+  }
+  .button-with-clear {
+    display: inline-block;
+    margin-right: 5px;
+    .mat-stroked-button.active {
+      background: #d1c4e9;
+    }
+  }
+  .only-clear.button-with-clear {
+    .clear-with-data {
+      width: 25px;
+    }
+    .addFilter.more-filter.mat-stroked-button.mat-primary {
+      padding-right: 34px;
+    }
+  }
+
+  .only-clear.button-with-clear{
+    .blankFilter.more-filter.mat-raised-button{
+        padding: 0px;
+        min-width: 36px;
+    }
+    .addFilter.more-filter.mat-raised-button{
+        padding-left: 5px;
+        padding-right: 34px;
+    }
+}
+
+.button-with-clear{
+  .blankFilter.more-filter.mat-raised-button{
+      padding: 0px;
+      min-width: 36px;
+  }
+  .addFilter.more-filter.mat-raised-button{
+      padding-left: 5px;
+      padding-right: 55px;
+  }
+}
+
+
+
+  .left-data-header{
+    &:last-child{
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  .mat-form-field{
+    margin-inline-end: 7px;
+  }
+}
+
+.candidate-data-header {
+  align-items: baseline;
+  .filter-refresh {
+    display: flex;
+    button {
+      margin-left: 0px;
+      margin-right: 5px;
+    }
+    .mainAddButton{
+      width: 35px;
+      height: 35px;
+      line-height: 32px;
+      border-radius: 4px;
+      .mat-button-wrapper{
+        padding: 0px;
+        .mat-icon{
+          width: 35px;
+          height: 35px;
+          line-height: 35px;
+          font-size: 18px;
+          text-align: center;
+        }
+      }
+    }
+    .mat-button-base{
+      line-height: 35px;
+      height: 35px;
+    }
+  }
+  .search-viewicon {
+    display: flex;
+    align-items: baseline;
+    @media only screen and (max-width: 440px) and (min-width: 320px) {
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .filterButton {
+      cursor: inherit;
+      margin: 0px 10px;
+      // padding: 0px;
+      min-width: auto;
+      .mat-icon.clearFilter {
+        margin-left: 0px;
+        font-size: 15px;
+        position: absolute;
+        top: 2px;
+        height: 16px;
+        width: 18px;
+        right: 0px;
+      }
+      .badge {
+        // cursor: pointer;
+        margin-left: 5px;
+        min-width: 30px;
+        max-width: 36px;
+        padding-right: 20px;
+        display: inline-block;
+        line-height: 12px;
+        top: 1px;
+        position: relative;
+      }
+      .filterTxt {
+        padding-top: 5px;
+        cursor: pointer;
+        padding-bottom: 5px;
+      }
+    }
+    .advancedsearchButton {
+      min-width: 50px;
+      padding: 0px;
+      margin: 0px 5px;
+      cursor: pointer;
+      .two-icons {
+        font-size: 24px;
+        .mat-icon {
+          font-size: 38px;
+          position: absolute;
+          top: -18px;
+          left: -18px;
+          height: 36px;
+          width: 36px;
+        }
+        .secondIcon.mat-icon {
+          width: 15px;
+          height: 15px;
+          line-height: 15px;
+          left: -10.5px;
+          top: -10px;
+          font-size: 15px;
+        }
+      }
+      .buttonTxt {
+        display: none;
+      }
+    }
+    .searchInput {
+      margin-bottom: 0px;
+      max-width: 280px;
+      margin-right: 10px;
+      margin-left: 10px;
+      @media only screen and (max-width: 980px) and (min-width: 320px) {
+        display: block;
+        margin-bottom: 5px;
+        margin-left: 0px;
+      }
+      @include for-small-smartphones {
+        display: inline-block;
+        max-width: 120px;
+      }
+    }
+  }
+}
+.dashboard-mat-card-header.mat-card-header {
+  margin-bottom: 0px;
+  padding: 5px 10px 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  // z-index: 3;
+  align-items: center;
+  border-bottom: 1px solid #d2d6de;
+  @media only screen and (max-width: 580px) and (min-width: 320px){
+    padding: 5px 10px 5px 10px;
+  }
+  @media only screen and (max-width: 999px) and (min-width: 320px) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .mat-card-header-text {
+    margin: 0px;
+    .mat-card-title {
+      margin-bottom: 0px;
+      .mat-card-avatar{
+        width: 35px;
+        height: 35px;
+        margin: 0px 5px 0px 0px;
+      }
+      @include mat-icon-button-35;
+      .addClientButton {
+        margin-right: 10px;
+        .mat-button-wrapper{
+          padding: 0px;
+        }
+        .two-icons {
+          .mat-icon {
+            position: relative;
+            top: 0px;
+          }
+          .secondIcon.mat-icon {
+            position: relative;
+            width: 10px;
+            height: 10px;
+            font-size: 12px;
+            text-align: center;
+            line-height: 8px;
+            border-radius: 0px;
+            position: absolute;
+            right: 6px;
+            top: 6px;
+            margin-right: 0px;
+          }
+        }
+      }
+      span {
+        font-size: 20px;
+        @media only screen and (max-width: 1099px) and (min-width: 1025px) {
+          font-size: 16px;
+        }
+      }
+      span.label_breadcum {
+        font-size: 12px;
+        vertical-align: inherit;
+      }
+      .bread-crumb {
+        .col {
+          padding: 0px;
+          .breadcum {
+            font-size: 19px;
+            margin-top: -7px;
+            margin-bottom: 0px;
+            span {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+      .breadCrumbStyle {
+        font-size: 19px;
+        line-height: 16px;
+        margin: -7px 0px 0px;
+        .breadcumContent {
+          span {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+    .mat-card-title.icon-with-title {
+      display: flex;
+      align-items: center;
+      // .sub-title {
+      //   margin-left: 10px;
+      // }
+    }
+    .mat-card-title.only-title {
+      margin-left: 5px;
+      padding:6px 0px;
+    }
+    .mat-card-title.title-with-breadcrumb {
+      margin-left: 5px;
+    }
+  }
+
+  .actionButton{
+    top:0px;
+    width: 625px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    .mat-raised-button{
+      margin-inline-start: 8px;
+    }
+  }
+
+  .listGridButton {
+    top: 0px;
+    width: 625px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    @media only screen and (max-width: 1175px) and (min-width: 1025px) {
+      width: 525px;
+    }
+    @media only screen and (max-width: 999px) and (min-width: 320px) {
+      width: 100%;
+    }
+    @media only screen and (max-width: 825px) and (min-width: 320px) {
+      display: block;
+      text-align: right;
+    }
+    .search-viewicon {
+      display: flex;
+      align-items: center;
+      @media only screen and (max-width: 825px) and (min-width: 320px) {
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        margin-bottom: 5px;
+      }
+      .mat-raised-button {
+        // border-radius:4px;
+        .mat-icon {
+          color: $primary-bg-color;
+        }
+      }
+      .viewAuditlog {
+        .mat-icon {
+          color: #000;
+          --animate-duration: 1s;
+          @include audit-icon-flash;
+        }
+      }
+      .radius-call {
+        border-radius: 4px;
+        margin-inline-start: 0px;
+        @media (min-width : 320px) and (max-width : 825px){
+          margin-bottom: 5px;
+        }
+      }
+      .mat-stroked-button {
+        min-width: 30px;
+        padding: 0px 8px;
+      }
+      .addFilter.mat-stroked-button {
+        min-width: 60px;
+        padding-left: 5px;
+        padding-right: 55px;
+      }
+      .mat-stroked-button::after {
+        background: transparent;
+      }
+
+      .addFilter.mat-raised-button {
+        padding-left: 5px;
+        padding-right: 55px;
+      }
+
+      .addFilter.mat-raised-button.filteractive {
+        color: $primary-bg-color;
+        &::after {
+          content: "";
+          background: currentColor;
+          opacity: 0.22;
+          pointer-events: none;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0px;
+          right: 0px;
+          top: 0px;
+          bottom: 0px;
+          z-index: 0;
+          border-radius: 4px;
+          transition: opacity 0.2s ease-in-out;
+        }
+      }
+
+      .searchInput {
+        margin-bottom: 0;
+        max-width: 200px;
+        margin-right: 10px;
+        margin-left: 10px;
+        top: -5px;
+        height: 36px;
+        @media only screen and (max-width: 1175px) and (min-width: 1025px) {
+          max-width: 150px;
+        }
+        @media only screen and (max-width: 640px) and (min-width: 481px) {
+          min-width: 100px;
+          max-width: 120px;
+        }
+        @media only screen and (max-width: 480px) and (min-width: 320px) {
+          min-width: 100px;
+          max-width: 170px;
+        }
+        .mat-form-field-prefix{
+          .mat-icon{
+            position: relative; 
+            top: 7px;
+          }
+        }
+      }
+      .dateMaxInput {
+        max-width: 215px;
+        .mat-icon{
+          position: absolute;
+          right: 0px;
+          top: 3px;
+          cursor: pointer;
+          @include for-small-smartphones{
+            right: -5px;
+          }
+        }
+      }
+      .ng-slectBox.searchInput {
+        height: 40px;
+        top: -2px;
+        max-width: 150px;
+        width: 100%;
+        min-width: 100px;
+      }
+      .ng-slectBox.searchInput.regionInput {
+        height: 40px;
+        top: 0px;
+        max-width: 300px;
+        width: 100%;
+        min-width: 100px;
+      }
+      .button-with-clear {
+        margin-left: 5px;
+        margin-right: 5px;
+        display: inline-block;
+      }
+    }
+    .listButton.mat-raised-button {
+      border-radius: 4px 0px 0px 4px;
+      margin-left: 8px;
+    }
+    .listgrid-button {
+      display: flex;
+      width: 88px;
+      margin-left: 8px;
+      @media (min-width : 320px) and (max-width : 1060px){
+        display: inline-flex;
+      }
+      .mat-raised-button {
+        margin: 0px;
+      }
+    }
+    // .gridButton.mat-raised-button{
+    //   border-radius:4px 0px 0px 4px;
+    // }
+    .refreash:hover {
+      transition: all 0.2s;
+      width: 0%;
+      height: 100%;
+      top: 0;
+      background: rgba(0, 0, 0, 0.08);
+    }
+    .bulkeditbtn {
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+    .refreshBtn {
+      height: 36px;
+      line-height: 36px;
+      margin: 0 15px;
+      min-width: 40px;
+      border-radius: 4px;
+      position: relative;
+      padding: 0px;
+    }
+    .refreshBtn:hover {
+      transition: all 0.2s;
+      width: 0%;
+      height: 100%;
+      top: 0;
+      background: rgba(0, 0, 0, 0.08);
+    }
+    .refreshBtn.mat-raised-button:before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      height: 30px;
+      width: 1px;
+      box-shadow: inset 0 -5px 0 0 hsl(0deg 0% 100% / 5%);
+      background: -webkit-radial-gradient(
+        center,
+        ellipse cover,
+        rgba(41, 137, 216, 0.51) 30%,
+        rgba(30, 87, 153, 0.01) 73%,
+        rgba(30, 87, 153, 0) 74%,
+        rgba(30, 87, 153, 0) 80%
+      );
+      background: #d2d2d2;
+      background: linear-gradient(180deg, #d2d2d2, #919191 51%, #d4d4d4);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d2d2d2",endColorstr="#d4d4d4",GradientType=1);
+      left: -8px;
+    }
+
+    .refreshBtn.mat-raised-button:after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      height: 30px;
+      width: 1px;
+      box-shadow: inset 0 -5px 0 0 hsl(0deg 0% 100% / 5%);
+      background: -webkit-radial-gradient(
+        center,
+        ellipse cover,
+        rgba(41, 137, 216, 0.51) 30%,
+        rgba(30, 87, 153, 0.01) 73%,
+        rgba(30, 87, 153, 0) 74%,
+        rgba(30, 87, 153, 0) 80%
+      );
+      background: #d2d2d2;
+      background: linear-gradient(180deg, #d2d2d2, #919191 51%, #d4d4d4);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d2d2d2",endColorstr="#d4d4d4",GradientType=1);
+      right: -9px;
+      left: inherit;
+    }
+  }
+  .rotate-line-hide {
+    .refreshBtn {
+      margin: 0px;
+    }
+    .refreshBtn.mat-raised-button:before {
+      content: none;
+    }
+    .refreshBtn.mat-raised-button:after {
+      content: none;
+    }
+  }
+}
+
+// @When: 28-07-2023 @who:Amit @why: EWM-13395 @what: data sync style
+.dashboard-mat-card-header.mat-card-header.date-sync{
+  .mat-card-header-text{
+    .mat-card-title{
+      display: flex;
+      align-items: center;
+      span{
+        @include for-small-smartphones{
+          font-size: 16px;
+        }
+      }
+      .last-sync{
+        color: $dark-primary-bg;
+        font-weight: 500;
+        padding-inline-start: 10px;
+        font-size: 14px;
+        @include for-small-smartphones{
+          font-size: 11px;
+        }
+      }
+    }
+  }
+}
+
+.dashboard-mat-card-header.mat-card-header.date-sync.sync-date-calender{
+  .mat-card-header-text{
+    width: inherit;
+    .mat-card-title{
+      .last-sync{
+        width: max-content;
+      }
+    }
+  }
+  .listGridButton{
+    .search-viewicon{
+      .mat-checkbox.mat-checkbox-checked{
+        background: rgb(15 58 143 / 5%);
+        .mat-checkbox-label{
+          color: $primary-bg-color;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+.configure-mat-card-header.mat-card-header{
+  @media only screen and (max-width: 999px) and (min-width: 320px) {
+    align-items: center;
+    flex-direction: column;
+  }
+  .actionButton{
+    width: 995px;
+    .preview-button{
+      margin-left: 8px;
+    }
+    .buttonForDesktopMobile{
+      @media only screen and (max-width: 1024px) and (min-width: 320px){
+        padding: 0px 0px;
+        min-width: 40px;
+      }
+      .buttonTxt{
+        @media only screen and (max-width: 1024px) and (min-width: 320px){
+          display: none;
+        }
+      }
+      .mat-icon{
+        @media only screen and (max-width: 1024px) and (min-width: 320px){
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
+// title & button //
+
+.dashboard-mat-card-header.title-and-btn.mat-card-header {
+  .actionButton{
+    @include for-small-smartphones{
+      width:100%;
+    }
+  }
+}
+
+// zoom history
+
+.dashboard-mat-card-header.mat-card-header {
+  @media only screen and (max-width: 1060px) and (min-width: 320px) {
+    flex-direction: column;
+  }
+  .mat-card-header-text {
+    display: flex;
+    width: 100%;
+  }
+  .listGridButton {
+    justify-content: flex-end;
+    width: 100%;
+    .search-viewicon {
+      @media (min-width : 320px) and (max-width : 1060px){
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
+      .ng-select {
+        padding-bottom: 0px;
+        width: 150px;
+        @media (min-width : 320px) and (max-width : 1060px){
+          width: calc(50% - 20px);
+          max-width: calc(50% - 20px);
+          display: inline-block;
+        }
+      }
+      .select-workflow {
+        width: 200px;
+      }
+      .searchInput{
+        @media (min-width : 481px) and (max-width : 1060px){
+          width: calc(50% - 20px);
+          max-width: calc(50% - 20px);
+          display: inline-block;
+          // height: auto;
+        }
+      }
+      .searchInput.ng-select{
+        @include for-small-smartphones{
+          width: calc(40% - 20px);
+          max-width: calc(50% - 20px);
+          min-width: auto;
+        }
+      }
+      .searchInput.dateMaxInput {
+        @include for-small-smartphones{
+          font-size: 11.5px;
+          width: calc(60% - 20px);
+          max-width: calc(60% - 20px);
+        }
+      }
+      .search-box{
+        @media (min-width : 320px) and (max-width : 1060px){            
+          width: calc(100% - 106px);
+          max-width: calc(100% - 106px);
+        }
+      }
+      .share-calendar-button.mat-stroked-button{
+        .mat-button-wrapper{
+          display: flex;
+          align-items: center;
+          .mat-icon{
+            line-height: 30px;
+            height: 30px;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}
+// zoom history
+
+// title & button
+.dashboard-mat-card-header.title-and-btn.mat-card-header {
+  @media only screen and (max-width: 1060px) and (min-width: 481px) {
+    flex-direction: row;
+  }
+  @media only screen and (max-width: 480px) and (min-width: 320px) {
+    flex-direction: column;
+  }
+  .listGridButton{
+    .search-viewicon{
+      @media (min-width : 320px) and (max-width : 1060px){
+        width: auto;
+      }
+    }
+  }
+}
+
+.only-for-title {
+  padding: 8px 0px;
+  width: 100%;
+  margin-left: 5px;
+}
+
+.page-main-header.mat-card-header{
+  margin-bottom: 0px;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d2d6de;
+  background-color: #fff;
+  .mat-card-header-text{
+    width: 100%;
+    margin: 0px;
+    .mat-card-title{
+      margin-bottom: 0px;
+      .mainAddButton.mat-mini-fab{
+        width: 35px;
+        height: 35px;
+        line-height: 32px;
+        .mat-button-wrapper{
+          padding: 0px;
+        }
+        .mat-icon{
+          width: 35px;
+          height: 35px;
+          line-height: 35px;
+          font-size: 18px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .header-action-button{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    width: 100%;
+    .group-header-button{
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      .header-button.mat-raised-button,
+      .header-button.refreshBtn{
+        min-width: 36px;
+        padding: 0px 0px;
+        overflow: hidden;
+        .mat-icon{
+          font-size: 20px;
+          line-height: 24px;
+        }
+      }
+      .button-with-clear {
+        display: inline-block;
+        .addFilter.mat-raised-button {
+          padding-left: 5px;
+          padding-right: 55px;
+        }
+      }
+      .active-list-grid{
+        display: none;
+      }
+    }
+    .header-form{
+      width: 100%;
+      max-width: 200px;
+      .ng-select-container{
+        height: 36px !important;
+      }
+    }
+  }
+}
+
+// page header
+.page-header.mat-card-header{
+  padding: 0px 10px 0px 15px;
+  align-items: center;
+  height: 46px;
+  border-bottom: 1px solid #d2d6de;
+  background-color: #fff;
+  // add flex property
+  display: flex;
+  flex-direction: row;
+  column-gap: 15px;
+  @media only screen and (max-width: 580px) and (min-width: 320px){
+    padding: 5px 10px 5px 10px;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    flex-direction: column;
+    height: 70px;
+    padding: 5px 10px;
+  }
+  .mat-card-header-text{
+    // width: 100%;
+    margin: 0px;
+    @media only screen and (max-width: 580px) and (min-width: 240px){
+      width: 100%;
+    }
+    .mat-card-title{
+      gap: 5px;
+      margin-bottom: 0px;
+      // display: grid;
+      display: flex;
+      align-items: center;
+      // grid: auto/ 40px calc(100% - 40px);
+      width: max-content;
+      max-width: 100%;
+      .mainAddButton.mat-mini-fab{
+        width: 35px;
+        height: 35px;
+        line-height: 32px;
+        .mat-button-wrapper{
+          padding: 0px;
+        }
+        .mat-icon{
+          width: 35px;
+          height: 35px;
+          line-height: 35px;
+          font-size: 18px;
+          text-align: center;
+        }
+      }
+      .mainAddButton.green-bg{
+        background-color: #7fb734;
+      }
+      span{
+        // margin-left: 5px;
+      }
+      .sub-title{
+        margin-left: 5px;
+        .bread-crumb{
+          .breadcum{
+            margin-top: -7px;
+            font-size: 19px;
+          }
+        }
+        .breadCrumbStyle{
+          margin: -7px 0px 0px 0px;
+          font-size: 19px;
+          max-height: initial;
+        }
+        // @When: 11-04-2023 @who:Amit @why: EWM-11846 @what:breadcum menu three dot start here
+        .breadcumContentopen{
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 200px;
+          vertical-align: bottom;
+          @media only screen and (max-width: 1299px) and (min-width: 526px){
+            max-width: 85px;
+          }
+        }
+        // @When: 11-04-2023 @who:Amit @why: EWM-11846 @what:breadcum menu three dot end here
+      }
+    }
+    .mat-card-title.only-title{
+      grid: auto/100%;
+      // margin-left: 5px;
+    }
+  }
+
+  .header-action-button{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    width: 100%;
+    .group-header-button{
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      .header-button.mat-raised-button,
+      .header-button.refreshBtn{
+        min-width: 36px;
+        padding: 0px 0px;
+        overflow: hidden;
+        .mat-icon{
+          font-size: 20px;
+          line-height: 24px;
+        }
+      }
+      .button-with-clear {
+        display: inline-block;
+        .addFilter.mat-raised-button {
+          padding-left: 5px;
+          padding-right: 55px;
+        }
+      }
+      .button-with-clear.blank-count {
+        .addFilter.mat-raised-button {
+          padding-right: 35px;
+        }
+      }
+      .active-list-grid{
+        display: none;
+      }
+      .mobile-view-button{
+        display: none;
+        @media only screen and (max-width: 1024px) and (min-width: 240px){
+          display: inline-block;
+        }
+      }
+      .desktop-view-header-menu{
+        display: flex;
+        gap: 5px;
+        @media only screen and (max-width: 1024px) and (min-width: 240px){
+          display: none
+        }
+        span.text-for-mobile-view{
+          display: none;
+        }
+      }
+    }
+    .header-form{
+      width: 100%;
+      // max-width: 200px;
+      max-width: 100%;
+      .ng-select-container{
+        height: 36px !important;
+      }
+      .searchInput{
+        margin: 0px;
+        width: 100%;
+        // max-width: 200px;
+        max-width: 100%;
+        height: 36px;
+        margin-top: -15px;
+        .mat-form-field-infix{
+          @include for-small-smartphones{
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.title-count{
+  display: inline-flex;
+  justify-content: center;
+  line-height: 24px;
+  margin-left: 0px;
+  padding: 3px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 6px;
+  color: $primary-txt-color;
+  background: $primary-bg-color;
+  // box-shadow: 0px -2px 4px 0px #e5dddd inset, 0px 0px 0px 1px #e3e3e3;
+  font-weight: 700;
+  font-size: 14px;
+  &:hover{
+    // box-shadow: 0px 2px 4px 0px #e5dddd inset, 0px 0px 0px 1px #e3e3e3;
+  }
+}
+
+.mobile-view-header-menu.mat-menu-panel{
+  .button-with-clear{
+    max-width: 100%;
+    width: 100%;
+  }
+  .mat-raised-button{
+    box-shadow: none;
+    width: 100%;
+    text-align: left;
+    padding: 0px 7px;
+    // color: rgba(0, 0, 0, 0.87);
+    .mat-icon{
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+      width: 30px;
+    }
+  }
+}
+
+.mat-menu-panel.threedot-inside-menu{
+  min-width: 200px;
+  .mat-menu-item{
+    text-align: left;
+    padding: 0px 7px;
+    height: 36px;
+    line-height: 36px;
+    .mat-icon{
+      margin-inline-end: 0px;
+      color:rgba(0, 0, 0, 0.87);
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+      width: 30px;
+    }
+    &:disabled{
+      .mat-icon{
+        color: rgba(0, 0, 0, 0.38);
+      }
+    }
+  }
+  
+  .button-with-clear{
+    max-width: 100%;
+  }
+  .mat-button{
+    text-align: left;
+    padding: 0px 7px;
+    height: 36px;
+    line-height: 36px;
+    .mat-button-wrapper{
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      .mat-icon{
+        line-height: 36px;
+        height: 36px;
+        width: 20px;
+        font-size: 20px;
+      }
+      .txt{
+        line-height: 18px;
+      }
+    }
+  }
+  .mat-button:not(.mat-button-disabled){
+    &:hover {
+      background: rgba(0, 0, 0, 0.04);
+      color:rgba(0, 0, 0, 0.87);
+    }
+  }
+  .mat-button.share-job-app{
+    height: auto;
+  }
+}
+
+.mobile-view-header-menu.desktop-header-btns{
+  min-width: 165px;
+}
+// page header
+
+// @When: 18-04-2023 @who:Amit @why: EWM-11974 @what: btn size change
+.viewAuditlog.mat-raised-button {
+  min-width: 36px;
+  padding: 0;
+  top: 0px;
+  height: 36px;
+  margin-right: 0px;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 4px;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  line-height: 36px;
+  .mat-icon{
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+}
+
+.dashboard-mat-card-header.job-activity-header{
+  background: $gray-bg-color;
+  margin-bottom: 3px;
+  border-radius: 5px 5px 0px 0px;
+  padding: 5px 7px;
+  .calender-button{
+    padding: 0px;
+    min-width: 44px;
+  }
+  .listGridButton{
+    .search-viewicon{
+      .ng-slectBox.searchInput{
+        max-width: 180px;
+        min-width: 160px;
+        height: 32px;
+        top: -10px;
+        .ng-select {
+          width: calc(100% - 0px);
+          max-width: calc(100% - 0px);
+        }
+      }
+      .radius-call{
+        min-width: 32px;
+        height: 32px;
+        line-height: 32px;
+        padding: 0px;
+      }
+    }
+  }
+}
+.ng-dropdown-panel.ng-select-bottom.dropdown-body.job-interview-list-filter-dropdown{
+  margin-top: 0px;
+}
+
+.dark-theme {
+  .page-main-header.mat-card-header{
+    background: #424242;
+    border-bottom: 1px solid #6a6767;
+  }
+  .page-header.mat-card-header{
+    background: #424242;
+    border-bottom: 1px solid #6a6767;
+  }
+  .title-count{
+    color: $dark-primary;
+    background: #616161;
+    box-shadow: 0px -2px 4px 0px #232323 inset, 0px 0px 0px 1px #6a6a6a;
+    &:hover{
+      box-shadow: 0px 2px 4px 0px #232323 inset, 0px 0px 0px 1px #6a6a6a;
+    }
+  }
+
+  .mat-menu-panel.threedot-inside-menu{
+    .mat-menu-item{
+      .mat-icon{
+        color: $white-color;
+      }
+      &:disabled{
+        .mat-icon{
+          color: rgba(255, 255, 255, 0.3);
+        }
+      }
+    }
+    .mat-button{
+      color: $white-color;
+    }
+    .mat-button:not(.mat-button-disabled){
+      &:hover {
+        color:rgba(255, 255, 255, 0.87);
+      }
+    }
+    .mat-button.mat-button-disabled{
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  // @When: 28-09-2023 @who:Amit @why: EWM-14079 @what: date dark mode
+  .dashboard-mat-card-header.mat-card-header.date-sync{
+    .mat-card-title .last-sync{
+      color: $gray-bg-color;
+    }
+  }
+
+  .data-header-notes-detail{
+    background-color: #202020;
+  }
+
+}
+
+[dir="rtl"] {
+  .dashboard-mat-card-header.mat-card-header{
+    padding: 5px 20px 5px 10px;
+    @media only screen and (max-width: 580px) and (min-width: 320px){
+      padding: 5px 10px 5px 10px;
+    }
+    .mat-card-header-text .mat-card-title .mat-card-avatar{
+      margin: 0px 5px 0px 10px;
+      .addClientButton{
+        margin-right: 0px;
+      }
+    }
+  }
+  .page-header.mat-card-header{
+    padding: 0px 20px 0px 10px;
+    @media only screen and (max-width: 580px) and (min-width: 320px){
+      padding: 5px 10px 5px 10px;
+    }
+  }
+  .data-header-notes-detail {
+    .button-with-clear {
+      margin-right: inherit;
+      margin-left: 5px;
+      .mat-stroked-button.active {
+        background: #eceff1;
+      }
+    }
+  }
+}
+
+// @When: 29-11-2023 @who:Amit @why: EWM-15161 @what: my activity page header style
+.dashboard-mat-card-header.mat-card-header.date-sync.sync-header-activity {
+  justify-content: inherit;
+  gap: 20px;
+  @media only screen and (max-width: 1060px) and (min-width: 320px) {
+    align-items: inherit;
+    gap: 5px;
+  }
+  .mat-card-header-text{
+    width: auto;
+    .mat-card-title{
+      span{
+        width: max-content;
+      }
+    }
+  }
+  .listGridButton {
+    justify-content: flex-end;
+    width: 100%;
+    @media only screen and (max-width: 1060px) and (min-width: 320px) {
+      display: flex;
+    }
+    @media only screen and (max-width: 480px) and (min-width: 320px) {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mat-form-field{
+      .mat-form-field-infix{
+        width: 120px;
+      }
+    }
+    .search-viewicon {
+      @media (min-width : 826px) and (max-width : 1060px){
+        width: auto;
+      }
+      @media (min-width : 320px) and (max-width : 825px){
+        width: 100%;
+        flex-wrap: nowrap;
+      }
+    }
+  }
+}

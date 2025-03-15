@@ -1,0 +1,282 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<form [formGroup]="pushCandidateForm" id="pushCandidate-EOH" applyTabIndexes>
+    <div class="push-candidate-to-eoh">
+        <!-- <div class="radio-with-label">
+            <small>{{'pushCandidateToEoh_radioLabel'|translate}}</small>
+            <mat-radio-group>
+                <mat-radio-button value="1" color="primary" checked>{{'pushCandidateToEoh_applicant'|translate}}
+                </mat-radio-button>
+                <mat-radio-button value="2" color="primary" disabled>{{'pushCandidateToEoh_member'|translate}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div> -->
+        <div class="card-group p-10" id="card-group">
+            <mat-card>
+                <h3>{{'pushCandidateToEoh_personalDetails'|translate}}</h3>
+                <mat-card-content>
+                    <div class="form-column title-first-name">
+                        <div class="common_dropdown_v2">
+                            <dropdown [configuration]="title_DropdownC_Config" tabindex
+                                [resetConfiguration]="resetTitleDrp.asObservable()" (selectedOut)="onTitlechange($event)"
+                                [getSelectedItem]="selectedTitle" [initialize]="dropdownInitilize" [showMoreOptionsNum]="5">
+                            </dropdown>
+                        </div>
+                        <mat-form-field class="form-column">
+                            <input matInput formControlName="FirstName" tabindex
+                                placeholder="{{'pushCandidateToEoh_firstName'|translate}}" required>
+                            <mat-error
+                                *ngIf="pushCandidateForm.controls['FirstName'].hasError('required') ">
+                                {{ 'pushCandidateToEoh_firstName' | translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="pushCandidateForm.controls['FirstName'].hasError('pattern') && !pushCandidateForm.controls['FirstName'].hasError('whitespace')">
+                                {{ 'pushCandidateToEoh_firstName' | translate}} {{ 'label_errorName' |translate}}
+                            </mat-error>
+                            <mat-error
+                            *ngIf="pushCandidateForm.controls['FirstName'].hasError('maxlength') && !pushCandidateForm.controls['FirstName'].hasError('whitespace')">
+                            {{ 'pushCandidateToEoh_firstName' |translate}} {{ 'label_errormaxlength50' |translate}}
+                            </mat-error>
+                            <mat-error *ngIf="pushCandidateForm.controls['FirstName'].hasError('whitespace') && !pushCandidateForm.controls['FirstName'].hasError('required')">
+                                {{'pushCandidateToEoh_firstName' |translate}} {{'label_nameValidation' |translate}} 
+                              </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field class="form-column">
+                        <input matInput formControlName="FamilyName" tabindex
+                            placeholder="{{'pushCandidateToEoh_familyName'|translate}}" required>
+                        <mat-error
+                            *ngIf="pushCandidateForm.controls['FamilyName'].hasError('required') && pushCandidateForm.controls['FamilyName'].touched">
+                            {{ 'pushCandidateToEoh_familyName' | translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="pushCandidateForm.controls['FamilyName'].hasError('pattern') && !pushCandidateForm.controls['FamilyName'].hasError('whitespace')">
+                            {{ 'pushCandidateToEoh_familyName' | translate}} {{ 'label_errorName' |translate}}
+                        </mat-error>
+                        <mat-error
+                        *ngIf="pushCandidateForm.controls['FamilyName'].hasError('maxlength') && !pushCandidateForm.controls['FamilyName'].hasError('whitespace')">
+                        {{ 'pushCandidateToEoh_familyName' |translate}} {{ 'label_errormaxlength50' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="pushCandidateForm.controls['FamilyName'].hasError('whitespace') && !pushCandidateForm.controls['FamilyName'].hasError('required')">
+                            {{'pushCandidateToEoh_familyName' |translate}} {{'label_nameValidation' |translate}} 
+                          </mat-error>
+                    </mat-form-field>
+                    <div class="common_dropdown_v2 form-column" >
+                        <dropdown [configuration]="gender_Dropdown_Config"  tabindex
+                            [resetConfiguration]="resetGenderDrp.asObservable()" (selectedOut)="onGenderchange($event)"
+                            [getSelectedItem]="selectedGender" [initialize]="dropdownInitilize"
+                            [showMoreOptionsNum]="5">
+                        </dropdown>
+                    </div>
+                    <mat-form-field class="form-column">
+                        <input matInput tabindex (click)="picker?.open()" formControlName="DateOfBirth" [matDatepicker]="picker" id="pushEoh-DOB"
+                        placeholder="{{'label_DateOfBirth'|translate}}" [max]="today">
+                            <button *ngIf="pushCandidateForm.controls['DateOfBirth'].hasError('matDatepickerParse') || pushCandidateForm.value.DateOfBirth" type="button" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="onClearDOB()"> 
+                        <mat-icon>close</mat-icon>
+                    </button>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                          <mat-error *ngIf="pushCandidateForm.controls['DateOfBirth'].hasError('invalidDate') && pushCandidateForm.controls['DateOfBirth'].touched"> {{'label_invalidDate' | translate}} </mat-error>
+                          <mat-error *ngIf="pushCandidateForm.controls['DateOfBirth'].hasError('matDatepickerParse') && !pushCandidateForm.controls['DateOfBirth'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                         
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <h3>{{'pushCandidateToEoh_contactDetails'|translate}}</h3>
+                <mat-card-content>
+                    <mat-form-field class="form-column">
+                        <input matInput formControlName="Email" placeholder="{{'pushCandidateToEoh_email'|translate}}" tabindex
+                            id="pushEoh-Email" required>
+                    </mat-form-field>
+                    <div class="form-column title-first-name">
+                        <div class="common_dropdown_v2">
+                            <dropdown [configuration]="common_DropdownC_Config"
+                                [resetConfiguration]="resetPhoneCodeDrp.asObservable()" tabindex
+                                (selectedOut)="onPhoneCodechange($event)" [getSelectedItem]="selectedPhoneCode"
+                                [initialize]="dropdownInitilize" [showMoreOptionsNum]="5"></dropdown>
+                        </div>
+                        <mat-form-field class="form-column">
+                            <input matInput formControlName="PhoneNo" id="pushEoh-PhoneNo" tabindex
+                                placeholder="{{'pushCandidateToEoh_mobileNo'|translate}}" required>
+                            <mat-error
+                                *ngIf="pushCandidateForm.controls['PhoneNo'].hasError('required') && pushCandidateForm.controls['PhoneNo'].touched ">
+                                {{ 'pushCandidateToEoh_mobileNo' | translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                             <mat-error
+                                *ngIf="pushCandidateForm.controls['PhoneNo'].hasError('maxlength') && pushCandidateForm.controls['PhoneNo'].touched">
+                                {{ 'pushCandidateToEoh_mobileNo' | translate}} {{ 'label_errormaxlengthdigit20' |translate}}
+                            </mat-error>
+                            <mat-error
+                            *ngIf="pushCandidateForm.controls['PhoneNo'].hasError('minlength') && pushCandidateForm.controls['PhoneNo'].touched">
+                            {{ 'pushCandidateToEoh_mobileNo' | translate}} {{ 'label_errorminlength5' |translate}}
+                        </mat-error>
+                        <mat-error
+                        *ngIf="pushCandidateForm.controls['PhoneNo'].hasError('pattern') && pushCandidateForm.controls['PhoneNo'].touched">
+                        {{ 'pushCandidateToEoh_mobileNo' | translate}} {{ 'label_phone_number_err' |translate}}
+                    </mat-error>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <h3>{{'pushCandidateToEoh_professionalDetails'|translate}}</h3>
+                <mat-card-content>
+                    <div class="ng-slectBox form-column">
+                        <ng-select placeholder="{{ 'pushCandidateToEoh_industry' | translate }}" #select  [clearable]="false"
+                            id="quickjob-companyName" formControlName="Industry"
+                            class="dropdown-body-form-column show-required" appendTo="body" (change)="onIndustrychange($event)" tabindex required>
+                            <ng-template ng-header-tmp>
+                                <div class="add-manage">
+                                    <span class="spacer"></span>
+                                    <button mat-icon-button class="dropdown-reload" (click)="refreshAPI()"
+                                        color="primary" type="button" matTooltip="{{'label_refreshBtn'|translate}}"
+                                        matTooltipClass="custom-tooltip-top" matTooltipPosition="above">
+                                        <mat-icon>rotate_right</mat-icon>
+                                    </button>
+                                </div>
+                                <div class="searchBox" id="search-box">
+                                    <input  class="myInput" autocomplete="off" type="text" [value]="searchVal"
+                                        id="pushEoh-searchInnput" placeholder="Search..." 
+                                        (input)="getInputVal($event.target.value)" />
+                                    <button *ngIf="searchVal" class="closeBtn" (click)="Clear();">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </div>
+                            </ng-template>
+                            <ng-option *ngFor="let list of IndustryList" [value]="list">
+                                {{list.IndustryName}}</ng-option>
+                        </ng-select>
+                        <mat-error
+                            *ngIf="pushCandidateForm.controls['Industry'].hasError('required') && pushCandidateForm.controls['Industry'].touched">
+                            {{ 'pushCandidateToEoh_industry' | translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                    </div>
+                    <div class="common_dropdown_v2 form-column"> 
+                        <dropdown [configuration]="Qual_Dropdown_Config" tabindex
+                            [resetConfiguration]="resetQualDrp.asObservable()" (selectedOut)="onQualchange($event)"
+                            [getSelectedItem]="selectedQualification" [initialize]="dropdownInitilize"
+                            [showMoreOptionsNum]="5">
+                        </dropdown>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <h3>{{'pushCandidateToEoh_address'|translate}}</h3>
+                <mat-card-content>
+                    <mat-form-field class="form-column address">
+                        <mat-label>{{'pushCandidateToEoh_streetAddress'|translate}}</mat-label>
+                        <input matInput ngx-google-places-autocomplete formControlName="Address"
+                            placeholder="{{'pushCandidateToEoh_linkToMap'|translate}}"
+                            (onAddressChange)="fetchDataFromAddressBar($event)" tabindex required>
+                        <mat-error
+                            *ngIf="pushCandidateForm.controls['Address'].hasError('required') && pushCandidateForm.controls['Address'].touched">
+                            {{ 'pushCandidateToEoh_streetAddress' | translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="form-column">
+                        <input matInput formControlName="Street"
+                            placeholder="{{'label_AddressLine1'|translate}}" id="pushEoh-street" tabindex required>
+                        <mat-error
+                            *ngIf="pushCandidateForm.controls['Street'].hasError('required') && pushCandidateForm.controls['Street'].touched">
+                            {{ 'label_AddressLine1' | translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error
+                        *ngIf="pushCandidateForm.controls['Street'].hasError('maxlength') &&  !pushCandidateForm.controls['Street'].hasError('whitespace')">
+                        {{ 'label_AddressLine1' | translate}} {{ 'label_errormaxlength100' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="pushCandidateForm.controls['Street'].hasError('whitespace') && !pushCandidateForm.controls['Street'].hasError('required')">
+                        {{'label_AddressLine1' |translate}} {{'label_nameValidation' |translate}} 
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="form-column">
+                        <input matInput formControlName="District_Suburb" tabindex
+                            placeholder="{{'pushCandidateToEoh_districtSuburb'|translate}}" id="pushEoh-districtSuburb"
+                            required>
+                        <mat-error
+                            *ngIf="pushCandidateForm.controls['District_Suburb'].hasError('required') && pushCandidateForm.controls['District_Suburb'].touched">
+                            {{ 'pushCandidateToEoh_districtSuburb' | translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error
+                        *ngIf="pushCandidateForm.controls['District_Suburb'].hasError('maxlength') &&  !pushCandidateForm.controls['District_Suburb'].hasError('whitespace')">
+                        {{ 'pushCandidateToEoh_districtSuburb' | translate}} {{ 'label_errormaxlength50' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="pushCandidateForm.controls['District_Suburb'].hasError('whitespace') && !pushCandidateForm.controls['District_Suburb'].hasError('required')">
+                        {{'pushCandidateToEoh_districtSuburb' |translate}} {{'label_nameValidation' |translate}} 
+                      </mat-error>
+                    </mat-form-field>
+                    <div class="common_dropdown_v2 form-column">
+                        <dropdown [configuration]="country_Dropdown_Config"
+                            [resetConfiguration]="resetCountryDrp.asObservable()" tabindex
+                            (selectedOut)="onCountryChange($event)" [getSelectedItem]="selectedCountry"
+                            [initialize]="dropdownInitilize" [showMoreOptionsNum]="5"></dropdown>
+                    </div>
+                    <div class="common_dropdown_v2 form-column">
+                        <dropdown [configuration]="state_Dropdown_Config" tabindex
+                            [resetConfiguration]="resetStateDrp.asObservable()" (selectedOut)="onStateChange($event)"
+                            [getSelectedItem]="selectedState" [initialize]="dropdownInitilize" [showMoreOptionsNum]="5">
+                        </dropdown>
+                    </div>
+                    <mat-form-field class="form-column">
+                        <input matInput formControlName="PostalCode" tabindex
+                            placeholder="{{'pushCandidateToEoh_postCode'|translate}}" id="pushEoh-postcode" required>
+                        <mat-error
+                            *ngIf="pushCandidateForm.controls['PostalCode'].hasError('required') && pushCandidateForm.controls['PostalCode'].touched">
+                            {{ 'pushCandidateToEoh_postCode' | translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error
+                        *ngIf="pushCandidateForm.controls['PostalCode'].hasError('maxlength') && pushCandidateForm.controls['PostalCode'].touched">
+                        {{ 'pushCandidateToEoh_postCode' | translate}} {{ 'label_errormaxlength10' |translate}}
+                    </mat-error>
+                    <mat-error
+                    *ngIf="pushCandidateForm.controls['PostalCode'].hasError('pattern') && pushCandidateForm.controls['PostalCode'].touched">
+                    {{ 'pushCandidateToEoh_postCode' | translate}} {{ 'label_errorspecialchar' |translate}}
+                </mat-error>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <h3>{{'pushCandidateToEoh_additionalDetails'|translate}}</h3>
+                <mat-card-content>
+                    <div class="common_dropdown_v2 form-column">
+                        <dropdown [configuration]="Office_Dropdown_Config" tabindex
+                            [resetConfiguration]="resetOfficeDrp.asObservable()" (selectedOut)="onOfficeChange($event)"
+                            [getSelectedItem]="selectedOffice" [initialize]="dropdownInitilize"
+                            [showMoreOptionsNum]="5"></dropdown>
+                    </div>
+                    <!-- @When: 13-05-2024 @who:Maneesh & Amit @why: EWM-17056 @what: label condition add -->
+                    <mat-form-field *ngIf="fileName!='' && fileName!=null && fileName!=undefined"  class="form-column file-upload-input" 
+                    floatLabel="always" >
+                        <input matInput  tabindex
+                            placeholder="{{'pushCandidateToEoh_uploadResume'|translate}}" type="file" accept="{{fileType}}" (change)="Uploadfile($event)">
+                        <div class="choose-file-button">
+                            <span class="file-name">{{fileName}}</span>
+                            <button tabindex mat-raised-button>Select</button>
+                        </div>
+                        <mat-hint>{{'pushCandidateToEoh_fileUploadInstruction'| translate}} </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="fileName=='' || fileName==null || fileName==undefined"  class="form-column file-upload-input" 
+                    floatLabel="auto" >
+                        <input matInput  tabindex
+                            placeholder="{{'pushCandidateToEoh_uploadResume'|translate}}" type="file" accept="{{fileType}}" (change)="Uploadfile($event)">
+                        <div class="choose-file-button">
+                            <span class="file-name">{{fileName}}</span>
+                            <button tabindex mat-raised-button>Select</button>
+                        </div>
+                        <mat-hint>{{'pushCandidateToEoh_fileUploadInstruction'| translate}} </mat-hint>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <mat-card class="push-candidate-footer" *ngIf="IsOpenFor===2">
+            <div class="alert-message" *ngIf="(candidateInformation?.IsXRCandidatePushedToEOH === 1 && this.candidateInformation?.MemberId?.substring(0, 3).toLowerCase()==='apl' && !this.memberStatus) || this.candidateInformation?.MemberId?.substring(0, 3).toLowerCase()==='mbr'">{{'pushCandidateToEoh_CandidateAlreadyPushed'|translate}}</div>
+            <div class="button-group">
+                <button *ngIf="buttonVisibility[ClientBtnDetails.BACK]?.visible" mat-stroked-button color="warn" tabindex type="button"  id="Backbtn"
+                (click)="onBack()">{{'label_back'|translate}}</button>
+             </div>
+            <button mat-stroked-button color="primary" tabindex type="button" [disabled]="isButtonDisabled()" id="btnSaveNext"
+               (click)="onNextClick()">{{'label_next'|translate}}</button>
+           
+        </mat-card>
+    </div>
+</form>

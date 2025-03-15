@@ -1,0 +1,157 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: workflow-candidate-mapped-box.compenent.html
+  @Who:  Suika
+  @When: 28-Sept-2021
+  @Why: ROST-3084.
+  @What: For Master Region .
+ -->  
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<form [formGroup]="addForm" id= "addFormId" applyTabIndexes>
+  <div class="quick-dialog">
+      <!--<h2 mat-dialog-title>
+          {{'label_quickAddCompany' | customTranslate}}
+      </h2>-->
+      <h2 mat-dialog-title>{{candidateData.CandidateName}} ({{candidateData.WorkFlowStageName}})</h2>
+      <mat-dialog-content class="col">
+          <div class="row mb-0">
+            <div class="col l12 m12 s12">
+                <div class="ng-slectBox">
+              <!--<app-custom-dropdown [selectedIn]="selectedLevel1"  (selectedOut)="onLevel1change($event);"  [config]="dropDoneConfig"
+                          ></app-custom-dropdown>-->
+                          <ng-select class="dropdown-body" appendTo="body"  [searchable]="false" [clearable]="true" formControlName="level1"  #select 
+                          placeholder="{{ 'label_stagedelete' |translate}}"  (change)="onLevel1Changes($event);"
+                          >
+                       ]  <ng-template ng-header-tmp>
+                               <ng-container>
+                                   <div class="add-manage">
+                                    <span class="spacer"></span>
+                                       <a mat-icon-button id="favIcon" color="primary" class="dropdown-manage" (click)="redirect();">
+                                        <div class="two-icons" id="{{animationVar?.ManageButton?.id}}"
+                                        class="{{animationVar?.ManageButton?.isAnimClass}}">
+                                        <mat-icon>subject</mat-icon>
+                                        <mat-icon class="secondIcon">settings</mat-icon>
+                                    </div>
+                                       </a>
+                                       <!-- <span class="spacer"></span> -->
+                                       <button mat-icon-button class="refreshBtn radius-call" (click)="getUpdateOptionsLevel1()" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" >
+                                           <mat-icon>refresh</mat-icon>
+                                       </button>
+                                   </div>
+                               </ng-container>
+                               <ng-container>
+                                       <div class="pl-15 pr-15">
+                                           <mat-form-field class="no-bottom">
+                                               <input matInput class="selectSearch" autocomplete="off" placeholder="{{'label_search' |translate}}" type="text" (input)="select.filter($event.target.value)" />
+                                           </mat-form-field>
+                                       </div>
+                                     
+                               </ng-container>
+                           </ng-template>
+                           <ng-option [value]="" disabled>{{'label_select'| translate}} </ng-option>
+                           <ng-option [value]="item" *ngFor="let item of level1">
+                              {{item.StageName}}
+                          </ng-option>                            
+                       </ng-select>            
+            
+                        <mat-error  *ngIf="addForm.controls['level1'].hasError('required')  && addForm.controls['level1'].touched">
+                                    {{'label_level1'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error>
+                    </div>
+          </div>
+          </div>
+          <div class="row mb-0">
+
+            <div class="col l12 m12 s12" *ngIf="level2.length > 0">
+              <!--<app-custom-dropdown [selectedIn]="selectedLevel2"  (selectedOut)="onLevel2change($event);"  [config]="dropDoneConfig1"
+                          ></app-custom-dropdown>-->
+                          <ng-select class="dropdown-body" appendTo="body"  [searchable]="false" [clearable]="true" formControlName="level2"  #select 
+                          placeholder="{{ 'label_subSatge' |translate}}"  (change)="onLevel2Changes($event);"
+                          >
+                       ]  <ng-template ng-header-tmp>
+                               <ng-container>
+                                   <div class="add-manage">
+                                       <a mat-button id="favIcon" color="primary"  (click)="redirect();">
+                                           Manage
+                                       </a>
+                                       <span class="spacer"></span>
+                                       <button mat-icon-button (click)="getUpdateOptionsLevel2()" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" >
+                                           <mat-icon>refresh</mat-icon>
+                                       </button>
+                                   </div>
+                               </ng-container>
+                               <ng-container>
+                                       <div class="pl-15 pr-15">
+                                           <mat-form-field class="no-bottom">
+                                               <input matInput class="selectSearch" autocomplete="off" placeholder="{{'label_search' |translate}}" type="text" (input)="select.filter($event.target.value)" />
+                                           </mat-form-field>
+                                       </div>
+                                     
+                               </ng-container>
+                           </ng-template>
+                           <ng-option [value]="" disabled>{{'label_select'| translate}} </ng-option>
+                           <ng-option [value]="item" *ngFor="let item of level2">
+                              {{item.StageName}}
+                          </ng-option>
+                            
+                       </ng-select>                     
+            <mat-error
+                *ngIf="addForm.controls['level2'].hasError('required') && addForm.controls['level2'].touched">
+                {{'label_level2'|translate}} {{'label_errorreqired'|translate}}
+              </mat-error>
+          </div>
+          </div>
+
+          <div class="row mb-0">
+            <div class="col l12 m12 s12" *ngIf="level3.length > 0">
+              <!---<app-custom-dropdown [selectedIn]="selectedLevel3"  (selectedOut)="onLevel3change($event);"  [config]="dropDoneConfig2"
+                          ></app-custom-dropdown> -->
+                          <ng-select class="dropdown-body" appendTo="body"  [searchable]="false" [clearable]="true" formControlName="level3"  #select 
+                          placeholder="{{ 'label_childSubStage' |translate}}"
+                          >
+                       ]  <ng-template ng-header-tmp>
+                               <ng-container>
+                                   <div class="add-manage">
+                                       <a mat-button id="favIcon" color="primary"  (click)="redirect();">
+                                           Manage
+                                       </a>
+                                       <span class="spacer"></span>
+                                       <button mat-icon-button (click)="getUpdateOptionsLevel3()" color="primary" type="button" [ngClass]="loader?'rotate-loader':''" >
+                                           <mat-icon>refresh</mat-icon>
+                                       </button>
+                                   </div>
+                               </ng-container>
+                               <ng-container>
+                                       <div class="pl-15 pr-15">
+                                           <mat-form-field class="no-bottom">
+                                               <input matInput class="selectSearch" autocomplete="off" placeholder="{{'label_search' |translate}}" type="text" (input)="select.filter($event.target.value)" />
+                                           </mat-form-field>
+                                       </div>
+                                     
+                               </ng-container>
+                           </ng-template>
+                           <ng-option [value]="" disabled>{{'label_select'| translate}} </ng-option>
+                           <ng-option [value]="item" *ngFor="let item of level3">
+                              {{item.StageName}}
+                          </ng-option>
+                            
+                       </ng-select>                    
+            <mat-error
+                *ngIf="addForm.controls['level3'].hasError('required') && addForm.controls['level3'].touched">
+                {{'label_level3'|translate}} {{'label_errorreqired'|translate}}
+              </mat-error>
+          </div>
+          </div>
+          
+      </mat-dialog-content>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+      <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss(false)" id="btnCancel"> {{'button_cancel'|translate}}</button>
+      <button mat-stroked-button color="primary" tabindex  type="button" [disabled]="!addForm.valid" (click)="onConfirm(this.addForm.value)" id="btnSave"> {{'label_save'|translate}}</button>
+  </div>
+</form>

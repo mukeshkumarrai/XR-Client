@@ -1,0 +1,77 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 18-jan-2022
+    @Why: EWM-4478 EWM-4715
+    @What:  This page is creted for view my activity
+-->
+<!---
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup Singh
+    @When: 18-jan-2022
+    @Why: EWM-4478 EWM-4715
+    @What:  This page is creted for view my activity
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<div id="remove-Candidate" applyTabIndexes>
+  <div class="modal-header">
+    <h2 matDialogTitle class="mb-0">
+      <mat-icon>{{oldPatchValues?.IconName}}</mat-icon> {{oldPatchValues?.CategoryName}}
+    </h2>
+    <div>
+      <button mat-icon-button color="warn" id="btnModalCancel" tabindex (click)="onDismiss()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div> 
+  <mat-dialog-content>
+    <mat-card class="calender-popover mat-elevation-z0">
+      <div class="flex popover-activitydate">
+        <mat-icon matTooltip="{{'label_titleOfActivity'|translate}}">title</mat-icon>
+        <div>{{oldPatchValues?.ActivityTitle}}</div>
+      </div>
+      <div class="flex popover-activitydate">
+        <mat-icon matTooltip="{{'label_schedule'|translate}}">schedule</mat-icon>
+        <div>{{oldPatchValues?.ScheduleActivity?.DateStart | date:'shortDate'}}
+          {{oldPatchValues?.ScheduleActivity?.TimeStart}}
+          {{oldPatchValues?.ScheduleActivity?.DateEnd | date:'shortDate'}}
+          {{oldPatchValues?.ScheduleActivity?.TimeEnd}}</div>
+      </div>
+      <div class="flex popover-attendees">
+        <mat-icon matTooltip="{{'label_Attendees'|translate}}">perm_contact_calendar</mat-icon>
+        <div>
+          <span *ngFor="let org of oldPatchValues?.OrganizersList">
+            {{org.UserName}}</span>
+        </div>
+      </div>
+     <!---------@When: 7-07-2023 @who:Bantee Kumar @Desc- Removing left over commas after the attendees name --------->
+
+      <div class="flex popover-organiser">
+        <mat-icon matTooltip="{{'label_organizerOrAssignees'|translate}}">manage_accounts</mat-icon>
+        <div>
+          <span *ngFor="let attendees of oldPatchValues?.AttendeesList;  let i = index" >
+            {{attendees.Name}}{{i==oldPatchValues?.AttendeesList.length-1?'':','}}</span>
+            
+        </div>
+      </div>
+
+    </mat-card>
+  </mat-dialog-content>   
+  <div class="quick-dialog">
+    
+    <mat-card-content class="col">
+      <div class="row mb-0">
+        
+      </div>
+    </mat-card-content>
+
+
+  </div>
+</div>

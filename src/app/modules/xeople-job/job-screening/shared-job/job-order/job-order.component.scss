@@ -1,0 +1,112 @@
+.job-order-form{
+    padding: 10px;
+    .location-show{
+        .mat-stroked-button{
+            color: rgb(127 183 52);
+            border-radius: 30px;
+            line-height: 18px;
+            padding: 0px 5px;
+            font-size: 12px;
+            min-width: 55px;
+            border: 1px solid rgb(127 183 52 / 70%);
+            font-weight: 400;
+            cursor: inherit;
+        }
+    }
+    .share-client-note{
+        color: #ffa000;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(255, 160, 0, 0.3);
+        margin-block: 0px 15px;
+        border-radius: 5px;
+        position: relative;
+        h3{
+            margin: 0px;
+            border-radius: 5px 0px 0px 5px;
+            border-inline-end: 1px solid rgba(255, 160, 0, 0.3);
+            font-weight: 500;
+            background: #fff7ea;
+            padding-inline: 8px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            bottom: 0px;
+            width: 45px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            @media (240px <= width <= 580px){
+                font-size: 14px;
+            }
+        }
+        p{
+            margin: 0px;
+            padding-inline: 50px 10px;
+            width: 100%;
+            padding-block: 5px;
+            font-size: 11px;
+            @media (240px <= width <= 580px){
+                padding-block: 3px;
+                font-size: 12px;
+            }
+        }
+    }
+    .share-inner-section{
+        padding: 0px;
+        display: flex; 
+        justify-content: space-between;
+        flex-wrap: wrap;
+        column-gap: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: rgba(0, 0, 0, 0.02) 1px 0px 17px 10px inset;
+        border-radius: 5px;
+        padding-inline: 10px;
+        padding-block: 10px;
+        margin-block: 0px 15px;
+        .mat-form-field,.kendo-input-box{
+            flex: 1 1;
+        }
+        .kendo-input-box{
+            position: relative;
+            padding-bottom: 0px;
+            p{
+                color: #F44336;
+                font-size: 75%;
+                margin-top: 3px;
+                margin-bottom: 0px;
+            }
+        }
+        h3,.common_dropdown_v2{
+            flex: 1 1 100%;
+        }
+        .common_dropdown_v2{
+            .dropdown{
+                .mat-form-field{
+                    margin-bottom: 0px;
+                }
+            }
+        }
+        h3{
+            margin-block: 0px 5px;
+        }
+    }
+    .share-inner-section.contract-period{
+        padding-block: 10px 0px;
+    }
+    .counterTxt{
+        position: relative;
+      .countlabel{
+        margin-top: 0px;
+        text-align: right;
+        color: #fe7000;
+        font-size: 80%;
+        position: absolute;
+        bottom: 5px;
+        right: 0px;
+      }
+    }
+}

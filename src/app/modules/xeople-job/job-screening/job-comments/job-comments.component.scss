@@ -1,0 +1,410 @@
+@import '../../../../../styles-var.scss';
+@import "../../../../../mixinStyle.scss";
+.modal-header{
+    h2{
+        font-weight: 400;
+        font-size: 17px;
+    }
+}
+.comments-data{
+    // padding: 10px;
+    position: relative;
+    height: 65vh;
+    // overflow: auto;
+    box-sizing: border-box;
+    // @media only screen and (max-width: 580px) and (min-width: 240px){
+    //     padding: 10px 0px;
+    // }
+    .candidate-data-header{
+      .search-viewicon{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 0px;
+        flex-basis: 100%;
+        .searchInput{
+            max-width: 100%;
+            min-width: 110px;
+            margin-inline-start: 5px;
+            margin-inline-end: 5px;
+        }
+        .button-with-clear{
+            display: flex;
+            align-items: center;
+            .addFilter{
+                padding-left: 5px;
+                padding-right: 55px;
+            }
+            // @When: 16-06-2023 @who:Amit @why: EWM-12642 @what: filter style
+            .blankFilter.mat-raised-button{
+                padding: 0px;
+                min-width: 36px;
+                .mat-icon{
+                    font-size: 20px;
+                    line-height: 24px;
+                }
+            }
+            .asc-desc-btn{
+                margin-inline-start: 5px;
+                &:hover{
+                    .asc-desc-svg{
+                        animation-name: zoomIn;
+                        animation-duration: 1s;
+                        animation-duration: var(--animate-duration);
+                        animation-fill-mode: both;
+                    }
+                    @keyframes zoomIn {
+                        0% {
+                            opacity: 0;
+                            transform: scale3d(.3,.3,.3);
+                        }
+                        50% {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+        .asc-desc-btn{
+            padding: 0px;
+            min-width: 36px;
+        }
+      }  
+    }
+    .comment-bg{
+        margin-top: 5px;
+        overflow: hidden;
+        .comment-sec{
+            // max-height: 400px;
+            // overflow: auto;
+            .comment-box{
+                padding: 0px 3px;
+                box-shadow: none;
+                @media only screen and (max-width: 580px) and (min-width: 240px){
+                    padding: 5px;
+                }
+                .comment-card-content{
+                    // display: grid;
+                    // gap: 10px;
+                    // justify-content: space-between;
+                    // grid: auto/1fr;
+                    // z-index: 2;
+                    // position: relative;
+                    // margin-bottom: 12px;
+                    border-radius: 15px;
+                    // background: $white-color;
+                    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 5px;
+                    padding: 0px;
+                    overflow: hidden;
+                    // @media only screen and (max-width: 767px) and (min-width: 240px){
+                    //     grid: auto/1fr;
+                    // }
+                    // .comment-data-text{
+                        .comment-msg-data{
+                            // padding: 0px;
+                            display: flex;
+                            flex-direction: column;
+                            .comment-top-text{
+                                display: flex;
+                                gap: 10px;
+                                justify-content: space-between;
+                                background: #f8f8f8;
+                                padding: 5px 8px;
+                                align-items: center;
+                                @media (width <= 767px){
+                                    flex-direction: column;
+                                    align-items: end;
+                                }
+                                // border-radius: 15px 15px 0px 0px;
+                                .btn-group{
+                                    display: flex;
+                                    gap: 5px;
+                                    .comment-group-btn{
+                                        position: relative;
+                                        width: 24px;
+                                        height: 24px;
+                                        line-height: 24px;
+                                        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.10), 0px 2px 2px 0px rgba(0, 0, 0, 0.10), 
+                                        0px 1px 3px 0px rgba(0, 0, 0, 0.10);
+                                        &::before{
+                                          content: "";
+                                          position: absolute;
+                                          width: 100%;
+                                          height: 100%;
+                                          border-radius: 100%;
+                                          background-color: currentColor;
+                                          opacity: 0.08;
+                                          left: 0px;
+                                          top: 0px;
+                                        }
+                                        .mat-icon{
+                                            width: 20px;
+                                            height: 20px;
+                                            line-height: 20px;
+                                            font-size: 16px;
+                                        }
+                                        &:hover{
+                                            .mat-icon{
+                                                animation-name: zoomIn;
+                                                animation-duration: 1s;
+                                                animation-duration: var(--animate-duration);
+                                                animation-fill-mode: both;
+                                            }
+                                            @keyframes zoomIn {
+                                                0% {
+                                                    opacity: 0;
+                                                    transform: scale3d(.3,.3,.3);
+                                                }
+                                                50% {
+                                                    opacity: 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .comment-group-btn.primary-color{
+                                        color: $default-bg-color;
+                                    }
+                                    .comment-group-btn.warn-color{
+                                        color: $warn-bg;
+                                    }
+                                }
+                                .main-comment-profile{
+                                    display: flex;
+                                    gap: 7px;
+                                    align-items: center;
+                                    @media (width <= 767px){
+                                        width: 100%;
+                                    }
+                                    h5{
+                                        margin: 0px;
+                                        font-size: 13px;
+                                        font-weight: 500;
+                                    }
+                                    p{
+                                        margin: 0px;
+                                        font-size: 13px;
+                                    }
+                                    .green-text{
+                                        color: $green-color;
+                                        font-weight: 500;
+                                    }
+                                    .grey-text{
+                                        padding: 0px 4px;
+                                    }
+                                    .warn-text{
+                                        color: $orange-color;
+                                        padding-inline-end: 4px;
+                                        font-size: 12px;
+                                        font-weight: 500;
+                                    }
+                                    .info-text{
+                                        color: $info-color;
+                                        .mat-icon{
+                                            vertical-align: middle;
+                                            width: 16px;
+                                            height: 16px;
+                                            line-height: 16px;
+                                            font-size: 16px;
+                                        }
+                                    }
+                                }
+                            }
+                            .comment-bottom-text{
+                                position: relative;
+                                padding: 5px 8px;
+                                .mat-divider{
+                                    top: 0px;
+                                }
+                                p{
+                                    padding-top: 8px;
+                                }
+                                .endoHTMLEditer{
+                                    .btn-group{
+                                        display: flex;
+                                        justify-content: flex-end;
+                                        margin-top: 10px;
+                                        .mat-raised-button{
+                                            &:hover{
+                                                .mat-icon{
+                                                    animation-name: zoomIn;
+                                                    animation-duration: 1s;
+                                                    animation-duration: var(--animate-duration);
+                                                    animation-fill-mode: both;
+                                                }
+                                                @keyframes zoomIn {
+                                                    0% {
+                                                        opacity: 0;
+                                                        transform: scale3d(.3,.3,.3);
+                                                    }
+                                                    50% {
+                                                        opacity: 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                .btn-group{
+                                    display: flex;
+                                    justify-content: flex-end;
+                                    gap: 8px;
+                                    margin-bottom: 5px;
+                                }
+                            }
+                        }
+                    // }
+                }
+            }
+        }
+    }
+    .mailediter.configure-same-editor{
+        height: 180px;
+        margin-bottom: 0px;
+        word-break: break-word;
+    }
+}
+.user-main-data{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    .user-notes-data.gradient{
+      overflow-x: auto;
+      max-height: 100px;
+      overflow-y: hidden;
+      transition: max-height .5s ease;
+      padding: 5px 5px;
+      word-break: break-word;
+      text-align: justify;
+      height: 80px;
+      &::before{
+        content:'';  
+        transition:height .25s ease;
+        height:50px; 
+        position:absolute; 
+        bottom:0px; 
+        left:0; 
+        width:100%; 
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) -75%, #ffffff 75%);
+      }
+    }
+    .user-notes-data.gradient.withoutShadow {
+      padding: 5px;
+      height: auto;
+      &::before{
+        // withoutshadow before height remove
+        height: 0px;
+        background: transparent;
+      }
+    }
+    .addClientButton{
+        font-size: 13px;
+        color: $info-color;
+        margin-top: 5px;
+        display: flex;
+        align-self: flex-end;
+    }
+    .addClientButton.mat-mini-fab{
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      background: $gray-bg-color;
+      position: absolute;
+      bottom: 0px;
+      left: calc(50% - 12.5px);
+      transition: background-color .25s ease;
+      box-shadow: 0px -2px 4px 0px #e5dddd inset, rgba(149, 157, 165, 0.12) 0px 8px 10px;
+      .mat-icon{
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        color: $gray-txt;
+      }
+    }
+}
+.user-main-data.user-notes-desc .addClientButton {
+transform: rotate(180deg);
+}
+.user-main-data.user-notes-desc .user-notes-data.gradient {
+max-height: initial;
+padding-bottom: 35px;
+height: inherit;
+}
+.user-main-data.user-notes-desc .user-notes-data.gradient:before{
+height:0px; 
+}
+.removeIcon{
+float: right !important;
+background: #F44336;
+color: #ffffff;
+border-radius: 100%;
+width: 16px;
+height: 16px;
+text-align: center;
+padding: 0px;
+line-height: 16px;
+top: 0px;
+position: relative;
+margin-left: 3px;
+cursor:pointer;
+}
+.endoHTMLEditer{
+    label{
+        span{
+            color: rgba(0, 0, 0, 0.87);
+        }
+    }
+}
+.multiple-no-data{
+    height: 100%;
+}
+// .ng-slectBox.more-selectBox{
+//     .ng-more-value{
+//         padding: 0px;
+//         width: 21px;
+//         height: 21px;
+//         line-height: 21px;
+//         .ng-value-label{
+//             font-size: 11px;
+//             color: $primary-bg-color;
+//             width: 21px;
+//             height: 21px;
+//             line-height: 21px;
+//             text-align: center;
+//         }
+//     }
+// }
+.html-editor-kendo{
+    padding-bottom: 15px;
+    label{
+        margin: 5px 0px 3px;
+        display: block;
+    }
+}
+:host ::ng-deep {
+    .user-main-data{
+        .addClientButton.mat-mini-fab{
+            .mat-button-wrapper{
+                padding: 0px;
+            }
+        }
+        .user-notes-data.gradient{
+            ol{
+                margin: 0px;
+            }
+        }
+    }
+}
+
+.box-comment{
+    border-radius: 3px;
+    border: 1px solid #696969;
+    cursor: pointer;
+    padding: 15px;
+    margin-top: 2px;
+}
+.icon-button{
+    min-width: 36px;
+    padding: 0px;
+}
+
+

@@ -1,0 +1,73 @@
+
+@import "../../../../../../styles-var.scss";
+
+.preview-upload-resume{
+    .knockout-card-content{
+        .knockQuesForm{
+            padding: 0px 15px;
+            .knockout-mat-card{
+              padding: 0px;
+              margin-bottom: 15px;
+              cursor: default;
+              pointer-events: none;
+                h2{
+                    font-weight: 400;
+                    font-size: 14px;
+                    margin-bottom: 0px;
+                    padding: 10px 15px;
+                }
+                .configure-application-text-area{
+                  padding: 10px 15px;
+                }
+                &:hover{
+                  background: #f4f8fb;
+                }
+            }
+            .knockout-mat-card.wrongquestion{
+                color: #F44336;
+            }
+        }
+    }
+}
+
+.configure-application-text-area{
+    .mat-radio-group{
+        .mat-radio-button{
+            padding: 16px 20px 0px 0px;
+        }
+    }
+}
+
+.search-bar{
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    top: 0px;
+    background: $white-bg;
+    margin: 0px 10px;
+    z-index: 2;
+    .search-input{
+        width: 100%;
+        max-width: 230px;
+        height: 46px;
+    }
+}
+
+.knock-out-text{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    h1{
+        color: $warn-bg;
+        background: $gray-bg-color;
+        font-size: 20px;
+        border: 4px solid $warn-bg; 
+        margin: 5px;
+        padding: 5px;
+        line-height: 26px;
+        span{
+            font-size: 35px;
+        }
+    }
+}
+

@@ -1,0 +1,109 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: manage-sub-jobcategory.compenent.html
+  @Who:  Nitin Bhati
+  @When: 15-June-2021
+  @Why: EWM-1831.
+  @What: For manage sub jobcategory .
+ --> 
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+  
+    <mat-card-header class="dashboard-mat-card-header title-and-btn" id="manage-sub-job-category-mat-card-header">
+      <mat-card-title class="only-title" *ngIf="actionStatus=='Add'">{{'label_addsubJobCategory' |translate}}</mat-card-title>
+        <mat-card-title class="only-title" *ngIf="actionStatus=='Edit'">{{'label_editsubJobCategory' |translate}}</mat-card-title>
+       
+      <div class="actionButton">
+        <button mat-raised-button color="warn" tabindex="6" id="btnCancel" (click)="onCancel($event)" 
+          class="buttonForDesktopMobile">
+          <mat-icon>close</mat-icon>
+          <span class="buttonTxt">{{'label_cancel' |translate}}</span>
+        </button>
+      <button mat-raised-button color="primary" tabindex="5" (click)="onSave(this.addForm.getRawValue(),this.actionStatus)"
+          type="button" id="btnSave" [disabled]="!addForm.valid || isResponseGet" class="buttonForDesktopMobile">
+          <mat-icon>check</mat-icon>
+          <span *ngIf="!isResponseGet" class="buttonTxt">{{'label_save'|translate}}</span>
+          <div *ngIf="isResponseGet" id="loading"></div>
+        </button>
+      </div>
+    </mat-card-header>
+    
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="manage-sub-job-category-drawer">  
+  <mat-card id="manage-subJobcategory-card" class="component-card mat-elevation-z2">
+      <div class="row mb-0 sticky">
+        <!-- <mat-card-subtitle class="col s12 m12 l12 subTitle word-wrap">         
+          {{ 'label_subHeadSubExpertiseMaster' |translate }}  for {{ExpertiseName}}   
+         </mat-card-subtitle> -->
+        </div>
+        <form novalidate [formGroup]="addForm"  accept-charset="utf-8"
+        enctype='multipart/form-data' id="Jobcategory-form">
+        <div class="row mb-0">
+           <div class="col l4 m6 s12">
+                  <div class="ng-slectBox">
+                     <!-----@suika@EWM-10681 EWM-10818  @03-03-2023 to set default values for status in master data--->
+                    <ng-select placeholder="{{'label_region'|translate}}" class="show-required" tabindex="1" [clearable]="false"
+                      formControlName="RegionId" id="Jobcategory-status" required>
+                      <!-- <ng-option value="">{{'label_selectRegion'|translate}}</ng-option> -->
+                      <ng-option *ngFor="let list of gridRegion" value="{{list.Id}}">{{list.Name}}</ng-option>
+                   </ng-select>
+                    <mat-error
+                      *ngIf="addForm.controls['RegionId'].hasError('required') && addForm.controls['RegionId'].touched">
+                      {{'label_region'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                  </div>
+                </div>
+                <div class="clear"></div>
+                <div class="col l4 m6 s12">
+                  <div class="ng-slectBox">
+                    <!-- //who:maneesh,what:ewm-15708 read only,when:16/01/2024 -->
+                    <ng-select placeholder="{{'label_jobCategory'|translate}}" class="show-required" tabindex="2" [clearable]="false"
+                      formControlName="JobCategoryId" id="Jobcategory-jobcategory" required [readonly]="true" >
+                      <!-- <ng-option value="">{{'label_selectExpertiseName'|translate}}</ng-option> -->
+                      <ng-option *ngFor="let list of gridExpertise" value="{{list.Id}}">{{list.JobCategory}}</ng-option>
+                   </ng-select> 
+                    <mat-error
+                      *ngIf="addForm.controls['JobCategoryId'].hasError('required') && addForm.controls['JobCategoryId'].touched">
+                      {{'label_jobCategory'|translate}} {{'label_errorreqired'|translate}}
+                    </mat-error>
+                  </div> 
+                </div>
+             <div class="clear"></div>
+            <mat-form-field class="col l4 m6 s12">
+              <mat-label>{{'label_SubJobCategory' |translate}}</mat-label>
+              <input matInput required formControlName="JobSubCategory" tabindex="3" text="JobSubCategory" id="Jobcategory-subJobcategory" (blur)="onSubCategoryNameChanges(false);">
+            <mat-error *ngIf="addForm.controls['JobSubCategory'].hasError('codeTaken')">
+              {{'label_SubJobCategory'|translate}} {{'label_errorreqiredAlready'|translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['JobSubCategory'].hasError('required')">
+              {{'label_SubJobCategory' |translate}} {{'label_errorreqired' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['JobSubCategory'].hasError('maxlength')">
+              {{'label_SubJobCategory' |translate}} {{'label_errormaxlength100' |translate}}
+            </mat-error>
+            <mat-error *ngIf="addForm.controls['JobSubCategory'].hasError('pattern')">
+              {{'label_SubJobCategory'|translate}} {{'label_errorpatternAlphanumeric'|translate}}
+          </mat-error>
+          </mat-form-field>
+              <div class="clear"></div>
+           <div class="col l4 m6 s12">
+            <div class="ng-slectBox">
+              <ng-select placeholder="{{'label_industryStatus'|translate}}" class="show-required" tabindex="4" [clearable]="true"
+                formControlName="Status" id="Jobcategory-status" required>
+                <ng-option value="" disabled>{{'label_selectStatus'|translate}}</ng-option>
+                <ng-option *ngFor="let list of statusList" value="{{list.StatusId}}">{{list.StatusName}}</ng-option>
+             </ng-select>
+              <mat-error
+                *ngIf="addForm.controls['Status'].hasError('required') && addForm.controls['Status'].touched">
+                {{'label_industryStatus'|translate}} {{'label_errorreqired'|translate}}
+              </mat-error>
+            </div>
+          </div>
+         </div>
+      </form> 
+  </mat-card>
+</mat-drawer-container>
+       

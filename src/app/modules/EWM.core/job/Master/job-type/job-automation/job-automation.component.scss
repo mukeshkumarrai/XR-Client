@@ -1,0 +1,743 @@
+@use "../../../../../../../colors";
+@mixin icon-button{
+    width: 20px;
+    height: 20px;
+    line-height: 20px
+}
+@mixin color-bg-after{
+    position: absolute;
+    content: "";
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: currentColor;
+}
+.job-automation-container{
+    .mat-drawer-content .component-card.mat-card{
+        height: 100%;
+    }
+    .job-automation-tab{
+        height: 100%;
+        .mat-tab-body-wrapper{
+            height: 100%;
+            .job-automation-sec{
+                padding: 10px;
+                font-size: 13px;
+                height: calc(100% - 20px);
+                overflow: hidden;
+                & > p{
+                    color: #727272;
+                    margin-top: 0px;
+                    font-style: italic;
+                }
+                .job-automation-configure{
+                    display: flex;
+                    flex-direction: column;
+                    height: calc(100% - 30px);
+                    overflow: auto;
+                    @mixin automation-column-grid{
+                        display: grid;
+                        grid: auto/125px 190px 170px 80px calc(100% - 615px);
+                        padding: 3px 0px;
+                        gap: 10px;
+                        min-width: 1060px;
+                    }
+                    @media (width <= 580px) {
+                        height: calc(100% - 40px);
+                    }
+                    .job-automation-configure-header, .job-automation-configure-box{
+                        @include automation-column-grid;
+                        & > div{
+                            padding: 0px 4px;
+                            display: flex;
+                            align-items: center;
+                            color: rgba(0, 0, 0, 0.87);
+                        }
+                    }
+                    .job-automation-configure-header{
+                        font-weight: 500;
+                        min-height: max-content;
+                        position: sticky;
+                        top: 0px;
+                        background: #ffffff;
+                        z-index: 2;
+                        & > div{
+                            align-items: flex-start;
+                        }
+                        .job-action-header{
+                            padding-inline-start: 22px;
+                        }
+                        .map-job-workflow-stage{
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            small{
+                                color: #666666;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                    .job-automation-configure-body{
+                        display: flex;
+                        flex-direction: column;
+                        row-gap: 4px;
+                        .job-automation-configure-box{
+                            color: #666666;
+                            font-size: 12px;
+                            min-height: 52px;
+                            align-items: center;
+                            border-radius: 4px;
+                            margin: 1px 5px;
+                            border: 1px solid #ddd;
+                            overflow: hidden;
+                            .move-button{
+                                position: relative;
+                                padding-inline-start: 23px;
+                                height: 100%;
+                                color: rgba(0, 0, 0, 0.87);
+                                .mat-icon-button{
+                                    @include icon-button;
+                                    width: 20px;
+                                    height: calc(100% + 6px);
+                                    line-height: 20px;
+                                    cursor: move;
+                                    position: absolute;
+                                    left: -25px;
+                                    top: -3px;
+                                    border-radius: 4px 0px 0px 4px;
+                                    transition: 250ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+                                    color: colors.$primary-bg-color;
+                                    z-index: 1;
+                                    &::after{
+                                        @include color-bg-after;
+                                        opacity: 0.08;
+                                    }
+                                    .mat-button-wrapper{
+                                        display: flex;
+                                        .mat-icon{
+                                            height: 20px;
+                                            width: 20px;
+                                            svg{
+                                                fill: colors.$primary-bg-color;
+                                            }
+                                        }
+                                    }
+                                }
+                                .default-name{
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 4px;
+                                    p{
+                                        margin: 0px;
+                                        background: #fff;
+                                        border-radius: 30px;
+                                        padding: 1px 3px;
+                                        height: 13px;
+                                        line-height: 13px;
+                                        color: colors.$primary-bg-color;
+                                        font-size: 11px;
+                                        box-shadow: 0px 0px 0px 1.2px colors.$primary-bg-color;
+                                        width: 45px;
+                                        text-align: center;
+                                        font-weight: 500;
+                                        margin-inline-start: 1px;
+                                    }
+                                }
+                            }
+                            .mat-chip-list-wrapper{
+                                margin: 0px;
+                                .mat-standard-chip.mat-chip{
+                                    margin: 3px 2px;
+                                    min-height: 22px;
+                                    font-size: 11px;
+                                    padding: 0px 5px;
+                                    cursor: pointer;
+                                    color: colors.$primary-bg-color;
+                                    background: #f1f1f1;
+                                    box-shadow: colors.$primary-bg-color 0px 0px 0px 1px, rgba(169, 14, 14, 0.05) 0px 2px 4px 0px, 
+                                    rgba(50, 50, 93, 0.25) 0px 6px 8px -2px;
+                                    box-shadow: none;
+                                    .mat-icon{
+                                        width: 0px;
+                                        height: 18px;
+                                        margin-inline-end: 2px;
+                                        transition: width 150ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+                                    }
+                                } 
+                                .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary{
+                                    color: colors.$primary-bg-color;
+                                    background: colors.$white-color;
+                                    box-shadow: colors.$primary-bg-color 0px 0px 0px 0.5px, rgba(169, 14, 14, 0.05) 0px 2px 4px 0px, 
+                                    rgba(50, 50, 93, 0.25) 0px 6px 8px -2px;
+                                    border: none;
+                                    .mat-icon{
+                                        width: 18px; 
+                                        svg{
+                                            fill: currentColor;
+                                        }
+                                    }
+                                }  
+                                .mat-chip.mat-standard-chip.mat-chip-disabled{
+                                    opacity: 0.55;
+                                }
+                            }
+                            .mat-slide-toggle{
+                                .mat-slide-toggle-bar{
+                                    height: 11px;
+                                    width: 30px;
+                                    .mat-slide-toggle-thumb{
+                                        height: 16px;
+                                        width: 16px;
+                                    }
+                                }
+                                .mat-slide-toggle-ripple {
+                                    height: 30px;
+                                    width: 30px;
+                                    top: calc(50% - 16px);
+                                    left: calc(50% - 17px);
+                                }
+                            }
+                            .slide-toggle{
+                                display: block;
+                                text-align: center;
+                            }
+                            .tab-name{
+                                position: relative;
+                                gap: 2px;
+                                width: 100%;
+                                overflow: hidden;
+                                padding: 1px;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: flex-start;
+                                padding-block: 10px;
+                                .value{
+                                    box-shadow: 0px 0px 0px 1px colors.$primary-bg-color;
+                                    padding: 2px 7px;
+                                    min-height: 23px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: colors.$primary-bg-color;
+                                    position: relative;
+                                    border-radius: 4px;
+                                    cursor: pointer;
+                                    width: calc(100% - 14px);
+                                    &::before{
+                                        content: "";
+                                        background: currentColor;
+                                        position: absolute;
+                                        left: 0px;
+                                        top: 0px;
+                                        opacity: 0.05;
+                                    }
+                                }
+                                .btn-edit-displayname.mat-raised-button{
+                                    @include icon-button;
+                                    position: absolute;
+                                    right: -30px;
+                                    min-width: 30px;
+                                    padding: 0px;
+                                    height: 27px;
+                                    .mat-button-wrapper{
+                                        .mat-icon{
+                                            height: 20px;
+                                            width: 20px;
+                                        }
+                                    }
+                                }   
+                                .mat-form-field, .mat-form-field-appearance-outline{
+                                    margin-bottom: 0px;
+                                    // padding: 12px 0px 0px;
+                                    .mat-form-field-wrapper{
+                                        margin: 0px;
+                                        padding: 0px;
+                                        .mat-form-field-flex{
+                                            padding-inline-end: 0px;
+                                            align-items: center;
+                                            height: 36px;
+                                        }
+                                        .mat-form-field-infix{
+                                            padding: 4px 0px;
+                                            position: relative;
+                                            top: -3px;                                        
+                                        }
+                                        .mat-input-element{
+                                            font-size: 12px !important;
+                                        }
+                                        .mat-form-field-subscript-wrapper{
+                                            padding: 0px;
+                                            margin-top: 2px;
+                                            overflow: visible;
+                                        }
+                                    }
+                                    .mat-form-field-suffix{
+                                        top: 1.5px;
+                                        .mat-raised-button{
+                                            min-width: auto;
+                                            padding: 0px 2px;
+                                            height: 30px;
+                                        }
+                                    }
+                                }
+                                .mat-hint{
+                                    font-size: 75%;
+                                    color: colors.$warn-bg;
+                                }
+                            }
+                            &:hover{
+                                box-shadow: 0px 0px 0px 1px #e3e3e3;
+                                .move-button{
+                                    .mat-icon-button{
+                                        left: 0px;
+                                        transition: 250ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+                                    }
+                                } 
+                                .tab-name{
+                                    justify-content: flex-start;
+                                    .btn-edit-displayname{
+                                        right: 0px;
+                                        transition: 250ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+                                    }
+                                }    
+                            }
+                        }
+                        .job-automation-configure-box.notSelected{
+                            color: colors.$primary-bg-color;
+                            position: relative;
+                            z-index: 1;
+                            &::after{
+                                @include color-bg-after;
+                                opacity: 0.04;
+                                border-radius: 5px;
+                            }
+                        }
+                        .job-automation-configure-box.selected{
+                            color: #d5d5d5;
+                            position: relative;
+                            z-index: 1;
+                            &::after{
+                                @include color-bg-after;
+                                opacity: 0.5;
+                                border-radius: 3px;
+                            }
+                            .move-button{
+                                .default-name{
+                                    span{
+                                        opacity: 0.75;
+                                    }
+                                }
+                            }
+                            .tab-purpose{
+                                opacity: 0.75;
+                            }
+                            .mat-chip-list-wrapper{
+                                .mat-standard-chip.mat-chip{
+                                    cursor: inherit;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.xeople-container-listing-with-breadCrumb.mat-drawer-container{
+    .mat-drawer-content{
+        .component-card.job-mat-card.mat-card{
+            height: 100%;
+            @media (width <= 580px) {
+                height: calc(100% - 30px);
+            }
+        }
+    }
+}
+
+// job automation preview start here
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    display: flex;    
+    align-items: center;   
+    gap: 10px; 
+    background: colors.$white-color;   
+    .mat-icon-button{
+        @include icon-button;
+        width: 20px;
+        height: calc(100% + 6px);
+        line-height: 20px;
+        position: relative;
+        border-radius: 4px 0px 0px 4px;
+        background: #e3e3e3;
+    } 
+}
+.job-automation-box-placeholder {
+    background: #ccc;
+    border: dotted 3px #999;
+    min-height: 60px;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.job-automation-box-preview{
+    font-size: 12px;
+    @mixin automation-column-grid{
+        display: grid;
+        grid: auto/125px 190px 170px 80px calc(100% - 615px);
+        padding: 3px 0px;
+        gap: 10px;
+        min-width: 1060px;
+    }
+    @include automation-column-grid;
+    & > div{
+        padding: 0px 4px;
+        display: flex;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.87);
+    }
+    .move-button{
+        position: relative;
+        padding-inline-start: 22px;
+        height: 100%;
+        color: rgba(0, 0, 0, 0.87);
+        .mat-icon-button{
+            @include icon-button;
+            width: 20px;
+            height: calc(100% + 6px);
+            line-height: 20px;
+            cursor: move;
+            position: absolute;
+            left: 0px;
+            top: -3px;
+            border-radius: 4px 0px 0px 4px;
+            transition: 250ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+            color: colors.$primary-bg-color;
+            z-index: 1;
+            &::after{
+                @include color-bg-after;
+                opacity: 0.1;
+            }
+            .mat-button-wrapper{
+                display: flex;
+                .mat-icon{
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+        }
+        .default-name{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            p{
+                margin: 0px;
+                background: #fff;
+                border-radius: 30px;
+                padding: 1px 3px;
+                height: 13px;
+                line-height: 13px;
+                color: colors.$primary-bg-color;
+                font-size: 11px;
+                box-shadow: 0px 0px 0px 1.2px colors.$primary-bg-color;
+                width: 45px;
+                text-align: center;
+                font-weight: 500;
+                margin-inline-start: 1px;
+            }
+        }
+    }
+    .mat-chip-list-wrapper{
+        margin: 0px;
+        .mat-standard-chip.mat-chip{
+            margin: 3px 2px;
+            min-height: 22px;
+            font-size: 11px;
+            padding: 0px 5px;
+            cursor: pointer;
+            color: colors.$primary-bg-color;
+            background: #f1f1f1;
+            box-shadow: none;
+            .mat-icon{
+                width: 0px;
+                height: 18px;
+                margin-inline-end: 2px;
+                transition: width 150ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        } 
+        .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary{
+            color: colors.$primary-bg-color;
+            background: colors.$white-color;
+            box-shadow: colors.$primary-bg-color 0px 0px 0px 0.5px, rgba(169, 14, 14, 0.05) 0px 2px 4px 0px, 
+            rgba(50, 50, 93, 0.25) 0px 6px 8px -2px;
+            border: none;
+            .mat-icon{
+                width: 18px; 
+                svg{
+                    fill: currentColor;
+                }
+            }
+        }  
+        .mat-chip.mat-standard-chip.mat-chip-disabled{
+            opacity: 0.4;
+        }
+    }
+    .mat-slide-toggle{
+        .mat-slide-toggle-bar{
+            height: 11px;
+            width: 30px;
+            .mat-slide-toggle-thumb{
+                height: 16px;
+                width: 16px;
+            }
+        }
+        .mat-slide-toggle-ripple {
+            height: 30px;
+            width: 30px;
+            top: calc(50% - 16px);
+            left: calc(50% - 17px);
+        }
+    }
+    .slide-toggle{
+        display: block;
+        text-align: center;
+    }
+    .tab-name{
+        position: relative;
+        display: flex;
+        gap: 2px;
+        width: 100%;
+        overflow: hidden;
+        padding: 1px;
+        align-items: flex-start;
+        flex-direction: column;
+        padding-block: 10px;
+        .value{
+            box-shadow: 0px 0px 0px 1px colors.$primary-bg-color;
+            padding: 2px 7px;
+            min-height: 23px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: colors.$primary-bg-color;
+            position: relative;
+            border-radius: 4px;
+            width: calc(100% - 14px);
+            &::before{
+                content: "";
+                background: currentColor;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                opacity: 0.05;
+            }
+        }
+        .btn-edit-displayname.mat-raised-button{
+            @include icon-button;
+            position: absolute;
+            right: -30px;
+            min-width: 30px;
+            padding: 0px;
+            height: 27px;
+            .mat-button-wrapper{
+                .mat-icon{
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+        }   
+        .mat-form-field, .mat-form-field-appearance-outline{
+            margin-bottom: 0px;
+            .mat-form-field-wrapper{
+                margin: 0px;
+                .mat-form-field-flex{
+                    padding-inline-end: 0px;
+                    align-items: center;
+                    height: 36px;
+                }
+                .mat-form-field-infix{
+                    padding: 4px 0px;
+                    position: relative;
+                    top: -3px;                                        
+                }
+                .mat-input-element{
+                    font-size: 12px !important;
+                }
+                .mat-form-field-subscript-wrapper{
+                    padding: 0px;
+                    margin-top: 2px;
+                    overflow: visible;
+                }
+            }
+            .mat-form-field-suffix{
+                top: 1.5px;
+                .mat-raised-button{
+                    min-width: auto;
+                    padding: 0px 2px;
+                    height: 30px;
+                }
+            }
+        }
+        .mat-hint{
+            color: colors.$warn-bg;
+            font-size: 75%;
+        }
+    }
+    &:hover{
+        box-shadow: 0px 0px 0px 1px #e3e3e3;
+        .move-button{
+            .mat-icon-button{
+                left: 0px;
+                transition: 250ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        } 
+        .tab-name{
+            justify-content: flex-start;
+            .btn-edit-displayname{
+                right: 0px;
+                transition: 250ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        }    
+    }
+}
+// job automation preview end here
+
+// dark mode start here
+.dark-theme{
+    .job-automation-container{
+        .job-automation-tab{
+            .mat-tab-body-wrapper{
+                .job-automation-sec{
+                    .job-automation-configure{
+                        .job-automation-configure-header{
+                            background: colors.$dark-primary-bg;
+                            & > div{
+                                color: colors.$white-color;
+                            }
+                        }
+                        .job-automation-configure-box{
+                            border: 1px solid colors.$gray-txt;
+                            & > div{
+                                color: #d9d9d9;
+                            }
+                            .move-button{
+                                color: #d9d9d9;
+                                .mat-icon-button{
+                                    color: colors.$dark-primary;
+                                    .mat-button-wrapper .mat-icon{
+                                        svg{
+                                            fill: colors.$dark-primary;
+                                        }
+                                    }
+                                }
+                                .default-name{
+                                    p{
+                                        background: colors.$black-color;
+                                        color: colors.$dark-primary;
+                                        box-shadow: 0px 0px 0px 1.2px colors.$dark-primary;
+                                    }
+                                }
+                            }
+                            .tab-name .value{
+                                color: colors.$dark-primary;
+                                box-shadow: 0px 0px 0px 1px colors.$dark-primary;
+                            }
+                            .mat-chip-list-wrapper{
+                                .mat-standard-chip.mat-chip{
+                                    color: colors.$dark-primary;
+                                    border: 1px solid #454545;
+                                    background: #2a2a2a !important;
+                                }
+                                .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary{
+                                    color: colors.$dark-primary;
+                                    background: #1a1a1a !important;
+                                    box-shadow: colors.$dark-primary 0px 0px 0px 0.5px, rgba(169, 14, 14, 0.05) 0px 2px 4px 0px, 
+                                    rgba(50, 50, 93, 0.25) 0px 6px 8px -2px;
+                                    border: none;
+                                }
+                            }
+                            &:hover{
+                                box-shadow: 0px 0px 0px 1px #8d8d8d;
+                            }
+                        }
+                        .job-automation-configure-box.notSelected{
+                            color: #282828;
+                            &::after{
+                                opacity: 0.5;
+                            }
+                        }
+                        .job-automation-configure-box.selected{
+                            color: #484848;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    .cdk-drag-preview {
+        background: #3c3c3c;
+        .move-button{
+            color: colors.$dark-primary;
+            .mat-icon-button{
+                color: colors.$dark-primary;
+                background: #454545;
+            }
+        }
+    }
+    .job-automation-box-placeholder {
+        background: #181818;
+    }
+    .job-automation-box-preview{
+        border: 1px solid colors.$gray-txt;
+        & > div{
+            color: #d9d9d9;
+        }
+        .move-button{
+            color: #d9d9d9;
+            .mat-icon-button{
+                color: colors.$dark-primary;
+                .mat-button-wrapper .mat-icon{
+                    svg{
+                        fill: colors.$dark-primary;
+                    }
+                }
+            }
+            .default-name{
+                p{
+                    background: colors.$black-color;
+                    color: colors.$dark-primary;
+                    box-shadow: 0px 0px 0px 1.2px colors.$dark-primary;
+                }
+            }
+        }
+        .tab-name .value{
+            color: colors.$dark-primary;
+            box-shadow: 0px 0px 0px 1px colors.$dark-primary;
+        }
+        .mat-chip-list-wrapper{
+            .mat-standard-chip.mat-chip{
+                color: colors.$dark-primary;
+                border: 1px solid #454545;
+                background: #2a2a2a !important;
+            }
+            .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary{
+                color: colors.$dark-primary;
+                background: #1a1a1a !important;
+                box-shadow: colors.$dark-primary 0px 0px 0px 0.5px, rgba(169, 14, 14, 0.05) 0px 2px 4px 0px, 
+                rgba(50, 50, 93, 0.25) 0px 6px 8px -2px;
+                border: none;
+            }
+        }
+        &:hover{
+            box-shadow: 0px 0px 0px 1px #8d8d8d;
+        }
+    }
+}
+// dark mode end here
+
+
+
+
+
+

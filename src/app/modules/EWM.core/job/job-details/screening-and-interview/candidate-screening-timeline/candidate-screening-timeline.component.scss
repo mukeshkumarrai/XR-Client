@@ -1,0 +1,192 @@
+@import "../../../../../../../styles-var.scss";
+
+.timelene-circle {
+  background: rgb(103 58 183 / 30%);
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 100%;
+  top: -24px;
+  left: calc(50% - 18px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  .timeline-color {
+    background: rgb(103 58 183 / 100%);
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+  }
+}
+.timelene-border {
+  width: calc(100% + 1px);
+  height: 12px;
+  background: #7fb734;
+  position: absolute;
+  top: -10px;
+}
+.timeLinePopUp {
+  .timeline-data {
+    .mat-card {
+      padding: 0px 0px 10px;
+      margin-bottom: 30px;
+      .mat-card-title {
+        font-size: 14px;
+        position: relative;
+        padding: 8px 0px;
+        z-index: 1;
+        margin-bottom: 12px;
+        &:after {
+          content: "";
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          border-radius: 4px 4px 0px 0px;
+          background-color: currentColor;
+          opacity: 0.10;
+          left: 0px;
+          top: 0px;
+          z-index: -1;
+        }
+      }
+    }
+    &:first-child {
+      margin-top: 5px;
+    }
+    .candidate-time {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px;
+      padding: 0px 15px 10px;
+      @media (320px <= width <= 640px){
+        grid-template-columns: 1fr;
+      }
+      .candidateTimeStamp {
+        text-align: left;
+        display: table;
+        label {
+          font-weight: 500;
+          width: 100px;
+          display: table-cell;
+          text-align: left;
+          padding: 15px 10px;
+          @media (320px <= width <= 767px){
+            display: block;
+            width: calc(100% - 20px);
+          }
+        }
+        .spanTimeTxt {
+          font-weight: 400;
+          padding: 10px;
+          display: table-cell;
+          @media (320px <= width <= 767px){
+            display: block;
+          }
+        }
+      }
+    }
+    .candidateTimeline {
+      display: inherit;
+      padding: 0px 15px;
+      position: relative;
+      .arrowDownIconBox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0px;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        .matIcon {
+          text-align: center;
+          cursor: pointer;
+          border-radius: 100%;
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          font-size: 26px;
+        }
+      }
+      .timelineContainer {
+        padding: 0px 0px;
+        position: relative;
+        overflow: hidden;
+        height: auto;
+        width: calc(100% - 0px);
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        border-radius: 4px;
+      }
+      .rightbox {
+        padding: 0px;
+      }
+      .urOrderList {
+        min-height: 115px;
+        display: flex;
+        margin: 0px;
+        padding: 85px 70px 0px 70px;
+      }
+      .urOrderList .swiper-button-prev,
+      .swiper-button-next {
+        right: 0px;
+      }
+      .urOrderList .stageListItems {
+        list-style: none;
+        padding: 20px 0px 0px 0px;
+        position: relative;
+        min-width: 92px;
+        display: flex;
+        margin: 8px 0px;
+        flex-flow: wrap;
+        justify-content: center;
+      }
+      .urOrderList .stageListItems .timestamp {
+        position: relative;
+        font-size: 12px;
+        text-align: center;
+      }
+      .urOrderList .stageListItems .dataPositionTop {
+        position: relative;
+        top: -105px;
+      }
+      .item-title {
+        left: -10px;
+        position: relative;
+      }
+    }
+  }
+}
+.show-hide {
+  display: flex;
+  justify-content: flex-end;
+  margin: 5px 0px 15px;
+  .mat-stroked-button {
+    padding: 0px 10px;
+    position: relative;
+    z-index: 1;
+    &:after {
+      content: "";
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border-radius: 4px;
+      background-color: currentColor;
+      opacity: 0.20;
+      left: 0px;
+      top: 0px;
+      z-index: -1;
+    }
+    span {
+      display: flex;
+      align-items: center;
+      .mat-icon {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 24px;
+        margin: 0px 2px;
+      }
+    }
+  }
+}

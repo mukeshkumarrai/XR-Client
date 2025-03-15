@@ -1,0 +1,102 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: job-checklist.scss
+    @Who: Nitin Bhati
+    @When: 12-Sep-2023
+    @Why: EWM-12599 EWM-13985
+    @What: Workflow checklist panel work
+*/
+@import '../../../../../../../mixinStyle.scss';
+@import '../../../../../../../styles-var.scss';
+.text-area-outline{
+  box-shadow: 0px 1px 0px 0px rgba($color: #000000, $alpha: 0.12);
+  height: 23px;
+  line-height: 23px;
+  padding-inline: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: #f8f8f8;
+}
+.error-massage{
+  color: $warn-bg;
+  box-shadow: 0px 1px 0px 0px $warn-bg;
+}
+.star-mandatory{
+  color: $warn-bg;
+  margin-inline-start: 3px;
+  vertical-align: top;
+}
+
+.placeholder-comment{
+  color:#9f9f9f;
+}
+
+.kendo-toolbar{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+    .mat-raised-button{
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+  .staus-actions{
+    .badge{
+      line-height: 14px;
+      font-weight: 400;
+    }
+  }
+  .view-files{
+    padding: 0px 7px;
+    min-width: auto;
+    height: 17px;
+    line-height: 17px;
+    font-size: 12px;
+    .mat-icon{
+      width: 17px;
+      height: 17px;
+      line-height: 17px;
+      font-size: 17px;
+    }
+  }
+  .error-message{
+    color: $warn-bg;
+    font-size: 75%;
+    padding: 5px 3px 2px;
+  }
+  
+  .warning {
+    color: red;
+  }
+
+  .text-limit{
+    white-space: normal; 
+    overflow: hidden;
+    max-height: 22px;
+    transition: max-height 0.4s linear;
+  }
+
+.main-textarea{
+  position: relative;
+  .textarea-line{
+    padding: 5px;
+    background: #f8f8f8;
+    box-shadow: 0px 1px 0px 0px rgba($color: #000000, $alpha: 0.12);
+    position: relative;
+  }
+  .textarea-line.focused-area{
+    padding: 5px 5px 16px;
+    .text-limit{
+      transition: max-height 0.4s linear;
+    }
+  }
+  .error-balance{
+    position: absolute;
+    right: 4px;
+    bottom: 1px;
+    color: #fe7000;
+    font-size: 75%;
+  }
+}  

@@ -1,0 +1,544 @@
+<!--@When: 06-12-2023 @who:Amit @why: EWM-15314 @what: structure modified-->
+<mat-drawer-container autosize class="login-container" id="login-container">
+  <app-outer-header-new></app-outer-header-new>
+  <div *ngIf="stepperStatus" class="container-steper" id="mfa-containerStepper">
+    <div class="stepper-box">
+      <div class="horizontalStepper" *ngIf="!verticalStepper">
+        <mat-horizontal-stepper linear #stepper>
+          <mat-step [stepControl]="downloadAppStep" [editable]="isEditable" id="mfa-stepperOne" [completed]="false">
+            <form [formGroup]="downloadAppStep" id="downloadAppSection">
+              <ng-template matStepLabel>{{'label_mfa_downloadAppStep' |translate}}</ng-template>
+              <div class="row" id="mfa-headingTxt">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfa_pageHeading' |translate}}</h3>
+                  <p class="mfaParaTxt" id="mfa-paraTxt">
+                    {{'label_mfa_pagePara1' |translate}} <a href="javascript:void(0)">{{'label_mfa_pagePara1Link'
+                      |translate}}</a>.
+                  </p>
+                  <p class="mfaParaTxt">
+                    {{'label_mfa_pagePara2' |translate}}
+                  </p>
+                  <p class="mfaParaTxt" id="mfa-paraTxt">
+                    {{'label_mfa_pagePara3' |translate}} <a href="javascript:void(0)">{{'label_mfa_pagePara3Link'
+                      |translate}}</a>.
+                  </p>
+                </div>
+              </div>
+              <div class="row mb-5 ml-0 mr-0">
+                <div *ngIf="loading" class="k-i-loading"></div>
+                <div class="col l5 m12 s12 mb-5 floatNone maxWidth350">
+                  <mat-tab-group dynamicHeight mat-align-tabs="center">
+                    <mat-tab label="{{'label_mfa_scanBarcode' |translate}}" id="scanBarcodeTabBtn">
+                      <div class="codeScanBox mat-elevation-z4" id="codeScannerBox">
+                        <img class="scannerImg" src="{{QrCodeUrl}}" id="verifyScanCode" />
+                      </div>
+                    </mat-tab>
+                    <mat-tab label="{{'label_mfa_enterKey' |translate}}" id="enterKeyTabBtn">
+                      <div class="enterKeyBox mat-elevation-z4" id="enterKeyDetailBox">
+                        <div class="row">
+                          <div class="col l12 m12 s12">
+                            <mat-form-field>
+                              <mat-label>{{'label_mfa_accountLabel' |translate}}</mat-label>
+                              <input matInput type="email" formControlName="accountInputCtrl" id="accountInput"
+                                readonly>
+                            </mat-form-field>
+                            <mat-form-field>
+                              <mat-label>{{'label_mfa_keyInputLbl' |translate}}</mat-label>
+                              <input matInput formControlName="keyInputCtrl" id="keyInput" readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-tab>
+                  </mat-tab-group>
+                </div>
+              </div>
+              <div>
+                <button mat-raised-button color="primary" id="validateDownloadApp"
+                  matStepperNext>{{'label_mfa_continueBtn' |translate}}</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="enterCodeStep" [editable]="isEditable" id="mfa-stepperTwo" [completed]="false">
+            <form [formGroup]="enterCodeStep" id="enterCodeSection">
+              <ng-template matStepLabel>{{'label_mfa_enterCodeStep' |translate}}</ng-template>
+
+              <div class="row mfaHeadingTxt" id="mfa-enterCode">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfa_enterCodeHeading' |translate}}</h3>
+                  <div class="addEmailBox addEmailBoxWidth">
+                    <p class="mfaParaTxt" id="mfa-paraTxt">
+                      {{'label_mfa_enterCodePara' |translate}} <a
+                        href="javascript:void(0)">{{'label_mfa_enterCodeParaLink' |translate}}</a>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="enterCodeBox mat-elevation-z4" id="enterCodeSection">
+                <div class="row">
+                  <input type="hidden" formControlName="codeset" [(ngModel)]="authCode" />
+                  <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{length:6}" required></ng-otp-input>
+                  <mat-error class="font75Per" *ngIf="codeError">{{codeErrorvalue |translate}}</mat-error>
+                </div>
+              </div>
+              <div>
+                <button mat-raised-button color="primary" id="nextToAddQuestions"
+                  (click)="authenticatPin(this.enterCodeStep.value)">{{'label_mfa_continueBtn' |translate}}</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="addQuestionStep" [editable]="isEditable" id="mfa-stepperThree" [completed]="false">
+            <form [formGroup]="addQuestionStep" id="addQuestionsSection">
+              <ng-template matStepLabel>{{'label_mfa_addQuestionStep' |translate}}</ng-template>
+
+              <!-- @When: 12-01-2024 @who:Amit @why: EWM-15618 @what: space use -->
+              <div class="row mfaHeadingTxt mt-5" id="mfa-addQuestions">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfa_secQuesHeading' |translate}}</h3>
+                  <div class="addEmailBox addEmailBoxWidth">
+                    <p class="mfaParaTxt mt-0 mb-0" id="mfa-paraTxt">
+                      {{'label_mfa_secQuesPara' |translate}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="addQuestionsBox mat-elevation-z4" id="questionListSection">
+                <div class="row mb-5">
+                  <div class="col l12 m12 s12">
+                    <mat-form-field>
+                      <mat-label>{{'label_mfa_secQues1Txt' |translate}}</mat-label>
+                      <mat-select formControlName="questionOne">
+                        <mat-option [value]="" [disabled]="true">{{'label_selectSecurityQuestion' |translate}}
+                        </mat-option>
+                        <mat-option [value]="Question.Id" *ngFor="let Question of securityQuestionOne">
+                          {{Question.Question}} ?
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="this.addQuestionStep.controls['questionOne'].hasError('required')">
+                        {{'label_mfa_secQues1Txt' | translate}} {{'label_errorreqired' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput formControlName="answerOne" id="answerOne"
+                        placeholder="{{'label_typeanswer'| translate}}" required>
+                      <mat-error *ngIf="this.addQuestionStep.controls['answerOne'].hasError('maxlength')">
+                        {{'label_Max20Char' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <br />
+                    <mat-form-field>
+                      <mat-label>{{'label_mfa_secQues2Txt' |translate}}</mat-label>
+                      <mat-select formControlName="questionTwo">
+                        <mat-option [value]="" [disabled]="true">{{'label_selectSecurityQuestion' |translate}}
+                        </mat-option>
+                        <mat-option [value]="Question.Id" *ngFor="let Question of securityQuestionTwo">
+                          {{Question.Question}} ?
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="this.addQuestionStep.controls['questionTwo'].hasError('required')">
+                        {{'label_mfa_secQues2Txt' | translate}} {{'label_errorreqired' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput formControlName="answerTwo" id="answerTwo"
+                        placeholder="{{'label_typeanswer'| translate}}" required>
+                      <mat-error *ngIf="this.addQuestionStep.controls['answerTwo'].hasError('maxlength')">
+                        {{'label_Max20Char' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <br />
+                    <mat-form-field>
+                      <mat-label>{{'label_mfa_secQues3Txt' |translate}}</mat-label>
+                      <mat-select formControlName="questionThree">
+                        <mat-option [value]="" [disabled]="true">{{'label_selectSecurityQuestion' |translate}}
+                        </mat-option>
+                        <mat-option [value]="Question.Id" *ngFor="let Question of securityQuestionThree">
+                          {{Question.Question}} ?
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="this.addQuestionStep.controls['questionThree'].hasError('required')">
+                        {{'label_mfa_secQues3Txt' | translate}} {{'label_errorreqired' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput formControlName="answerThree" id="answerThree"
+                        placeholder="{{'label_typeanswer'| translate}}" required>
+                      <mat-error *ngIf="this.addQuestionStep.controls['answerThree'].hasError('maxlength')">
+                        {{'label_Max20Char' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+
+                <button mat-raised-button color="primary" id="nextToAddEmail"
+                  (click)="updateSecrurityquestion(this.addQuestionStep.value)">{{'label_mfa_continueBtn'
+                  |translate}}</button>
+                <br />
+                <br />
+                <a href="javascript:void(0)">{{'label_mfa_secQuesLink' |translate}}</a>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="addEmailStep" [editable]="isEditable" id="mfa-stepperFour" [completed]="false">
+            <form [formGroup]="addEmailStep" id="addEmailSection">
+              <ng-template matStepLabel>{{'label_mfa_addEmailStep' |translate}}</ng-template>
+              <div class="row mfaHeadingTxt" id="mfa-addEmailSection">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfa_addEmailHeading' |translate}}</h3>
+                  <div class="addEmailBox addEmailBoxWidth">
+                    <p class="mfaParaTxt">
+                      {{'label_mfa_addEmailPara' |translate}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="addEmailBox mat-elevation-z4" id="addEmailSection">
+                <div class="row">
+                  <div class="col l12 m12 s12">
+                    <mat-form-field>
+                      <mat-label>{{'label_mfa_alternativeEmailAddress' | translate}}</mat-label>
+                      <input matInput formControlName="Email" id="alternativeEmailId"
+                        placeholder="Enter alternative Email" required>
+                      <mat-error *ngIf="this.addEmailStep.controls['Email'].hasError('pattern')">
+                        {{'lable_validemailerr' | translate}}
+                      </mat-error>
+                      <mat-error *ngIf="this.addEmailStep.controls['Email'].hasError('maxlength')">
+                        {{'lable_emailerr60' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-error *ngIf="primarymailError">
+                      {{'label_emailalternaterror' | translate}}
+                    </mat-error>
+                  </div>
+                </div>
+              </div>
+              <div>
+                
+                <button mat-raised-button id="nextToConfirmEmail" color="primary"
+                  (click)="sendingOptTAalternateEmail(this.addEmailStep.value)">{{'label_mfa_continueBtn'
+                  |translate}}</button>
+              </div>
+              <div class="addEmailBox mgTop50">
+                <a href="javascript:void(0)" (click)="notNowLink()" class="notNowLink">{{'label_mfa_notNowLink'
+                  |translate}}</a>
+                <a href="javascript:void(0)" class="whyEmailLink">{{'label_mfa_whyAddAlternativeEmailLink'
+                  |translate}}</a>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="confirmEmailStep" [editable]="isEditable" id="mfa-stepperFive" [completed]="false">
+            <form [formGroup]="confirmEmailStep" id="confirmEmailSection">
+              <ng-template matStepLabel>{{'label_mfa_confirmEmailStep' |translate}}</ng-template>
+              <div class="row mfaHeadingTxt" id="mfa-confirmEmail">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfa_confirmEmailHeading' |translate}}</h3>
+                  <div class="addEmailBox addEmailBoxWidth">
+                    <p class="mfaParaTxt" id="mfa-paraTxt">
+                      {{'label_mfa_confirmEmailParaPara' |translate}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="enterCodeBox mat-elevation-z4" id="verifyEmailCode">
+                <div class="row">
+                  <input type="hidden" formControlName="Pin" id="alternateemailcode" [(ngModel)]="authCode" />
+                  <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{length:6}" required></ng-otp-input>
+
+                  <mat-error class="font75Per" *ngIf="alternateEmailOtpvalidateErrorStatus">
+                    {{alternateEmailOtpvalidateErrorValue
+                    |translate}}
+                  </mat-error>
+
+                </div>
+              </div>
+              <div>
+
+                <button mat-raised-button color="primary" id="verificationCompleted"
+                  (click)="alternateEmailOtpvalidate(this.confirmEmailStep.value)">{{'label_mfa_continueBtn'
+                  |translate}}</button>
+              </div>
+            </form>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </div>
+      <div class="verticalStepper" *ngIf="verticalStepper">
+        <mat-vertical-stepper linear #stepper>
+
+          <mat-step [stepControl]="downloadAppStep" [editable]="isEditable" id="mfa-stepperOne" [completed]="false">
+            <form [formGroup]="downloadAppStep" id="downloadAppSection">
+              <ng-template matStepLabel>{{'label_mfa_downloadAppStep' |translate}}</ng-template>
+              <div class="row" id="mfa-headingTxt">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfa_pageHeading' |translate}}</h3>
+                  <p class="mfaParaTxt" id="mfa-paraTxt">
+                    {{'label_mfa_pagePara1' |translate}} <a href="javascript:void(0)">{{'label_mfa_pagePara1Link'
+                      |translate}}</a>.
+                  </p>
+                  <p class="mfaParaTxt">
+                    {{'label_mfa_pagePara2' |translate}}
+                  </p>
+                  <p class="mfaParaTxt" id="mfa-paraTxt">
+                    {{'label_mfa_pagePara3' |translate}} <a href="javascript:void(0)">{{'label_mfa_pagePara3Link'
+                      |translate}}</a>.
+                  </p>
+                </div>
+              </div>
+              <div class="row ml-0 mr-0">
+                <div *ngIf="loading" class="k-i-loading"></div>
+                <div class="col l5 m12 s12 floatNone maxWidth350">
+                  <mat-tab-group dynamicHeight mat-align-tabs="center">
+                    <mat-tab label="{{'label_mfa_scanBarcode' |translate}}" id="scanBarcodeTabBtn">
+                      <div class="codeScanBox mat-elevation-z4" id="codeScannerBox">
+                        <img class="scannerImg" src="{{QrCodeUrl}}" id="verifyScanCode" />
+                      </div>
+                    </mat-tab>
+                    <mat-tab label="{{'label_mfa_enterKey' |translate}}" id="enterKeyTabBtn">
+                      <div class="enterKeyBox mat-elevation-z4" id="enterKeyDetailBox">
+                        <div class="row">
+                          <div class="col l12 m12 s12">
+                            <mat-form-field>
+                              <mat-label>{{'label_mfa_accountLabel' |translate}}</mat-label>
+                              <input matInput type="email" formControlName="accountInputCtrl" id="accountInput"
+                                readonly>
+                            </mat-form-field>
+                            <mat-form-field>
+                              <mat-label>{{'label_mfa_keyInputLbl' |translate}}</mat-label>
+                              <input matInput formControlName="keyInputCtrl" id="keyInput" readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-tab>
+                  </mat-tab-group>
+                </div>
+              </div>
+              <div>
+                <button mat-raised-button color="primary" id="validateDownloadApp"
+                  matStepperNext>{{'label_mfa_continueBtn' |translate}}</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="enterCodeStep" [editable]="isEditable" id="mfa-stepperTwo" [completed]="false">
+            <form [formGroup]="enterCodeStep" id="enterCodeSection">
+              <ng-template matStepLabel>{{'label_mfa_enterCodeStep' |translate}}</ng-template>
+              <div class="row mfaHeadingTxt" id="mfa-enterCode">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfa_enterCodeHeading' |translate}}</h3>
+                  <div class="addEmailBox addEmailBoxWidth">
+                    <p class="mfaParaTxt" id="mfa-paraTxt">
+                      {{'label_mfa_enterCodePara' |translate}} <a
+                        href="javascript:void(0)">{{'label_mfa_enterCodeParaLink' |translate}}</a>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="enterCodeBox mat-elevation-z4" id="enterCodeSection">
+                <div class="row">
+                  <input type="hidden" formControlName="codeset" [(ngModel)]="authCode" />
+
+
+                  <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{length:6}" required></ng-otp-input>
+                  <mat-error class="font75Per" *ngIf="codeError">{{codeErrorvalue |translate}}</mat-error>
+                </div>
+              </div>
+              <div>
+
+                <button mat-raised-button color="primary" id="nextToAddQuestions"
+                  (click)="authenticatPin(this.enterCodeStep.value)">{{'label_mfa_continueBtn' |translate}}</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="addQuestionStep" [editable]="isEditable" id="mfa-stepperThree" [completed]="false">
+            <form [formGroup]="addQuestionStep" id="addQuestionsSection">
+              <ng-template matStepLabel>{{'label_mfa_addQuestionStep' |translate}}</ng-template>
+              <!-- @When: 12-01-2024 @who:Amit @why: EWM-15618 @what: space use -->
+              <div class="row mfaHeadingTxt mt-5" id="mfa-addQuestions">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt mt-0 mb-0" id="mfa-h3Heading">{{'label_mfa_secQuesHeading' |translate}}</h3>
+                  <div class="addEmailBox addEmailBoxWidth">
+                    <p class="mfaParaTxt mt-0 mb-0" id="mfa-paraTxt">
+                      {{'label_mfa_secQuesPara' |translate}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="addQuestionsBox mat-elevation-z4" id="questionListSection">
+                <div class="row mb-5">
+                  <div class="col l12 m12 s12">
+                    <mat-form-field>
+                      <mat-label>{{'label_mfa_secQues1Txt' |translate}}</mat-label>
+                      <mat-select formControlName="questionOne">
+                        <mat-option [value]="" [disabled]="true">{{'label_selectSecurityQuestion' |translate}}
+                        </mat-option>
+                        <mat-option [value]="Question.Id" *ngFor="let Question of securityQuestionOne">
+                          {{Question.Question}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput formControlName="answerOne" id="answerOne"
+                        placeholder="{{'label_typeanswer'| translate}}" required>
+                      <mat-error *ngIf="this.addQuestionStep.controls['answerOne'].hasError('maxlength')">
+                        {{'label_Max20Char' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <br />
+                    <mat-form-field>
+                      <mat-label>{{'label_mfa_secQues2Txt' |translate}}</mat-label>
+                      <mat-select formControlName="questionTwo">
+                        <mat-option [value]="" [disabled]="true">{{'label_selectSecurityQuestion' |translate}}
+                        </mat-option>
+                        <mat-option [value]="Question.Id" *ngFor="let Question of securityQuestionTwo">
+                          {{Question.Question}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput formControlName="answerTwo" id="answerTwo"
+                        placeholder="{{'label_typeanswer'| translate}}" required>
+                      <mat-error *ngIf="this.addQuestionStep.controls['answerTwo'].hasError('maxlength')">
+                        {{'label_Max20Char' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <br />
+                    <mat-form-field>
+                      <mat-label>{{'label_mfa_secQues3Txt' |translate}}</mat-label>
+                      <mat-select formControlName="questionThree">
+                        <mat-option [value]="" [disabled]="true">{{'label_selectSecurityQuestion' |translate}}
+                        </mat-option>
+                        <mat-option [value]="Question.Id" *ngFor="let Question of securityQuestionThree">
+                          {{Question.Question}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput formControlName="answerThree" id="answerThree"
+                        placeholder="{{'label_typeanswer'| translate}}" required>
+                      <mat-error *ngIf="this.addQuestionStep.controls['answerThree'].hasError('maxlength')">
+                        {{'label_Max20Char' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+
+                <button mat-raised-button color="primary" id="nextToAddEmail"
+                  (click)="updateSecrurityquestion(this.addQuestionStep.value)">{{'label_mfa_continueBtn'
+                  |translate}}</button>
+                <br />
+                <br />
+                <a href="javascript:void(0)">{{'label_mfa_secQuesLink' |translate}}</a>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="addEmailStep" [editable]="isEditable" id="mfa-stepperFour" [completed]="false">
+            <form [formGroup]="addEmailStep" id="addEmailSection">
+              <ng-template matStepLabel>{{'label_mfa_addEmailStep' |translate}}</ng-template>
+              <div class="row mfaHeadingTxt" id="mfa-addEmailSection">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfa_addEmailHeading' |translate}}</h3>
+                  <div class="addEmailBox addEmailBoxWidth">
+                    <p class="mfaParaTxt">
+                      {{'label_mfa_addEmailPara' |translate}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="addEmailBox mat-elevation-z4" id="addEmailSection">
+                <div class="row">
+                  <div class="col l12 m12 s12">
+                    <mat-form-field>
+                      <mat-label>{{'label_mfa_alternativeEmailAddress' | translate}}</mat-label>
+                      <input matInput formControlName="Email" id="alternativeEmailId"
+                        placeholder="Enter alternative Email" required>
+                      <mat-error *ngIf="this.addEmailStep.controls['Email'].hasError('pattern')">
+                        {{'lable_validemailerr' | translate}}
+                      </mat-error>
+                      <mat-error *ngIf="this.addEmailStep.controls['Email'].hasError('maxlength')">
+                        {{'lable_emailerr60' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-error *ngIf="primarymailError">
+                      {{'label_emailalternaterror' | translate}}
+                    </mat-error>
+                  </div>
+                </div>
+              </div>
+              <div>
+
+                <button mat-raised-button id="nextToConfirmEmail" color="primary"
+                  (click)="sendingOptTAalternateEmail(this.addEmailStep.value)">{{'label_mfa_continueBtn'
+                  |translate}}</button>
+              </div>
+              <div class="addEmailBox mgTop50">
+                <a href="javascript:void(0)" (click)="notNowLink()" class="notNowLink">{{'label_mfa_notNowLink'
+                  |translate}}</a>
+                <a href="javascript:void(0)" class="whyEmailLink">{{'label_mfa_whyAddAlternativeEmailLink'
+                  |translate}}</a>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="confirmEmailStep" [editable]="isEditable" id="mfa-stepperFive" [completed]="false">
+            <form [formGroup]="confirmEmailStep" id="confirmEmailSection">
+              <ng-template matStepLabel>{{'label_mfa_confirmEmailStep' |translate}}</ng-template>
+              <div class="row mfaHeadingTxt" id="mfa-confirmEmail">
+                <div class="col s12 center-align">
+                  <h3 class="mfaH3Txt" id="mfa-h3Heading">{{'label_mfa_confirmEmailHeading' |translate}}</h3>
+                  <div class="addEmailBox addEmailBoxWidth">
+                    <p class="mfaParaTxt" id="mfa-paraTxt">
+                      {{'label_mfa_confirmEmailParaPara' |translate}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="enterCodeBox mat-elevation-z4" id="verifyEmailCode">
+                <div class="row">
+                  <input type="hidden" formControlName="Pin" id="alternateemailcode" [(ngModel)]="authCode" />
+                  <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{length:6}" required></ng-otp-input>
+
+                  <mat-error class="font75Per" *ngIf="alternateEmailOtpvalidateErrorStatus">
+                    {{alternateEmailOtpvalidateErrorValue
+                    |translate}}
+                  </mat-error>
+
+                </div>
+              </div>
+              <div>
+                <button mat-raised-button color="primary" id="verificationCompleted"
+                  (click)="alternateEmailOtpvalidate(this.confirmEmailStep.value)">{{'label_mfa_continueBtn'
+                  |translate}}</button>
+              </div>
+            </form>
+          </mat-step>
+
+        </mat-vertical-stepper>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!stepperStatus" class="next-step-status" id="mfa-mfaEnableSection">
+    <div class="next-inner-status" id="next-status-inner">
+      <h1 id="mfa-h3Heading">{{'label_mfa_enabledHeading' |translate}}</h1>
+      <p id="mfa-paraTxt">
+        {{'label_mfa_enabledPara' |translate}}
+      </p>
+      <button mat-raised-button color="primary" id="mfa-2faBtnAuth"
+          (click)="finishMfaAuth()">{{'label_mfa_finishBtn' |translate}}</button>
+    </div>
+  </div>
+  <app-outer-footer></app-outer-footer>
+</mat-drawer-container>

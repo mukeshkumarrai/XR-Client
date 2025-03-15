@@ -1,0 +1,691 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<form novalidate [formGroup]="addForm" accept-charset="utf-8" enctype='multipart/form-data' class="publish-job-form">
+
+    <div class="publish_job pb-15">
+        <div class="publish_form">
+        </div>
+        <div *ngIf="PublishedOnSeek!=0" class="mat-card-header-text" id="informationId" (click)="clickInformation()">
+            <mat-icon class="infoIconStyle">info_outline</mat-icon>
+        </div>
+        <div class="mat-card-header-text" id="incompleteId" *ngIf="!addForm.valid">
+            {{'label_templateStatus' |customTranslate}} : <span>{{'label_incomplete' |customTranslate}}</span>
+        </div>
+        <div class="mat-card-header-text status-complete" id="completeId" *ngIf="addForm.valid">
+            {{'label_templateStatus' |customTranslate}} : <span>{{'label_complete' |customTranslate}}</span>
+        </div>
+    </div>
+    <mat-accordion class="publishJob-tab">
+        <mat-expansion-panel expanded="divexpanded" class="col">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <img id="imageLogoId" src="assets/publish-job/seek-logo.png" class="seek-logo" />
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{JobCount}} {{'label_JobsPosted' |translate}}
+                    <div *ngIf="JobCount>0">
+                        <span class="pl-10 pr-10">|</span>{{'label_Lastjobpostedon' |translate}}
+                        (<small>{{LastJobPostdate |
+                            date:userpreferences.timeformate:userpreferences.timezone}}</small>)
+                    </div>
+                    <span class="pl-10 pr-10">|</span>
+                    <div class="profileFillValue" id="percentageProgid" *ngIf="totalFilledPercentage>=100">
+                        <span>100%</span>
+                        <mat-progress-bar mode="determinate" value="100" color="primary"></mat-progress-bar>
+                    </div>
+                    <div class="profileFillValue" *ngIf="100>totalFilledPercentage">
+                        <span>{{totalFilledPercentage | number: '1.0-0'}}%</span>
+                        <mat-progress-bar mode="determinate" value="{{totalFilledPercentage}}"
+                            color="primary"></mat-progress-bar>
+                    </div>
+                </mat-panel-description>
+
+            </mat-expansion-panel-header>
+            <form novalidate novalidate [formGroup]="addForm" (ngSubmit)="onSave(this.addForm.getRawValue)"
+                accept-charset="utf-8" enctype='multipart/form-data' class="p-0 mt-10 mb-10 quick-job" id="seek-form">
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_organisationName' |translate}}<span class="required-show">*</span></mat-label><br />
+                        <small>{{'label_orgdetails'|translate}}</small>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <div class="ng-slectBox">
+                            <ng-select formControlName="OrganisationName" class="show-required"
+                                placeholder="{{'label_SelectOrganisationName'|translate}}" [clearable]="false"
+                                id="OrganisationName" (change)="changeOrganisation($event)"
+                                (click)="onProgressCount(this.addForm.value,'orgName')" required>
+                                <ng-option *ngFor="let list of orgType"
+                                    value="{{list.OrganizationId}}">{{list.OrganizationName}}</ng-option>
+                            </ng-select>
+                            <mat-error
+                                *ngIf="addForm.controls['OrganisationName'].hasError('required') && addForm.controls['OrganisationName'].touched">
+                                {{'label_organisationName'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-0">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_account' |translate}}<span class="required-show">*</span></mat-label><br />
+                        <small>{{'label_selectAccount' |translate}}</small>
+                    </div>
+                    <div class="col s12 m12 l4" style="position: relative;">
+                        <mat-form-field floatLabel="always">
+                            <input type="text" id="accountNameId" placeholder="{{'label_accountName' |translate }}"
+                                (keyup)="onsearchTeammate($event.target.value)" aria-label="Assignee" matInput
+                                [matAutocomplete]="auto1" formControlName="accountName" #textboxes
+                                (input)="input(this.addForm.value)" required>
+                            <div *ngIf="loadingSearchS" class="k-i-loading inputSearch"></div>
+                            <mat-autocomplete #auto1="matAutocomplete">
+                                <ng-container>
+                                    <mat-option *ngFor="let user of searchListUser"
+                                        (click)="AddSelectTeammate(user,user.UserName,'')" [value]="user.UserName">
+                                        {{user.UserName}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="addForm.controls['accountName'].hasError('required')">
+                                {{'label_accountName'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['accountName'].hasError('maxlength')">
+                                {{'label_accountName'|translate}} {{'label_errormaxlength255'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col s12 m12 l3 pt-15" *ngIf="PublishedOnSeek==0">
+                        <mat-label *ngIf="OwnerName">{{'label_recommended' |translate}} {{OwnerName}}</mat-label>
+                    </div>
+                </div>
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_ApplyType' |translate}}<span class="required-show">*</span></mat-label><br />
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <div class="ng-slectBox">
+                            <ng-select formControlName="ApplyType" (change)="changeApplyType($event)"
+                                placeholder="{{'label_SelectApplyType'|translate}}" [clearable]="false" class="show-required"
+                                id="ApplyTypeId" (click)="onProgressCount(this.addForm.value,'applyType')" required>
+                                <ng-option *ngFor="let list of applyType"
+                                    value="{{list.Value}}">{{list.Name}}</ng-option>
+                            </ng-select>
+                            <mat-error
+                                *ngIf="addForm.controls['ApplyType'].hasError('required') && addForm.controls['ApplyType'].touched">
+                                {{'label_ApplyType'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-10" *ngIf="linkOutStatus==='ApplicationUri'">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_applicationForm' |translate}}<span class="required-show">*</span></mat-label><br />
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field class="icon-withchip">
+                            <mat-chip-list #chipList aria-label="emails selection" id="applicationId" tabindex
+                                formControlName="applicationFormNameValue" required>
+                                <mat-chip *ngIf="isHideChip" [selectable]="selectable" [removable]="true"
+                                    (removed)="removeApplication(applicationFormName)">
+                                    {{applicationFormName}}
+                                    <mat-icon color="warn" matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button tabindex id="addbtn-Email" mat-raised-button matSuffix color="primary" type="button"
+                                class="matSuffix-icon mgBottom5" (click)="openMapAllicationFormModule()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <div class=" ng-slectBox">
+                            <mat-error *ngIf="!isHideChip">
+                                {{ 'label_applicationForm' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="publishJobSubTitle" id="cardSubTitle">{{'label_classifyYourJob' |translate}}</h2>
+                <mat-divider class="mt-10"></mat-divider>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_jobTitle' |translate}}<span class="required-show">*</span></mat-label><br />
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <mat-label>{{'label_seekJobTitle' |translate}}</mat-label>
+                            <input type="text" formControlName="jobTitle" id="jobTitleId"
+                                (change)="onJobTitleChange($event)" matInput
+                                placeholder="{{'label_jobTitle' |translate}}" #textboxes
+                                (input)="input(this.addForm.value)" required>
+                            <mat-hint *ngIf="JobTitle">E.g: {{JobTitle}}</mat-hint>
+                            <mat-error *ngIf="addForm.controls['jobTitle'].hasError('required')">
+                                {{'label_jobTitle'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['jobTitle'].hasError('maxlength')">
+                                {{'label_jobTitle'|translate}} {{'label_errormaxlength80'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col s12 m12 l3 pt-15" *ngIf="PublishedOnSeek==0">
+                        <mat-label *ngIf="JobTitle">{{'label_recommended' |translate}} {{JobTitle}}</mat-label>
+                    </div>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_jobLocation'|translate}}<span class="required-show">*</span></mat-label><br />
+                        <small>{{'label_seekjobLocation'|translate}}</small>
+                    </div>
+                    <div class="col s12 m12 l4" style="position: relative;">
+                        <mat-form-field floatLabel="always">
+                            <mat-label>{{'label_jobLocation'|translate}}</mat-label>
+                            <input type="text" placeholder="{{'label_seekSearchjoblocation'|translate}}"
+                                id="LocationId" (keyup)="getSeekLocation($event.target.value)" aria-label="Assignee"
+                                matInput [matAutocomplete]="auto" formControlName="location" #textboxes
+                                (input)="input(this.addForm.value)" required>
+                            <mat-hint *ngIf="Location">E.g: {{Location}}</mat-hint>
+                            <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                            <mat-autocomplete #auto="matAutocomplete" id="autoCompleteid"
+                                (optionSelected)="getSeekJobCategorySugestion($event)" [displayWith]="displayFn">
+                                <ng-container>
+                                    <mat-option *ngFor="let option of searchDataList" [value]="option">
+                                        {{option.location.contextualName}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="addForm.controls['location'].hasError('required')">
+                                {{'label_jobLocation'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                        <button mat-icon-button class="location_on" color="primary" tabindex type="button"
+                            id="btnDetectLocation" (click)="detectLocation()" matTooltip="Detect Location"
+                            matTooltipClass="custom-tooltip">
+                            <mat-icon>my_location</mat-icon>
+                        </button>
+                    </div>
+                    <div class="col s12 m12 l3 pt-15">
+                        <mat-label *ngIf="Location">{{'label_recommended' |translate}} {{Location}}</mat-label>
+                    </div>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_Jobcategory'|translate}}<span class="required-show">*</span></mat-label><br />
+                        <small>{{'label_sugstedJobCategory'|translate}}</small>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-radio-group aria-label="Select an option" class="mb-15 d-block"
+                            formControlName="CategoryRadioId" id="CategoryRadioId"
+                            class="categoryRadio publish-raidio-group">
+                            <mat-radio-button color="primary" class="publishJobRadio"
+                                *ngFor="let JobSugestiondata of categorySugestionDataList"
+                                (click)="clickCategorryRadio(2,JobSugestiondata);onProgressCount(this.addForm.value,'jobcategory')"
+                                [value]="JobSugestiondata.jobCategory.id.value">
+                                {{JobSugestiondata.jobCategory.parent.name}} > {{JobSugestiondata.jobCategory.name}}
+                            </mat-radio-button>
+                            <mat-radio-button color="primary" class="publishJobRadio" [value]="1"
+                                (click)="clickCategorryRadio(1,'')">{{'label_seekChooseDifferentcategory'|translate}}</mat-radio-button>
+                        </mat-radio-group>
+
+                        <div *ngIf="divStatus">
+                            <div class="ng-slectBox">
+                                <ng-select formControlName="Category" (change)="onParentChildchange($event)" class="show-required"
+                                    (clear)="onClearCaregory()" placeholder="{{'label_category' |translate}}"
+                                    [clearable]="false" id="categoryId">
+                                    <ng-option value='' disabled>{{'label_seekSelectCategory'|translate}}</ng-option>
+                                    <ng-option *ngFor="let parentData of categoryWithParentDataList"
+                                        [value]="parentData.id.value">{{parentData.name}} </ng-option>
+                                </ng-select>
+                                 <mat-error
+                                    *ngIf="addForm.controls['Category'].hasError('required') && addForm.controls['Category'].touched">
+                                    {{'label_seekCategory'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                            </div>
+                            <div class="jobpublish-subcategory">
+                                <mat-icon>keyboard_return</mat-icon>
+                                <div class="ng-slectBox">
+                                    <ng-select formControlName="SubCategory" (change)="onParentChildchangeNext($event)"
+                                        (clear)="onClearSubCaregory()" class="show-required"
+                                        (click)="onProgressCount(this.addForm.value,'jobcategory')"
+                                        placeholder="{{'label_SubCategory' |translate}}" [clearable]="false"
+                                        id="subcategoryId">
+                                        <ng-option value=''
+                                            disabled>{{'label_seekSelectSubcategorycategory'|translate}}</ng-option>
+                                        <ng-option *ngFor="let childData of categoryWithChildDataList"
+                                            [value]="childData.id.value">{{childData.name}}</ng-option>
+                                    </ng-select>
+                                    <mat-error
+                                        *ngIf="addForm.controls['SubCategory'].hasError('required') && addForm.controls['SubCategory'].touched">
+                                        {{'label_seekSubcategorycategory'|translate}} {{'label_errorreqired'|translate}}
+                                    </mat-error>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col s12 m12 l3">
+                        <mat-label *ngIf="CategoryName">{{'label_recommended' |translate}} {{CategoryName}}</mat-label>
+                    </div>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_WorkType' |translate}}<span class="required-show">*</span> </mat-label><br />
+                        <!-- <small>Select the account to post the job from</small> -->
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-radio-group aria-label="Select an option"
+                            class="mb-15 d-block publish-raidio-group-worktype" formControlName="WorkType"
+                            id="workTypeId" (click)="onProgressCount(this.addForm.value,'worktype')">
+                            <mat-radio-button color="primary" *ngFor="let seekWorkTypeData of getSeekWorkTypeList"
+                                class="publishJobRadio" value="{{seekWorkTypeData?.Code}}"
+                                (click)="clickWorkType(seekWorkTypeData?.Code)">{{seekWorkTypeData?.Name}}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col s12 m12 l3">
+                        <mat-label *ngIf="workType">{{'label_recommended' |translate}} {{workType}}</mat-label>
+                    </div>
+                </div>
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_JobExpiryDate' |translate}}<span class="required-show">*</span></mat-label><br />
+                        <!-- <small>{{'label_orgdetails'|translate}}</small> -->
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field class="dateInput">
+                            <!-----@bantee @when 24-03-2023 @whyEWM-11175  clear button added ------------>
+
+                            <!-- <mat-label>{{'label_JobExpiryDate' | translate}}</mat-label> -->
+                            <input matInput [matDatepicker]="picker2" [placeholder]="getDateFormat" tabindex
+                                id="Addinfo-DateExpiry" #textboxes (input)="input(this.addForm.value)" [min]="dateStart"
+                                [max]="dateMax"
+                                (dateInput)="inputwithoutValidation(this.addForm.value);input(this.addForm.value)"
+                                [(ngModel)]="dateStartMax" formControlName="DateExpiry">
+                            <button
+                                *ngIf="addForm.value.DateExpiry || addForm.controls['DateExpiry'].hasError('matDatepickerParse')"
+                                type="button" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="clearExpiryDate()">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                             <mat-error
+                                *ngIf="addForm.controls['DateExpiry'].hasError('required') && addForm.controls['DateExpiry'].touched && !addForm.controls['DateExpiry'].hasError('matDatepickerParse')">
+                                {{'label_JobExpiryDate' |translate}} {{'label_errorreqired'|translate}} </mat-error>
+                            <mat-error
+                                *ngIf="addForm.controls['DateExpiry'].hasError('invalidDate') && !addForm.controls['DateExpiry'].hasError('required')">
+                                {{'label_invalidDate' | translate}} </mat-error>
+                            <mat-error
+                                *ngIf="addForm.controls['DateExpiry'].hasError('matDatepickerParse') && !addForm.controls['DateExpiry'].hasError('matDatepickerMax')">
+                                {{'label_invalidDate' | translate}}</mat-error>
+                            <mat-error
+                                *ngIf="addForm.controls['DateExpiry'].hasError('matDatepickerMax') && !addForm.controls['DateExpiry'].hasError('invalidDate')">
+                                {{'label_JobExpiryDate' |translate}} {{'label_shouldNot30days' | translate}}</mat-error>
+                            <mat-error
+                                *ngIf="addForm.controls['DateExpiry'].hasError('matDatepickerMin') && !addForm.controls['DateExpiry'].hasError('invalidDate')">
+                                {{'label_JobExpiryDate' |translate}} {{'label_shoulNotLessThan' | translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col s12 m12 l3 pt-15">
+                        <mat-label *ngIf="expireDate===0">{{'label_recommended' |translate}} {{'label_expireDays'
+                            |translate}}</mat-label>
+                    </div>
+                </div>
+                <h2 class="publishJobSubTitle" id="cardSubTitle">{{'label_payDetails' |translate}}</h2>
+                <mat-divider class="mt-10"></mat-divider>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_PayType' |translate}}<span class="required-show">*</span></mat-label><br />
+
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-radio-group aria-label="Select an option" class="mb-15 d-block publish-raidio-group"
+                            formControlName="PayType" (click)="onProgressCount(this.addForm.value,'paytype')"
+                            id="payTypeId">
+                            <mat-radio-button color="primary" *ngFor="let seekPayTypeData of getSeekPayTypeList"
+                                class="publishJobRadio" name="PayType" value="{{seekPayTypeData?.Name}}"
+                                (click)="clickPayType(seekPayTypeData)">{{seekPayTypeData?.Name}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col s12 m12 l3">
+                        <mat-label *ngIf="payType">{{'label_recommended' |translate}} {{payType}}</mat-label>
+                    </div>
+                </div>
+
+                <!-- @When: 15-05-2024 @who:Amit @what: field manage -->
+                <div class="field-full" id="field-full-manage">
+                    <div class="field-label" id="field-full-label">
+                        <mat-label>{{'label_SalaryRange'|translate}}<span class="required-show">*</span></mat-label><br />
+                    </div>
+                    <div class="field-devide" id="field-full-device">
+                        <div class="ng-slectBox">
+                            <ng-select formControlName="SalaryCurrency" class="show-required"
+                                placeholder="{{'label_selectCurrency'|translate}}" [clearable]="false"
+                                id="SalaryCurrency" required>
+                                <ng-option *ngFor="let list of SeekCurrenciesList"
+                                    value="{{list.code}}">{{list.code}}</ng-option>
+                            </ng-select>
+                            <mat-error
+                                *ngIf="addForm.controls['SalaryCurrency'].hasError('required') && addForm.controls['SalaryCurrency'].touched">
+                                {{'label_selectCurrency'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                        </div>
+
+                        <mat-form-field>
+                            <!-- by maneesh fixed min 1 ewm-17163 when:30/05/2023 -->
+                            <input matInput type="number" (keypress)="numberOnly($event)"
+                                formControlName="SalaryRangeMinimum" min="1" max="999999" step="0" matInput
+                                placeholder="Minimum" #textboxes (input)="input(this.addForm.value);ResetMaximumValue()"
+                                id="salaryRangeMinimumId" required>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMinimum'].hasError('required')">
+                                {{'label_jb_minimumSalary'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMinimum'].hasError('max')">
+                                {{'label_jb_minimumSalary'|translate}} {{'label_errormaxlength6'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMinimum'].hasError('min')">
+                                {{'label_jb_minimumSalary'|translate}} {{'label_salaryBanderrmax' | translate}} 0
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput type="number" (keypress)="numberOnly($event)"
+                                formControlName="SalaryRangeMaximum" min="1" max="999999" step="0" matInput
+                                placeholder="Maximum" #textboxes (input)="input(this.addForm.value); conditionChcek()"
+                                id="SalarymaximumId" required>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('required')">
+                                {{'label_jb_maximumSalary'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('numbercheck')">
+                                {{'label_jb_maximumSalary'|translate}} {{'label_salaryBanderrmax'|translate}}
+                                {{'label_jb_minimumSalary'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('diffcheck')">
+                                {{'label_diffrencemaxminvalue'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('diffGreaterThan')">
+                                {{'label_diffGreaterThan'|translate}}
+                            </mat-error>
+                            <!-- <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('diffMinBelowFiftyHour')">
+                                {{'label_diffMinBelowFifty'|translate}}
+                            </mat-error> -->
+                            <mat-error *ngIf="addForm.controls['SalaryRangeMaximum'].hasError('max')">
+                                {{'label_jb_maximumSalary'|translate}} {{'label_diffGreaterThan'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row mb-10">
+                    <div class="col s12">
+                        <mat-checkbox color="primary" (click)="onPayLabelDetailsCheck()" formControlName="payLabelCheck"
+                            (input)="inputwithoutValidation(this.addForm.value)">{{'label_seekHidepayInformation'|translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_PayLabel'|translate}}</mat-label><br />
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <!-- <mat-label>Job title</mat-label> -->
+                            <input type="text" formControlName="PayLabel" matInput #textboxes1
+                                (input)="inputwithoutValidation(this.addForm.value)" placeholder="Pay Label">
+                            <mat-hint>E.g:70000 + attractive benefits + Health insurance</mat-hint>
+                            <!-- <mat-error *ngIf="addForm.controls['PayLabel'].hasError('required')">
+                                {{'label_PayLabel'|translate}} {{'label_errorreqired'|translate}}
+                           </mat-error>  -->
+                            <mat-error *ngIf="addForm.controls['PayLabel'].hasError('maxlength')">
+                                {{'label_PayLabel'|translate}} {{'label_errormaxlength50'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <h2 class="publishJobSubTitle" id="cardSubTitle">{{'label_jobAdditionalDetails' |translate}}</h2>
+                <mat-divider class="mt-10"></mat-divider>
+                <div class="row mb-10">
+                    <div class="col s12">
+                        <mat-checkbox (click)="onJobDetails()" formControlName="jobDetailsCheck"
+                            color="primary">{{'label_seekJobDescriptionDetails'|translate}} </mat-checkbox>
+                    </div>
+                </div>
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_JobDescription' |translate}}<span class="required-show">*</span></mat-label><br />
+                    </div>
+
+                    <div class="col s12 m12 l4">
+                        <div [innerHTML]="DescriptionValue" tabindex (click)="openDialogforDescription()"
+                            id="quickjob-jobDescription" class="divTextArea" required>
+                        </div>
+                        <div class="ng-slectBox">
+                            <mat-error class="mat-bottom"
+                                *ngIf="descriptionSatus && !addForm.controls['jobDescription'].hasError('whitespace')">
+                                {{ 'label_JobDescription' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                            <!--  @Who: renu, @When: 21-05-2023,@Why: EWM-16917 EWM-17160 @What: addnoWhitespaceValidator class="name-error"  -->
+                            <mat-error class="name-error"
+                                *ngIf="addForm.controls['jobDescription'].hasError('whitespace') && !addForm.controls['jobDescription'].hasError('required')">
+                                {{'label_nameValidation' |translate}}
+                            </mat-error>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_Video' |translate}}</mat-label><br />
+                        <small>{{'label_seekvideo'|translate}}</small>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <!-- <mat-label>Job title</mat-label> -->
+                            <input type="text" formControlName="VideoURL"
+                                (input)="inputVideo($event);inputwithoutValidation(this.addForm.value)" matInput
+                                placeholder="">
+                            <mat-hint>E.g:https://www.youtube.com/watch?v=msT3SP5XQTM</mat-hint>
+                            <mat-error *ngIf="addForm.controls['VideoURL'].hasError('pattern')">
+                                {{'label_errorreqiredPattern'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row mb-10" *ngIf="!addForm.controls['VideoURL'].hasError('pattern') && divStatusVideo">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_VideoPosition' |translate}}</mat-label><br />
+                        <small>{{'label_seekvideoPosition'|translate}}</small>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <ng-select formControlName="VideoPosition" placeholder="Advertisement details"
+                            [clearable]="false" id="VideoPosition">
+                            <!-- <ng-option value=''>Below ad</ng-option> -->
+                            <ng-option value='Above'>Above the advertisement details</ng-option>
+                            <ng-option value='Below'>Below the advertisement details</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div class="row mb-10">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_JobSummary' |translate}}<span class="required-show">*</span></mat-label><br />
+                        <small>{{'label_seekJobSummary'|translate}}</small>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field floatLabel="always">
+                            <input type="text" formControlName="jobSummary" matInput placeholder="" #textboxes
+                                (input)="input(this.addForm.value)" required>
+                            <!-- <textarea type="text" formControlName="jobSummary" matInput placeholder="" #textboxes (input)="input(this.addForm.value)" required></textarea> -->
+                            <mat-error *ngIf="addForm.controls['jobSummary'].hasError('required')">
+                                {{'label_JobSummary'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="addForm.controls['jobSummary'].hasError('maxlength')">
+                                {{'label_JobSummary'|translate}} {{'label_errormaxlength150'|translate}}
+                            </mat-error>
+                            <!--  @Who: renu, @When: 21-05-2023,@Why: EWM-16917 EWM-17160 @What: addnoWhitespaceValidator -->
+                            <mat-error
+                                *ngIf="addForm.controls['jobSummary'].hasError('whitespace') && !addForm.controls['jobSummary'].hasError('required')">
+                                {{'label_nameValidation' |translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <h2 class="publishJobSubTitle" id="cardSubTitle">{{'label_knockOutQuestion' |translate}}</h2>
+                <mat-divider class="mt-10"></mat-divider>
+                <div class="row mb-10">
+                    <div class="col s12">
+                        <mat-checkbox color="primary">Select questionnaires from Xeople </mat-checkbox>
+                    </div>
+                </div>
+                <div class="row mb-0">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_seekknockOutQuestion'|translate}}</mat-label><br />
+                        <small>{{'label_seekknockOutQuestionTitle'|translate}}</small>
+                    </div>
+                    <div class="col s4" id="knockOutId">
+                        <ng-select placeholder="Senior Analyst questions" formControlName="knockOut" [clearable]="false"
+                            id="knockoutId">
+                            <ng-option value="Senior Analyst questions">Senior Analyst questions</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+
+
+                <h2 class="publishJobSubTitle" id="cardSubTitle">{{'label_jobAdType' |translate}}<span class="required-show">*</span> </h2>
+
+                <mat-divider class="mt-10"></mat-divider>
+                <!-- @When: 16-05-2024 @who:Amit @why: EWM-17085 @what: job type design -->
+                <div class="jobAdTypeSec job-add-type">
+                    <div class="jobTypePlanSelect mat-elevation-z2"
+                        *ngFor="let jobAdTypeListData of jobAdTypeList;let i=index" id="classicid"
+                        (click)="onProgressCount(this.addForm.value,'jobtype')"
+                        [ngClass]="{'active': seekAdvertisementProductId==jobAdTypeListData?.id?.value || jobAdTypeListData?.label==JobAd}">
+                        <mat-card class="jobAdType center-align">
+                            <h5>{{'label_seekSelectJobAdvertisementType' |translate}}</h5>
+                            <h4>{{jobAdTypeListData?.label}}</h4>
+                            <p *ngIf="seekAdvertisementProductId!=jobAdTypeListData?.id?.value || jobAdTypeListData?.label==JobAd"
+                                [innerHTML]="jobAdTypeListData?.description"></p>
+                            <p
+                                *ngIf="seekAdvertisementProductId!=jobAdTypeListData?.id?.value || jobAdTypeListData?.label==JobAd">
+                                {{jobAdTypeListData?.price?.Summary}}</p>
+                            <p *ngIf="seekAdvertisementProductId==jobAdTypeListData?.id?.value || jobAdTypeListData?.label==JobAd"
+                                [innerHTML]="jobAdTypeListData?.payment?.summaryHtml"></p>
+                            <div class="classic-selling">
+                                <p *ngFor="let sellingPointList of jobAdTypeListData?.sellingPoints;let j=index">
+                                    {{sellingPointList?.text}}</p>
+                            </div>
+                            <mat-slide-toggle color="primary" id="toggleId{{i}}"
+                                [disabled]="seekAdvertisementProductId==jobAdTypeListData?.id?.value || jobAdTypeListData?.label==JobAd?true:false"
+                                (change)="onCurrentPayAdDetails(jobAdTypeListData?.label,jobAdTypeListData)"
+                                [checked]="seekAdvertisementProductId==jobAdTypeListData?.id?.value || jobAdTypeListData?.label==JobAd"
+                                name="advertisement"></mat-slide-toggle>
+                            <div
+                                *ngIf="seekAdvertisementProductId==jobAdTypeListData?.id?.value || jobAdTypeListData?.label==JobAd">
+                                <mat-icon>
+                                    task_alt
+                                </mat-icon>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+                <div *ngIf="divStatusKey" id="brandingDivId" class="branding-data">
+                    <div class="branding-header">
+                        <h2 class="publishJobSubTitle" id="cardSubTitle">{{'label_seekBranding' |translate}}</h2>
+                        <mat-form-field class="searchInput">
+                            <mat-label>{{'label_search'|translate}}</mat-label>
+                            <input matInput id="branding-searchBox" [(ngModel)]="searchText" placeholder="Search"
+                                [ngModelOptions]="{standalone: true}">
+                            <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                            <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" id="brandingClearId"
+                                (click)="onFilterBrandingClear()">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                        </mat-form-field>
+                    </div>
+                    <mat-divider class="mt-10"></mat-divider>
+                    <div class="row jobAdTypeSec jobAdTypeBranding"
+                        *ngIf="(this.brandingList != null) && (this.brandingList != undefined) && (this.brandingList.length>0)">
+                        <div class="tenantMainInner"
+                            *ngFor="let data of brandingList | SeekPipe : searchText; let i = index"
+                            tabindex="selected">
+                            <div class="tenantLogoBox center-align" (click)="onBranding(i,data?.Node?.Id?.value)"
+                                [ngClass]="{'active': brandingId == data?.Node?.Id?.value}" id="brandId">
+                                <div class="tenantBox mat-elevation-z2">
+                                    <mat-icon>
+                                        task_alt
+                                    </mat-icon>
+                                    <div class="cltImgBox" *ngIf="divStatusBranding">
+                                        <img src="{{(data?.Node?.Images[1]?.Url)?(data?.Node?.Images[1]?.Url):seekCover}}"
+                                            alt="" />
+                                    </div>
+                                    <div class="logoImgBox" *ngIf="divStatusBrandingLogo">
+                                        <img src="{{data.Node.Images[0]?.Url}}" alt="" />
+                                    </div>
+                                    <label>{{data?.Node?.Name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="divStatusKeySelling" id="sellingPointid">
+                    <div class="row mb-0">
+                        <div class="col s12 m12 l3">
+                            <mat-label>{{'label_KeySellingPoints'|translate}}</mat-label><br />
+                            <small>{{'label_seekSellingPoint'|translate}}</small>
+                        </div>
+                        <div class="col s12 m12 l4">
+                            <div formArrayName="KeySellingPoint" id="keysellingId"
+                                *ngFor="let keys of addForm.get('KeySellingPoint')['controls']; let i = index">
+                                <div [formGroupName]="i" style="margin-bottom: 10px;">
+                                    <mat-form-field>
+                                        <input type="text" matInput formControlName="name"
+                                            placeholder=" {{'label_enterkeySellingPoint'|translate}}" #textboxes1
+                                            (input)="inputwithoutValidation(this.addForm.value)" id="sellingNameId">
+                                        <mat-error *ngIf="keys.controls['name'].hasError('required')">
+                                            {{'label_KeySellingPoint'|translate}} {{'label_errorreqired'|translate}}
+                                        </mat-error>
+                                        <mat-error *ngIf="keys.controls['name'].hasError('maxlength')">
+                                            {{'label_KeySellingPoint'|translate}} {{'label_errormaxlength80'|translate}}
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-0">
+                    <div class="col s12 m12 l3">
+                        <mat-label>{{'label_InternalBillingreference'|translate}}</mat-label><br />
+                        <small>{{'label_internalBillingRef'|translate}}</small>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <mat-form-field>
+                            <input type="text" formControlName="BillingReference" matInput #textboxes1
+                                (input)="inputwithoutValidation(this.addForm.value)"
+                                placeholder="{{'label_InternalBillingreference'|translate}}" id="internalBillingId">
+                            <mat-error *ngIf="addForm.controls['BillingReference'].hasError('maxlength')">
+                                {{'label_InternalBillingreference'|translate}} {{'label_errormaxlength50'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <!-- <mat-card class="publishJobFooter mat-elevation-z0">
+        <button mat-stroked-button color="warn" tabindex type="button"
+            id="btnCancel" (click)="oncancel()">{{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" id="btnSave" [disabled]="!addForm.valid"
+            (click)="onSave(this.addForm.value)"> {{'label_continue'|translate}}</button>
+    </mat-card> -->
+</form>

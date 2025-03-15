@@ -1,0 +1,237 @@
+<div *ngIf="loading && isPopUp" class="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+
+<div class="modal-header" *ngIf="isPopUp">
+  <h2 matDialogTitle class="mb-0"></h2>
+  <div>
+    <button mat-icon-button id="btnModalRefrsh" class="org-refresh-btn" *ngIf="viewMode=='view'" (click)="getOrganisationStructure(clientIdData)">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <button mat-icon-button id="btnModalCancel" color="warn" *ngIf="viewMode=='view'" (click)="onDismiss()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+  <mat-dialog-content *ngIf="isPopUp">
+  <div class="addSection" *ngIf="orgStructureData?.length==0">
+    <p class="mb-15 center-align">{{'label_noRecordAvailable' | translate}}</p>
+  </div>
+  <ol class="organizational-chart" *ngIf="orgStructureData?.length>0">
+
+    <li>
+      <mat-card-content class="listcardContent cardHeightWithImage kendoCard mt-0">
+        <!--@who:Satya Prakash Gupta @why:EWM-12252 @what:remove unwanted loader @when:28-April-2023-->
+        <div id="org-align" class="org-card" [style.background-color]="clientName==orgStructureData[0]?.Name ? background20 : ''">
+          <div class="cardModeLine" (click)="reloadInternalOrgStructure(orgStructureData[0]?.Id)">
+            <div class="clientShortName purple-bg">{{orgStructureData[0]?.Shortname}}</div>
+            <div class="card-header-data text-overflow">
+              <span class="cardListTxt word-wrap cursor" matTooltipClass="custom-tooltip"
+                matTooltip="{{orgStructureData[0]?.Name}}">
+                <strong>{{orgStructureData[0]?.Name}}</strong>
+              </span>
+              <div class="clear"></div>
+                <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip"
+                  matTooltip="{{orgStructureData[0]?orgStructureData[0].Location:'--'}}">
+                  <mat-icon>location_on</mat-icon>
+                  {{orgStructureData[0]?orgStructureData[0].Location:'--'}}
+              </span>
+            </div>
+          </div>
+
+
+          <div class="locationCount">
+            <div class="fullname purple-icon">
+              <mat-icon (click)="openNewTabForGoogleMapLocation(orgStructureData[0].Address)" matTooltipClass="custom-tooltip"
+              matTooltip="{{'label_location' | translate}}">public</mat-icon>
+              <span class="count">{{orgStructureData[0]?.LocationCount}}</span>
+
+            </div>
+          </div>
+
+
+        </div>
+      </mat-card-content>
+    </li>
+
+    <li *ngIf="orgStructureData[0]?.children.length>0">
+      <mat-card-content class="listcardContent cardHeightWithImage kendoCard  mt-0" style="padding-top:14px;"
+      >
+        <div id="org-align" class="org-card" [style.background-color]="clientName==orgStructureData[0]?.children[0]?.Name ? background20 : ''">
+          <div class="cardModeLine"  (click)="reloadInternalOrgStructure(orgStructureData[0]?.children[0]?.Id)">
+            <div class="clientShortName orange-bg">{{orgStructureData[0]?.children[0]?.Shortname}}</div>
+            <div class="card-header-data text-overflow">
+              <span class="cardListTxt word-wrap cursor" matTooltipClass="custom-tooltip"
+                matTooltip="{{orgStructureData[0]?.children[0]?.Name}}">
+                <strong>{{orgStructureData[0]?.children[0]?.Name}}</strong>
+              </span>
+              <div class="clear"></div>
+              <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip"
+                matTooltip="{{orgStructureData[0]?.children[0]?orgStructureData[0]?.children[0].Location:'--'}}">
+                <mat-icon>location_on</mat-icon>
+                {{orgStructureData[0]?.children[0]?orgStructureData[0]?.children[0].Location:'--'}}
+            </span>
+            </div>
+
+          </div>
+
+
+          <div class="locationCount">
+            <div class="fullname orange-icon">
+              <mat-icon (click)="openNewTabForGoogleMapLocation(orgStructureData[0]?.children[0]?.Address)">public
+              </mat-icon>
+              <span class="count">{{orgStructureData[0]?.children[0]?.LocationCount}}</span>
+            </div>
+          </div>
+
+
+        </div>
+      </mat-card-content>
+
+      <ol *ngIf="orgStructureData[0]?.children[0]?.children?.length>0">
+        <li *ngFor="let cdata of orgStructureData[0]?.children[0]?.children">
+          <mat-card-content class="listcardContent cardHeightWithImage kendoCard  mt-0"
+            >
+            <div id="org-align" class="org-card" [style.background-color]="clientName==cdata.Name ? background20 : ''">
+              <div class="cardModeLine" (click)="reloadInternalOrgStructure(cdata?.Id)">
+                <div class="clientShortName green-bg">{{cdata?.Shortname}}</div>
+                <div class="card-header-data text-overflow">
+                  <span class="cardListTxt word-wrap cursor" matTooltipClass="custom-tooltip"
+                    matTooltip="{{cdata?.Name}}">
+                    <strong>{{cdata?.Name}}</strong>
+                  </span>
+                <div class="clear"></div>
+                <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip"
+                  matTooltip="{{cdata?cdata.Location:'--'}}">
+                  <mat-icon>location_on</mat-icon>
+                  {{cdata?cdata.Location:'--'}}
+              </span>
+                </div>
+              </div>
+              <div class="locationCount">
+                <div class="fullname green-icon">
+                  <mat-icon (click)="openNewTabForGoogleMapLocation(cdata?.Address)">public</mat-icon>
+                  <span class="count">{{cdata?.LocationCount}}</span>
+
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</mat-dialog-content>
+
+
+
+<div *ngIf="!isPopUp">
+<div class="addSection" *ngIf="orgStructureData?.length==0">
+  <p class="mb-15 center-align">{{'label_noRecordAvailable' | translate}}</p>
+</div>
+<ol class="organizational-chart" *ngIf="orgStructureData?.length>0">
+
+  <li>
+    <mat-card-content class="listcardContent cardHeightWithImage kendoCard mt-0">
+      <!--@who:Satya Prakash Gupta @why:EWM-12252 @what:remove unwanted loader @when:28-April-2023-->
+      <div id="org-align" class="org-card" [style.background-color]="clientName==orgStructureData[0]?.Name ? background20 : ''">
+        <div class="cardModeLine" (click)="reloadInternalOrgStructure(orgStructureData[0]?.Id)">
+          <div class="clientShortName purple-bg">{{orgStructureData[0]?.Shortname}}</div>
+          <div class="card-header-data text-overflow">
+            <span class="cardListTxt word-wrap cursor" matTooltipClass="custom-tooltip"
+              matTooltip="{{orgStructureData[0]?.Name}}">
+              <strong>{{orgStructureData[0]?.Name}}</strong>
+            </span>
+            <div class="clear"></div>
+              <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip"
+                matTooltip="{{orgStructureData[0]?orgStructureData[0].Location:'--'}}">
+                <mat-icon>location_on</mat-icon>
+                {{orgStructureData[0]?orgStructureData[0].Location:'--'}}
+            </span>
+          </div>
+        </div>
+
+
+        <div class="locationCount">
+          <div class="fullname purple-icon">
+            <mat-icon (click)="openNewTabForGoogleMapLocation(orgStructureData[0].Address)" matTooltipClass="custom-tooltip"
+            matTooltip="{{'label_location' | translate}}">public</mat-icon>
+            <span class="count">{{orgStructureData[0]?.LocationCount}}</span>
+
+          </div>
+        </div>
+
+
+      </div>
+    </mat-card-content>
+  </li>
+
+  <li *ngIf="orgStructureData[0]?.children.length>0">
+    <mat-card-content class="listcardContent cardHeightWithImage kendoCard  mt-0" style="padding-top:14px;"
+    >
+      <div id="org-align" class="org-card" [style.background-color]="clientName==orgStructureData[0]?.children[0]?.Name ? background20 : ''">
+        <div class="cardModeLine"  (click)="reloadInternalOrgStructure(orgStructureData[0]?.children[0]?.Id)">
+          <div class="clientShortName orange-bg">{{orgStructureData[0]?.children[0]?.Shortname}}</div>
+          <div class="card-header-data text-overflow">
+            <span class="cardListTxt word-wrap cursor" matTooltipClass="custom-tooltip"
+              matTooltip="{{orgStructureData[0]?.children[0]?.Name}}">
+              <strong>{{orgStructureData[0]?.children[0]?.Name}}</strong>
+            </span>
+            <div class="clear"></div>
+            <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip"
+              matTooltip="{{orgStructureData[0]?.children[0]?orgStructureData[0]?.children[0].Location:'--'}}">
+              <mat-icon>location_on</mat-icon>
+              {{orgStructureData[0]?.children[0]?orgStructureData[0]?.children[0].Location:'--'}}
+          </span>
+          </div>
+
+        </div>
+
+
+        <div class="locationCount">
+          <div class="fullname orange-icon">
+            <mat-icon (click)="openNewTabForGoogleMapLocation(orgStructureData[0]?.children[0]?.Address)">public
+            </mat-icon>
+            <span class="count">{{orgStructureData[0]?.children[0]?.LocationCount}}</span>
+          </div>
+        </div>
+
+
+      </div>
+    </mat-card-content>
+
+    <ol *ngIf="orgStructureData[0]?.children[0]?.children?.length>0">
+      <li *ngFor="let cdata of orgStructureData[0]?.children[0]?.children">
+        <mat-card-content class="listcardContent cardHeightWithImage kendoCard  mt-0"
+          >
+          <div id="org-align" class="org-card" [style.background-color]="clientName==cdata.Name ? background20 : ''">
+            <div class="cardModeLine" (click)="reloadInternalOrgStructure(cdata?.Id)">
+              <div class="clientShortName green-bg">{{cdata?.Shortname}}</div>
+              <div class="card-header-data text-overflow">
+                <span class="cardListTxt word-wrap cursor" matTooltipClass="custom-tooltip"
+                  matTooltip="{{cdata?.Name}}">
+                  <strong>{{cdata?.Name}}</strong>
+                </span>
+              <div class="clear"></div>
+              <span class="cardListTxt word-wrap" matTooltipClass="custom-tooltip"
+                matTooltip="{{cdata?cdata.Location:'--'}}">
+                <mat-icon>location_on</mat-icon>
+                {{cdata?cdata.Location:'--'}}
+            </span>
+              </div>
+            </div>
+            <div class="locationCount">
+              <div class="fullname green-icon">
+                <mat-icon (click)="openNewTabForGoogleMapLocation(cdata?.Address)">public</mat-icon>
+                <span class="count">{{cdata?.LocationCount}}</span>
+
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div>

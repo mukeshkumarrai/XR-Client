@@ -1,0 +1,166 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 18-Jan-2022
+    @Why: EWM-4469 EWM-4559
+    @What:  This component is used for View activity details for specific activity
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<form [formGroup]="addForm" id="viewActivityId" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">
+            <mat-icon>{{activityInfo?.IconName}}</mat-icon>
+            {{activityInfo?.ActivityTitle}}
+        </h2>
+        <div>
+            <button mat-icon-button color="warn" id="btnModalCancel" tabindex (click)="onDismiss()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+    <mat-dialog-content>
+        <mat-card class="calender-popover mat-elevation-z0">
+            <div class="flex popover-activitydate">
+                <mat-icon matTooltip="{{'label_schedule'|translate}}">schedule</mat-icon>
+                <!-- <div> {{activityInfo.ScheduleActivity?.DateStart | date:userpreferences.dateformate}}:
+                    {{activityInfo.ScheduleActivity?.TimeStart }} - {{activityInfo.ScheduleActivity?.TimeEnd }}
+                    ({{activityInfo?.Duration}})</div> -->
+
+                <div>
+                  {{activityInfo.ScheduleActivity?.DateStartUTC |date:'d MMM y' }}-
+                  {{activityInfo.ScheduleActivity?.DateStartUTC|date: 'hh:mm' }} to
+                  {{activityInfo.ScheduleActivity?.DateEndUTC |date: 'hh:mm'}}
+                  ({{activityInfo?.Duration}})
+                </div>
+            </div>
+            <div class="flex popover-attendees">
+                <mat-icon matTooltip="{{'label_Attendees'|translate}}">perm_contact_calendar</mat-icon>
+                <div>{{activityInfo?.AttendeesName}}</div>
+            </div>
+            <div class="flex popover-organiser">
+                <mat-icon matTooltip="{{'label_organizerOrAssignees'|translate}}">manage_accounts</mat-icon>
+                <div>{{activityInfo?.OrganizersName}}</div>
+            </div>
+
+            <!-------meeting details and logo by suika EWM-5572--EWM-6231-->
+            <!-- <div class="flex popover-organiser">
+                <img width="20px" src="{{activityInfo?.MeetingPlatformLogoUrl}}"/>
+                <div>{{activityInfo?.MeetingPlatform}}</div>
+            </div>
+            <div class="flex popover-organiser" *ngIf="source===source">
+                <img width="20px" src="{{xeopleImage}}"/>
+                <div>{{activityInfo?.Source}}</div>
+            </div> -->
+            <div class="flex smallSlideToggle-source" *ngIf="sharedCanender ==null">
+                <div class="flex">
+                    <mat-slide-toggle labelPosition="before" (change)="clickToggleData()" formControlName="MarkDoneTogle"
+                    id="markDoneId" tabindex color="primary" id="MarkDoneTogleId">
+                    {{'label_markAsdone'|translate}}
+                </mat-slide-toggle>
+                </div>
+                <div class="source-icon">
+                    <img *ngIf="source===source" height="25px" src="{{xeopleImage}}"
+                    matTooltip="{{'label_Source' | translate}} : {{activityInfo?.Source}}" matTooltipPosition="left" />
+                  <img *ngIf="MeetingPlatformLogoUrl!==null" height="25px" src="{{activityInfo?.MeetingPlatformLogoUrl}}"
+                  matTooltip="{{'label_meetingPlatform' | translate}} : {{activityInfo?.MeetingPlatform}}" matTooltipPosition="left" />
+                </div>
+              </div>
+            <!-- <div class="flex smallSlideToggle">
+                <mat-slide-toggle labelPosition="before" (change)="clickToggleData()" formControlName="MarkDoneTogle"
+                    id="markDoneId" tabindex color="primary" id="MarkDoneTogleId">
+                    {{'label_markAsdone'|translate}}
+                </mat-slide-toggle>
+            </div> -->
+            <div class="flex popover-remark popmob-remark" *ngIf="divStatus">
+                <div class="counterTxt">
+                    <mat-form-field class="mb-10">
+                        <!-- <mat-label>{{'label_remark'|translate}}</mat-label> -->
+                        <textarea matInput formControlName="Description" id="remarkId" tabindex
+                            placeholder="{{'label_activityRemarks'|translate}}"
+                            (keyup)="onMessage($event.target.value)"></textarea>
+                        <mat-error *ngIf="addForm.controls['Description'].hasError('maxlength')">
+                            {{'label_remark'|translate}} {{'label_errormaxlength100'|translate}}
+                        </mat-error>
+                        <!-- <mat-error *ngIf="addForm.controls['Description'].hasError('required')">
+                            {{'label_remark'|translate}} {{'label_errorreqired'|translate}}
+                        </mat-error> -->
+                    </mat-form-field>
+                    <div class="clear"></div>
+                    <span class="countlabel" color="warn">
+                        {{'label_balance' |translate}}:{{maxMessage}} {{'label_characters' |translate}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="recording-url" *ngIf="sharedCanender ==null">
+                <mat-icon class="title" fontSet="material-icons-outlined"
+                matTooltipClass="custom-tooltip" matTooltip="{{'label_OnlineMeetingRecording'|translate}}">ondemand_video</mat-icon>
+                <div class="all-buttons">
+                    <a mat-icon-button color="primary" href="{{activityInfo?.PlayUrl}}" target="_blank"
+                        matTooltipClass="custom-tooltip" matTooltip="{{'lebel_open'|translate}}" [disabled]="activityInfo?.PlayUrl?false:true">
+                        <mat-icon>play_circle_outline</mat-icon>
+                    </a>
+                    <button mat-icon-button color="primary" (click)="copyActivityPlayUrl(activityInfo?.PlayUrl)"
+                    matTooltipClass="custom-tooltip" matTooltip="{{'label_copyMeetingRecordingUrl'|translate}}" [disabled]="activityInfo?.PlayUrl?false:true">
+                        <mat-icon class="secondIcon">content_copy</mat-icon>
+                    </button>
+
+                    <button mat-icon-button color="primary" (click)="showpassword(activityInfo?.Password,showpassstatus)"
+                    matTooltipClass="custom-tooltip" matTooltip="{{'label_showPasscode'|translate}}" [disabled]="activityInfo?.Password?false:true">
+                    <mat-icon class="secondIcon">password</mat-icon>
+                    </button>
+                    <span *ngIf="showpassstatus">{{Zoopplaypassword}}</span>
+                    <button mat-icon-button color="primary" (click)="copyZoomRecordingPassword(activityInfo?.Password)"
+                    matTooltipClass="custom-tooltip" matTooltip="{{'label_copyPassword'|translate}}" [disabled]="activityInfo?.Password?false:true">
+                        <mat-icon class="secondIcon">content_copy</mat-icon>
+                    </button>
+                     <a mat-icon-button color="primary" href="{{activityInfo?.DownloadUrl}}" target="_blank"
+                        matTooltipClass="custom-tooltip" matTooltip="{{'label_download'|translate}}" [disabled]="activityInfo?.DownloadUrl?false:true">
+                        <mat-icon>download</mat-icon>
+                    </a>
+                </div>
+            </div>
+            <div class="flex">
+                <div *ngIf="messageCopy" class="alert-primary alert-green"><mat-icon>check</mat-icon> <span>{{label_copied| translate }}</span></div>
+              </div>
+        </mat-card>
+    </mat-dialog-content>
+    <mat-divider class="mb-5"></mat-divider>
+    <div mat-dialog-actions align="end" class="dialog-footer">
+      <div class="NonsharedCanender" *ngIf="sharedCanender ===null">
+        <button mat-stroked-button color="primary" [disabled]="IsOwner==1 && readonly!=1?false:true"
+        (click)="editActivity(activityInfo)" matTooltip="{{'label_edit'|translate}}" matTooltipPosition="above"
+        matTooltipClass="custom-top-tooltip" id="btn-edit" tabindex>
+        <span class="buttonTxt">{{'label_edit' |translate}}</span>
+    </button>
+    <button mat-stroked-button color="warn" [disabled]="IsOwner==1  && readonly!=1?false:true"
+    (click)="deleteActivity(activityInfo)" matTooltip="{{'label_delete'|translate}}" matTooltipPosition="above"
+    matTooltipClass="custom-top-tooltip tooltip-top-warn" id="btn-delete" tabindex cdkFocusInitial>
+    <span class="buttonTxt">{{'label_delete' |translate}}</span>
+</button>
+ <!-- <button mat-stroked-button color="warn" id="btnModalCancel" tabindex (click)="onDismiss()" matTooltip="{{'label_close'|translate}}" matTooltipPosition="above"
+        matTooltipClass="custom-top-tooltip tooltip-top-warn">
+            <mat-icon>close</mat-icon>
+        </button> -->
+        <button mat-stroked-button *ngIf="divStatus && this.readonly!=1" color="primary" tabindex type="button"
+            [disabled]="!addForm.valid" (click)="onSave(this.addForm.value)" id="btnSave"
+            matTooltip="{{'label_save'|translate}}" matTooltipPosition="above" matTooltipClass="custom-top-tooltip">
+            <mat-icon>save</mat-icon>
+        </button>
+      </div>
+      <div class="sharedCanender" *ngIf="sharedCanender !=null && sharedCanenderPermission===1">
+         <button mat-stroked-button  color="primary" tabindex type="button"
+        (click)="ViewActivity(activityInfo)" id="btnView"
+        matTooltip="{{'label_View'|translate}}" matTooltipPosition="above" matTooltipClass="custom-top-tooltip">
+        <span class="buttonTxt">{{'label_viewActivity'|translate}}</span>
+    </button> 
+      </div>
+
+
+    </div>
+</form>

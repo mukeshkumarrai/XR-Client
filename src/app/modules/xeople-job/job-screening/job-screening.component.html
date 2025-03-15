@@ -1,0 +1,221 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash
+    @When: 18-May-2023
+    @Why: EWM-11781 EWM-12518
+    @What:  This page is creted for candidate screening and interview
+-->
+<mat-drawer-container class="screening-and-interview" id="screening-and-interview">
+    <div class="screening-and-interview-header" id="screening-and-interview-header">
+        <div class="dynamic-bg-color"></div>
+        <div class="group-left">
+            <div class="buttons-group" id="buttons-group-one">
+                <button mat-raised-button mat-button color="primary" disabled (click)="createActivity()"
+                    (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+                    <mat-icon id="{{animationVar?.CreateButton?.id}}"
+                        class="{{animationVar?.CreateButton?.isAnimClass}}" fontSet="material-icons-outlined">calendar_month</mat-icon>
+                </button>
+                <div class="upcoming-and-past">
+                    <button [disabled]="activity?.Completed==0?true:false" mat-button class="upcoming"
+                        (click)="getcanJobActivities('Completed')">
+                        {{activity?.Completed}}
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button [disabled]="activity?.Total==0?true:false" mat-button color="primary"
+                        (click)="getcanJobActivities('Total')">
+                        {{activity?.Total}}
+                    </button>
+                </div>
+            </div>
+            <!-- @When: 06-09-2024 @who:Amit @why: EWM-17997 @what: whole area of clickable -->
+            <div class="buttons-group" id="buttons-group-two" (click)="openCheckListDialog()">
+                <button mat-raised-button mat-button color="primary" id="notes-btn"
+                    (mouseenter)="mouseoverAnimation(animationVar?.NotesButton?.id, animationVar?.NotesButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.NotesButton?.id, animationVar?.NotesButton?.animation)">
+                    <mat-icon id="{{animationVar?.NotesButton?.id}}"
+                        class="{{animationVar?.NotesButton?.isAnimClass}}" fontSet="material-icons-outlined">task</mat-icon>
+                </button>
+                <div class="upcoming-and-past">
+                    <button mat-button class="upcoming">
+                        {{checklist?.Pending}}
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button mat-button color="primary">
+                        {{checklist?.Total}}
+                    </button>
+                </div>
+            </div>
+             <!-- @When: 06-09-2024 @who:Amit @why: EWM-17997 @what: whole area of clickable -->
+            <div class="buttons-group" id="buttons-group-two" (click)="openCommentDialog()">
+                <button mat-raised-button mat-button color="primary" id="btn-comment"
+                    (mouseenter)="mouseoverAnimation(animationVar?.ViewResumeButton?.id, animationVar?.ViewResumeButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.ViewResumeButton?.id, animationVar?.ViewResumeButton?.animation)">
+                    <mat-icon id="{{animationVar?.ViewResumeButton?.id}}" class="{{animationVar?.ViewResumeButton?.isAnimClass}}" svgIcon="comment_icon"></mat-icon>
+                </button>
+                <div class="upcoming-and-past">
+                    <button mat-button color="primary" class="comment-count">
+                       {{Comments}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="screening-and-interview-header-left" id="screening-and-interview-header-left">
+            <div class="screening-and-interview-header-left-name-and-rating"
+                id="screening-and-interview-header-left-name-and-rating">
+                <div class="stage text-overflow" id="stage" matTooltip="{{jobInfo?.WorkFlowStageName}}" matTooltipClass="custom-tooltip">
+                    {{jobInfo?.WorkFlowStageName}}
+                </div>
+                <mat-divider class="mb-5"></mat-divider>
+                <a class="job-name text-overflow" id="job-name" matTooltip="{{'label_JObAction_ViewJobSummary'|translate}}" matTooltipClass="custom-tooltip" 
+                target="_blank" [routerLink]="['/client/jobs/job/job-detail/detail']" [queryParams]="{jobId:jobId, workflowId:JobWorkflowId,filter:filter,selectjob:selectjob,tabIndex:0}">
+                    {{jobInfo?.JobTitle}}
+                </a>
+                <a class="client text-overflow" id="client" matTooltip="{{'label_JObAction_ViewClientSummary'|translate}}" matTooltipClass="custom-tooltip"
+                target="_blank" [routerLink]="['/client/core/clients/list/client-detail']" [queryParams]="{clientId: ClientId, cliTabIndex: 0}">
+                    {{jobInfo?.ClientName}}
+                </a>
+                <div class="address text-overflow" id="address" matTooltip="{{jobInfo.Address?jobInfo?.Address:'--'}}" matTooltipClass="custom-tooltip">
+                    {{jobInfo.Address?jobInfo?.Address:'--'}}
+                </div>
+            </div>
+        </div>
+        <div class="screening-and-interview-header-right" id="screening-and-interview-header-right">
+            <div class="screening-and-interview-header-right-top" id="screening-and-interview-header-right-top">
+                <div class="next-prev-layout">
+                    <div class="candidate-next-prev" *ngIf="candidateList?.length==1">
+                        <button mat-stroked-button [disabled]="currentIndex==0" (click)="previousRecord()"
+                            (mouseenter)="mouseoverAnimation(animationVar?.DashboardInboxSidenavLeft?.id, animationVar?.DashboardInboxSidenavLeft?.animation)"
+                            (mouseleave)="mouseleaveAnimation(animationVar?.DashboardInboxSidenavLeft?.id, animationVar?.DashboardInboxSidenavLeft?.animation)">
+                            <mat-icon id="{{animationVar?.DashboardInboxSidenavLeft?.id}}"
+                                class="{{animationVar?.DashboardInboxSidenavLeft?.isAnimClass}}">arrow_left</mat-icon>
+                        </button>
+
+                        <button mat-stroked-button [disabled]="currentIndex==canNextPreviousInfo?.length-1"
+                            (click)="nextRecord()"
+                            (mouseenter)="mouseoverAnimation(animationVar?.DashboardInboxSidenavRight?.id, animationVar?.DashboardInboxSidenavRight?.animation)"
+                            (mouseleave)="mouseleaveAnimation(animationVar?.DashboardInboxSidenavRight?.id, animationVar?.DashboardInboxSidenavRight?.animation)">
+                            <mat-icon id="{{animationVar?.DashboardInboxSidenavRight?.id}}"
+                                class="{{animationVar?.DashboardInboxSidenavRight?.isAnimClass}}">arrow_right</mat-icon>
+                        </button>
+
+                    </div>
+                    <div class="screening-and-interview-header-right-layout">
+                        <div class="screening-and-interview-header-right-layout-group">
+                            <button mat-flat-button class="full-view" [color]="viewModeFull?'primary': ''" (click)="fullView()"
+                                matTooltip="{{'label_fullScreenView'|translate}}" matTooltipClass="card-list-tooltip"
+                                matTooltipPosition="before">
+                                1
+                            </button>
+                            <button mat-flat-button class="two-view" [color]="viewModeTwo?'primary': ''" (click)="twoView()"
+                                matTooltip="{{'label_twoSplitView'|translate}}" matTooltipClass="card-list-tooltip"
+                                matTooltipPosition="before">
+                                2
+                            </button>
+                            <button mat-flat-button class="three-view" [color]="viewModeThree?'primary': ''"
+                                (click)="threeView()" matTooltip="{{'label_threeSplitView'|translate}}" [disabled]="disableAllButton"
+                                matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                                All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button mat-stroked-button id="btncloseinfo" (click)="onDismiss()" color="warn" class="close" [disabled]="closeButtonDisabled"
+                    (mouseenter)="mouseoverAnimation(animationVar?.closeRotateButton?.id, animationVar?.closeRotateButton?.animation)"
+                    (mouseleave)="mouseleaveAnimation(animationVar?.closeRotateButton?.id, animationVar?.closeRotateButton?.animation)">
+                    <mat-icon id="{{animationVar?.closeRotateButton?.id}}"
+                        class="{{animationVar?.closeRotateButton?.isAnimClass}}">close</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="screening-and-interview-area {{classChange}}" id="screening-and-interview-area">
+        <div class="screening-and-interview-area-left" id="screening-and-interview-area-left">
+            <div matBadge="{{candidateList.length}}" matBadgeOverlap="false" class="total-candidates">Candidate(s)</div>
+            <div class="screening-and-interview-area-left-candidate" *ngFor="let cand of candidateList; let i = index"
+                [class.active]="IsCandidateActive[i] && ActiveCandidate==cand?.CandidateId"
+                (click)="openCandidateInfoDetails(cand,i); $event.stopPropagation();">
+                <!-- changes fixed for ewm-18364 when:08/10/2024 -->
+                <div class="screening-and-interview-area-left-candidate-name text-overflow" id="Candidate_Name"
+                     (click)="redirectCandidateSummary(cand?.CandidateId); $event.stopPropagation();"
+                    matTooltip="{{cand?.CandidateName}}" matTooltipClass="custom-tooltip">
+                    {{cand?.CandidateName}}
+                </div>
+                <div *ngIf="cand?.WorkFlowStageId !== ParentWorkFlowStageId" class="screening-and-interview-area-left-candidate-sub-stage">
+                    ({{cand?.WorkFlowStageName}})
+                </div>
+                <div class="screening-and-interview-area-left-candidate-shortname" matTooltip="{{'label_JObAction_ViewCandidateProfile'|translate}}" matTooltipClass="custom-tooltip"
+                    id="screening-and-interview-area-left-candidate-shortname" (click)="openCandidateDetails(cand)" >
+                    <img *ngIf="cand?.PreviewUrl!=='' " id="screening-and-interview-header-left-shortname-img"
+                        src="{{cand?.PreviewUrl}}">
+                    <span [style.background]="getBackgroundColor(cand.ShortName)" *ngIf="cand?.PreviewUrl==''"
+                        id="screening-and-interview-header-left-shortname-short-name">{{cand.ShortName}}</span>
+                </div>
+                <div class="screening-and-interview-area-left-candidate-percent">
+                    (100%)
+                </div>
+                <div class="screening-and-interview-area-left-candidate-maped-job"
+                    matTooltip="{{'label_ActiveJob'|translate}}" matTooltipClass="custom-tooltip"
+                    (click)="openJobTimeline(cand?.CandidateId);$event.stopPropagation();">
+                    <mat-icon matBadge="{{cand?.ActiveJobs}}" matBadgeOverlap="true">work</mat-icon>
+
+                </div>
+            </div>
+        </div>
+        <!----------------------------All View-  // @suika @EWM-13022 @whn 11-08-2023------------------------------------>
+        <div class="screening-and-interview-area-right" id="screening-and-interview-area-right">
+            <!------------------------------first view----- // @suika @EWM-13022 @whn 11-08-2023-------------------------->
+            <div class="screening-and-interview-area-right-firstcol" id="screening-and-interview-area-right-firstcol">
+                <div *ngIf="tabLoading" class="logo-loader">
+                    <div class="logo-loading"></div>
+                </div>
+                <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="summary-tabs"
+                    [(selectedIndex)]='tabIndex' (selectedTabChange)="ActiveTab($event)" >
+                    <!-- //by maneesh what:ewm-17103 for add label_applicationForm tab this when:24/05/2024                     -->
+                    
+                    <mat-tab *ngFor="let tab of JobActionTabs">
+                        <ng-template mat-tab-label>
+                            <img *ngIf="tab.TabImageURL" class="eoh-logo-for-psh-candidate" [src]="tab.TabImageURL" alt="tab.TabImage" /> {{tab.TabDisplayName}}
+                        </ng-template>
+                        <ng-container [ngSwitch]="tab.TabName">
+                            <app-job-candidate-application-form *ngSwitchCase="'Application'" [candId]="ActiveCandidate"></app-job-candidate-application-form>
+                            <app-job-note *ngSwitchCase="'Notes'"></app-job-note>
+                            <app-job-interview *ngSwitchCase="'Interview'" [ClientId]="ClientId" (reloadDataEvent)="getReloadDataEvent($event)"></app-job-interview>
+                            <app-candidate-screening *ngSwitchCase="'Entire OnHire'"></app-candidate-screening>
+                            <app-job-status *ngSwitchCase="'Status'" (reloadDataEvent)="getReloadDataEvent($event)" (isFormValuePatched)="isFormValuePatched($event)" (reloaCanidateMappedJobCard)="getCandidateJobCardAll($event)"></app-job-status>
+                        </ng-container>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+            <!------------------------------second view--------- // @suika @EWM-13022 @whn 11-08-2023------------------------------------->
+            <div class="screening-and-interview-area-right-seccol" id="screening-and-interview-area-right-seccol">
+                <mat-tab-group t-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="summary-tabs" (selectedTabChange)="selectedTabValue($event)">
+                    <mat-tab label="candidate">
+                        <ng-template mat-tab-label>
+                            {{'label_Candidate' | translate}}
+                        </ng-template>
+                        <app-job-candidate #candidateComponent [jobId]="jobId" [jobActionTabName]="jobActionTabName"></app-job-candidate>
+                    </mat-tab>
+  <!-- // who:maneesh,what:ewm-13775 for disabled client tab when no clientid ,when:05/09/2023 -->
+                    <mat-tab label="client" [disabled]="clientTabStatus">
+                        <ng-template mat-tab-label>
+                            {{'label_client' | customTranslate}}
+                        </ng-template>
+                         <!-- who:maneesh,what:ewm-13774 for job tab notes ,when:05/09/2023 add *ngIf="jobActionTabName=='client'" for ewm-17740 -->
+                         <app-client-tab-action *ngIf="jobActionTabName=='client'" [jobId]="jobId" [clientId]="ClientId" [jobActionCandidateId]="jobActionCandidateId" [jobActionCandidateName]="jobActionCandidateName" [jobActionTabName]="jobActionTabName"></app-client-tab-action>
+                    </mat-tab>
+                    <mat-tab label="job">
+                        <ng-template mat-tab-label>
+                            {{'label_job' | translate}}
+                        </ng-template>
+                        <!-- who:maneesh,what:ewm-13774 for job tab notes ,when:05/09/2023 -->
+                        <app-job-tab-action [jobId]="jobId" [jobActionCandidateId]="jobActionCandidateId" [jobActionCandidateName]="jobActionCandidateName" [jobActionTabName]="jobActionTabName"></app-job-tab-action>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+        <!----------------------------------------------------------------------------------->
+    </div>
+</mat-drawer-container>

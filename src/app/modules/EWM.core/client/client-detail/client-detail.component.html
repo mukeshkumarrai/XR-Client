@@ -1,0 +1,592 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: client-summary.component.html
+    @Who: Nitin Bhati
+    @When: 18-Nov-2021
+    @Why: EWM-3836
+    @What:  This page wil be use only for the Client Component HTML
+-->
+<mat-card id="canidate-card" class="canidate-card canidate-card-notfound"
+  *ngIf="(this.gridDataClient == undefined) || (this.gridDataClient == null) || (this.gridDataClient.length==0)">
+  <mat-card-content>
+    <div class="addSection">
+      <p class="mb-15">{{'label_canidateCardNotfound' | customTranslate}}</p>
+      <a type="button" *ngIf="candidateId == undefined" id="btnAdd" color="primary" mat-raised-button
+        (click)="backToLandingPage()">
+        <mat-icon>
+          keyboard_backspace
+        </mat-icon>
+        {{'label_backToClientList' | customTranslate}}
+      </a>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+<div class="client-detail-header" id="canidate-header" [style.background-color]="background20"
+  [ngClass]="isOpen ? '' : 'summary-small-layout'"
+  *ngIf="(this.gridDataClient != undefined) && (this.gridDataClient != null) && (this.gridDataClient.length != 0)">
+
+  <div class="clientDetailAction">
+    <div class="candidate-profile">
+      <div class="userAvtaarAndName cleintDetailAvtaar">
+        <!-- <span>{{sortName(clientDataList?.ClientName)}}</span> -->
+         <!-- who:maneesh,what:ewm-13117 for no image then short name fixed and background color fixed ,when:14/07/2023 -->
+         <span  [style.background]="getBackgroundColor(clientDataList?.ShortName)" >{{clientDataList?.ShortName}}</span>
+
+      </div>
+      <div class="cleientHeaderDetail">
+
+        <div class="client-header-inner">
+        <div class="title-with-button">
+          <div class="title-and-status">
+            <span class="text-overflow">{{clientDataList?.ClientName}}</span>
+            <!-- <mat-icon>public</mat-icon> -->
+            <span class="status-show" id="candidate-btn-blacklisted">{{clientDataList?.Visibility}}</span>
+        </div>
+          <button *ngIf="clientType.toLowerCase()!='lead'" mat-icon-button color="primary" class="changeClient" id="candidate-btn-add1"
+            [matMenuTriggerFor]="addClientNameMenu" (click)="searchTextTag=''" matTooltipClass="custom-tooltip"
+            matTooltip="{{'label_changeClientName'|customTranslate}}">
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <button *ngIf="clientType.toLowerCase()=='lead'" mat-icon-button color="primary" class="changeClient" id="candidate-btn-add1"
+            [matMenuTriggerFor]="addClientNameMenu" (click)="searchTextTag=''" matTooltipClass="custom-tooltip"
+            matTooltip="{{'label_change_Lead_Name'|customTranslate}}">
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #addClientNameMenu="matMenu" class="tagOpentMenu clientNameDropdown">
+            <div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+              <mat-form-field class="remove-bottom-matinput">
+                <input matInput type="text" id="candidate-tagSearch" [(ngModel)]="searchTextTag" name="searchTextEWM"
+                  placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}" />
+              </mat-form-field>
+            </div>
+            <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+            <div class="tag-list-data">
+              <button class="tagList mat-menu-item text-overflow"
+                *ngFor="let data of orgData | NameFilter:searchTextTag:'ClientName'"
+                (click)="ChangeClientName($event,data.ClientId)"
+                [ngClass]="data.ClientId==clientIdData ? 'active' : ''">
+                {{data.ClientName}}
+              </button>
+                       <!-- who:maneesh,why:ewm.10897 fixed no record found ,when:09/03/2023 -->
+                       <ng-container  *ngIf="( orgData | NameFilter:searchTextTag:'ClientName') as result">
+                        <p *ngIf="result.length === 0" class="pl-15 pr-15 mt-0 mb-0">{{'lable_Record_not_found'|translate}}</p>
+                      </ng-container>
+                      <!-- who:maneesh,why:ewm.10897,when:09/03/2023 -->
+            </div>
+            <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+          </mat-menu>
+        </div>
+        <div class="data-sync" id="sync-data" *ngIf="clientDataList?.EOHClientId" matTooltip="Synced to EOH on {{clientDataList?.SyncedOn| date:userpreferences.timeformate:userpreferences.timezone}} with Client ID: {{clientDataList?.EOHClientId}}" 
+        matTooltipClass="custom-tooltip">
+          <mat-icon svgIcon="tick"></mat-icon>
+          <span>{{'label_SyncedTo' | translate}}</span>
+          <img class="eoh-logo" src="/assets/brand/{{EOHLogo}}">
+          <span class="text-overflow">on {{clientDataList?.SyncedOn| date:userpreferences.timeformate:userpreferences.timezone}} with Client ID: {{clientDataList?.EOHClientId}}</span>
+        </div>
+      </div>
+
+        <div class="clientOtherAction">
+          <!-- <div class="desktop-container" >
+            <ng-container *ngTemplateOutlet="headerclientDataList"></ng-container>
+          </div> -->
+          <!-- <ng-template #headerclientDataList >
+            <div class="blacklisted mat-elevation-z1" id="candidate-btn-blacklisted"
+              style="background: #CE93D8; color: #fff; max-width: 250px;">
+              <mat-icon>public</mat-icon>
+              <span>{{clientDataList?.Visibility}}</span>
+            </div>
+          </ng-template> -->
+
+          <div>
+            <div *ngIf="clientType==='LEAD'" class="blacklisted mat-elevation-z1 ClientStatus" id="candidate-btn-add2">
+              <span>{{clientDataList?.ClientStatus}}</span>
+              <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
+            </div>
+            <div *ngIf="clientType != 'LEAD'" class="blacklisted mat-elevation-z1 ClientStatus" id="candidate-btn-add2"
+             [matMenuTriggerFor]="addClientStatusMenu"
+              (click)="searchTextTag=''">
+              <span>{{clientDataList?.ClientStatus}}</span>
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </div>
+            <mat-menu #addClientStatusMenu="matMenu" class="tagOpentMenu clientNameDropdown">
+              <div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+                <mat-form-field class="remove-bottom-matinput">
+                  <input matInput type="text" id="candidate-tagSearch" [(ngModel)]="searchTextTag" name="searchTextEWM"
+                    placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}" />
+                </mat-form-field>
+              </div>
+              <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+              <div class="tag-list-data">
+                <button class="tagList mat-menu-item"
+                  *ngFor="let data of ClientStatus | NameFilter:searchTextTag:'Name'"
+                  (click)="clickStatusID($event,data?.Id)" [ngClass]="data?.Id==statusId ? 'active' : ''">
+                  <span>
+                    {{data?.Name}}
+                  </span>
+                  <span class="spacer"></span>
+                </button>
+                <!-- who:maneesh,why:ewm.9126,when:23/01/2023 -->
+                <ng-container *ngIf="( ClientStatus | NameFilter:searchTextTag:'Name') as result">
+                  <p *ngIf="result?.length === 0" class="pl-15 pr-15 mt-0 mb-0">{{'lable_Record_not_found'|translate}}
+                  </p>
+                </ng-container>
+                <!-- who:maneesh,why:ewm.9126,when:23/01/2023 -->
+              </div>
+              <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+            </mat-menu>
+          </div>
+          <div class="desktop-container" *ngIf="OwnerNameList?.length>0">
+            <div class="blacklisted mat-elevation-z1" id="candidate-btn-blacklisted">
+
+              <div style="display: flex; align-items: center;" *ngFor="let owner of OwnerNameList | slice : 0 : 2">
+                <div class="userAvtaarAndName" style="height: auto; width: auto; min-width: auto; min-height: auto;">
+                  <img src="{{owner?.PreviewURL}}" tabindex *ngIf="owner?.ProfileImage!=null" class="gridImage circle">
+                  <span *ngIf="owner?.ProfileImage==null" matTooltipClass="custom-tooltip" matTooltip="{{owner?.Name}}" [style.background]="getBackgroundColor(owner?.ShortName)" >{{owner?.ShortName}}</span>
+                </div>
+
+                <!-- <span style="display: flex; align-items: center;">
+                  {{owner?.Name}}
+                </span> -->
+              </div>
+              <span *ngIf="ownerLength" class="tagNumber number-counter text-overflow center-align cursor"
+                [matMenuTriggerFor]="addoOwnerMenu">+{{ownerLength?ownerLength:''}}
+              </span>
+                       <!-- who:bantee,why:ewm.11213 what: ClineSummary page when there is single record still 3 dot icon is showin with blank popup under relation-ship manager ,when:15/03/2023 -->
+
+              <ng-container>
+                <button mat-icon-button *ngIf="OwnerNameList?.length>2" id="all-Attachement"
+                  class="all-Attachement hiddenMenu" color="primary" [matMenuTriggerFor]="showAttachement">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #showAttachement="matMenu" class="all-owner-list owner-hover-list" id="respinsiveSidebarDropdown">
+                  <mat-list role="list">
+                    <ng-container *ngFor="let owner of OwnerNameList | slice : 2 : OwnerNameList?.length">
+                      <mat-list-item>
+                        <div class="userAvtaarAndName mr-5">
+                          <img tabindex *ngIf="owner?.ProfileImage!=null"
+                          src="{{owner?.PreviewURL}}" />
+                          <span *ngIf="owner?.ProfileImage==null"  [style.background]="getBackgroundColor(owner?.ShortName)">{{owner?.ShortName}}</span>
+                        </div>
+                        <span class="jobAgeBoxTimer">{{owner?.Name}}</span>
+                      </mat-list-item>
+                    </ng-container>
+                  </mat-list>
+                </mat-menu>
+
+              </ng-container>
+
+
+              <mat-menu #addoOwnerMenu="matMenu" class="tagOpentMenu owner-list">
+                <div class="pl-15 pr-15 mt-15" (click)="$event.stopPropagation();">
+                  <span class="top-owner">{{'label_client_ownership'|translate}}</span>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+                <div class="tag-list-data">
+                  <button class="tagList mat-menu-item" id="clientDetail-sortname"
+                    *ngFor="let team of gridListData | NameFilter:searchTextTag:'TagName'"
+                    (click)="selectTagList($event,team)" [ngClass]="{'selected':team.IsOwner===1}">
+                    <span class="text-overflow">
+                      <div class="userAvtaarAndName"
+                        style="height: auto; width: auto; min-width: auto; min-height: auto;">
+                        <img src="{{team.PreviewUrl1}}" tabindex *ngIf="team.ProfileImage!=null"
+                          class="gridImage circle">
+                        <span *ngIf="team.ProfileImage==null"  [style.background]="getBackgroundColor(team?.ShortName)">{{team.ShortName}}</span>
+                      </div>
+                      {{team.EmployeeName}}
+                    </span>
+                    <span class="spacer"></span>
+                  </button>
+                </div>
+                <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+              </mat-menu>
+            </div>
+          </div>
+
+          <div class="tagName" id="owner-name">
+            <!-- who:maneesh,why:ewm.9126 (click)="input($event)",when:23/01/2023 -->
+            <button mat-button class="addTag mat-elevation-z1" id="clientDetail-btn-add3"
+              [matMenuTriggerFor]="addCandidateMenu" (click)="input($event)">
+              <div class="tag-system">
+                <mat-icon>add</mat-icon>
+                <span class="quick-tag" *ngIf="tagLengthStatus"> {{'quickjob_tags' | translate}}</span>
+                <span class="outer-quick-tag" *ngIf="!tagLengthStatus"> 
+                  <span class="quick-tag">{{'quickjob_tags' | translate}}</span> <span
+                  class="tagNumber number-counter text-overflow">{{tagLength?tagLength:''}}</span>
+                </span>
+                </div>
+            </button>
+            <mat-menu #addCandidateMenu="matMenu" class="tagOpentMenu">
+              <div class="pl-15 pr-15" (click)="$event.stopPropagation();">
+                <mat-form-field class="remove-bottom-matinput">
+                  <input matInput type="text" id="candidate-tagSearch" (click)="input($event)"
+                    [(ngModel)]="searchTextTag" name="searchTextEWM" tabindex="5"
+                    placeholder="{{'label_search'|translate}}" [ngModelOptions]="{standalone: true}" />
+                </mat-form-field>
+              </div>
+              <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+              <div class="tag-list-data">
+                <!-- @When: 17-01-2023 @who:Satya Prakash Gupta @why: EWM-10012 @what:add ... dot in tags -->
+                <button class="tagList mat-menu-item"
+                  *ngFor="let tag of candidateMapTagAll | NameFilter:searchTextTag:'TagName'"
+                  (click)="selectTagList($event,tag)" [ngClass]="{'selected':tag.IsSelected===1}"
+                  matTooltip="{{tag?.TagName}}" matTooltipClass="custom-tooltip">
+                  <mat-icon [style.color]="tag.Color">local_offer</mat-icon>
+                  <span class="text-overflow">{{tag?.TagName}}</span>
+                  <span class="spacer"></span>
+                  <mat-slide-toggle class="mat-slide-toggle" id="profile-summary-tag"
+                    [checked]="tag.IsSelected===1?'true':'false'" color="primary">
+                  </mat-slide-toggle>
+                </button>
+                <!-- who:maneesh,why:ewm.9126,when:23/01/2023 -->
+                <ng-container *ngIf="( candidateMapTagAll | NameFilter:searchTextTag:'TagName') as result">
+                  <p *ngIf="result.length === 0" class="pl-15 pr-15 mt-0 mb-0">{{'lable_Record_not_found'|translate}}
+                  </p>
+                </ng-container>
+                <!-- who:maneesh,why:ewm.9126,when:23/01/2023 -->
+              </div>
+              <div class="blank-height10" (click)="$event.stopPropagation();"></div>
+            </mat-menu>
+          </div>
+
+          <div class="data-sync" id="sync-data" *ngIf="clientDataList?.EOHClientId" matTooltip="Synced to EOH on {{clientDataList?.SyncedOn| date:userpreferences.timeformate:userpreferences.timezone}} with Client ID: {{clientDataList?.EOHClientId}}" 
+          matTooltipClass="custom-tooltip">
+            <mat-icon svgIcon="tick"></mat-icon>
+            <span>{{'label_SyncedTo' | translate}}</span>
+            <img class="eoh-logo" src="/assets/brand/{{EOHLogo}}">
+            <span class="text-overflow">on {{clientDataList?.SyncedOn| date:userpreferences.timeformate:userpreferences.timezone}} with Client ID: {{clientDataList?.EOHClientId}}</span>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+
+    <div class="candidate-action">
+      <!--@When: 29-11-2023 @who:Amit @why: EWM-15264 @what: add back btn-->
+      <button type="button" id="backBtn" color="primary" *ngIf="candidateId == undefined" mat-mini-fab (click)="backToLandingPage()"
+      matTooltip="{{ clientTypeLabel | customTranslate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+      (mouseenter)="mouseoverAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.BackButton?.id, animationVar?.BackButton?.animation)">
+        <mat-icon id="{{animationVar?.BackButton?.id}}" class="{{animationVar?.BackButton?.isAnimClass}}">
+          keyboard_backspace
+        </mat-icon>
+      </button>
+
+      <button type="button" id="candidate-action-btn" color="primary" mat-mini-fab [matMenuTriggerFor]="beforeMenu"
+      (mouseenter)="mouseoverAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.ThreeDotButton?.id, animationVar?.ThreeDotButton?.animation)">
+        <mat-icon id="{{animationVar?.ThreeDotButton?.id}}" class="{{animationVar?.ThreeDotButton?.isAnimClass}}">
+          more_vert
+        </mat-icon>
+      </button>
+
+      <mat-menu #beforeMenu="matMenu" xPosition="before" class="candidateQuickMenu summary-candidateQuickMenu">
+        <span class="material-icons headerDroupDownUp">
+          arrow_drop_up
+        </span>
+        <button id="addJobBtn" mat-button (click)="addNewJob()" *ngIf="clientType!='LEAD'">
+          <div class="two-icons">
+            <mat-icon>work</mat-icon>
+            <mat-icon class="secondIcon">add</mat-icon>
+          </div>{{'candidate_addAJob' | translate}}
+        </button>    
+        <button mat-button id="editBtn" (click)="openQuickCompanyModal()">
+          <mat-icon>edit</mat-icon>{{'label_edit' | translate}}
+        </button>
+
+        <button mat-button id="editOwnershipBtn" (click)="openEditOwner()">
+          <mat-icon>border_color</mat-icon>{{'label_editOwnership' | translate}}
+        </button>
+
+        <button mat-button id="editVisibilityBtn" (click)="openVisibility()">
+          <mat-icon>settings</mat-icon>{{'label_manageaccess' | translate}}
+        </button>
+
+        <button mat-button id="deleteBtn" disabled>
+          <mat-icon>delete</mat-icon>{{'label_delete' | translate}}
+        </button>
+
+        <button type="button" id="configureDashboardBtn" mat-button (click)="candidateConfigureDashboard()" disabled>
+          <mat-icon>
+            vertical_split
+          </mat-icon> {{'candidate_configureDashboard' | translate}}
+        </button>
+           <!-- // who:maneesh,what: ewm-16067 for send  sms threedot client,when:04/03/2024 -->
+        <button mat-button [disabled]="selectedcontact == null || 1 > selectedcontact?.length" id="candidatesBulkBtn"
+          (click)="onBulkEmail()" class="header-button br-0" id="candidate-list-manage-search">
+        <mat-icon>{{animationVar?.MailButton?.iconName}}</mat-icon>
+        <span class="text-for-mobile-view">{{'label_candidatesendEmail'|translate}}</span>
+        </button>
+           <!-- // who:maneesh,what: ewm-16065 for send  sms threedot client,when:01/03/2024 -->
+           <button mat-button id="addCandidateToJobBtn" class="share-job-app" [disabled]="selectedcontact?.length==0 || getBulkSmsFlag() || !SMSCheckStatus"
+            (click)="openJobBulkSMSForCantacts()" [ngClass]="selectedcontact?.length!=0 && getBulkSmsFlag()? 'same-stage-show' : ''">
+            <mat-icon fontSet="material-icons-outlined">sms</mat-icon>
+            <span class="share-job">
+              <span>{{'label_candidatebulksms' | translate}}</span>
+              <span class="new badge red" style="color:red" *ngIf="selectedcontact?.length!=0 && getBulkSmsFlag()">{{'label_stageContPhoneErr' | translate}}</span>
+            </span>
+          </button>
+
+            <!-- // who:Renu,what: EWM-19410 EWM-19551 @wy: for EOH Share client,when:12/02/2025 -->
+             
+            <button mat-button *ngIf="(extractEnableClientCheck == 1) && (IsEOHIntergrated)" id="EOHSHareClientBtn" class="share-job-app" 
+            (click)="openEOHShareClientPopUp()">
+            <!-- <mat-icon fontSet="material-icons-outlined">sms</mat-icon> -->
+            <img src="../../../../assets/brand/{{EOHLogo}}">
+            <span class="share-job">
+              <span>{{'label_ShareClient' | translate}}</span>
+            </span>
+          </button>
+          <a *ngIf="!(extractEnableClientCheck == 1) || (!IsEOHIntergrated)" class="logo-with-text push-candidate-icon-button"  mat-button
+          (click)="redirectOnMarketPlace()" id="pushClient_redirectPush">
+              <div class="groups">
+                <img src="../../../../assets/brand/{{EOHLogo}}">
+                  <!-- not connected message  -->
+                  <div class="list-view-name" *ngIf="!IsEOHIntergrated">
+                      <div class="txt">{{'label_ShareClient' |translate}}</div>
+                      <div class="text-label">{{'pushCandidateToEoh_marketplace'|translate}}</div>
+                  </div>
+                  <!-- connected but not subscribe message -->
+                  <div class="list-view-name" *ngIf="IsEOHIntergrated">
+                    <div class="txt">{{'label_ShareClient' |translate}}</div>
+                    <div class="text-label">{{'pushCandidateToEoh_marketplace_Subs'|translate}}</div>
+                </div>
+              </div>
+          </a>
+
+        <div class="mobile-container">
+          <mat-divider class="mt-5 mb-5"></mat-divider>
+          <!-- <ng-container *ngTemplateOutlet="headerclientDataList"></ng-container> -->
+          <div class="blacklisted phone-listed mat-elevation-z1" id="candidate-btn-blacklisted" >
+              <div class="user-avtaar" *ngFor="let owner of OwnerNameList">
+                <div class="userAvtaarAndName" style="height: auto; width: auto; min-width: auto; min-height: auto;">
+                  <img src="{{owner?.PreviewURL}}" tabindex *ngIf="owner?.ProfileImage!=null" class="gridImage circle">
+                  <span *ngIf="owner?.ProfileImage==null" [style.background]="getBackgroundColor(owner?.ShortName)" >{{owner?.ShortName}}</span>
+                </div>
+                <span class="owner-show">
+                  {{owner?.Name}}
+                </span>
+              </div>
+            </div>
+          <mat-divider class="mt-5 mb-5"></mat-divider>
+          <div class="data-sync" id="sync-data" *ngIf="clientDataList?.EOHClientId" matTooltip="Synced to EOH on {{clientDataList?.SyncedOn| date:userpreferences.timeformate:userpreferences.timezone}} with Client ID: {{clientDataList?.EOHClientId}}" 
+          matTooltipClass="custom-tooltip">
+            <mat-icon svgIcon="tick"></mat-icon>
+            <span>{{'label_SyncedTo' | translate}}</span>
+            <img class="eoh-logo" src="/assets/brand/{{EOHLogo}}">
+            <span class="text-overflow">on {{clientDataList?.SyncedOn| date:userpreferences.timeformate:userpreferences.timezone}} with Client ID: {{clientDataList?.EOHClientId}}</span>
+          </div>
+        </div>
+        <div class="mobile-headerclientDetailInfo">
+          <ng-container *ngTemplateOutlet="headerclientDetailInfo"></ng-container>
+        </div>
+      </mat-menu>
+    </div>
+    <button mat-stroked-button class="summary-header-toggle" id="summary-toggle-btn"
+      [style.background-color]="background20" (click)="toggle()">
+      <mat-icon *ngIf="isOpen">
+        expand_less
+      </mat-icon>
+      <mat-icon *ngIf="!isOpen">
+        expand_more
+      </mat-icon>
+    </button>
+  </div>
+  <div class="desktop-headerclientDetailInfo">
+    <ng-container *ngTemplateOutlet="headerclientDetailInfo"></ng-container>
+  </div>
+  <ng-template #headerclientDetailInfo>
+    <div class="clientDetailInfo">
+      <div>
+        <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{'labelIndustryName'|translate}}">
+          precision_manufacturing
+        </mat-icon>
+        <p class="text-overflow"> {{clientDataList?.IndustryName?clientDataList.IndustryName:'--'}}</p>
+      </div>
+      <div>
+        <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{'labelchangeLocation'|translate}}">pin_drop
+        </mat-icon>
+        <p class="text-overflow"> {{clientDataList?.Location?clientDataList.Location:'--'}}</p>
+      </div>
+      <div>
+        <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{'label_immediateParent'|translate}}">business
+        </mat-icon>
+        <p class="text-overflow"> {{clientDataList?.ImmediateParentName?clientDataList.ImmediateParentName:'--'}}</p>
+      </div>
+      <div>
+        <mat-icon matTooltipClass="custom-tooltip" matTooltip="{{'label_holdingCompany'|translate}}">store</mat-icon>
+        <p class="text-overflow"> {{clientDataList?.HoldingCompany?clientDataList.HoldingCompany:'--'}}</p>
+      </div>
+    </div>
+  </ng-template>
+
+</div>
+
+<!--@When: 20-10-2023 @who:Amit @why: EWM-14846 @what: space remove-->
+<mat-drawer-container class="advancedsearch-container client-detail-container client-summary-container" autosize id="client-detail-drawer"
+  [ngClass]="isOpen ? '' : 'summary-small-layout'"
+  *ngIf="(this.gridDataClient != undefined) && (this.gridDataClient != null) && (this.gridDataClient.length != 0)">
+  <mat-card id="canidate-card" class="canidate-card client-detail-card">
+    <mat-card-content class="client-detail-card-content">
+      <div class="progress-loader-box" *ngIf="headerLoader">
+        <div class="progress-loader">
+          <div class="loaderBar"></div>
+        </div>
+      </div>
+
+      <!-- <mat-tab-group id="matTabGroup" class="summary-tabs" id="candidate-tab"[selectedIndex]='selectedTabIndex' 
+        (selectedTabChange)="ActiveTab($event)" dir="{{positionMatTab}}"> -->
+<!-- //by maneesh when:01/08/2024 ewm-17755  -->
+        <mat-tab-group id="matTabGroup"  class="summary-tabs" id="candidate-tab" [selectedIndex]='selectedTabIndex'
+        (selectedIndexChange)="ActiveTab($event)" dir="{{positionMatTab}}"
+         (click)="tabClick($event)">
+        <mat-tab id="sammary-tab" *ngIf="showSummary">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">contact_page</mat-icon>
+            {{'label_Summary' | translate}}
+          </ng-template>
+          <!--@who:priti @why:EWM-2973 @what:pass candidate id as input data @when:28-sep-2021-->
+          <!--@who:bantee @why:EWM-14511 @what:Location is not updated after editing the client address. @when:28-sep-2023-->
+ <!-- by maneesh changes fixed ewm-17058 when:05/07/2024 remove this *ngIf="tabActive.toLowerCase()-->
+          <app-client-summary  [clientIdData]="clientIdData" [clientName]="clientName" [clientType]="clientType"
+            [HoldingCompany]='HoldingCompany' (isTabLocation)="activetabFromLocationCard($event)"
+            (candidateEmail)="getCandidateEmailInfo($event)" (updatedLeadWorkflow)="getLeadworkflowUpdated($event)" #updateAddress></app-client-summary>
+        </mat-tab>
+
+        <mat-tab id="job-tab" *ngIf="showJob">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">work</mat-icon>
+            {{'label_Jobs' | translate}}<span class="numbers">{{dataTotalJob}}</span>
+          </ng-template>
+          <app-client-job-list *ngIf="TabIndexNumber==1 || selectedTabIndex == 1" [clientIdData]="clientIdData"
+            (clientJobCount)="fetchclientJobCount($event)"></app-client-job-list>
+        </mat-tab>
+
+        <mat-tab id="location-tab" *ngIf="showLocation">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">pin_drop</mat-icon>
+            {{'candidate_location' | translate}}<span class="numbers">{{dataTotalLocation}}</span>
+          </ng-template>
+          <!--@who:suika @why:EWM-3840 @what:pass candidate id as input data @when:18-nov-2021-->
+          <span *ngIf="isInbox">
+            <app-client-location *ngIf="TabIndexNumber==2  || selectedTabIndex == 2 || (tabActive=='Locations'  && clientType=='LEAD' )" [clientIdData]="clientIdData"  [clientName]="clientName" 
+              (assignLocationCount)="fetchassignLocationCount($event)">
+            </app-client-location>
+          </span>
+
+        </mat-tab>
+
+        <mat-tab id="clientContact-tab" *ngIf="clientType!='LEAD'">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">contacts</mat-icon>
+            {{'label_Contacts'|customTranslate}}<span class="numbers">{{dataTotalContact}}</span>
+          </ng-template>
+          <!-- who:maneesh:what:ewm-11569 for [clientIdDatalist]="clientDataList" when:30/05/2023  || (selectedTabIndex == 2  && clientType=='LEAD' )-->
+          <app-client-contact-list *ngIf="TabIndexNumber==3 || selectedTabIndex == 3 || (tabActive=='Contacts'  && clientType=='LEAD' )" [clientIdData]="clientIdData"
+            [clientIdDatalist]="clientDataList" (clientContactCount)="fetchClientContactCount($event)">
+          </app-client-contact-list>
+        </mat-tab>
+        <mat-tab id="clientContact-tab" *ngIf="clientType=='LEAD'">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">contacts</mat-icon>
+            {{'label_Contacts'|customTranslate}}<span class="numbers">{{dataTotalContact}}</span>
+          </ng-template>
+          <!-- who:maneesh:what:ewm-11569 for [clientIdDatalist]="clientDataList" when:30/05/2023  || (selectedTabIndex == 2  && clientType=='LEAD' )-->
+          <app-client-contact-list *ngIf="clientType=='LEAD' && tabActive=='Contacts'" [clientIdData]="clientIdData"
+            [clientIdDatalist]="clientDataList" (clientContactCount)="fetchClientContactCount($event)">
+          </app-client-contact-list>
+        </mat-tab>
+        <mat-tab id="History-tab" *ngIf="showHistory" >
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">history</mat-icon>
+            {{'candidate_History' | translate}}
+          </ng-template>
+          <!-- by maneesh remove class ewm-17699 when:25/07/2024 -->
+          <app-client-history *ngIf="TabIndexNumber == 4 || selectedTabIndex == 4 || (tabActive=='History'  && clientType=='LEAD' )" [clientIdData]="clientIdData" [clientType]="clientType"
+             >
+        </app-client-history>
+        </mat-tab>
+
+        <mat-tab id="MenuInbox-tab" *ngIf="showInbox">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">inbox</mat-icon>
+            {{'label_Mail' | translate}}<span class="numbers">{{dataTotalMail}}</span>
+          </ng-template>
+
+          <span *ngIf="isInbox || (tabActive=='Inbox'  && clientType=='LEAD' )">
+            <app-client-inbox  (scrollChanges)="divScroll($event)" [clientEmailId]="clientEmailId" [IsJobTag]="IsJobTag"
+              [clientId]="clientIdData" (mailInBoxCount)="fetchDataFromInbox($event)"></app-client-inbox>
+          </span>
+
+        </mat-tab>
+        <mat-tab id="notes-tab" *ngIf="showNotes || (tabActive=='Notes'  && clientType=='LEAD' )">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">text_snippet</mat-icon>
+            {{'label_Notes' | translate}}<span class="numbers">{{dataTotalNotes}}</span>
+          </ng-template>
+          <app-client-notes   [clientIdData]="clientIdData"
+            (clientNotesCount)="fetchclientNotesCount($event)" [dataTotalJob]="dataTotalContact"></app-client-notes>
+          <!--@who:priti @why:EWM-2973 @what:pass candidate id as input data @when:28-sep-2021-->
+          <!-- <app-recentnotes [clientIdData]="clientIdData" (totalNotes)="fetchDataFromNotes($event)"></app-recentnotes> -->
+        </mat-tab>
+        <mat-tab id="recentActivities-tab" *ngIf="showRecent_Activities || (tabActive=='Activities'  && clientType=='LEAD' )">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">local_activity</mat-icon>
+            {{'label_MenuActivity' | translate}}<span class="numbers">{{dataTotalActivity}}</span>
+          </ng-template>
+          <!-- <app-employee-activity *ngIf="tabActive=='Activities'" [Names]="clientName" [Employee]="documentForClient"
+                    [GridId]="GridId" [category]="category" [candidateIdData]="clientIdData"
+                    (clientActivityCount)="fetchClientActivityCount($event)"></app-employee-activity> -->
+          <!---@When: 29-03-2023 @Who:Renu @Why: EWM-11340 EWM-11366 @What: separate component.--->
+
+          <!-- @When: 20-08-2024 @who:Amit @why: EWM-17909 @what: activites condition -->
+          <app-client-activity [Names]="clientName" [Employee]="documentForClient"
+            [GridId]="GridId" [category]="category" [candidateIdData]="clientIdData" [clientEmailId]="clientEmailId"
+            (clientActivityCount)="fetchClientActivityCount($event)"></app-client-activity>
+        </mat-tab>  
+
+        <mat-tab id="attachments-tab" *ngIf="showDocuments || (tabActive=='Documents'  && clientType=='LEAD' )">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">attachment</mat-icon>
+            {{'label_Documents' | translate}}<span class="numbers">{{dataTotalDocCount}}</span>
+          </ng-template>
+          <app-candidate-document [candidateId]="clientIdData" [documentFor]="documentForClient"
+            (totalDocs)="fetchDataFromDocs($event)">
+          </app-candidate-document>
+        </mat-tab>
+
+        <mat-tab id="team-tab">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">groups</mat-icon>
+            {{'label_Team' | translate}}<span class="numbers">{{dataTotalTeam}}</span>
+          </ng-template>
+          <app-client-team *ngIf="TabIndexNumber==9 || selectedTabIndex == 9  || (tabActive=='Team'  && clientType=='LEAD' )" [clientIdData]="clientIdData"
+            (clientTeamCount)="fetchClientTeamCount($event)" [clientType]="clientType"></app-client-team>
+        </mat-tab>
+        <mat-tab id="SMS" *ngIf="showsms  || (tabActive=='sms'  && clientType=='LEAD' )">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">sms</mat-icon>
+            {{'label_SMS' | translate}}
+          </ng-template>
+          <div class="sms-history-drawer sms-contact-detail">
+          <client-sms  [clientIdData]="clientIdData" [clientDetails]="gridDataClient"></client-sms>
+          </div>
+        </mat-tab>
+        <mat-tab id="Call" *ngIf="showCall">
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon rotate-icon" fontSet="material-icons-outlined">call</mat-icon>
+            {{'Call' | translate}}<span class="numbers">{{callDataCount}}</span>
+            </ng-template>
+             <div class="sms-history-drawer sms-contact-detail">
+              <app-client-calllog *ngIf="TabIndexNumber==11 || selectedTabIndex == 11 || (tabActive=='Call'  && clientType=='LEAD' )"
+               [candidateName]="clientDataList?.ClientName" [candidatePhone]="clientDataList?.PhoneNumber" [ShortName]="clientDataList?.ShortName" [clientId]="clientId"
+                [clientIdData]="clientIdData" [clientType]="clientType"></app-client-calllog>
+             </div>
+        </mat-tab>
+ </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</mat-drawer-container>

@@ -1,0 +1,247 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 12-Jul-2021
+    @Why: EWM-2094
+    @What:  This component is used for Quick add Candidate templates.
+-->
+<form [formGroup]="addCandidateForm" applyTabIndexes>
+    <div class="modal-header" id="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_quickAddcandidate' | translate}}</h2>
+    </div>
+    <mat-dialog-content class="col candidate-dialog-content">
+        <div class="row mb-0">
+            <!-- //@When: 23-jan-2024 @who:maneesh @why: EWM-15806 EWM-15785 fixed dropdown -->
+            <div class="col l12 m12 s12">
+                    <div class="common_dropdown_v2 dropdown-with-icon">
+                        <mat-icon matPrefix class="before-icon">business</mat-icon>
+                    <input type="hidden" id="organizationData" formControlName="orgId">
+                        <dropdown
+                        [configuration]="common_DropdownC_Config" [showMoreOptionsNum]="9"
+                       (selectedOut)="getOrgData($event)" [getSelectedItem]="selectedOrgName">
+                   </dropdown> 
+                    </div>
+            </div>
+            <div class="col l6 m12 s12">
+                <mat-form-field>
+                    <mat-label>{{'label_firstName' | translate}}</mat-label>
+                    <input type="text" tabindex formControlName="firstName" matInput placeholder="" id="candidate-firstname" required>
+                    <mat-error
+                    *ngIf="this.addCandidateForm.controls['firstName'].hasError('required')">
+                    {{ 'label_firstName' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error
+                    *ngIf="this.addCandidateForm.controls['firstName'].hasError('pattern') && !addCandidateForm.controls['firstName'].hasError('whitespace')">
+                    {{ 'label_firstName' |translate}} {{ 'label_errorName' |translate}}
+                </mat-error>
+                <mat-error
+                *ngIf="this.addCandidateForm.controls['firstName'].hasError('maxlength') && !addCandidateForm.controls['firstName'].hasError('whitespace')">
+                {{ 'label_firstName' |translate}} {{ 'label_errormaxlength50' |translate}}
+                </mat-error>
+                   <!--  @Who: maneesh, @When: 10-jan-2022,@Why: EWM-10107 addnoWhitespaceValidator -->
+                   <mat-error *ngIf="addCandidateForm.controls['firstName'].hasError('whitespace') && !addCandidateForm.controls['firstName'].hasError('required')">
+                    {{'label_firstName' |translate}} {{'label_nameValidation' |translate}} 
+                  </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col l6 m12 s12">
+                <mat-form-field>
+                    <mat-label>{{'label_lastName' | translate}}</mat-label>
+                    <input type="text" tabindex formControlName="lastName" matInput placeholder="" id="candidate-lastname" required>
+                    <mat-error
+                    *ngIf="this.addCandidateForm.controls['lastName'].hasError('required')">
+                    {{ 'label_lastName' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error
+                    *ngIf="this.addCandidateForm.controls['lastName'].hasError('maxlength') && !addCandidateForm.controls['lastName'].hasError('whitespace')">
+                    {{ 'label_lastName' |translate}} {{ 'label_errormaxlength50' |translate}}
+                </mat-error>
+                    <mat-error
+                    *ngIf="this.addCandidateForm.controls['lastName'].hasError('pattern') && !addCandidateForm.controls['lastName'].hasError('whitespace')">
+                    {{ 'label_lastName' |translate}} {{ 'label_errorName' |translate}}
+                </mat-error>
+                   <!--  @Who: maneesh, @When: 10-jan-2023,@Why: EWM-10107 addnoWhitespaceValidator -->
+                <mat-error *ngIf="addCandidateForm.controls['lastName'].hasError('whitespace') && !addCandidateForm.controls['lastName'].hasError('required')">
+                    {{'label_lastName' |translate}} {{'label_nameValidation' |translate}} 
+                  </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col l6 m12 s12">
+                <mat-form-field>
+                              <!-- who:maneesh,what:ewm-14171 change label,When:11/10/2023 -->
+                    <mat-label>{{'label_CandidatesTitle' | translate}}</mat-label>
+                    <input type="text" tabindex formControlName="smsTitle" matInput placeholder="" id="candidate-titile">
+                    <mat-error
+                    *ngIf="this.addCandidateForm.controls['smsTitle'].hasError('maxlength')">
+                    {{ 'label_CandidatesTitle' |translate}} {{ 'label_errorreqiredMaxlength' |translate}}
+                </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col l6 m12 s12 common_dropdown_v2">
+                <!-- who:Ankit Rawat,what:EWM-16075-EWM-16119 Add new control Recruiter,When:19Feb2024 -->
+                <input type="hidden" id="candidate-recruiter" formControlName="CandidateRecruiters">
+                <dropdown
+                    [configuration]="RecruiterDropdownConfig"
+                (selectedOut)="onManageRecruiterchange($event)" [getSelectedItem]="selectedRecruiterItem"
+                [showMoreOptionsNum]="maxMoreLengthForCandidateRecruiters"></dropdown>    
+            </div>
+        </div>
+
+        <div class="row mb-0">
+            <div class="col l12 m12 s12" formGroupName="address">
+                <mat-form-field class="icon-withchip location-icon-withchip">
+                    <mat-label>{{'quickCandidate_Address' | customTranslate}}</mat-label>
+                              <!-- who:maneesh,what:ewm-11567.ewm-11626 add input, click event,When:29/03/2023 -->
+                    <input type="text" tabindex  formControlName="AddressLinkToMap" readonly (click)="addAddress()"
+                        matInput  placeholder="{{'quickCandidate_Address' | customTranslate}}" id="people-address">
+        
+                    <mat-icon matPrefix class="matPrefix-icon">location_on</mat-icon>
+                    <button tabindex id="addbtn-address" mat-raised-button matSuffix color="primary" type="button" class="matSuffix-icon mb-5"  (click)="addAddress()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+
+                    <mat-error
+                    *ngIf="this.addCandidateForm.get('address.AddressLinkToMap').hasError('maxlength')">
+                    {{ 'quickCandidate_Address' |customTranslate}} {{'label_errormaxlength250' |translate}}
+                </mat-error>
+                </mat-form-field>
+                
+            </div>
+        </div>
+
+    
+        <div class="row mb-0">
+            <div class="col l12 m12 s12">
+                <mat-form-field class="icon-withchip" tabindex>
+                   <!--@Who: maneesh,@When: 26-october-2023,@Why: EWM-14915,@What: for changes label-->
+                    <mat-label>{{'candidate_candidateEmailAddress' | translate}}</mat-label>
+                    <mat-chip-list #chipList aria-label="emails selection"  id="candidate-emailchiplist" required>
+                        <mat-chip *ngFor="let emaildata of emails" [selectable]="selectable" [removable]="removable"
+                            (removed)="remove(emaildata,'email')">
+                            {{emaildata.email}} ({{emaildata.Name}}) 
+         <!-- /*@Who: Bantee kumar,@When: 26-july-2023,@Why: EWM-13328,@What: Main Email id across system should be editable*/ -->
+
+                            <mat-icon color="warn" matChipRemove *ngIf="emaildata.IsDefault==false">cancel</mat-icon>
+                        </mat-chip>
+
+                              <!-- who:maneesh,what:ewm-11567.ewm-11626 add input, click event,When:29/03/2023 -->
+                              <input readonly (click)="addEmail()"
+                              [matChipInputFor]="chipList">
+                    </mat-chip-list>
+                    <mat-icon matPrefix class="matPrefix-icon">email</mat-icon>
+                    <button tabindex id="candidate-addbtn-Email" mat-raised-button matSuffix color="primary" type="button" class="matSuffix-icon mb-5"  (click)="addEmail()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    
+                </mat-form-field>
+                <div class=" ng-slectBox">
+                <mat-error *ngIf="this.addCandidateForm.controls['emailmul'].hasError('required')">
+                    {{ 'candidate_candidateEmailAddress' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                              <!-- who:maneesh,what:ewm-12097 for main is mandatry validation,When:15/05/2023 -->
+                    <mat-error *ngIf="this.addCandidateForm.controls['emailmul'].hasError('mainEmail')">
+                        {{ 'candidate_candidateEmailAddress' |translate}} {{ 'label_peoplecustomerr' |translate}}
+                    </mat-error>
+            </div>
+            </div>
+        </div>
+        <div class="row mb-0">
+            <div class="col l12 m12 s12">
+                <mat-form-field class="icon-withchip" tabindex>
+                   <!--@Who: maneesh,@When: 26-october-2023,@Why: EWM-14915,@What: for changes label-->
+                    <mat-label>{{'label_CandidatePhoneNo' | translate}}</mat-label>
+                    <mat-chip-list #chipListphone aria-label="phone selection">
+                        <mat-chip *ngFor="let number of phone" [selectable]="selectable" id="candidate-phonechiplist" [removable]="removable"
+                            (removed)="remove(number,'phone')">
+                            {{(number?.phoneCodeName && number.phoneCodeName.toString()?.startsWith('+'))?'':'+'}}{{number?.phoneCodeName}}  {{number.phone}} ({{number.Name}})
+                            <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+
+                                  <!-- who:maneesh,what:ewm-11567.ewm-11626 add input, click event,When:29/03/2023 -->
+                                  <input readonly (click)="addPhone()"
+                                  [matChipInputFor]="chipListphone">
+                    </mat-chip-list>
+                    <mat-icon matPrefix class="matPrefix-icon">phone</mat-icon>
+                    <button tabindex mat-raised-button matSuffix color="primary" type="button" class="matSuffix-icon mb-5" id="candidate-btnAdd-people" (click)="addPhone()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-form-field>
+                
+            </div>
+        </div>
+        <div class="row mb-0">
+             <!--***********@when:3-OCT-2025 @WHO:RENU @WHY: EWM-10528 EWM-18236*************-->
+            <!-- <div class="col l12 m12 s12">
+                <mat-form-field class="icon-withchip" tabindex>
+                    <mat-label>{{'label_socialProfileHead' | translate}}</mat-label>
+                    <mat-chip-list #chipListSocials aria-label="socials selection">
+                        <mat-chip *ngFor="let profile of socials"  [selectable]="selectable" id="candidate-socialProfilechiplist" [removable]="removable"
+                            (removed)="remove(profile,'social')">
+                            {{profile.link}}
+                            <mat-icon matChipRemove color="warn" *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+
+                                      who:maneesh,what:ewm-11567.ewm-11626 add input, click event,When:29/03/2023 
+                                     <input readonly (click)="addSocialPofileName()"
+                                     [matChipInputFor]="chipListSocials">
+                    </mat-chip-list>
+                    <mat-icon matPrefix class="matPrefix-icon">groups</mat-icon>
+                    <button tabindex mat-raised-button matSuffix color="primary" class="matSuffix-icon mb-5"
+                        (click)="addSocialPofileName()" id="people-addmore" type="button">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-form-field>
+                
+            </div> -->
+            <div class="col l6 m12 s12 ng-slectBox">
+                <ng-select tabindex placeholder="{{'label_templatetype' | translate}}" required [dropdownPosition]="'top'"
+                    formControlName="temptype" id="candidate-temptype"   [(ngModel)]="selectType">
+                    <ng-option *ngFor="let userType of userTypeList" value="{{userType.InternalCode}}">
+                        {{userType.PublicName}}</ng-option>
+                </ng-select>
+                <mat-error
+                *ngIf="this.addCandidateForm.controls['temptype'].hasError('required') && this.addCandidateForm.controls['temptype'].touched">
+                {{ 'label_templatetype' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+            </div>
+            <div class="col l6 m12 s12" id="status-dropdown">
+                <!-- //@When: 23-jan-2024 @who:maneesh @why: EWM-15806 EWM-15785 fixed dropdown -->
+                <div class="common_dropdown_v2" id="status-change">
+                <!-- <input type="hidden" id="organizationData" formControlName="orgId"> -->
+                    <dropdown
+                    [configuration]="common_DropdownStatus_Config"
+                   (selectedOut)="onManageStatuschange($event)" [getSelectedItem]="selectedStatus">
+               </dropdown> 
+                </div>
+            </div>
+            <!-- //@When: 23-jan-2024 @who:maneesh @why: EWM-15806 EWM-15785 fixed dropdown -->
+            <div class="col l12 m12 s12  ng-slectBox">
+                <input type="hidden" id="organizationData" formControlName="orgId">
+                <dropdown 
+                [configuration]="common_DropdownReason_Config" [resetConfiguration]="resetFormSubjectSubExperties.asObservable()"
+               (selectedOut)="onManageReasonchange($event)" [getSelectedItem]="selectedReason">
+           </dropdown>
+            </div>
+        </div>
+    </mat-dialog-content>
+   
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions class="button-row eoh-dialog-footer instructions-outer">
+        <div class="instructions-inner">
+            <h3>{{'label_instructions' | translate | titlecase}}</h3>
+            <ul>
+                <li>{{'label_IntstructSaveExit'|translate}}</li>
+                <li>{{'label_IntstructSaveShare'|translate}}
+                    <img src="../../../../../../assets/brand/{{EOHLogo}}" width="30" />
+                    {{'label_asMember'|translate}}
+                </li>
+            </ul>
+        </div>
+        <div class="action-buttons">
+            <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="candidate-btnCancel"> {{'button_cancel'|translate}}</button>
+            <button mat-stroked-button color="primary" *ngIf="(extractEnableCanCheck == 1) && (IsEOHIntergrated)"  tabindex  type="button"  [disabled]="!addCandidateForm.valid" (click)="onSaveShare()" id="candidate-btnSave" class="eoh-bg-button"> <img src="../../../../../../assets/brand/{{EOHLogo}}">{{'label_saveShare'|translate}}</button>
+            <button mat-stroked-button color="primary" tabindex  type="button"  [disabled]="!addCandidateForm.valid" (click)="onSaveExit()" id="candidate-btnSave"> {{'label_saveExit'|translate}}</button>
+        </div>
+    </div>
+</form>

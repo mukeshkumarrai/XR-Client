@@ -1,0 +1,129 @@
+<!---
+   @Type: File, <html>
+   @Name: schedule.component.html
+   @Who: Anup Singh
+   @When: 08-jan-2022
+   @Why:EWM-4467 EWM-4529
+   @What: popup component for schedule
+   -->
+
+  
+   <div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+    </div>
+   <div id="schedule" class="removeCandidate" applyTabIndexes>
+       <div class="quick-dialog">
+           <h2 mat-dialog-title class="mb-0">
+               {{'label_schedule' | translate}}
+           </h2>
+           <mat-card-content>
+                <form novalidate [formGroup]="ScheduleForm">
+                        <div class="ng-slectBox col l12 m12 s12" id="removeCandidate-reason" tabindex>
+                            <ng-select placeholder="{{'label_timeZone' |translate}}" tabindex="3" class="show-required"
+                                [clearable]="true" formControlName="TimeZone" id="schedule-UserTimezone"  (change)="getTimezone($event)" [compareWith]="compareFn" required>
+                                <ng-option *ngFor="let timezone of timezoneDetails" [value]="timezone">
+                                    {{timezone.Timezone}}</ng-option>
+                            </ng-select>
+                            <mat-error
+                                *ngIf="this.ScheduleForm.controls['TimeZone'].hasError('required') && ScheduleForm.controls['TimeZone'].touched">
+                                {{ 'label_timeZone' |translate}} {{ 'label_errorreqired' |translate}}
+                            </mat-error>
+                        </div>
+                                <!-- @Who: bantee ,@When: 27-mar-2023, @Why: EWM-11238 ,What: add CustomValidatorService to the start date control -->
+
+                        <mat-form-field>
+                            <!-- fixed dynamic start required by maneesh ewm-17455 -->
+                            <mat-label>{{'label_startDate' | translate}}</mat-label>
+                            <input  matInput [matDatepicker]="DateStart" tabindex
+                                id="schedule-DateStart" (dateChange)="addDateStart($event)"
+                                [(ngModel)]="currentStartDate" formControlName="DateStart"   [placeholder]="getDateFormat" 
+                                [min]="StartDateMin" required >
+                                <button *ngIf="ScheduleForm.value.DateStart || ScheduleForm.controls['DateStart'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="clearStartDate()" > 
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                            <mat-datepicker-toggle matSuffix [for]="DateStart"></mat-datepicker-toggle>
+                            <mat-datepicker #DateStart></mat-datepicker>
+                            <!-- <mat-error
+                                *ngIf="ScheduleForm.controls['DateStart'].hasError('required') && ScheduleForm.controls['DateStart'].touched">
+                                {{'label_startDate'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error *ngIf="ScheduleForm.controls['DateStart'].hasError('invalidDate') && !(ScheduleForm.controls['DateStart'].hasError('required') && ScheduleForm.controls['DateStart'].touched)">
+                                {{'label_invalidDate' | translate}} 
+                            </mat-error> -->
+                    <!-- @Who: bantee ,@When: 14-mar-2023, @Why: EWM-11163 ,What: add CustomValidatorService to the start date control -->
+
+
+                            <mat-error *ngIf="ScheduleForm.controls['DateStart'].hasError('required') && ScheduleForm.controls['DateStart'].touched && !ScheduleForm.controls['DateStart'].hasError('matDatepickerParse')"> {{'label_startDate' |translate}} {{'label_errorreqired'|translate}} </mat-error>
+                            <mat-error *ngIf="ScheduleForm.controls['DateStart'].hasError('invalidDate') && !ScheduleForm.controls['DateStart'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                            <mat-error *ngIf="ScheduleForm.controls['DateStart'].hasError('matDatepickerParse')"> {{'label_invalidDate' | translate}}</mat-error>
+                        </mat-form-field>
+                        
+                        <!--<div class="col l6 m6 s12">
+                            <mat-form-field>
+                                <mat-label>{{'label_startTime'|translate}} * : </mat-label>
+                                <input type="time" matInput id="scheduleTimeStart" name="TimeStart"
+                                    (change)="onChangeEndTime()" formControlName="TimeStart" tabindex>
+                                <mat-error
+                                    *ngIf="this.ScheduleForm.controls['TimeStart'].hasError('required') && ScheduleForm.controls['TimeStart'].touched">
+                                    {{ 'label_startTime' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="col l12 m12 s12 mb-15">
+                            <label>{{'label_endDate' | translate}} * : </label>
+                            <mat-checkbox color="primary" [(ngModel)]="isSameAsDateStart"
+                                [ngModelOptions]="{standalone: true}" type="checkbox" id="schedule-DateEndcheck"
+                                (change)=onChecked($event) tabindex>
+                                {{'label_sameAsStartDate' | translate}}</mat-checkbox>
+                        </div>
+
+                        <div class="col l6 m6 s12" *ngIf="isDateEnd">
+                            <mat-form-field>
+                                <mat-label>{{'label_endDate' | translate}}</mat-label>
+                                <input (click)="DateEnd?.open()" matInput [matDatepicker]="DateEnd" tabindex
+                                    id="schedule-DateEnd" [min]="EndDateMin" (dateChange)="addDateEnd()"
+                                    formControlName="DateEnd" readonly required>
+                                <mat-datepicker-toggle matSuffix [for]="DateEnd"></mat-datepicker-toggle>
+                                <mat-datepicker #DateEnd></mat-datepicker>
+                                <mat-error
+                                    *ngIf="ScheduleForm.controls['DateEnd'].hasError('required') && ScheduleForm.controls['DateEnd'].touched">
+                                    {{'label_endDate'|translate}} {{'label_errorreqired'|translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="col l6 m6 s12">
+                            <mat-form-field>
+                                <mat-label>{{'label_endTime'|translate}} * :</mat-label>
+                                <input type="time" matInput id="schedule-TimeEnd" (change)="onChangeEndTime()"
+                                    min="12:00" name="TimeEnd" formControlName="TimeEnd" tabindex>
+                                <mat-error
+                                    *ngIf="this.ScheduleForm.controls['TimeEnd'].hasError('required') && ScheduleForm.controls['TimeEnd'].touched">
+                                    {{ 'label_endTime' |translate}} {{ 'label_errorreqired' |translate}}
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-error *ngIf="isMinTimeCondotion===true">
+                                {{'label_endTimeStartTimeMsg'|translate}}
+                            </mat-error>
+                        </div>--->
+
+
+                   
+                </form>
+           </mat-card-content>
+           <mat-divider></mat-divider>
+           <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+               <button mat-stroked-button color="warn" id="btnClose" tabindex (click)="onDismiss()"> {{'button_close' |
+                   translate}}</button>
+               <button mat-stroked-button color="primary" id="btnAdd" tabindex
+                   [disabled]="!ScheduleForm.valid || isMinTimeCondotion"
+                   (click)="onConfirm(this.ScheduleForm.value)">{{'label_add' |translate}}</button>
+           </div>
+   
+       </div>
+   </div>

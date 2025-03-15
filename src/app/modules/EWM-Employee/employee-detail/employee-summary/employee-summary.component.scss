@@ -1,0 +1,448 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Satya Prakash Gupta
+  @When: 04-Aug-2021
+  @Why: EWM-2240 EWM-2364
+  @What:  This page will be use for the candidate summary Component scss file
+
+*/
+
+@import "../../../../../styles-var.scss";
+
+.general-info-data{
+  display: grid;
+  align-items: flex-start;
+  grid: auto/ 180px calc(100% - 190px);
+  gap: 10px;
+  margin-bottom: 10px;
+  @media screen and (min-width: 365px) and (max-width: 1113px) {
+    grid: auto/ 140px calc(100% - 150px);
+  }
+  @media screen and (min-width: 240px) and (max-width: 364px) {
+    grid: auto/ 110px calc(100% - 120px);
+  }
+  .mat-icon{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 16px;
+  }
+  p{
+    display: flex;
+    align-items: center;
+  }
+  .socail-links{
+    display: inline-block;
+    a{
+      width: 22px;
+      height: 22px;
+      opacity: 0.7;
+      display: inline-block;
+      padding: 5px;
+      &:hover{
+        opacity: 1;
+      }
+      img{
+        width: 22px;
+        height: 22px;
+        border-radius: 4px;
+        background: #dadada;
+        padding: 1px;
+      }
+    }
+    .mat-mini-fab{
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      .mat-icon{
+        width: 22px;
+        height: 22px;
+        line-height: 3px;
+        font-size: 16px;
+      }
+    }
+  }
+}
+.mat-icon-button, .mat-mini-fab {
+    overflow: hidden;
+  }
+  .candidate-summry {
+    margin: 10px 0px;
+    .mat-card {
+      padding-bottom: 3px;
+      margin-bottom: 30px;
+      transition: 0.3s;
+      border-radius: 8px;
+      overflow: hidden;
+      .mat-card-header {
+        flex-direction: inherit;
+        align-items: center;
+        .mat-card-title {
+          width: auto;
+          font-size: 16px;
+          font-weight: 500;
+        }
+        .summryeheader-spacer {
+          flex: 1 1 auto;
+        }
+        // .mat-mini-fab {
+        //   margin-left: 5px;
+        //   position: inherit;
+        //   width: 30px;
+        //   line-height: 30px;
+        //   height: 30px;
+        //   .mat-icon {
+        //     width: 30px;
+        //     height: 30px;
+        //     line-height: 30px;
+        //     font-size: 20px;
+        //   }
+        // }
+      }
+      .mat-divider-horizontal {
+        margin-top: 0px;
+      }
+      .mat-card-content {
+        height: auto;
+        padding: 10px 15px;
+        margin: 0px;
+        min-height: 100px;
+        max-height: 350px;
+        overflow: inherit;
+        strong {
+          font-weight: 500;
+        }
+        p {
+          margin: 0px;
+          text-overflow: inherit;
+          overflow: inherit;
+          white-space: inherit;
+          word-break: break-word;
+        }
+        .candidateActionButton {
+          @media screen and (min-width: 993px) and (max-width: 1080px) {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+          }
+          @media screen and (min-width: 601px) and (max-width: 805px) {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+          }
+          .mat-icon-button {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            .mat-icon {
+              width: 30px;
+              height: 30px;
+              font-size: 20px;
+              line-height: 30px;
+            }
+          }
+        }
+        .employee-status{
+          .col{
+            display: flex;
+            align-items: center;
+            .mat-icon{
+              font-size: 20px;
+              width: 20px;
+              height: 20px;
+              line-height: 20px;
+            }
+          }
+        }
+
+        .employee-panel{
+          .employee-accordion{
+            .mat-expansion-panel{
+              border-radius: 4px;
+              .mat-expansion-panel-header{
+                padding: 5px 10px;
+                height: 40px;
+                cursor: inherit;
+                @media only screen and (max-width: 580px) and (min-width: 240px) {
+                  height: auto;
+                  align-items: flex-start;
+                }
+                .title-description{
+                  display: grid;
+                  grid: auto/calc(100% - 107px) 97px;
+                  gap: 10px;
+                  width: 100%;
+                  .mat-expansion-panel-header-title{
+                    display: grid;
+                    grid: auto/200px calc(100% - 210px);
+                    gap: 10px;
+                    @media only screen and (max-width: 1180px) and (min-width: 993px) {
+                      grid: auto/110px calc(100% - 120px);
+                    }
+                    @media only screen and (max-width: 580px) and (min-width: 240px) {
+                      grid: auto/1fr;
+                    }
+                    .title-data{
+                      line-height: 18px;
+                      span{
+                        font-size: 10px;
+                      }
+                      p{
+                        font-size: 13px;
+                        font-weight: 500;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                      }
+                    }
+                  }
+                  .mat-expansion-panel-header-description{
+                    flex-grow: 0;
+                    margin-right: 0px;
+                    justify-content: flex-end;
+                    .panelActionButton{
+                      display: flex;
+                      justify-content: flex-end;
+                      gap: 3px;
+                      align-items: center;
+                      @media only screen and (max-width: 580px) and (min-width: 240px) {
+                        align-items: flex-start;
+                      }
+                      .mat-icon-button{
+                        width: 22px;
+                        height: 22px;
+                        line-height: 22px;
+                        .mat-icon{
+                          width: 22px;
+                          height: 22px;
+                          line-height: 22px;
+                          font-size: 16px;
+                          opacity: 0.7;
+                          &:hover{
+                            opacity: 1;
+                          }
+                        }
+                      }
+                      .more-less{
+                        .mat-icon{
+                          font-size: 22px;
+                          color: rgba(0, 0, 0, 0.87);
+                          opacity: 1;
+                        }
+                      }
+                    }
+                  }
+                }
+                &:hover{
+                  background: transparent;
+                }
+                .current{
+                  position: absolute;
+                  right: 4px;
+                  top: 4px;
+                  color: $white-color;
+                  border-radius: 50px;
+                  border: 1px solid $primary-bg-color;
+                  font-size: 10px;
+                  padding: 2px 4px;
+                  line-height: 9px;
+                  height: 9px;
+                  font-weight: normal;
+                  background: $primary-bg-color;
+                  letter-spacing: 0.5px;
+                  text-transform: uppercase;
+                  visibility: hidden;
+                }
+              }
+              .mat-expansion-panel-header.mat-expanded{
+                height: 40px;
+                cursor: inherit;
+                @media only screen and (max-width: 580px) and (min-width: 240px) {
+                  height: auto;
+                }
+              }  
+              .mat-expansion-panel-header.no-cursor.mat-expanded{
+                cursor: inherit;
+                .title-description{
+                  grid: auto/calc(100% - 82px) 72px;
+                }
+              }  
+              .mat-expansion-panel-header.no-cursor.panel-height.mat-expanded{
+                height: auto;
+                .title-description{
+                  grid: auto/calc(100% - 82px) 72px;
+                  .mat-expansion-panel-header-title{
+                    grid: auto/100%;
+                    .title-data{
+                      p{
+                        padding-left: 0px;
+                        font-weight: normal;
+                      }
+                    }
+                  }
+                  .mat-expansion-panel-header-description{
+                    .panelActionButton{
+                      align-items: flex-start;
+                    }
+                  }
+                }
+              } 
+            }
+            .mat-expansion-panel.active{
+              background: rgb(103 58 183 / 2%);
+              border: 1px solid $primary-bg-color;
+              .mat-expansion-panel-header{
+                .current{
+                  visibility: visible;
+                }
+                .title-description{
+                  .mat-expansion-panel-header-description{
+                    .panelActionButton{
+                      align-items: flex-end;
+                    }
+                  }
+                } 
+              }
+            }
+            .mat-expansion-panel.active:not(.mat-expanded){
+              .mat-expansion-panel-header:hover{
+                background: rgb(103 58 183 / 4%);
+              } 
+            }
+          }
+        }
+        &:hover{
+          overflow: auto;
+        }
+      }
+      .pr-30 {
+        padding-right: 30px;
+      }
+    }
+  }
+
+  ::ng-deep {
+    .employee-panel .employee-accordion{
+      .mat-expansion-panel{
+        .mat-expansion-panel-header.no-cursor.panel-height.mat-expanded{
+          .mat-content{
+            display: initial;
+          }
+        } 
+      } 
+      .mat-expansion-panel-content{
+        display: inherit;
+        .mat-expansion-panel-body{
+          padding: 0px 10px 5px;
+          display: grid;
+          grid: auto/200px calc(100% - 210px);
+          column-gap: 10px;
+          row-gap: 5px;
+          @media only screen and (max-width: 1180px) and (min-width: 993px) {
+            grid: auto/110px calc(100% - 120px);
+          }
+          @media only screen and (max-width: 580px) and (min-width: 240px) {
+            display: inherit;
+          }
+          .title-data{
+            line-height: 18px;
+            span{
+              font-size: 10px;
+            }
+            p{
+              font-size: 13px;
+              font-weight: 500;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              // @When: 01-08-2023 @who:Amit @why: EWM-13660 @what: add btn style
+              .mat-stroked-button{
+                line-height: 18px;
+                padding: 0px 5px;
+                min-width: 45px;
+                margin-bottom: 2px;
+                background: $white-bg;
+                box-shadow: rgba(0, 0, 0, 0.10) 1px 1px 1px;
+                font-style: italic;
+                span{
+                  font-size: 11px;
+                }
+              }
+            }
+            // @When: 27-04-2023 @who:Amit @why: EWM-12232 @what: add location style
+            p.full-location{
+              white-space: normal;
+            }
+            &:nth-child(7),&:nth-child(8),&:last-child{
+              grid-column: 1/3;
+            } 
+          }
+          .title-data.title-data-haff{
+            grid-column: inherit;
+          }
+        }
+      }
+    }
+  }
+  .candidateJobsList {
+    display: flex;
+    justify-content: flex-start;
+    @media only screen and (min-width: 320px) and (max-width: 1170px){
+      display: block;
+    }
+    .col {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      @media only screen and (min-width: 320px) and (max-width: 1170px){
+        width: 100%;
+      }
+    }
+    .canididateShortlistedOrNot {
+      display: flex;
+      align-items: center;
+      text-align: left;
+    }
+    .canididateMatch {
+      display: flex;
+      align-items: center;
+      text-align: left;
+    }
+    .canididatebyAdded {
+      display: flex;
+      align-items: center;
+      text-align: left;
+    }
+  }
+  
+  .addSection {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .mat-raised-button {
+      margin-left: 0px;
+    }
+  }
+  :host ::ng-deep {
+  .innerHtmlSummary p{
+    margin: 0px;
+    word-break: break-word;
+    margin-bottom: 8px;
+  }}
+  
+  .overflowTxt{
+    p{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }  
+  }
+  .skillAction{
+    display: flex;
+    justify-content: flex-end;
+  }
+  .cursor {
+    cursor: pointer !important;
+  }

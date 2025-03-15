@@ -1,0 +1,129 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: look-and-feel.component.scss
+    @Who: Satya Prakash
+    @When: 24-Nov-2020
+    @Why: ROST-356 ROST-402
+    @What: You can add look-and-feel styles to this file, and also import other style files
+*/
+.look-part{
+    &, > .mat-card{
+        height: auto;
+    }
+}
+.custom-checkbox {
+    margin: 10px 10px 10px;
+    width: 85px;
+}
+@media only screen and (max-width: 1023px) and (min-width: 320px){
+    .separateLabel{
+      height: 35px;
+    }
+}
+@media only screen and (max-width: 374px) and (min-width: 320px){
+    .logoUploadSec .logoUploadbox .mat-button.mat-primary {
+        position: relative;
+        border: 3px;
+        left: 0px;
+        margin: 5px 0px;
+    }
+    .faviconUpload{
+        margin-top: 15px;
+    }
+}
+@media only screen and (max-width: 852px) and (min-width: 584px){
+    .logoUploadSec .logoUploadbox .mat-button.mat-primary {
+        position: relative;
+        top: 2px;
+        border: 3px;
+        left: 0px;
+        margin: 5px 0px;
+        display: block;
+    }
+}
+
+.uploadImage{
+    max-width: 270px;
+    min-width: 270px;
+}
+
+@media only screen and (max-width: 359px) and (min-width: 320px){
+    .uploadImage{
+        max-width: 210px;
+        min-width: unset;
+    }
+}
+@media only screen and (max-width: 390px) and (min-width: 360px){
+    .uploadImage{
+        max-width: 250px;
+        min-width: unset;
+    }
+}
+
+.uploadImage .previewImage{
+    width: 100%;
+}
+.infoIconStyle{
+    position: relative;
+    top: 20px;
+    left: 0px;
+    cursor: pointer;
+    color: #9a9a9a;   
+  }
+  .disHeading{
+      background-color: #e1e1e2;
+      text-align: center;
+      display: block;
+      padding: 5px 10px;
+  }
+
+.look-and-feel{
+    .look-full-part{
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 10px;
+        h2.cardSubTitle{
+            text-align: left;
+            font-size: 16px;
+            margin: 0px;
+            margin-bottom: 5px;
+            .mat-raised-button.mat-primary{
+                float: right;
+                position: relative;
+                top: -8px;
+            }
+        }
+        .mat-divider-horizontal{
+            position: relative;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        } 
+        .look-section{
+            display: grid;
+            grid: auto/calc(50% - 5px) calc(50% - 5px);
+            gap: 10px;
+            @media only screen and (max-width: 767px) and (min-width: 320px) {
+                grid: auto/calc(100% - 0px);
+            }
+        }
+        .look-section.look-dateTime-section{
+            grid: auto/calc(35% - 5px) calc(35% - 5px);
+            @media only screen and (max-width: 1060px) and (min-width: 768px) {
+                grid: auto/calc(50% - 5px) calc(50% - 0px);
+            }
+            @media only screen and (max-width: 767px) and (min-width: 320px) {
+                grid: auto/calc(100% - 0px);
+            }
+        }
+        .look-section.look-prox-section{
+            grid: auto/calc(35% - 5px) calc(35% - 5px) calc(15% - 5px);
+            @media only screen and (max-width: 600px) and (min-width: 320px) {
+                grid: auto/calc(45% - 5px) calc(45% - 5px) calc(10% - 5px);
+            }
+        }
+    }
+}
+
+
+  

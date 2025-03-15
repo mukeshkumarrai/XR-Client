@@ -1,0 +1,61 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who:  Adarsh singh
+    @When: 09-09-2023
+    @Why: EWM-13814 EWM-13877
+    @What: This page is creted for show google maps for canidate card view
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+<div id="lat-long-distance" class="latLongDistance" applyTabIndexes>
+
+    <div class="modal-header" id="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_Candidate'|translate}} {{'label_location'|translate}}</h2>      
+        <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn" class="material-icons closeModal">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content id="google-dialog-content" class="map-mat-card mb-0">
+
+        <mat-form-field>
+            <input matInput [value]="canAddress" id="lat-long-distance-canAddress" placeholder="{{'quickCandidate_Address'|translate}}" disabled>
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <input matInput tabindex [value]="jobAddress" id="lat-long-distance-jobAddress" placeholder="{{'label_companyAddress'|customTranslate}}" disabled>
+        </mat-form-field>
+       
+        <div class="mb-0 distanceIcon">
+            <mat-icon> import_export</mat-icon>
+        </div>
+       
+ 
+        <mat-form-field>
+            <input matInput tabindex [value]="distance" id="lat-long-distance" placeholder="{{'label_proximity'|translate}}" disabled>
+        </mat-form-field>
+       
+        <div class="googleMaps">
+        <agm-map class="agm-map" [latitude]="lat" [longitude]="lng">
+            <agm-direction 
+                [origin]="origin" 
+                [destination]="destination">
+            </agm-direction>
+            </agm-map>
+        </div>
+
+        <div class="mb-0 distanceTotal">
+            <a href="{{fullUrl}}" target="_blank">
+                <div id="lat-long-distance-totalDistance">
+                    <label class="distanceTotalLbl">Get Direction in Map</label>
+                </div>
+            </a>
+        </div>
+        
+    </mat-dialog-content>
+</div>

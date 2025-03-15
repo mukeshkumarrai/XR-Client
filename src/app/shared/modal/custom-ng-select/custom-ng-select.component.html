@@ -1,0 +1,30 @@
+<ng-select class="countrySelect dropdown-body" #select
+[ngClass]="IsRequired? 'show-required' : ''"
+                placeholder="{{ placeholder!=''&& placeholder!=undefined ?(placeholder|translate):('label_selectCountry'|translate)}}  {{IsRequired?'':''}}"
+                appendTo="body"
+                [searchable]="false"
+                [disabled]="IsDisabled"
+                [clearable]="isCrossIcon"
+                [closeOnSelect]="true"
+                [(ngModel)]="selectedIn"
+                [formControl]="selectedValue"
+                (change)="getValues()" 
+                (change)="resetData()" 
+                [compareWith]="compareFn" required={{IsRequired}}
+                id="ddl__selectCountry">
+                <ng-template ng-header-tmp>
+                    <label class="customNgSelect_searchHeadingTxt" >{{'label_selectCountry' | translate}}</label>
+                    <input class="selectSearch" tabindex="1" placeholder="{{'label_search' |translate}} {{'label_country' | translate}}" type="text" (input)="select.filter($event.target.value)"/>
+                </ng-template>
+                <!-- <ng-option [value]="0" disabled>{{'label_selectCountry'|translate}}</ng-option> -->
+                <ng-option [value]="0" *ngIf="isselectAll?isselectAll:false">{{'label_selectAll'| translate}}</ng-option>
+                <ng-option [value]="item"  *ngFor="let item of countryList">
+                    <img src="{{item.ImageUrl}}" width="20px" height="20px" class="listWithImage" />
+                    {{item.CountryName}}
+                </ng-option>
+    </ng-select>
+    <mat-error
+*ngIf="selectedValue.hasError('required') && selectedValue.touched && !isErrorMsg">
+{{'label_country' |translate}} {{'label_errorreqired'|translate}}
+</mat-error>
+

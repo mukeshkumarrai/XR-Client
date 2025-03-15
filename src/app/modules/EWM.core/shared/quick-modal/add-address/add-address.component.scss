@@ -1,0 +1,106 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Naresh Singh
+    @When: 16-June-2021
+    @Why: EWM-1450 EWM-1865
+    @What: You can add this page styles on same file, and also import other style files
+*/
+*{outline:none !important}
+.quick-dialog{
+    .row{
+        margin-bottom: 10px;
+    }
+    h4{
+        margin: 0px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+        border-radius: 4px;
+        .mat-icon{
+            margin-right: 5px;
+        }
+    }
+    &:first-child{
+        margin-top: 0px;
+    }
+    .ng-select-withicon{
+        display: inline-flex;
+        align-items: baseline;
+        box-sizing: border-box;
+        width: 100%;
+        .ng-select{
+            font-size: 14px;
+            width: 100%;
+        }
+    }
+    .select-matPrefix-icon{
+        top: 8px;
+        position: relative;
+        width: 1.215em; 
+    }
+    .matPrefix-icon{
+        top: 8px;
+        position: relative;
+        width: 1.215em;
+    }
+    .matSuffix-icon{
+        position: relative;
+        bottom: 0px;
+        font-size: 12px;
+        padding: 3px 10px;
+        line-height: 25px;
+        height: 30px;
+        min-width: 35px;
+    }
+    .mat-form-field-should-float{
+        .matPrefix-icon{
+            top: 8px;
+        }
+    }
+}
+
+.mat-error{
+    font-size:11px;    
+}
+.codeMatError{
+    margin-top:-15px;
+}
+
+
+.mgBottom5{
+    margin-bottom: 5px;
+}
+.ng-slectBox{
+    font-size: 14px !important;
+}
+// .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label{
+//     transform: ;
+// }
+
+.mat-chip.mat-standard-chip .mat-chip-remove {
+     color: #f44336;
+    opacity: 1;
+  }
+
+  .mat-dialog-title{
+      margin-bottom: 5px;
+  }
+  .addAddParaStyle{
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    margin-bottom: 20px;
+    font-size: 75%;
+  }
+  .ng-select-container{
+      height: 47px !important;
+  }
+  .default-location{
+    .mat-slide-toggle{
+        margin:0px 10px;
+    }
+  }

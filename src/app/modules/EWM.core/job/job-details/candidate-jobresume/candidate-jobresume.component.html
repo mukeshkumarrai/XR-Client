@@ -1,0 +1,48 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: candidate-jobresume.component.html
+    @Who: Suika
+    @When: 25-08-2023
+    @Why: EWM-13813 EWM-13813
+    @What:  This page wil be use only for the candidate Component HTML
+-->
+<!-- @When: 31-08-2023 @who:Amit @why: EWM-13874 @what: candidate job resume page modified -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header" id="modal-header">      
+  <button mat-icon-button  id="btncloseinfo" (click)="onDismiss()" color="warn">
+      <mat-icon id="close-icon">close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content id="candidate-jobresume-right-seccol">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="selectedTabValue($event)">
+        <mat-tab label="{{'label_resume' | translate}}" id="resume">
+            <ng-template mat-tab-label>
+                <mat-icon id="example-tab-icon" class="example-tab-icon">description</mat-icon>
+                {{'label_resume' | translate}}
+            </ng-template>   
+            <div class="parse-resume-btn" id="parse-resume-btn">
+                <button mat-raised-button class="buttonForDesktopMobile" color="primary"
+                    type="button" id="parseResumeBtn" (click)="parseResume()">
+                    <mat-icon class="inputval" matTooltip="{{'label_parseResume'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">description</mat-icon>
+                    <span class="buttonTxt inputval">{{'label_parseResume'|translate}}</span>
+                </button>
+            </div>    
+            <div class="PDFViewer" id="PDFViewer">
+                <ngx-doc-viewer [url]="ResumeUrl" [viewer]="viewer" style="width: 100%; height: 100%;">
+                </ngx-doc-viewer>
+            </div>
+        </mat-tab>           
+        <mat-tab label="{{'label_parseResume'|translate}}" id="resumeParsed">
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon" id="example-tab-iconparsed">description</mat-icon>
+                {{'label_parseResume'| translate}}
+            </ng-template>
+            <app-candidate-jobresume-parse *ngIf="isParse" [candidateId]="candId" [DemoDoc]="ResumeUrl" [FileName]="FileName" [FilePath]="FilePath" [UploadFileName]="UploadFileName">
+            </app-candidate-jobresume-parse>
+        </mat-tab>
+    </mat-tab-group>
+</mat-dialog-content>
+          

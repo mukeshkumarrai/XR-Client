@@ -1,0 +1,167 @@
+/*
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: Clientlandingpage.component.html
+  @Who: Satya Prakash Gupta
+  @When: 23-Jun-2022
+  @Why: EWM-6620 EWM-7046
+  @What: This page will be use for the client landing scss file
+*/
+.card-header-data {
+  width: calc(100% - 60px);
+  .cardListTxt {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 100%;
+  }
+}
+.advancedsearch-sidenav-content{
+  .kendocardData {
+    height: calc(100vh - 215px);
+    overflow: auto;
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100vh - 307px);
+    }
+  }
+  .kendo-grid-appearance {
+    overflow: hidden;
+    .k-grid {
+      height: calc(100vh - 238px);
+      @media only screen and (max-width: 580px) and (min-width: 320px) {
+        // height: calc(100vh - 272px);
+        height: calc(100vh - 328px);
+      }
+    }
+  }
+}
+.advancedsearch-container {
+  height: 100%;
+  width: 100%;
+}
+.mat-card .mat-card-content.advancedsearch-mat-card-content {
+  margin-top: 0px;
+  padding-bottom: 0px;
+  height: calc(100vh - 238px);
+  @media only screen and (max-width: 1060px) and (min-width: 826px) {
+    height: calc(100vh - 251px);
+  }
+  @media only screen and (max-width: 825px) and (min-width: 330px) {
+    height: calc(100vh - 295px);
+  }
+  @media only screen and (max-width: 329px) and (min-width: 320px) {
+    height: calc(100vh - 330px);
+  }
+}
+.advancedsearchDrawer {
+  width: 100%;
+  max-width: 345px;
+  padding: 0px;
+  background: transparent;
+  box-shadow: none !important;
+  display: flex;
+  .drawerTitleSec {
+    width: 40px;
+    h4 {
+      width: 140px;
+      margin: 0px;
+      height: 40px;
+      line-height: 40px;
+      .closeDrawerIcon {
+        position: absolute;
+        padding: 0px;
+        min-width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  .advancedsearchDrawerData {
+    width: calc(100% - 40px);
+    padding: 10px;
+    overflow: auto;
+    border-radius: 0px;
+    height: calc(100vh - 270px);
+    @media only screen and (max-width: 1060px) and (min-width: 581px) {
+      height: calc(100vh - 251px);
+    }
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100vh - 251px);
+    }
+  }
+}
+:host ::ng-deep {
+  .page-header.mat-card-header .header-action-button .header-form {
+    @media only screen and (max-width: 370px){
+      max-width: 170px;
+    }
+  }
+  .ng-dropdown-panel .ng-dropdown-panel-items {
+    max-width: 260px;
+  }
+  .k-grid-header .k-header > .k-link {
+    display: block;
+  }
+}
+.top-75{
+  top:-75px;
+}
+.clientlanding-kendo .k-grid td:first-child {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.textRight{
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+.scrollloading {
+  position: absolute;
+  height: 75px;
+  bottom: 0;
+  width:calc(100% - 6px);
+}
+
+.copyMessage.email-hide{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: none;
+  .alert-green {
+    color: #7fb734;
+    background: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 12px;
+    padding: 5px;
+    height: 12px;
+    line-height: 15px;
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      font-size: 16px;
+    }
+  }
+}
+
+
+.newEmailBtn{
+position: relative;
+.content-copy{
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  .mat-icon{
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 16px;
+    margin: 0px 3px;
+  }
+}
+}

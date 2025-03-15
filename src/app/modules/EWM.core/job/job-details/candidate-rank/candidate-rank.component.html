@@ -1,0 +1,92 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Adarsh singh
+    @When: 07-06-2022
+    @Why: EWM-7067 EWM-7080
+    @What:  This component is used for candiate rank
+-->
+<!-- Entire Software : Satya Prakash Gupta : 13-June-2022 : Modal Changes : EWM-7067 EWM-7082 -->
+<form [formGroup]="candiateRankForm" applyTabIndexes>
+    <div class="modal-header" id="rank-modal-header">
+        <h2 mat-dialog-title class="mb-0">
+            {{'label_Candidate' |translate}} {{'label_Rank' |translate}}
+        </h2>
+    </div>
+    <mat-dialog-content>
+        <div class="job-rank" id="job-rank">
+            <mat-form-field class="show-required">
+                <input type="number" matInput min="1" max="9999" step="1" formControlName="CandidateRank" appDigitOnly
+                  (keyup)="conditionChcek()" id="CandidateRank" maxlength="5" placeholder="{{'label_Candidate' |translate}} {{'label_Rank' |translate}}">
+                <mat-error *ngIf="candiateRankForm.controls['CandidateRank'].hasError('required')">
+                    {{'label_Candidate' |translate}} {{'label_Rank' |translate}} {{ 'label_errorreqired' |translate}}
+                </mat-error>
+                <mat-error *ngIf="candiateRankForm.controls['CandidateRank'].hasError('pattern')">
+                    {{'label_Candidate'|translate}} {{'label_Rank' |translate}} {{'label_rankMustBePositive'|translate}}
+                </mat-error>
+                <mat-error *ngIf="candiateRankForm.controls['CandidateRank'].hasError('maxlength')">
+                    {{'label_Candidate'|translate}} {{'label_Rank' |translate}} {{'label_candiateRankMaxLength'|translate}}
+                </mat-error>
+                <mat-error *ngIf="candiateRankForm.controls['CandidateRank'].hasError('numbercheck')">
+                    {{'label_Candidate'|translate}} {{'label_Rank' |translate}} {{'label_candiateRankMaxLength'|translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+            <div class="mb-0 colorCode" floatLabel="never">
+                <!-- <input matInput  id="ColorCodesc"
+                style="opacity: 0;"> -->
+                <!-- --------@When: 11-03-2023 @who:maneesh @why: EWM-11116 Desc- Custome color picker -------- -->
+                <input matInput formControlName="RankColorCode" id="ColorCodesc" readonly>
+                <div  class="color-picker-button" [ngStyle]="{backgroundColor:selctedColor}" (click)="showColorPallate($event)" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+                </div>
+                <ng-template cdkConnectedOverlay cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+                [cdkConnectedOverlayHasBackdrop]="true" [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="showColorPallateContainer"
+                (backdropClick)="showColorPallateContainer = false">
+                    <!-- color picker body  -->
+                    <div class="color-picker-default">
+                        <input type="color" id="head" name="head" value="#e66465" (input)="onChaneColor($event)">
+                    </div>
+                    <div class="color-picker-container" [style.opacity]="isMoreColorClicked ? '0' : ' '"
+                        [style.display]="isMoreColorClicked ? 'none' : ' '">
+                        <div class="themeColor">{{'label_selectColour' | translate}}</div>
+                        <div class="picker theme-color">
+                            <div (click)="onSelectColor(codes)" class="color-picker" *ngFor="let codes of themeColors"
+                                [ngStyle]="{backgroundColor:codes.colorCode}"> </div>
+                        </div>
+                        <div class="picker standard-color">
+                            <div (click)="onSelectColor(codes)" class="color-picker" *ngFor="let codes of standardColor"
+                                [ngStyle]="{backgroundColor:codes.colorCode}">
+                            </div>
+                        </div>
+                        
+                        <div class="footer">
+                            <div class="noFill" (click)="onSelectColor(null)">
+                                <mat-icon>clear</mat-icon>
+                                <div class="noFillText">{{'label_clear'| translate}}</div>
+                            </div>
+                            <div class="more" (click)="closeTemplate()">
+                                <label for="head" class="noFill">
+                                    <mat-icon fontSet="material-icons-outlined">palette</mat-icon>
+                                    <span>{{'labelMore'| translate}}</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- color picker body End-->
+                </ng-template>
+                <!-- End  -->
+            </div>
+        </mat-form-field>
+        </div>
+    </mat-dialog-content>
+
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!candiateRankForm?.valid"
+            (click)="onConfirm(this.candiateRankForm.value)" id="btnSave">{{'label_save'|translate}}</button>
+    </div>
+</form>

@@ -1,0 +1,88 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Suika
+    @When: 28-Sept-2022
+    @Why: EWM-5342
+    @What:  This component is used for dependent templates.
+-->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+
+<form [formGroup]="addForm" applyTabIndexes  id="share-resume-form">
+  <div  class="quick-dialog-candidateAdd-dependent" id="share-document">
+     <h2 mat-dialog-title>
+          {{'label_share' | translate}}
+      </h2>
+      <mat-dialog-content class="col">
+        <div class="row mb-0">
+          <div class="col l12 m12 s12">
+              <mat-form-field class="example-chip-list">
+                  <mat-label>{{'label_share_to' | translate}}</mat-label>
+                 <!--@when:1-nov-2021;@who:Priti Srivastva;@why: EWM-3465;@what: add form control attribute-->
+                  <mat-chip-list #chipList aria-label="user selection" [formControl]="EmailList" >
+                      <mat-chip id="user" *ngFor="let userList of userSelectedList | slice:0:this.userListLengthMore" [selectable]="selectable"
+                          [removable]="removable" (removed)="remove(userList.Id)">                  
+                          {{userList.FullNameEmail}}
+                          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <mat-chip *ngIf="userSelectedList.length > this.userListLengthMore">
+                        <!-- One more -->
+                        <span class="ng-value-label"
+                            (click)="clickForMoreRecord()">{{userSelectedList.length -
+                            this.userListLengthMore}} more...</span>
+                    </mat-chip>
+                      <input matInput id="chip" placeholder="{{'label_share_to_placeholder' | translate}}" #nameInput formControlName="ToEmailIds"
+                          [formControl]="searchUserCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                          (blur)="addEmail($event.target.value)" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [(ngModel)]="searchValue"
+                            autocomplete="off"> 
+                      <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                  </mat-chip-list>
+
+
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUserEmail($event)">
+            <mat-option *ngFor="let userData of searchUserList" id="userDropdownId"
+                [value]="userData">
+                <div class="user-email-searchlist">
+                    <div class="userAvtaar">
+                        <img src="{{userData.ProfileImagePath}}" tabindex
+                            *ngIf="userData.ProfileImagePath!='' " class="gridImage circle">            
+                          <span *ngIf="userData.ProfileImagePath==''"  tabindex>{{sortName(userData.FullName,'')}}</span>
+                    </div>
+                    <span class="search-txt">{{userData.FullNameEmail}}</span>
+                    <span class="spacer"></span>
+                    <button mat-icon-button id="btnListAdd" color="primary">
+                      <mat-icon class="mr-0">add</mat-icon>
+                    </button>
+                </div>
+            </mat-option>
+        </mat-autocomplete>
+         <button matSuffix mat-button color="primary" (click)="confirmShareDocument()" matTooltip="{{'label_share_to_placeholder' | translate}}"
+          class="ccBccEmailBtn" tabindex>
+          <mat-icon class="addContactIcon">add</mat-icon>
+        </button>
+        <!--@when:1-nov-2021;@who:Priti Srivastva;@why: EWM-3465-->
+        <mat-error *ngIf="EmailList.hasError('required') && !isNotValidEmail">
+          {{'label_share_to'|translate}} {{'label_errorreqired'|translate}}
+      </mat-error>
+        </mat-form-field>
+        <span class="error" *ngIf="isNotValidEmail">
+          {{'label_share_to'|translate}} {{'label_errorEmail'|translate}}
+      </span>
+      </div>
+     
+    </div>
+  </mat-dialog-content>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+   <!--@when:1-nov-2021;@who:Priti Srivastva;@why: EWM-3465;@what:change made in disable condition-->
+  <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+    {{'button_cancel'|translate}}</button>
+  <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid || !EmailList.valid" (click)="onConfirm()"
+id="btnSave">{{'label_share'|translate}}</button>
+</div>
+</form>

@@ -1,0 +1,22 @@
+<div>
+  <!-- <h4>{{tdata | uppercase}}</h4>  -->
+  <table class="tableData">
+    <tr>
+      <!-- <th>{{'label_employee' | translate}}</th> -->
+      <th>{{'label_fieldName' | translate}}</th>
+      <th>{{'label_english' | translate}}</th>
+      <th>{{'label_hindi' | translate}}</th>
+      <th>{{'label_ara' | translate}}</th>
+
+    </tr>
+    <tr *ngFor="let tdata of gridGroupView ,let i = index">
+      <td>{{tdata}}</td>
+      <td>{{gridView[i][tdata].eng}}</td>
+      <td>{{gridView[i][tdata].hin}}</td>
+      <td>{{gridView[i][tdata].ara}}</td>
+    </tr>
+
+  </table>
+  <br>
+  <br>
+</div>

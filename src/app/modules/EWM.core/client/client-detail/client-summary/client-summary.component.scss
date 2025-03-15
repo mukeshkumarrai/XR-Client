@@ -1,0 +1,116 @@
+@import "../../../../../../mixinStyle.scss";
+
+/* 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Satya Prakash Gupta
+  @When: 04-Aug-2021
+  @Why: EWM-2240 EWM-2364
+  @What:  This page will be use for the candidate summary Component scss file
+
+*/
+.mat-icon-button, .mat-mini-fab {
+  overflow: hidden;
+}
+.candidate-summry {
+  margin: 10px 0px;
+  .mat-card {
+    padding-bottom: 3px;
+    margin-bottom: 30px;
+    transition: 0.3s;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+}
+.candidateJobsList {
+  display: flex;
+  justify-content: flex-start;
+  @media only screen and (min-width: 320px) and (max-width: 1170px){
+    display: block;
+  }
+  .col {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    @media only screen and (min-width: 320px) and (max-width: 1170px){
+      width: 100%;
+    }
+  }
+  .canididateShortlistedOrNot {
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+  .canididateMatch {
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+  .canididatebyAdded {
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+}
+.addSection {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .mat-raised-button {
+    margin-left: 0px;
+  }
+}
+:host ::ng-deep {
+  .innerHtmlSummary p{
+    margin: 0px;
+    word-break: break-all;
+    margin-bottom: 8px;
+  }
+}
+.overflowTxt{
+  p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }  
+}
+.skillAction{
+  display: flex;
+  justify-content: flex-end;
+}
+.cursor {
+  cursor: pointer !important;
+}
+.totalrecord{
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 10px;
+}
+.button-with-clear .clear-with-data .mat-icon-button .mat-icon{
+  line-height: 28px;
+}
+
+::ng-deep {
+  .candidate-panel .candidate-accordion{
+    .mat-expansion-panel{
+      .mat-expansion-panel-header.no-cursor.panel-height.mat-expanded{
+        .mat-content{
+          display: initial;
+          .mat-expansion-panel-header-title{
+            .title-data{
+              p{
+                margin:0px;
+              }
+            }
+          }
+        }
+      }
+    } 
+    .mat-expansion-panel-content{
+      display: none;
+    }
+  }
+}
+.d-none{display: none;}

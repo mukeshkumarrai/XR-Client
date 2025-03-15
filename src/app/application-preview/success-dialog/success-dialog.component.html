@@ -1,0 +1,15 @@
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  
+<div class="thanku-content" id="thanku-content">
+    <mat-card class="thanku-mat-card" id="thanku-mat-card">
+    <mat-card-content class="thanku-inner-content" id="thanku-inner-content">
+        <div class="thanku-text" id="thanku-text"  [innerHTML]="thankYouMsg?.ThankYouMessage|safeHtml">
+            <p>{{'label_successmsgHeader'|translate}} {{orgName?orgName:'{{Organization name}}'}}</p>
+            <p>{{'label_successmsg'|translate}}</p>
+        </div>
+        <span class="d-flex" *ngIf="thankYouMsg?.SelfDeclaration"><span class="redColor">*</span> {{thankYouMsg?.SelfDeclarationMessage}}</span>
+    </mat-card-content>
+    </mat-card>
+</div>

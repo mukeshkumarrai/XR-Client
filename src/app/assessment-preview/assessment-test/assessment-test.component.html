@@ -1,0 +1,218 @@
+<div *ngIf="!successMsg" class="assessment-answersheet" id="assessment-answersheet" >
+    <div class="header" id="header">
+        <div class="header-main" id="header-main">
+            <a  class="logo" id="logo"><img src="{{guideLines?.PreviewLogoPath}}" id="logo-image"></a>
+        </div>
+    </div>
+    <div class="answer-header" id="answer-header">
+        <div class="header-main" id="header-main" [ngClass]="this.assessmentList?.PatternId==2? 'section-based-header' : 'question-based-header'">
+            <h3>{{currentSection.sectionName}}</h3>
+            <div class="timer" id="timer">
+                {{'label_assessmentTime' | translate}} {{display}} <button mat-raised-button color="primary" class="ml-10" (click)="submitTest()">{{'label_submit' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <mat-card class="answer-box p-10 assessment-ques-form" id="answer-box">
+        <div class="watermark" id="watermark"><span>Xeople sample</span></div>
+        <mat-card class="ques-left-section mat-elevation-z0 mb-0 p-10">
+        <div class="que-and-ans" id="que-and-ans" >
+            
+            
+            <p><strong>Question {{currentQues?.DisplaySeq}}:</strong> {{currentQues?.Description}}</p>
+
+            <div class="set-question-answer">
+                <!---------carosal------->
+                <p *ngIf="currentQues?.Instruction!='' && currentQues?.Instruction!=null && currentQues?.Instruction!=undefined"><strong>Instruction:</strong> <span> {{currentQues?.Instruction}}</span></p>
+                <div class="stagecarousel" id="stagecarousel"  *ngIf="currentQues?.Files?.length>0">
+                 <swiper [slidesPerView]="1"  [spaceBetween]="0" [navigation]="true"
+                   (swiper)="onSwiper($event)" [pagination]="{type: 'fraction'}">
+                   <ng-template class="carousel-cell assessment-cell" *ngFor="let filedata of currentQues?.Files"  swiperSlide>                        
+                    <img src="{{filedata.Preview}}" class="logoImage" alt="">
+
+                    <div class="btn-group">
+                        <button  type="button" id="fullScreen" class="full-btn" mat-icon-button (click)="openDialog(filedata.Preview)"
+                        matTooltip="{{'label_fullScreen'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                        <mat-icon color="primary">
+                          all_out
+                        </mat-icon>
+                        </button>
+                      </div>
+
+                   </ng-template>
+                 </swiper>
+               </div>
+               <!---------carosal end----->
+ 
+ 
+             </div>
+            
+        </div>
+        <mat-card class="que-and-ans">
+            <div class="set-answer">
+                <div>
+                    <ng-container  *ngIf="currentQues?.TypeId==1">
+                    <h4 class="answer-title mt-0 mb-5">{{'label_accFreeText'|translate}}</h4>
+                    <mat-form-field class="col l12 m12 s12 textarea-with-info-icon" appearance="fill">
+                        <textarea matInput  id="assessment-freetext"
+                         (blur)="select('',currentQues,$event.target.value)" tabindex></textarea>
+                      </mat-form-field>
+                   
+                   </ng-container>
+                      <!---------@When: 16-05-2023 @who:Amit @why: EWM-12410 @what: label condition add--------->
+                      <div *ngIf="currentQues?.TypeId==4">
+                        <h4 class="answer-title mt-0">{{'label_accsattachement'|translate}}</h4>
+                      </div>
+                    <!---------@When: 12-05-2023 @who:Amit @why: EWM-12410 @what: upload work--------->
+                    <div *ngIf="fileAttachments?.length==0 || fileAttachments==undefined">
+                      <div class="documentUploadRoundBox" *ngIf="currentQues?.TypeId==4">
+                        <div class="circleCreateDocFileUpload" (click)="openMultipleAttachmentModal()" id="myActivity-documentAttachmentAddPopup">
+                            <mat-icon>cloud_upload</mat-icon>
+                        </div>
+                        <span class="fileInstructions">
+                            {{fileType}} {{'label_upto' | translate}} {{fileSizetoShow}}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="stagecarousel" id="stagecarousel"  *ngIf="fileAttachments?.length>0">  
+                          
+                        <div class="btn-group-bottom addClientButton" *ngIf="fileAttachments?.length>0">
+
+                          <button mat-icon-button id="addAttach" color="primary" (click)="openMultipleAttachmentModal()" id="documentUpload-file" 
+                          matTooltip="{{'label_attachment'|translate}}" matTooltipClass="card-tooltip-left" matTooltipPosition="after"
+                          (mouseenter)="mouseoverAnimation(animationVar?.CandidateBackspaceButton?.id, animationVar?.CandidateBackspaceButton?.animation)"
+                          (mouseleave)="mouseleaveAnimation(animationVar?.CandidateBackspaceButton?.id, animationVar?.CandidateBackspaceButton?.animation)">
+                            <div class="two-icons" id="{{animationVar?.CandidateBackspaceButton?.id}}"
+                            class="{{animationVar?.CandidateBackspaceButton?.isAnimClass}}">
+                              <mat-icon class="first-icon">attach_file</mat-icon>
+                              <mat-icon class="secondIcon">add</mat-icon>
+                          </div>
+                          </button>
+
+                        </div>
+
+                        <swiper [slidesPerView]="1"  [spaceBetween]="0" [navigation]="true" [pagination]="{type: 'fraction'}"
+                          (swiper)="onSwiper($event)">
+                          <ng-template class="carousel-cell assessment-cell" *ngFor="let filedata of fileAttachments"  swiperSlide>                        
+                            
+                            <img src="{{filedata.Preview}}" class="logoImage cursor" (click)="openDialog(filedata.Preview)" alt="">
+
+                            <div class="btn-group">
+                            <button type="button" id="btnDelete" class="ml-5 mr-5" mat-icon-button
+                            matTooltip="{{'label_delete'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                            (click)="confirmAttachment(filedata)" 
+                            (mouseenter)="mouseoverAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)"
+                            (mouseleave)="mouseleaveAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)">
+                            <mat-icon id="{{animationVar?.FolderButton?.id}}"
+                            class="{{animationVar?.FolderButton?.isAnimClass}}" color="warn">
+                                delete
+                            </mat-icon>
+                            </button>
+                          </div>
+                          </ng-template>
+                        </swiper>
+                      </div>
+                   
+                   <!-- who:maneesh,what:ewm-9383 for attachment answer and comment ng container,when:12/05/2023; -->
+
+                   <!-- </ng-container> -->
+                    <h4 class="answer-title mt-0 mb-5" *ngIf="currentQues?.TypeId==2">{{'label_accsingleSelect'|translate}}</h4>
+                    <h4 class="answer-title mt-0 mb-5" *ngIf="currentQues?.TypeId==3">{{'label_accMulitpleSelect'|translate}}</h4>
+                  
+                    <ng-container *ngIf="currentQues?.TypeId==2">
+                    <mat-card class="answer mat-elevation-z1"  *ngFor="let options of currentQues.Options;let j=index" id="{{options.Id}}" 
+                     (click)="selectSingle(options.Id,currentQues,isActive(options.Id))" [ngClass]="{answered: isActive(options.Id)}">
+                       {{options?.Description}}
+                       <mat-icon *ngIf="isActive(options.Id)">task_alt</mat-icon>
+                    </mat-card>
+                </ng-container>
+                <ng-container *ngIf="currentQues?.TypeId==3">
+                    <mat-card class="answer mat-elevation-z1"  *ngFor="let options of currentQues.Options;let k=index" id="{{options.Id}}" 
+                    [class.answered]="stateOfOptions[k]" (click)="changeState(k,currentQues,stateOfOptions[k])">
+                       {{options?.Description}}
+                       <mat-icon *ngIf="stateOfOptions[k]">task_alt</mat-icon>
+                    </mat-card>
+                </ng-container>
+                   
+                </div>
+
+            </div>
+        </mat-card>
+        
+    </mat-card>
+        <div class="qus-status" id="qus-status">
+            <mat-card class="mb-0">
+                <mat-card-title class="qus-status-header">{{'label_markingStatus' | translate}}
+
+                    <div class="total-and-left-question mat-elevation-z1" id="total-and-left-question" *ngIf="this.assessmentList?.PatternId==2">
+                        {{'label_noOfQuestions' | translate}} {{currentQues?.DisplaySeq}}/{{curSectionTotalQues?.Questions?.length}}
+                    </div>
+
+                    <div class="total-and-left-question mat-elevation-z1" id="total-and-left-question" *ngIf="this.assessmentList?.PatternId==1">
+                        {{'label_noOfQuestions' | translate}} {{currentQues?.DisplaySeq}}/{{curSectionTotalQues?.length}}
+                    </div>
+
+                </mat-card-title>
+                <mat-card-content class="qus-status-mat-card-content">
+                    <span class="answered-status">{{'label_aswered' | translate}}</span>
+                     <span class="not-answered-status">{{'label_notAnswered'| translate}}</span>
+                    <p><strong>{{'label_chooseaQuestion' | translate}}</strong></p>
+                    <div class="answer-number-with-status">
+                        <ng-container  *ngIf="this.assessmentList?.PatternId==2">
+                        <span *ngFor="let totalQues of curSectionTotalQues?.Questions;let i=index" id="{{totalQues?.Id}}" (click)="currentActiveQues(totalQues,quesViewStatus[totalQues?.Id])"
+                        [ngClass]="{'not-answered': quesViewStatus[totalQues?.Id]==1, 'ques-answered': quesViewStatus[totalQues?.Id]==2,
+                        'current-question':(currentQuesNo==totalQues?.Id)}">
+                            <p >{{i+1}}</p></span>
+                        </ng-container>
+                        
+                            <ng-container  *ngIf="this.assessmentList?.PatternId==1">
+                            <span *ngFor="let totalQues of curSectionTotalQues;let i=index" id="{{totalQues?.Id}}" (click)="currentActiveQues(totalQues,quesViewStatus[totalQues?.Id])"
+                            [ngClass]="{'not-answered': quesViewStatus[totalQues?.Id]==1, 'ques-answered': quesViewStatus[totalQues?.Id]==2,
+                            'current-question':(currentQuesNo==totalQues?.Id)}">
+                                <p >{{i+1}}</p></span>
+                            </ng-container>
+                    </div>
+                </mat-card-content>
+               
+            </mat-card>
+
+            <div class="next-prev" *ngIf="assessmentList?.PatternId==2">
+                <button mat-icon-button type="button" id="btnPrevious" [disabled]="curSectionTotalQues?.Questions?.length==1 || displayNo===1"  (click)="previousSectionQues()" 
+                matTooltip="{{'label_previous'|translate}}" 
+                matTooltipClass="custom-tooltip"
+                (mouseenter)="mouseoverAnimation(animationVar?.SidenavLeftBack?.id, animationVar?.SidenavLeftBack?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.SidenavLeftBack?.id, animationVar?.SidenavLeftBack?.animation)">
+                <mat-icon id="{{animationVar?.SidenavLeftBack?.id}}"
+                class="{{animationVar?.SidenavLeftBack?.isAnimClass}}">arrow_back_ios</mat-icon>
+                </button>
+                <button mat-icon-button type="button" [disabled]="curSectionTotalQues?.Questions?.length==1 || displayNo===curSectionTotalQues?.Questions?.length"  id="btnNext" (click)="nextSectionQues()" matTooltip="{{'label_next'|translate}}" 
+                matTooltipClass="custom-tooltip" 
+                (mouseenter)="mouseoverAnimation(animationVar?.SidenavRightNext?.id, animationVar?.SidenavRightNext?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.SidenavRightNext?.id, animationVar?.SidenavRightNext?.animation)">
+                <mat-icon id="{{animationVar?.SidenavRightNext?.id}}" class="{{animationVar?.SidenavRightNext?.isAnimClass}}">arrow_forward_ios</mat-icon>
+                </button>
+            </div>
+
+            <div class="next-prev" *ngIf="assessmentList?.PatternId==1">
+                <button mat-icon-button type="button" id="btnPrevious" [disabled]="curSectionTotalQues?.length==1 || displayNo===1"  (click)="previousQues()" 
+                matTooltip="{{'label_previous'|translate}}" 
+                matTooltipClass="custom-tooltip"
+                (mouseenter)="mouseoverAnimation(animationVar?.SidenavLeftBack?.id, animationVar?.SidenavLeftBack?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.SidenavLeftBack?.id, animationVar?.SidenavLeftBack?.animation)">
+                <mat-icon id="{{animationVar?.SidenavLeftBack?.id}}"
+                class="{{animationVar?.SidenavLeftBack?.isAnimClass}}">arrow_back_ios</mat-icon>
+                </button>
+                <button mat-icon-button type="button" [disabled]="curSectionTotalQues?.length==1 || displayNo===curSectionTotalQues?.length"  id="btnNext" (click)="nextQues()" matTooltip="{{'label_next'|translate}}" 
+                matTooltipClass="custom-tooltip" 
+                (mouseenter)="mouseoverAnimation(animationVar?.SidenavRightNext?.id, animationVar?.SidenavRightNext?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.SidenavRightNext?.id, animationVar?.SidenavRightNext?.animation)">
+                <mat-icon id="{{animationVar?.SidenavRightNext?.id}}" class="{{animationVar?.SidenavRightNext?.isAnimClass}}">arrow_forward_ios</mat-icon>
+                </button>
+            </div>
+
+
+
+        </div>
+    </mat-card>
+</div>
+<app-success-msg *ngIf="successMsg" [patternId]="assessmentList?.PatternId" [totalQues]="curSectionTotalQues?.length"
+[totalSections]="assmentPreviwArr?.ReviewSections" [guideLines]="guideLines" [totalAtteptQuestion]="quesViewStatus"></app-success-msg>

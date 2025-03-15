@@ -1,0 +1,169 @@
+<kendo-editor #editor tabindex [formControl]="editorFormControl" [iframe]="false"
+ [plugins]="configuration?.MentionStatus ? myPlugins : null"
+[schema]="mySchema" [required]="configuration?.REQUIRED" (mousedown)="touch($event)" (valueChange)="valueChange($event)"
+placeholder="{{placeholder | translate}}" >
+
+<!-- this kendo-toolbar use for only add call log  section,when:20/03/2024 -->
+<kendo-toolbar [overflow]="false" tabindex *ngIf="hideIconForAddCommonCallLog">
+    <kendo-toolbar-buttongroup>
+      <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorStrikethroughButton></kendo-toolbar-button>
+    </kendo-toolbar-buttongroup>
+    <kendo-toolbar-buttongroup>
+        <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+        </kendo-toolbar-button>
+        <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+        </kendo-toolbar-button>
+        <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+        <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+    </kendo-toolbar-buttongroup>
+  </kendo-toolbar>
+<!-- this kendo-toolbar use for only job action comment  section,when:20/03/2024 -->
+<kendo-toolbar [overflow]="false" tabindex *ngIf="hideIcon && !hideIconForAddCommonCallLog">
+    <kendo-toolbar-buttongroup>
+      <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+    </kendo-toolbar-buttongroup>
+    <kendo-toolbar-buttongroup>
+        <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+        <kendo-toolbar-button kendoEditorAlignCenterButton>
+        </kendo-toolbar-button>
+        <kendo-toolbar-button kendoEditorAlignRightButton>
+        </kendo-toolbar-button>
+        <kendo-toolbar-button kendoEditorAlignJustifyButton>
+        </kendo-toolbar-button>
+    </kendo-toolbar-buttongroup>
+  </kendo-toolbar>
+<kendo-toolbar [overflow]="false" tabindex *ngIf="this.configuration?.JobActionComment==true && !hideIcon && !hideIconForAddCommonCallLog">
+    <kendo-toolbar-buttongroup>
+      <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+    </kendo-toolbar-buttongroup>
+    <kendo-toolbar-buttongroup>
+      <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+      </kendo-toolbar-button>
+      <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+      </kendo-toolbar-button>
+    </kendo-toolbar-buttongroup>
+  </kendo-toolbar>
+<!-- this kendo-toolbar use for only job action comment  section,when:20/03/2024 -->
+<!-- this condition use for jobaction comment when *ngIf="this.configuration?.JobActionComment==false"  -->
+    <kendo-toolbar *ngIf="this.configuration?.JobActionComment==false && !hideIcon && !hideIconForAddCommonCallLog" [overflow]="false" tabindex>
+        <kendo-toolbar-buttongroup>
+            <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+            <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+            <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+            <kendo-toolbar-button kendoEditorStrikethroughButton>
+            </kendo-toolbar-button>
+        </kendo-toolbar-buttongroup>
+        <!-- //who:maneesh,what:this condition use for hide and show input icon,when:15/03/2024 -->
+        <kendo-toolbar-buttongroup *ngIf="this.configuration?.EditorTools?.length==0">
+            <kendo-toolbar-button kendoEditorSubscriptButton></kendo-toolbar-button>
+            <kendo-toolbar-button kendoEditorSuperscriptButton>
+            </kendo-toolbar-button>
+        </kendo-toolbar-buttongroup>
+        <kendo-toolbar-buttongroup>
+            <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+            <kendo-toolbar-button kendoEditorAlignCenterButton>
+            </kendo-toolbar-button>
+            <kendo-toolbar-button kendoEditorAlignRightButton>
+            </kendo-toolbar-button>
+            <kendo-toolbar-button kendoEditorAlignJustifyButton>
+            </kendo-toolbar-button>
+        </kendo-toolbar-buttongroup>
+        <kendo-toolbar-dropdownlist kendoEditorFormat></kendo-toolbar-dropdownlist>
+        <kendo-toolbar-dropdownlist kendoEditorFontSize>
+        </kendo-toolbar-dropdownlist>
+        <kendo-toolbar-dropdownlist kendoEditorFontFamily>
+        </kendo-toolbar-dropdownlist>
+        <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+        <kendo-toolbar-colorpicker kendoEditorBackColor>
+        </kendo-toolbar-colorpicker>
+   
+            <kendo-toolbar-buttongroup *ngIf="this.configuration?.EditorTools?.length==0">
+                <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorUndoButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorRedoButton></kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-buttongroup *ngIf="this.configuration?.EditorTools?.length==0">
+                <kendo-toolbar-button kendoEditorCreateLinkButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorUnlinkButton></kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-button kendoEditorInsertFileButton *ngIf="this.configuration?.EditorTools?.length==0">
+            </kendo-toolbar-button>
+            <kendo-toolbar-button kendoEditorCleanFormattingButton *ngIf="this.configuration?.EditorTools?.length==0">
+            </kendo-toolbar-button>
+            <kendo-editor-insert-table-button *ngIf="this.configuration?.EditorTools?.length==0">
+            </kendo-editor-insert-table-button>
+            <kendo-toolbar-buttongroup *ngIf="this.configuration?.EditorTools?.length==0">
+                <kendo-toolbar-button kendoEditorAddColumnBeforeButton>
+                </kendo-toolbar-button >
+                <kendo-toolbar-button kendoEditorAddColumnAfterButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAddRowBeforeButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAddRowAfterButton>
+                </kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+            <kendo-toolbar-buttongroup *ngIf="this.configuration?.EditorTools?.length==0">
+                <kendo-toolbar-button kendoEditorDeleteColumnButton>
+                </kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorDeleteRowButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorDeleteTableButton>
+                </kendo-toolbar-button>
+            </kendo-toolbar-buttongroup>
+ 
+       
+        <kendo-toolbar-separator></kendo-toolbar-separator> 
+        <!-------this splitbutton use for job dropdown and other --------->
+        <kendo-toolbar-splitbutton  *ngFor="let item of (toolButtons$ | async)" [text]="item.text" [icon]="item.icon" [data]="item.data"> </kendo-toolbar-splitbutton>
+        <!-- <kendo-toolbar-splitbutton  *ngFor="let item of jobData" [text]="item.text" [icon]="item.icon"
+        [data]="item.data">
+      </kendo-toolbar-splitbutton>
+      <kendo-toolbar-splitbutton  *ngFor="let citem of canData" [text]="citem.text" [icon]="citem.icon"
+      [data]="citem.data"></kendo-toolbar-splitbutton> -->
+       
+        <!---------@When: 31-07-2023 @who:Adarsh singh @why: EWM-13233 @Desc- Added image upload button --------->
+        <kendo-toolbar-button *ngIf="!otherInputIcon" text="Upload Image" (click)="openImageUpload()"
+            [style]="{'padding': '2px 7px', 'font-size': '12px'}"></kendo-toolbar-button>
+        <!-- End  -->
+    </kendo-toolbar>
+</kendo-editor>
+<mat-error *ngIf="editorFormControl.hasError('required') && editorFormControl.touched">
+    {{configuration?.PLACEHOLDER | translate}} {{ 'label_errorreqired' |translate}}
+</mat-error>
+<!-- who:maneesh,show max length error,when:21/03/2024 -->
+<mat-error *ngIf="showerrorMaxlength && this.configuration?.ValidationMessage == null ">
+  {{configuration?.PLACEHOLDER | translate}} {{'label_MaxlengthErrorDiscription' | translate}} {{maxlengthcount | translate}} {{'label_characters' |translate }}  
+</mat-error>
+<mat-error *ngIf="this.configuration?.ValidationMessage!=null && this.configuration?.ValidationMessage!='' && !showerrorMaxlength">
+     {{configuration?.ValidationMessage | translate}}
+</mat-error>
+<!-- @When: 15-03-2024 @who:Amit @why: EWM-16469 @what: icon change -->
+<button mat-icon-button id="editor-mic" *ngIf="isStillRecoginze" (click)="stopListening()" class="mic-button mic-on"
+matTooltipPosition="left" matTooltip="{{'label_stop'|translate}}">
+    <div class="pulse-ring"></div>
+    <svg xmlns="http://www.w3.org/2000/svg"  height="24" viewBox="0 -960 960 960" width="24">
+        <path fill="#ffffff" d="M680-560q-33 0-56.5-23T600-640v-160q0-34 23.5-57t56.5-23q34 0 57 23t23 57v160q0 34-23 57t-57 23ZM200-80q-33 0-56.5-23.5T120-160v-640q0-33 23.5-56.5T200-880h320v80H200v640h440v-80h80v80q0 33-23.5 56.5T640-80H200Zm80-160v-80h280v80H280Zm0-120v-80h200v80H280Zm440 40h-80v-104q-77-14-128.5-74.5T460-640h80q0 58 41 99t99 41q59 0 99.5-41t40.5-99h80q0 81-51 141.5T720-424v104Z"/></svg>
+</button>
+
+<button mat-icon-button id="editor-mic" *ngIf="!isStillRecoginze" (click)="startListening()" [disabled]="configuration?.DISABLED?true:false" class="mic-button mic-off"
+matTooltipPosition="left" matTooltip="{{'label_start'|translate}}">
+    <div class="pulse-ring"></div>
+    <svg xmlns="http://www.w3.org/2000/svg"  height="24" viewBox="0 -960 960 960" width="24">
+    <path fill="#ffffff" d="M680-560q-33 0-56.5-23T600-640v-160q0-34 23.5-57t56.5-23q34 0 57 23t23 57v160q0 34-23 57t-57 23ZM200-80q-33 0-56.5-23.5T120-160v-640q0-33 23.5-56.5T200-880h320v80H200v640h440v-80h80v80q0 33-23.5 56.5T640-80H200Zm80-160v-80h280v80H280Zm0-120v-80h200v80H280Zm440 40h-80v-104q-77-14-128.5-74.5T460-640h80q0 58 41 99t99 41q59 0 99.5-41t40.5-99h80q0 81-51 141.5T720-424v104Z"/></svg>
+</button>
+
+

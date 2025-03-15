@@ -1,0 +1,38 @@
+<form id="expression-candidate" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_add' |translate}} {{'label_addClient' | customTranslate}}/{{'label_lead_master'|customTranslate}}</h2>
+        <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content class="candidate-folder">
+        <div class="centerBox vertical-center-align-createjob">
+            <mat-card class="mat-card-container">
+                <div class="animate__zoomIn animate__animated">
+                    <mat-card class="selectTemplateOrCreatejob" tabindex="1" (click)="openQuickCompanyModal()">
+                        <div class="center-align">
+                            <div class="tenantBox">
+                                <div class="cltImgBox">
+                                    <mat-icon svgIcon="add_business"></mat-icon>
+                                </div>
+                                <label>{{'label_quickAddCompany' | customTranslate|titlecase}}</label>
+                            </div>
+                        </div>
+                    </mat-card>
+                </div>
+                <div class="animate__zoomIn animate__animated">
+                    <mat-card class="selectTemplateOrCreatejob" tabindex="2" id="createJob-popupSelectTemplate" (click)="addLeadModal()">
+                        <div class="center-align">
+                            <div class="tenantBox">
+                                <div class="cltImgBox">
+                                    <mat-icon svgIcon="forms_add"></mat-icon>
+                                </div>
+                                <label>{{'label_AddLead' | customTranslate|titlecase}}</label>
+                            </div>
+                        </div>
+                    </mat-card>
+                </div>
+            </mat-card>
+        </div>
+    </mat-dialog-content>
+</form>

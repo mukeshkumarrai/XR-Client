@@ -1,0 +1,89 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Anup Singh
+    @When: 25-Nov-2021
+    @Why: EWM-3700 EWM-3918
+    @What: You can add this page styles on same file, and also import other style files
+*/
+*{outline:none !important}
+.quick-dialog{
+    .row{
+        margin-bottom: 10px;
+    }
+    h4{
+        margin: 0px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+        border-radius: 4px;
+        .mat-icon{
+            margin-right: 5px;
+        }
+    }
+    &:first-child{
+        margin-top: 0px;
+    }
+    .ng-select-withicon{
+        display: inline-flex;
+        align-items: baseline;
+        box-sizing: border-box;
+        width: 100%;
+        .ng-select{
+            font-size: 14px;
+            width: 100%;
+        }
+    }
+    .select-matPrefix-icon{
+        top: 8px;
+        position: relative;
+        width: 1.215em; 
+    }
+    .matPrefix-icon{
+        top: 8px;
+        position: relative;
+        width: 1.215em;
+    }
+    .matSuffix-icon{
+        position: relative;
+        bottom: 0px;
+        font-size: 12px;
+        padding: 3px 10px;
+        line-height: 25px;
+        height: 30px;
+        min-width: 35px;
+    }
+    .mat-form-field-should-float{
+        .matPrefix-icon{
+            top: 8px;
+        }
+    }
+}
+
+
+.mgBottom5{
+    margin-bottom: 5px;
+}
+.ng-slectBox{
+    font-size: 14px !important;
+}
+
+.mat-chip.mat-standard-chip .mat-chip-remove {
+     color: #f44336;
+    opacity: 1;
+  }
+
+  ::ng-deep {
+    .place-icon-withchip .mat-form-field-label-wrapper .mat-form-field-label {
+       top: 1.28125em;
+       left: 0px;
+     }
+   }
+
+   .orgSelect{
+    width: 100%;
+}
+

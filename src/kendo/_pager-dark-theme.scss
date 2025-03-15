@@ -1,0 +1,48 @@
+/*@(C): Entire Software @Type: File, <scss> @Name: _pager.scss @Who: Satya Prakash Gupta @When: 10-Oct-2023 @Why: for pager @What: You can add dark global pager styles to this file*/
+@use "../colors";
+.dark-theme{
+    kendo-pager.k-grid-pager.k-pager-wrap, kendo-datapager.k-listview-pager.k-pager-wrap{
+        .k-pager-sizes, kendo-datapager-page-sizes{
+            color: colors.$white-color;
+            .k-dropdown {
+                .k-dropdown-wrap {
+                    border-bottom: 1px solid rgba(colors.$white-color, 1);
+                    color: colors.$white-color;
+                    .k-select{
+                        color: colors.$white-color; 
+                    }
+                }
+            }
+        }
+        kendo-pager-info.k-pager-info, kendo-datapager-info{
+            color: colors.$white-color;
+        }
+        kendo-pager-prev-buttons, kendo-datapager-prev-buttons{
+            .k-link{
+                color: rgba(colors.$white-color, 1);
+                &:hover{
+                    color: colors.$dark-primary;
+                }
+            }
+        }
+        kendo-pager-numeric-buttons, kendo-datapager-numeric-buttons{
+            .k-link{
+                color: rgba(colors.$white-color, 1);
+                &:hover{
+                    color: colors.$dark-primary;
+                }
+            }
+            .k-link.k-state-selected{
+                color: colors.$dark-primary;
+            }
+        }
+        kendo-pager-next-buttons, kendo-datapager-next-buttons{
+            .k-link{
+                color: rgba(colors.$white-color, 1);
+                &:hover{
+                    color: colors.$dark-primary;
+                }
+            }
+        }
+    }
+}

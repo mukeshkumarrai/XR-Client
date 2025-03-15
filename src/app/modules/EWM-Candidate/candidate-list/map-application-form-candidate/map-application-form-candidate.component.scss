@@ -1,0 +1,279 @@
+@import "../../../../../mixinStyle.scss";
+@import "../../../../../styles-var.scss";
+
+.modal-header {
+    display: inherit;
+    justify-content: inherit;
+    //margin-bottom: 20px;
+    h2 {
+        margin-bottom: 10px;
+    }
+    p {
+        margin: 0px;
+    }
+}
+
+.assessment-main-flow {
+    z-index: 2;
+    position: sticky;
+    top: 0px;
+    padding: 0px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    @media only screen and (max-width: 640px) and (min-width: 240px){        
+        flex-direction: column;
+        align-items: inherit;
+      }
+    .manage-skill-list{
+        max-width: 280px;
+        .mat-chip-list{
+            .mat-chip{
+                padding: 0px 5px;
+                background-color: $primary-bg-color;
+                color: $primary-txt-color;
+            }
+        }
+    }  
+}
+
+.assessment-search{
+    margin-bottom: 0px;
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+    padding:0px;
+    @media only screen and (max-width: 600px) and (min-width: 320px) {
+        flex-direction: column;
+    }
+
+    .mat-form-field {
+        width: 250px;
+        margin-bottom: 5px;
+    }
+
+    .custom-dropdown {
+        width: 250px;
+        margin-bottom: -15px;
+
+        @media only screen and (max-width: 600px) and (min-width: 320px) {
+            width: 100%;
+        }
+    }
+}
+
+.assessment-dialog-content {
+    min-height: 65vh;
+
+    p {
+        margin: 0px;
+    }
+    
+
+    .assessment-card-box {
+        display: grid;
+        grid-template-columns: repeat(3, calc(33.33% - 10px));
+        // grid-gap: 15px;
+        column-gap: 15px;
+        row-gap: 22px;
+        padding: 10px;
+
+        @media only screen and (max-width: 1170px) and (min-width: 1025px) {
+            grid-template-columns: repeat(4, calc(25% - 7px));
+        }
+
+        @include for-ipads-portrait-landscape {
+            grid-template-columns: repeat(3, calc(33.33% - 6.6px));
+        }
+
+        @include for-large-smartphones {
+            grid-template-columns: repeat(2, calc(50% - 5px));
+        }
+
+        @include for-smartphones {
+            grid-template-columns: repeat(2, calc(50% - 5px));
+        }
+
+        @include for-small-smartphones {
+            grid-template-columns: repeat(1, calc(100% - 0px));
+        }
+
+        .mat-card {
+            border-radius: 8px;
+            padding: 0px;
+            @include card-zoom-time;
+            margin-bottom: 0px;
+
+            &:hover {
+                @include card-zoom-hover-1-05;
+            }
+            .task-active{
+                position: absolute;
+                top: 3px;
+                right: 3px;
+                opacity: 0;
+                color: $green-color;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 30px;
+              }
+            .assessment-header {
+                display: flex;
+                height: 30px;
+                align-items: center;
+                font-size: 16px;
+                padding: 3px 10px;
+                font-weight: 600;
+                position: relative;
+            }
+
+            .description {
+                height: 150px;
+                overflow: auto;
+                padding: 10px;
+                font-size: 12px;
+                color: $gray-txt;
+                line-height: 18px;
+
+                span {
+                    font-size: 14px;
+
+                    p,
+                    ul,
+                    ol {
+                        margin-top: 0px;
+                    }
+                }
+            }
+
+            .card-height{
+                line-height: 18px;
+                // min-height: 220px;
+                min-height: 150px;
+                overflow: auto;
+                padding: 10px;
+                .card-mode-line{
+                    margin-bottom: 15px;
+                    position: relative;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    .spacer{
+                        flex: 1 1 auto;
+                    }
+                    
+                    span.red{
+                        background-color: rgb(127 183 52 / 15%);
+                        color: #7fb734;
+                    }
+                    span.badge{
+                        line-height: 15px;
+                    }
+                    
+                }
+                .card-column.two-column {
+                    display: grid;
+                    gap: 10px;
+                    grid: auto/calc(50% - 0px) calc(50% - 10px);
+                    margin-bottom: 10px;
+                    .card-header{
+                        width: 100%;
+                    }
+                    .card-data{
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: inline-block;
+                        width: 100%;
+                    }
+                  }
+            }
+
+            .assessment-footer{
+                display: flex;
+                height: 30px;
+                align-items: center;
+                padding: 0px 10px;
+                color: $primary-bg-color;
+                justify-content: flex-end;
+                position: absolute;
+                bottom: 0px;
+                width: 100%;
+                box-sizing: border-box;
+                &::before{
+                    content: "";
+                    width: 100%;
+                    height: 100%;
+                    top: 0px;
+                    left: 0px;
+                    background: currentColor;
+                    opacity: 0.03;
+                    position: absolute;
+                }
+
+                @include mat-icon-button-25;
+
+                .mat-icon-button {
+                    position: relative;
+                    .mat-icon {
+                        opacity: 0.7;
+                        font-size: 22px;
+                    }
+
+                    &:hover {
+                        .mat-icon {
+                            opacity: 1;
+                        }
+                    }
+                    .btn-loading{
+                        position: absolute;
+                        left: 0px;
+                        top: -5px;
+                    }
+                }
+                .checklist-data {
+                    .mat-icon{
+                      font-size:22px;
+                      line-height: 28px;
+                      opacity: 0.7;
+                      &:hover{
+                          opacity: 1;
+                      }
+                    }
+                }
+                .flex {
+                    position: absolute;
+                    left: 0px;
+                    right: 0px;
+                    bottom: -19px;
+                    .alert-green{
+                        padding: 1px;
+                        width: 100%;
+                        box-sizing: border-box;
+                        .mat-icon{
+                            width: 14px;
+                            height: 14px;
+                            line-height: 14px;
+                            font-size: 14px;
+                        }
+                        span{
+                            font-size: 11px;
+                        }
+                    }
+                    .alert-primary{
+                        &::after{
+                            border-radius: 0px 0px 4px 4px;
+                        }
+                    }
+                }
+            }
+        }
+        .mat-card.active{
+            background-color:rgba(103, 58, 183, 0.08);
+            box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 73%), 0px 0px 0px 1px $primary-bg-color;
+            .task-active{
+                opacity: 1;
+            }
+        }
+    }
+}

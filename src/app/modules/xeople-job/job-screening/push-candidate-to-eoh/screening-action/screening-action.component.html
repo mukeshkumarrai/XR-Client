@@ -1,0 +1,101 @@
+
+<!--@When: 21-05-2024 @who:Amit @why: EWM-17154 @what: screening action create-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<form [formGroup]="screeningForm" id="screeningForm-EOH" applyTabIndexes>
+<div class="screening-action-main">
+    <div class="screening-action">
+        <p class="italic">{{'label_EOHScreeningHeading'|translate}}:</p>
+
+        <div class="recruiter-name">
+            <div class="common_dropdown_v2">
+                <dropdown [configuration]="recruiter_DropdownC_Config" tabindex
+                    [resetConfiguration]="resetrecruiterDrp.asObservable()" (selectedOut)="onRecruiterChange($event)"
+                    [getSelectedItem]="selectedRecruiter" [initialize]="dropdownInitilize" [showMoreOptionsNum]="5">
+                </dropdown>
+            </div>
+        </div>
+
+        <div class="candidate-status-main">
+        <div class="candidate-status">
+            <mat-checkbox color="primary" id="screening-status" tabindex formControlName="ScreeningStatus" (change)="onChangeScreeningStatus($event)">
+                {{'label_screeningAction_CandidateSreening'|translate}}</mat-checkbox>
+            <p><ng-container *ngIf="ScreeningInterviewStatus?.Screening==1 then connectedScreening; else notConnectedScreening"></ng-container>
+                <ng-template #connectedScreening>  <span>{{'label_EOHScreeningComp'|translate}}</span></ng-template>
+                <ng-template #notConnectedScreening>  <span>{{'label_EOHScreeningInComp'|translate}}</span></ng-template>
+              </p>
+        </div>
+
+        <div class="candidate-status">
+            <mat-checkbox color="primary" id="interview-status" tabindex formControlName="InterviewStatus" (change)="onChangeInterviewStatus($event)">
+                {{'label_screeningAction_CandidateInterview'|translate}}</mat-checkbox>
+                <p><ng-container *ngIf="ScreeningInterviewStatus?.Interview==1 then connectedInterview; else notConnectedInterview"></ng-container>
+                    <ng-template #connectedInterview>  <span>{{'label_EOHScreeningComp'|translate}}</span></ng-template>
+                    <ng-template #notConnectedInterview>  <span>{{'label_EOHScreeningInComp'|translate}}</span></ng-template>
+                  </p>
+        </div>
+        </div>
+
+        <p><strong>{{'label_EOHMultipleInterviewsHeading'|translate}}:</strong></p>
+        <div class="date-title">
+            <div class="ng-slectBox" [ngClass]="screeningForm.get('ScreeningDate').errors !== null && screeningForm.get('ScreeningDate').errors.required?'ngSelectrequired':''">
+                <ng-select class="dropdown-body"    appendTo="body" [clearable]="false"
+                 formControlName="ScreeningDate" (change)="OnchangeScreeningDate($event);"
+                 placeholder="{{ 'label_date' |translate}}"  >
+                    <ng-option *ngFor="let list of  candidateActivities" [value]="list.ActivityDate">
+                        {{list.ActivityDate |  date:'MMM dd,YYYY'}}</ng-option>
+                </ng-select>
+            </div>
+            <div class="ng-slectBox slot-range" [ngClass]="screeningForm.get('TimeSlot').errors !== null && screeningForm.get('TimeSlot').errors.required?'ngSelectrequired':''">
+                <ng-select class="dropdown-body" appendTo="body" [clearable]="false" 
+                formControlName="TimeSlot"  (change)="OnchangeTimeSlot($event);"
+                     placeholder="{{ 'label_screeningTimeSlot' |translate}}" >
+                    <ng-option *ngFor="let list of  candidateActivitiesFilterDate" [value]="list">
+                        {{list.TimeStart}} - {{list.TimeEnd}}</ng-option>
+                </ng-select>
+            </div>
+            <mat-form-field class="form-column">
+                <input matInput formControlName="ScreeningTitle"
+                    placeholder="{{'label_title'|translate}}" id="ScreeningEOH-title" tabindex >
+            </mat-form-field>
+        
+        </div>
+        <p class="orange-text mb-5">{{'label_EOHActionRadioHeading'|translate}}</p>
+    
+        <mat-radio-group aria-label="Select an option" color="primary"  formControlName="ScreeningAction"  id="ScreeningAction-radio">
+            <mat-radio-button [value]="1"  class="pt-0 pb-0"><strong>{{'label_EOHScreeningOption1'|translate}}:</strong> {{'label_EOHScreeningOption1Brief'|translate}}</mat-radio-button>
+            <mat-radio-button [value]="2" [disabled]="ScreeningInterviewStatus?.Screening==0?true:false" class="pt-0 pb-0"><strong>{{'label_EOHScreeningOption2'|translate}}:</strong> {{'label_EOHScreeningOption2Brief'|translate}}</mat-radio-button>
+            <mat-radio-button [value]="3" [disabled]="ScreeningInterviewStatus?.Interview==0 || screeningForm.controls['TimeSlot'].value==null?true:false" class="pt-0 pb-0"><strong>{{'label_EOHScreeningOption3'|translate}}:</strong> {{'label_EOHScreeningOption3Brief'|translate}} </mat-radio-button>
+    </mat-radio-group>
+    
+        <div class="applicant-com">
+            <p><strong>{{'label_screeningAction_ApplicantCommunication'|translate}}</strong></p>
+            <ng-container *ngIf="!candidateProfile?.OfficeApplyingFor"> 
+                <div class="template-heading">
+                    <span class="red-bg">
+                        {{'label_screeningAction_EmailTemplateHeading'|translate}}
+                    </span>
+                </div>
+            </ng-container>
+            <div class="checkbox-select" [ngClass]="candidateProfile?.OfficeApplyingFor?'':'read-only'">
+                <mat-checkbox color="primary" id="ScreeningAction-email" tabindex formControlName="IsSendEmail"  (change)="onChangeEmail($event)">{{'label_screeningAction_SendEmailApplicant'|translate}}</mat-checkbox>
+                <div class="common_dropdown_v2">
+                    <dropdown [configuration]="template_DropdownC_Config" tabindex
+                        [resetConfiguration]="resetTemplateDrp.asObservable()" (selectedOut)="onTemplateChange($event)"
+                        [getSelectedItem]="selectedTemplate" [initialize]="dropdownInitilize" [showMoreOptionsNum]="5">
+                    </dropdown>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <div class="alert-message" *ngIf="candidateInformation?.IsXRCandidatePushedToEOH === 1 && showWarningAlert && candidateInformation?.MemberId!==null">{{'pushCandidateToEoh_CandidateAlreadyPushed'|translate}}</div>
+
+        <!-- <button mat-stroked-button color="warn" tabindex type="button" [disabled]="!screeningForm.valid" id="btnSaveExit">{{'label_saveProceed'|translate}}</button> -->
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!screeningForm.valid" id="btnSaveNext"  (click)="onNextClick()">{{'label_next'|translate}}</button>
+    </div>
+</div>
+</form>
+

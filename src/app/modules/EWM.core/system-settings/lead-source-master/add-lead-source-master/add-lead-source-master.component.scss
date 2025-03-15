@@ -1,0 +1,71 @@
+/* @When: 19-12-2024 @who:Amit @why: EWM-18990 @what: add lead cource master style */
+.add-lead-content{
+    min-height: 180px;
+    .lead-source-form{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 10px;
+        column-gap: 30px;
+        @media (width <= 620px) {
+            grid-template-columns: 1fr; 
+        }
+    }
+}
+
+.add-lead-source{
+    width: clamp(320px, 66.66%, 100%);
+    padding: 0px 10px;
+    box-sizing: border-box;
+    @media (width <= 991px) {
+        width: 100%;
+    }
+    .inner-add-lead{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 30px;
+        row-gap: 10px;
+         @media (width <= 767px) {
+            grid-template-columns: 1fr; 
+        }
+    }
+}
+
+
+/*
+  modified
+  @(C): Entire Software
+  @Type: File, <css>
+  @Name: manage-skill.component.scss
+  @Who: Satya Prakash Gupta
+  @When: 18-Nov-2021
+  @Why: EWM-3768 EWM-3818
+  @What: You can add global manage-skill.component to this file, and also import other style files
+*/
+.position-relative{
+    position: relative;
+}
+.infoIconStyle{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #9a9a9a;
+}
+
+.helpHeading{
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.chipError{
+    font-size: 11px;
+    position: relative;
+    top: -20px;
+}
+
+.redColor{
+    color: #cc0000 !important;
+    opacity: 1 !important;
+}

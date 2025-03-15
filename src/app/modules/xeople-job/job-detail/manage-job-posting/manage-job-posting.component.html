@@ -1,0 +1,73 @@
+<!---
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Amit Rajput
+    @When: 05-Jan-2023
+    @Why: EWM-10026 EWM-10060
+    @What:  This page wil be use only for Mange job posting
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  
+<div class="interfaceBoardContainer manage-job-posting">
+    <div class="col nodata center-align p-15" *ngIf="this.jobBoardList==undefined ||this.jobBoardList.length==0">
+        <p class="mb-15">{{'label_manageJobPostingNotAddedYet' | translate}}</p>
+    </div>
+    <div *ngIf="jobBoardList?.length >0" class="marketplace-section p-10">
+        <div class="customBoxWidth" *ngFor="let board of jobBoardList">
+            <mat-card class="selectTemplateOrCreatejob mat-elevation-z2" id="otherIntegration">
+                <div *ngIf="board?.Logo!=''" class="ImageFileBox">
+                    <img src="{{board.Logo}}" />
+                </div>
+                <!------------@suika @EWM-13572 @whn-26-07-2023 add click here button for redirection on market place----------------------------------------->
+                  <div class="jobInfobox">
+                    <div class="jobinfodata">
+                        <span class="boldTxtHeading">{{"label_jobBoard" |translate }}</span>
+                        <span class="txtValueStyle"> {{board.JobBoard}}</span>
+                    </div>
+                    <!---------@When: 26-07-2023 @who:Amit @why: EWM-13563 @what: add click here label--------->
+                    <div class="jobinfodata manage-posting" *ngIf="!board?.Connected">
+                        <span *ngIf="board?.JobBoard?.toLowerCase() == 'broadbean'">
+                            <a (click)="redirectUrl(board?.JobBoard);" id="redirectionbtn">{{"label_clickHere" |translate }}</a>{{"label_manageJobPosting_integrateBroadbeanfromMarketplace" |translate }}
+                        </span>
+                        <span *ngIf="board?.JobBoard?.toLowerCase() == 'seek'">
+                            <a (click)="redirectUrl(board?.JobBoard);" id="redirectionbtn">{{"label_clickHere" |translate }}</a>{{"label_manageJobPosting_integrateSeek" |translate }}
+                        </span>
+                        <span *ngIf="board?.JobBoard?.toLowerCase() == 'indeed'">
+                            <a (click)="redirectUrl(board?.JobBoard);" id="redirectionbtn">{{"label_clickHere" |translate }}</a>{{"label_manageJobPosting_integrateIndeed" |translate }}
+                        </span>
+                    </div>
+                    <!---------@When: 26-07-2023 @who:Amit @why: EWM-13563 @what: visible icon place change--------->
+                    <div class="jobinfodata visible-icon" *ngIf="board?.Connected">
+                        <span class="boldTxtHeading">{{"client_status" |translate}}</span>
+                        <span class="txtValueStyle">
+                            <a class="pl-0 pr-0" mat-button (click)="clickPublish(board)">
+                                <span *ngIf="board.PublishStatus==0 || board.PublishStatus==null">{{"label_PostJob"|translate}}</span>
+                                <span *ngIf="board.PublishStatus==1">{{"label_published" |translate}}</span>
+                                <span *ngIf="board.PublishStatus==2">Re-Published </span>
+                            </a>
+                            <!-----@Adarsh singh@ EWM-12604-EWM-12665 @When-01-June-2023----->    
+                            <button id="btnvisibility" *ngIf="(board?.JobBoard.toLowerCase() == 'broadbean') && (board?.PublishStatus > 0)" mat-icon-button color="primary" type="button" (click)="onGetAllBroadbeanBoards()">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <!-- end  -->
+                        </span>
+                    </div>
+                    <div class="jobinfodata" *ngIf="board?.Connected">
+                        <span class="boldTxtHeading">{{"label_publishedOn" |translate}}</span>
+                        <span class="txtValueStyle">{{(board.PublishedOn==0 ||
+                            board.PublishedOn==null)?'--':(board.PublishedOn |
+                            date:userpreferences.timeformate:userpreferences.timezone)}}</span>
+                    </div>
+                    <div class="jobinfodata" *ngIf="board?.Connected">
+                        <span class="boldTxtHeading">{{"label_PublishedBy" |translate}}</span>
+                        <span class="txtValueStyle">{{(board.PublishedOn==0 ||
+                            board.PublishedOn==null)?'--':(board.PublishBy)}}</span>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

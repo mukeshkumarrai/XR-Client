@@ -1,0 +1,181 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Nitin Bhati
+    @When: April 14 2022
+    @Why: EWM-6183
+    @What:  This page is creted for MS Team integration  UI Component HTML
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+
+    <mat-card-header class="page-header" id="ms-team-mat-card-header">
+        <mat-card-title class="only-title ml-5"> {{IntegratorName}}</mat-card-title>
+        <div class="header-action-button" id="ms-team-actionButton">
+            <div class="jobBoardStatus" id="msteamStatus">
+                <!--------@suika @EWM-13905 @Whn 23-08-2023--------------------------->
+                <span class="new badge mr-10 ml-0 green" *ngIf="visibilityStatus">
+                    {{'label_emailConnected' | translate}}
+                </span>
+                <span class="new badge red mr-10 ml-0" *ngIf="!visibilityStatus">
+                    {{'label_pending' | translate}}
+                </span>
+            </div>
+            <div class="group-header-button">
+                <button mat-raised-button class="header-button" (click)="backToOtherIntegration()" id="backToOtherIntegration"
+                matTooltip="{{'label_backtootherintegration'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before"
+                (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)">
+                <mat-icon id="{{animationVar?.ActionsButton?.id}}" class="{{animationVar?.ActionsButton?.isAnimClass}}">keyboard_backspace</mat-icon>
+                </button>
+            </div>
+          </div>
+    </mat-card-header>
+
+<mat-drawer-container class="xeople-container-with-one-card" autosize id="seek-integration-drawer">
+    <mat-card class="seek-mat-card component-card mat-elevation-z2" id="seek-mat-card">
+        <mat-card-content>
+            <div class="showAccessSection" id="showAccessSection">
+                <mat-card class="interfaceBoardContainer mat-elevation-z0 p-0 mb-0">
+                    <div class="row seekIntegrationSection">
+                        <div class="seekbox mb-15">
+                            <div class="seekImbBox">
+                                <img src="{{LogoUrl}}" />
+                            </div>
+                            <div class="seekButtonBox">
+                                <button mat-stroked-button *ngIf="!visibilityStatus" id="getEnableMSTeam"
+                                    class="greenColorBtn" (click)="EnableSave()">
+                                    <span class="buttonTxt">{{'label_smsEnable' |translate}}</span>
+                                </button>
+                                <button mat-stroked-button *ngIf="visibilityStatus" id="getDisableMSTeam"
+                                    class="blueColorBtn" color="warn" (click)="disconnectPopUp()">
+                                    <span class="buttonTxt">{{'label_smsDisabled' |translate}}</span>
+                                </button>
+
+                                <span class="profileBuildBtn" id="msTeamTagId">
+                                    <mat-icon>local_offer</mat-icon>
+                                    {{TagCode}}
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="user-invitaion tab-container margin0" *ngIf="showTabData">
+                            <mat-tab-group id='zoom-userinvitation-mtg' dir="{{positionMatTab}}">
+                                <mat-tab id="zoom-Snap">
+                                    <ng-template mat-tab-label matRippleDisabled="disabled">
+                                        {{'label_snaps' | translate}}
+                                    </ng-template>
+                                    <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0"
+                                        [navigation]="true" (swiper)="onSwiper($event)" id="msTeam-swipperSnap"
+                                        (slideChange)="onSlideChange()" [ngClass]="screenPreviewClass"
+                                        class="urOrderList">
+                                        <ng-template class="carousel-cell"
+                                            *ngFor="let images of IntegrationImages" swiperSlide>
+                                            <div class="stageListItems">
+                                                <img src="{{images.ImageUrl}}" />
+                                            </div>
+                                        </ng-template>
+                                    </swiper>
+                                </mat-tab>
+                                <mat-tab id="zoom-Video">
+                                    <ng-template mat-tab-label matRippleDisabled="disabled">
+                                        {{'label_video' | translate}}
+                                    </ng-template>
+                                    <swiper [slidesPerView]="screnSizePerStage" [spaceBetween]="0"
+                                        [navigation]="true" (swiper)="onSwiper($event)" id="msTeam-swipperVideo"
+                                        (slideChange)="onSlideChange()" [ngClass]="screenPreviewClass"
+                                        class="urOrderList">
+                                        <ng-template class="carousel-cell" swiperSlide>
+                                            <div class="stageListItems">
+                                                <video class="videoHeight" width="100%" controls>
+                                                    <source src="{{VideoUrl}}" type="video/mp4">
+                                                    <source src="{{VideoUrl}}" type="video/ogg">
+                                                    Your browser does not support HTML video.
+                                                </video>
+                                            </div>
+                                        </ng-template>
+                                    </swiper>
+                                </mat-tab>
+                                <mat-tab id="zoom-contactDetail">
+                                    <ng-template mat-tab-label matRippleDisabled="disabled">
+                                        {{'label_contactDetails' |translate}}
+                                    </ng-template>
+                                    <mat-card class="contactDetailsSection">
+
+                                        <div class="contact-details">
+                                            <p>{{'label_locationName' | translate}}</p>
+                                            <span class="spnStyle">{{LocationName?LocationName:'--'}}</span>
+                                        </div>
+
+                                        <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                        <div class="contact-details">
+                                            <p>{{'label_locationType' | translate}}</p>
+                                            <span class="spnStyle">{{LocationType?LocationType:'--'}}</span>
+                                        </div>
+
+                                        <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                        <div class="contact-details">
+                                            <p>{{'label_country' | translate}}</p>
+                                            <span class="spnStyle">{{Country?Country:'--'}}</span>
+                                        </div>
+
+                                        <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                        <div class="contact-details">
+                                            <p>{{'label_addressLine1' | translate}}</p>
+                                            <span class="spnStyle">{{AddressLine1?AddressLine1:'--'}}</span>
+                                        </div>
+
+                                        <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                        <div class="contact-details">
+                                            <p>{{'label_addressLine2' | translate}}</p>
+                                            <span class="spnStyle">{{AddressLine2?AddressLine2:'--'}}</span>
+                                        </div>
+
+                                        <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                        <div class="contact-details">
+                                            <p>{{'label_districtSuburb' | translate}}</p>
+                                            <span class="spnStyle">{{District?District:'--'}}</span>
+                                        </div>
+
+                                        <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                        <div class="contact-details">
+                                            <p>{{'label_city' | translate}}</p>
+                                            <span class="spnStyle">{{TownCity?TownCity:'--'}}</span>
+                                        </div>
+
+                                        <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                        <div class="contact-details">
+                                            <p>{{'label_state' | translate}}</p>
+                                            <span class="spnStyle">{{State?State:'--'}}</span>
+                                        </div>
+
+                                        <mat-divider class="mt-0 mb-0"></mat-divider>
+
+                                        <div class="contact-details">
+                                            <p>{{'label_zipCode' | translate}}</p>
+                                            <span class="spnStyle">{{PostalCode?PostalCode:'--'}}</span>
+                                        </div>
+                                    </mat-card>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+
+                        <div class="seekContentSectionBox" *ngIf="showMSTeamFormData">
+                            <p>{{'label_seekIntegrationPara5' |translate}}</p>
+                        </div>
+
+                    </div>
+                </mat-card>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</mat-drawer-container>

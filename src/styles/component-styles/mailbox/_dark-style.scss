@@ -1,0 +1,74 @@
+// dark theme styling
+@use "../../../colors";
+.dark-theme{
+    .email-container{
+        .emaillist{
+            .scroll-mail-list{
+                .detail-email-list.emailDetailBox-unread{
+                    background: #525252;
+                }
+            }
+        }
+        .email-detail.mat-drawer-content{
+            .email-detail-card.mat-card{
+                .email-detail-box-sender-details{
+                    background: #222222;
+                }
+            }
+        }
+    }
+    .toCCMenu{
+        color: #fff;
+    }
+    .email-container .emaillist .scroll-mail-list {
+        .detail-email-list{
+            background: #222;
+            border-bottom: 1px solid #6b6b6b;
+            &:first-child{
+                border-top: 1px solid #6b6b6b;
+            }
+        }
+        .emailDetailBox-slected{
+            box-shadow: 2px 0px 0px 0px colors.$dark-primary inset;
+        }
+    }
+    .email-detail.mat-drawer-content .email-detail-card.mat-card .email-detail-box-sender-details{
+        background: #404040;
+    }
+    .emailBody{
+        a:hover,
+        p:hover,
+        div:hover,
+        span:hover,
+        table:hover,
+        table tr:hover,
+        table tr td:hover,
+        table tr th:hover,
+        th:hover,
+        td:hover{
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+        a,
+        p,
+        div,
+        span,
+        table,
+        table tr,
+        table tr td,
+        table tr th,
+        th,
+        td{
+          color: #fff;
+        }
+        a{
+          color: colors.$dark-primary !important;
+        }
+        center{
+            background: transparent !important;
+            &:hover{
+                box-shadow: none !important;
+            }
+        }
+    }
+}

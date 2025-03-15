@@ -1,0 +1,389 @@
+@import "../../../../../../styles-var.scss";
+//@When: 22-08-2023 @who:Amit @why: EWM-13922 @what: import scss
+@import "../../../../../../mixinStyle.scss";
+
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Satya Prakash Gupta
+    @When: 21-May-2021
+    @Why: EWM-1449 EWM-1583
+    @What: You can add quick job style, and also import other style files
+*/
+
+/*
+    @modified 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Amit Rajput
+    @When: 12-May-2022
+    @Why: EWM-6654
+    @What: Manage btn work
+*/
+.multiselectChip{
+  display: flex;
+  gap: 5px;
+  &-chip{
+    display: grid;
+    grid: auto/ calc(100% - 20px)16px;
+    gap: 5px;
+    background-color: #e0e0e0;
+    color: rgba(0, 0, 0, 0.87);
+    border-radius: 16px;
+    height: 20px;
+    line-height: 17px;
+    padding: 2px 4px;
+    width: 122px;
+    cursor: default;
+    @media (min-width : 1024px) and (max-width : 1365px){
+      width: 114px;
+    }
+    &-text{
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  &-morechips{
+    width: 65px;
+    grid: initial;
+  }
+}
+:host ::ng-deep {
+  .multiselectChip-close.mat-fab{
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    .mat-button-wrapper{
+      padding: 0px;
+      line-height: 16px;
+    }
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 15px;
+      font-size: 14px;
+    }
+  }
+  .passwordStrenth.access-infix .mat-form-field-appearance-legacy .mat-form-field-infix{
+    padding-right: 0px;
+  }
+}
+.popupheading{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .clientTitlePurpleTxt{
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: right;
+    padding-bottom: 3px;
+    .title-one{
+      font-size: 14px;
+      display: block;
+    }
+  }
+}
+
+
+
+.disablePublishJobSec {
+  position: relative;
+  .disablePublishJob {
+    position: absolute;
+    top: 15px;
+    right: 60px;
+    z-index: 9;
+  }
+
+}
+
+.divTextAreaLavel{
+  opacity: 0.54;
+}
+
+
+.ng-dropdown-panel.ng-select-bottom{
+  margin-top: -15px;
+}
+
+.autoLocation{
+  display: block;
+}
+
+.inputSearch{
+  display: block !important;
+  z-index: 9999999999;
+  position: absolute;
+  top: inherit;
+  left: inherit;
+  right: inherit;
+  bottom: inherit;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0);
+  right: 20px;
+  bottom: 18px;
+  font-size: 26px;
+}
+
+.quick-chip-list{
+  .mat-chip{
+    margin-bottom: 5px;
+  }
+}
+.ManageBtn{
+  margin: 0px 5px 5px;
+}
+
+.job-rank{
+  display: grid;
+  grid: auto/calc(100% - 130px) 123px;
+  gap: 7px;
+}
+
+::ng-deep {
+.owner-slectBox{
+  .ng-select.ng-select-multiple{
+    .ng-select-container{
+      .ng-value-container{
+        .ng-value{
+          .ng-value-label{
+            @media only screen and (max-width: 480px) and (min-width: 320px){   
+                max-width: 45px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }  
+}
+
+.icon-withchip{
+  .mat-chip{
+    padding: 5px;
+    background-color: $primary-bg-color;
+    color: $primary-txt-color;
+    .chip-text{
+      max-width: 300px;
+      @media only screen and (max-width: 1450px) and (min-width: 993px) {
+        max-width: 155px;
+      }
+      @media only screen and (max-width: 992px) and (min-width: 240px) {
+        max-width: 180px;
+      }
+    }
+    .mat-icon{
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+    }
+  }
+  .matSuffix-icon{
+    width: 33px;
+    height: 33px;
+    line-height: 33px;
+    min-width: 33px;
+    text-align: center;
+    padding: 0px;
+  }
+}
+.error{
+  color: #f44336;
+  font-size: 11px;
+  position: relative;
+  top: -17px;
+  display: block;
+}
+// @(C): Entire Software
+// @Type: File, <css>
+// @Who: Adarsh singh Singh
+// @When: 21-Dec-2022
+//@Why: EWM-9369 EWM-9967
+ 
+.rotate-loader {
+  animation: rotate-animation 0.8s infinite linear;
+}
+@keyframes rotate-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.bulkEditChip{
+    position: relative;
+    .bulkEditChipContainer{
+        max-height: 250px;
+       /* overflow-y: auto;
+        overflow-x: hidden; */
+        display: inline-block;
+        min-height: 22px;
+        .mat-standard-chip{
+            margin-top: 5px;
+            .mat-icon-button.mat-warn{
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                .mat-icon{
+                    width: 20px;
+                    height: 20px;
+                    line-height: 20px;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+    .infoIconStyle{
+        position: absolute;
+        top: -1px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        color: #9a9a9a;
+    }
+}
+
+.helpHeading{
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.chipError{
+    font-size: 11px;
+    position: relative;
+    top: -20px;
+}
+
+.redColor{
+    color: #cc0000 !important;
+    opacity: 1 !important;
+}
+
+.ManageBtn{
+    margin: 0px 5px 5px;
+  }
+.refreshBtn{
+    min-width: 40px;
+    padding: 0px;
+    margin-bottom: 5px;
+    .mat-icon{
+        font-size:24px;
+    }
+}
+.skill-chip-list{
+    .mat-chip{
+        margin-bottom: 5px;
+    }
+}
+
+::ng-deep {
+.add-manage {
+    display: flex;
+    background: #f5f5f5;
+    align-items: center;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .ng-dropdown-panel-items .scroll-host {
+      margin-top: -15px;
+    }
+  }
+  .skills-name{
+    height: 48px;
+    line-height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    .skill-data{
+        .mat-icon{
+          vertical-align: middle;
+          margin-right: 16px;
+        }
+    }
+} 
+  .no-bottom {
+    margin-bottom: -1.25em !important;
+  }
+  .dropdowm-barloader {
+    position: absolute;
+  }
+
+  
+  .ng-select-withicon{
+    display: inline-flex;
+    align-items: baseline;
+    box-sizing: border-box;
+    width: 100%;
+    .ng-select{
+        font-size: 14px;
+        width: 100%;
+    }
+}
+
+.select-matPrefix-icon{
+    top: 4px;
+    position: relative;
+    width: 1.215em; 
+}
+
+}
+
+// @When: 04-03-2023 @who:Amit @why: EWM-11031 @what: company contact & map application style start here
+.scrollBarStyle{
+  .company-contacts{
+    clear: both;
+  }
+  .map-application-form{
+    display: flex;
+    align-items: center;
+    column-gap: 25px;
+    row-gap: 5px;
+    justify-content: space-between;
+    @media only screen and (max-width: 980px) and (min-width: 240px){
+      flex-direction: column;
+      row-gap: 10px;
+      align-items: inherit;
+    } 
+    div{
+      width: 100%;
+    }
+  }
+  .text-with-location{
+    display: grid;
+    grid: auto/70px calc(100% - 95px);
+    column-gap: 25px;
+    @media only screen and (max-width: 980px) and (min-width: 240px){
+      grid : auto/1fr;
+    } 
+  }
+  .text-with-field{
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 12.5px));
+    column-gap: 25px;
+    row-gap: 5px;
+    @media only screen and (max-width: 980px) and (min-width: 240px){
+      grid : auto/1fr;
+      row-gap: 10px;
+    } 
+  }
+  .input-with-info-icon{
+    .infoStyle{
+      right: -3px;
+    }
+  }
+}
+// @When: 04-03-2023 @who:Amit @why: EWM-11031 @what: company contact & map application style end here
+
+

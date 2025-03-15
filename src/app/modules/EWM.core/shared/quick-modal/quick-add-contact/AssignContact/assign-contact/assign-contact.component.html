@@ -1,0 +1,119 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: assign contact-list.component.html
+  @Who: maneesh
+  @When: 29-may-2023
+  @Why: EWM-11569
+  @What: This page wil be use only for the assign contact candidate list page Component HTML
+ -->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+<div class="modal-header">
+  <h2 matDialogTitle class="mb-0">{{'label_assignContact'|translate}}</h2>
+  <button mat-icon-button id="btnCancelEdit" (click)="onDismissEdit()" color="warn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-form-field class="searchInput" floatLabel="never">
+  <mat-label>{{'label_search'|translate}}</mat-label>
+  <input matInput id="btnSearch" tabindex (input)="onFilter($event.target.value)" placeholder="{{''|translate}}"
+    [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}">
+  <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+  <button *ngIf="searchValue" id="clearBtn" matSuffix mat-icon-button aria-label="Clear" (click)="onFilterClear()"
+    (click)="searchValue=''">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+</mat-form-field>
+<mat-dialog-content>
+  <div class="kendo-grid-appearance column-resize-remove" id="candidate-list-kendo-table-container">
+    <ng-template #template let-anchor>
+      <span>{{anchor.nativeElement.innerText}}</span>
+    </ng-template>
+    <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom" [tooltipTemplate]="template"
+      (mouseover)="showTooltip($event)">
+      <kendo-grid [kendoGridBinding]="gridListData" [sortable]="true" [sort]="sort" [scrollable]="'virtual'"
+        [reorderable]="false" [resizable]="true" (sortChange)="sortChange($event)" (scrollBottom)="pageChange($event)">
+        <kendo-grid-checkbox-column width="45" class="center-align">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <mat-checkbox color="primary" tabindex matTooltip="" matTooltipClass="custom-tooltip"
+              (change)="onCheckField($event,dataItem)" [checked]="dataItem.IsDefault==1">
+            </mat-checkbox>
+          </ng-template>
+
+        </kendo-grid-checkbox-column>
+        <kendo-grid-column field="FullName" title="Name" [width]="210" [minResizableWidth]="150">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{dataItem?.FullName}}</span>
+            </ng-template>
+           </kendo-grid-column>
+        <!-- //who:maneesh,what:ewm-15933 for add position field when:07/02/2024 -->
+        <kendo-grid-column field="Position" title="Position" [width]="250" [minResizableWidth]="150" >
+        <ng-template kendoGridCellTemplate let-dataItem>
+        <span>{{dataItem?.Position}}</span>
+        </ng-template>
+      </kendo-grid-column>
+        <kendo-grid-column field="FullAddress" title="Contact Address" [width]="350" [minResizableWidth]="150">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{dataItem?.FullAddress}}</span>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="Gender" title="Gender" [width]="120" [minResizableWidth]="100">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{dataItem?.Gender}}</span>
+            </ng-template>
+         </kendo-grid-column>
+        <kendo-grid-column field="EmailId" title="Email" [width]="320" [minResizableWidth]="200">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{dataItem?.EmailId}}</span>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="PhoneNo" title="Phone" [width]="150" [minResizableWidth]="150">
+          <ng-template kendoGridCellTemplate let-dataItem >
+            <!-- who:maneesh,what:foe add PhoneCode,when:08/03/2024 -->
+            <span *ngIf="dataItem?.PhoneNo!==null && dataItem?.PhoneNo!=''">+{{dataItem?.PhoneCode}} {{dataItem?.PhoneNo}}</span>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="Owners" title="Contact Owner" [width]="445" [minResizableWidth]="250" >
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="grid-chips" id="grid-chips" >
+              <mat-chip-list #chipList aria-label="skill selection" >
+                <ng-container *ngFor="let Owners of dataItem?.Owners, let i = index;">
+                  <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false" class="text-overflow">
+                    <span *ngIf="Owners?.length!=0 && Owners!=null && Owners!=[]">{{Owners?.OwnerName}}</span>
+                  </mat-chip>
+                </ng-container>
+              </mat-chip-list>
+              <button mat-icon-button color="primary" *ngIf="dataItem?.Owners?.length>2" class="more-owner-show"
+                [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                +{{dataItem?.Owners?.length-2}}
+              </button>
+              <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                <ng-container *ngFor="let Owners of dataItem?.Owners, let i = index;">
+                  <button mat-button *ngIf="i>=2">
+                    {{Owners?.OwnerName}}
+                  </button>
+                </ng-container>
+              </mat-menu>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="StatusName" title="Status" [width]="120" [minResizableWidth]="100">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{dataItem?.StatusName}}</span>
+            </ng-template>
+         </kendo-grid-column>
+      </kendo-grid>
+      <div *ngIf="loadingscroll" class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt">
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+  <button mat-stroked-button color="primary" tabindex type="button" [disabled]="assignbtn" id="assignContactBtn"
+    (click)="getClientAssignContact()">
+    {{'label_assignContactBtn'|translate}}</button>
+</div>

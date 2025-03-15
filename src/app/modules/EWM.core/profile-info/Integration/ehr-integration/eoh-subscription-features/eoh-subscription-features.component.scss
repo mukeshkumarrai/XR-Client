@@ -1,0 +1,33 @@
+.search-box{
+    display: flex;
+    margin-top: 25px;
+    gap: 10px;
+    @media only screen and (max-width: 480px){
+        flex-direction: column;
+        gap: 0px;
+    }
+    .ng-slectBox{
+        width: 210px;
+        @media only screen and (max-width: 480px){
+            width: 100%;
+        }
+    }
+    .searchContact{
+        width: 100%;
+    }
+}
+
+.clear-btn{
+    cursor: pointer;
+    position: absolute;
+    right: 25px;
+    font-size: 19px;
+    margin-top: 16px;
+    z-index: 100000;
+}
+
+.ng-select-container{
+    flex:1
+}
+
+

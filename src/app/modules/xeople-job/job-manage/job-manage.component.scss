@@ -1,0 +1,304 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Satya Prakash Gupta
+    @When: 21-May-2021
+    @Why: EWM-1449 EWM-1583
+    @What: You can add quick job style, and also import other style files
+*/
+// .form-group {
+//   margin-bottom: 0px;
+// }
+
+// .form-control.ng-touched.ng-invalid {
+//   border-color: red;
+// }
+
+// .formm {
+//   height: 200px;
+//   overflow: scroll;
+// }
+.multiselectChip{
+  display: flex;
+  gap: 5px;
+  &-chip{
+    display: grid;
+    grid: auto/ calc(100% - 20px)16px;
+    gap: 5px;
+    background-color: #e0e0e0;
+    color: rgba(0, 0, 0, 0.87);
+    border-radius: 16px;
+    height: 20px;
+    line-height: 17px;
+    padding: 2px 4px;
+    width: 122px;
+    cursor: default;
+    @media (min-width : 1024px) and (max-width : 1365px){
+      width: 114px;
+    }
+    &-text{
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  &-morechips{
+    width: 65px;
+    grid: initial;
+  }
+}
+:host ::ng-deep {
+  .multiselectChip-close.mat-fab{
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    .mat-button-wrapper{
+      padding: 0px;
+      line-height: 16px;
+    }
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 15px;
+      font-size: 14px;
+    }
+  }
+  // @When: 01-12-2022 @who:Amit @why: EWM-9576
+  .job-desc.disabledDescriptionDiv {
+    .divTextArea{
+      // resize: initial;
+      p,span,div{
+        opacity: 0.68;
+      }
+    }
+  }
+}
+.jobView{
+  cursor: default
+}
+.overflow-box {
+  padding: 5px;
+  height: 100px;
+  border: 1px solid #999;
+  overflow: hidden;
+}
+.disablePublishJobSec {
+  position: relative;
+  .disablePublishJob {
+    position: absolute;
+    top: 15px;
+    right: 60px;
+    z-index: 9;
+  }
+}
+.divTextAreaLavel{
+  opacity: 0.54;
+}
+.ng-dropdown-panel.ng-select-bottom{
+  margin-top: -15px;
+}
+.InternalNotes{
+  height: 38px;
+} 
+
+// @When: 01-12-2022 @who:Amit @why: EWM-9576
+.job-desc.disabledDescriptionDiv {
+  // --------@When: 01-12-2022 @who:Adarsh singh @why: EWM-9576 --------
+  // pointer-events: none;
+  opacity: 1;
+}
+  
+.errorMsg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.matSuffix-icon{
+  position: relative;
+  bottom: 0px;
+  font-size: 12px;
+  padding: 3px 10px;
+  line-height: 25px;
+  height: 30px;
+  min-width: 35px;
+  // @When: 12-10-2023 @who:Amit @why: EWM-14706 @what: icon size
+  .mat-icon{
+    font-size: 16px;
+    line-height: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+.job-rank{
+  display: grid;
+  grid: auto/calc(100% - 130px) 123px;
+  gap: 7px;
+} 
+// @(C): Entire Software
+// @Type: File, <css>
+// @Who: Adarsh singh Singh
+// @When: 21-Dec-2022
+//@Why: EWM-9369 EWM-9967
+ 
+.rotate-loader {
+  animation: rotate-animation 0.8s infinite linear;
+}
+@keyframes rotate-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.bulkEditChip{
+    position: relative;
+    .bulkEditChipContainer{
+        max-height: 250px;
+       /* overflow-y: auto;
+        overflow-x: hidden; */
+        display: inline-block;
+        min-height: 22px;
+        .mat-standard-chip{
+            margin-top: 5px;
+            .mat-icon-button.mat-warn{
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                .mat-icon{
+                    width: 20px;
+                    height: 20px;
+                    line-height: 20px;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+    .infoIconStyle{
+        position: absolute;
+        top: -1px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        color: #9a9a9a;
+    }
+}
+
+.helpHeading{
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.chipError{
+    font-size: 11px;
+    position: relative;
+    top: -20px;
+}
+
+.redColor{
+    color: #cc0000 !important;
+    opacity: 1 !important;
+}
+
+.ManageBtn{
+    margin: 0px 5px 5px;
+  }
+.refreshBtn{
+    min-width: 40px;
+    padding: 0px;
+    margin-bottom: 5px;
+    .mat-icon{
+        font-size:24px;
+    }
+}
+.skill-chip-list{
+    .mat-chip{
+        margin-bottom: 5px;
+    }
+}
+
+::ng-deep {
+.add-manage {
+    display: flex;
+    background: #f5f5f5;
+    align-items: center;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .ng-dropdown-panel-items .scroll-host {
+      margin-top: -15px;
+    }
+  }
+  .skills-name{
+    height: 48px;
+    line-height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    .skill-data{
+        .mat-icon{
+          vertical-align: middle;
+          margin-right: 16px;
+        }
+    }
+} 
+  .no-bottom {
+    margin-bottom: -1.25em !important;
+  }
+  .dropdowm-barloader {
+    position: absolute;
+  }
+}
+
+.details-edit.mat-raised-button{
+  min-width: 37px;
+  padding: 0px;
+}
+
+.quick-job .mat-expansion-panel{
+  overflow: inherit;
+}
+
+:host ::ng-deep {
+  .xeople-container-with-one-card.mat-drawer-container.complete-create-drawer-container{
+    .mat-drawer-content{
+      overflow: auto;
+      .addEditSec{
+        height: calc(100% - 20px);
+        // overflow-y: auto;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        .drawer-footer{
+          width: calc(100% - 20px);
+          position: absolute;
+          background: #fff;
+          height: 50px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          z-index: 9;
+          padding: 0px 10px;
+          right: 0px;
+          bottom: 0px;
+          .mat-raised-button{
+            margin-inline-start: 8px;
+          }
+        }
+      }
+    }
+  }
+}

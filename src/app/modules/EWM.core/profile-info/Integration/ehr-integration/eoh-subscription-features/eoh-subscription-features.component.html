@@ -1,0 +1,68 @@
+<!---
+    @(C): Entire Software
+    @Type: eoh-subscription-features.component.html File, <html>
+    @Who: Bantee Kumar
+    @When: 1-sep-2023
+    @Why: EWM-13705 EWM-13864
+    @What:  This page is creted for EHR feature integration Integration UI Component HTML
+-->
+
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add modal header----->
+<div class="modal-header" id="modal-header">
+    <h2 matDialogTitle class="mb-0">{{'label_EhrIntegration_entireOnHire' | customTranslate}}</h2>
+</div>
+
+<mat-dialog-content id="eoh-subscription-feature-content" class="modal-search-email-name eoh-dialog-content"
+    applyTabIndexes>
+    <mat-chip-list>
+        <mat-chip *ngFor="let employee of employees; let i=index" [removable]="true" (removed)="removeEmployee(i)"
+            class="addContatChip" id="eoh-subscription-feature-Chip">
+            <span class="text-overflow" matTooltip="{{ employee.Name }}" matTooltipClass="custom-tooltip">{{
+                employee.Name }}</span>
+            <mat-icon id="iconCancel" matChipRemove>cancel</mat-icon>
+        </mat-chip>
+    </mat-chip-list>
+    <span *ngIf="employees.length==10 && showMaxEmployee" class="new badge red" style="text-transform: initial;">
+        {{'label_ehr_max10employees' | translate}}
+    </span>
+    <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add id----->
+    <div class="search-box" id="search-box">
+        <!----@When: 28-08-2023 @who:Amit @why: EWM-13866 @what: add id----->
+        <div class="ng-slectBox" id="eoh-slectBox">
+            <ng-select id="eoh-organization-field" class="dropdown-body searchInput" appendTo="body"
+                [(ngModel)]="orgnizations" tabindex="2" [clearable]="true" (change)="onChangeOrganization($event)"
+                placeholder="{{'lable_marketplace_ehr_OrganizationName'|translate}}">
+                <ng-option value="" disabled>{{'label_select' | translate}} Organization</ng-option>
+                <ng-option *ngFor="let org of organizationList" [value]="org">
+                    {{org.OrganizationName}}</ng-option>
+            </ng-select>
+        </div>
+        <div class="ng-slectBox ng-select-container" id="ng-select-eoh">
+            <!-- <span *ngIf="loadingSearch" id="eoh-clear-employee" class="ng-value-icon right clear-btn searchInput" (click)="clear()" aria-hidden="true">×</span> -->
+            <ng-select [(ngModel)]="employees" style="width: 100%;" id="eoh-employee-dropdown" class="dropdown-body"
+                [clearable]="false" tabindex="2" [items]="orgEmployeeList" [virtualScroll]="true" [loading]="loading"
+                bindLabel="Name" [closeOnSelect]="false" [multiple]="true" (scrollToEnd)="fetchMore()"
+                [typeahead]="input$" #searchVal (close)="clear()" (change)="onSelectEmployee($event)">
+                <ng-template ng-multi-label-tmp let-items="items">
+                    <div *ngIf="loadingSearch" class="k-i-loading org-loading inputSearch"></div>
+                </ng-template>
+
+
+            </ng-select>
+
+        </div>
+    </div>
+
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+    <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()"
+        id="eoh-btnCancel">{{'label_cancel'|translate}}</button>
+    <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!employees.length" (click)="onSave()"
+        id="eoh-btnSave">
+        {{'label_save'|translate}}</button>
+</mat-dialog-actions>

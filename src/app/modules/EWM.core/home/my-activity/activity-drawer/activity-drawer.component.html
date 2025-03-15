@@ -1,0 +1,22 @@
+<div *ngIf="drawer1$| async" class="custom-overlay-for-drawer"></div>
+<mat-drawer  id="slide1" #drawer1 class="activitydrawer" position="end" mode="over" [opened]="drawer1$ | async" disableClose="true">
+    <div class="activitydrawer-innercontainer">
+        <div class="activitydrawer-innercontainer-drawerTitleSec" id="drawerTitleSec">
+          <h4 class="text-overflow">
+              <span>{{'label_View' |translate}} {{'label_MenuActivity'|translate}}</span>
+            <button class="closeDrawerIcon" mat-stroked-button (click)="oncloseDrawer();">
+              <mat-icon>close</mat-icon>
+            </button>
+          </h4>
+        </div>
+        <mat-card class="activitydrawer-innercontainer-mat-card" >
+
+          <app-view-activity  *ngIf="drawer1$ | async" [activityActionForm]="ActivityObj?.activityActionForm" [utctimezonName]="ActivityObj?.utctimezonName"
+           [timezonName]="ActivityObj?.timezonName"  [timePeriod]="ActivityObj?.timePeriod" [activityId]="ActivityObj?.activityId" 
+           [isSlotActive]="ActivityObj?.isSlotActive" [slotsData]="ActivityObj?.slotsData"
+            (myActivityDrawerClose)="drawerCloseMyActivity($event)" >
+          </app-view-activity>
+
+        </mat-card>
+      </div>
+  </mat-drawer>

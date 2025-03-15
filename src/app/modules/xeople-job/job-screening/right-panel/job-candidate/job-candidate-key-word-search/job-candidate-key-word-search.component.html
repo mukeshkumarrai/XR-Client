@@ -1,0 +1,442 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: job-candidate-keyWord Search.component.html
+    @Who: Bantee Kumar
+    @When: 28-May-2023
+    @Why: EWM-1732 EWM-12540
+    @What:  This page wil be use only for the candidate Keyword search Component HTML
+-->
+
+
+<!-- <div *ngIf="loading" class="k-i-loading"></div> -->
+
+<div class="progress-loader-box" *ngIf="loaderAddInfo">
+    <div class="progress-loader">
+        <div class="loaderBar"></div>
+    </div>
+</div>
+<div class="multiple-no-data" *ngIf="!candidateResumeData">
+    <p>{{'label_parsingResult_notFound' | translate}}</p>
+</div>
+<div class="candidate-summry parse-resume-tab-container" *ngIf="candidateResumeData" id="candidate-summry">
+    <mat-card class="resumeHeader">
+        <h2>{{'label_cVParsingResult' | translate}}</h2>
+        <div class="search-and-parsebutton">
+
+            <mat-form-field class="search-input searchInput" floatLabel="never">
+                <input matInput id="personal-searchBox" [(ngModel)]="textToSearch" placeholder="Search by KeyWord"
+                    (keyup)="highligthSearchTextVal($event)">
+                <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+                <button *ngIf="textToSearch" matSuffix mat-icon-button id="btnCancel" (click)="clearSearch()">
+                    <mat-icon class="inputval">close</mat-icon>
+                </button>
+                <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+            </mat-form-field>
+
+        </div>
+    </mat-card>
+    <div id="scrolltop" class="scrolltop">
+        <div class="row mb-0">
+            <!------Profile------->
+            <div class="col s12 m12 l12 p-0">
+                <mat-card id="candidate-general-information" class="mt-10">
+                    <mat-card-header>
+                        <mat-card-title class="inputval">{{'label_can_profile' | translate}}</mat-card-title>
+                        <span class="summryeheader-spacer"></span>
+                        <div class="actionButton actionButtonWidthFix">
+
+                        </div>
+                    </mat-card-header>
+
+                    <div class="progress-loader-box" *ngIf="loading">
+                        <div class="progress-loader">
+                            <div class="loaderBar"></div>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+                    <mat-card-content>
+                        <div class="card-fadeloader" *ngIf="loading"></div>
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_name' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.Name}}</p>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_familyname' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m4 l4">
+                                <p class="inputval">{{canProfileData?.FamilyName}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_gender' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.Gender}}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_emailId' | translate}}</strong>
+                            </div>
+
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.EmailAddress}}</p>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_mobile_number' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.MobileNumber}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_home_number' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.HomeNumber}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_executive_summary' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.ExecutiveSummary}}</p>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_country_code' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.CountryCode}}</p>
+                            </div>
+
+                        </div>
+
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_region' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.Region}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_mobile_city' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.City}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_marrital_status' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.MaritalStatus}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_resume_name' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.ResumeName}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_cv_parsed_by' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.CVParsedBy}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-10">
+                            <div class="col s12 m4 l4">
+                                <strong class="inputval">{{'label_can_profile_cv_parsed_on' | translate}}</strong>
+                            </div>
+                            <div class="col s12 m8 l8">
+                                <p class="inputval">{{canProfileData?.CVParsedOn}}</p>
+                            </div>
+                        </div>
+
+                    </mat-card-content>
+                    <div class="resizeBarSec">
+                        <div class="resizeBar"></div>
+                        <div class="resizeBar"></div>
+                    </div>
+                </mat-card>
+            </div>
+            <!------Skills------->
+            <div class="col s12 m12 l12 p-0">
+                <mat-card id="employment_history">
+                    <mat-card-header>
+                        <mat-card-title class="inputval">{{'candidate_skils' | translate}}</mat-card-title>
+                        <span class="summryeheader-spacer"></span>
+                    </mat-card-header>
+
+                    <div class="progress-loader-box" *ngIf="loading">
+                        <div class="progress-loader">
+                            <div class="loaderBar"></div>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+                    <mat-card-content *ngIf="candidateResumeData?.SkillDetails.length">
+                        <div class="card-fadeloader" *ngIf="loading"></div>
+                        <div class="d-flex" *ngFor="let listDataList of candidateResumeData?.SkillDetails;let i =index">
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'candidate_skils' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList?.SkillName}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_skills_proficiency' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList?.SkillProficiency}}</p>
+                                </div>
+                            </div>
+
+                            <mat-divider></mat-divider>
+                        </div>
+
+                    </mat-card-content>
+                    <div class="resizeBarSec">
+                        <div class="resizeBar"></div>
+                        <div class="resizeBar"></div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <div class="row mb-0">
+            <!------Education History------->
+            <div class="col s12 m12 l12 p-0">
+                <mat-card id="employment_history">
+                    <mat-card-header>
+                        <mat-card-title class="inputval">{{'label_can_education_history' | translate}}</mat-card-title>
+                        <span class="summryeheader-spacer"></span>
+                    </mat-card-header>
+
+                    <div class="progress-loader-box" *ngIf="loading">
+                        <div class="progress-loader">
+                            <div class="loaderBar"></div>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+                    <mat-card-content *ngIf="candidateResumeData?.EducationDetails.length">
+                        <div class="card-fadeloader" *ngIf="loading"></div>
+                        <div class="d-flex"
+                            *ngFor="let education of candidateResumeData?.EducationDetails;let i =index">
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_schoolName' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{education.SchoolName}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_degree' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{education.DegreeName}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_degreeYear' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{education.DegreeDate}}</p>
+                                </div>
+                            </div>
+
+                            <mat-divider></mat-divider>
+                        </div>
+
+
+                    </mat-card-content>
+                    <div class="resizeBarSec">
+                        <div class="resizeBar"></div>
+                        <div class="resizeBar"></div>
+                    </div>
+                </mat-card>
+            </div>
+            <!------Employment History------->
+            <div class="col s12 m12 l12 p-0">
+                <mat-card id="employment_history">
+                    <mat-card-header>
+                        <mat-card-title class="inputval">{{'label_can_employment_history' | translate}}</mat-card-title>
+                        <span class="summryeheader-spacer"></span>
+                    </mat-card-header>
+
+                    <div class="progress-loader-box" *ngIf="loading">
+                        <div class="progress-loader">
+                            <div class="loaderBar"></div>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+                    <mat-card-content *ngIf="candidateResumeData?.EmploymentHistoryDetails.length">
+                        <div class="card-fadeloader" *ngIf="loading"></div>
+                        <div class="d-flex"
+                            *ngFor="let listDataList of candidateResumeData?.EmploymentHistoryDetails;let i =index">
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_employment_org_name' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.OrganizationName}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_employment_designation' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.Designation}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_employment_position_type' |
+                                        translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.PositionType}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_employment_start_date' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.StartDate}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_employment_end_date' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.EndDate}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_employment_description' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.Description}}</p>
+                                </div>
+                            </div>
+                            <mat-divider></mat-divider>
+                        </div>
+
+
+                    </mat-card-content>
+                    <div class="resizeBarSec">
+                        <div class="resizeBar"></div>
+                        <div class="resizeBar"></div>
+                    </div>
+                </mat-card>
+            </div>
+            <!------Experience------>
+            <div class="col s12 m12 l12 p-0">
+                <mat-card id="experience">
+                    <mat-card-header>
+                        <mat-card-title class="inputval">{{'label_can_experience' | translate}}</mat-card-title>
+                        <span class="summryeheader-spacer"></span>
+                    </mat-card-header>
+
+                    <div class="progress-loader-box" *ngIf="loading">
+                        <div class="progress-loader">
+                            <div class="loaderBar"></div>
+                        </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+                    <mat-card-content *ngIf="candidateResumeData?.ExperienceDetails.length">
+                        <div class="card-fadeloader" *ngIf="loading"></div>
+                        <div class="d-flex"
+                            *ngFor="let listDataList of candidateResumeData?.ExperienceDetails;let i =index">
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_experience_executivebrief' |
+                                        translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.ExecutiveBrief}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_experience_level' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.Level}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_experience_month_of_exp' |
+                                        translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.MonthOfExperience}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col s5 m4 l4">
+                                    <strong class="inputval">{{'label_can_experience_year_of_exp' | translate}}</strong>
+                                </div>
+                                <div class="col s7 m8 l8">
+                                    <p class="inputval">{{listDataList.YearsOfExperience}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </mat-card-content>
+                    <div class="resizeBarSec">
+                        <div class="resizeBar"></div>
+                        <div class="resizeBar"></div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

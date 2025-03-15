@@ -1,0 +1,42 @@
+<h2 *ngIf="activestatus=='add'">
+    {{'label_add' |translate}} {{lable_description | customTranslate}}
+</h2>
+<h2 *ngIf="activestatus=='edit'">
+    {{'label_edit' |translate}} {{lable_description | customTranslate}}
+</h2>
+<h2 *ngIf="activestatus=='view'">
+    {{'label_View' |translate}} {{lable_description | customTranslate}}
+</h2>
+<mat-dialog-content class="col">
+    <div class="row mb-0">
+        <!-- <div class="col l12 m12 s12">
+        
+            <app-custom-html-editor [config]="descrpConfigData"  [descrpValueIn]="selectedDescription" [formType]="data.formType"
+            (descrpValueOut)="getDescription($event)">
+            </app-custom-html-editor>
+            <mat-error class="matErrorDesc"
+            *ngIf="errMsg">
+            {{'quickjob_jobDescription'|translate}} {{'label_errormaxlength'|translate}} {{descrpConfigData?.TextLength}}
+        </mat-error>       
+        </div> -->
+             <!-- who:maneesh,what:ewm-16207 ewm-16343 for fixed new editor,when:13/03/2024 -->
+             <div class="col l12 m12 s12">
+                <div class="html-editor-kendo mb-10" tabindex id="kendoHTMLEditer">
+                <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal"
+                      (editorValueEmit)="getEditorFormInfo($event)"  >
+                </app-mention-editor>   
+                <span *ngIf="spaceError" class="space-error" [ngStyle]="spaceError ? 
+                {'color': '#f44336'}:''">{{'label_nameValidation' |translate}}</span>
+              </div>
+            </div>
+    </div>
+
+
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+    <button mat-stroked-button color="warn" id="btnCancel" (click)="onDismiss()"> {{'button_cancel' |
+        translate}}</button>
+    <button mat-stroked-button color="primary" id="btnSave" [disabled]="(!this.addForm.valid||data.formType=='view') || isDisabled" (click)="sendDescription()">{{'label_save' |
+        translate}}</button>
+</mat-dialog-actions>

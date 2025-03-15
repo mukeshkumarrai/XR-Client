@@ -1,0 +1,21 @@
+<!--- @(C): Entire Software
+@Type: File, <ts>
+@Name: domain-confrim-dialog.component
+@Who: Renu
+@When: 11-feb-2021
+@Why: For opening the dialog pop-up for Delete
+@What: Function will call when user click on any action buttons.
+-->
+<div mat-dialog-content class="center-align confirm-dialog">
+    <span class="material-icons animate__animated animate__heartBeat animate__repeat-2">
+        help
+    </span>
+    <h2 mat-dialog-title>
+        {{title|translate}} {{subtitle|translate}}
+    </h2>
+    <p> {{'label_titleDomainDialogContent'|translate}}</p>
+</div>
+<div mat-dialog-actions class="button-row actionBoxFooter">
+    <button mat-stroked-button color="warn" (click)="onDismiss()"> {{'label_noBtn'|translate}}</button>
+    <button mat-stroked-button color="primary" (click)="onConfirm()"> {{'label_yesBtn'|translate}}</button>
+</div>

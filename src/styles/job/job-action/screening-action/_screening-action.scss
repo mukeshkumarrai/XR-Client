@@ -1,0 +1,194 @@
+
+// who:Amit Rajput :what:Common Contact card style : when:15 Sep 2023
+@use "../../../../colors";
+@use "dark-screening-action";
+.screening-action-main{
+    position: relative;
+    height: 100%;
+    .screening-action{
+        padding: 10px;
+        position: relative;
+        height: calc(100% - 50px);
+        overflow: auto;
+        box-sizing: border-box;
+        p{
+            margin: 0px;
+            padding-bottom: 10px;
+        }
+        .italic{
+            font-style: italic;
+            padding-bottom: 7px;
+        }
+        // .main-recruiter-name{
+        //     display: grid;
+        //     grid-template-columns: repeat(2, 1fr);
+        //     row-gap: 10px;
+        //     column-gap: 15px;
+        //     @media (width <= 767px) {
+        //         grid-template-columns: 1fr;
+        //     }
+        // }
+        // .recruiter-name{
+        //     width: clamp(200px, 210px, 100%);
+        // }
+        .candidate-status-main{
+            width: clamp(260px, 350px, 100%);
+            .candidate-status{
+                display: flex;
+                gap: 15px;
+                align-items: center;
+                margin-bottom: 10px;
+                justify-content: space-between;
+                @media (width <= 500px) {
+                    flex-wrap: wrap;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    row-gap: 5px;
+                }
+                p{
+                    padding-bottom: 0px;
+                    span{
+                        color: #4ab304;
+                        font-weight: 500;
+                        background: rgb(74 179 4 / 8%);
+                        font-size: 13px;
+                        margin-inline-start: 4px;
+                        padding: 2px 5px;
+                        border-radius: 4px;
+                        text-transform: uppercase;
+                    }
+                    @media (width <= 500px) {
+                        margin-inline-start: 23px;
+                    }
+                }
+                &:last-child{
+                    margin-bottom: 20px;
+                }
+            }
+        }
+        .date-title{
+            // width: clamp(395px, 530px, 100%);
+            display: flex;
+            column-gap: 15px;
+            row-gap: 5px;
+            flex-wrap: wrap;
+            @media (width <= 530px) {
+                width: 100%;
+                flex-direction: column;
+            }
+            .ng-slectBox{
+                &:first-child{
+                    min-width: 120px;
+                    @media (width <= 530px) {
+                        width: 100%;
+                    }
+                }
+                &:last-child{
+                    width: 230px;
+                    @media (width <= 530px) {
+                        width: 100%;
+                    }
+                }
+            }
+            .ng-slectBox.slot-range{
+                min-width: 160px;
+                @media (width <= 530px) {
+                    width: 100%;
+                }
+            }
+            .form-column{
+                width: 300px;
+            }
+        }
+        .orange-text{
+            color: colors.$orange-color;
+            font-size: 13px;
+        }
+        .mat-radio-group{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            row-gap: 15px;
+            padding: 5px 0px 15px;
+            .mat-radio-button{
+                padding: 16px 0px 35px;
+                .mat-radio-label{
+                    align-items: flex-start;
+                    .mat-radio-label-content{
+                        white-space: pre-wrap;
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+        .applicant-com{
+            padding: 0px 0px 10px;
+            p{
+                padding-bottom: 0px;
+            }
+            .template-heading{
+                margin-top: 10px;
+                .red-bg{
+                    color: #F44336;
+                    background: rgba(244, 67, 54, 0.08);
+                    font-size: 12px;
+                    padding: 2px 5px;
+                    border-radius: 4px;
+                }
+            }
+            .checkbox-select{
+                display: flex;
+                gap: 15px;
+                align-items: center;
+                position: relative;
+                @media (width <= 650px) {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    padding: 10px 0px;
+                    row-gap: 0px;
+                }
+                .common_dropdown_v2{
+                    width: 260px;
+                    @media (width <= 650px) {
+                        width: 100%;
+                    }
+                }
+            }
+            .checkbox-select.read-only{
+                &::before{
+                    content: "";
+                    position: absolute;
+                    left: 0px;
+                    right: 0px;
+                    bottom: 0px;
+                    top: 0px;
+                    background-color: rgb(255, 255, 255, 0.5);
+                    z-index: 9;
+                }
+            }
+        }
+    }
+    .actionBoxFooter{
+        position: absolute;
+        bottom: 24px;
+        background: #fff;
+        width: 100%;
+        height: 50px;
+        padding: 0px 5px !important;
+        box-sizing: border-box;
+        min-height: 40px;
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+    }
+}
+
+.ngSelectrequired {
+    .ng-select {
+      .ng-placeholder {
+        color: colors.$warn-bg;
+        &::after{
+            content: ' *';
+            color: colors.$warn-bg;
+        }
+      }
+    }
+}

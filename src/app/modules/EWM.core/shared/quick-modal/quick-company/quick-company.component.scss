@@ -1,0 +1,66 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Naresh Singh
+    @When: 16-June-2021
+    @Why: EWM-1450 EWM-1865
+    @What: You can add this page styles on same file, and also import other style files
+*/
+
+@import '../../../../../../styles-var.scss';
+
+*{outline:none !important}
+.xeople-modal-lg{
+    .row{
+        margin-bottom: 10px;
+    }
+    &:first-child{
+        margin-top: 0px;
+    }
+    
+}
+
+.ng-slectBox{
+    font-size: 14px !important;
+}
+// .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label{
+//     transform: ;
+// }
+
+.orgSelect{
+    width: 100%;
+}
+
+::ng-deep {
+    .location-icon-withchip .mat-form-field-label-wrapper .mat-form-field-label {
+        top: 1.28125em;
+        left: 0px;
+    }
+}
+.add-manage {
+    display: flex;
+    align-items: center;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .ng-dropdown-panel .scroll-host {
+      margin-top: -15px;
+    }
+  }
+  .no-bottom {
+    margin-bottom: -1.25em !important;
+  }
+  .listWithText{
+     width: 20px;
+     height: 20px;
+     line-height: 20px;
+    font-size: 10px;
+    display: inline-block;
+     text-align: center;
+     border-radius: 50px;
+    color: $white-color;
+     margin-right: 5px;
+    }
+
+
+

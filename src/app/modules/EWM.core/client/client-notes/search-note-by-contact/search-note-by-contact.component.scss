@@ -1,0 +1,71 @@
+.maxValue{
+    position: relative;
+    top: -20px;
+    font-size: 60%;
+}
+
+.searchContact{
+    .mat-input-element{
+        padding-inline-end: 40px;
+        width: calc(100% - 40px);
+    }
+    .inputSearch{
+        display: block !important;
+        z-index: 9999999999;
+        position: absolute;
+        top: inherit;
+        left: inherit;
+        right: inherit;
+        bottom: inherit;
+        font-size: 64px;
+        background-color: rgba(0, 0, 0, 0);
+        right: 20px;
+        bottom: 18px;
+        font-size: 26px;
+    }
+}
+.contactList{
+    top: -23px;
+    padding: 0px;
+    position: relative;
+    max-height: 180px;
+    overflow: auto;
+    .feature-box {
+        padding: 0px 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        box-sizing: border-box;
+        font-size: 14px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        .imageName{
+            width: 100%;
+          .email{
+              margin-left: 4px;
+          }  
+        }
+    }
+    .feature-box:hover{
+        background: rgba(153, 153, 153, 0.15);
+    }
+    img{
+        width: 30px;
+        height: 30px;
+        position: relative;
+        top:0px;
+        margin-inline-end: 10px;
+    }
+    img:focus{
+        outline: none;
+    }
+}
+.addContatChip{
+    img{
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+    img:focus{
+        outline: none;
+    }
+}

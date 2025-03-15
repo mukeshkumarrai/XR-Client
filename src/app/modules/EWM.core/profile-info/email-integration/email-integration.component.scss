@@ -1,0 +1,156 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: email-integration.component.scss
+    @Who: Naresh Singh
+    @When: 24-Dec-2020
+    @Why: ROST-367 ROST-579
+    @What: This file is used for Email integration css styles , and also import other style files
+*/
+@import "../../../../../styles-var.scss";
+@import "../../../../../mixinStyle.scss";
+.col .row {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.emailInt-Outlook-Box {
+  max-width: 510px;
+  // @When: 22-06-2023 @who:Amit @why: EWM-12711 @what: add style
+  overflow: hidden;
+  padding: 0px 5px 5px;
+  box-sizing: border-box;
+  .mat-card {
+    margin-top: 15px;
+    .mat-card-header {
+      img {
+        position: relative;
+        top: 5px;
+        width: 24px;
+      }
+    }
+    .mat-divider {
+      margin-top: 5px;
+    }
+    .mat-card-content {
+      p:first-child {
+        font-size: 80%;
+      }
+      height: auto;
+    }
+  }
+}
+.activeBtn {
+  background-color: $default-bg-color;
+  color: $default-text-color;
+}
+
+.subHeadingTxt {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+.emailDisconnected {
+  display: inline-block;
+  font-size: 12px;
+  color: #f44336;
+  background-color: #fdd9d7;
+  border-radius: 4px;
+  padding: 4px 7px;
+  text-transform: uppercase;
+}
+.emailConnected {
+  display: inline-block;
+  font-size: 12px;
+  color: #009d4f;
+  background-color: #c1eecd;
+  border-radius: 4px;
+  padding: 4px 7px;
+  text-transform: uppercase;
+}
+.custom-control.overflow-checkbox .overflow-control-description {
+  font-size: 14px;
+}
+.custom-checkbox {
+  display: flex;
+  margin: 5px auto 10px 0px;
+}
+.custom-checkbox.data-sync{
+  align-items: center;
+  gap: 20px;
+  cursor: inherit;
+  @include for-small-smartphones{
+    display: inherit;
+  }
+  .last-sync{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    height: 13px;
+    @include for-small-smartphones{
+      line-height: 30px;
+      padding-inline-start: 30px;
+    }
+  }
+}
+
+.custom-checkbox.data-sync.sync-calender{
+  background: #f1f9ff;
+  padding: 7px 10px;
+  width: max-content;
+  border-radius: 4px;
+  border: 1px solid #ebebeb;
+  margin: 15px 0px;
+  .ng-select{
+    width: 180px;
+    padding-bottom: 0px;
+  }
+}
+
+// @When: 29-Aug-2023 @who:Amit @why: EWM-14104 @what: add style
+.custom-checkbox.data-sync.custom-disable-checkbox{
+  cursor: inherit;
+}
+
+:host ::ng-deep {
+  .foremail-connection{
+    display: grid;
+    grid-template-columns: repeat(4, 120px);
+    gap: 7px;
+    max-width: 510px;
+    padding: 0px 5px;
+    @media only screen and (max-width: 660px) and (min-width: 240px){        
+      grid-template-columns: repeat(4, calc(25% - 8px));
+    }
+    .outlook-365{
+      min-width: initial;
+    }
+    .mat-raised-button{
+      text-align: center;
+      margin-right: 0px;
+      margin-bottom: 0px;
+      .mat-button-wrapper{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 10px;
+        img{
+          margin-right: 0px;
+        }
+        .gmailBtn{
+          @include for-small-smartphones{
+            font-size: 12px;
+            white-space: normal;
+            line-height: 22px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.email-disconnect{
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  line-height: 24px;
+  min-width: 80px;
+  padding: 0px 10px;
+}

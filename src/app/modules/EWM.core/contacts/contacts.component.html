@@ -1,0 +1,377 @@
+<!--
+  @Type: File, <html>
+  @Name: contacts.component.html
+  @Who: Bantee Kumar
+  @When: 07-Sept-2023
+  @Why:EWM-13709 EWM-13822
+  @What:  This page will be use for contact Component ts file
+  -->
+
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<mat-drawer-container id="contact-list-card" class="candidate-list-card">
+    <mat-card-header class="page-header" id="contact-list-card-header">
+        <mat-card-title>
+            <button mat-mini-fab class="mainAddButton"
+                matTooltip="{{'label_AddContact'|customTranslate | titlecase }}" matTooltipClass="custom-tooltip"
+                color="primary" id="btnCreate" (click)="openQuickAddContactModal()"
+                (mouseenter)="mouseoverAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.CreateButton?.id, animationVar?.CreateButton?.animation)">
+                <mat-icon id="{{animationVar?.CreateButton?.id}}"
+                    class="{{animationVar?.CreateButton?.isAnimClass}}">
+                    {{animationVar?.CreateButton?.iconName}}</mat-icon>
+            </button>
+            <div class="sub-title">
+                <span>{{'label_Menucontacts_totalContacts' |customTranslate }} {{totalContactCount}}</span>
+            </div>
+        </mat-card-title>
+        <div class="header-action-button" id="contact-list-actionButton">
+            <div class="header-form">
+                <mat-form-field class="searchInput" floatLabel="never">
+                    <mat-label>{{'label_search'|translate}}</mat-label>
+                    <input matInput id="btnSearch" tabindex (input)="onFilter()" placeholder="Search"
+                        [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}">
+                    <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+
+                    <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="onSearchFilterClear()" (click)="searchValue=''"
+                        id="contact-list-onSearchFilterClear">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                </mat-form-field>
+            </div>
+
+            <div class="group-header-button">
+            <button mat-raised-button class="header-button" id="btnRefresh" (click)="refreshComponent()"
+                matTooltip="{{'label_refreshBtn'|translate}}" matTooltipClass="card-list-tooltip"
+                matTooltipPosition="before"
+                (mouseenter)="mouseoverAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)"
+                (mouseleave)="mouseleaveAnimation(animationVar?.RotateButton?.id, animationVar?.RotateButton?.animation)">
+                <mat-icon id="{{animationVar?.RotateButton?.id}}"
+                    class="{{animationVar?.RotateButton?.isAnimClass}}">
+                    {{animationVar?.RotateButton?.iconName}}</mat-icon>
+            </button>
+
+            <!-- @When: 29-02-2024 @who:Amit @why: EWM-16254 @what: proximity search btn -->
+            <div class="button-with-clear blank-count" id="proximity-search">
+                <button mat-raised-button (click)="openProximitySearchDialog()" class="header-button"
+                   matTooltip="{{'label_proximity' | translate}} {{'label_search' | translate}}" matTooltipClass="card-list-tooltip"
+                   matTooltipPosition="before" id="proximity-area" [ngClass]="[IsProximitySearch==true ? 'addFilter' : 'blankFilter']"
+                   (mouseenter)="mouseoverAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)"
+                   (mouseleave)="mouseleaveAnimation(animationVar?.ActionsButton?.id, animationVar?.ActionsButton?.animation)">
+                  <mat-icon id="{{animationVar?.ActionsButton?.id}}" class="{{animationVar?.ActionsButton?.isAnimClass}}">share_location</mat-icon>
+                </button>
+                <div class="clear-with-data blank-text" *ngIf="IsProximitySearch==true" (click)="onClearProximitySearch()">
+                    <button mat-icon-button color="warn" id="candidate-list-clearFilterData">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+              </div>
+
+            <button mat-raised-button [matMenuTriggerFor]="mobileViewButtonsMenu" class="header-button">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            <mat-menu #mobileViewButtonsMenu="matMenu" class="threedot-inside-menu">
+                <ng-container *ngTemplateOutlet="buttonRef"></ng-container>
+              </mat-menu>
+              <!-------ng template for buttons---->
+              <ng-template #buttonRef>
+
+              <button mat-button [disabled]="selectedCandidate == null || 1 > selectedCandidate?.length" id="candidatesBulkBtn"
+                (click)="onBulkEmail()" class="header-button br-0" id="candidate-list-manage-search">
+              <mat-icon>{{animationVar?.MailButton?.iconName}}</mat-icon>
+              <span class="text-for-mobile-view">{{'label_candidatesendEmail'|translate}}</span>
+            </button>
+             <button mat-button id="addCandidateToJobBtn" class="share-job-app" [disabled]="1 > selectedCandidate?.length || getBulkSmsFlag() || !SMSCheckStatus" (click)="openJobBulkSMSForCantacts()" [ngClass]="selectedCandidates?.length!=0? 'same-stage-show' : ''">
+                <mat-icon fontSet="material-icons-outlined">sms</mat-icon>
+                <span class="share-job">
+                  <span>{{'label_candidatebulksms' | translate}}</span>
+                  <span class="new badge red" style="color:red" *ngIf="selectedCandidate?.length!=0 && getBulkSmsFlag()">{{'label_stageContPhoneErr' | translate}}</span>
+                </span>
+              </button>
+          </ng-template>
+            </div>
+
+        </div>
+
+    </mat-card-header>
+
+    <!-- @When: 11-09-2023 @who:Amit @why: EWM-13824 @what: structure change -->
+    <mat-drawer-container class="xeople-container-listing-without-breadCrumb" id="xeople-container-listing-without-breadCrumb">
+        <mat-card class="component-card mat-elevation-z2" id="component-card">
+            <!--@When: 12-10-2023 @who:Amit @why: EWM-14757 @what: add change-->
+            <div class="kendo-grid-appearance without-column-popup"
+                id="contact-list-clientlanding-kendo">
+                <ng-template #template let-anchor>
+                    <span>{{ anchor.nativeElement.innerText }}</span>
+                </ng-template>
+                <div kendoTooltip #tooltip="kendoTooltip" showOn="none" position="bottom"
+                    [tooltipTemplate]="template" (mouseover)="showTooltip($event)">
+                    <kendo-grid #grid  [sortable]="true"
+                        [sort]="state.sort" [filter]="state.filter" id="overflowCustom"
+                        [reorderable]="false" [resizable]="true" (dataStateChange)="dataStateChange($event)"
+                        [filterable]="true" [data]="data" [selectable]="true" [pageable]="{buttonCount: 3,
+                            info: true,
+                            type: 'numeric',
+                            pageSizes: true,
+                            previousNext: true,
+                            responsive: true}" [pageSize]="state.take" [skip]="state.skip"
+                            (selectedKeysChange)="selectionChange($event)"  [kendoGridSelectBy]="selectedCallback" [selectable]="selectableSettings" [(selectedKeys)]="selectedCandidate">
+                            <kendo-grid-checkbox-column [columnMenu]="false" [showSelectAll]="true"></kendo-grid-checkbox-column>
+                            <!-- @When: 13-09-2023 @who:Amit @why: EWM-14068 @what: space & modified -->
+                        <kendo-grid-column *ngFor="let column of columnsWithAction, let i = index"
+                            [field]="column.Field"
+                            [filter]="column?.Type?.toLowerCase()=='dropdown'?'text':column.Type|lowercase"
+                            [title]="column.Title |customTranslate"
+                            [width]="column.width<40?150:column.width"
+                            [headerStyle]="column.Type=='Numeric' ||column.Type=='Date' || column.Field=='Created' || column.Field=='Modified'?{'text-align': 'right'}:''"
+                            [format]="column?.Type?.toLowerCase()=='date'?dateFormatKendo:column.Format"
+                            [reorderable]="column.Type=='Action'?false:true"
+                            [filterable]="column.Filterable" [style]="{
+                                'padding':column?.Field?.toLowerCase()=='StatusName'.toLowerCase()?'0px':'', 'text-align':column?.Field?.toLowerCase()=='PhoneNo'.toLowerCase()?'':'' }">
+
+                            <ng-template class="expanIconCol" *ngIf="column.Type=='Action'"
+                                kendoGridCellTemplate let-dataItem>
+                                <button mat-flat-button [matMenuTriggerFor]="listactionMenu"
+                                    class="dataActionButton" id="employee-list-dataActionButton">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #listactionMenu="matMenu" dir="ltr" xPosition="after"
+                                    class="listactionMenu">
+                                    <a mat-menu-item [routerLink]="['../contact-detail']"
+                                        [queryParams]="{ContactId:dataItem.Id}" id="btnActionView">
+                                        <mat-icon>subject</mat-icon>
+                                        {{'label_view_summary'|translate}}
+                                    </a>
+                                </mat-menu>
+                            </ng-template>
+
+                            <ng-template kendoGridCellTemplate let-dataItem
+                                *ngIf="column.Field=='FullName'">
+                                <div class="eoh-synced">
+                                    <mat-icon svgIcon="tick" *ngIf="dataItem.EOHId && dataItem.EOHId!==null"></mat-icon>
+                                <a [routerLink]="['../contact-detail']"
+                                    [queryParams]="{ContactId:dataItem.Id,ContactIdString:dataItem?.ContactId,ContactName:dataItem?.Name,PhoneNo:dataItem?.PhoneNo,
+                                        ShortName:dataItem?.ShortName}"
+                                    id="btnViewCandiateName">
+                                    {{dataItem.FullName}}
+                                </a>
+                            </div>
+                            </ng-template>
+
+                            <ng-template kendoGridCellTemplate let-dataItem
+                            *ngIf="column.Field=='FullAddress'">
+                            <span> {{dataItem.FullAddress}}</span>
+                            </ng-template>
+
+                            <!--Who:Ankit Rawat, What:EWM-16158-EWM-16310 Added Proximity column on Grid, When:06March24 -->
+                            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Proximity'">
+                                <span class="textRight">{{ IsProximitySearch ? dataItem.Proximity : ' ' }}</span>
+                            </ng-template>
+
+                            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='Position'">
+                                <span>{{dataItem?.Position}}</span>
+                                </ng-template>
+
+                                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='EmailId'"
+                                    let-rowIndex="rowIndex">
+                                    <div class="copy-content cursor" color="primary"
+                                        id="newEmail">
+                                        <!-- who:maneesh,what:ewm-14683 fixed tooltip in copy icon,when:10/10/2023 -->
+                                        <button mat-icon-button color="primary" type="button" *ngIf="dataItem.EmailId"
+                                            id="url-copy-btn__{{i}}" class="content-copy"
+                                            (click)="copyCandidateEmailId(dataItem.EmailId,rowIndex);"   matTooltip="{{'label_copy' | translate}} {{'label_emailAddressInput' | translate}}"
+                                            matTooltipClass="custom-tooltip">
+                                            <mat-icon>content_copy</mat-icon>
+                                        </button>
+                                        <span class="buttonTxt systemAuditEyeIcon pointer"
+                                            (click)="openNewEmailModal(dataItem.ContactId,dataItem.EmailId)"> {{dataItem.EmailId}}</span>
+                                        <div class="copyMessage email-hide" id="autoHide{{rowIndex}}">
+                                            <div class="alert-primary alert-green">
+                                                <mat-icon>check</mat-icon>
+                                                <span>{{'label_emailAddressCipied'| translate }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <!---------------------------------------------------------------->
+
+                                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='PhoneNo'"  class="p-0">
+                                        <!-- who:maneesh,what:ewm-14467 fixed phonecode,when:10/10/2023 -->
+                                    <div [hidden]= "dataItem.PhoneNo == null || dataItem.PhoneNo ==''">
+                                        <div *ngIf="dataItem.PhoneNo != null || dataItem.PhoneNo != undefined || dataItem.PhoneNo != blank"
+                                         class="callAction" matTooltip="{{'label_call' | translate}} - {{dataItem.PhoneNo}}"
+                                         matTooltipClass="custom-tooltip">
+                                        <!--@When: 21-May-2024 @who:Amit @why: EWM-17148 @what: disabled remove-->
+                                        <a href="tel:{{dataItem.PhoneNo}}" mat-icon-button><mat-icon   id="{{animationVar?.CallButton?.id}}"
+                                        class="{{animationVar?.CallButton?.isAnimClass}}">call</mat-icon></a>
+                                        
+                                            <button mat-mini-fab color="primary" class="share" id="smsBtn"
+                                              [disabled]="!SMSCheckStatus"  matTooltipClass="custom-tooltip" matTooltip="{{'label_sms' | translate}}"
+                                              (click)="smsHistoryDetails(dataItem)">
+                                              <mat-icon id="{{animationVar?.ShareButton?.id}}"
+                                                class="{{animationVar?.ShareButton?.isAnimClass}}">sms</mat-icon>
+                                            </button>
+                                             <!-- who:renu,what:EWM-11296.EWM-15905,When:26/03/2024 -->
+                                        {{dataItem.PhoneCode.startsWith('+')?dataItem.PhoneCode:'+'+dataItem.PhoneCode}} {{dataItem.PhoneNo}} 
+                                    </div>
+                                    </div>
+                                    </ng-template>
+
+
+                                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Owners'">
+                                        <div class="grid-chips" id="grid-chips" >
+                                          <mat-chip-list #chipList aria-label="skill selection" >
+                                            <ng-container *ngFor="let Owners of dataItem?.Owners, let i = index;">
+                                              <mat-chip *ngIf="i<2"  id="phonechiplist" [disabled]="readOnly" [removable]="false" class="text-overflow">
+                                                <span *ngIf="Owners?.length!=0 && Owners!=null && Owners!=[]">{{Owners?.OwnerName}}</span>
+                                              </mat-chip>
+                                            </ng-container>
+                                          </mat-chip-list>
+                                          <button mat-icon-button color="primary" *ngIf="dataItem?.Owners?.length>2" class="more-owner-show"
+                                            [matMenuTriggerFor]="showAllOwner" name="btnMore" id="btnMore" id="jobSlill_">
+                                            +{{dataItem?.Owners?.length-2}}
+                                          </button>
+                                          <mat-menu #showAllOwner="matMenu" class="menu-dropdown" id="respinsiveSidebarDropdown" xPosition="before">
+                                            <ng-container *ngFor="let Owners of dataItem?.Owners, let i = index;">
+                                              <button mat-button *ngIf="i>=2">
+                                                {{Owners?.OwnerName}}
+                                              </button>
+                                            </ng-container>
+                                          </mat-menu>
+                                        </div>
+                                      </ng-template>
+
+                                <ng-template kendoGridCellTemplate let-dataItem
+                                    *ngIf="column.Field=='Modified'">
+                                    <span class="textRight">{{(dataItem.Modified?dataItem.Modified:'')|
+                                        date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                                </ng-template>
+                                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Created'">
+                                    <span class="textRight">{{(dataItem.Created?dataItem.Created:'')|
+                                        date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                                </ng-template>
+
+                                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='StatusName'">
+                                    <span [style.background-color]="dataItem?.StatusColor" class="cell-color">{{dataItem?.StatusName}}</span>
+                                    </ng-template>
+
+                        <!-- who:maneesh what:ewm-16426 ewm-16422 for add column.Field!='Proximity'" when:13/03/2024  remove this 
+                            *ngIf="column.Type.toLowerCase()=='dropdown'?'text':column.Type|lowercase" and
+                            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                         -->
+                                        <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='text'">
+                                        <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="contains" *ngIf="column.Field!='Proximity'">
+                                        <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                                       </kendo-grid-string-filter-cell>
+                                    </ng-template>
+                                    <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type.toLowerCase()=='numeric'">
+                                    <kendo-grid-numeric-filter-cell    [column]="column" [filter]="filter" operator="eq">
+                                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                                        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                                        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                                        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                                        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                                    </kendo-grid-numeric-filter-cell>
+                                </ng-template>
+
+
+                            <ng-template kendoPagerTemplate let-totalPages="totalPages"
+                                let-currentPage="currentPage">
+                                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                                <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+                                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+                                <kendo-pager-info></kendo-pager-info>
+                                <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+                            </ng-template>
+                            <!---------------------------------------------------------------->
+
+                            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='PhoneNo'"  class="p-0">
+                                <div [hidden]= "dataItem.PhoneNo == null || dataItem.PhoneNo ==''">
+                                    <div *ngIf="dataItem.PhoneNo != null || dataItem.PhoneNo != undefined || dataItem.PhoneNo != blank" class="callAction">
+                                    <a href="tel:{{dataItem.PhoneNo}}" mat-icon-button matTooltip="{{'label_call' | translate}} - {{dataItem.PhoneNo}}"
+                                    matTooltipClass="custom-tooltip"><mat-icon   id="{{animationVar?.CallButton?.id}}"
+                                    class="{{animationVar?.CallButton?.isAnimClass}}">call</mat-icon></a> {{dataItem.PhoneNo}}</div>
+                                </div>
+                                </ng-template>
+
+                            <ng-template kendoGridCellTemplate let-dataItem
+                                *ngIf="column.Field=='Modified'">
+                                <span class="textRight">{{(dataItem.Modified?dataItem.Modified:'')|
+                                    date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                            </ng-template>
+                            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.Field=='Created'">
+                                <span class="textRight">{{(dataItem.Created?dataItem.Created:'')|
+                                    date:userpreferences.timeformate:userpreferences.timezone}}</span>
+                            </ng-template>
+
+                            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column?.Field=='StatusName'">
+                                <span [style.background-color]="dataItem?.StatusColor" class="cell-color">{{dataItem?.StatusName}}</span>
+                                </ng-template>
+
+                                <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type=='text'">
+                                <kendo-grid-string-filter-cell [column]="column" [filter]="filter" operator="startswith">
+                                    <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                                    <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                                    <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                                    <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                                    <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+                                </kendo-grid-string-filter-cell>
+                                </ng-template>
+                                <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.Type=='numeric'">
+                                <kendo-grid-numeric-filter-cell    [column]="column" [filter]="filter" operator="eq">
+                                    <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                                    <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                                    <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                                    <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                                    <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                                    <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                                </kendo-grid-numeric-filter-cell>
+                            </ng-template>
+
+                        </kendo-grid-column>
+                        <ng-template kendoPagerTemplate let-totalPages="totalPages"
+                            let-currentPage="currentPage">
+                            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                            <kendo-pager-numeric-buttons [buttonCount]="3"></kendo-pager-numeric-buttons>
+                            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+
+                            <kendo-pager-info></kendo-pager-info>
+                            <kendo-pager-page-sizes [pageSizes]="sizes"></kendo-pager-page-sizes>
+                        </ng-template>
+                    </kendo-grid>
+                    <div *ngIf="loadingscroll"
+                        class="k-i-loading scrollloading candidateLoadingScrollBg clientTitlePurpleTxt">
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </mat-drawer-container>
+
+    <mat-drawer #smsHistoryDrawer mode="over" *ngIf="smsHistoryToggel" disableClose="true" position="end"
+    class="sms-history-drawer">
+    <div class="closePanel">
+      <button class="closeDrawerIcon" id="closeDrwerMapedsms" mat-stroked-button
+        (click)="toggleDrawer(smsHistoryDrawer)">
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+      <button class="sidebarSectionName addCandidateToJobBtn" mat-raised-button color="primary" type="button"
+        id="btnsmsHistory">{{'label_sms_history'|translate }}</button>
+    </div>
+    <div class="panelSidebarInformation" id="getsmsHistory">
+      <!-- @When: 23-09-2023 @who:Amit @why: EWM-14293 @what:sms drawer -->
+      <mat-card class="drawer-mat-card candidate-sms-drawer">
+          <!-- <app-contact-sms-history 
+             [SMSHistory]="SMSHistory" [candidateIdData]="contactId" [candidateDetails]="candidateDetails"
+          (onSmsHistoryForm)="fetchDataFromSMSHistory($event)"></app-contact-sms-history> -->
+        <app-sms-history
+          [SMSHistory]="SMSHistory" [ConTactPhoneNumber]="contactPhone" [candidateIdData]="contactId" [candidateDetails]="candidateDetails" [UserType]="UserType"
+          (onSmsHistoryForm)="fetchDataFromSMSHistory($event)"></app-sms-history>
+      </mat-card>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>

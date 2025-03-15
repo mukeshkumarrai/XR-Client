@@ -1,0 +1,42 @@
+<!-- 
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: tenant-user.component.html
+    @Who: Renu
+    @When: 07-APR-2021
+    @Why: EWM-1289
+    @What: Tenant user intermediate Page
+-->
+<mat-drawer-container autosize class="login-container" id="login-container">
+  <mat-drawer-content>
+    <app-outer-header-new></app-outer-header-new>
+    <!-- @When: 04-10-2023 @who:Amit @why: EWM-14609 @what: tenant container class --> 
+    <div class="organization-container" id="organization-container">
+      <div class="organization-welcome-messege" id="organization-welcome-messege">
+        <div class="user-image" id="user-image">
+          <span *ngIf="userImage =='' || userImage == null ">{{userShortName}}</span>
+          <img *ngIf="userImage !=''"  src="{{userImage}}" alt="{{username}}" />
+        </div>
+        <div>
+          <div class="matCardTitle">{{'label_welcome' |translate}} <i>{{username}}</i></div>
+          <div class="matCardSubTitle">{{'label_chooseYourTenant' |translate}}</div>
+        </div>
+      </div>
+      <div class="organization-selection" id="organization-selection">
+        <ng-container *ngFor="let tenant of tenantData ; let i = index">
+          <!-- @when:27-Feb-2023 | @who:Satya Prakash Gupta | @why: EWM-10695 EWM-10841 | Redirect to next page after click on box  -->
+          <div class="organization-box" id="organization-box" (keyup.enter)="userDomainRedirection(tenant.DomainName,tenant.TenantUrl)"
+          (click)="userDomainRedirection(tenant.DomainName,tenant.TenantUrl)" tabindex="{{i+1}}">
+              <img *ngIf="tenant.TenantLogoUrl" src="{{tenant.TenantLogoUrl}}" alt="organization logo" />
+              <mat-icon *ngIf="tenant.TenantLogoUrl=='' ||tenant.TenantLogoUrl==null">
+                business
+              </mat-icon>
+              <h3>{{tenant.TenantName}}</h3>
+          </div>
+        </ng-container>
+      </div>
+  </div>
+    <app-outer-footer></app-outer-footer>
+  </mat-drawer-content>
+  <!-- Entire Software : Mukesh kumar rai : 10-Sep-2020 : Footer container end here -->
+</mat-drawer-container>

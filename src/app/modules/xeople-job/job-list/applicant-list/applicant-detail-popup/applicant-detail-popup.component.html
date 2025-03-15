@@ -1,0 +1,143 @@
+<!--
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: candidate-details-popup.component.html
+    @Who: Satya Prakash Gupta
+    @When: 17-Oct-2023
+    @Why: EWM-14828 EWM-14832 EWN-14833
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+</div>
+<div class="modal-header" id="modal-header">
+    <button mat-icon-button id="btncloseinfo" (click)="onDismiss()" color="warn">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content>
+    <div *ngIf="smsHistoryToggel" class="logo-loader logo-loader-candidate"></div>
+    <div class="candidate-profile-header" id="candidate-profile-header">
+        <div class="profile" id="profile">
+            <img *ngIf="candidatedetails?.CandidateImage!=''" src="{{candidatedetails?.CandidateImage}}" alt="image"
+                id="profile-pic">
+            <span [style.background]="candidatedetails?.StatusColorCode" id="ShortName"
+                *ngIf="candidatedetails?.CandidateImage==''">{{candidatedetails?.ShortName}}</span>
+        </div>
+        <div class="profile-details" id="profile-details">
+            <!-- @When: 25-04-2024 @who:Amit @why: EWM-16861 @what: tooltip add -->
+            <h5 id="candidate-name"><span (click)="manageCandidateSummary()" 
+                matTooltip="{{'label_JObAction_ViewCandidateProfile'|translate}}" matTooltipClass="custom-tooltip">{{candidatedetails?.Name | titlecase}}</span></h5>
+            <div class="candidate-details-main">
+                <div class="candidate-details" id="candidate-details">
+                    <mat-icon fontSet="material-icons-outlined">mail</mat-icon>
+                    <span class="text-overflow">
+                        <a *ngIf="emailConnection"
+                            (click)="openNewEmailModal(undefined,'',candidatedetails?.CandidateEmail)"
+                            class="cursor text-overflow" matTooltip="{{candidatedetails?.CandidateEmail}}"
+                            matTooltipClass="custom-tooltip">
+                            {{candidatedetails?.CandidateEmail}}
+                        </a>
+                        <a *ngIf="!emailConnection" href="mailto:{{candidatedetails?.CandidateEmail}}" class="text-overflow"
+                            matTooltip="{{candidatedetails?.CandidateEmail}}" matTooltipClass="custom-tooltip">
+                            {{candidatedetails?.CandidateEmail}}
+                        </a>
+                    </span>
+                    <div class="actions btn-group">
+                        <button *ngIf="emailConnection" mat-icon-button class="orange-color"
+                            [disabled]="!candidatedetails?.CandidateEmail" color="primary"
+                            matTooltip="{{'label_mail' | translate}}" matTooltipClass="custom-tooltip"
+                            (click)="openNewEmailModal(undefined,'',candidatedetails?.CandidateEmail)">
+                            <mat-icon>mail_outline</mat-icon>
+                        </button>
+                        <a *ngIf="!emailConnection" mat-icon-button href="mailto:{{candidatedetails?.CandidateEmail}}" class="orange-color"
+                            [disabled]="!candidatedetails?.CandidateEmail" color="primary"
+                            matTooltip="{{'label_mail' | translate}}" matTooltipClass="custom-tooltip">
+                            <mat-icon>mail_outline</mat-icon>
+                        </a>
+                        <button mat-icon-button color="primary" matTooltip="Copy: {{candidatedetails?.CandidateEmail}}"
+                            matTooltipClass="custom-tooltip" (click)="copyEmail(candidatedetails?.CandidateEmail)">
+                            <mat-icon>content_copy</mat-icon>
+                        </button>
+                        <div class="copyMessage" *ngIf="isCopiedEmail">
+                            <div class="alert-primary alert-green">
+                                <mat-icon>check</mat-icon>
+                                <span>{{'label_copied'| translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="candidate-details calls" id="candidate-details">
+                    <mat-icon fontSet="material-icons-outlined">call</mat-icon>
+                    <span class="text-overflow">
+                        <span [hidden]="candidatedetails?.PhoneNumber =='' || candidatedetails?.PhoneNumber==null"
+                            class="text-overflow" matTooltip="{{candidatedetails?.PhoneNumber}}"
+                            matTooltipClass="custom-tooltip">
+                            {{candidatedetails?.PhoneNumber}}
+                        </span>
+                    </span>
+                    <div class="actions btn-group">
+                        <!-- //by maneesh disabled phone icon when:24/07/2024 -->
+                        <a mat-icon-button class="comment-group-btn black-color"
+                            color="primary" [disabled]="!candidatedetails?.PhoneNumber"
+                            matTooltip="{{'label_call' | translate}}" matTooltipClass="custom-tooltip"
+                            href="tel:{{candidatedetails?.PhoneNumber}}">
+                            <mat-icon>call</mat-icon>
+                         </a>
+                        <button mat-icon-button class="comment-group-btn orange-color"
+                            [disabled]="!(candidatedetails?.PhoneNumber && isSMSStatus)" color="primary"
+                            matTooltip="{{'label_sms' | translate}}" matTooltipClass="custom-tooltip"
+                            (click)="smsHistoryDetails(candidatedetails)">
+                            <mat-icon> message</mat-icon>
+                        </button>
+                        <button mat-icon-button
+                            [hidden]="candidatedetails?.PhoneNumber =='' || candidatedetails?.PhoneNumber==null"
+                            class="comment-group-btn" color="primary"
+                            matTooltip="Copy:  {{candidatedetails?.PhoneNumber}}" matTooltipClass="custom-tooltip"
+                            (click)="copyPhoneNumber(candidatedetails?.PhoneNumber)">
+                            <mat-icon>
+                                content_copy</mat-icon>
+                        </button>
+                        <div class="copyMessage" *ngIf="isCopied">
+                            <div class="alert-primary alert-green">
+                                <mat-icon>check</mat-icon>
+                                <span>{{'label_copied'| translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <div class="last-activity">
+                    <p>{{'label_profileStatus'|translate}} : </p>
+                    <div class="time" id="LastActivity"> {{ candidatedetails?.StatusName}}</div>
+                </div>
+                <div class="last-activity">
+                    <p>{{'label_jobScreenlastActivity'|translate}} : </p>
+                    <div class="time" id="LastActivity" *ngIf="LastActivity !=0"> {{ LastActivityDate |
+                        date:userpreferences.timeformate:userpreferences.timezone}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<!-- sms history form -->
+<mat-drawer #smsHistoryDrawer mode="over" *ngIf="smsHistoryToggel" disableClose="true" position="end"
+    class="sms-history-drawer">
+    <div class="closePanel">
+        <button class="closeDrawerIcon" id="closeDrwerMaped" mat-stroked-button
+            (click)="toggleDrwer(smsHistoryDrawer);openDrawerWithBg(false)">
+            <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+        <button class="sidebarSectionName addCandidateToJobBtn" mat-raised-button color="primary" type="button"
+            id="btnAssignCandidate">{{'label_sms_history'|translate }}</button>
+    </div>
+    <div class="panelSidebarInformation">
+        <mat-card *ngIf="isSmsHistoryForm" class="drawer-mat-card">
+            <app-sms-history [JobId]="JobId" [JobName]="JobName" [WorkflowId]="WorkflowId" [UserType]="userType"
+                [SMSHistory]="SMSHistory" [candidateIdData]="candidateIdData" [candidateDetails]="candidateDetails"
+                [WorkflowName]="WorkflowName" [ConTactPhoneNumber]="contactPhone"
+                (onSmsHistoryForm)="fetchDataFromSMSHistory($event)"></app-sms-history>
+        </mat-card>
+    </div>
+</mat-drawer>
+<!--sms history form -->

@@ -1,0 +1,34 @@
+@use "../../../colors" as *;
+.dark-theme {
+    .dynamictab {
+        .sepateCard {
+            background-color: #424242;
+        }
+        .sepateCard::after {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .secStep::before {
+            background: #424242;
+        }
+        .expandCollapseContent.mat-card{
+            .checkboxGroupSec{
+                .mat-slide-toggle, .map-workflow-features, .stagetype-box{
+                    background: #424242;
+                }
+            }
+            .addEsitDeleteButt.mat-stroked-button.mat-primary {
+                border: 1px solid $dark-primary;
+            }
+            .addEsitDeleteButt.mat-stroked-button.mat-warn {
+                border: 1px solid #f44336;
+            }
+            .addEsitDeleteButt.mat-stroked-button {
+                border: 1px solid rgba($color: #ffffff, $alpha: 0.87);
+                color: rgba(255, 255, 255, 0.5);
+            }
+        }
+    }
+    .define-stage-type.mat-menu-panel .dropdown-header .mat-card-title {
+        color: #fff;
+    }
+}

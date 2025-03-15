@@ -1,0 +1,95 @@
+.marketplace-section{
+  display: grid;
+  grid: auto/calc(25% - 5px) calc(25% - 10px) calc(25% - 10px) calc(25% - 5px);
+  gap: 10px;
+  @media only screen and (max-width: 1599px) and (min-width: 1280px) {
+    grid: auto/calc(33.33% - 5px) calc(33.33% - 10px) calc(33.33% - 5px);
+  }
+  @media only screen and (max-width: 1279px) and (min-width: 768px) {
+    grid: auto/calc(50% - 5px) calc(50% - 5px);
+  }
+  @media only screen and (max-width: 767px) and (min-width: 240px) {
+    grid: auto/calc(100% - 0px);
+  }
+  .customBoxWidth:last-child{
+    @media only screen and (max-width: 767px) and (min-width: 240px) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.tab-container{
+  margin: 0px;
+}
+  
+  // .mgTopBottom {
+  //   margin: 10px 0px;
+  // }
+  // @media only screen and (max-width: 1599px) and (min-width: 1280px) {
+  //   .customBoxWidth {
+  //     width: 33.33%;
+  //   }
+  // }
+  
+  // @media only screen and (max-width: 1279px) and (min-width: 900px) {
+  //   .customBoxWidth {
+  //     width: 50%;
+  //   }
+  // }
+  
+  // @media only screen and (max-width: 899px) and (min-width: 768px) {
+  //   .customBoxWidth {
+  //     width: 50%;
+  //   }
+  // }
+  
+  // @media only screen and (max-width: 767px) and (min-width: 240px) {
+  //   .customBoxWidth {
+  //     width: 100%;
+  //   }
+  // }
+  
+  .tabLinkBtn:hover::after {
+    border-radius: 20px;
+  }
+  
+  .urOrderList {
+    display: flex;
+    margin: 0px;
+    padding: 0px 30px;
+  }
+  
+  .urOrderList .swiper-button-prev,
+  .swiper-button-next {
+    right: 0px;
+  }
+  
+  .urOrderList .stageListItems {
+    list-style: none;
+    padding: 0px;
+    position: relative;
+    min-width: 92px;
+    margin: 0px;
+    .tabLinkBtn {
+      max-width: 250px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+  
+  .interfaceBoardContainer{
+    .greyBgBox{
+      margin: 0px 15px 20px 15px !important;
+    }
+  }
+
+  .greenColorBtn{
+    background: #7FB734;
+    color:#fff;
+}
+.blueColorBtn{
+    background: #008cd2;
+    color:#fff;
+}
+  

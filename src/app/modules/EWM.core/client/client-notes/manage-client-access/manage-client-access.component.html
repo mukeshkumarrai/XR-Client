@@ -1,0 +1,113 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Renu
+    @When: 16-Dec-2021
+    @Why: EWM-3571 EWM-4175
+    @What:  This component is used for manage access for client
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+  
+<form [formGroup]="addForm" id="manageAccessId" applyTabIndexes>
+    <div class="modal-header">
+        <h2 matDialogTitle class="mb-0">{{'label_manageaccess'|translate}} </h2>      
+        <button mat-icon-button  id="btnclosemap" (click)="onDismiss()" color="warn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content class="access-mat-dialog-content">
+        <div class="form-group mb-15">
+            <mat-radio-group formControlName="AccessId" id="AccessId" tabindex>
+                <mat-radio-button *ngFor="let accessData of documentAccessModeList"
+                    [checked]="accessData.Id==selectedAccessModeId" (click)="clickAccessData(accessData)"
+                    color="primary" [value]=accessData.Id>
+                    {{accessData.AccessName}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
+       <p>{{Description}}</p>
+        <!-- <div class="row">
+            <div class="col s12 m12 l12">
+                <mat-label class="toggle-label">{{'label_share_droplist' | translate }}</mat-label>
+            </div>
+            <div class="col l12 m12 s12">
+                <mat-slide-toggle formControlName="PermissionNameView" id="PermissionNameViewId" tabindex
+                    color="primary" disabled>{{'label_PermissionView' | translate}}
+                </mat-slide-toggle>
+                <mat-slide-toggle formControlName="PermissionNameEdit" id="PermissionNameEditId" tabindex
+                    color="primary">{{'label_share_edit' | translate}}
+                </mat-slide-toggle>
+            </div> 
+        </div> -->
+        <div *ngIf="divStatus">
+            <mat-form-field>
+                <mat-label>{{'label_manageAccessTo' | translate}} </mat-label>
+                <mat-chip-list #chipList aria-label="user selection" required [formControl]="EmailList">
+                    <mat-chip *ngFor="let userList of userSelectedList | slice:0:this.userListLengthMore"
+                        [selectable]="selectable" [removable]="removable" (removed)="remove(userList.Id)"
+                        id="chipUserid" tabindex>
+                        {{userList.FullNameEmail}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <mat-chip *ngIf="userSelectedList.length > this.userListLengthMore">
+                        <!-- One more -->
+                        <span class="ng-value-label"
+                            (click)="clickForMoreRecord()">{{userSelectedList.length -
+                            this.userListLengthMore}} more...</span>
+                    </mat-chip>
+                    <input matInput placeholder="{{'label_manageAccessToNameEmail' | translate}}" #nameInput
+                        [formControl]="searchUserCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [(ngModel)]="searchValue"
+                        (keyup)="onsearchByName($event.target.value)" autocomplete="off" id="UserSearchId"
+                        tabindex >
+                    <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+                </mat-chip-list>
+
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUserEmail($event)">
+                    <mat-option *ngFor="let userData of searchUserList" id="userDropdownId"
+                        [value]="userData">
+                        <div class="user-email-searchlist">
+                            <div class="userAvtaar">
+                                <img src="{{userData.ProfileImagePath}}" tabindex
+                                    *ngIf="userData.ProfileImagePath!='' " class="gridImage circle">
+                                <span *ngIf="userData.ProfileImagePath==''"
+                                    tabindex>{{sortName(userData.FullName,'')}}</span>
+                            </div>
+                            <span class="search-txt">{{userData.FullName}} ({{userData.Email}})</span>
+                            <span class="spacer"></span>
+                            <button mat-icon-button id="btnListAdd" color="primary">
+                                <mat-icon class="mr-0">add</mat-icon>
+                            </button>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="EmailList.hasError('required')">
+                    {{'label_manageAccessTo'|translate}} {{'label_errorreqired'|translate}}
+                </mat-error>
+            </mat-form-field>
+            <!-- <div class="row mb-0 counterTxt">
+                <mat-form-field class="col l12 m12 s12 ">
+                    <mat-label>{{'label_Message'|translate}}</mat-label>
+                    <textarea matInput formControlName="Message" id="access-message" tabindex
+                        (keyup)="onMessage($event.target.value)"
+                        placeholder="{{'label_Message'|translate}}"></textarea>
+                    <mat-error *ngIf="addForm.controls['Message'].hasError('maxlength')">
+                        {{'label_Message'|translate}} {{'label_errormaxlength1000'|translate}}
+                    </mat-error>
+                </mat-form-field>
+                <span class="countlabel" color="warn">
+                    {{'label_balance' |translate}}:{{maxMessage}}{{'label_characters' |translate}}
+                </span>
+            </div> -->
+        </div>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid || !EmailList.valid"
+            (click)="onSave(this.addForm.value)" id="btnSave"> {{'label_GrantAccess'|translate}}</button>
+            <!--@when:28-oct-2021;@who:Priti Srivastava;@why: EWM-3471 @What:add if condition-->
+        <button mat-stroked-button color="warn" *ngIf="divStatus" tabindex type="button" (click)="openRemoveAccessModal()"
+            id="btnRemoveAccessId">{{'label_RemoveAccess'|translate}}</button>
+    </div>
+</form>

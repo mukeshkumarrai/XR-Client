@@ -1,0 +1,110 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Who: Priti
+    @When: 24-aug-2021
+    @Why: EWM-2591
+    @What: You can add group details styles to this file, and also import other style files
+*/
+
+@import "../../../../../../mixinStyle.scss";
+
+.col-1{
+    width: 20%;
+}
+.col-2{
+    width: 34%;
+}
+.col-3{
+    width: 14%;
+}
+.col-4{
+    width: 14%;
+}
+.col-5{
+    width: 15%;
+}
+.col-6{
+    width: 3%;
+}
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+
+// Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+    height: 70px;
+}
+.maxData:hover {
+    height: 70px;
+}
+.xeople-container-listing-with-breadCrumb.mat-drawer-container{
+    .component-card.mat-card{
+      @media only screen and (max-width: 429px) and (min-width: 349px) {
+        height: calc(100% - 54px);
+      }
+      @media only screen and (max-width: 348px) and (min-width: 240px){
+        height: calc(100% - 80px);
+      }
+    }
+}
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 349px){
+    height: 73px;
+  }
+  @media only screen and (max-width: 348px) and (min-width: 240px){
+    height: 97px;
+  }
+}
+// @Who: Satya Prakash Gupta | @When: 01-Mar-2023 | @Why: EWM-10687 EWM-10858 | Show count styling
+// @When: 18-09-2023 @who:Amit @why: EWM-14000 @what: class change
+.document-count{
+  line-height: 25px;
+  font-size: 12px;
+  height: 25px;
+  width: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  top: -6px;
+  padding: 0px 5px;
+  margin-inline-start: 2px;
+}
+.document-count.document-card-count{
+  margin-inline-end: 2px;
+  margin-inline-start: 0px;
+}
+
+.show-count-card{
+  display: flex;
+  align-items: center;
+  .document-count{
+    top: 0px;
+    width: 10px;
+    height: 20px;
+    line-height: 20px;
+  }
+}
+.show-count-list{
+  .cardListTxt{
+    max-width: calc(100% - 35px);
+  }
+}

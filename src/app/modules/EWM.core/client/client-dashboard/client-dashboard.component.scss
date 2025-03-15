@@ -1,0 +1,159 @@
+/*
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: Clientlandingpage.component.html
+  @Who: Satya Prakash Gupta
+  @When: 02-Dec-2021
+  @Why: EWM-3765 EWM-3907
+  @What: This page will be use for the client dashboard scss file
+*/
+@import '../../../../../styles-var.scss';
+.text-overflow {
+  @media (581px <= width <= 715px){
+    display: inline-block;
+    width: 100px;
+  }
+  @media (280px <= width <= 485px){
+    display: inline-block;
+    width: 100px;
+  }
+}
+.card-fadeloader {
+  z-index: 1;
+}
+.advancedsearch-sidenav-content {
+  height: calc(100vh - 198px);
+  padding: 0px 0px;
+  overflow: auto;
+  @media (581px <= width <= 999px){
+    height: calc(100vh - 198px);
+  }
+  @media (320px <= width <= 580px){
+    height: calc(100vh - 285px);
+  }
+  .client-dashboard-container{
+    display: grid;
+    grid: auto / calc(50% - 7.5px) calc(50% - 7.5px);
+    gap: 15px;
+    padding: 10px;
+    .card-title-with-action {
+      display: flex;
+      min-height: 40px;
+      align-items: center;
+      padding: 0px 10px;
+      font-size: 14px;
+      justify-content: space-between;
+      margin-bottom: 0px;
+      gap: 10px;
+      .card-title-action {
+        width: 80px;
+        display: flex;
+        justify-content: flex-end;
+        .mat-icon-button {
+          width: 30px;
+          height: 30px;
+          min-width: auto;
+          line-height: 30px;
+          margin: 0px 1px;
+          border-radius: 100%;
+          -webkit-transition: all 0.05s;
+          -moz-transition: all 0.05s;
+          transition: all 0.05s;
+          .mat-icon {
+            width: 23px;
+            height: 23px;
+            font-size: 22px;
+            line-height: 23px;
+          }
+          :hover {
+            color: $primary-bg-color;
+          }
+        }
+        .mat-icon-button:hover {
+          -webkit-transition: all 0.2s;
+          -moz-transition: all 0.2s;
+          transition: all 0.2s;
+          background: rgb(0 0 0 / 8%);
+        }
+      }
+      // adarsh singh 14439
+      .clientDataDesc {
+        display: flex;
+        flex-direction: column;
+        .limitedData {
+          color: $warn-bg;
+          font-size: 11px;
+        }
+      }
+    }
+    .mapSection{
+      grid-row: 1 / 3;
+      overflow: hidden;
+      @media (240px <= width <= 1024px){
+        grid-column: 1 / 3;
+      }
+      agm-map.wolrdMap {
+        height: 100%;
+        @media (240px <= width <= 1024px){
+          height: 240px;
+        }
+      }
+    }
+    .pieChartSection{
+      @media (240px <= width <= 767px){
+        grid-column: 1 / 3;
+      }
+      .pie-bar-chart{
+        height: 230px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    }
+    .grid-card{
+      grid-column: 1 / 3;
+      .cltDashobardGrid {
+        padding: 10px;
+        .k-grid {
+          max-height: 880px;
+          min-height: 300px;
+          height: auto;
+        }
+      }
+    }
+  }
+  .kendocardData {
+    height: calc(100% - 110px);
+    overflow: auto;
+    @media only screen and (max-width: 1060px) and (min-width: 981px) {
+      height: calc(100% - 110px);
+    }
+    @media only screen and (max-width: 980px) and (min-width: 881px) {
+      height: calc(100% - 150px);
+    }
+    @media only screen and (max-width: 880px) and (min-width: 581px) {
+      height: calc(100% - 150px);
+    }
+    @media only screen and (max-width: 580px) and (min-width: 320px) {
+      height: calc(100% - 150px);
+    }
+  }
+}
+.advancedsearchDrawer {
+  width: 100%;
+  max-width: 345px;
+  .advancedsearchDrawerData {
+    padding: 10px;
+  }
+}
+:host ::ng-deep {
+  .page-header.mat-card-header .header-action-button .header-form {
+    @media (width <= 370px){
+      max-width: 170px;
+    }
+  }
+  .ng-dropdown-panel .ng-dropdown-panel-items {
+    max-width: 260px;
+  }
+}
+// @When: 14-03-2023 @who:Amit @why: EWM-10977 @what: Color Code style end here
+

@@ -1,0 +1,68 @@
+@use "../../colors";
+@mixin checklist-header-button{
+    $button-size: 26px;
+    width: $button-size;
+    height: $button-size;
+    line-height: $button-size;
+}
+.mat-raised-button {
+  margin: 0px 0px 0px 8px;
+  min-width: 70px;
+  max-width: 230px;
+  overflow: hidden;
+  span{
+    span{
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+  }
+}
+.mat-flat-button, .mat-raised-button, .mat-raised-button, .mat-fab, .mat-mini-fab{
+    position: relative;
+    -webkit-transition: all 0.05s;
+    -moz-transition: all 0.05s;
+    transition: all 0.05s;
+    &::after{
+        content: '';
+        position: absolute;
+        z-index: -1;
+        -webkit-transition: all 0.2s;
+        -moz-transition: all 0.2s;
+        transition: all 0.2s;
+        width: 0%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgb(255 255 255 / 15%);
+    }
+    &:hover::before{
+        height: 380%;
+    }
+    &:hover::after{
+        width: 100%;
+        border-radius: 4px;
+    }
+}
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary {
+  background-color: colors.$primary-bg-color;
+  color: colors.$primary-txt-color;
+}
+.checklist-sec{
+    .mat-icon-button{
+        @include checklist-header-button;
+        .mat-icon{
+            @include checklist-header-button;
+            font-size: 18px;
+        }
+    }
+    .collapse-expand-button.mat-icon-button{
+        
+    }
+}

@@ -1,0 +1,89 @@
+@import '../../../../../../../styles-var.scss';
+.outer-container{
+    position: relative;
+    z-index: 3;
+    padding: 0px 0px;
+    height: calc(100% - 37px);
+    @media only screen and (max-width: 480px) and (min-width: 240px){
+      height: calc(100% - 54px);
+    }
+    .kendo-card-appearance{
+      height: calc(100% - 0px);
+      .k-grid{
+        height: calc(100% - 0px);
+      }
+    }
+}
+.phone-box{
+  width: 180px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline-start: 8px;
+  gap: 3px;
+  position: relative;
+  .phone-no{
+    word-break: break-word;
+  }
+  .btn-group{
+    display: flex;
+    align-items: center;
+    .mat-icon-button{
+      height: 30px;
+      line-height: 30px;
+      width: 30px;
+      .mat-icon{
+        height: 30px;
+        width: 30px;
+        line-height: 30px;
+        font-size: 20px;
+      }
+    }
+    .copyMessage{
+      left: initial;
+      z-index: 3;
+      top: 2px;
+      right: 5px;
+      display: block;
+      .alert-green{
+        padding: 8px 12px;
+      }
+    }
+  }
+}
+.copyMessage,.copyMessage.email-hide{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: none;
+  .alert-green {
+    color: #7fb734;
+    background: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 12px;
+    padding: 5px;
+    height: 12px;
+    line-height: 15px;
+    .mat-icon{
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      font-size: 16px;
+    }
+  }
+}
+.logo-loader{
+  .loading-text{
+    width: auto;
+    position: inherit;
+    left: calc(50% - 113px);
+    bottom: calc(50% - 67px);
+    color: $white-color;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+}

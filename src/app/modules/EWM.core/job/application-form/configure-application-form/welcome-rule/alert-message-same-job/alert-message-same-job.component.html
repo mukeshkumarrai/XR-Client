@@ -1,0 +1,51 @@
+<div class="html-editor-kendo">
+  <form novalidate [formGroup]="addForm" id="emailcompose">
+
+
+            <!-- who:maneesh,what:ewm-16207 ewm-16684 for fixed new editor,when:16/04/2024 -->
+    <div class="col l12 m12 s12" id="alert_message">
+      <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+          <mat-label
+          [ngStyle]="addForm.controls['TemplateText'].hasError('required') && showErrorDesc? 
+          {'color': '#f44336'}:''">{{ 'label_alert_message' | translate}} <span class="required-show">*</span></mat-label>
+      <app-mention-editor  [configuration]="editorConfig" [getEditorVal]="getEditorVal" [getEmailEditorVal]="getEmailEditorVal"
+      [canTagData]="canTagData" [jobTagData]="jobTagData" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"
+            (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)">
+      </app-mention-editor>   
+    </div>
+  </div>
+  <!-- <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+    <mat-label
+    [ngStyle]="clientNotesForm.controls['Description'].hasError('required') && showErrorDesc? 
+    {'color': '#f44336'}:''">{{ 'label_recentnotesdescription' | translate}} *</mat-label>
+   <app-mention-editor *ngIf="ShowEditor" #mentionEditor [configuration]="editorConfig" [getEditorVal]="getEditorVal" [resetConfiguration]="resetEditorValue.asObservable()"
+    (editorValueEmit)="getEditorFormInfo($event)" (editorImageValueEmit)="getEditorImageFormInfo($event)" [getRequiredValidationMassage]="getRequiredValidationMassage.asObservable()"></app-mention-editor>
+    
+</div>  -->
+    <!-- <mat-error class="matErrorDesc"
+      *ngIf="this.addForm.controls['TemplateText'].hasError('required') && addForm.controls['TemplateText'].touched">
+      {{'label_alert_message' |translate}} {{ 'label_errorreqired' |translate}}
+    </mat-error> -->
+    <!-- <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+      <button mat-raised-button color="warn" tabindex type="button" (click)="clearAlertMsg()" id="btnCancel" class="drawer-icon-button"
+      matTooltip="{{'button_cancel'|translate}}" matTooltipClass="drawer-button-tooltip-top" matTooltipPosition="left"
+      (mouseenter)="mouseoverAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)">
+        <mat-icon id="{{animationVar?.FolderButton?.id}}"
+        class="{{animationVar?.FolderButton?.isAnimClass}}">close</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" tabindex type="button" (click)="restMessage()" id="btnReset" class="drawer-icon-button" matTooltip="{{'label_resetBtn'|translate}}"
+      matTooltipClass="drawer-button-tooltip-top" matTooltipPosition="left"
+      (mouseenter)="mouseoverAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)">
+        <mat-icon>restart_alt</mat-icon>
+      </button>
+      <button mat-raised-button color="primary"  [disabled]="!addForm.valid" tabindex type="button" (click)="onSave()" id="btnSave" class="drawer-icon-button"
+      matTooltip="{{'label_save'|translate}}" matTooltipClass="drawer-button-tooltip-top" matTooltipPosition="left"
+      (mouseenter)="mouseoverAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)"
+      (mouseleave)="mouseleaveAnimation(animationVar?.FolderButton?.id, animationVar?.FolderButton?.animation)">
+        <mat-icon>check</mat-icon>
+      </button>
+    </div> -->
+  </form>
+</div>

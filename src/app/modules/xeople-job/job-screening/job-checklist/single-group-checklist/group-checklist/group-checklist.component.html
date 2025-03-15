@@ -1,0 +1,60 @@
+<!--
+    @modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Name: job-checklist.component.html
+    @Who: Nitin Bhati
+    @When: 12-Sep-2023
+    @Why: EWM-12599 EWM-13985
+    @What: Job Checklist Page Component HTML
+-->
+
+<div class="kendo-grid-appearance single-checklist" *ngIf="type=='Group'">
+    <kendo-grid #grid [kendoGridBinding]="checkList" [resizable]="true">
+         <kendo-grid-checkbox-column title="{{'heading_grid_checklist_checkbox'|translate}}" [minResizableWidth]="40" [width]="40">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <mat-checkbox [(ngModel)]="dataItem.checked" color="primary" tabindex matTooltipClass="custom-tooltip" (change)="onChangeChecklist($event,rowIndex,dataItem)">
+                </mat-checkbox>
+              </ng-template>
+        </kendo-grid-checkbox-column>
+        <kendo-grid-column field="TaskName" [width]="120" [editable]="false" title="{{'label_taskName'|translate}}" class="space-manage">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span style="max-width: calc(100% - 20px); display: inline-block;" kendoTooltip title="{{dataItem?.TaskName}}">
+                    {{dataItem?.TaskName}}
+                  </span>
+                <span class="star-mandatory" *ngIf="dataItem?.IsMandatory">*</span>               
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column [width]="120" title="{{'label_comment'|translate}}">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                <ng-container *ngIf="dataItem?.IsComment===1">
+                    <div class="text-area-outline" (click)="openDialogforDescription(rowIndex,dataItem)" id="rowcomment{{rowIndex}}{{dataItem?.TaskName}}">
+                        {{dataItem.Comments}}
+                        <span class="placeholder-comment" *ngIf="!dataItem.Comments">{{'placeholder_grid_comment'|translate}}</span>
+                     </div>
+                </ng-container>
+            </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="FileName" [width]="80" title="{{'candidate_attachments'|translate}}" class="space-manage">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                <button mat-button *ngIf="dataItem?.Files?.length>0 && dataItem?.IsAttachment==1" class="view-files" color="primary" (click)="openViewAttachmentModal(dataItem?.Files,rowIndex,'Group',dataItem?.TaskName)" id="attachementView_{{rowIndex}}">{{'label_JobAction_ViewFiles'| translate}}</button>
+                <button mat-button *ngIf="dataItem?.IsAttachment==1" class="view-files" color="primary" (click)="openMultipleAttachmentModal(dataItem?.Files,rowIndex,'Group',dataItem?.TaskName)" id="attachementAdd_{{rowIndex}}">
+                    <mat-icon>attach_file</mat-icon>
+                </button>
+            </ng-template>
+        </kendo-grid-column>
+        <mat-divider></mat-divider>
+
+        <!--
+        <ng-template kendoGridToolbarTemplate position="bottom" *ngIf="SaveButtonFilter?.length>0">
+            <div class="kendo-toolbar" id="kendo-toolbar">
+                <button mat-raised-button color="primary" tabindex type="button" (click)="onSave()" id="btnSaveGroup">
+                    {{'label_save'|translate}}
+                </button>
+            </div>
+        </ng-template>-->
+    </kendo-grid>
+</div>
+
+

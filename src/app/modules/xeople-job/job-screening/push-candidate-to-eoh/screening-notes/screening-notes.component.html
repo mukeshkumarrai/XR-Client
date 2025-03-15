@@ -1,0 +1,56 @@
+
+
+
+<!--@When: 24-05-2024 @who:Amit @why: EWM-17157 @what: screening notes create-->
+
+<div class="screening-notes-main">
+    <div class="screening-notes">
+        <p><strong>{{'label_screeningNotes_ReviewNotes'|translate}}</strong></p>
+        <p class="orange-text">{{'label_screeningAction_NotesHeading'|translate}}</p>
+        <p class="italic orange-text">{{'label_screeningAction_NotesSubHeading'|translate}}</p>
+
+        <div class="main-editor-kendo" id="editor-kendo-main">
+            <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+                <mat-label *ngIf="!memberStatus">{{ 'label_finalSummary_ScreeningNotes' | translate}}</mat-label>
+                <mat-label *ngIf="memberStatus">{{ 'label_Notes' | translate}}</mat-label>
+                <app-mention-editor #mentionEditor 
+                [configuration]="editorConfig" [getEditorVal]="getEditorVal" (editorValueEmit)="getEditorFormInfoScreening($event)"
+              [resetConfiguration]="resetEditorValue.asObservable()"></app-mention-editor>
+            </div>
+            <button mat-icon-button class="btn-edit-displayname" *ngIf="!memberStatus" (click)="clickTimeStamp()" type="button" id="timestampId"
+            matTooltip="{{'label_jobActionNotes_PleaseGenerateTimestamp'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                <mat-icon svgIcon="pace"></mat-icon>
+            </button>
+        </div>
+
+        <div class="main-editor-kendo" id="main-editor-screen" *ngIf="!memberStatus">
+            <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+                <mat-label>{{ 'label_screeningNotes_EmployementNotes' | translate}}</mat-label>
+                <textarea type="text" tabindex class="text-area"  name="scrreningEmployeeNotes"
+                 [ngClass]="(screeningMaster?.ScreeningAction==3?false:true) || (candidateInformation?.IsXRCandidatePushedToEOH === 1 && showWarningAlert && candidateInformation?.MemberId!==null)?'disabled':''"
+                [disabled]="(screeningMaster?.ScreeningAction==3?false:true) || (candidateInformation?.IsXRCandidatePushedToEOH === 1 && showWarningAlert && candidateInformation?.MemberId!==null)" 
+                (blur)="getEditorFormInfo($event.target.value)" [(ngModel)]="getEditorValFromEmployee" [ngModelOptions]="{standalone: true}"
+                 matInput id="scrrening-EmployeeNotes" placeholder=""></textarea>
+            </div>
+        </div>
+
+        <div class="main-editor-kendo" id="editor-kendo-main" *ngIf="memberStatus">
+            <div class="html-editor-kendo" tabindex id="kendoHTMLEditer">
+                <mat-label>{{ 'label_screeningNotes_EmployementNotes' | translate}}</mat-label>
+                <app-mention-editor #mentionEditor 
+                [configuration]="editorConfig" [getEditorVal]="getEditorValEmp" (editorValueEmit)="getEditorFormInfoScreeningEmp($event)"
+              [resetConfiguration]="resetEditorValueEmp.asObservable()"></app-mention-editor>
+            </div>
+            <!-- <button mat-icon-button class="btn-edit-displayname" (click)="clickTimeStamp()" type="button" id="timestampId"
+            matTooltip="{{'label_jobActionNotes_PleaseGenerateTimestamp'|translate}}" matTooltipClass="card-list-tooltip" matTooltipPosition="before">
+                <mat-icon svgIcon="pace"></mat-icon>
+            </button> -->
+        </div>
+
+    </div>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <div class="alert-message" *ngIf="candidateInformation?.IsXRCandidatePushedToEOH === 1 && showWarningAlert && candidateInformation?.MemberId!==null">{{'pushCandidateToEoh_CandidateAlreadyPushed'|translate}}</div>
+        <button mat-stroked-button color="primary" tabindex type="button"  id="btnSaveNext" [disabled]="candidateInformation?.IsXRCandidatePushedToEOH === 1 && showWarningAlert && candidateInformation?.MemberId!==null"
+         (click)="onNextClick()">{{'label_next'|translate}}</button>
+    </div>
+</div>

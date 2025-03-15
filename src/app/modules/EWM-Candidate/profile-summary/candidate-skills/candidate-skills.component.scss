@@ -1,0 +1,121 @@
+// @(C): Entire Software
+// @Type: File, <html>
+// @Who: Anup Singh
+// @When: 29-Oct-2021
+//@Why: EWM-3132 EWM-3605
+ 
+.rotate-loader {
+  animation: rotate-animation 0.8s infinite linear;
+}
+@keyframes rotate-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.bulkEditChip{
+    position: relative;
+    .bulkEditChipContainer{
+        max-height: 250px;
+       /* overflow-y: auto;
+        overflow-x: hidden; */
+        display: inline-block;
+        min-height: 22px;
+        .mat-standard-chip{
+            margin-top: 5px;
+            .mat-icon-button.mat-warn{
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                .mat-icon{
+                    width: 20px;
+                    height: 20px;
+                    line-height: 20px;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+    .infoIconStyle{
+        position: absolute;
+        top: -1px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        color: #9a9a9a;
+    }
+}
+
+.helpHeading{
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.chipError{
+    font-size: 11px;
+    position: relative;
+    top: -20px;
+}
+
+.redColor{
+    color: #cc0000 !important;
+    opacity: 1 !important;
+}
+
+.ManageBtn{
+    margin: 0px 5px 5px;
+  }
+.refreshBtn{
+    min-width: 40px;
+    padding: 0px;
+    margin-bottom: 5px;
+    .mat-icon{
+        font-size:24px;
+    }
+}
+.skill-chip-list{
+    .mat-chip{
+        margin-bottom: 5px;
+    }
+}
+
+
+::ng-deep {
+
+.add-manage {
+    display: flex;
+    background: #f5f5f5;
+    align-items: center;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .ng-dropdown-panel-items .scroll-host {
+      margin-top: -15px;
+    }
+  }
+  .skills-name{
+    height: 48px;
+    line-height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    .skill-data{
+        .mat-icon{
+          vertical-align: middle;
+          margin-right: 16px;
+        }
+    }
+} 
+  .no-bottom {
+    margin-bottom: -1.25em !important;
+  }
+  .dropdowm-barloader {
+    position: absolute;
+  }
+}

@@ -1,0 +1,349 @@
+/*
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: candidate-styles.scss
+    @Who: Satya Prakash Gupta
+    @When: 16-Sep-2021
+    @Why:
+    @What: You can add global styles to this file, and also import other style files
+*/
+@import '../../styles-var.scss';
+
+.shareDocUserAvtaar {
+  display: block;
+  .alreadySharedLbl {
+    font-size: 14px;
+    display: block;
+    margin: 15px 0px;
+  }
+  .circleSpan {
+    width: 50px;
+    height: 50px;
+    line-height: 60px;
+    border-radius: 50%;
+    background: $primary-bg-color;
+    color: $primary-txt-color;
+    font-size: 14px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+.share-docs{
+  .mat-slide-toggle{
+    margin-right: 15px;
+  }
+  .mat-slide-toggle.mat-disabled{
+    opacity: 1;
+    cursor: not-allowed;
+  }
+  .mat-dialog-content{
+    min-height: 300px;
+  }
+}
+
+.remove_Access{
+  .listcardContentMaxData{
+    min-width: auto;
+    height: calc(100% - 60px);
+  }
+  .listCardView, .listHeader{
+      padding-top: 0px;
+      min-width: 650px;
+  }
+  .alternetBG .mat-card{
+      padding: 0px;
+      margin: 0px;
+  }
+  .listHeader {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.add_manageAccess{
+  .mat-slide-toggle{
+    margin-right: 15px;
+  }
+  .mat-slide-toggle.mat-disabled{
+    opacity: 1;
+    cursor: not-allowed;
+  }
+  .mat-radio-button {
+    padding: 15px 10px 0px 0px;
+  }
+  .mat-dialog-content{
+    min-height: 300px;
+  }
+}
+
+.manageClientAccess{
+  .mat-dialog-content{
+    min-height: 120px;
+  }
+}
+
+.remove_Access{
+  .mat-dialog-content{
+    height: 85vh;
+  }
+  .button-row {
+    .mat-stroked-button{
+      @media only screen and (max-width: 900px) and (min-width: 240px){        
+        padding: 0 8px;
+      }
+    }
+  }
+}
+
+.document-listaction.mat-menu-panel {
+  max-width: 200px;
+  .mat-button {
+    line-height: 30px;
+    .mat-icon{
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+    .two-icons .secondIcon{
+      font-size: 10px;
+      width: 10px;
+      height: 10px;
+      right: -2px;
+      top: 15px;  
+    }
+  }
+}
+
+.mat-drawer.document-sidenav{
+  z-index: 2 !important;
+  overflow: auto;
+  // padding: 0px 5px;
+  box-shadow: none !important;
+  width: 250px;
+  background: transparent;
+  @media only screen and (max-width: 900px) and (min-width: 240px){        
+    z-index: 3 !important;
+    padding: 0px;
+  }
+  .mat-drawer-inner-container {
+    box-shadow: 0px 0px 6px 0px rgb(0 0 0 / 16%) !important;
+  }
+}
+
+.mat-drawer.document-drawer{
+  background: #f5f5f5;
+  .background-highlight,
+  .background-highlight:hover {   
+    background-color: #e3dfeb;
+    color: inherit; 
+    .mat-icon-button{
+      .mat-icon{
+        color:  inherit;
+      }
+    }
+  }
+} 
+
+.mat-drawer-content.document-sidenav-content{
+  z-index: 2;
+  .document-sidenav-content-container{
+    // margin-left: 5px;
+    overflow: auto;
+    height: calc(100% - 53px);
+    width: 100%;
+    @media only screen and (max-width: 900px) and (min-width: 240px){        
+      margin-left: 5px;
+    }
+  }
+
+}
+.mat-tree{
+  max-width: calc(100% - 0px);
+  background: transparent;
+  .mat-tree-node{
+    min-width:max-content;
+    min-height: 35px;
+    .mat-icon-button{
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+    }
+    span{
+      // max-width: 210px;
+      // white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // word-wrap: break-word;
+      // word-break: break-word;
+    }
+    .with-icon {
+      position: relative;
+      padding-left: 22px;
+      .mat-icon {
+        position: absolute;
+        font-size: 19px;
+        top: -2px;
+        left: 0px;
+      }
+    }
+  }
+  .mat-tree-node:hover{
+    background: #f5f5f5;
+  }
+  .background-highlight,
+  .background-highlight:hover {   
+    background-color: $primary-bg-color;
+    color: $primary-txt-color; 
+    .mat-icon-button{
+      .mat-icon{
+        color:  $primary-txt-color;
+      }
+    }
+  } 
+}
+
+.mat-drawer-container.document-container {
+  background: #f5f5f5;
+}
+.floating-menu.mat-fab{
+  position: fixed;
+  bottom: 77px;
+  right: 35px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.floating-menu.call-floating-menu.mat-fab{
+  bottom: 100px;
+}
+
+.floatbutton-list.mat-menu-panel{
+  background: transparent;
+  box-shadow: none;
+  position: relative;
+  margin-bottom: 17px;
+  right: -16px;
+  padding: 10px;
+  overflow: hidden;
+  .floatin-list{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    button{
+      display: inline-block;
+    }
+    .mat-button{
+      text-align: center;
+      background: #e0e0e0;
+      height: 25px;
+      line-height: 25px;
+      color: #000000;
+      margin-right: 8px;
+    }
+    .mat-mini-fab {
+      overflow: hidden;
+      .mat-button-wrapper {
+        padding: 5px 0;  
+        .two-icons{
+          .secondIcon{
+            background: #fff;
+            color: rgb(0 0 0 / 67%);
+          }
+        }
+      }
+    }
+  }
+  &:last-child{
+    margin-bottom: 0px;
+  }
+}
+
+.assignJobHideArrows {
+  .mat-tab-header-pagination{
+    z-index: 1;
+  }
+}
+
+// .mat-drawer-content.candidate-document{
+//   height: calc(100vh - 352px);
+// }
+
+/************************dark mode start here**************************************/
+.dark-theme {
+  .mat-drawer.document-drawer{
+    background: transparent;
+  } 
+  .floatbutton-list.mat-menu-panel{
+    .floatin-list{
+      .mat-button{
+        color: #ffffff;
+        background: #696969;
+      }
+    }
+  }
+  .document-listaction.mat-menu-panel {
+    .headerDroupDownUp{
+      color: #838383;
+    }
+  }
+  .shareDocUserAvtaar {
+    display: block;
+    .alreadySharedLbl {
+      font-size: 14px;
+      display: block;
+      margin: 15px 0px;
+    }
+    .circleSpan {
+      width: 50px;
+      height: 50px;
+      line-height: 60px;
+      border-radius: 50%;
+      background: $dark-primary;
+      color: $white-color;
+      font-size: 14px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .document-container {
+    background: #424242;
+  }
+  .mat-drawer-content.document-sidenav-content{
+    background: #424242;
+    .with-icon .mat-icon{
+      color: $dark-primary !important;
+    }
+  }
+  .mat-tree{
+    background: transparent;
+    .mat-tree-node .with-icon .mat-icon{
+      color: $dark-primary !important;
+    }
+    .mat-tree-node:hover{
+      background: #282828;
+      color: #fff;
+    }
+    .background-highlight,
+    .background-highlight:hover {   
+      background-color: $dark-primary;
+      color: $white-color; 
+      .mat-icon-button{
+        .mat-icon{
+          color:  $white-color;
+        }
+      }
+    } 
+  }
+}
+/************************dark mode end here**************************************/
+
+/************************RTL Style css start here**************************************/
+[dir="rtl"] {}
+
+/************************RTL Style css end here**************************************/

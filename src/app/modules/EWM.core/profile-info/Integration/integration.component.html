@@ -1,0 +1,62 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who:Priti Srivastava
+    @When: 12-July-2021
+    @Why:EWM-2114
+    @What:  This component is used for itegration menu list.
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+  <div class="logo-loading"></div>
+</div>
+
+<mat-card id="jobsetting-card">
+  <mat-card-header>
+    <mat-card-title>{{'label_jobsettings' |translate}}</mat-card-title>
+    <span class="heading-spacer"></span>
+
+
+
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+
+
+    <div class="row mb-0">
+      <div class="col l4 m12 s12">
+        <div class="jobSettingCardWidth">
+          <span class="menuHeading">Tag</span>
+          <div class="menuListBox">
+            <!-- <div *ngFor="let subMenuData of menuArray[groupdata];let j =index ;"> -->
+            <!-- <div *ngIf="menuCount[groupdata] >= j"> -->
+            <div>
+              <div>
+                <div class="menuLinkItems">
+                  <mat-icon [ngClass]="0==0 ? 'matIcon' : 'matIcon activeStarIcon'">star</mat-icon>
+                  <a>
+                    <p (click)="goToPage('integration/employeetag')"> {{'label_employeeTag' | translate}}
+                    </p>
+                    <!-- <p class="newChipBtn" *ngIf="subMenuData.Tag==1">
+                        New
+                      </p> -->
+                  </a>
+                </div>
+                <a class="viewMoreLink">
+                  <mat-icon class="arrowDownIcon">keyboard_arrow_down</mat-icon>
+                  {{'label_jobsettingmore' | translate}}
+                </a>
+
+              </div>
+              <!-- <a class="viewMoreLink" (click)="viewLess(groupdata)"
+              *ngIf=" (menuCount[groupdata] == menuArray[groupdata].length)">
+              <mat-icon class="arrowDownIcon">keyboard_arrow_down</mat-icon>
+              {{'label_jobsettingless' | translate}}
+            </a> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

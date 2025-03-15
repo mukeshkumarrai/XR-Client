@@ -1,0 +1,26 @@
+<ng-select class="currencySelect" #select 
+[ngClass]="IsRequired? 'show-required' : ''"
+                placeholder="{{placeholder!='' && placeholder!=undefined?(placeholder|translate):('label_selectCurrency'|translate)}} {{IsRequired?'':''}}"
+                appendTo="body"
+                [searchable]="false"
+                [disabled]="IsDisabled"
+                [clearable]="true"
+                [closeOnSelect]="true"
+                [(ngModel)]="selectedIn"
+                [formControl]="selectedValue"
+                (change)="getValues()" required={{IsRequired}}>
+                <ng-template ng-header-tmp>
+                    <label class="customNgSelect_searchHeadingTxt">{{'label_selectCurrency' | translate}}</label>
+                    <input class="selectSearch" placeholder="{{'label_selectCurrency' |translate}}" type="text" (input)="select.filter($event.target.value)"/>
+                </ng-template>
+                <ng-option [value]="0" disabled>{{'label_selectCurrency'|translate}}</ng-option>
+                <ng-option [value]="item.Id"  *ngFor="let item of currencyList">
+                    <!--<img src="{{item.ImageUrl}}" width="20px" height="20px" class="listWithImage" />-->
+                    <!-- <span class="currencyIconSpan">{{item.Symbol}}</span>  <span class="">{{item.CurrencyName}}</span> -->
+                    <span class="">{{item.CurrencyName}}</span>({{item.Symbol}} - {{item.CurrencyCode}})
+                </ng-option>
+    </ng-select>  
+    <mat-error
+    *ngIf="selectedValue.hasError('required') && selectedValue.touched && !isErrorMsg">
+    {{'quickjob_currency' |translate}} {{'label_errorreqired'|translate}}
+    </mat-error>

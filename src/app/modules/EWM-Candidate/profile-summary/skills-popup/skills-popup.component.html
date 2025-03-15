@@ -1,0 +1,125 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Anup singh
+    @When: 13-Aug-2021
+    @Why: EWM-2242.EWM-2506
+    @What:  This component is used for add skills and edit.
+-->
+
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta
+    @When: 18-Aug-2021
+    @Why: EWM-2244 EWM-2537
+    @What:  This component is used for add skills and edit.
+-->
+<div *ngIf="loading" class="logo-loader" id="logo-loader">
+    <div class="logo-loading"></div>
+  </div>
+<form [formGroup]="skillsForm" id="addskill-people" class="skillsForm" applyTabIndexes>
+    <div class="quick-dialog">
+        <h2 mat-dialog-title *ngIf="actionType=='add'">{{'label_addSkill' | translate}} </h2>
+        <h2 mat-dialog-title *ngIf="actionType=='edit'">{{'label_editSkill' | translate}} </h2>
+
+        <mat-dialog-content class="col" #target [ngClass]="{'add-mat-dialog-content':actionType=='add'}">
+            <ng-container formArrayName="skillsData">
+                <mat-card *ngFor="let skill of skillsInfo().controls; let i=index" [formGroupName]="i">
+                    <div class="row mb-0">
+                        <div class="col l4 m12 s12">
+                            <!---<app-custom-dropdown [selectedIn]="selectedSkillType[i]"  (selectedOut)="onSkillTypechange($event,i);"  [config]="dropDoneConfig"
+                            ></app-custom-dropdown>-->
+                            <ng-select class="dropdown-body" appendTo="body" [searchable]="false" [clearable]="true"
+                                formControlName="SkillName" #select placeholder="{{ 'candidate_skils' |translate}}  *"
+                                (change)="onNameChanges($event,i);">
+                                ] <ng-template ng-header-tmp>
+                                    <ng-container>
+                                        <div class="add-manage">
+                                            <a mat-button id="favIcon" color="primary" (click)="redirect();">
+                                                Manage
+                                            </a>
+                                            <span class="spacer"></span>
+                                            <button mat-icon-button (click)="getUpdateOptions()" color="primary"
+                                                type="button" [ngClass]="loader?'rotate-loader':''">
+                                                <mat-icon>refresh</mat-icon>
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container>
+                                        <div class="pl-15 pr-15">
+                                            <mat-form-field class="no-bottom">
+                                                <input matInput class="selectSearch" autocomplete="off"
+                                                    placeholder="{{'label_search' |translate}}" type="text"
+                                                    (input)="select.filter($event.target.value)" />
+                                            </mat-form-field>
+                                        </div>
+
+                                    </ng-container>
+                                </ng-template>
+                                <ng-option [value]="" disabled>{{'label_select'| translate}} </ng-option>
+                                <ng-option [value]="item" *ngFor="let item of skillsListData">
+                                    {{item.SkillName}}
+                                </ng-option>
+
+                            </ng-select>
+                            <mat-error *ngIf="skill.get('SkillName').errors?.unique && skill.get('SkillName').touched ">
+                                {{ 'candidate_skils' |translate}} {{ 'label_errorunique' |translate}}
+                            </mat-error>
+                            <mat-error
+                                *ngIf="skill.get('SkillName').errors?.required && skill.get('SkillName').touched">
+                                {{'candidate_skils'|translate}} {{'label_errorreqired'|translate}}
+                            </mat-error>
+                            <mat-error
+                                *ngIf="skill.get('SkillName').errors?.nameTaken && skill.get('SkillName').touched">
+                                {{'candidate_skils'|translate}} {{'label_errorreqiredAlready'|translate}}
+                            </mat-error>
+                        </div>
+
+                        <div class="col l7 m9 s9">
+                            <mat-button-toggle-group appearance="legacy" name="fontStyle" aria-label="Font Style"
+                                tabindex formControlName="Rating" name="rating" id="skill-rating{{i}}"
+                                class="skillsRating">
+                                <mat-button-toggle *ngFor="let tButton of toggleData" [value]="tButton"> {{tButton}}
+                                </mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+
+                        <div class="col l1 m3 s3 right-align" *ngIf="actionType=='add'">
+                            <button *ngIf="i!==0" tabindex mat-icon-button color="warn" id="btnDelete"
+                                (click)="removeRow(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+
+                        </div>
+
+                        <div class="col l1 m3 s3 right-align" *ngIf="actionType=='edit'">
+                            <button tabindex mat-icon-button color="warn" id="btnDelete" (click)="confirmDialog(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                </mat-card>
+            </ng-container>
+
+
+
+        </mat-dialog-content>
+
+        <button mat-fab color="primary" id="filter-add-btn" type="button" class="float-button" *ngIf="actionType=='add'"
+            (click)="addSkillsRow(target)" matTooltip="{{'label_add' | translate}}" matTooltipClass="custom-tooltip">
+            <!-- {{'label_add' | translate}} -->
+            <span class="material-icons">
+                add
+            </span>
+        </button>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!skillsForm.valid"
+            (click)="onConfirm()" id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+</form>

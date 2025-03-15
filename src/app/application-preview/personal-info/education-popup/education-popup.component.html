@@ -1,0 +1,204 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: renu
+    @When: 22-Aug-2021
+    @Why: EWM-7151 EWM-7233
+    @What:  This component is used for Quick add candidate education Details templates.
+-->
+<form [formGroup]="addForm" applyTabIndexes>
+    <div class="quick-dialog-candidateAdd-education">
+        <h2 mat-dialog-title>
+            {{'label_education' | translate}}
+        </h2>
+        <mat-dialog-content class="col">
+            <div class="row mb-0">
+                <div class="col l6 m12 s12">
+                    <input type="hidden" name="Id" id="Id" formControlName="Id" />
+                    <div class="ng-slectBox">
+                       
+                        <app-custom-dropdown [selectedIn]="selectedDegreeType"
+                            (selectedOut)="onDegreeTypechange($event)" [config]="dropDoneDegreeConfig">
+                        </app-custom-dropdown>
+                        <mat-error
+                            *ngIf="this.addForm.controls['degreeType'].hasError('required') && addForm.controls['degreeType'].touched">
+                            {{ 'label_degreeType' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col l6 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_degreeTitle' | translate}}</mat-label>
+                        <input type="text" tabindex formControlName="degreeTitle" matInput id="education-degreetitle" [required]="eduInfo?.IsDegreeTitleRequired==1?true:false">
+                        <mat-error *ngIf="this.addForm.controls['degreeTitle'].hasError('maxlength')">
+                            {{ 'label_degreeTitle' |translate}} {{ 'label_errormaxlength50' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.addForm.controls['degreeTitle'].hasError('required')">
+                            {{ 'label_degreeTitle' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row mb-0">
+                <div class="col l6 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_institute' | translate}}</mat-label>
+                        <input type="text" tabindex formControlName="institute" matInput id="education-institute"
+                        [required]="eduInfo?.IsNameInstituteRequired==1?true:false"  >
+                        <mat-error *ngIf="this.addForm.controls['institute'].hasError('required')">
+                            {{ 'label_institute' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.addForm.controls['institute'].hasError('maxlength')">
+                            {{ 'label_institute' |translate}} {{ 'label_errormaxlength100' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col l6 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_university' | translate}}</mat-label>
+                        <input type="text" tabindex formControlName="university" matInput placeholder=""
+                            id="education-university" [required]="eduInfo?.IsNameUniversityRequired==1?true:false">
+                        <mat-error *ngIf="this.addForm.controls['university'].hasError('required')">
+                            {{ 'label_university' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.addForm.controls['university'].hasError('maxlength')">
+                            {{ 'label_university' |translate}} {{ 'label_errormaxlength100' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row mb-0">
+                <div class="col l6 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_startDate' | translate}}</mat-label>
+                        <!-- @Who: bantee ,@When: 12-04-2023, @Why: EWM-11854 ,What: add CustomValidatorService to the start date control -->
+                        <input matInput [matDatepicker]="picker2" (dateInput)="inputEventStart(addForm.value.startDate)"  [placeholder]="getDateFormat"  tabindex
+                            id="education-startDate"  formControlName="startDate"  [required]="eduInfo?.IsStartDateEduRequired==1?true:false">
+                            <!-- @When: 23-march-2023 EWM-9802 For clear start date pass parameter -->
+                            <button *ngIf="addForm.value.startDate ||  addForm.controls['startDate'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="clearStartDateEndDate('startDate')" > 
+                            <mat-icon>close</mat-icon>
+                          </button>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                        <mat-error *ngIf="addForm.controls['startDate'].hasError('required') && addForm.controls['startDate'].touched && !addForm.controls['startDate'].hasError('matDatepickerParse')"> {{'label_startDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                        <mat-error *ngIf="addForm.controls['startDate'].hasError('invalidDate') && !addForm.controls['startDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                        <mat-error *ngIf="addForm.controls['startDate'].hasError('matDatepickerParse') && !addForm.controls['startDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                        <!-- <mat-error *ngIf="addForm.controls['startDate'].hasError('matDatepickerMax') && !addForm.controls['startDate'].hasError('invalidDate')"> {{'label_startDate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error> -->
+                        <mat-error *ngIf="addForm.controls['startDate'].hasError('matDatepickerMin') && !addForm.controls['startDate'].hasError('invalidDate')"> {{'label_startDate' | translate}} {{'label_mustbeStartDate' | translate}} </mat-error>
+                        <!-- End  -->
+                    </mat-form-field>
+                </div>
+                <div class="col l6 m12 s12">    
+                    <mat-form-field>
+                        <mat-label>{{'label_endDate' | translate}}</mat-label>
+                        <input matInput [matDatepicker]="picker1"   [placeholder]="getDateFormat" tabindex
+                            id="education-endDate" [min]="endDay" formControlName="endDate" (dateInput)="inputEventStart(addForm.value.startDate)"
+                            [required]="eduInfo?.IsEndDateEduRequired==1?true:false">
+                            <!-- @When: 23-march-2023 EWM-9802 For clear end date pass parameter -->
+                            <button *ngIf="addForm.value.endDate || addForm.controls['endDate'].hasError('matDatepickerParse')" id="clearBtn" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="clearStartDateEndDate('endDate')" > 
+                            <mat-icon>close</mat-icon>
+                          </button>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error *ngIf="addForm.controls['endDate'].hasError('required') && addForm.controls['endDate'].touched && !addForm.controls['endDate'].hasError('matDatepickerParse')"> {{'label_endDate'|translate}} {{'label_errorreqired'|translate}} </mat-error>
+                    <mat-error *ngIf="addForm.controls['endDate'].hasError('invalidDate') && !addForm.controls['endDate'].hasError('required')"> {{'label_invalidDate' | translate}} </mat-error>
+                    <mat-error *ngIf="addForm.controls['endDate'].hasError('matDatepickerParse') && !addForm.controls['endDate'].hasError('matDatepickerMax')"> {{'label_invalidDate' | translate}}</mat-error>
+                    <!-- <mat-error *ngIf="addForm.controls['endDate'].hasError('matDatepickerMax') && !addForm.controls['endDate'].hasError('invalidDate')"> {{'label_endDate' | translate}} {{'label_shouldNotMoreThanExp' | translate}}</mat-error> -->
+                    <mat-error *ngIf="addForm.controls['endDate'].hasError('matDatepickerMin') && !addForm.controls['endDate'].hasError('invalidDate')"> {{'label_endDate' | translate}} {{'label_mustbeStartDate' | translate}} </mat-error>
+                    <!-- End  -->
+                    </mat-form-field>
+                  
+                </div>
+            </div>
+            <div class="row mb-0">
+
+                <div class="col l6 m12 s12">
+                    <div class="ng-slectBox">
+                        <app-custom-dropdown [selectedIn]="selectedScoreType" (selectedOut)="onScoreTypechange($event)"
+                            [config]="dropDoneScoreConfig"></app-custom-dropdown>
+                        <mat-error
+                            *ngIf="this.addForm.controls['scoreType'].hasError('required') && addForm.controls['scoreType'].touched">
+                            {{ 'label_scopeType' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col l6 m12 s12">
+                    <mat-form-field>
+                        <mat-label>{{'label_finalScore' | translate}}</mat-label>
+                        <input type="text" tabindex formControlName="finalScore" matInput id="education-finalscore"  [required]="eduInfo?.IsFinalScoreRequired==1?true:false">
+                        <mat-error *ngIf="this.addForm.controls['finalScore'].hasError('maxlength')">
+                            {{ 'label_finalScore' |translate}} {{ 'label_errormaxlength10' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.addForm.controls['finalScore'].hasError('required')">
+                            {{ 'label_finalScore' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error *ngIf="this.addForm.controls['finalScore'].hasError('pattern')">
+                            {{ 'label_finalScore' |translate}} {{ 'label_numericerr' |translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row mb-0">
+                <div class="col l6 m12 s12">
+                    <div class="ng-slectBox">
+                        <app-custom-dropdown [selectedIn]="selectedQualification"
+                            (selectedOut)="onQualificationchange($event)" [config]="dropDoneConfig">
+                        </app-custom-dropdown>
+                        <mat-error
+                            *ngIf="this.addForm.controls['qualification'].hasError('required') && addForm.controls['qualification'].touched">
+                            {{ 'label_qualification' |translate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                    </div>
+                </div>
+                <!-- @When: 12-10-2023 @who:Amit @why: EWM-14706 @what: icon place -->
+                <div class="col l6 m12 s12 icon-page" formGroupName="address">
+                    <mat-form-field class="icon-withchip">
+                        <mat-label>{{'label_location' | customTranslate}}</mat-label>
+                        <input type="text" tabindex formControlName="AddressLinkToMap" matInput readonly
+                            placeholder="{{'quickpeople_Address' | customTranslate}}" id="education-address" [required]="eduInfo?.IsLocationEduRequired==1?true:false">
+
+                        <mat-icon matPrefix class="matPrefix-icon">location_on</mat-icon>
+                        <button tabindex id="addbtn-address" mat-raised-button matSuffix color="primary" type="button"
+                            class="matSuffix-icon mgBottom5" (click)="addAddress()">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <mat-error *ngIf="this.addForm.get('address.AddressLinkToMap').hasError('required')">
+                            {{ 'label_dependent_address' |customTranslate}} {{ 'label_errorreqired' |translate}}
+                        </mat-error>
+                        <mat-error
+                        *ngIf="this.addForm.get('address.AddressLinkToMap').hasError('maxlength')">
+                        {{ 'label_dependent_address' |translate}} {{'label_errormaxlength250' |translate}}
+                      </mat-error>
+                    </mat-form-field>
+                    <div class=" ng-slectBox">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col l6 m12 s12">
+                <mat-form-field>
+                    <mat-label>{{'label_description' | translate}}</mat-label>
+                    <textarea matInput formControlName="description" id="description" tabindex
+                        placeholder="{{'label_description'|translate}}" [required]="eduInfo?.IsDescriptionEduRequired==1?true:false"></textarea>
+                    <mat-error *ngIf="this.addForm.controls['description'].hasError('maxlength')">
+                        {{ 'label_description' |translate}} {{ 'label_errormaxlength1000' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="this.addForm.controls['description'].hasError('required')">
+                        {{ 'label_description' |translate}} {{ 'label_errorreqired' |translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+        </mat-dialog-content>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions align="end" class="button-row actionBoxFooter">
+        <button mat-stroked-button color="warn" tabindex type="button" (click)="onDismiss()" id="btnCancel">
+            {{'button_cancel'|translate}}</button>
+        <button mat-stroked-button color="primary" tabindex type="button" [disabled]="!addForm.valid"
+            (click)="onConfirm()" id="btnSave"> {{'label_save'|translate}}</button>
+    </div>
+</form>

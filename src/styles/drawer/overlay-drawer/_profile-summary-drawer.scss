@@ -1,0 +1,216 @@
+@use "../../../colors";
+.view-profile-summary{
+  .profile-summary-container.advancedsearch-container{
+    padding: 0px;
+    .logo-loader{
+      z-index: 99999;
+    }
+    .profile-summary-card{
+      padding: 0px;
+      margin-bottom: 0px;
+      .profile-summary-card-content{
+        height: calc(100vh - 113px) !important;
+        .summary-tabs{
+          height: 100%;
+          .mat-tab-header{
+            .mat-tab-header-pagination{
+              z-index: 1;
+            }
+          }
+          .mat-tab-body-wrapper{
+            .candidate-summry{
+                .mat-card{
+                  padding: 0px;
+                  .mat-card-content{
+                    height: calc(100vh - 20px) !important;
+                  }
+                }
+            }
+            .PDFViewer{
+              height: calc(100vh - 250px);
+            }
+            .parse-resume-tab-container{
+              height: calc(100vh - 205px);
+              margin-bottom: 0px;
+              overflow: auto;
+              padding: 0px 5px;
+            }
+            .candidate-resume-summary{
+              .question-list-sec{
+                .new-data-list-content{
+                  height: calc(100vh - 295px);
+                }
+              }
+              .resumeTab{
+                .mat-divider-horizontal{
+                  position: relative;
+                }
+              }
+            }
+            .candidate-cover-page{
+              .resumeHeader{
+                @media only screen and (max-width: 900px) and (min-width: 240px){
+                  height: 40px;
+                  flex-direction: inherit;
+                }
+              }
+              .question-list-sec{
+                margin-bottom: 0px;
+                .new-data-list-content{
+                  height: calc(100vh - 295px);
+                }
+              }
+            }
+            .myInboxPage{
+              padding: 0px;
+              border-radius: 0px;
+              box-shadow: none;
+              margin-bottom: 0px;
+              .mailboxCardContent{
+                padding: 0px;
+                height: 100% !important;
+                .mailbox-container.mat-drawer-container{
+                  height: calc(100vh - 215px);
+                  .maillist-sidenav{
+                    .emailListingRow{
+                      padding: 10px;
+                      box-sizing: border-box;
+                    }
+                  }
+                }
+              }
+            }
+            .candidate-job{
+              padding: 0px;
+              box-shadow: none;
+              margin-bottom: 0px;
+              .mat-card-header{
+                padding: 15px 15px 0px 15px;
+              }
+              .candidate-data-header{
+                .search-viewicon{
+                  .searchInput{
+                    @media only screen and (max-width: 980px) and (min-width: 320px) {
+                      margin-bottom: 0px;
+                    }
+                  }
+                }
+              }
+              .mat-divider-horizontal{
+                position: relative;
+              }
+              .kendo-table-container{
+                .k-grid{
+                  height: calc(100vh - 277px);
+                }
+              }
+              .listCardView{
+                height: calc(100vh - 258px);
+                overflow-y: auto;
+              }
+            }
+            .notes-details-sec{
+              height: calc(100vh - 154px);
+            }
+            .common-notes-sec{
+              height: calc(100vh - 154px);
+            }
+            .document-sidenav-content{
+              height: calc(100vh - 154px);
+              .document-sidenav-content-container{
+                @media only screen and (max-width: 900px) and (min-width: 240px) {
+                  width: calc(100% - 5px);
+                }
+                .listcardContentMaxData{
+                  .listCardView{
+                    .listContent{
+                      .alternetBG{
+                        .listcardContent{
+                          height: inherit !important;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            .notes-details-sec{
+              .notes-addEdit-drawer{
+                .add-new-note{
+                  margin-bottom: 0px;
+                }
+              }
+              .activitydrawer{
+                .drawer-footer{
+                  margin-bottom: 0px;
+                }
+              }
+            }
+            .topToBottom.mat-fab,.floating-menu.mat-fab{
+              bottom: 30px;
+              right: 30px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .profile-summary-container.summary-small-layout{
+    .profile-summary-card{
+      .profile-summary-card-content{
+        height: calc(100vh - 60px) !important;
+        .summary-tabs{
+          .mat-tab-body-wrapper{
+            .PDFViewer{
+              height: calc(100vh - 198px);
+            }
+            .parse-resume-tab-container{
+              height: calc(100vh - 152px);
+            }
+            .candidate-resume-summary{
+              .question-list-sec{
+                .new-data-list-content{
+                  height: calc(100vh - 245px);
+                }
+              }
+            }
+            .candidate-cover-page{
+              .question-list-sec{
+                .new-data-list-content{
+                  height: calc(100vh - 242px);
+                }
+              }
+            }
+            .myInboxPage{
+              .mailboxCardContent{
+                .mailbox-container.mat-drawer-container{
+                  height: calc(100vh - 162px);
+                }
+              }
+            }
+            .candidate-job{
+              .kendo-table-container{
+                .k-grid{
+                  height: calc(100vh - 224px);
+                }
+              }
+              .listCardView{
+                height: calc(100vh - 206px);
+                overflow-y: auto;
+              }
+            }
+            .notes-details-sec{
+              height: calc(100vh - 101px);
+            }
+            .common-notes-sec{
+              height: calc(100vh - 101px);
+            }
+            .document-sidenav-content{
+              height: calc(100vh - 101px);
+            }
+          }
+        }
+      }
+    }
+  }
+}

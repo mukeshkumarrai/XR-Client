@@ -1,0 +1,94 @@
+<!---
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: priti srivastava
+    @When: 19-march-2021
+    @Why: EWM-1124
+    @What:  This page wil be use  for tree checkbox
+-->
+<!---
+    modified
+    @(C): Entire Software
+    @Type: File, <html>
+    @Who: Satya Prakash Gupta 
+    @When: 24-May-2021
+    @Why: EWM-652 EWM-1610
+    @What:  This page wil be use  for tree checkbox
+-->
+<div class="row">
+  <div class="col l12 m12 s12">
+    <div class="panel-heading">
+      <mat-checkbox color="primary" [checked]="data.IsChecked" [indeterminate]="someComplete()"
+        (change)="setAll($event.checked,false,0)" >{{data.Label|customTranslate}}</mat-checkbox>
+      <span class="accordian-spacer"></span>
+      <button mat-icon-button *ngIf="data.Children.length>0" (click)="toggle.emit()" >
+        <mat-icon *ngIf="data.isCollapse">remove_circle_outline</mat-icon>
+        <mat-icon *ngIf="!data.isCollapse">add_circle_outline</mat-icon>
+      </button>
+    </div>
+    <div class="panel-body" *ngIf="opened">
+      <section>
+        <ul>
+          <li *ngFor="let subtask of data.Children">
+            <div *ngIf="subtask.Children.length ==0">
+              <mat-checkbox color="primary" [checked]="subtask.IsChecked" 
+                (change)="updateAllComplete($event.checked,subtask)">{{subtask.Label|customTranslate}}</mat-checkbox>
+            </div>
+            <div *ngIf="subtask.Children.length > 0" class="panelWidth">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <mat-checkbox color="primary" [checked]="subtask.IsChecked" [indeterminate]="subtask.IsIntermediate"
+                    (change)="setAll($event.checked,true,subtask)">{{subtask.Label|customTranslate}}</mat-checkbox>
+                  <span class="accordian-spacer"></span>
+                  <button mat-icon-button (click)="togglemeu(subtask)" id="userRole-btntoogle">
+                    <mat-icon *ngIf="subtask.isCollapse">remove_circle_outline</mat-icon>
+                    <mat-icon *ngIf="!subtask.isCollapse">add_circle_outline</mat-icon>
+                  </button>
+
+                </div>
+                <div class="panel-body" *ngIf="subtask.isCollapse">
+                  <section>
+                    <ul>
+                      <li *ngFor="let subdata of subtask.Children">
+                        <div *ngIf="subdata.Children.length == 0">
+                          <mat-checkbox color="primary" [checked]="subdata.IsChecked"
+                            (change)="updateAllComplete($event.checked,subdata)">{{subdata.Label|customTranslate}}</mat-checkbox>
+                        </div>
+                        <!---last node-->
+                        <div *ngIf="subdata.Children.length > 0" class="panelWidth">
+                          <div class="panel panel-info">
+                            <div class="panel-heading">
+                              <mat-checkbox color="primary" [checked]="subdata.IsChecked"
+                                [indeterminate]="subdata.IsIntermediate" (change)="setAll($event.checked,true,subdata)" >
+                                {{subdata.Label|customTranslate}}</mat-checkbox>
+                              <span class="accordian-spacer"></span>
+                              <button mat-icon-button (click)="togglemeu(subdata)" >
+                                <mat-icon *ngIf="subdata.isCollapse">remove_circle_outline</mat-icon>
+                                <mat-icon *ngIf="!subdata.isCollapse">add_circle_outline</mat-icon>
+                              </button>
+                           </div>
+                            <div class="panel-body" *ngIf="subdata.isCollapse">
+                              <section>
+                                <ul>
+                                  <li *ngFor="let leavedata of subdata.Children">
+                                    <mat-checkbox color="primary" [checked]="leavedata.IsChecked"
+                                      (change)="updateAllComplete($event.checked,leavedata)" >{{leavedata.Label|customTranslate}}
+                                    </mat-checkbox>
+                                  </li>
+                                </ul>
+                              </section>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>

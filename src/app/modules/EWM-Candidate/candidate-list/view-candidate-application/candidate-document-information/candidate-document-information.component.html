@@ -1,0 +1,35 @@
+<!--
+  @(C): Entire Software
+  @Type: File, <ts>
+  @Name: candidate-document-information.component.html
+  @Who: Suika
+  @When: 24-June-2022
+  @Why:  EWM-5334 EWM-7001
+  @What: Assessment info view page
+ -->
+
+ <div class="main-view-application">
+ <div class="search-bar">
+        <!-- who:maneesh,what:ewm.10037 fixed cross icon, when:16/01/2023-->
+    <mat-form-field class="search-input" floatLabel="never">
+        <!-- <mat-label>{{'label_search'|translate}}</mat-label> -->
+        <input matInput id="personal-searchBox" [(ngModel)]="textToSearch" placeholder="Search" (keyup)="highligthSearchTextVal($event)">
+        <mat-icon matPrefix style="position: relative; top: 7px;">search</mat-icon>
+        <!-- who:maneesh,what:ewm.10037 fixed cross icon, when:27/12/2022 -->
+
+        <button *ngIf="textToSearch" matSuffix mat-icon-button id="btnCancel"  (click)="clearSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div *ngIf="loadingSearch" class="k-i-loading inputSearch"></div>
+      </mat-form-field>
+</div>
+
+<div class="info-box candidate-document-information" id="candidate-document-information">
+    <mat-card class="info-Data mat-elevation-z2" *ngFor="let docs of documentInfoList, let i = index;">
+        <div class="info-title inputval" id="document{{i}}">
+            {{docs?.DocumentName}}
+        </div>
+        <a href="{{docs?.UploadDocumentUrl}}" mat-button color="primary" target="_blank"><mat-icon>description</mat-icon><span class="inputval" id="filName{{i}}">{{docs?.FileName}}</span></a>
+    </mat-card>
+</div>
+</div>

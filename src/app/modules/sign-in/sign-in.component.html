@@ -1,0 +1,184 @@
+<!-- @(C): Entire Software @Type: File, <html> @Who: Satya Prakash Gupta @When: 03-Nov-2020  @Why: EWM-15045 EWM-15046  @What: Login page design -->
+<mat-drawer-container autosize class="login-container" id="login-container">
+  <mat-drawer-content>
+    <app-outer-header-new></app-outer-header-new>
+    <div class="login-section" id="login-section">
+      <div class="banner-panel" id="banner-panel">
+        <kendo-scrollview class="image-slider" id="image-slider"
+          #sv
+          [data]="items"
+          [width]="width"
+          [arrows]="false"
+          [pageable]="true"
+          [endless]="true">
+          <ng-template let-item="item">
+            <div class="silder-container" id="silder-container">
+              <div class="image-box">
+                <img src="{{ item.url }}" alt="{{ item.title }}" [ngStyle]="{ minWidth: auto }" draggable="false" />
+              </div>
+              <h2 class="title" id="title">{{ item.title }}</h2>
+              <p class="description" id="description">{{ item.description }}</p>
+            </div>
+          </ng-template>
+        </kendo-scrollview>
+      </div>
+      <div class="form-panel" id="form-panel">
+        <div class="login-box" id="login-box">
+          <form class="form-box" [formGroup]="rosterForm" #flogin="ngForm">
+            <ng-container *ngIf="enterOTP">
+              <h1>{{'label_signIn' |translate}} </h1>
+              <div class="enter-otp">
+                <p class="center-align">{{'label_signINAuthenticatorAppHeading' |translate}} </p>
+                <small>{{'label_signINAuthenticatorCode' |translate}} </small>
+                <ng-otp-input (onInputChange)="onOtpChange($event)" id="alternateemailcode"
+                  [config]="{length:6}" required (keyup)="authCodeChange($event)"></ng-otp-input>
+                <mat-error class="mgtop5" *ngIf="codeError">{{codeErrorvalue |translate}}</mat-error>
+              </div>
+              <button type="submit" mat-raised-button id="authenticatPin" [disabled]="!this.isPinValid" 
+              (click)="authenticatPin()">{{'button_signIn' |translate}}</button>
+              <div class="col s12 m12 l12 left-align">
+                <div class="custom-checkbox">
+                  <label class="custom-control overflow-checkbox">
+                    <input type="checkbox" (change)="eventCheckOnClick($event.target)"
+                      class="overflow-control-input">
+                    <span class="overflow-control-indicator"></span>
+                    <span class="overflow-control-description">{{'label_rememberMeFor30Days' |translate}}</span>
+                  </label>
+                </div>
+              </div>
+              <div class="mfa-link">
+                <a class="">
+                  {{'label_useOtherAuthenticationMethod' |translate}}
+                </a>
+                <a class="">
+                  {{'label_getHelpWithTwoStepAuthentication' |translate}}
+                </a>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!enterOTP">
+              <ng-container *ngIf="onlyEmail">
+                <h1>{{'label_signIn' |translate}}</h1>
+                <!-- <div class="alert" id="login-body-alert" *ngIf="errmsg">
+                  <div class="alert-danger text-center" id="login-errorLabelkkkk">
+                    <div class="icon"><span class="material-icons">warning</span></div>
+                    <div class="content"> {{this.errorCode |translate}}</div> 
+                    <span class="material-icons alert-close" (click)="closeError('errmsg')">
+                      close
+                    </span>
+                  </div>
+                </div> -->
+                <mat-form-field class="signin-input" appearance="outline" floatLabel="never">
+                  <input matInput type="email" #username="matInput" placeholder="{{'label_email' |translate}} ({{'label_required' |translate}})"
+                  name="email" id="email" formControlName="username"  (keydown.enter)="onEmailSubmit(rosterForm.value,$event)" required>
+                  <mat-icon matPrefix fontSet="material-icons-outlined">mail</mat-icon>
+                  <mat-error *ngIf="rosterForm.controls['username'].hasError('required')">
+                    {{'label_email' |translate}} {{'label_errorreqired' |translate}}
+                  </mat-error>
+                  <mat-error *ngIf="rosterForm.controls['username'].hasError('pattern')">
+                    {{'label_emailreqired' |translate}}
+                  </mat-error>
+                  <mat-error *ngIf="rosterForm.controls['username'].hasError('NotExist')">{{this.errorCode |translate}}</mat-error>
+                </mat-form-field>
+                
+                
+                <div class="forgot-box">
+                  <a routerLink="/forgot-email">{{'label_forgotYourEmail' |translate}}</a>
+                </div>
+                <button mat-raised-button type="button" id="btnCheckEmail" (click)="onEmailSubmit(rosterForm.value,$event)">Next</button>
+                <div class="or-continue">
+                  <div class="line"></div>
+                  <div>or continue with</div>
+                  <div class="line"></div>
+                </div>
+                <div class="social-login">
+                  <button mat-stroked-button id="google" (click)="loginWithGoogleProvider(this.rosterForm.value)">
+                    <div class="social-button">
+                      <img src="/assets/outer-screen/google.svg" alt="google" /> 
+                      <div>Google</div>
+                    </div>
+                  </button>
+                  <button mat-stroked-button id="linkedin" (click)="signInWithLinkdin();">
+                    <div class="social-button">
+                      <img src="/assets/outer-screen/linkedin.svg" alt="linkedin" /> 
+                      <div>Linkedin</div>
+                    </div>
+                  </button>
+                  <button mat-stroked-button id="microsoft" (click)="loginWithOutlookProvider(this.rosterForm.value)">
+                    <div class="social-button">
+                      <img src="/assets/outer-screen/microsoft.svg" alt="microsoft" /> 
+                      <div>Microsoft</div>
+                    </div>
+                  </button>
+                </div>
+                <div class="join-workspace">
+                  <a [href]="existingworkspace" mat-button [disabled]="!existingworkspace" target="_blank">{{'label_logIn_JoinExistingWorkspace' |translate}}</a>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="!onlyEmail">
+                <h1 class="mb-0">{{'label_signIn' |translate}}</h1>
+                <div class="user-image" id="user-image">
+                  <img *ngIf="regUserImageURL!==null " src="{{regUserImageURL}}" alt="user image" [ngStyle]="{ minWidth: auto }" draggable="false" />
+                  <span *ngIf="regUserImageURL =='' || regUserImageURL ==null ">{{regUserShortName}}</span>
+                </div>
+                <div class="welcome-msg" id="welcome-msg">
+                  <strong>{{'label_welcome' | translate}} <i>{{regUserName}}</i></strong>
+                  <small>({{regEmailID}})</small>
+                </div>
+                <!-- <div class="alert" id="login-body-alert">
+                  <div class="alert-danger text-center" *ngIf="errmsgexternal" id="login-errorLabeluuuuuu">
+                    <div class="icon"><span class="material-icons">warning</span></div>
+                    <div class="content"> {{this.errorCode |translate}} </div><span class="material-icons alert-close"
+                      (click)="closeError('errmsgexternal')">
+                      close
+                    </span>
+                  </div>
+                </div> -->
+                <mat-form-field class="signin-input" appearance="outline" floatLabel="never">
+                  <input matInput placeholder="{{'label_password' |translate}} ({{'label_required' |translate}})" #password  name="password" name="password"
+                      id="password" formControlName="password" type="password" [type]="hide ? 'password' : 'text'"
+                      required>
+                    <mat-icon matPrefix fontSet="material-icons-outlined">key</mat-icon> 
+                    <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" tabindex="-1">
+                      <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="rosterForm.controls['password'].hasError('required')">
+                      {{'label_password' |translate}} {{'label_errorreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="rosterForm.controls['password'].hasError('minLength')">
+                      {{'label_password' |translate}} {{'label_errorminreqired' |translate}}
+                    </mat-error>
+                    <mat-error *ngIf="rosterForm.controls['password'].hasError('NotExistPassword')">
+                      {{'label_fourthLoginAttemptMessage' |translate}} 
+                    </mat-error>
+                    <mat-error *ngIf="rosterForm.controls['password'].hasError('LockAccount')">
+                      {{this.errorCode |translate}}
+                    </mat-error>
+            <!-- // who:maneesh what:ewm-16932 when:10/05/2024 -->
+                    <mat-error *ngIf="rosterForm.controls['password'].hasError('CountError')">
+                      {{'label_failLoginAttemptMessage' | translate}} {{RetryCount}} {{'label_failLoginAttemptMessage2' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="rosterForm.controls['password'].hasError('FourthError')">
+                      {{'label_completeLoginAttemptErrorMessage'| translate}}
+                    </mat-error>
+                </mat-form-field>
+                <div class="forgot-box">
+                  <a [routerLink]="['/forgot-password/']" [queryParams]="{email: regEmailID}">{{'button_troubleSigningIn' |translate}}</a>
+                </div>
+                <button type="submit" id="submit" mat-raised-button  (click)="onSubmit('login',rosterForm.value)">
+                  {{'button_signIn' |translate}}
+                  <div *ngIf="loading" class="k-i-loading button-loading"></div>
+                </button>
+                <div class="cancel-login" id="cancel-login">
+                  {{'label_not' |translate}} <i class="user-name">{{regUserName}}</i> {{'label_go' |translate}}
+                  <button type="button" id="back" (click)="cancelLogin()">{{'label_back'| translate}}</button> {{'label_signInWithDifferentAccount' | translate}}
+                </div>
+              </ng-container>
+            </ng-container>
+          </form>
+        </div>
+      </div>
+    </div>
+    <app-outer-footer></app-outer-footer>
+  </mat-drawer-content>
+</mat-drawer-container>

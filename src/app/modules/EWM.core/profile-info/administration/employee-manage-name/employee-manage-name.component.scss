@@ -1,0 +1,29 @@
+/* 
+    @(C): Entire Software
+    @Type: File, <css>
+    @Name: account-prefrences.component.scss
+    @Who: Satya Prakash
+    @When: 18-Nov-2020
+    @Why: ROST-369 ROST-412
+    @What: You can add account-prefrences.component styles to this file, and also import other style files
+*/
+.pageContainer {
+  .mat-card {
+      .mat-card-content {
+          height: calc(100vh - 303px);
+      }
+  }
+}
+.ng-slectBox{
+  width: 300px;
+  @media(767px >= width){
+      width: 100%;
+  }
+}
+
+.gdpr-slde-toggle{
+  display: flex;
+  align-items: center;
+  margin-block: 0px 10px;
+  gap: 10px;
+}

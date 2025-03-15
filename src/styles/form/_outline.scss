@@ -1,0 +1,96 @@
+@use "../../colors";
+.signin-input.mat-form-field-appearance-outline {
+    // width: 320px;
+    font-weight: normal;
+    font-family: "Bariol";
+    margin: 0px;
+    .mat-form-field-subscript-wrapper{
+        padding: 0px;
+        margin-top: 2px;
+    }
+    .mat-form-field-wrapper{
+        margin: 0px;
+        .mat-form-field-flex{
+            margin-top: 0px;
+            align-items: center;
+            padding: 0px 7px;
+            .mat-form-field-infix{
+                border-top: 0px;
+                padding: 0px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                .mat-input-element{
+                    font-size: 16px !important;
+                    margin-top: 2px;
+                }
+            }
+            .mat-form-field-suffix, .mat-form-field-prefix{
+                top: 0px;
+                padding-inline-end: 5px;
+                .mat-icon{
+                    color: #ADADAD;
+                    width: 20px;
+                    height: 20px;
+                    line-height: 20px;
+                    font-size: 20px;
+                }
+                .captcha-details{
+                    .mat-icon{
+                        color: colors.$primary-bg-color;
+                    } 
+                }
+            }
+            .mat-form-field-suffix{
+                padding-inline-end: 0px;
+                .mat-icon-button{
+                    width: 20px;
+                    height: 20px;
+                    line-height: 20px;
+                }
+            }
+            .mat-form-field-outline{
+                top: 0px;
+                border-radius: 4px;
+                background: #fff;
+            }
+        }
+    }
+}
+.password-strenth{
+    .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float {
+        .mat-form-field-outline-gap{
+            border-top-color: currentColor;
+        }
+        .mat-form-field-label{
+            display: none;
+        }
+    }
+    .mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label{
+        display: none;
+    }
+    .mat-placeholder-required{
+        display: none;
+    }
+}
+.dark-theme{
+    .signin-input.mat-form-field-appearance-outline {
+        .mat-form-field-wrapper{
+            .mat-form-field-flex{
+                .mat-form-field-suffix, .mat-form-field-prefix{
+                    .mat-icon{
+                        color: #ADADAD;
+                    }
+                    .captcha-details{
+                        .mat-icon{
+                            color: colors.$primary-bg-color;
+                        } 
+                    }
+                }
+                .mat-form-field-outline{
+                    background: #373636;
+                }
+            }
+        }
+    }  
+}

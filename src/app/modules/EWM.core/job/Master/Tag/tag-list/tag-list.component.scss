@@ -1,0 +1,107 @@
+/* 
+  @(C): Entire Software
+  @Type: File, <html>
+  @Who: Anup Singh
+ @When: 21-May-2021
+  @Why: EWM-1445 EWM-1596
+  @What:  This page will be use for the Tag List Component scss file
+
+*/
+
+@import "../../../../../../../mixinStyle.scss";
+
+.listcardContentMaxData{
+  min-width: 1157px;
+}
+.sticky-width{
+  min-width: 1157px;
+}
+
+.col-1 {
+  width: 30%;
+}
+
+.col-2 {
+  width: 25%;
+}
+
+.col-3 {
+  width: 18%;
+}
+
+.col-4 {
+  width: 24%;
+}
+
+.col-6 {
+  width: 3%;
+}
+  
+.listActionBox {
+    min-width: 24px !important;
+}
+
+.listHeader.sticky {
+  top: 75px;
+  padding-bottom: 0;
+}
+
+.list{
+  display: block !important;
+  z-index: 9999999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 64px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+
+.colorBox{
+  position: relative;
+  border: 1px solid #707070;
+  width: 20px;
+  height: 20px;
+  right: 0px;
+  bottom: 0px;
+  &:focus{
+    outline: none;
+  }
+}
+
+
+// // Entire Software : Satya Prakash : 15-Dec-2020 : List and card view : ROST-491 ROST-532 
+.maxData {
+    height: 70px;
+}
+.maxData:hover {
+    height: 70px;
+}
+
+.xeople-container-listing-with-breadCrumb.mat-drawer-container{
+  .component-card.mat-card{
+    @media only screen and (max-width: 429px) and (min-width: 320px) {
+      height: calc(100% - 54px);
+    }
+  }
+}
+
+.page-header.mat-card-header{
+  @media only screen and (max-width: 1060px) and (min-width: 581px){
+    flex-direction: column;
+    height: 78px;
+    padding: 5px 10px 5px 15px;
+    align-items: inherit;
+  }
+  @media only screen and (max-width: 580px) and (min-width: 240px){
+    height: 73px;
+  }
+  .header-action-button{
+    .header-form{
+      @include for-small-smartphones{
+        max-width: 170px;
+      }
+    }
+  }
+}
